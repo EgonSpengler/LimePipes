@@ -1,3 +1,5 @@
+TARGET = limepipes
+
 # Add more folders to ship with the application, here
 folder_01.source = qml/build
 folder_01.target = qml

@@ -1,5 +1,7 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    build \
-    model
+    model \
+    build
+
+CONFIG += ordered
