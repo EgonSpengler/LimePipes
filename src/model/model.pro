@@ -1,2 +1,6 @@
 SOURCES += \
-    main.cpp
+    main.cpp \
+    model.cpp
+
+HEADERS += \
+    model.h
