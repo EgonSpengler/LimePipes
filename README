@@ -1,0 +1,29 @@
+
+  LimePipes - a musicsheet editor for the great highland bagpipes
+
+****************************************************************
+
+LimePipes is a free editor for musicsheets of the great highland bagpipes.
+
+LimePipes is free software, licensed under GNU GPL. This means that the program
+source code is available to public, anyone is welcome to research how the program
+works, participate in its development and freely distribute the program.
+It runs on Linux, Windows, MacOSX.
+
+Build dependencies
+********************
+- Qt4 SDK including QtCreator >= 4.7 (http://qt.nokia.com/downloads)
+
+
+Runtime dependencies
+***********************
+- Qt library in the same version
+
+
+Compilation
+*************
+Open the LimePipes.pro file in the root directory with QtCreator.
+Press Ctrl + R to run the application.
+
+
+

@@ -1,0 +1,13 @@
+# user specific project files 
+*.pro.user
+
+# swap and temp files
+*~
+*.swp
+
+# generated documenation
+doc/developer/html/*
+doc/developer/latex/*
+
+# qt.tag file
+doc/developer/qt.tag

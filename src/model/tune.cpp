@@ -6,9 +6,9 @@
  *
  */
 
-#include "model.h"
+#include "tune.h"
 
-Model::Model(QObject *parent) :
-    QStandardItemModel(parent)
+Tune::Tune() :
+    QStandardItem()
 {
 }

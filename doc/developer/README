@@ -1,0 +1,13 @@
+Creating the documentation
+*****************************
+
+You need the html-documentation of Qt for creating the doxytag-file so 
+doxygen can create a full class hierarchy with Qt classes.
+Create the file with: 
+doxytag -t qt.tag /path/to/qt/doc  
+e.g.: doxytag -t qt.tag /usr/share/doc/qt4-doc-html/html/ 
+
+Install Graphviz which creates the uml-like class diagramm.
+Download at http://www.graphviz.org/Download.php
+
+

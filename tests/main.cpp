@@ -6,9 +6,6 @@
  *
  */
 
-#include "model.h"
+#include "autotest.h"
 
-Model::Model(QObject *parent) :
-    QStandardItemModel(parent)
-{
-}
+TEST_MAIN

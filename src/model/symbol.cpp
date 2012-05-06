@@ -6,9 +6,9 @@
  *
  */
 
-#include "model.h"
+#include "symbol.h"
 
-Model::Model(QObject *parent) :
-    QStandardItemModel(parent)
+Symbol::Symbol() :
+    QStandardItem()
 {
 }

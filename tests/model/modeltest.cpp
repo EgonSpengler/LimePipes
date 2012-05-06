@@ -6,9 +6,9 @@
  *
  */
 
-#include "model.h"
+#include "modeltest.h"
+#include "model/model.h"
 
-Model::Model(QObject *parent) :
-    QStandardItemModel(parent)
-{
+void ModelTest::testCase1(){
+    QVERIFY2(true, "Failure");
 }

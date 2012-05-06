@@ -6,9 +6,9 @@
  *
  */
 
-#include "model.h"
+#include "sheetmusic.h"
 
-Model::Model(QObject *parent) :
-    QStandardItemModel(parent)
+SheetMusic::SheetMusic() :
+    QStandardItem()
 {
 }
