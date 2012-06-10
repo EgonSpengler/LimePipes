@@ -6,14 +6,9 @@
  *
  */
 
-#include "symbol.h"
+#include "score.h"
 
-Symbol::Symbol() :
+Score::Score() :
     QStandardItem()
 {
-}
-
-QStandardItem *Symbol::pitch() const
-{
-    return 0;
 }

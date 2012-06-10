@@ -7,8 +7,14 @@
  */
 
 #include "model.h"
+#include "tune.h"
 
 Model::Model(QObject *parent) :
     QStandardItemModel(parent)
 {
+}
+
+void Model::insertTunes(QList<Tune *> tunes, const QModelIndex &index)
+{
+
 }

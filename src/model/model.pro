@@ -1,16 +1,21 @@
+include( ../common.pri )
+
+DEPENDPATH += . symbols
+INCLUDEPATH += . symbols
+
+include(symbols/symbols.pri)
+
 SOURCES += \
-    main.cpp \
     model.cpp \
-    sheetmusic.cpp \
     tune.cpp \
-    part.cpp \
-    bar.cpp \
-    symbol.cpp
+    symbol.cpp \
+    score.cpp \
+    pitch.cpp
 
 HEADERS += \
     model.h \
-    sheetmusic.h \
     tune.h \
-    part.h \
-    bar.h \
-    symbol.h
+    symbol.h \
+    model_itemtypes.h \
+    score.h \
+    pitch.h

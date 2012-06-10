@@ -11,21 +11,21 @@
 
 #include <QStandardItemModel>
 
+class Tune;
+
 class Model : public QStandardItemModel
 {
     Q_OBJECT
 public:
 
-    /*! The Itemtypes used by this Model */
-    enum ItemTypes {
-        SheetMusicType = QStandardItem::UserType +1,
-        TuneType = QStandardItem::UserType + 2,
-        PartType = QStandardItem::UserType + 3,
-        BarType = QStandardItem::UserType + 4,
-        SymbolType = QStandardItem::UserType + 5
-    };
-
     explicit Model(QObject *parent = 0);
+    /*!
+      @brief Inserts Tunes into the model.
+      @param tunes The tunes to insert
+      @param index The ModelIndex before the Symbols will be inserted.
+         If index is invalid, the symbols will be appended to the list of symbols.
+     */
+    void insertTunes(QList<Tune *> tunes, const QModelIndex &index);
 
 signals:
 

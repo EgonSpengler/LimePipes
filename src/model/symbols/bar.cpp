@@ -6,14 +6,10 @@
  *
  */
 
-#include "symbol.h"
+#include "bar.h"
 
-Symbol::Symbol() :
-    QStandardItem()
+Bar::Bar() :
+    Symbol()
 {
-}
-
-QStandardItem *Symbol::pitch() const
-{
-    return 0;
+    setFlags(Qt::NoItemFlags);
 }

@@ -11,3 +11,6 @@ doc/developer/latex/*
 
 # qt.tag file
 doc/developer/qt.tag
+
+# all builds
+src/build/*

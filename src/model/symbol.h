@@ -11,7 +11,7 @@
 
 #include <QStandardItem>
 #include <Qt>
-#include "model.h"
+#include "model_itemtypes.h"
 
 class Symbol : public QStandardItem
 {
@@ -29,7 +29,8 @@ public:
     };
 
     explicit Symbol();
-    int type() const { return Model::SymbolType; }
+    int type() const { return SymbolType; }
+    virtual QStandardItem *pitch() const;
 
 signals:
 
