@@ -1,3 +1,11 @@
+/**
+ * @author  Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
+ *
+ */
+
 #include "melodynote.h"
 
 MelodyNote::MelodyNote()
@@ -5,6 +13,7 @@ MelodyNote::MelodyNote()
 {
     m_dots = 0;
     m_pitch = new Pitch();
+    setText("MelodyNote");
 }
 
 void MelodyNote::addDot()

@@ -8,24 +8,13 @@
 
 #include <QtGui/QApplication>
 #include <QIcon>
-//#include "qmlapplicationviewer.h"
 #include "mainwindow.h"
-
-/* Tests */
-#include <QDebug>
-/* End Test */
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     MainWindow w;
     w.show();
-/*
-    QmlApplicationViewer viewer;
-    viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
-    viewer.setMainQmlFile(QLatin1String("qml/build/main.qml"));
-    viewer.showExpanded();
-    viewer.setWindowIcon(QIcon(":/application/resources/img/application.svg"));
-*/
+
     return app.exec();
 }

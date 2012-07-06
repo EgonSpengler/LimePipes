@@ -1,9 +1,8 @@
 include( ../common.pri )
+include(symbols/symbols.pri)
 
 DEPENDPATH += . symbols
 INCLUDEPATH += . symbols
-
-include(symbols/symbols.pri)
 
 SOURCES += \
     model.cpp \

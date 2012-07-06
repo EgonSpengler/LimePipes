@@ -12,19 +12,28 @@
 Tune::Tune() :
     QStandardItem()
 {
+    setText("Tune");
 }
 
-void Tune::insertSymbols(QList<Symbol *> symbols, const QModelIndex &index)
+void Tune::insertSymbols(QList<Symbol *> &symbols, const QModelIndex &index)
 {
-    QList<QStandardItem *> itemList;
     Symbol *symbol;
     foreach( symbol, symbols ){
-        itemList << static_cast<QStandardItem *>(symbol);
+        insertSymbol(symbol, index);
+    }
+}
+
+void Tune::insertSymbol(Symbol *symbol, const QModelIndex &index)
+{
+    QList<QStandardItem *> cols;
+    cols << symbol;
+    if(symbol->pitch() != 0){
+        cols << symbol->pitch();
     }
 
     if( !index.isValid() ){
-        appendRows(itemList);
+        appendRow(cols);
     } else {
-        insertRows(index.row(), itemList);
+        insertRow(index.row(), cols);
     }
 }

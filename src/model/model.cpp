@@ -12,9 +12,5 @@
 Model::Model(QObject *parent) :
     QStandardItemModel(parent)
 {
-}
-
-void Model::insertTunes(QList<Tune *> tunes, const QModelIndex &index)
-{
-
+    setColumnCount(2);
 }

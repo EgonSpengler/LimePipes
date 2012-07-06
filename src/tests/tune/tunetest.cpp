@@ -7,8 +7,8 @@
  */
 
 #include "tunetest.h"
-#include "model/tune.h"
-#include "model/bar.h"
+#include "tune.h"
+#include "bar.h"
 
 void TuneTest::testType()
 {

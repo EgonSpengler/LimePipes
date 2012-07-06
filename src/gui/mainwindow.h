@@ -1,3 +1,11 @@
+/**
+ * @author  Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
+ *
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -20,7 +28,6 @@ public:
     
 private:
     Ui::MainWindow *ui;
-    void appendSymbol(Symbol* sym);
     Model *m_model;
 };
 

@@ -14,17 +14,14 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QListView" name="listView">
+   <widget class="QTreeView" name="treeView">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>1</y>
-      <width>321</width>
-      <height>601</height>
+      <x>30</x>
+      <y>10</y>
+      <width>391</width>
+      <height>581</height>
      </rect>
-    </property>
-    <property name="flow">
-     <enum>QListView::TopToBottom</enum>
     </property>
    </widget>
   </widget>

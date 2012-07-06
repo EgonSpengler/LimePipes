@@ -7,7 +7,7 @@
  */
 #include <QTest>
 #include "bartest.h"
-#include "model/bar.h"
+#include "bar.h"
 
 void BarTest::testType()
 {

@@ -1,6 +1,14 @@
+/**
+ * @author  Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
+ *
+ */
+
 #include <QTest>
 #include "melodynotetest.h"
-#include "model/melodynote.h"
+#include "melodynote.h"
 
 void MelodyNoteTest::testType()
 {

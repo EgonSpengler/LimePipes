@@ -2,6 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     model \
-    gui
+    gui \
+    tests
 
 CONFIG += ordered
