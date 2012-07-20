@@ -13,6 +13,7 @@
 #include <QList>
 #include <QString>
 #include <QSharedPointer>
+#include <QApplication>
 
 namespace AutoTest
 {
@@ -76,11 +77,13 @@ public:
     }
 };
 
+
 #define DECLARE_TEST(className) static Test<className> t(#className);
 
 #define TEST_MAIN \
     int main(int argc, char *argv[]) \
 { \
+    QApplication app(argc, argv);\
     return AutoTest::run(argc, argv); \
 }
 
