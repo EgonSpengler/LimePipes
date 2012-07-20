@@ -13,6 +13,7 @@
 #include <QList>
 #include <QString>
 #include <QSharedPointer>
+#include <QApplication>
 
 namespace AutoTest
 {
@@ -75,6 +76,7 @@ public:
         AutoTest::addTest(child.data());
     }
 };
+
 
 #define DECLARE_TEST(className) static Test<className> t(#className);
 
