@@ -5,3 +5,6 @@ SOURCES += \
 HEADERS += \
     bar.h \
     melodynote.h
+
+RESOURCES += \
+    ../model/symbols/model_symbols_resources.qrc

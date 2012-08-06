@@ -9,7 +9,7 @@ SOURCES += main.cpp \
     mainwindow.cpp
 
 RESOURCES += \
-    resources.qrc
+    gui_resources.qrc
 
 HEADERS += \
     mainwindow.h \
