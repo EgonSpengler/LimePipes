@@ -17,11 +17,6 @@ class Bar : public Symbol
 public:
     explicit Bar();
     int type() const { return BarType; }
-
-signals:
-
-public slots:
-
 };
 
 #endif // BAR_H

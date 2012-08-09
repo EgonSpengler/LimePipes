@@ -9,23 +9,16 @@
 #ifndef TUNE_H
 #define TUNE_H
 
-#include <QStandardItem>
+#include <QList>
+#include "musicitem.h"
 #include "model_itemtypes.h"
 #include "symbol.h"
 
-class Tune : public QStandardItem
+class Tune : public MusicItem
 {
 public:
     explicit Tune();
     int type() const { return TuneType; }
-    /*!
-      @brief Inserts Symbols into the tune.
-      @param symbols The symbols to insert
-      @param index The ModelIndex before the Symbols will be inserted.
-         If index is invalid, the symbols will be appended to the list of symbols.
-     */
-    void insertSymbols(QList<Symbol *> &symbols, const QModelIndex& index);
-    void insertSymbol(Symbol *symbol, const QModelIndex& index);
 };
 
 #endif // TUNE_H

@@ -17,7 +17,6 @@ class TuneTest : public QObject
     Q_OBJECT
 private slots:
     void testType();
-    void testInsertSymbols();
 };
 
 DECLARE_TEST( TuneTest )

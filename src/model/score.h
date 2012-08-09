@@ -9,19 +9,14 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#include <QStandardItem>
+#include "musicitem.h"
 #include "model_itemtypes.h"
 
-class Score : public QStandardItem
+class Score : public MusicItem
 {
 public:
     explicit Score();
     int type() const { return ScoreType; }
-
-signals:
-
-public slots:
-
 };
 
 #endif // SHEETMUSIC_H

@@ -9,17 +9,10 @@
 #ifndef PITCH_H
 #define PITCH_H
 
-#include <QStandardItem>
-
-class Pitch : public QStandardItem
+class Pitch
 {
 public:
     explicit Pitch();
-    
-signals:
-    
-public slots:
-    
 };
 
 #endif // PITCH_H

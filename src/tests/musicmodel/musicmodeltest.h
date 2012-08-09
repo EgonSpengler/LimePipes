@@ -6,19 +6,19 @@
  *
  */
 
-#ifndef MODELTEST_H
-#define MODELTEST_H
+#ifndef MUSICMODELTEST_H
+#define MUSICMODELTEST_H
 
 #include <QObject>
 #include "../autotest.h"
 
-class ModelTest : public QObject
+class MusicModelTest : public QObject
 {
     Q_OBJECT
 private slots:
     void testCase1();
 };
 
-DECLARE_TEST( ModelTest )
+DECLARE_TEST( MusicModelTest )
 
-#endif // MODELTEST_H
+#endif // MUSICMODELTEST_H
