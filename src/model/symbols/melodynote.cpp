@@ -13,7 +13,6 @@ MelodyNote::MelodyNote()
 {
     m_dots = 0;
     m_pitch = new Pitch();
-    setText("MelodyNote");
 }
 
 void MelodyNote::addDot()
@@ -37,7 +36,7 @@ void MelodyNote::setDots(int dots)
         m_dots = dots;
 }
 
-QStandardItem *MelodyNote::pitch() const
+Pitch *MelodyNote::pitch() const
 {
     return m_pitch;
 }

@@ -30,7 +30,7 @@ public:
       * is greater than 2 and it is set to 0 if it is lesser than 0.
       */
     void setDots( int dots );
-    QStandardItem *pitch() const;
+    Pitch *pitch() const;
 
 private:
     int m_dots;

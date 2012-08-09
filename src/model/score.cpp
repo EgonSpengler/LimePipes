@@ -9,6 +9,6 @@
 #include "score.h"
 
 Score::Score() :
-    QStandardItem()
+    MusicItem()
 {
 }

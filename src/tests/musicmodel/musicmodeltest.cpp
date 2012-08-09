@@ -6,11 +6,10 @@
  *
  */
 
-#include "model.h"
-#include "tune.h"
+#include "musicmodeltest.h"
+#include "model/musicmodel.h"
 
-Model::Model(QObject *parent) :
-    QStandardItemModel(parent)
-{
-    setColumnCount(2);
+void MusicModelTest::testCase1(){
+    MusicModel model;
+    QVERIFY2(true, "Failure");
 }

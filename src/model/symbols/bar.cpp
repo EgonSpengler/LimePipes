@@ -11,6 +11,4 @@
 Bar::Bar() :
     Symbol()
 {
-    setFlags(Qt::NoItemFlags);
-    setText("Bar");
 }

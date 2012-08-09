@@ -1,9 +1,7 @@
 #ifndef LENGTH_H
 #define LENGTH_H
 
-#include <QStandardItem>
-
-class Length : public QStandardItem
+class Length
 {
 public:
     explicit Length();

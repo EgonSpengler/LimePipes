@@ -9,11 +9,12 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
-#include <QStandardItem>
 #include <Qt>
+#include "musicitem.h"
+#include "pitch.h"
 #include "model_itemtypes.h"
 
-class Symbol : public QStandardItem
+class Symbol : public MusicItem
 {
 public:
     /*! Describees the valid DataRoles for Symbols */
@@ -30,12 +31,7 @@ public:
 
     explicit Symbol();
     int type() const { return SymbolType; }
-    virtual QStandardItem *pitch() const;
-
-signals:
-
-public slots:
-
+    virtual Pitch *pitch() const;
 };
 
 #endif // SYMBOL_H

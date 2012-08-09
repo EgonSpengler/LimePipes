@@ -12,18 +12,22 @@ CONFIG   += console
 CONFIG   -= app_bundle
 
 SOURCES += main.cpp \
-    model/modeltest.cpp \
+    musicmodel/musicmodeltest.cpp \
     bar/bartest.cpp \
     tune/tunetest.cpp \
     symbol/symboltest.cpp \
     melody_note/melodynotetest.cpp \
-    score/scoretest.cpp
+    score/scoretest.cpp \
+    pitch/pitchtest.cpp \
+    length/lengthtest.cpp
 
 HEADERS += \
     autotest.h \
-    model/modeltest.h \
+    musicmodel/musicmodeltest.h \
     bar/bartest.h \
     tune/tunetest.h \
     symbol/symboltest.h \
     melody_note/melodynotetest.h \
     score/scoretest.h \
+    pitch/pitchtest.h \
+    length/lengthtest.h

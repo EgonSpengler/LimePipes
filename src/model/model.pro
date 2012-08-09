@@ -5,16 +5,20 @@ DEPENDPATH += . symbols
 INCLUDEPATH += . symbols
 
 SOURCES += \
-    model.cpp \
     tune.cpp \
     symbol.cpp \
     score.cpp \
-    pitch.cpp
+    pitch.cpp \
+    musicmodel.cpp \
+    ../model/musicitem.cpp \
+    length.cpp
 
 HEADERS += \
-    model.h \
     tune.h \
     symbol.h \
     model_itemtypes.h \
     score.h \
-    pitch.h
+    pitch.h \
+    musicmodel.h \
+    ../model/musicitem.h \
+    length.h

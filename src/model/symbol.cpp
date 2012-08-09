@@ -9,11 +9,11 @@
 #include "symbol.h"
 
 Symbol::Symbol() :
-    QStandardItem()
+    MusicItem()
 {
 }
 
-QStandardItem *Symbol::pitch() const
+Pitch *Symbol::pitch() const
 {
     return 0;
 }
