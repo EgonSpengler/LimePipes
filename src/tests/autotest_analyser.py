@@ -30,7 +30,7 @@ for line in lines:
 	elif( 'FAIL!' in line ):
 		words = line.split();
 		failedTest = words[2]
-		failedMessage = line[ line.rfind( "(" ) +1 : -2 ]
+		failedMessage = line[ line.rfind( str(failedTest)) + len(str(failedTest))  :  ]
 		failed.append( "_______" + actualTest + "_______" )
 		failed.append( failedTest + ": " + failedMessage )
 	elif( 'SKIP' in line ):
