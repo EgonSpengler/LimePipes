@@ -16,7 +16,7 @@ class MusicModelTest : public QObject
 {
     Q_OBJECT
 private slots:
-    void testCase1();
+    void testQAbstractItemModelImplementation();
 };
 
 DECLARE_TEST( MusicModelTest )

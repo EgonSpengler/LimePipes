@@ -7,9 +7,11 @@
  */
 
 #include "musicmodeltest.h"
+#include "qt_modeltest/modeltest.h"
 #include "model/musicmodel.h"
 
-void MusicModelTest::testCase1(){
-    MusicModel model;
-    QVERIFY2(true, "Failure");
+void MusicModelTest::testQAbstractItemModelImplementation()
+{
+    MusicModel *musicModel = new MusicModel(this);
+    new ModelTest(musicModel, this);
 }

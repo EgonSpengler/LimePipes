@@ -19,7 +19,9 @@ SOURCES += main.cpp \
     melody_note/melodynotetest.cpp \
     score/scoretest.cpp \
     pitch/pitchtest.cpp \
-    length/lengthtest.cpp
+    length/lengthtest.cpp \
+    musicmodel/qt_modeltest/modeltest.cpp \
+    musicitem/musicitemtest.cpp
 
 HEADERS += \
     autotest.h \
@@ -30,4 +32,6 @@ HEADERS += \
     melody_note/melodynotetest.h \
     score/scoretest.h \
     pitch/pitchtest.h \
-    length/lengthtest.h
+    length/lengthtest.h \
+    musicmodel/qt_modeltest/modeltest.h \
+    musicitem/musicitemtest.h
