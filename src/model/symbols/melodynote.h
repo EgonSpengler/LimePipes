@@ -9,9 +9,9 @@
 #ifndef MELODYNOTE_H
 #define MELODYNOTE_H
 
-#include "symbol.h"
-#include "pitch.h"
-#include "model_itemtypes.h"
+#include "../symbol.h"
+#include "../pitch.h"
+#include "../model_itemtypes.h"
 
 class MelodyNote : public Symbol
 {

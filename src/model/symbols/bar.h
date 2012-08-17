@@ -9,8 +9,8 @@
 #ifndef BAR_H
 #define BAR_H
 
-#include "symbol.h"
-#include "model_itemtypes.h"
+#include "../symbol.h"
+#include "../model_itemtypes.h"
 
 class Bar : public Symbol
 {

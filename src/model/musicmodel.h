@@ -10,7 +10,7 @@
 #define MUSICMODEL_H
 
 #include <QAbstractItemModel>
-#include "musicitem.h"
+#include <musicitem.h>
 
 class MusicModel : public QAbstractItemModel
 {

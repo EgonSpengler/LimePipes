@@ -15,5 +15,14 @@ doc/developer/latex/*
 # qt.tag file
 doc/developer/qt.tag
 
-# all builds
+# all buildfiles
 src/build/*
+mocs/
+objs/
+uics/
+rccs/
+*.so*
+Makefile
+
+#generated binary
+limepipes

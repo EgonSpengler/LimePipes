@@ -1,10 +1,10 @@
 SOURCES += \
-    bar.cpp \
-    melodynote.cpp
+    $$PWD/bar.cpp \
+    $$PWD/melodynote.cpp
 
 HEADERS += \
-    bar.h \
-    melodynote.h
+    $$PWD/bar.h \
+    $$PWD/melodynote.h
 
 RESOURCES += \
-    ../model/symbols/model_symbols_resources.qrc
+    $$PWD/model_symbols_resources.qrc
