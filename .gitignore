@@ -16,11 +16,12 @@ doc/developer/latex/*
 doc/developer/qt.tag
 
 # all buildfiles
-src/build/*
 mocs/
 objs/
 uics/
 rccs/
+# for executables in bin/-folder (e.g. tests)
+bin/
 *.so*
 Makefile
 

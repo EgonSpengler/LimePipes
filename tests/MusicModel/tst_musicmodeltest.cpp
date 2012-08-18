@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include "qt_modeltest/modeltest.h"
-#include "musicmodel.h"
+#include <musicmodel.h>
 
 class MusicModelTest : public QObject
 {

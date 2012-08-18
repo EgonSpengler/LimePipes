@@ -11,7 +11,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_melodynotetest
+TARGET = bin/tst_melodynotetest
 CONFIG   += console
 CONFIG   -= app_bundle
 

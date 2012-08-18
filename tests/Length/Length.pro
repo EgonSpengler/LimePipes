@@ -10,7 +10,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_lengthtest
+TARGET = bin/tst_lengthtest
 CONFIG   += console
 CONFIG   -= app_bundle
 

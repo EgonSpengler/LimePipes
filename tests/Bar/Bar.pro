@@ -11,7 +11,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_bartest
+TARGET = bin/tst_bartest
 CONFIG   += console
 CONFIG   -= app_bundle
 

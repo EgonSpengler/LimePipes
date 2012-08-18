@@ -10,6 +10,7 @@
 #define MODEL_ITEMTYPES_H
 
 /*! The Itemtypes used by this Model */
+const int NoItemType = -1;
 const int ScoreType = 1;
 const int TuneType = 2;
 const int PartType = 3;

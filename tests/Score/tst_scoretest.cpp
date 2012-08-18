@@ -8,27 +8,43 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include "score.h"
+#include <score.h>
 
 class ScoreTest : public QObject
 {
     Q_OBJECT
     
 public:
-    ScoreTest();
+    ScoreTest() : m_score(0) {}
     
 private Q_SLOTS:
+    void init();
+    void cleanup();
     void testType();
+    void testParentType();
+
+private:
+    Score *m_score;
 };
 
-ScoreTest::ScoreTest()
+void ScoreTest::init()
 {
+    m_score = new Score();
+}
+
+void ScoreTest::cleanup()
+{
+    delete m_score;
 }
 
 void ScoreTest::testType()
 {
-    Score score;
-    QVERIFY2( score.type() == ScoreType, "Score returns the wrong type");
+    QVERIFY2( m_score->type() == ScoreType, "Score returns the wrong type");
+}
+
+void ScoreTest::testParentType()
+{
+    QVERIFY2(m_score->parentType() == NoItemType, "The parent itemtype of score is not NoItemType");
 }
 
 QTEST_APPLESS_MAIN(ScoreTest)

@@ -16,4 +16,4 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
-TARGET = limepipes
+TARGET = bin/limepipes

@@ -12,6 +12,7 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
+#include <model_itemtypes.h>
 
 class MusicItem
 {
@@ -37,8 +38,8 @@ public:
         { item->m_parent = this; m_children << item; }
     void swapChildren(int oldRow, int newRow)
         { m_children.swap(oldRow, newRow); }
-    virtual int type() const { return -1; }
-    virtual int parentType() const { return -1; }
+    virtual int type() const { return NoItemType; }
+    virtual int parentType() const { return NoItemType; }
     virtual QVariant data(int role = Qt::UserRole);
 
     void setName(const QString &name)

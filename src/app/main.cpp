@@ -8,11 +8,13 @@
 
 #include <QtGui/QApplication>
 #include <QIcon>
-#include "mainwindow.h"
+#include <mainwindow.h>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/application/application_icon"));
+
     MainWindow w;
     w.show();
 

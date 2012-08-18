@@ -19,6 +19,7 @@ class Tune : public MusicItem
 public:
     explicit Tune();
     int type() const { return TuneType; }
+    int parentType() const { return ScoreType; }
 };
 
 #endif // TUNE_H

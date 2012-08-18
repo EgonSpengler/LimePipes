@@ -10,7 +10,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_scoretest
+TARGET = bin/tst_scoretest
 CONFIG   += console
 CONFIG   -= app_bundle
 
