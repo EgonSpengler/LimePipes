@@ -31,8 +31,9 @@ private slots:
     void testAddChild();
     void testSwapChildren();
     void testType();
-    void testParentType();
+    void testChildType();
     void testData();
+    void testSetData();
 
 private:
     MusicItem *m_parent;
@@ -122,15 +123,22 @@ void MusicItemTest::testType()
     QVERIFY2(m_parent->type() == NoItemType, "type() in MusicItem doesn't return NoItemType");
 }
 
-void MusicItemTest::testParentType()
+void MusicItemTest::testChildType()
 {
-    QVERIFY2(m_parent->parentType() == NoItemType, "parentType() in MusicItem doesn't return NoItemType");
+    // A MusicItem is used as the root item. So the child type should be ScoreType
+    QVERIFY2(m_parent->childType() == ScoreType, "childType() in MusicItem doesn't return ScoreType");
 }
 
 void MusicItemTest::testData()
 {
     m_parent->setName("the_parent_item");
     QVERIFY2(m_parent->data(Qt::DisplayRole) == m_parent->name(), "DisplayRole should return the itemname");
+}
+
+void MusicItemTest::testSetData()
+{
+    m_parent->setData("My name", Qt::DisplayRole);
+    QVERIFY2(m_parent->data(Qt::DisplayRole) == "My name", "Failed to set name throug setData()");
 }
 
 QTEST_APPLESS_MAIN(MusicItemTest)

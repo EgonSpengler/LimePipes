@@ -21,7 +21,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
-    void testParentType();
+    void testChildType();
 
 private:
     Symbol *m_symbol;
@@ -32,9 +32,9 @@ void SymbolTest::testType()
     QVERIFY2( m_symbol->type() == SymbolType, "Symbol returns the wrong type" );
 }
 
-void SymbolTest::testParentType()
+void SymbolTest::testChildType()
 {
-    QVERIFY2( m_symbol->parentType() == TuneType, "The parent itemtype of Symbol is not TuneType");
+    QVERIFY2( m_symbol->childType() == NoItemType, "The child itemtype of Symbol is not NoItemType");
 }
 
 void SymbolTest::init()

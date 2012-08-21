@@ -21,7 +21,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
-    void testParentType();
+    void testChildType();
 
 private:
     Score *m_score;
@@ -42,9 +42,9 @@ void ScoreTest::testType()
     QVERIFY2( m_score->type() == ScoreType, "Score returns the wrong type");
 }
 
-void ScoreTest::testParentType()
+void ScoreTest::testChildType()
 {
-    QVERIFY2(m_score->parentType() == NoItemType, "The parent itemtype of score is not NoItemType");
+    QVERIFY2(m_score->childType() == TuneType, "The child itemtype of score is not TuneType");
 }
 
 QTEST_APPLESS_MAIN(ScoreTest)

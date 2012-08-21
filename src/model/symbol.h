@@ -31,7 +31,7 @@ public:
 
     explicit Symbol();
     int type() const { return SymbolType; }
-    int parentType() const { return TuneType; }
+    int childType() const { return NoItemType; }
     virtual Pitch *pitch() const;
 };
 

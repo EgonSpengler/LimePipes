@@ -39,8 +39,9 @@ public:
     void swapChildren(int oldRow, int newRow)
         { m_children.swap(oldRow, newRow); }
     virtual int type() const { return NoItemType; }
-    virtual int parentType() const { return NoItemType; }
+    virtual int childType() const { return ScoreType; }
     virtual QVariant data(int role = Qt::UserRole);
+    virtual void setData(const QVariant &value, int role);
 
     void setName(const QString &name)
         { m_name = name; }

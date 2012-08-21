@@ -11,15 +11,22 @@
 MusicItem::MusicItem(MusicItem *parent) :
     m_parent(parent)
 {
-    if(m_parent){
+    if (m_parent) {
         m_parent->addChild(this);
     }
 }
 
 QVariant MusicItem::data(int role)
 {
-    if(role == Qt::DisplayRole){
+    if (role == Qt::DisplayRole) {
         return m_name;
     }
     return QVariant();
+}
+
+void MusicItem::setData(const QVariant &value, int role)
+{
+    if (role == Qt::DisplayRole) {
+        m_name = value.toString();
+    }
 }

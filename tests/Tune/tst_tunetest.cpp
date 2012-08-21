@@ -21,7 +21,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
-    void testParentType();
+    void testChildType();
 
 private:
     Tune *m_tune;
@@ -42,9 +42,9 @@ void TuneTest::testType()
     QVERIFY2( m_tune->type() == TuneType, "Tune returns the wrong type");
 }
 
-void TuneTest::testParentType()
+void TuneTest::testChildType()
 {
-    QVERIFY2( m_tune->parentType() == ScoreType, "The parent itemtype of tune is not ScoreType");
+    QVERIFY2( m_tune->childType() == SymbolType, "The child itemtype of tune is not SymbolType");
 }
 
 QTEST_APPLESS_MAIN(TuneTest)

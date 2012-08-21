@@ -17,6 +17,7 @@ class Score : public MusicItem
 public:
     explicit Score();
     int type() const { return ScoreType; }
+    int childType() const { return TuneType; }
 };
 
 #endif // SHEETMUSIC_H
