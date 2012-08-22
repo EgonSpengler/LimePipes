@@ -16,12 +16,13 @@ class MusicItemTest : public QObject
     
 public:
     MusicItemTest() : m_parent(0), m_child1(0), m_child2(0), m_child3(0) {}
-    
+
 private slots:
     void init();
     void cleanup();
     void testCreateMusicItem();
-    void testSetName();
+    void testSetBehavior();
+    void testSetData();
     void testChildAt();
     void testRowOfChild();
     void testChildCount();
@@ -33,13 +34,14 @@ private slots:
     void testType();
     void testChildType();
     void testData();
-    void testSetData();
 
 private:
     MusicItem *m_parent;
     MusicItem *m_child1;
     MusicItem *m_child2;
     MusicItem *m_child3;
+
+
 };
 
 void MusicItemTest::init()
@@ -60,10 +62,17 @@ void MusicItemTest::testCreateMusicItem()
     QVERIFY2(m_parent == m_child1->parent(), "Parentitem not set in constructor, or parent-getter fail");
 }
 
-void MusicItemTest::testSetName()
+void MusicItemTest::testSetBehavior()
 {
-    m_child1->setName("Hello");
-    QVERIFY2(m_child1->name() == "Hello", "Failed setting and getting name");
+    m_parent->setBehavior(new ItemBehavior(ItemBehavior::TuneType, ItemBehavior::SymbolType));
+    QVERIFY2(m_parent->type() == ItemBehavior::TuneType, "Failed to set type of ItemBehavior");
+    QVERIFY2(m_parent->childType() == ItemBehavior::SymbolType, "Failed to set child type of ItemBehavior");
+}
+
+void MusicItemTest::testSetData()
+{
+    m_parent->setData("My name", Qt::DisplayRole);
+    QVERIFY2(m_parent->data(Qt::DisplayRole) == "My name", "Failed to set name throug setData()");
 }
 
 void MusicItemTest::testChildAt()
@@ -95,50 +104,44 @@ void MusicItemTest::testChildrenGetter()
 void MusicItemTest::testInsertChild()
 {
     MusicItem *newChild = new MusicItem();
-    newChild->setName("newChild");
+    newChild->setData("newChild", Qt::DisplayRole);
     m_parent->insertChild(1, newChild);
-    QVERIFY2(m_parent->childAt(1)->name() == "newChild", "Failed to insert child");
+    QVERIFY2(m_parent->childAt(1)->data(Qt::DisplayRole) == "newChild", "Failed to insert child");
 }
 
 void MusicItemTest::testAddChild()
 {
     int childCountBefore = m_parent->childCount();
     MusicItem *newChild = new MusicItem();
-    newChild->setName("newChild");
+    newChild->setData("newChild", Qt::DisplayRole);
     m_parent->addChild(newChild);
-    QVERIFY2(m_parent->childAt(childCountBefore)->name() == "newChild", "Failed to add child");
+    QVERIFY2(m_parent->childAt(childCountBefore)->data(Qt::DisplayRole) == "newChild", "Failed to add child");
 }
 
 void MusicItemTest::testSwapChildren()
 {
-    m_child1->setName("child1");
-    m_child2->setName("child2");
+    m_child1->setData("child1", Qt::DisplayRole);
+    m_child2->setData("child2", Qt::DisplayRole);
     m_parent->swapChildren(0, 1);
-    QVERIFY2(m_parent->childAt(0)->name() == "child2", "Failed to swap children");
-    QVERIFY2(m_parent->childAt(1)->name() == "child1", "Failed to swap children");
+    QVERIFY2(m_parent->childAt(0)->data(Qt::DisplayRole) == "child2", "Failed to swap children");
+    QVERIFY2(m_parent->childAt(1)->data(Qt::DisplayRole) == "child1", "Failed to swap children");
 }
 
 void MusicItemTest::testType()
 {
-    QVERIFY2(m_parent->type() == NoItemType, "type() in MusicItem doesn't return NoItemType");
+    QVERIFY2(m_parent->type() == ItemBehavior::RootItemType, "type() in MusicItem doesn't return NoItemType");
 }
 
 void MusicItemTest::testChildType()
 {
     // A MusicItem is used as the root item. So the child type should be ScoreType
-    QVERIFY2(m_parent->childType() == ScoreType, "childType() in MusicItem doesn't return ScoreType");
+    QVERIFY2(m_parent->childType() == ItemBehavior::ScoreType, "childType() in MusicItem doesn't return ScoreType");
 }
 
 void MusicItemTest::testData()
 {
-    m_parent->setName("the_parent_item");
-    QVERIFY2(m_parent->data(Qt::DisplayRole) == m_parent->name(), "DisplayRole should return the itemname");
-}
-
-void MusicItemTest::testSetData()
-{
-    m_parent->setData("My name", Qt::DisplayRole);
-    QVERIFY2(m_parent->data(Qt::DisplayRole) == "My name", "Failed to set name throug setData()");
+    m_parent->setData("the_parent_item", Qt::DisplayRole);
+    QVERIFY2(m_parent->data(Qt::DisplayRole) == "the_parent_item", "DisplayRole should return the itemname");
 }
 
 QTEST_APPLESS_MAIN(MusicItemTest)

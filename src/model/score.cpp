@@ -7,8 +7,3 @@
  */
 
 #include "score.h"
-
-Score::Score() :
-    MusicItem()
-{
-}

@@ -39,12 +39,12 @@ void TuneTest::cleanup()
 
 void TuneTest::testType()
 {
-    QVERIFY2( m_tune->type() == TuneType, "Tune returns the wrong type");
+    QVERIFY2( m_tune->type() == ItemBehavior::TuneType, "Tune returns the wrong type");
 }
 
 void TuneTest::testChildType()
 {
-    QVERIFY2( m_tune->childType() == SymbolType, "The child itemtype of tune is not SymbolType");
+    QVERIFY2( m_tune->childType() == ItemBehavior::SymbolType, "The child itemtype of tune is not SymbolType");
 }
 
 QTEST_APPLESS_MAIN(TuneTest)

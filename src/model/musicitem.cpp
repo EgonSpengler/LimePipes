@@ -8,25 +8,32 @@
 
 #include "musicitem.h"
 
-MusicItem::MusicItem(MusicItem *parent) :
-    m_parent(parent)
+MusicItem::MusicItem(MusicItem *parent)
+    : m_parent(parent),
+      m_behavior(new ItemBehavior(ItemBehavior::RootItemType, ItemBehavior::ScoreType))
 {
-    if (m_parent) {
+    if (m_parent)
         m_parent->addChild(this);
-    }
+}
+
+void MusicItem::setBehavior(ItemBehavior *behavoir)
+{
+    if (m_behavior)
+        delete m_behavior;
+    m_behavior = behavoir;
 }
 
 QVariant MusicItem::data(int role)
 {
-    if (role == Qt::DisplayRole) {
-        return m_name;
-    }
+    if (m_behavior)
+        return m_behavior->data(role);
     return QVariant();
 }
 
-void MusicItem::setData(const QVariant &value, int role)
+bool MusicItem::setData(const QVariant &value, int role)
 {
-    if (role == Qt::DisplayRole) {
-        m_name = value.toString();
-    }
+    if (m_behavior)
+        return m_behavior->setData(value, role);
+    else
+        return false;
 }

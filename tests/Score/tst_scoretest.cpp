@@ -39,12 +39,12 @@ void ScoreTest::cleanup()
 
 void ScoreTest::testType()
 {
-    QVERIFY2( m_score->type() == ScoreType, "Score returns the wrong type");
+    QVERIFY2( m_score->type() == ItemBehavior::ScoreType, "Score returns the wrong type");
 }
 
 void ScoreTest::testChildType()
 {
-    QVERIFY2(m_score->childType() == TuneType, "The child itemtype of score is not TuneType");
+    QVERIFY2(m_score->childType() == ItemBehavior::TuneType, "The child itemtype of score is not TuneType");
 }
 
 QTEST_APPLESS_MAIN(ScoreTest)

@@ -9,15 +9,13 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#include "musicitem.h"
-#include "model_itemtypes.h"
+#include "itembehavior.h"
 
-class Score : public MusicItem
+class Score : public ItemBehavior
 {
 public:
-    explicit Score();
-    int type() const { return ScoreType; }
-    int childType() const { return TuneType; }
+    explicit Score()
+        : ItemBehavior(ItemBehavior::ScoreType, ItemBehavior::TuneType) {}
 };
 
 #endif // SHEETMUSIC_H

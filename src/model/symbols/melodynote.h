@@ -11,14 +11,12 @@
 
 #include "../symbol.h"
 #include "../pitch.h"
-#include "../model_itemtypes.h"
 
 class MelodyNote : public Symbol
 {
 public:
     explicit MelodyNote();
     ~MelodyNote();
-    int type() const { return MelodyNoteType; }
     /*! @brief Adds a dot to the melody note. If it has already two dots,
       * it is resetted to zero dots.
       */

@@ -6,5 +6,4 @@
  *
  */
 
-#include "symbol.h"
-
+#include "itembehavior.h"

@@ -7,9 +7,4 @@
  */
 
 #include "tune.h"
-#include <QDebug>
 
-Tune::Tune() :
-    MusicItem()
-{
-}

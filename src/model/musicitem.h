@@ -12,13 +12,13 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
-#include <model_itemtypes.h>
+#include <itembehavior.h>
 
 class MusicItem
 {
 public:
     MusicItem(MusicItem *parent=0);
-    ~MusicItem() { qDeleteAll(m_children); }
+    ~MusicItem() { qDeleteAll(m_children); delete m_behavior; }
     MusicItem *parent() const
         { return m_parent; }
     MusicItem *childAt(int row) const
@@ -38,20 +38,16 @@ public:
         { item->m_parent = this; m_children << item; }
     void swapChildren(int oldRow, int newRow)
         { m_children.swap(oldRow, newRow); }
-    virtual int type() const { return NoItemType; }
-    virtual int childType() const { return ScoreType; }
+    void setBehavior(ItemBehavior* behavoir);
+    virtual int type() const { return m_behavior ? m_behavior->type() : ItemBehavior::RootItemType; }
+    virtual int childType() const { return m_behavior ? m_behavior->childType() : ItemBehavior::ScoreType; }
     virtual QVariant data(int role = Qt::UserRole);
-    virtual void setData(const QVariant &value, int role);
-
-    void setName(const QString &name)
-        { m_name = name; }
-    QString name() const
-        { return m_name; }
+    virtual bool setData(const QVariant &value, int role);
 
 private:
     QList<MusicItem*> m_children;
     MusicItem *m_parent;
-    QString m_name;
+    ItemBehavior *m_behavior;
 };
 
 #endif // MUSICITEM_H

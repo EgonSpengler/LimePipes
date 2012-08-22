@@ -11,7 +11,8 @@ SUBDIRS += \
     Pitch \
     Score \
     Symbol \
-    Tune
+    Tune \
+    ItemBehavior
 
 
 

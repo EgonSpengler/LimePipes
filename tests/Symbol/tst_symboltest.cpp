@@ -29,12 +29,12 @@ private:
 
 void SymbolTest::testType()
 {
-    QVERIFY2( m_symbol->type() == SymbolType, "Symbol returns the wrong type" );
+    QVERIFY2( m_symbol->type() == ItemBehavior::SymbolType, "Symbol returns the wrong type" );
 }
 
 void SymbolTest::testChildType()
 {
-    QVERIFY2( m_symbol->childType() == NoItemType, "The child itemtype of Symbol is not NoItemType");
+    QVERIFY2( m_symbol->childType() == ItemBehavior::NoItemType, "The child itemtype of Symbol is not NoItemType");
 }
 
 void SymbolTest::init()

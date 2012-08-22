@@ -9,17 +9,13 @@
 #ifndef TUNE_H
 #define TUNE_H
 
-#include <QList>
-#include "musicitem.h"
-#include "model_itemtypes.h"
-#include "symbol.h"
+#include "itembehavior.h"
 
-class Tune : public MusicItem
+class Tune : public ItemBehavior
 {
 public:
-    explicit Tune();
-    int type() const { return TuneType; }
-    int childType() const { return SymbolType; }
+    explicit Tune()
+        : ItemBehavior(ItemBehavior::TuneType, ItemBehavior::SymbolType) {}
 };
 
 #endif // TUNE_H
