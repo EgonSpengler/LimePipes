@@ -15,11 +15,11 @@ class ItemBehavior
 {
 public:
     enum Type {
-        NoItemType = 1,
-        RootItemType,
-        ScoreType,
-        TuneType,
-        SymbolType
+        RootItem = 1,
+        Score,
+        Tune,
+        Symbol,
+        NoItem
     };
 
     /*! Describees the valid DataRoles for Symbols */
@@ -34,19 +34,19 @@ public:
         CustomCode = Qt::UserRole + 5       /*!< A custom Code appearance, e.g. BWW-code (QString) */
     };
 
-    ItemBehavior(int type, int childType)
+    ItemBehavior(ItemBehavior::Type type, ItemBehavior::Type childType)
         : m_type(type), m_childType(childType) {}
     QVariant data(int role)
         { return m_data.value(role); }
     bool setData(const QVariant& value, int role)
         { m_data.insert(role, value); return true; }
-    int type() const { return m_type; }
-    int childType() const { return m_childType; }
+    ItemBehavior::Type type() const { return m_type; }
+    ItemBehavior::Type childType() const { return m_childType; }
 
 private:
     QMap<int, QVariant> m_data;
-    const int m_type;
-    const int m_childType;
+    const ItemBehavior::Type m_type;
+    const ItemBehavior::Type m_childType;
 };
 
 #endif // ITEMBEHAVIOR_H

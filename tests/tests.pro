@@ -12,7 +12,8 @@ SUBDIRS += \
     Score \
     Symbol \
     Tune \
-    ItemBehavior
+    ItemBehavior \
+    ItemBehaviorFactory
 
 
 

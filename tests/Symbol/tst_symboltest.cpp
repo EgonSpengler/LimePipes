@@ -27,16 +27,6 @@ private:
     Symbol *m_symbol;
 };
 
-void SymbolTest::testType()
-{
-    QVERIFY2( m_symbol->type() == ItemBehavior::SymbolType, "Symbol returns the wrong type" );
-}
-
-void SymbolTest::testChildType()
-{
-    QVERIFY2( m_symbol->childType() == ItemBehavior::NoItemType, "The child itemtype of Symbol is not NoItemType");
-}
-
 void SymbolTest::init()
 {
     m_symbol = new Symbol();
@@ -45,6 +35,16 @@ void SymbolTest::init()
 void SymbolTest::cleanup()
 {
     delete m_symbol;
+}
+
+void SymbolTest::testType()
+{
+    QVERIFY2( m_symbol->type() == ItemBehavior::Symbol, "Symbol returns the wrong type" );
+}
+
+void SymbolTest::testChildType()
+{
+    QVERIFY2( m_symbol->childType() == ItemBehavior::NoItem, "The child itemtype of Symbol is not NoItemType");
 }
 
 QTEST_APPLESS_MAIN(SymbolTest)

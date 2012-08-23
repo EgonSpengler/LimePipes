@@ -15,7 +15,7 @@ class Symbol : public ItemBehavior
 {
 public:
     explicit Symbol()
-        : ItemBehavior(ItemBehavior::SymbolType, ItemBehavior::NoItemType) {}
+        : ItemBehavior(ItemBehavior::Symbol, ItemBehavior::NoItem) {}
 };
 
 #endif // SYMBOL_H

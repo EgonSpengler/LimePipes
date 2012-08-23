@@ -7,20 +7,40 @@
  */
 
 #include "musicitem.h"
+#include <itembehaviorfactory.h>
 
-MusicItem::MusicItem(MusicItem *parent)
+MusicItem::MusicItem(ItemBehavior::Type type, MusicItem *parent)
     : m_parent(parent),
-      m_behavior(new ItemBehavior(ItemBehavior::RootItemType, ItemBehavior::ScoreType))
+      m_behavior(ItemBehaviorFactory::getBehavior(type))
 {
     if (m_parent)
         m_parent->addChild(this);
 }
 
-void MusicItem::setBehavior(ItemBehavior *behavoir)
+bool MusicItem::insertChild(int row, MusicItem *item)
 {
-    if (m_behavior)
-        delete m_behavior;
-    m_behavior = behavoir;
+    if (m_behavior->childType() == ItemBehavior::NoItem)
+        return false;
+
+    if (m_behavior->childType() == item->type()) {
+        item->m_parent = this;
+        m_children.insert(row, item);
+        return true;
+    }
+    return false;
+}
+
+bool MusicItem::addChild(MusicItem *item)
+{
+    if (m_behavior->childType() == ItemBehavior::NoItem)
+        return false;
+
+    if (m_behavior->childType() == item->type()) {
+        item->m_parent = this;
+        m_children << item;
+        return true;
+    }
+    return false;
 }
 
 QVariant MusicItem::data(int role)

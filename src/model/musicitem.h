@@ -17,7 +17,7 @@
 class MusicItem
 {
 public:
-    MusicItem(MusicItem *parent=0);
+    MusicItem(ItemBehavior::Type type, MusicItem *parent=0);
     ~MusicItem() { qDeleteAll(m_children); delete m_behavior; }
     MusicItem *parent() const
         { return m_parent; }
@@ -32,15 +32,12 @@ public:
     QList<MusicItem*> children() const
         { return m_children; }
 
-    void insertChild(int row, MusicItem *item)
-        { item->m_parent = this; m_children.insert(row, item); }
-    void addChild(MusicItem *item)
-        { item->m_parent = this; m_children << item; }
+    bool insertChild(int row, MusicItem *item);
+    bool addChild(MusicItem *item);
     void swapChildren(int oldRow, int newRow)
         { m_children.swap(oldRow, newRow); }
-    void setBehavior(ItemBehavior* behavoir);
-    virtual int type() const { return m_behavior ? m_behavior->type() : ItemBehavior::RootItemType; }
-    virtual int childType() const { return m_behavior ? m_behavior->childType() : ItemBehavior::ScoreType; }
+    virtual ItemBehavior::Type type() const { return m_behavior->type(); }
+    virtual ItemBehavior::Type childType() const { return m_behavior->childType(); }
     virtual QVariant data(int role = Qt::UserRole);
     virtual bool setData(const QVariant &value, int role);
 

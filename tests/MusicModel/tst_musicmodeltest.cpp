@@ -17,6 +17,13 @@ class MusicModelTest : public QObject
     
 public:
     MusicModelTest();
+
+public slots:
+    void rowsInsertedNotifier() {
+        // This slot will be connected with the rowsInserted Signal of the model
+        // to check that items weren't inserted
+        QVERIFY2(false, "Rows were inserted");
+    }
     
 private Q_SLOTS:
     void init();
@@ -24,6 +31,7 @@ private Q_SLOTS:
     void testInsertRows();
     void testQAbstractItemModelImplementation();
     void testItemForIndex();
+    void testInsertNoItemType();
 
 private:
     MusicModel *m_model;
@@ -82,6 +90,31 @@ void MusicModelTest::testItemForIndex()
     QModelIndex mIndex = m_model->index(0, 0, QModelIndex());
     m_model->setData(mIndex, QString("hello there"), Qt::DisplayRole);
     QVERIFY2(m_model->itemForIndex(mIndex)->data(Qt::DisplayRole) == "hello there", "Failed to get the correct item for an index");
+}
+
+void MusicModelTest::testInsertNoItemType()
+{
+    // If in the hirarchy is a item with NoItemType as childType,
+    // any attempt to insert child items should be canceled before the call of
+    // beginInsertRows/endInsertRows, because this shouldn't be called, if the insertion will fail
+
+    // Get the index with an item with NoItem as its child type
+    QModelIndex index = QModelIndex();
+    while (1) {
+        m_model->insertRow(0, index);
+        index = m_model->index(0, 0, index);
+
+        MusicItem *item = static_cast<MusicItem*>(
+                            index.internalPointer());
+        if (item->childType() == ItemBehavior::NoItem) {
+            break;
+        }
+    }
+
+    // Now, the rowsInserted signal should not be called when inserting rows
+    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
+                     this, SLOT(rowsInsertedNotifier()));
+    m_model->insertRow(0, index);
 }
 
 QTEST_APPLESS_MAIN(MusicModelTest)

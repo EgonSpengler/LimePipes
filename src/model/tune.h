@@ -15,7 +15,7 @@ class Tune : public ItemBehavior
 {
 public:
     explicit Tune()
-        : ItemBehavior(ItemBehavior::TuneType, ItemBehavior::SymbolType) {}
+        : ItemBehavior(ItemBehavior::Tune, ItemBehavior::Symbol) {}
 };
 
 #endif // TUNE_H

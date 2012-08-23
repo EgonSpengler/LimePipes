@@ -6,7 +6,8 @@ SOURCES += \
     $$PWD/musicmodel.cpp \
     $$PWD/musicitem.cpp \
     $$PWD/length.cpp \
-    $$PWD/itembehavior.cpp
+    $$PWD/itembehavior.cpp \
+    $$PWD/itembehaviorfactory.cpp
 
 HEADERS += \
     $$PWD/tune.h \
@@ -16,4 +17,5 @@ HEADERS += \
     $$PWD/musicmodel.h \
     $$PWD/musicitem.h \
     $$PWD/length.h \
-    $$PWD/itembehavior.h
+    $$PWD/itembehavior.h \
+    $$PWD/itembehaviorfactory.h

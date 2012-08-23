@@ -15,7 +15,7 @@ class Score : public ItemBehavior
 {
 public:
     explicit Score()
-        : ItemBehavior(ItemBehavior::ScoreType, ItemBehavior::TuneType) {}
+        : ItemBehavior(ItemBehavior::Score, ItemBehavior::Tune) {}
 };
 
-#endif // SHEETMUSIC_H
+#endif // SCORE_H

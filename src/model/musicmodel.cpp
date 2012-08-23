@@ -67,12 +67,17 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
 bool MusicModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     if (!m_rootItem)
-        m_rootItem = new MusicItem;
+        m_rootItem = new MusicItem(ItemBehavior::RootItem);
     MusicItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : m_rootItem;
+
+    // Childs itemType is NoType => No insertion
+    if (parentItem->childType() == ItemBehavior::NoItem)
+        return false;
+
     beginInsertRows(parent, row, row + count - 1);
     for (int i = 0; i < count; i++) {
-        MusicItem *item = new MusicItem;
+        MusicItem *item = new MusicItem(parentItem->childType());
         parentItem->insertChild(row, item);
     }
     endInsertRows();

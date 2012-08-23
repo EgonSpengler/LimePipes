@@ -28,14 +28,14 @@ ItemBehaviorTest::ItemBehaviorTest()
 
 void ItemBehaviorTest::testCreate()
 {
-    ItemBehavior *behavior = new ItemBehavior(ItemBehavior::TuneType, ItemBehavior::SymbolType);
-    QVERIFY2(behavior->type() == ItemBehavior::TuneType, "Failed setting behavior type in constructor");
-    QVERIFY2(behavior->childType() == ItemBehavior::SymbolType, "Failed setting behavior child type in constructor");
+    ItemBehavior *behavior = new ItemBehavior(ItemBehavior::Tune, ItemBehavior::Symbol);
+    QVERIFY2(behavior->type() == ItemBehavior::Tune, "Failed setting behavior type in constructor");
+    QVERIFY2(behavior->childType() == ItemBehavior::Symbol, "Failed setting behavior child type in constructor");
 }
 
 void ItemBehaviorTest::testSetData()
 {
-    ItemBehavior *behavior = new ItemBehavior(ItemBehavior::NoItemType, ItemBehavior::NoItemType);
+    ItemBehavior *behavior = new ItemBehavior(ItemBehavior::NoItem, ItemBehavior::NoItem);
     behavior->setData(QString("hello"), Qt::DisplayRole);
     QVERIFY2(behavior->data(Qt::DisplayRole) == "hello", "Failed setting data of behavior");
 }
