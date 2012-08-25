@@ -10,6 +10,7 @@
 #define SCORE_H
 
 #include "itembehavior.h"
+#include "itemdatatypes.h"
 
 class Score : public ItemBehavior
 {

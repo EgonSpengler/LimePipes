@@ -7,6 +7,7 @@ LIMEPIPES_SOURCE_TREE = $$PWD
 INCLUDEPATH += \
     $$LIMEPIPES_SOURCE_TREE/src/model \
     $$LIMEPIPES_SOURCE_TREE/src/model/symbols \
+    $$LIMEPIPES_SOURCE_TREE/src/model/datatypes \
     $$LIMEPIPES_SOURCE_TREE/src/views
 
 CONFIG += depend_includepath

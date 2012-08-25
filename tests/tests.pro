@@ -13,7 +13,8 @@ SUBDIRS += \
     Symbol \
     Tune \
     ItemBehavior \
-    ItemBehaviorFactory
+    ItemBehaviorFactory \
+    TimeSignature
 
 
 

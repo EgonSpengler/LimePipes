@@ -1,6 +1,7 @@
 include( ../../LimePipes.pri )
 include( ../model/model.pri )
 include( ../model/symbols/symbols.pri )
+include( ../model/datatypes/datatypes.pri )
 
 TEMPLATE = app
 
