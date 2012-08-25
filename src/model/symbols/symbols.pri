@@ -1,3 +1,5 @@
+INCLUDEPATH += $$PWD
+
 SOURCES += \
     $$PWD/bar.cpp \
     $$PWD/melodynote.cpp

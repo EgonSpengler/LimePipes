@@ -9,7 +9,7 @@
 #ifndef MELODYNOTE_H
 #define MELODYNOTE_H
 
-#include "../symbol.h"
+#include "../itembehavior/symbol.h"
 #include "../datatypes/pitch.h"
 
 class MelodyNote : public Symbol

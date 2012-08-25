@@ -25,6 +25,9 @@ int TimeSignature::beatCount(TimeSignature::Type type)
         return 9;
     case _12_8:
         return 12;
+    default:
+        qWarning("type not supported in TimeSignature::beatCount");
+        return 0;
     }
 }
 
@@ -42,5 +45,8 @@ int TimeSignature::beatUnit(TimeSignature::Type type)
     case _9_8:
     case _12_8:
         return 8;
+    default:
+        qWarning("type not supported in TimeSignature::beatUnit");
+        return 0;
     }
 }

@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <length.h>
 
 class LengthTest : public QObject
 {

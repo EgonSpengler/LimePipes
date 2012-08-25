@@ -3,8 +3,7 @@
 # Project created by QtCreator 2012-08-16T11:44:46
 #
 #-------------------------------------------------
-include( ../tests.pri )
-include( $$LIMEPIPES_SOURCE_TREE/src/model/model.pri )
+include( ../../../tests.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/symbols/symbols.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
 

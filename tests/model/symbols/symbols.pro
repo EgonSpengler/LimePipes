@@ -1,7 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    model
-
-
-
+    Bar \
+    MelodyNote

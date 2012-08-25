@@ -1,3 +1,5 @@
+INCLUDEPATH += $$PWD
+
 SOURCES += \
     $$PWD/length.cpp \
     $$PWD/pitch.cpp \

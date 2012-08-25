@@ -8,27 +8,28 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <pitch.h>
 
-class BarTest : public QObject
+class PitchTest : public QObject
 {
     Q_OBJECT
     
 public:
-    BarTest();
+    PitchTest();
     
 private Q_SLOTS:
-    void testCase1();
+    void testCreatePitch();
 };
 
-BarTest::BarTest()
+PitchTest::PitchTest()
 {
 }
 
-void BarTest::testCase1()
+void PitchTest::testCreatePitch()
 {
-    QVERIFY2(true, "Failure");
+    Pitch();
 }
 
-QTEST_APPLESS_MAIN(BarTest)
+QTEST_APPLESS_MAIN(PitchTest)
 
-#include "tst_bartest.moc"
+#include "tst_pitchtest.moc"

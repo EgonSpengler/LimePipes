@@ -9,7 +9,7 @@
 #ifndef BAR_H
 #define BAR_H
 
-#include "../symbol.h"
+#include "../itembehavior/symbol.h"
 
 class Bar : public Symbol
 {
