@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <QVariant>
 #include <length.h>
 
 class LengthTest : public QObject
@@ -18,16 +19,33 @@ public:
     LengthTest();
     
 private Q_SLOTS:
-    void testCase1();
+    void testCreateLength();
+    void testSetLength();
+    void testSetLengthAsVariant();
 };
 
 LengthTest::LengthTest()
 {
 }
 
-void LengthTest::testCase1()
+void LengthTest::testCreateLength()
 {
-    QVERIFY2(true, "Failure");
+    Length length(Length::_32);
+    QVERIFY2(length.length() == Length::_32, "Failed to set length through constructor");
+}
+
+void LengthTest::testSetLength()
+{
+    Length length(Length::_16);
+    length.setLength(Length::_32);
+    QVERIFY2(length.length() == Length::_32, "Failed to set length");
+}
+
+void LengthTest::testSetLengthAsVariant()
+{
+    QVariant var;
+    var.setValue(Length(Length::_4));
+    QVERIFY2(var.value<Length>().length() == Length::_4, "Failed to set as QVariant");
 }
 
 QTEST_APPLESS_MAIN(LengthTest)

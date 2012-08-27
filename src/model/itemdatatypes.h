@@ -9,6 +9,7 @@
 #ifndef ITEMDATATYPES_H
 #define ITEMDATATYPES_H
 
+namespace LP {
 
 enum {
     // Datatypes for Score
@@ -19,7 +20,10 @@ enum {
     scoreCopyright,
 
     // Various data types
-    timeSignature
+    timeSignature,
+    length
 };
+
+}
 
 #endif // ITEMDATATYPES_H
