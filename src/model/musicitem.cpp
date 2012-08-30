@@ -7,11 +7,9 @@
  */
 
 #include "musicitem.h"
-#include <itembehaviorfactory.h>
 
-MusicItem::MusicItem(ItemBehavior::Type type, MusicItem *parent)
-    : m_parent(parent),
-      m_behavior(ItemBehaviorFactory::getBehavior(type))
+MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
+    : m_type(type), m_childType(childType), m_parent(parent)
 {
     if (m_parent)
         m_parent->addChild(this);
@@ -19,10 +17,10 @@ MusicItem::MusicItem(ItemBehavior::Type type, MusicItem *parent)
 
 bool MusicItem::insertChild(int row, MusicItem *item)
 {
-    if (m_behavior->childType() == ItemBehavior::NoItem)
+    if (m_childType == NoItem)
         return false;
 
-    if (m_behavior->childType() == item->type()) {
+    if (m_childType == item->type()) {
         item->m_parent = this;
         m_children.insert(row, item);
         return true;
@@ -32,28 +30,13 @@ bool MusicItem::insertChild(int row, MusicItem *item)
 
 bool MusicItem::addChild(MusicItem *item)
 {
-    if (m_behavior->childType() == ItemBehavior::NoItem)
+    if (m_childType == NoItem)
         return false;
 
-    if (m_behavior->childType() == item->type()) {
+    if (m_childType == item->type()) {
         item->m_parent = this;
         m_children << item;
         return true;
     }
     return false;
-}
-
-QVariant MusicItem::data(int role)
-{
-    if (m_behavior)
-        return m_behavior->data(role);
-    return QVariant();
-}
-
-bool MusicItem::setData(const QVariant &value, int role)
-{
-    if (m_behavior)
-        return m_behavior->setData(value, role);
-    else
-        return false;
 }

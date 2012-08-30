@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <musicitem.h>
-#include <itembehaviorfactory.h>
+#include <musicitemfactory.h>
 
 class MusicItemTest : public QObject
 {
@@ -47,10 +47,11 @@ private:
 
 void MusicItemTest::init()
 {
-    m_parent = new MusicItem(ItemBehavior::RootItem);
-    m_child1 = new MusicItem(m_parent->childType(), m_parent);
-    m_child2 = new MusicItem(m_parent->childType(), m_parent);
-    m_child3 = new MusicItem(m_parent->childType(), m_parent);
+    m_parent = MusicItemFactory::getMusicItem(MusicItem::RootItem);
+    MusicItem *firstLevelItem = MusicItemFactory::getMusicItem(m_parent->childType());
+    m_child1 = new MusicItem(m_parent->childType(), firstLevelItem->childType(), m_parent);
+    m_child2 = new MusicItem(m_parent->childType(), firstLevelItem->childType(), m_parent);
+    m_child3 = new MusicItem(m_parent->childType(), firstLevelItem->childType(), m_parent);
 }
 
 void MusicItemTest::cleanup()
@@ -60,7 +61,12 @@ void MusicItemTest::cleanup()
 
 void MusicItemTest::testCreateMusicItem()
 {
-    QVERIFY2(m_parent == m_child1->parent(), "Parentitem not set in constructor, or parent-getter fail");
+    QVERIFY2(m_parent == m_child1->parent(), "Parent item not set in constructor, or parent-getter fail");
+
+    // Default MusicItem returns NoItem for type and childType
+    MusicItem *item = new MusicItem();
+    QVERIFY2(item->type() == MusicItem::NoItem, "Music Item returns not NoItem as type");
+    QVERIFY2(item->childType() == MusicItem::NoItem, "Music Item returns not NoItem as child type");
 }
 
 void MusicItemTest::testSetData()
@@ -104,8 +110,8 @@ void MusicItemTest::testInsertChild()
 
     // Insert Item thats not the correct child item
     int childCountBefore = m_parent->childCount();
-    ItemBehavior::Type wrongChildType = ItemBehavior::Symbol;
-    QVERIFY2(wrongChildType != m_parent->childType(), "Choose another ItemBehavior type for the following test!");
+    MusicItem::Type wrongChildType = MusicItem::Symbol;
+    QVERIFY2(wrongChildType != m_parent->childType(), "Choose another item type for the following test!");
 
     QVERIFY2(m_parent->insertChild(1, new MusicItem(wrongChildType)) == false, "insertChild returned true despite wrong child type");
     QVERIFY2(childCountBefore == m_parent->childCount(), "A child item with the wrong type was inserted");
@@ -121,8 +127,8 @@ void MusicItemTest::testAddChild()
 
     // Add Item thats not the correct child item
     childCountBefore = m_parent->childCount();
-    ItemBehavior::Type wrongChildType = ItemBehavior::Symbol;
-    QVERIFY2(wrongChildType != m_parent->childType(), "Choose another ItemBehavior type for the following test!");
+    MusicItem::Type wrongChildType = MusicItem::Symbol;
+    QVERIFY2(wrongChildType != m_parent->childType(), "Choose another ItemType type for the following test!");
 
     QVERIFY2(m_parent->addChild(new MusicItem(wrongChildType)) == false, "addChild returned true despite wrong child type");
     QVERIFY2(childCountBefore == m_parent->childCount(), "A child item with the wrong type was added");
@@ -132,15 +138,15 @@ void MusicItemTest::testInsertNoItemTypeChild()
 {
     // MusicItems with NoItemType as childType should not be able to add/insert child items
 
-    // behaviorType must be one with NoItemType as childType
-    ItemBehavior::Type behaviorType = ItemBehavior::Symbol;
-    ItemBehavior *behavior = ItemBehaviorFactory::getBehavior(behaviorType);
-    QVERIFY2(behavior->childType() == ItemBehavior::NoItem, "For the following tests we need a ItemBehavior with NoItem type as childType");
+    // itemtype must be one with NoItem as childType
+    MusicItem::Type itemType = MusicItem::Symbol;
+    MusicItem *itemNoChild = MusicItemFactory::getMusicItem(itemType);
+    QVERIFY2(itemNoChild->childType() == MusicItem::NoItem, "For the following tests we need a MusicItem with NoItem type as childType");
 
-    MusicItem *item = new MusicItem(behaviorType);
+    MusicItem *item = new MusicItem(itemType, MusicItem::NoItem);
 
     // Tests with insertChild
-    MusicItem *childItem = new MusicItem(item->childType());
+    MusicItem *childItem = new MusicItem(item->childType(), MusicItem::NoItem);
     QVERIFY2(item->insertChild(0, childItem) == false, "Failed, inserting items with NoItem type returned true");
     QVERIFY2(item != childItem->parent(), "Failed, items with NoItem type can be inserted as children");
 
@@ -149,11 +155,11 @@ void MusicItemTest::testInsertNoItemTypeChild()
     QVERIFY2(item->addChild(childItem2) == false, "Failed, adding item with NoItem type returned true");
     QVERIFY2(item != childItem2->parent(), "Failed, item with NoItem type can be added as children");
 
-    delete behavior;
+    delete itemNoChild;
     delete item;
 
-    // If tests failed and items could be inserted as child,
-    // this delete statements will raise an error
+    // If tests have failed and items could be inserted as child,
+    // this delete statements will end in an error
     delete childItem;
     delete childItem2;
 }
@@ -169,13 +175,13 @@ void MusicItemTest::testSwapChildren()
 
 void MusicItemTest::testType()
 {
-    QVERIFY2(m_parent->type() == ItemBehavior::RootItem, "type() in MusicItem doesn't return NoItemType");
+    QVERIFY2(m_parent->type() == MusicItem::RootItem, "type() in MusicItem doesn't return NoItem as type");
 }
 
 void MusicItemTest::testChildType()
 {
     // A MusicItem is used as the root item. So the child type should be ScoreType
-    QVERIFY2(m_parent->childType() == ItemBehavior::Score, "childType() in MusicItem doesn't return ScoreType");
+    QVERIFY2(m_parent->childType() == MusicItem::Score, "childType() in MusicItem doesn't return ScoreType");
 }
 
 void MusicItemTest::testData()

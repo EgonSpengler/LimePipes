@@ -17,4 +17,6 @@ HEADERS += \
 FORMS += \
     mainwindow.ui
 
-TARGET = bin/limepipes
+LIBS = -L$${LIMEPIPES_SOURCE_TREE}/plugins_static -llp_greathighlandbagpipe
+
+TARGET = ../../build/limepipes

@@ -7,6 +7,7 @@
  */
 
 #include "musicmodel.h"
+#include <musicitemfactory.h>
 
 namespace {
 const int ColumnCount = 1;
@@ -67,17 +68,17 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
 bool MusicModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     if (!m_rootItem)
-        m_rootItem = new MusicItem(ItemBehavior::RootItem);
+        m_rootItem = MusicItemFactory::getMusicItem(MusicItem::RootItem);
     MusicItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : m_rootItem;
 
     // Childs itemType is NoType => No insertion
-    if (parentItem->childType() == ItemBehavior::NoItem)
+    if (parentItem->childType() == MusicItem::NoItem)
         return false;
 
     beginInsertRows(parent, row, row + count - 1);
     for (int i = 0; i < count; i++) {
-        MusicItem *item = new MusicItem(parentItem->childType());
+        MusicItem *item = MusicItemFactory::getMusicItem(parentItem->childType());
         parentItem->insertChild(row, item);
     }
     endInsertRows();

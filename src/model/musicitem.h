@@ -12,13 +12,21 @@
 #include <QList>
 #include <QVariant>
 #include <QString>
-#include <itembehavior.h>
+#include <QMap>
 
 class MusicItem
 {
 public:
-    MusicItem(ItemBehavior::Type type, MusicItem *parent=0);
-    ~MusicItem() { qDeleteAll(m_children); delete m_behavior; }
+    enum Type {
+        RootItem = 1,
+        Score,
+        Tune,
+        Symbol,
+        NoItem
+    };
+
+    MusicItem(Type type=NoItem, Type childType=NoItem, MusicItem *parent=0);
+    ~MusicItem() { qDeleteAll(m_children); }
     MusicItem *parent() const
         { return m_parent; }
     MusicItem *childAt(int row) const
@@ -36,15 +44,23 @@ public:
     bool addChild(MusicItem *item);
     void swapChildren(int oldRow, int newRow)
         { m_children.swap(oldRow, newRow); }
-    virtual ItemBehavior::Type type() const { return m_behavior->type(); }
-    virtual ItemBehavior::Type childType() const { return m_behavior->childType(); }
-    virtual QVariant data(int role = Qt::UserRole);
-    virtual bool setData(const QVariant &value, int role);
+    Type type() const
+        { return m_type; }
+    Type childType() const
+        { return m_childType; }
+    QVariant data(int role = Qt::UserRole)
+        { return m_data.value(role); }
+    void setData(const QVariant &value, int role)
+        { m_data.insert(role, value); }
+
+protected:
+    QMap<int, QVariant> m_data;
 
 private:
     QList<MusicItem*> m_children;
+    const Type m_type;
+    const Type m_childType;
     MusicItem *m_parent;
-    ItemBehavior *m_behavior;
 };
 
 #endif // MUSICITEM_H

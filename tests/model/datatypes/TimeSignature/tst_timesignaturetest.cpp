@@ -21,6 +21,7 @@ public:
 private Q_SLOTS:
     void testBeatCount();
     void testBeatUnit();
+    void testQVariant();
 };
 
 TimeSignatureTest::TimeSignatureTest()
@@ -49,6 +50,12 @@ void TimeSignatureTest::testBeatUnit()
     QVERIFY2(TimeSignature::beatUnit(TimeSignature::_6_8) == 8, "Fail for 6/8");
     QVERIFY2(TimeSignature::beatUnit(TimeSignature::_9_8) == 8, "Fail for 9/8");
     QVERIFY2(TimeSignature::beatUnit(TimeSignature::_12_8) == 8, "Fail for 12/8");
+}
+
+void TimeSignatureTest::testQVariant()
+{
+    QVariant var = QVariant::fromValue(TimeSignature());
+    QVERIFY2(var.isValid(), "Failed setting TimeSignature as QVariant");
 }
 
 QTEST_APPLESS_MAIN(TimeSignatureTest)

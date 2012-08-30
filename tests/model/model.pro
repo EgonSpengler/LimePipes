@@ -2,7 +2,11 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     datatypes \
-    itembehavior \
     symbols \
     MusicItem \
-    MusicModel
+    MusicModel \
+    Symbol \
+    Tune \
+    Score \
+    RootItem \
+    MusicItemFactory

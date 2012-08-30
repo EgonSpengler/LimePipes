@@ -10,7 +10,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <symbol.h>
 
 class Model;
 
@@ -25,10 +24,11 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void loadStaticPlugins();
+    void printInstrumentNames(QObject *plugin);
     
 private:
     Ui::MainWindow *ui;
-    Model *m_model;
 };
 
 #endif // MAINWINDOW_H

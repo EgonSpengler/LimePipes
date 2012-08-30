@@ -22,6 +22,9 @@ uics/
 rccs/
 # for executables in bin/-folder (e.g. tests)
 bin/
+build/
+# the compiled static plugins
+plugins_static/
 *.so*
 Makefile
 

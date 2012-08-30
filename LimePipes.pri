@@ -2,9 +2,12 @@
 LIMEPIPES_PRI_INCLUDED = 1
 
 LIMEPIPES_SOURCE_TREE = $$PWD
+LIMEPIPES_BUILD_FOLDER = $$LIMEPIPES_SOURCE_TREE/build
+LIMEPIPES_STATIC_PLUGINS_FOLDER = $$LIMEPIPES_SOURCE_TREE/plugins_static
 
 #Includes common configuration for all subdirectory .pro files.
 INCLUDEPATH += \
+    $$LIMEPIPES_SOURCE_TREE/src \
     $$LIMEPIPES_SOURCE_TREE/src/model \
     $$LIMEPIPES_SOURCE_TREE/src/views
 
