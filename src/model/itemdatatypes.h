@@ -6,6 +6,14 @@
  *
  */
 
+/*!
+  * @enum LP::DataRole
+  * All data roles used to set the data for @ref MusicItem "MusicItems".
+  *
+  * @var LP::DataRole LP::scoreCopyright
+  * The copyright for a tune without the copy sign.
+  */
+
 #ifndef ITEMDATATYPES_H
 #define ITEMDATATYPES_H
 
@@ -17,25 +25,19 @@ namespace LP {
 enum DataRole {
 
     // Datatypes for Score
-    scoreTitle = Qt::UserRole + 1,  /*!< The title for a score (QString) */
-    scoreComposer,                  /*!< The composer's name for a score (QString) */
-    scoreArranger,                  /*!< The arranger's name for a score (QString) */
-    scoreYear,                      /*!< The year of composing/arranging of the score (QString) */
-    scoreCopyright,                 /*!< The copyright for a score without the copy sign (QString) */
+    scoreTitle = Qt::UserRole + 1,
+    scoreComposer,
+    scoreArranger,
+    scoreYear,
+    scoreCopyright,
+    scoreTimeSignature,
 
-    // Various data types
-    timeSignature,      /*!< The time signature for a Tune for example (TimeSignature) */
-    length,             /*!< The Symbol's length (Length) */
-    instrument,         /*!< The instrument for a Tune (Instrument) */
-    instrumentId        /*!< The instrument ID for symbols in a tune (int) */
+    // Datatypes for Tune
+    tuneInstrument,
 
-    /* Not yet needed */
-//    //* Standard Music-Sheet-Roles */
-//    MusicSheetSymbol,   /*!< The appearance in the music sheet. (QIcon) */
-
-//    //* Code roles */
-//    LimePipesCode,  /*!< The LimePipesCode for the Symbol (QString) */
-//    CustomCode      /*!< A custom Code appearance, e.g. BWW-code (QString) */
+    // Datatypes for Symbol
+    symbolType,
+    symbolLength
 };
 
 }

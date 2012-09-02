@@ -17,16 +17,16 @@ MusicItem *MusicItemFactory::getMusicItem(MusicItem::Type type)
 {
     switch(type)
     {
-    case MusicItem::NoItem:
+    case MusicItem::NoItemType:
         qWarning( "NoItem type should not be used with MusicItemFactory::getMusicItem()" );
         return new MusicItem();
-    case MusicItem::RootItem:
+    case MusicItem::RootItemType:
         return new RootItem();
-    case MusicItem::Score:
+    case MusicItem::ScoreType:
         return new Score();
-    case MusicItem::Tune:
+    case MusicItem::TuneType:
         return new Tune();
-    case MusicItem::Symbol:
+    case MusicItem::SymbolType:
         return new Symbol();
     default:
         qWarning( "ItemBehavior %d is not supported by ItemBehaviorFactory", type);

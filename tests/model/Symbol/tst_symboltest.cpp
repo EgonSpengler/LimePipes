@@ -9,6 +9,8 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <symbol.h>
+#include <itemdatatypes.h>
+#include <interfaceglobals.h>
 
 class SymbolTest : public QObject
 {
@@ -20,8 +22,10 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testConstructor();
     void testType();
     void testChildType();
+    void testSymbolType();
 
 private:
     Symbol *m_symbol;
@@ -37,14 +41,26 @@ void SymbolTest::cleanup()
     delete m_symbol;
 }
 
+void SymbolTest::testConstructor()
+{
+    QVERIFY2(m_symbol->data(LP::symbolType).toInt() == LP::NoSymbolType, "Wrong Symbol id in default constructor");
+    Symbol symbol(333);
+    QVERIFY2(symbol.data(LP::symbolType).toInt() == 333, "Failed setting symbol Id in constructor");
+}
+
 void SymbolTest::testType()
 {
-    QVERIFY2( m_symbol->type() == MusicItem::Symbol, "Symbol returns the wrong type" );
+    QVERIFY2( m_symbol->type() == MusicItem::SymbolType, "Symbol returns the wrong type" );
 }
 
 void SymbolTest::testChildType()
 {
-    QVERIFY2( m_symbol->childType() == MusicItem::NoItem, "The child itemtype of Symbol is not NoItem type");
+    QVERIFY2( m_symbol->childType() == MusicItem::NoItemType, "The child itemtype of Symbol is not NoItem type");
+}
+
+void SymbolTest::testSymbolType()
+{
+    QVERIFY2(m_symbol->symbolType() == LP::NoSymbolType, "Failed to get the default symbol type");
 }
 
 QTEST_APPLESS_MAIN(SymbolTest)

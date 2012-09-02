@@ -6,6 +6,11 @@
  *
  */
 
+/*!
+  * @class GreatHighlandBagpipe
+  * The Instrument plugin for the Great Highland Bagpipe.
+  */
+
 #include "greathighlandbagpipe.h"
 
 Q_EXPORT_PLUGIN2(lp_greathighlandbagpipe, GreatHighlandBagpipe)

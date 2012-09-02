@@ -30,24 +30,24 @@ void MusicItemFactoryTest::testGetMusicItem()
 {
     MusicItem *item = 0;
 
-    item = MusicItemFactory::getMusicItem(MusicItem::RootItem);
-    QVERIFY2(item->type() == MusicItem::RootItem, "MusicItemFactory returns no Root item");
+    item = MusicItemFactory::getMusicItem(MusicItem::RootItemType);
+    QVERIFY2(item->type() == MusicItem::RootItemType, "MusicItemFactory returns no Root item");
     delete item;
 
-    item = MusicItemFactory::getMusicItem(MusicItem::Score);
-    QVERIFY2(item->type() == MusicItem::Score, "MusicItemFactory returns no Score item");
+    item = MusicItemFactory::getMusicItem(MusicItem::ScoreType);
+    QVERIFY2(item->type() == MusicItem::ScoreType, "MusicItemFactory returns no Score item");
     delete item;
 
-    item = MusicItemFactory::getMusicItem(MusicItem::Tune);
-    QVERIFY2(item->type() == MusicItem::Tune, "MusicItemFactory returns no Tune item");
+    item = MusicItemFactory::getMusicItem(MusicItem::TuneType);
+    QVERIFY2(item->type() == MusicItem::TuneType, "MusicItemFactory returns no Tune item");
     delete item;
 
-    item = MusicItemFactory::getMusicItem(MusicItem::Symbol);
-    QVERIFY2(item->type() == MusicItem::Symbol, "MusicItemFactory returns no Symbol item");
+    item = MusicItemFactory::getMusicItem(MusicItem::SymbolType);
+    QVERIFY2(item->type() == MusicItem::SymbolType, "MusicItemFactory returns no Symbol item");
     delete item;
 
-    item = MusicItemFactory::getMusicItem(MusicItem::NoItem);
-    QVERIFY2(item->type() == MusicItem::NoItem, "MusicItemFactory returns no Item for the NoItem-type");
+    item = MusicItemFactory::getMusicItem(MusicItem::NoItemType);
+    QVERIFY2(item->type() == MusicItem::NoItemType, "MusicItemFactory returns no Item for the NoItem-type");
     delete item;
 }
 

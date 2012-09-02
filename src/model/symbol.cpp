@@ -6,5 +6,10 @@
  *
  */
 
+/*!
+  * @class Symbol
+  * A Tune consists of Symbols.
+  */
+
 #include "symbol.h"
 

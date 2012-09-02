@@ -6,8 +6,10 @@
  *
  */
 
+/*!
+  * @class Pitch
+  * Pitch data for Symbols with a pitch.
+  */
+
 #include "pitch.h"
 
-Pitch::Pitch()
-{
-}

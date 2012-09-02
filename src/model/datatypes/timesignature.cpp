@@ -6,6 +6,11 @@
  *
  */
 
+/*!
+  * @class TimeSignature
+  * Time signature data for @ref MusicItem "MusicItems".
+  */
+
 #include "timesignature.h"
 
 int TimeSignature::beatCount(TimeSignature::Type type)

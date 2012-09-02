@@ -14,7 +14,8 @@
 class Bar : public Symbol
 {
 public:
-    explicit Bar();
+    explicit Bar()
+        : Symbol(LP::Bar) {}
 };
 
 #endif // BAR_H

@@ -6,11 +6,17 @@
  *
  */
 
+/*!
+  * @class InstrumentInterface
+  * This is the Plugin interface for Instrument plugins.
+  */
+
 #ifndef INSTRUMENT_INTERFACE_H
 #define INSTRUMENT_INTERFACE_H
 
 #include <QtPlugin>
-#include <instrument_ids.h>
+#include <interfaceglobals.h>
+#include <datatypes/instrument.h>
 
 class QString;
 
@@ -18,7 +24,7 @@ class InstrumentInterface {
 public:
     virtual ~InstrumentInterface() {}
     virtual QString name() const = 0;
-    virtual LP::InstrumentId instrumentId() const = 0;
+    virtual Instrument *instrument() const = 0;
 };
 
 Q_DECLARE_INTERFACE(InstrumentInterface,

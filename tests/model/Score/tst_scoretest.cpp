@@ -42,12 +42,12 @@ void ScoreTest::cleanup()
 
 void ScoreTest::testType()
 {
-    QVERIFY2( m_score->type() == MusicItem::Score, "Score returns the wrong type");
+    QVERIFY2( m_score->type() == MusicItem::ScoreType, "Score returns the wrong type");
 }
 
 void ScoreTest::testChildType()
 {
-    QVERIFY2(m_score->childType() == MusicItem::Tune, "The child itemtype of score is not TuneType");
+    QVERIFY2(m_score->childType() == MusicItem::TuneType, "The child itemtype of score is not TuneType");
 }
 
 void ScoreTest::testSetData()
@@ -67,8 +67,8 @@ void ScoreTest::testSetData()
     m_score->setData("test copyright", LP::scoreCopyright);
     QVERIFY2(m_score->data(LP::scoreCopyright) == "test copyright", "Failed set copyright");
 
-    m_score->setData(QVariant::fromValue(TimeSignature(TimeSignature::_3_4)), LP::timeSignature);
-    QVERIFY2(m_score->data(LP::timeSignature).value<TimeSignature>().signature() == TimeSignature::_3_4, "Failed set time signature");
+    m_score->setData(QVariant::fromValue(TimeSignature(TimeSignature::_3_4)), LP::scoreTimeSignature);
+    QVERIFY2(m_score->data(LP::scoreTimeSignature).value<TimeSignature>().signature() == TimeSignature::_3_4, "Failed set time signature");
 }
 
 QTEST_APPLESS_MAIN(ScoreTest)

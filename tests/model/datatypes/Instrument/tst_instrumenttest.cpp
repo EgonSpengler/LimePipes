@@ -9,7 +9,6 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <instrument.h>
-#include <instrumentinterface.h>
 
 class InstrumentTest : public QObject
 {
@@ -22,22 +21,12 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testCreateInstrument();
+    void testDefaultValues();
     void testQVariant();
-    void testSetInstrument();
-    void testInstrumentDefaultValues();
-    void testInstrumentInterfaceImplementation();
+    void testCopyConstructor();
 
 private:
     Instrument *m_instrument;
-    InstrumentInterface *m_interface;
-
-    class TestInstrument : public InstrumentInterface
-    {
-        QString name() const
-            { return QString("TestInstrument"); }
-        LP::InstrumentId instrumentId() const
-            { return LP::BassDrum; }
-    };
 };
 
 InstrumentTest::InstrumentTest()
@@ -47,47 +36,42 @@ InstrumentTest::InstrumentTest()
 void InstrumentTest::init()
 {
     m_instrument = new Instrument();
-    m_interface = new TestInstrument();
 }
 
 void InstrumentTest::cleanup()
 {
     delete m_instrument;
-    delete m_interface;
 }
 
 void InstrumentTest::testCreateInstrument()
 {
     delete m_instrument;
-    m_instrument = new Instrument(m_interface);
-    QVERIFY2(m_instrument->name() == m_interface->name(), "Failed to set InstrumentInterface in constructor");
+    m_instrument = new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument"));
+    QVERIFY2(m_instrument->name() == "TestInstrument", "Failed to set instrument name in constructor");
+    QVERIFY2(m_instrument->type() == LP::GreatHighlandBagpipe, "Failed to set instrument type in constructor");
+}
+
+void InstrumentTest::testDefaultValues()
+{
+    Instrument instrument;
+    QVERIFY2(instrument.type() == LP::NoInstrument, "Empty instrument doesn't return NoInstrument type");
+    QVERIFY2(instrument.name() == "No Instrument", "Empty instrument doesn't return No Instrument as name");
+
 }
 
 void InstrumentTest::testQVariant()
 {
-    QVariant var = QVariant::fromValue(Instrument());
-    QVERIFY2(var.value<Instrument>().name().isEmpty() != true, "Failed using Instrument as QVariant");
+    delete m_instrument;
+    m_instrument = new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument"));
+    QVariant var = QVariant::fromValue<Instrument*>(m_instrument);
+    QVERIFY2(var.value<Instrument*>()->name().isEmpty() != true, "Failed using Instrument as QVariant");
 }
 
-void InstrumentTest::testSetInstrument()
+void InstrumentTest::testCopyConstructor()
 {
-    m_instrument->setInstrument(m_interface);
-    QVERIFY2(m_instrument->name() == m_interface->name(), "Failed to set instrument");
-    QVERIFY2(m_instrument->instrument() == m_interface, "Failed to get the instrument");
-}
-
-void InstrumentTest::testInstrumentDefaultValues()
-{
-    QVERIFY2(m_instrument->name() == "Great Highland Bagpipe", "Failed default value name");
-    QVERIFY2(m_instrument->instrumentId() == LP::GreatHighlandBagpipe, "Failed default value id");
-}
-
-void InstrumentTest::testInstrumentInterfaceImplementation()
-{
-    m_instrument->setInstrument(m_interface);
-
-    QVERIFY2(m_instrument->name() == m_interface->name(), "Failed to get the name");
-    QVERIFY2(m_instrument->instrumentId() == m_interface->instrumentId(), "Failed to get the ID");
+    Instrument instrument1(LP::BassDrum, QString("TestInstrument"));
+    Instrument instrument2(instrument1);
+    QVERIFY2(instrument2.type() == LP::BassDrum, "Failed copy constructor");
 }
 
 QTEST_APPLESS_MAIN(InstrumentTest)

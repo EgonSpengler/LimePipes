@@ -18,14 +18,14 @@ class MusicItem
 {
 public:
     enum Type {
-        RootItem = 1,
-        Score,
-        Tune,
-        Symbol,
-        NoItem
+        RootItemType = 1,
+        ScoreType,
+        TuneType,
+        SymbolType,
+        NoItemType
     };
 
-    MusicItem(Type type=NoItem, Type childType=NoItem, MusicItem *parent=0);
+    MusicItem(Type type=NoItemType, Type childType=NoItemType, MusicItem *parent=0);
     ~MusicItem() { qDeleteAll(m_children); }
     MusicItem *parent() const
         { return m_parent; }
@@ -48,10 +48,12 @@ public:
         { return m_type; }
     Type childType() const
         { return m_childType; }
-    QVariant data(int role = Qt::UserRole)
+    QVariant data(int role = Qt::UserRole) const
         { return m_data.value(role); }
     void setData(const QVariant &value, int role)
         { m_data.insert(role, value); }
+    virtual bool okToInsertChild( const MusicItem *item )
+        { Q_UNUSED(item) return true; }
 
 protected:
     QMap<int, QVariant> m_data;

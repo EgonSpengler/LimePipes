@@ -9,6 +9,8 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <tune.h>
+#include <symbol.h>
+#include <greathighlandbagpipe.h>
 
 class TuneTest : public QObject
 {
@@ -20,31 +22,72 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testConstructor();
     void testType();
     void testChildType();
+    void testSetInstrument();
+    void testOkToInsertChildRedefinition();
 
 private:
     Tune *m_tune;
+    Instrument *m_instrument;
 };
 
 void TuneTest::init()
 {
     m_tune = new Tune();
+    m_instrument = GreatHighlandBagpipe().instrument();
 }
 
 void TuneTest::cleanup()
 {
     delete m_tune;
+    delete m_instrument;
+}
+
+void TuneTest::testConstructor()
+{
+    delete m_tune;
+    m_tune = new Tune(m_instrument);
+    QVERIFY2(m_tune->instrument()->name() == m_instrument->name(), "Failed to set Instrument in constructor");
+    QVERIFY2(m_tune->type() == MusicItem::TuneType, "Tune returns the wrong type");
+    QVERIFY2(m_tune->childType() == MusicItem::SymbolType, "The child itemtype of tune is wrong");
 }
 
 void TuneTest::testType()
 {
-    QVERIFY2( m_tune->type() == MusicItem::Tune, "Tune returns the wrong type");
+    QVERIFY2(m_tune->type() == MusicItem::TuneType, "Tune returns the wrong type after default constructor");
 }
 
 void TuneTest::testChildType()
 {
-    QVERIFY2( m_tune->childType() == MusicItem::Symbol, "The child itemtype of tune is not Symbol type");
+    QVERIFY2(m_tune->childType() == MusicItem::SymbolType, "The child itemtype of tune is not Symbol type");
+}
+
+void TuneTest::testSetInstrument()
+{
+    m_tune->setInstrument(m_instrument);
+    QVERIFY2(m_tune->instrument()->type() == LP::GreatHighlandBagpipe, "Failed set and get instrument");
+}
+
+void TuneTest::testOkToInsertChildRedefinition()
+{
+    // The test data. The two symbols should be one valid and one invalid type for the instrument
+    Symbol *melodyNoteSymbol = new Symbol(LP::MelodyNote);
+    Symbol *invalidSymbol = new Symbol(LP::NoSymbolType);
+
+    // Tune with no instrument should always return false
+    QVERIFY2(m_tune->data(LP::tuneInstrument).isValid() == false, "The next tests requires a Tune with no instrument");
+    QVERIFY2(m_tune->okToInsertChild(melodyNoteSymbol) == false, "It's not ok to insert Symbol into a tune without instrument");
+    QVERIFY2(m_tune->okToInsertChild(invalidSymbol) == false, "It's not ok to insert Symbol into a tune without instrument");
+
+    // Tune with instrument should return the same as the instrument
+    m_tune->setInstrument(m_instrument);
+    QVERIFY2(m_tune->data(LP::tuneInstrument).isValid() == true, "The next tests requires a Tune with instrument");
+    QVERIFY2(m_instrument->supportsSymbolType(LP::MelodyNote) == m_tune->okToInsertChild(melodyNoteSymbol),
+             "Tune doesn't return the same as the instrument for a valid symbol");
+    QVERIFY2(m_instrument->supportsSymbolType(LP::NoSymbolType) == m_tune->okToInsertChild(invalidSymbol),
+             "Tune doesn't return the same as the instrument for a invalid symbol");
 }
 
 QTEST_APPLESS_MAIN(TuneTest)

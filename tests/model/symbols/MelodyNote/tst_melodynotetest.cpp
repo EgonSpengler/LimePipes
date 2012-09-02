@@ -18,17 +18,17 @@ public:
     MelodyNoteTest();
     
 private Q_SLOTS:
-    void testCase1();
+    void testSymbolType();
 };
 
 MelodyNoteTest::MelodyNoteTest()
 {
 }
 
-void MelodyNoteTest::testCase1()
+void MelodyNoteTest::testSymbolType()
 {
     MelodyNote note;
-    QVERIFY2(true, "Failure");
+    QVERIFY2(note.symbolType() == LP::MelodyNote, "Failed getting Symbol type from bar");
 }
 
 QTEST_APPLESS_MAIN(MelodyNoteTest)

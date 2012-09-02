@@ -9,9 +9,10 @@
 #ifndef GREATHIGHLANDBAGPIPE_H
 #define GREATHIGHLANDBAGPIPE_H
 
-#include <QObject>
 #include <instrumentinterface.h>
+#include <QObject>
 #include <QString>
+#include <greathighlandbagpipeinstrument.h>
 
 class GreatHighlandBagpipe : public QObject,
                              public InstrumentInterface
@@ -22,8 +23,8 @@ class GreatHighlandBagpipe : public QObject,
 public:
     QString name() const
         { return QString("Great Highland Bagpipe"); }
-    LP::InstrumentId instrumentId() const
-        { return LP::GreatHighlandBagpipe; }
+    Instrument *instrument() const
+        { return new GreatHighlandBagpipeInstrument(); }
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H

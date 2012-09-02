@@ -6,9 +6,9 @@
  *
  */
 
-#include "bar.h"
+/*!
+  * @class Bar
+  * A @ref Symbol "Bar symbol" represents the vertical bar line in a Staff.
+  */
 
-Bar::Bar() :
-    Symbol()
-{
-}
+#include "bar.h"

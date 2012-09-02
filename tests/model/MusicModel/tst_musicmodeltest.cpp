@@ -106,7 +106,7 @@ void MusicModelTest::testInsertNoItemType()
 
         MusicItem *item = static_cast<MusicItem*>(
                             index.internalPointer());
-        if (item->childType() == MusicItem::NoItem) {
+        if (item->childType() == MusicItem::NoItemType) {
             break;
         }
     }

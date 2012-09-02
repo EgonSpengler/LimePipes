@@ -6,6 +6,18 @@
  *
  */
 
+/*!
+  * @class MusicItem musicitem.h
+  * @brief MusicItem builds the hierarchic data, which represents a music sheet.
+  *
+  * @fn bool MusicItem::okToInsertChild(const MusicItem *item)
+  * @brief By overwriting this member function, subclasses can restrict the insertion of child items.
+  *     E.g. a Tune supports not all available Symbol types to be inserted.
+  *     It can check the type and return false if the Symbol is not supported.
+  * @param item The item to be inserted.
+  * @return True by default.
+  */
+
 #include "musicitem.h"
 
 MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
@@ -17,7 +29,7 @@ MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
 
 bool MusicItem::insertChild(int row, MusicItem *item)
 {
-    if (m_childType == NoItem)
+    if (m_childType == NoItemType)
         return false;
 
     if (m_childType == item->type()) {
@@ -30,7 +42,7 @@ bool MusicItem::insertChild(int row, MusicItem *item)
 
 bool MusicItem::addChild(MusicItem *item)
 {
-    if (m_childType == NoItem)
+    if (m_childType == NoItemType)
         return false;
 
     if (m_childType == item->type()) {
@@ -40,3 +52,4 @@ bool MusicItem::addChild(MusicItem *item)
     }
     return false;
 }
+

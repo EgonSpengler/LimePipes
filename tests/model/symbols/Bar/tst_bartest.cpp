@@ -18,16 +18,17 @@ public:
     BarTest();
     
 private Q_SLOTS:
-    void testCase1();
+    void testBarSymbolType();
 };
 
 BarTest::BarTest()
 {
 }
 
-void BarTest::testCase1()
+void BarTest::testBarSymbolType()
 {
-    QVERIFY2(true, "Failure");
+    Bar bar;
+    QVERIFY2(bar.symbolType() == LP::Bar, "Failed getting Symbol type from bar");
 }
 
 QTEST_APPLESS_MAIN(BarTest)

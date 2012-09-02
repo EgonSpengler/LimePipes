@@ -15,7 +15,7 @@ class RootItem : public MusicItem
 {
 public:
     RootItem()
-        : MusicItem(MusicItem::RootItem, MusicItem::Score) {}
+        : MusicItem(MusicItem::RootItemType, MusicItem::ScoreType) {}
 };
 
 #endif // ROOTITEM_H

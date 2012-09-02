@@ -6,4 +6,9 @@
  *
  */
 
+/*!
+  * @class Score
+  * A Score represents a container for one or more @ref Tune "Tunes" and has at least a title.
+  */
+
 #include "score.h"

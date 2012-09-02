@@ -9,35 +9,34 @@
 #ifndef INSTRUMENT_H
 #define INSTRUMENT_H
 
-#include <instrumentinterface.h>
-#include <plugins/GreatHighlandBagpipe/greathighlandbagpipe.h>
 #include <QMetaType>
 #include <QString>
+#include "../../interfaces/interfaceglobals.h"
 
-class Instrument : public InstrumentInterface
+class Instrument
 {
 public:
-    Instrument() : m_instrument(new GreatHighlandBagpipe) {}
-    Instrument(InstrumentInterface *instrument)
-        :m_instrument(instrument) {}
-    ~Instrument() {}
-    Instrument(const Instrument& other)
-        { this->m_instrument = other.instrument(); }
+    Instrument() : m_type(LP::NoInstrument), m_name(QString("No Instrument")) {}
 
-    void setInstrument(InstrumentInterface *instrument)
-        { m_instrument = instrument; }
-    InstrumentInterface *instrument() const
-        { return m_instrument; }
+    Instrument(LP::InstrumentType type, const QString &name )
+        : m_type(type), m_name(name) {}
+    Instrument(const Instrument& other)
+        { this->m_type = other.m_type;
+          this->m_name = other.m_name; }
+    ~Instrument() {}
 
     QString name() const
-        { return m_instrument->name(); }
-    LP::InstrumentId instrumentId() const
-        { return m_instrument->instrumentId(); }
+        { return m_name; }
+    LP::InstrumentType type() const
+        { return m_type; }
+    virtual bool supportsSymbolType(int type) const
+        { Q_UNUSED(type) return false; }
 
 private:
-    InstrumentInterface *m_instrument;
+    LP::InstrumentType m_type;
+    QString m_name;
 };
 
-Q_DECLARE_METATYPE(Instrument)
+Q_DECLARE_METATYPE(Instrument*)
 
 #endif // INSTRUMENT_H

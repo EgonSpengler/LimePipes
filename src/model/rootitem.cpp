@@ -6,4 +6,9 @@
  *
  */
 
+/*!
+  * @class RootItem
+  * The root item of the tree of @ref MusicItem "MusicItems".
+  */
+
 #include "rootitem.h"

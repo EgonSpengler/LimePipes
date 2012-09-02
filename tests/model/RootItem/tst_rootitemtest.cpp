@@ -44,12 +44,12 @@ void RootItemTest::cleanup()
 
 void RootItemTest::testType()
 {
-    QVERIFY2(m_rootItem->type() == MusicItem::RootItem, "Root item returns the wrong type");
+    QVERIFY2(m_rootItem->type() == MusicItem::RootItemType, "Root item returns the wrong type");
 }
 
 void RootItemTest::testChildType()
 {
-    QVERIFY2(m_rootItem->childType() == MusicItem::Score, "The child itemtype of RootItem is not Score type");
+    QVERIFY2(m_rootItem->childType() == MusicItem::ScoreType, "The child itemtype of RootItem is not Score type");
 }
 
 QTEST_APPLESS_MAIN(RootItemTest)

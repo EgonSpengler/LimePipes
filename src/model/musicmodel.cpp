@@ -9,6 +9,10 @@
 #include "musicmodel.h"
 #include <musicitemfactory.h>
 
+/*! @class MusicModel
+  * @brief The implementation of the QAbstractItemModel.
+  */
+
 namespace {
 const int ColumnCount = 1;
 }
@@ -68,12 +72,12 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
 bool MusicModel::insertRows(int row, int count, const QModelIndex &parent)
 {
     if (!m_rootItem)
-        m_rootItem = MusicItemFactory::getMusicItem(MusicItem::RootItem);
+        m_rootItem = MusicItemFactory::getMusicItem(MusicItem::RootItemType);
     MusicItem *parentItem = parent.isValid() ? itemForIndex(parent)
                                             : m_rootItem;
 
     // Childs itemType is NoType => No insertion
-    if (parentItem->childType() == MusicItem::NoItem)
+    if (parentItem->childType() == MusicItem::NoItemType)
         return false;
 
     beginInsertRows(parent, row, row + count - 1);

@@ -9,10 +9,14 @@
 #ifndef PITCH_H
 #define PITCH_H
 
+#include <QMetaType>
+
 class Pitch
 {
 public:
-    explicit Pitch();
+    explicit Pitch() {}
 };
+
+Q_DECLARE_METATYPE(Pitch)
 
 #endif // PITCH_H

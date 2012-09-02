@@ -19,6 +19,7 @@ public:
     
 private Q_SLOTS:
     void testCreatePitch();
+    void testSetPitchAsQVariant();
 };
 
 PitchTest::PitchTest()
@@ -28,6 +29,12 @@ PitchTest::PitchTest()
 void PitchTest::testCreatePitch()
 {
     Pitch();
+}
+
+void PitchTest::testSetPitchAsQVariant()
+{
+    QVariant var = QVariant::fromValue<Pitch>(Pitch());
+    QVERIFY2(var.isValid(), "Failed setting Pitch as QVariant");
 }
 
 QTEST_APPLESS_MAIN(PitchTest)

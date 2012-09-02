@@ -6,4 +6,9 @@
  *
  */
 
+/*!
+  * @class Length
+  * Length data for Symbols in a Tune.
+  */
+
 #include "length.h"

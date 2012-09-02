@@ -6,10 +6,8 @@ SOURCES += \
     $$PWD/pitch.cpp \
     $$PWD/timesignature.cpp \
     $$PWD/instrument.cpp
-
 HEADERS += \
     $$PWD/length.h \
     $$PWD/pitch.h \
     $$PWD/timesignature.h \
-    $$PWD/instrument.h \
-    ../plugins/GreatHighlandBagpipe/greathighlandbagpipe.h
+    $$PWD/instrument.h

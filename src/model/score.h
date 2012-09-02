@@ -15,7 +15,7 @@ class Score : public MusicItem
 {
 public:
     explicit Score()
-        : MusicItem(MusicItem::Score, MusicItem::Tune) {}
+        : MusicItem(MusicItem::ScoreType, MusicItem::TuneType) {}
 };
 
 #endif // SCORE_H
