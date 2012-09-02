@@ -10,12 +10,16 @@
 #define SCORE_H
 
 #include <musicitem.h>
+#include <itemdatatypes.h>
 
 class Score : public MusicItem
 {
 public:
     explicit Score()
         : MusicItem(MusicItem::ScoreType, MusicItem::TuneType) {}
+    Score(const QString &title)
+        : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
+        { setData(title, LP::scoreTitle); }
 };
 
 #endif // SCORE_H

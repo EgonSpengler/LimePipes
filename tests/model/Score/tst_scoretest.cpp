@@ -25,6 +25,7 @@ private Q_SLOTS:
     void testType();
     void testChildType();
     void testSetData();
+    void testConstructor();
 
 private:
     Score *m_score;
@@ -69,6 +70,15 @@ void ScoreTest::testSetData()
 
     m_score->setData(QVariant::fromValue(TimeSignature(TimeSignature::_3_4)), LP::scoreTimeSignature);
     QVERIFY2(m_score->data(LP::scoreTimeSignature).value<TimeSignature>().signature() == TimeSignature::_3_4, "Failed set time signature");
+}
+
+void ScoreTest::testConstructor()
+{
+    delete m_score;
+    m_score = new Score(QString("The Title"));
+    QVERIFY2(m_score->data(LP::scoreTitle) == "The Title", "Failed setting the score title in the constructor");
+    QVERIFY2(m_score->type() == MusicItem::ScoreType, "Score returns the wrong type");
+    QVERIFY2(m_score->childType() == MusicItem::TuneType, "The child itemtype of score is not TuneType");
 }
 
 QTEST_APPLESS_MAIN(ScoreTest)
