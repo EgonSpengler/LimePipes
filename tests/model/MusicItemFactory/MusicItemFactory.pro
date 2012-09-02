@@ -10,7 +10,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_musicitemfactorytest
+TARGET = bin/tst_musicitemfactorytest
 CONFIG   += console
 CONFIG   -= app_bundle
 

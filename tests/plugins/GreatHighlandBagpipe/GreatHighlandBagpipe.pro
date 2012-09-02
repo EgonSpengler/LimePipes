@@ -11,7 +11,7 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = tst_greathighlandbagpipetest
+TARGET = bin/tst_greathighlandbagpipetest
 CONFIG   += console
 CONFIG   -= app_bundle
 
