@@ -25,19 +25,18 @@ for line in lines:
 	if( 'Start testing of' in line ):
 		words = line.split();
 		actualTest = words[4];
+		print "\n\n***** " + actualTest + " *****"
 	elif( 'PASS' in line ):
 		pass
 	elif( 'FAIL!' in line ):
 		words = line.split();
 		failedTest = words[2]
 		failedMessage = line[ line.rfind( str(failedTest)) + len(str(failedTest))  :  ]
-		failed.append( "_______" + actualTest + "_______" )
-		failed.append( failedTest + ": " + failedMessage )
+		failed.append( "_______ " + failedTest + " ____________\n" + failedMessage)
 	elif( 'SKIP' in line ):
 		skippedTest = line[ line.find(":")+2 : line.find(")")+1 ]
 		skippedMessage = line[ line.find(")")+1 : -1 ]
-		skipped.append( "_______" + actualTest + "_______" )
-		skipped.append( skippedTest + ": " + skippedMessage )
+		skipped.append( "_______ " + skippedTest + " ____________\n" + skippedMessage )
 		
 if( len(failed) > 1 ):
 	for message in failed:
@@ -49,4 +48,6 @@ if( len(skipped) > 1 ):
 		print message			
 		
 if( len(skipped) == 1 and len(failed) == 1 ):
-	print "***** All tests PASSED *****"
+	print "***** All tests PASSED *****\n\n"
+else:
+	print "********** FAILED ************\n\n"

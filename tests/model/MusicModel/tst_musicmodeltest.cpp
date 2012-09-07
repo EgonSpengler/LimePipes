@@ -76,10 +76,6 @@ void MusicModelTest::testQAbstractItemModelImplementation()
     m_model->setData( m_model->index(2, 0, indexTop1), "child3", Qt::DisplayRole );
     m_model->setData( m_model->index(3, 0, indexTop1), "child4", Qt::DisplayRole );
 
-    QModelIndex indexChild2 = m_model->index(2, 0, indexTop1);
-    m_model->setData(indexChild2, "Childname", Qt::DisplayRole);
-    QVERIFY2(m_model->data(indexChild2, Qt::DisplayRole) == "Childname", "Failed setting data for a child");
-
     ModelTest * modelTest = new ModelTest(m_model, this);
     delete modelTest;
 }

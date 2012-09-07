@@ -9,4 +9,4 @@ HEADERS += \
     $$PWD/melodynote.h
 
 RESOURCES += \
-    $$PWD/model_symbols_resources.qrc
+    ../model/symbols/model_symbols_resources.qrc

@@ -8,7 +8,7 @@
 
 /*!
   * @class InstrumentInterface
-  * This is the Plugin interface for Instrument plugins.
+  * This is the plugin interface for Instruments.
   */
 
 #ifndef INSTRUMENT_INTERFACE_H

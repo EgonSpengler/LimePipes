@@ -48,10 +48,8 @@ public:
         { return m_type; }
     Type childType() const
         { return m_childType; }
-    QVariant data(int role = Qt::UserRole) const
-        { return m_data.value(role); }
-    void setData(const QVariant &value, int role)
-        { m_data.insert(role, value); }
+    virtual QVariant data(int role = Qt::UserRole) const = 0;
+    virtual void setData(const QVariant &value, int role) = 0;
     virtual bool okToInsertChild( const MusicItem *item )
         { Q_UNUSED(item) return true; }
 

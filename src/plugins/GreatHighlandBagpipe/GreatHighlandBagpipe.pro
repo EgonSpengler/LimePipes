@@ -1,5 +1,6 @@
 include(../../../LimePipes.pri)
 include( $$LIMEPIPES_SOURCE_TREE/src/interfaces/interfaces.pri )
+include( $$LIMEPIPES_SOURCE_TREE/src/model/symbols/symbols.pri )
 include(GreatHighlandBagpipe.pri)
 
 TEMPLATE      = lib

@@ -13,10 +13,10 @@
 class BarTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     BarTest();
-    
+
 private Q_SLOTS:
     void testBarSymbolType();
 };
@@ -30,6 +30,7 @@ void BarTest::testBarSymbolType()
     Bar bar;
     QVERIFY2(bar.symbolType() == LP::Bar, "Failed getting Symbol type from bar");
 }
+
 
 QTEST_APPLESS_MAIN(BarTest)
 

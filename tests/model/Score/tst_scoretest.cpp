@@ -26,6 +26,7 @@ private Q_SLOTS:
     void testChildType();
     void testSetData();
     void testConstructor();
+    void testSetGetTitle();
 
 private:
     Score *m_score;
@@ -56,6 +57,9 @@ void ScoreTest::testSetData()
     m_score->setData("test title", LP::scoreTitle);
     QVERIFY2(m_score->data(LP::scoreTitle) == "test title", "Failed set title");
 
+    m_score->setData("new test title", Qt::DisplayRole);
+    QVERIFY2(m_score->data(Qt::DisplayRole) == "new test title", "Failed set title with display role");
+
     m_score->setData("test composer", LP::scoreComposer);
     QVERIFY2(m_score->data(LP::scoreComposer) == "test composer", "Failed set composer");
 
@@ -79,6 +83,14 @@ void ScoreTest::testConstructor()
     QVERIFY2(m_score->data(LP::scoreTitle) == "The Title", "Failed setting the score title in the constructor");
     QVERIFY2(m_score->type() == MusicItem::ScoreType, "Score returns the wrong type");
     QVERIFY2(m_score->childType() == MusicItem::TuneType, "The child itemtype of score is not TuneType");
+}
+
+void ScoreTest::testSetGetTitle()
+{
+    m_score->setTitle(QString("New Title"));
+    QVERIFY2(m_score->data(LP::scoreTitle) == "New Title", "Failed setting title");
+    QVERIFY2(m_score->data(Qt::DisplayRole) == "New Title", "Failed setting display role through title");
+    QVERIFY2(m_score->title() == "New Title", "Failed getting title");
 }
 
 QTEST_APPLESS_MAIN(ScoreTest)

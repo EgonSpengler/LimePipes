@@ -18,4 +18,4 @@ HEADERS += \
     $$PWD/score.h \
     $$PWD/musicitemfactory.h \
     $$PWD/rootitem.h \
-    ../interfaces/interfaceglobals.h
+    $$PWD/../interfaces/interfaceglobals.h

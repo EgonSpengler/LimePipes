@@ -10,21 +10,33 @@
 #define GREATHIGHLANDBAGPIPE_H
 
 #include <instrumentinterface.h>
+#include <symbolinterface.h>
 #include <QObject>
 #include <QString>
-#include <greathighlandbagpipeinstrument.h>
+#include <QStringList>
+#include <ghb_instrument.h>
 
 class GreatHighlandBagpipe : public QObject,
-                             public InstrumentInterface
+                             public InstrumentInterface,
+                             public SymbolInterface
 {
     Q_OBJECT
-    Q_INTERFACES(InstrumentInterface)
+    Q_INTERFACES(InstrumentInterface SymbolInterface)
 
 public:
+    // Instrument interface
     QString name() const
         { return QString("Great Highland Bagpipe"); }
     Instrument *instrument() const
-        { return new GreatHighlandBagpipeInstrument(); }
+        { return new GHB_Instrument(); }
+
+    // Symbols interface
+    QStringList symbols()
+        { return QStringList() << tr("Melody Note")
+                               << tr("Bar")
+                               << tr("Doubling");
+        }
+    Symbol *getSymbol(const QString &symbol);
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H

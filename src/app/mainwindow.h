@@ -26,6 +26,7 @@ public:
     ~MainWindow();
     void loadStaticPlugins();
     void printInstrumentNames(QObject *plugin);
+    void printSymbolNames(QObject *plugin);
     
 private:
     Ui::MainWindow *ui;

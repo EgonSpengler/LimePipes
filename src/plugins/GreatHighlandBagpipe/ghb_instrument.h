@@ -11,10 +11,10 @@
 
 #include <instrument.h>
 
-class GreatHighlandBagpipeInstrument : public Instrument
+class GHB_Instrument : public Instrument
 {
 public:
-    GreatHighlandBagpipeInstrument()
+    GHB_Instrument()
         : Instrument(LP::GreatHighlandBagpipe, QString("Great Highland Bagpipe")) {}
     bool supportsSymbolType(int type) const;
 };

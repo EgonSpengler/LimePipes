@@ -1,22 +1,24 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2012-09-07T11:41:52
+# Project created by QtCreator 2012-08-29T07:39:00
 #
 #-------------------------------------------------
 include( ../../../tests.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/model.pri )
-include( $$LIMEPIPES_SOURCE_TREE/src/model/symbols/symbols.pri )
+include( $$LIMEPIPES_SOURCE_TREE/src/interfaces/interfaces.pri )
+include( $$LIMEPIPES_SOURCE_TREE/src/plugins/GreatHighlandBagpipe/GreatHighlandBagpipe.pri )
 
 QT       += testlib
 
 QT       -= gui
 
-TARGET = bin/tst_bartest
+TARGET = bin/tst_ghb_plugintest
 CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
 
+SOURCES += tst_ghb_plugintest.cpp
 
-SOURCES += tst_bartest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
+

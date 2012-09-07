@@ -37,6 +37,7 @@ enum DataRole {
 
     // Datatypes for Symbol
     symbolType,
+    symbolName,
     symbolLength
 };
 

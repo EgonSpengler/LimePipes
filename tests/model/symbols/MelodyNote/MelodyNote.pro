@@ -1,12 +1,11 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2012-08-16T13:45:58
+# Project created by QtCreator 2012-09-07T11:39:00
 #
 #-------------------------------------------------
 include( ../../../tests.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/model.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/symbols/symbols.pri )
-include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
 
 QT       += testlib
 

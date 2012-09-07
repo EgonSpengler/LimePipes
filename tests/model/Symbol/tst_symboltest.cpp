@@ -44,8 +44,12 @@ void SymbolTest::cleanup()
 void SymbolTest::testConstructor()
 {
     QVERIFY2(m_symbol->data(LP::symbolType).toInt() == LP::NoSymbolType, "Wrong Symbol id in default constructor");
-    Symbol symbol(333);
+    QVERIFY2(m_symbol->data(LP::symbolName).isValid(), "Symbol has no name in default constructor");
+
+    Symbol symbol(333, "Testsymbol");
     QVERIFY2(symbol.data(LP::symbolType).toInt() == 333, "Failed setting symbol Id in constructor");
+    QVERIFY2(symbol.data(LP::symbolName) == "Testsymbol", "Failed setting symbol name in constructor");
+    QVERIFY2(symbol.data(Qt::DisplayRole) == "Testsymbol", "DisplayRole should equal name");
 }
 
 void SymbolTest::testType()

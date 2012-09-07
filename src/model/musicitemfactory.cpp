@@ -19,7 +19,7 @@ MusicItem *MusicItemFactory::getMusicItem(MusicItem::Type type)
     {
     case MusicItem::NoItemType:
         qWarning( "NoItem type should not be used with MusicItemFactory::getMusicItem()" );
-        return new MusicItem();
+        return new EmptyMusicItem();
     case MusicItem::RootItemType:
         return new RootItem();
     case MusicItem::ScoreType:
@@ -30,6 +30,6 @@ MusicItem *MusicItemFactory::getMusicItem(MusicItem::Type type)
         return new Symbol();
     default:
         qWarning( "ItemBehavior %d is not supported by ItemBehaviorFactory", type);
-        return new MusicItem();
+        return new EmptyMusicItem();
     }
 }

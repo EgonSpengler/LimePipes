@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    Bar \
-    MelodyNote
+    MelodyNote \
+    Bar

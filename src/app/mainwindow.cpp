@@ -11,6 +11,7 @@
 
 #include <QPluginLoader>
 #include <instrumentinterface.h>
+#include <symbolinterface.h>
 #include <QDebug>
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
@@ -33,6 +34,7 @@ void MainWindow::loadStaticPlugins()
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances()) {
         printInstrumentNames(plugin);
+        printSymbolNames(plugin);
     }
 }
 
@@ -41,5 +43,13 @@ void MainWindow::printInstrumentNames(QObject *plugin)
     InstrumentInterface *iInstrument = qobject_cast<InstrumentInterface *> (plugin);
     if (iInstrument) {
         qDebug() << "Instrument " << iInstrument->name() << " loaded.";
+    }
+}
+
+void MainWindow::printSymbolNames(QObject *plugin)
+{
+    SymbolInterface *iSymbol = qobject_cast<SymbolInterface *> (plugin);
+    if (iSymbol) {
+        qDebug() << "Symbols loaded: " << iSymbol->symbols();
     }
 }

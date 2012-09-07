@@ -19,7 +19,17 @@ public:
         : MusicItem(MusicItem::ScoreType, MusicItem::TuneType) {}
     Score(const QString &title)
         : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
-        { setData(title, LP::scoreTitle); }
+        { setTitle(title); }
+    QVariant data(int role) const;
+    void setData(const QVariant &value, int role);
+
+    void setTitle(const QString &title);
+    QString title() const
+        { return data(LP::scoreTitle).toString(); }
+
+private:
+    int mergeDoubleRoles(int role) const;
+    bool isRoleAccepted(int role) const;
 };
 
 #endif // SCORE_H

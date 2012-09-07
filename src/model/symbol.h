@@ -9,21 +9,25 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
+#include <QCoreApplication>
 #include <musicitem.h>
 #include <itemdatatypes.h>
 #include "../interfaces/interfaceglobals.h"
 
 class Symbol : public MusicItem
 {
+    Q_DECLARE_TR_FUNCTIONS(MusicItem)
 public:
-    explicit Symbol()
-        : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
-        { setData(LP::NoSymbolType, LP::symbolType);}
-    Symbol(int type)
-        : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
-        { setData(type, LP::symbolType); }
+    explicit Symbol();
+    Symbol(int type, const QString &name);
     int symbolType() const
         { return data(LP::symbolType).toInt(); }
+    QVariant data(int role) const;
+    void setData(const QVariant &value, int role);
+
+private:
+    int mergeDoubleRoles(int role) const;
+    bool isRoleAccepted(int role) const;
 };
 
 #endif // SYMBOL_H

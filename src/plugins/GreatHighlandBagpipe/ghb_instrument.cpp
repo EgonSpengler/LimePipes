@@ -6,9 +6,9 @@
  *
  */
 
-#include "greathighlandbagpipeinstrument.h"
+#include "ghb_instrument.h"
 
-bool GreatHighlandBagpipeInstrument::supportsSymbolType(int type) const
+bool GHB_Instrument::supportsSymbolType(int type) const
 {
     switch (type) {
 

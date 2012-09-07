@@ -26,7 +26,9 @@ private Q_SLOTS:
     void testType();
     void testChildType();
     void testSetInstrument();
+    void testSetInstrumentDisplayRole();
     void testOkToInsertChildRedefinition();
+    void testSetData();
 
 private:
     Tune *m_tune;
@@ -47,6 +49,9 @@ void TuneTest::cleanup()
 
 void TuneTest::testConstructor()
 {
+    // Tune with default instrument
+    QVERIFY2(m_tune->instrument()->name() == Instrument().name(), "Failed to set Instrument in default constructor");
+
     delete m_tune;
     m_tune = new Tune(m_instrument);
     QVERIFY2(m_tune->instrument()->name() == m_instrument->name(), "Failed to set Instrument in constructor");
@@ -70,16 +75,21 @@ void TuneTest::testSetInstrument()
     QVERIFY2(m_tune->instrument()->type() == LP::GreatHighlandBagpipe, "Failed set and get instrument");
 }
 
+void TuneTest::testSetInstrumentDisplayRole()
+{
+    m_tune->setInstrument(m_instrument);
+    QVERIFY2(m_tune->data(Qt::DisplayRole) == m_instrument->name() + " tune", "Failed setting display role");
+}
+
 void TuneTest::testOkToInsertChildRedefinition()
 {
     // The test data. The two symbols should be one valid and one invalid type for the instrument
-    Symbol *melodyNoteSymbol = new Symbol(LP::MelodyNote);
-    Symbol *invalidSymbol = new Symbol(LP::NoSymbolType);
+    Symbol *melodyNoteSymbol = new Symbol(LP::MelodyNote, "Melody Note");
+    Symbol *invalidSymbol = new Symbol(LP::NoSymbolType, "Melody Note");
 
-    // Tune with no instrument should always return false
-    QVERIFY2(m_tune->data(LP::tuneInstrument).isValid() == false, "The next tests requires a Tune with no instrument");
-    QVERIFY2(m_tune->okToInsertChild(melodyNoteSymbol) == false, "It's not ok to insert Symbol into a tune without instrument");
-    QVERIFY2(m_tune->okToInsertChild(invalidSymbol) == false, "It's not ok to insert Symbol into a tune without instrument");
+    // Tune with default instrument should always return false
+    QVERIFY2(m_tune->okToInsertChild(melodyNoteSymbol) == false, "It's not ok to insert Symbol into a tune with default instrument");
+    QVERIFY2(m_tune->okToInsertChild(invalidSymbol) == false, "It's not ok to insert Symbol into a tune with default instrument");
 
     // Tune with instrument should return the same as the instrument
     m_tune->setInstrument(m_instrument);
@@ -88,6 +98,11 @@ void TuneTest::testOkToInsertChildRedefinition()
              "Tune doesn't return the same as the instrument for a valid symbol");
     QVERIFY2(m_instrument->supportsSymbolType(LP::NoSymbolType) == m_tune->okToInsertChild(invalidSymbol),
              "Tune doesn't return the same as the instrument for a invalid symbol");
+}
+
+void TuneTest::testSetData()
+{
+    m_tune->data(Qt::DisplayRole);
 }
 
 QTEST_APPLESS_MAIN(TuneTest)
