@@ -8,6 +8,7 @@
 
 #include "newtunedialog.h"
 #include "ui_newtunedialog.h"
+#include <QPushButton>
 
 NewTuneDialog::NewTuneDialog(const QList<QString> &instruments, QWidget *parent) :
     QDialog(parent),
@@ -15,6 +16,8 @@ NewTuneDialog::NewTuneDialog(const QList<QString> &instruments, QWidget *parent)
 {
     ui->setupUi(this);
     ui->instrumentsComboBox->addItems(instruments);
+    setOkButtonEnabled(false);
+    createConnections();
 }
 
 NewTuneDialog::~NewTuneDialog()
@@ -30,4 +33,21 @@ QString NewTuneDialog::scoreTitle() const
 QString NewTuneDialog::instrumentTitle() const
 {
     return ui->instrumentsComboBox->currentText();
+}
+
+void NewTuneDialog::createConnections()
+{
+    connect(ui->titleLineEdit, SIGNAL(textChanged(QString)),
+            this, SLOT(textChanged(QString)));
+}
+
+void NewTuneDialog::textChanged(const QString &text)
+{
+    bool okButtonEnabled = text.trimmed().isEmpty() ? false : true;
+    setOkButtonEnabled(okButtonEnabled);
+}
+
+void NewTuneDialog::setOkButtonEnabled(bool enabled)
+{
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(enabled);
 }

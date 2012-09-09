@@ -26,7 +26,12 @@ public:
     QString instrumentTitle() const;
     
 private:
+    void createConnections();
     Ui::NewTuneDialog *ui;
+
+private slots:
+    void textChanged(const QString &text);
+    void setOkButtonEnabled(bool enabled);
 };
 
 #endif // NEWTUNEDIALOG_H
