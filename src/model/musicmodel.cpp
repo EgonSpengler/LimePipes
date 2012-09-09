@@ -117,6 +117,13 @@ MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const
     return m_rootItem;
 }
 
+void MusicModel::clear()
+{
+    delete m_rootItem;
+    m_rootItem = 0;
+    reset();
+}
+
 void MusicModel::createRootItemIfNotPresent()
 {
     if (!m_rootItem)

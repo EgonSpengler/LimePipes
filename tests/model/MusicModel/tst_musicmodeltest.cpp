@@ -37,6 +37,7 @@ private Q_SLOTS:
     void testInsertSymbol();
     void testQAbstractItemModelImplementation();
     void testItemForIndex();
+    void testClear();
 
 private:
     MusicModel *m_model;
@@ -154,6 +155,14 @@ void MusicModelTest::testItemForIndex()
     QModelIndex scoreIndex = m_model->insertScore(0, "Random Title");
     MusicItem *score = m_model->itemForIndex(scoreIndex);
     QVERIFY2(score->data(LP::scoreTitle) == "Random Title", "Failed to get the correct item for an index");
+}
+
+void MusicModelTest::testClear()
+{
+    m_model->insertScore(0, "Title");
+    QVERIFY2(m_model->index(0, 0, QModelIndex()).isValid() == true, "At least one item should be in the model for next test");
+    m_model->clear();
+    QVERIFY2(m_model->index(0, 0, QModelIndex()).isValid() == false, "Model wasn't cleared");
 }
 
 QTEST_APPLESS_MAIN(MusicModelTest)

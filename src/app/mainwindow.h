@@ -10,8 +10,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
 
-class Model;
+class InstrumentInterface;
+class MusicModel;
+class QTreeView;
 
 namespace Ui {
 class MainWindow;
@@ -24,12 +27,26 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void loadStaticPlugins();
-    void printInstrumentNames(QObject *plugin);
-    void printSymbolNames(QObject *plugin);
-    
+
+private slots:
+    void fileNew();
+    void editAddTune();
+
 private:
+    void createModelAndView();
+    void createActions();
+    void createMenusAndToolBar();
+    void createConnections();
+    void loadInstrument(QObject *plugin);
+    void loadStaticPlugins();
+
+    QAction *fileNewAction;
+    QAction *fileCloseAction;
+    QAction *editAddTuneAction;
     Ui::MainWindow *ui;
+    QTreeView *m_treeView;
+    MusicModel *m_model;
+    QMap<QString, InstrumentInterface*> m_instruments;
 };
 
 #endif // MAINWINDOW_H

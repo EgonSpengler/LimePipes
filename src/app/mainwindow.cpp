@@ -10,8 +10,12 @@
 #include "ui_mainwindow.h"
 
 #include <QPluginLoader>
+#include <QTreeView>
+#include <QMenu>
+#include <QMenuBar>
 #include <instrumentinterface.h>
-#include <symbolinterface.h>
+#include <musicmodel.h>
+
 #include <QDebug>
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
@@ -23,6 +27,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     loadStaticPlugins();
+    createModelAndView();
+    createActions();
+    createMenusAndToolBar();
+    createConnections();
 }
 
 MainWindow::~MainWindow()
@@ -30,26 +38,61 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::createModelAndView()
+{
+    m_treeView = new QTreeView();
+    m_model = new MusicModel();
+    m_treeView->setModel(m_model);
+    setCentralWidget(m_treeView);
+}
+
+void MainWindow::createActions()
+{
+    fileNewAction = new QAction(tr("&New"), this);
+    fileCloseAction = new QAction(tr("&Quit"), this);
+    editAddTuneAction = new QAction(tr("&Add Tune"), this);
+}
+
+void MainWindow::createMenusAndToolBar()
+{
+    QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
+    fileMenu->addAction(fileNewAction);
+    fileMenu->addAction(fileCloseAction);
+
+    QMenu *editMenu = menuBar()->addMenu(tr("&Edit"));
+    editMenu->addAction(editAddTuneAction);
+}
+
+void MainWindow::createConnections()
+{
+    connect(fileNewAction, SIGNAL(triggered()),
+            this, SLOT(fileNew()));
+    connect(fileCloseAction, SIGNAL(triggered()),
+            this, SLOT(close()));
+    connect(editAddTuneAction, SIGNAL(triggered()),
+            this, SLOT(editAddTune()));
+}
+
 void MainWindow::loadStaticPlugins()
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances()) {
-        printInstrumentNames(plugin);
-        printSymbolNames(plugin);
+        loadInstrument(plugin);
     }
 }
 
-void MainWindow::printInstrumentNames(QObject *plugin)
+void MainWindow::loadInstrument(QObject *plugin)
 {
     InstrumentInterface *iInstrument = qobject_cast<InstrumentInterface *> (plugin);
     if (iInstrument) {
-        qDebug() << "Instrument " << iInstrument->name() << " loaded.";
+        m_instruments.insert(iInstrument->name(), iInstrument);
     }
 }
 
-void MainWindow::printSymbolNames(QObject *plugin)
+void MainWindow::fileNew()
 {
-    SymbolInterface *iSymbol = qobject_cast<SymbolInterface *> (plugin);
-    if (iSymbol) {
-        qDebug() << "Symbols loaded: " << iSymbol->symbols();
-    }
+    m_model->clear();
+}
+
+void MainWindow::editAddTune()
+{
 }

@@ -35,6 +35,7 @@ public:
     QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol);
     
     MusicItem *itemForIndex(const QModelIndex& index) const;
+    void clear();
 
 private:
     MusicItem *m_rootItem;
