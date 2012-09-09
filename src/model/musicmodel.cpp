@@ -12,7 +12,7 @@
  */
 
 #include "musicmodel.h"
-#include <musicitemfactory.h>
+#include <rootitem.h>
 #include <score.h>
 #include <tune.h>
 
@@ -120,7 +120,7 @@ MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const
 void MusicModel::createRootItemIfNotPresent()
 {
     if (!m_rootItem)
-        m_rootItem = MusicItemFactory::getMusicItem(MusicItem::RootItemType);
+        m_rootItem = new RootItem();
 }
 
 bool MusicModel::isRowValid(MusicItem *item, int row) const

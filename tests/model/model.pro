@@ -8,5 +8,4 @@ SUBDIRS += \
     Tune \
     Score \
     RootItem \
-    MusicItemFactory \
     symbols
