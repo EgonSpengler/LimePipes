@@ -13,8 +13,11 @@
 #include <QMap>
 
 class InstrumentInterface;
+class SymbolInterface;
+class Instrument;
 class MusicModel;
 class QTreeView;
+class AddSymbolsDialog;
 
 namespace Ui {
 class MainWindow;
@@ -31,6 +34,8 @@ public:
 private slots:
     void fileNew();
     void editAddTune();
+    void editAddSymbols();
+    void insertSymbol(const QString &symbolName);
 
 private:
     void createModelAndView();
@@ -39,14 +44,19 @@ private:
     void createConnections();
     void loadInstrument(QObject *plugin);
     void loadStaticPlugins();
+    Instrument *instrumentForName(const QString &name);
+    Instrument *instrumentFromCurrentIndex();
 
     QAction *fileNewAction;
     QAction *fileCloseAction;
     QAction *editAddTuneAction;
+    QAction *editAddSymbolsAction;
     Ui::MainWindow *ui;
     QTreeView *m_treeView;
     MusicModel *m_model;
     QMap<QString, InstrumentInterface*> m_instruments;
+    QMap<QString, SymbolInterface*> m_symbols;
+    AddSymbolsDialog *m_addSymbolsDialog;
 };
 
 #endif // MAINWINDOW_H

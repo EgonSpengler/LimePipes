@@ -80,9 +80,23 @@ QModelIndex MusicModel::insertScore(int row, const QString &title)
     return insertItem(row, QModelIndex(), new Score(title));
 }
 
+QModelIndex MusicModel::appendScore(const QString &title)
+{
+    createRootItemIfNotPresent();
+    return insertScore(m_rootItem->childCount(), title);
+}
+
 QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, Instrument *instrument)
 {
     return insertItem(row, score, new Tune(instrument));
+}
+
+QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, Instrument *instrument)
+{
+    if (MusicItem *item = itemForIndex(score)) {
+        return insertTuneIntoScore(item->childCount(), score, instrument);
+    }
+    return QModelIndex();
 }
 
 QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, Instrument *instrument)

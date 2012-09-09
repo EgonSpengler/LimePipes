@@ -32,7 +32,9 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testInsertScore();
+    void testAppendScore();
     void testInsertTuneIntoScore();
+    void testAppendTuneToScore();
     void testInsertTuneWithScore();
     void testInsertSymbol();
     void testQAbstractItemModelImplementation();
@@ -81,6 +83,13 @@ void MusicModelTest::testInsertScore()
     m_model->insertScore(5, "Failed Score2");
 }
 
+void MusicModelTest::testAppendScore()
+{
+    QModelIndex firstScore = m_model->appendScore("First title");
+    QVERIFY2(firstScore.isValid(), "Failed appending score");
+    QVERIFY2(m_model->data(firstScore, LP::scoreTitle) == "First title", "Failed getting title from appended score");
+}
+
 void MusicModelTest::testInsertTuneIntoScore()
 {
     QModelIndex score = m_model->insertScore(0, "First Score");
@@ -97,6 +106,17 @@ void MusicModelTest::testInsertTuneIntoScore()
     Instrument *instrument2 = new Instrument(LP::BassDrum, "Bass drum2");
     m_model->insertTuneIntoScore(-1, score, instrument2);
     m_model->insertTuneIntoScore(5, score, instrument2);
+}
+
+void MusicModelTest::testAppendTuneToScore()
+{
+    QModelIndex score = m_model->insertScore(0, "First Score");
+    QVERIFY2(score.isValid(), "Failed inserting score");
+    QModelIndex tune = m_model->appendTuneToScore(score, new Instrument(LP::BassDrum, "Bass drum"));
+    Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
+
+    QVERIFY2(tune.isValid(), "Failed inserting Tune");
+    QVERIFY2(instrument->name() == "Bass drum", "Failed getting instrument back");
 }
 
 void MusicModelTest::testInsertTuneWithScore()

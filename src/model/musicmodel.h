@@ -30,7 +30,9 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
     QModelIndex insertScore(int row, const QString &title);
+    QModelIndex appendScore(const QString &title);
     QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, Instrument *instrument);
+    QModelIndex appendTuneToScore(const QModelIndex &score, Instrument *instrument);
     QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, Instrument *instrument);
     QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol);
     
