@@ -6,12 +6,15 @@
  *
  */
 
+/*!
+ * @class MusicModel
+ * @brief The implementation of the QAbstractItemModel.
+ */
+
 #include "musicmodel.h"
 #include <musicitemfactory.h>
-
-/*! @class MusicModel
-  * @brief The implementation of the QAbstractItemModel.
-  */
+#include <score.h>
+#include <tune.h>
 
 namespace {
 const int ColumnCount = 1;
@@ -69,24 +72,28 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool MusicModel::insertRows(int row, int count, const QModelIndex &parent)
+QModelIndex MusicModel::insertScore(int row, const QString &title)
 {
-    if (!m_rootItem)
-        m_rootItem = MusicItemFactory::getMusicItem(MusicItem::RootItemType);
-    MusicItem *parentItem = parent.isValid() ? itemForIndex(parent)
-                                            : m_rootItem;
+    createRootItemIfNotPresent();
+    Q_ASSERT(m_rootItem->childType() == MusicItem::ScoreType);
 
-    // Childs itemType is NoType => No insertion
-    if (parentItem->childType() == MusicItem::NoItemType)
-        return false;
+    return insertItem(row, QModelIndex(), new Score(title));
+}
 
-    beginInsertRows(parent, row, row + count - 1);
-    for (int i = 0; i < count; i++) {
-        MusicItem *item = MusicItemFactory::getMusicItem(parentItem->childType());
-        parentItem->insertChild(row, item);
-    }
-    endInsertRows();
-    return true;
+QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, Instrument *instrument)
+{
+    return insertItem(row, score, new Tune(instrument));
+}
+
+QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, Instrument *instrument)
+{
+    QModelIndex score = insertScore(rowOfScore, scoreTitle);
+    return insertTuneIntoScore(0, score, instrument);
+}
+
+QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, Symbol *symbol)
+{
+    return insertItem(row, tune, symbol);
 }
 
 bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -108,4 +115,32 @@ MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const
             return item;
     }
     return m_rootItem;
+}
+
+void MusicModel::createRootItemIfNotPresent()
+{
+    if (!m_rootItem)
+        m_rootItem = MusicItemFactory::getMusicItem(MusicItem::RootItemType);
+}
+
+bool MusicModel::isRowValid(MusicItem *item, int row) const
+{
+    if (row >= 0 &&
+        row <= item->childCount()) {
+        return true;
+    }
+    return false;
+}
+
+QModelIndex MusicModel::insertItem(int row, const QModelIndex &parent, MusicItem *item)
+{
+    if (MusicItem *parentItem = itemForIndex(parent)) {
+        if (isRowValid(parentItem, row)) {
+            beginInsertRows(parent, row, row);
+            parentItem->insertChild(row, item);
+            endInsertRows();
+            return index(row, 0, parent);
+        }
+    }
+    return QModelIndex();
 }

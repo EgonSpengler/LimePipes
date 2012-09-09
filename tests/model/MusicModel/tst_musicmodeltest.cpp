@@ -10,6 +10,9 @@
 #include <QtTest/QtTest>
 #include "qt_modeltest/modeltest.h"
 #include <musicmodel.h>
+#include <itemdatatypes.h>
+#include <instrument.h>
+#include <symbol.h>
 
 class MusicModelTest : public QObject
 {
@@ -19,7 +22,7 @@ public:
     MusicModelTest();
 
 public slots:
-    void rowsInsertedNotifier() {
+    void rowsInsertedAssertFail() {
         // This slot will be connected with the rowsInserted Signal of the model
         // to check that items weren't inserted
         QVERIFY2(false, "Rows were inserted");
@@ -28,10 +31,12 @@ public slots:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testInsertRows();
+    void testInsertScore();
+    void testInsertTuneIntoScore();
+    void testInsertTuneWithScore();
+    void testInsertSymbol();
     void testQAbstractItemModelImplementation();
     void testItemForIndex();
-    void testInsertNoItemType();
 
 private:
     MusicModel *m_model;
@@ -52,29 +57,93 @@ void MusicModelTest::cleanup()
     delete m_model;
 }
 
-void MusicModelTest::testInsertRows()
+void MusicModelTest::testInsertScore()
 {
-    QVERIFY2(m_model->insertRows(0, 1, QModelIndex()), "Failed inserting rows");
-    QVERIFY2(m_model->rowCount(QModelIndex()) == 1, "Row was not inserted");
-    QVERIFY2(m_model->insertRows(0, 3, QModelIndex()), "Failed inserting more rows");
-    QVERIFY2(m_model->rowCount(QModelIndex()) == 4, "Rows weren't inserted");
+    QModelIndex firstScore = m_model->insertScore(0, "First Title");
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 1, "Score was not inserted");
+    QVERIFY2(firstScore.isValid(), "No valid Modelindex was returned while inserting score");
+    QVERIFY2(firstScore.row() == 0, "Score was inserted in wrong row");
+    QVERIFY2(firstScore.column() == 0, "Score was inserted in wrong column");
+    QVERIFY2(m_model->data(firstScore, LP::scoreTitle) == "First Title", "Failed score title");
 
-    QModelIndex index1 = m_model->index(2, 0, QModelIndex());
-    QVERIFY2(m_model->insertRows(0, 4, index1), "Failed inserting childrows");
-    QVERIFY2(m_model->rowCount(index1) == 4, "Rows weren't inserted");
+    m_model->setData(firstScore, "Score 1", LP::scoreTitle);
+    QModelIndex secondScore = m_model->insertScore(m_model->rowCount(QModelIndex()), "Second Title");
+    m_model->setData(secondScore, "Score 2", LP::scoreTitle);
+    QVERIFY2(secondScore.data(LP::scoreTitle) == "Score 2", "Score 2's title isn't there");
+    QVERIFY2(secondScore.row() == m_model->rowCount(QModelIndex()) - 1, "Score 2 was inserted in wrong row");
+    QVERIFY2(secondScore.column() == 0, "Score 2 was inserted in wrong column");
+
+    // Now, the rowsInserted signal should not be called when inserting rows
+    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
+                     this, SLOT(rowsInsertedAssertFail()));
+    m_model->insertScore(-1, "Failed Score1");
+    m_model->insertScore(5, "Failed Score2");
 }
+
+void MusicModelTest::testInsertTuneIntoScore()
+{
+    QModelIndex score = m_model->insertScore(0, "First Score");
+    QVERIFY2(score.isValid(), "Failed inserting score");
+    QModelIndex tune = m_model->insertTuneIntoScore(0, score, new Instrument(LP::BassDrum, "Bass drum"));
+    Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
+
+    QVERIFY2(tune.isValid(), "Failed inserting Tune");
+    QVERIFY2(instrument->name() == "Bass drum", "Failed getting instrument back");
+
+    // Now, the rowsInserted signal should not be called when inserting rows
+    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
+                     this, SLOT(rowsInsertedAssertFail()));
+    Instrument *instrument2 = new Instrument(LP::BassDrum, "Bass drum2");
+    m_model->insertTuneIntoScore(-1, score, instrument2);
+    m_model->insertTuneIntoScore(5, score, instrument2);
+}
+
+void MusicModelTest::testInsertTuneWithScore()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new Instrument(LP::BassDrum, "Bass drum"));
+    Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
+
+    QVERIFY2(tune.isValid(), "Failed inserting Tune");
+    QVERIFY2(instrument->name() == "Bass drum", "Failed getting score title from index");
+    // New tune and new score => tune in row and column 0
+    QVERIFY2(tune.column() == 0, "Tune is in wrong column");
+    QVERIFY2(tune.row() == 0, "Tune is in wrong row");
+}
+
+void MusicModelTest::testInsertSymbol()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new Instrument(LP::BassDrum, "Bass drum"));
+    QModelIndex symbol1 = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
+    QVERIFY2(symbol1.isValid(), "Failed inserting symbol");
+    QVERIFY2(m_model->data(symbol1, LP::symbolName) == "testsymbol", "Failed getting symbol's name");
+
+    // Now, the rowsInserted signal should not be called when inserting rows
+    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
+                     this, SLOT(rowsInsertedAssertFail()));
+    Symbol *symbol2 = new Symbol(LP::Bar, "testsymbol2");
+    m_model->insertSymbol(5, tune, symbol2);
+    m_model->insertSymbol(-1, tune, symbol2);
+    delete symbol2;
+}
+
 
 void MusicModelTest::testQAbstractItemModelImplementation()
 {
-    m_model->insertRows(0, 3, QModelIndex()); // 3 top level items
-    QModelIndex indexTop1 = m_model->index(1, 0, QModelIndex());
-    m_model->setData(indexTop1, "indexTop1", Qt::DisplayRole);
+    Instrument *instrument = new Instrument(LP::GreatHighlandBagpipe, "Bagpipe");
+    for (int i=0; i < 3; i++) {
+        m_model->insertScore(0, "Score Title");
+    }
 
-    m_model->insertRows(0, 4, indexTop1);  // 4 child items under the second top level item
-    m_model->setData( m_model->index(0, 0, indexTop1), "child1", Qt::DisplayRole );
-    m_model->setData( m_model->index(1, 0, indexTop1), "child2", Qt::DisplayRole );
-    m_model->setData( m_model->index(2, 0, indexTop1), "child3", Qt::DisplayRole );
-    m_model->setData( m_model->index(3, 0, indexTop1), "child4", Qt::DisplayRole );
+    QModelIndex secondScore = m_model->index(1, 0, QModelIndex());
+    QVERIFY2(secondScore.isValid(), "Failed getting valid score");
+
+    QModelIndex tune1 = m_model->insertTuneIntoScore(0, secondScore, instrument);
+    m_model->insertTuneIntoScore(0, secondScore, instrument);
+
+    m_model->insertSymbol(0, tune1, new Symbol(LP::Bar, "Bar"));
+    m_model->insertSymbol(1, tune1, new Symbol(LP::Bar, "Bar"));
+    m_model->insertSymbol(2, tune1, new Symbol(LP::Bar, "Bar"));
+    m_model->insertSymbol(1, tune1, new Symbol(LP::MelodyNote, "Melody note"));
 
     ModelTest * modelTest = new ModelTest(m_model, this);
     delete modelTest;
@@ -82,35 +151,9 @@ void MusicModelTest::testQAbstractItemModelImplementation()
 
 void MusicModelTest::testItemForIndex()
 {
-    m_model->insertRows(0, 1, QModelIndex());
-    QModelIndex mIndex = m_model->index(0, 0, QModelIndex());
-    m_model->setData(mIndex, QString("hello there"), Qt::DisplayRole);
-    QVERIFY2(m_model->itemForIndex(mIndex)->data(Qt::DisplayRole) == "hello there", "Failed to get the correct item for an index");
-}
-
-void MusicModelTest::testInsertNoItemType()
-{
-    // If in the hirarchy is a item with NoItemType as childType,
-    // any attempt to insert child items should be canceled before the call of
-    // beginInsertRows/endInsertRows, because this shouldn't be called, if the insertion will fail
-
-    // Get the index with an item with NoItem as its child type
-    QModelIndex index = QModelIndex();
-    while (1) {
-        m_model->insertRow(0, index);
-        index = m_model->index(0, 0, index);
-
-        MusicItem *item = static_cast<MusicItem*>(
-                            index.internalPointer());
-        if (item->childType() == MusicItem::NoItemType) {
-            break;
-        }
-    }
-
-    // Now, the rowsInserted signal should not be called when inserting rows
-    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
-                     this, SLOT(rowsInsertedNotifier()));
-    m_model->insertRow(0, index);
+    QModelIndex scoreIndex = m_model->insertScore(0, "Random Title");
+    MusicItem *score = m_model->itemForIndex(scoreIndex);
+    QVERIFY2(score->data(LP::scoreTitle) == "Random Title", "Failed to get the correct item for an index");
 }
 
 QTEST_APPLESS_MAIN(MusicModelTest)

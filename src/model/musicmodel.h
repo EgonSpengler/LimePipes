@@ -11,6 +11,8 @@
 
 #include <QAbstractItemModel>
 #include <musicitem.h>
+#include <symbol.h>
+#include "datatypes/instrument.h"
 
 class MusicModel : public QAbstractItemModel
 {
@@ -25,14 +27,20 @@ public:
     int rowCount(const QModelIndex &parent) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
-
-    bool insertRows(int row, int count, const QModelIndex &parent);
     bool setData(const QModelIndex &index, const QVariant &value, int role);
+
+    QModelIndex insertScore(int row, const QString &title);
+    QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, Instrument *instrument);
+    QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, Instrument *instrument);
+    QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol);
     
     MusicItem *itemForIndex(const QModelIndex& index) const;
 
 private:
     MusicItem *m_rootItem;
+    void createRootItemIfNotPresent();
+    bool isRowValid(MusicItem *item, int row) const;
+    QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
 };
 
 #endif // MUSICMODEL_H
