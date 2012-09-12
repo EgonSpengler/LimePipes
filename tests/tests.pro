@@ -2,7 +2,8 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     model \
-    plugins
+    plugins \
+    app
 
 
 

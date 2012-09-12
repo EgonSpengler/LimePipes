@@ -5,18 +5,19 @@ include( ../model/symbols/symbols.pri )
 
 TEMPLATE = app
 
-SOURCES += main.cpp \
+SOURCES += \
+    main.cpp \
     mainwindow.cpp \
     newtunedialog.cpp \
     addsymbolsdialog.cpp
-
-RESOURCES += \
-    app_resources.qrc
 
 HEADERS += \
     mainwindow.h \
     newtunedialog.h \
     addsymbolsdialog.h
+
+RESOURCES += \
+    app_resources.qrc
 
 FORMS += \
     mainwindow.ui \
