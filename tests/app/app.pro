@@ -1,4 +1,5 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    AddSymbolsDialog
+    AddSymbolsDialog \
+    NewTuneDialog

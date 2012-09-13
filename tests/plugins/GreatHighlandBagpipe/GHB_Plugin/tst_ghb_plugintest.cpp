@@ -18,7 +18,8 @@ class GHB_PluginTest : public QObject
     Q_OBJECT
     
 public:
-    GHB_PluginTest();
+    GHB_PluginTest()
+        : m_bagpipe(0) {}
     
 private Q_SLOTS:
     void init();
@@ -32,10 +33,6 @@ private Q_SLOTS:
 private:
     GreatHighlandBagpipe *m_bagpipe;
 };
-
-GHB_PluginTest::GHB_PluginTest()
-{
-}
 
 void GHB_PluginTest::init()
 {

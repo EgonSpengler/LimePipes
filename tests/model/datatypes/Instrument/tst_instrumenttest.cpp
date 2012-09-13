@@ -15,7 +15,8 @@ class InstrumentTest : public QObject
     Q_OBJECT
     
 public:
-    InstrumentTest();
+    InstrumentTest()
+        : m_instrument(0) {}
     
 private Q_SLOTS:
     void init();
@@ -28,10 +29,6 @@ private Q_SLOTS:
 private:
     Instrument *m_instrument;
 };
-
-InstrumentTest::InstrumentTest()
-{
-}
 
 void InstrumentTest::init()
 {

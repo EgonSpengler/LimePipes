@@ -16,7 +16,8 @@ class GHB_DoublingTest : public QObject
     Q_OBJECT
     
 public:
-    GHB_DoublingTest();
+    GHB_DoublingTest()
+        : m_doubling(0) {}
     
 private Q_SLOTS:
     void init();
@@ -26,10 +27,6 @@ private Q_SLOTS:
 private:
     GHB_Doubling *m_doubling;
 };
-
-GHB_DoublingTest::GHB_DoublingTest()
-{
-}
 
 void GHB_DoublingTest::init()
 {

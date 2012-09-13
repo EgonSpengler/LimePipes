@@ -16,7 +16,8 @@ class GHB_MelodyNoteTest : public QObject
     Q_OBJECT
     
 public:
-    GHB_MelodyNoteTest();
+    GHB_MelodyNoteTest()
+        : m_melody(0) {}
     
 private Q_SLOTS:
     void init();
@@ -26,10 +27,6 @@ private Q_SLOTS:
 private:
     GHB_MelodyNote *m_melody;
 };
-
-GHB_MelodyNoteTest::GHB_MelodyNoteTest()
-{
-}
 
 void GHB_MelodyNoteTest::init()
 {

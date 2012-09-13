@@ -16,7 +16,8 @@ class RootItemTest : public QObject
     Q_OBJECT
     
 public:
-    RootItemTest();
+    RootItemTest()
+        : m_rootItem(0) {}
     
 private Q_SLOTS:
     void init();
@@ -27,10 +28,6 @@ private Q_SLOTS:
 private:
     RootItem *m_rootItem;
 };
-
-RootItemTest::RootItemTest()
-{
-}
 
 void RootItemTest::init()
 {

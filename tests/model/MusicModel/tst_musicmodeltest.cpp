@@ -19,7 +19,8 @@ class MusicModelTest : public QObject
     Q_OBJECT
     
 public:
-    MusicModelTest();
+    MusicModelTest()
+        : m_model(0) {}
 
 public slots:
     void rowsInsertedAssertFail() {
@@ -44,11 +45,6 @@ private Q_SLOTS:
 private:
     MusicModel *m_model;
 };
-
-MusicModelTest::MusicModelTest()
-    : m_model(0)
-{
-}
 
 void MusicModelTest::init()
 {

@@ -17,7 +17,8 @@ class TuneTest : public QObject
     Q_OBJECT
     
 public:
-    TuneTest() : m_tune(0) {}
+    TuneTest()
+        : m_tune(0) {}
     
 private Q_SLOTS:
     void init();

@@ -15,7 +15,8 @@ class MelodyNoteTest : public QObject
     Q_OBJECT
 
 public:
-    MelodyNoteTest();
+    MelodyNoteTest()
+        : m_melody(0) {}
 
 private Q_SLOTS:
     void init();
@@ -26,10 +27,6 @@ private Q_SLOTS:
 private:
     MelodyNote *m_melody;
 };
-
-MelodyNoteTest::MelodyNoteTest()
-{
-}
 
 void MelodyNoteTest::init()
 {
