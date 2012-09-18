@@ -19,8 +19,10 @@ TEMPLATE = app
 
 
 SOURCES += tst_musicmodeltest.cpp \
-    qt_modeltest/modeltest.cpp
+    qt_modeltest/modeltest.cpp \
+    testinstrument.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    qt_modeltest/modeltest.h
+    qt_modeltest/modeltest.h \
+    testinstrument.h

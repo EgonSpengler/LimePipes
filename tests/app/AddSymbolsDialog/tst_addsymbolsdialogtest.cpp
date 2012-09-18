@@ -69,7 +69,7 @@ void AddSymbolsDialogTest::testInsertSymbol()
     m_symbolsListWidget->setCurrentItem(item);
 
     QTest::mouseClick(m_insertButton, Qt::LeftButton);
-    QVERIFY2(spy.count() == 1, "Signal for inserting symbol wasn't emitted once");
+    QVERIFY2(spy.count() == 1, "Signal for inserting symbol wasn't emitted");
     QList<QVariant> arguments = spy.takeFirst();
     QVERIFY2(arguments.at(0).toString() == "Symbol 2", "Failed getting correct symbol name from insert signal");
 

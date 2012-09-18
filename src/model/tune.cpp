@@ -25,16 +25,14 @@ bool Tune::okToInsertChild(const MusicItem *item)
     const Symbol *symbol = symbolFromMusicItem(item);
     if (symbol) {
         int type = symbol->symbolType();
-        if (this->hasInstrument()) {
-                return instrument()->supportsSymbolType(type);
-        }
+        return instrument()->supportsSymbolType(type);
     }
     return false;
 }
 
 QVariant Tune::readData(int role) const
 {
-    if (role == Qt::DisplayRole && this->hasInstrument()) {
+    if (role == Qt::DisplayRole) {
         return this->instrument()->name() + " tune";
     }
     return MusicItem::readData(role);

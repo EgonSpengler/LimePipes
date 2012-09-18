@@ -8,26 +8,24 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <QSignalSpy>
+#include <QMetaType>
 #include "qt_modeltest/modeltest.h"
 #include <musicmodel.h>
 #include <itemdatatypes.h>
 #include <instrument.h>
 #include <symbol.h>
 
+#include <testinstrument.h>
+
 class MusicModelTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     MusicModelTest()
-        : m_model(0) {}
-
-public slots:
-    void rowsInsertedAssertFail() {
-        // This slot will be connected with the rowsInserted Signal of the model
-        // to check that items weren't inserted
-        QVERIFY2(false, "Rows were inserted");
-    }
+        : m_model(0)
+    { qRegisterMetaType<QModelIndex>("QModelIndex"); }
     
 private Q_SLOTS:
     void init();
@@ -38,6 +36,7 @@ private Q_SLOTS:
     void testAppendTuneToScore();
     void testInsertTuneWithScore();
     void testInsertSymbol();
+    void testCallOfOkToInsertChild();
     void testQAbstractItemModelImplementation();
     void testItemForIndex();
     void testClear();
@@ -73,10 +72,12 @@ void MusicModelTest::testInsertScore()
     QVERIFY2(secondScore.column() == 0, "Score 2 was inserted in wrong column");
 
     // Now, the rowsInserted signal should not be called when inserting rows
-    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
-                     this, SLOT(rowsInsertedAssertFail()));
+    QSignalSpy spy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
+
     m_model->insertScore(-1, "Failed Score1");
     m_model->insertScore(5, "Failed Score2");
+
+    QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
 }
 
 void MusicModelTest::testAppendScore()
@@ -90,25 +91,27 @@ void MusicModelTest::testInsertTuneIntoScore()
 {
     QModelIndex score = m_model->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
-    QModelIndex tune = m_model->insertTuneIntoScore(0, score, new Instrument(LP::BassDrum, "Bass drum"));
+    QModelIndex tune = m_model->insertTuneIntoScore(0, score, new TestInstrument());
     Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
     QVERIFY2(instrument->name() == "Bass drum", "Failed getting instrument back");
 
     // Now, the rowsInserted signal should not be called when inserting rows
-    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
-                     this, SLOT(rowsInsertedAssertFail()));
-    Instrument *instrument2 = new Instrument(LP::BassDrum, "Bass drum2");
+    QSignalSpy spy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
+
+    Instrument *instrument2 = new TestInstrument();
     m_model->insertTuneIntoScore(-1, score, instrument2);
     m_model->insertTuneIntoScore(5, score, instrument2);
+
+    QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
 }
 
 void MusicModelTest::testAppendTuneToScore()
 {
     QModelIndex score = m_model->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
-    QModelIndex tune = m_model->appendTuneToScore(score, new Instrument(LP::BassDrum, "Bass drum"));
+    QModelIndex tune = m_model->appendTuneToScore(score, new TestInstrument());
     Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
@@ -117,7 +120,7 @@ void MusicModelTest::testAppendTuneToScore()
 
 void MusicModelTest::testInsertTuneWithScore()
 {
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new Instrument(LP::BassDrum, "Bass drum"));
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new TestInstrument());
     Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
@@ -129,20 +132,32 @@ void MusicModelTest::testInsertTuneWithScore()
 
 void MusicModelTest::testInsertSymbol()
 {
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new Instrument(LP::BassDrum, "Bass drum"));
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new TestInstrument());
     QModelIndex symbol1 = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
     QVERIFY2(symbol1.isValid(), "Failed inserting symbol");
     QVERIFY2(m_model->data(symbol1, LP::symbolName) == "testsymbol", "Failed getting symbol's name");
 
     // Now, the rowsInserted signal should not be called when inserting rows
-    QObject::connect(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)),
-                     this, SLOT(rowsInsertedAssertFail()));
+    QSignalSpy spy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
+
     Symbol *symbol2 = new Symbol(LP::Bar, "testsymbol2");
     m_model->insertSymbol(5, tune, symbol2);
     m_model->insertSymbol(-1, tune, symbol2);
     delete symbol2;
+
+    QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
 }
 
+void MusicModelTest::testCallOfOkToInsertChild()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new TestInstrument());
+
+    QModelIndex validSymbol = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "valid symbol"));
+    QVERIFY2(validSymbol.isValid(), "Failed inserting valid symbol");
+
+    QModelIndex invalidSymbol = m_model->insertSymbol(0, tune, new Symbol(TestInstrument::notOkToInsertSymbolType, "invalid symbol"));
+    QVERIFY2(invalidSymbol.isValid() == false, "Failed. It was possible to insert a invalid symbol");
+}
 
 void MusicModelTest::testQAbstractItemModelImplementation()
 {

@@ -156,7 +156,7 @@ bool MusicModel::isRowValid(MusicItem *item, int row) const
 QModelIndex MusicModel::insertItem(int row, const QModelIndex &parent, MusicItem *item)
 {
     if (MusicItem *parentItem = itemForIndex(parent)) {
-        if (isRowValid(parentItem, row)) {
+        if (isRowValid(parentItem, row) && parentItem->okToInsertChild(item)) {
             beginInsertRows(parent, row, row);
             parentItem->insertChild(row, item);
             endInsertRows();
