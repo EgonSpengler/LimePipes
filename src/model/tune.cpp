@@ -13,39 +13,38 @@
 
 #include "tune.h"
 
+const QScopedPointer<DataPolicyCollection> Tune::m_policies(initPolicies());
+
 void Tune::setInstrument(Instrument *instrument)
 {
-    setData(QVariant::fromValue<Instrument*>(instrument), LP::tuneInstrument);
+    m_data.insert(LP::tuneInstrument, QVariant::fromValue<Instrument*>(instrument));
 }
 
 bool Tune::okToInsertChild(const MusicItem *item)
 {
     const Symbol *symbol = symbolFromMusicItem(item);
-    if (this->hasInstrument()) {
-        if (symbol) {
-            return instrument()->supportsSymbolType(symbol->symbolType());
+    if (symbol) {
+        int type = symbol->symbolType();
+        if (this->hasInstrument()) {
+                return instrument()->supportsSymbolType(type);
         }
     }
     return false;
 }
 
-QVariant Tune::data(int role) const
+QVariant Tune::readData(int role) const
 {
-    switch (role) {
-    case Qt::DisplayRole:
-        return instrument()->name() + " tune";
-    case LP::tuneInstrument:
-        return m_data.value(role);
-    default:
-        return QVariant();
+    if (role == Qt::DisplayRole && this->hasInstrument()) {
+        return this->instrument()->name() + " tune";
     }
+    return MusicItem::readData(role);
 }
 
-void Tune::setData(const QVariant &value, int role)
+DataPolicyCollection *Tune::initPolicies()
 {
-    switch (role) {
-    case LP::tuneInstrument:
-        m_data.insert(role, value);
-    }
+    DataPolicyCollection *collection = new DataPolicyCollection();
+    collection->setPolicy(Qt::DisplayRole, DataPolicy(DataPolicy::Read));
+    collection->setPolicy(LP::tuneInstrument, DataPolicy(DataPolicy::Read));
+    return collection;
 }
 

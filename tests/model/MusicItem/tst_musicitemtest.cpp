@@ -14,6 +14,10 @@
 #include <tune.h>
 #include <symbol.h>
 
+#include <testmusicitem.h>
+
+#include <QDebug>
+
 class MusicItemTest : public QObject
 {
     Q_OBJECT
@@ -25,6 +29,9 @@ private slots:
     void init();
     void cleanup();
     void testCreateMusicItem();
+    void testInitData();
+    void testDataPolicyForRole();
+    void testReadData();
     void testChildAt();
     void testRowOfChild();
     void testChildCount();
@@ -44,25 +51,11 @@ private:
     MusicItem *m_child2;
     MusicItem *m_child3;
 
-    class EmptyMusicItem : public MusicItem
-    {
-        QVariant data(int role) const
-        {
-            Q_UNUSED(role);
-            return QVariant();
-        }
-        void setData(const QVariant &value, int role)
-        {
-            Q_UNUSED(value);
-            Q_UNUSED(role);
-        }
-    };
-
     MusicItem *musicItemFactory(int type) {
         switch(type)
         {
         case MusicItem::NoItemType:
-            return new EmptyMusicItem();
+            return new TestMusicItem();
         case MusicItem::RootItemType:
             return new RootItem();
         case MusicItem::ScoreType:
@@ -72,8 +65,7 @@ private:
         case MusicItem::SymbolType:
             return new Symbol();
         default:
-            qWarning( "ItemBehavior %d is not supported by ItemBehaviorFactory", type);
-            return new EmptyMusicItem();
+            return new TestMusicItem();
         }
     }
 };
@@ -97,6 +89,33 @@ void MusicItemTest::cleanup()
 void MusicItemTest::testCreateMusicItem()
 {
     QVERIFY2(m_parent == m_child1->parent(), "Parent item not set in constructor, or parent-getter fail");
+}
+
+void MusicItemTest::testInitData()
+{
+    MusicItem *item = new TestMusicItem();
+    QVERIFY2(item->dataPolicyForRole(TestMusicItem::initDataRole).isWritable() == false, "Data Role must be read only for this test");
+    QVERIFY2(item->data(TestMusicItem::initDataRole) == TestMusicItem::dataForInitDataRole, "Failed init data in MusicItem subclass");
+    delete item;
+}
+
+void MusicItemTest::testDataPolicyForRole()
+{
+    MusicItem *m_testItem = new TestMusicItem();
+
+    m_testItem = new TestMusicItem();
+    DataPolicy defaultPolicy = m_testItem->dataPolicyForRole(TestMusicItem::defaultDataRole);
+    QVERIFY2(defaultPolicy.isReadable() == true, "data policy is not readable");
+    QVERIFY2(defaultPolicy.isWritable() == true, "data policy is not writable");
+
+    delete m_testItem;
+}
+
+void MusicItemTest::testReadData()
+{
+    MusicItem *item = new TestMusicItem();
+    QVERIFY2(item->data(TestMusicItem::readDataReimplementationRole) == TestMusicItem::dataForReadDataReimplementation, "read data was not called");
+    delete item;
 }
 
 void MusicItemTest::testChildAt()
@@ -210,8 +229,9 @@ void MusicItemTest::testChildType()
 
 void MusicItemTest::testOkToInsertChild()
 {
-    MusicItem *item = new EmptyMusicItem();
+    MusicItem *item = new TestMusicItem();
     QVERIFY2(m_parent->okToInsertChild(item) == true, "Default implementation should return true");
+    delete item;
 }
 
 QTEST_APPLESS_MAIN(MusicItemTest)

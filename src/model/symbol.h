@@ -10,8 +10,10 @@
 #define SYMBOL_H
 
 #include <QCoreApplication>
+#include <QScopedPointer>
 #include <musicitem.h>
 #include <itemdatatypes.h>
+#include <datapolicycollection.h>
 #include "../interfaces/interfaceglobals.h"
 
 class Symbol : public MusicItem
@@ -19,15 +21,16 @@ class Symbol : public MusicItem
     Q_DECLARE_TR_FUNCTIONS(MusicItem)
 public:
     explicit Symbol();
-    Symbol(int type, const QString &name);
+    explicit Symbol(int type, const QString &name);
+    virtual ~Symbol() {}
     int symbolType() const
         { return data(LP::symbolType).toInt(); }
-    QVariant data(int role) const;
-    void setData(const QVariant &value, int role);
+    const DataPolicy dataPolicyForRole(int role) const
+        { return m_policies->policyForRole(role); }
 
 private:
-    int mergeDoubleRoles(int role) const;
-    bool isRoleAccepted(int role) const;
+    const static QScopedPointer<DataPolicyCollection> m_policies;
+    static DataPolicyCollection *initPolicies();
 };
 
 #endif // SYMBOL_H

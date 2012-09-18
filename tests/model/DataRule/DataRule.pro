@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2012-08-16T11:52:53
+# Project created by QtCreator 2012-09-14T10:11:37
 #
 #-------------------------------------------------
 include( ../../tests.pri )
@@ -10,16 +10,12 @@ QT       += testlib
 
 QT       -= gui
 
-TARGET = bin/tst_musicitemtest
+TARGET = bin/tst_dataruletest
 CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
 
 
-SOURCES += tst_musicitemtest.cpp \
-    testmusicitem.cpp
+SOURCES += tst_dataruletest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
-
-HEADERS += \
-    testmusicitem.h

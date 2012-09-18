@@ -26,7 +26,8 @@ private Q_SLOTS:
     void testConstructor();
     void testType();
     void testChildType();
-    void testSetInstrument();
+    void testDataPolicyForRole_data();
+    void testDataPolicyForRole();
     void testSetInstrumentDisplayRole();
     void testOkToInsertChildRedefinition();
     void testSetData();
@@ -50,8 +51,11 @@ void TuneTest::cleanup()
 
 void TuneTest::testConstructor()
 {
+    Instrument *instrument = m_tune->instrument();
+    QVERIFY2(instrument != 0, "Failed default tune has no instrument");
+
     // Tune with default instrument
-    QVERIFY2(m_tune->instrument()->name() == Instrument().name(), "Failed to set Instrument in default constructor");
+    QVERIFY2(instrument->name() == Instrument().name(), "Failed to set Instrument in default constructor");
 
     delete m_tune;
     m_tune = new Tune(m_instrument);
@@ -70,15 +74,32 @@ void TuneTest::testChildType()
     QVERIFY2(m_tune->childType() == MusicItem::SymbolType, "The child itemtype of tune is not Symbol type");
 }
 
-void TuneTest::testSetInstrument()
+void TuneTest::testDataPolicyForRole_data()
 {
-    m_tune->setInstrument(m_instrument);
-    QVERIFY2(m_tune->instrument()->type() == LP::GreatHighlandBagpipe, "Failed set and get instrument");
+    Tune *tune = new Tune();
+    QTest::addColumn<DataPolicy>("policy");
+    QTest::addColumn<bool>("readable");
+    QTest::addColumn<bool>("writable");
+
+    QTest::newRow("display role")               << tune->dataPolicyForRole(Qt::DisplayRole) << true << false;
+    QTest::newRow("tune instrument")            << tune->dataPolicyForRole(LP::tuneInstrument) << true << false;
+    delete tune;
+}
+
+void TuneTest::testDataPolicyForRole()
+{
+    QFETCH(DataPolicy, policy);
+    QFETCH(bool, readable);
+    QFETCH(bool, writable);
+
+    QCOMPARE(policy.isReadable(), readable);
+    QCOMPARE(policy.isWritable(), writable);
 }
 
 void TuneTest::testSetInstrumentDisplayRole()
 {
-    m_tune->setInstrument(m_instrument);
+    delete m_tune;
+    m_tune = new Tune(m_instrument);
     QVERIFY2(m_tune->data(Qt::DisplayRole) == m_instrument->name() + " tune", "Failed setting display role");
 }
 
@@ -93,7 +114,8 @@ void TuneTest::testOkToInsertChildRedefinition()
     QVERIFY2(m_tune->okToInsertChild(invalidSymbol) == false, "It's not ok to insert Symbol into a tune with default instrument");
 
     // Tune with instrument should return the same as the instrument
-    m_tune->setInstrument(m_instrument);
+    delete m_tune;
+    m_tune = new Tune(m_instrument);
     QVERIFY2(m_tune->data(LP::tuneInstrument).isValid() == true, "The next tests requires a Tune with instrument");
     QVERIFY2(m_instrument->supportsSymbolType(LP::MelodyNote) == m_tune->okToInsertChild(melodyNoteSymbol),
              "Tune doesn't return the same as the instrument for a valid symbol");

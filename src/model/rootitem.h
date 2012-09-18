@@ -14,18 +14,10 @@
 class RootItem : public MusicItem
 {
 public:
-    RootItem()
+    explicit RootItem()
         : MusicItem(MusicItem::RootItemType, MusicItem::ScoreType) {}
-    QVariant data(int role) const
-    {
-        Q_UNUSED(role);
-        return QVariant();
-    }
-    void setData(const QVariant &value, int role)
-    {
-        Q_UNUSED(value);
-        Q_UNUSED(role);
-    }
+    const DataPolicy dataPolicyForRole(int role) const
+    { Q_UNUSED(role) return DataPolicy(DataPolicy::NoAccess); }
 };
 
 #endif // ROOTITEM_H

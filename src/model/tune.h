@@ -9,10 +9,12 @@
 #ifndef TUNE_H
 #define TUNE_H
 
+#include <QScopedPointer>
 #include <musicitem.h>
 #include <symbol.h>
 #include <itemdatatypes.h>
 #include <datatypes/instrument.h>
+#include <datapolicycollection.h>
 
 class Tune : public MusicItem
 {
@@ -20,23 +22,25 @@ public:
     explicit Tune()
         : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
         { setInstrument(new Instrument()); }
-    Tune(Instrument *instrument)
+    explicit Tune(Instrument *instrument)
         : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
         { setInstrument(instrument); }
-    QVariant data(int role) const;
-    void setData(const QVariant &value, int role);
 
-    void setInstrument(Instrument *instrument);
     Instrument *instrument() const
         { return data(LP::tuneInstrument).value<Instrument*>(); }
     bool okToInsertChild(const MusicItem *item);
+    const DataPolicy dataPolicyForRole(int role) const
+        { return m_policies->policyForRole(role); }
+    QVariant readData(int role) const;
 
 private:
-    bool hasInstrument()
+    bool hasInstrument() const
         { return data(LP::tuneInstrument).isValid(); }
+    void setInstrument(Instrument *instrument);
     const Symbol *symbolFromMusicItem(const MusicItem *item)
         { return static_cast<const Symbol*>(item); }
-    void setDisplayRole(QString &name);
+    const static QScopedPointer<DataPolicyCollection> m_policies;
+    static DataPolicyCollection *initPolicies();
 };
 
 #endif // TUNE_H

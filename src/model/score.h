@@ -9,27 +9,31 @@
 #ifndef SCORE_H
 #define SCORE_H
 
+#include <QScopedPointer>
 #include <musicitem.h>
 #include <itemdatatypes.h>
+#include <datapolicycollection.h>
+
+#include <QDebug>
 
 class Score : public MusicItem
 {
 public:
     explicit Score()
         : MusicItem(MusicItem::ScoreType, MusicItem::TuneType) {}
-    Score(const QString &title)
+    explicit Score(const QString &title)
         : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
         { setTitle(title); }
-    QVariant data(int role) const;
-    void setData(const QVariant &value, int role);
+    const DataPolicy dataPolicyForRole(int role) const
+        { return m_policies->policyForRole(role); }
 
     void setTitle(const QString &title);
     QString title() const
-        { return data(LP::scoreTitle).toString(); }
+        { return data(LP::scoreTitle).toString(); }  
 
 private:
-    int mergeDoubleRoles(int role) const;
-    bool isRoleAccepted(int role) const;
+    const static QScopedPointer<DataPolicyCollection> m_policies;
+    static DataPolicyCollection *initPolicies();
 };
 
 #endif // SCORE_H

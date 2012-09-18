@@ -23,6 +23,7 @@ class QString;
 
 class SymbolInterface {
 public:
+    virtual ~SymbolInterface() {}
     virtual QStringList symbols() = 0;
     virtual Symbol *getSymbol( const QString &symbol ) = 0;
 };

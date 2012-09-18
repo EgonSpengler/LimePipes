@@ -16,14 +16,14 @@
 class Instrument
 {
 public:
-    Instrument() : m_type(LP::NoInstrument), m_name(QString("No Instrument")) {}
+    explicit Instrument() : m_type(LP::NoInstrument), m_name(QString("No Instrument")) {}
 
-    Instrument(LP::InstrumentType type, const QString &name )
+    explicit Instrument(LP::InstrumentType type, const QString &name )
         : m_type(type), m_name(name) {}
     Instrument(const Instrument& other)
         { this->m_type = other.m_type;
           this->m_name = other.m_name; }
-    ~Instrument() {}
+    virtual ~Instrument() {}
 
     QString name() const
         { return m_name; }

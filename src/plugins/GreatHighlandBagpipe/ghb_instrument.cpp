@@ -15,7 +15,6 @@ bool GHB_Instrument::supportsSymbolType(int type) const
     case LP::MelodyNote:
     case LP::Bar:
         return true;
-
     default:
         return false;
     }

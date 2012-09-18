@@ -28,10 +28,10 @@ public:
     static int beatCount(Type type);
     static int beatUnit(Type type);
 
-    TimeSignature(Type type)
-        : m_type(type) {}
-    TimeSignature()
+    explicit TimeSignature()
         : m_type(_2_2) {}
+    explicit TimeSignature(Type type)
+        : m_type(type) {}
     ~TimeSignature() {}
     TimeSignature(const TimeSignature& timeSig)
     { m_type = timeSig.signature(); }

@@ -12,55 +12,29 @@
   */
 
 #include "symbol.h"
-#include <QObject>
+
+const QScopedPointer<DataPolicyCollection> Symbol::m_policies(initPolicies());
 
 Symbol::Symbol()
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
 {
-    setData(LP::NoSymbolType, LP::symbolType);
-    setData( tr("No name symbol"), LP::symbolName);
+    initData(LP::NoSymbolType, LP::symbolType);
+    initData( tr("No name symbol"), LP::symbolName);
 }
 
 Symbol::Symbol(int type, const QString &name)
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
 {
-    setData(type, LP::symbolType);
-    setData(name, LP::symbolName);
+    initData(type, LP::symbolType);
+    initData(name, LP::symbolName);
 }
 
-QVariant Symbol::data(int role) const
+DataPolicyCollection *Symbol::initPolicies()
 {
-    if (isRoleAccepted(role)) {
-        role = mergeDoubleRoles(role);
-        return m_data.value(role);
-    }
-    return QVariant();
-}
-
-void Symbol::setData(const QVariant &value, int role)
-{
-    if (isRoleAccepted(role)) {
-        role = mergeDoubleRoles(role);
-        m_data.insert(role, value);
-    }
-}
-
-int Symbol::mergeDoubleRoles(int role) const
-{
-    if (role == Qt::DisplayRole) {
-        role = LP::symbolName;
-    }
-    return role;
-}
-
-bool Symbol::isRoleAccepted(int role) const
-{
-    switch (role) {
-    case Qt::DisplayRole:
-    case LP::symbolType:
-    case LP::symbolName:
-    case LP::symbolLength:
-        return true;
-    }
-    return false;
+    DataPolicyCollection *collection = new DataPolicyCollection();
+    collection->setPolicy(Qt::DisplayRole, DataPolicy(DataPolicy::Read, LP::symbolName));
+    collection->setPolicy(LP::symbolName, DataPolicy(DataPolicy::Read));
+    collection->setPolicy(LP::symbolType, DataPolicy(DataPolicy::Read));
+    collection->setPolicy(LP::symbolLength, DataPolicy(DataPolicy::ReadWrite));
+    return collection;
 }

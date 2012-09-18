@@ -25,7 +25,7 @@ public:
 
     explicit Length()
         : m_length(_1) {}
-    Length(Type len)
+    explicit Length(Type len)
         :m_length(len) {}
     Length(const Length &len)
         { m_length = len.length(); }

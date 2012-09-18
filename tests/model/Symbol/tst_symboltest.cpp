@@ -25,6 +25,8 @@ private Q_SLOTS:
     void testConstructor();
     void testType();
     void testChildType();
+    void testDataPolicyForRole_data();
+    void testDataPolicyForRole();
     void testSymbolType();
 
 private:
@@ -60,6 +62,31 @@ void SymbolTest::testType()
 void SymbolTest::testChildType()
 {
     QVERIFY2( m_symbol->childType() == MusicItem::NoItemType, "The child itemtype of Symbol is not NoItem type");
+}
+
+void SymbolTest::testDataPolicyForRole_data()
+{
+    Symbol *symbol = new Symbol();
+    QTest::addColumn<DataPolicy>("policy");
+    QTest::addColumn<bool>("readable");
+    QTest::addColumn<bool>("writable");
+
+    QTest::newRow("display role")               << symbol->dataPolicyForRole(Qt::DisplayRole) << true << false;
+    QTest::newRow("symbol name")                << symbol->dataPolicyForRole(LP::symbolName) << true << false;
+    QTest::newRow("symbol type")                << symbol->dataPolicyForRole(LP::symbolType) << true << false;
+    QTest::newRow("symbol length")              << symbol->dataPolicyForRole(LP::symbolLength) << true << true;
+    delete symbol;
+}
+
+void SymbolTest::testDataPolicyForRole()
+{
+    QFETCH(DataPolicy, policy);
+    QFETCH(bool, readable);
+    QFETCH(bool, writable);
+
+    QCOMPARE(policy.isReadable(), readable);
+    QCOMPARE(policy.isWritable(), writable);
+
 }
 
 void SymbolTest::testSymbolType()

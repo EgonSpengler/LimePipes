@@ -16,9 +16,14 @@
   *     It can check the type and return false if the Symbol is not supported.
   * @param item The item to be inserted.
   * @return True by default.
+  *
+  * @fn void initData(const QVariant &value, int role)
+  * @brief Subclasses can initialize read only data with this method.
   */
 
 #include "musicitem.h"
+
+#include <QDebug>
 
 MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
     : m_type(type), m_childType(childType), m_parent(parent)
@@ -53,3 +58,31 @@ bool MusicItem::addChild(MusicItem *item)
     return false;
 }
 
+QVariant MusicItem::data(int role) const
+{
+    DataPolicy data = dataPolicyForRole(role);
+
+    if (data.isReadable()) {
+        role = getDataRoleForAccess(role, data);
+        return readData(role);
+    }
+    return QVariant();
+}
+
+void MusicItem::setData(const QVariant &value, int role)
+{
+    DataPolicy data = dataPolicyForRole(role);
+
+    if (data.isWritable()) {
+        role = getDataRoleForAccess(role, data);
+        writeData(value, role);
+    }
+}
+
+int MusicItem::getDataRoleForAccess(int role, DataPolicy policy) const
+{
+    if (policy.hasProxyRole()) {
+        return policy.proxyRole();
+    }
+    return role;
+}

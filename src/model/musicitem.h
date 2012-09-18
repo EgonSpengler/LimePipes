@@ -13,6 +13,7 @@
 #include <QVariant>
 #include <QString>
 #include <QMap>
+#include <datapolicy.h>
 
 class MusicItem
 {
@@ -25,8 +26,8 @@ public:
         NoItemType
     };
 
-    MusicItem(Type type=NoItemType, Type childType=NoItemType, MusicItem *parent=0);
-    ~MusicItem() { qDeleteAll(m_children); }
+    explicit MusicItem(Type type=NoItemType, Type childType=NoItemType, MusicItem *parent=0);
+    virtual ~MusicItem() { qDeleteAll(m_children); }
     MusicItem *parent() const
         { return m_parent; }
     MusicItem *childAt(int row) const
@@ -48,15 +49,23 @@ public:
         { return m_type; }
     Type childType() const
         { return m_childType; }
-    virtual QVariant data(int role = Qt::UserRole) const = 0;
-    virtual void setData(const QVariant &value, int role) = 0;
+    QVariant data(int role = Qt::UserRole) const;
+    void setData(const QVariant &value, int role);
     virtual bool okToInsertChild( const MusicItem *item )
         { Q_UNUSED(item) return true; }
+    virtual const DataPolicy dataPolicyForRole(int role) const = 0;
 
 protected:
+    virtual QVariant readData(int role) const
+        { return m_data.value(role); }
+    void initData(const QVariant &value, int role)
+        { writeData(value, role); }
     QMap<int, QVariant> m_data;
 
 private:
+    int getDataRoleForAccess(int role, DataPolicy policy) const;
+    void writeData(const QVariant &value, int role)
+       { m_data.insert(role, value); }
     QList<MusicItem*> m_children;
     const Type m_type;
     const Type m_childType;
