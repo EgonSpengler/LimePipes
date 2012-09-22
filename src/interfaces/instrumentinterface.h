@@ -15,8 +15,8 @@
 #define INSTRUMENT_INTERFACE_H
 
 #include <QtPlugin>
-#include <interfaceglobals.h>
-#include <instrument.h>
+#include <interfaces/interfaceglobals.h>
+#include <datatypes/instrument.h>
 
 class QString;
 
@@ -24,7 +24,7 @@ class InstrumentInterface {
 public:
     virtual ~InstrumentInterface() {}
     virtual QString name() const = 0;
-    virtual Instrument *instrument() const = 0;
+    virtual InstrumentPtr instrument() const = 0;
 };
 
 Q_DECLARE_INTERFACE(InstrumentInterface,

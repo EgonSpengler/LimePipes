@@ -13,10 +13,11 @@
 #include <QString>
 #include <instrument.h>
 
-/* This Instrument is needed for testing the InstrumentManager.
-   It should have a name, the same as a loaded static plugin.
-   The InstrumentManager should load it only once.
-   */
+/*
+ * This Instrument is needed for testing the InstrumentManager.
+ * It should have a name, the same as a loaded static plugin.
+ * The InstrumentManager should load it only once.
+ */
 
 class TestInstrumentGHB  :  public QObject,
                             public InstrumentInterface
@@ -24,10 +25,15 @@ class TestInstrumentGHB  :  public QObject,
     Q_OBJECT
     Q_INTERFACES(InstrumentInterface)
 public:
+    TestInstrumentGHB()
+        : m_instrument(InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, QString("Great Highland Bagpipe")))) {}
     QString name() const
         { return QString("Great Highland Bagpipe"); }
-    Instrument *instrument() const
-    { return new Instrument(LP::GreatHighlandBagpipe, QString("Great Highland Bagpipe")); }
+    InstrumentPtr instrument() const
+    { return m_instrument; }
+
+private:
+    InstrumentPtr m_instrument;
 };
 
 #endif // TESTINSTRUMENTGHB_H

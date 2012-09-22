@@ -30,7 +30,7 @@ public:
         { return m_dynamicPlugins; }
     QString pluginsPath() const
         { return m_pluginsDir.absolutePath(); }
-    Instrument *instrumentForName(const QString &name);
+    InstrumentPtr instrumentForName(const QString &name);
     QList<QString> symbolNamesForInstrument(const QString &instrumentName);
     Symbol *symbolForName(const QString &instrumentName, const QString &symbolName);
 

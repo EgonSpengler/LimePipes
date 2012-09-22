@@ -18,14 +18,14 @@ InstrumentManager::InstrumentManager(const QDir &pluginsDir)
     loadDynamicPlugins();
 }
 
-Instrument *InstrumentManager::instrumentForName(const QString &name)
+InstrumentPtr InstrumentManager::instrumentForName(const QString &name)
 {
     InstrumentInterface *instrumentPlugin =
             m_instrumentPlugins.value(name);
     if (instrumentPlugin) {
         return instrumentPlugin->instrument();
     } else {
-        return new Instrument();
+        return InstrumentPtr(new Instrument());
     }
 }
 

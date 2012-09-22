@@ -24,11 +24,13 @@ class GreatHighlandBagpipe : public QObject,
     Q_INTERFACES(InstrumentInterface SymbolInterface)
 
 public:
+    GreatHighlandBagpipe()
+        : m_bagpipe(InstrumentPtr(new GHB_Instrument())) {}
     // Instrument interface
     QString name() const
         { return QString("Great Highland Bagpipe"); }
-    Instrument *instrument() const
-        { return new GHB_Instrument(); }
+    InstrumentPtr instrument() const
+        { return m_bagpipe; }
 
     // Symbols interface
     QStringList symbols()
@@ -37,6 +39,9 @@ public:
                                << tr("Doubling");
         }
     Symbol *getSymbol(const QString &symbol);
+
+private:
+    InstrumentPtr m_bagpipe;
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H

@@ -11,6 +11,7 @@
 
 #include <QMainWindow>
 #include <QMap>
+#include <datatypes/instrument.h>
 
 class QTreeView;
 class QDir;
@@ -45,7 +46,7 @@ private:
     void createModelAndView();
     void createConnections();
     void createObjectNames();
-    Instrument *instrumentFromCurrentIndex();
+    InstrumentPtr instrumentFromCurrentIndex();
 
     Ui::MainWindow *ui;
     QTreeView *m_treeView;

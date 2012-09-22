@@ -19,10 +19,15 @@ class TestInstrumentForManager :  public QObject,
     Q_OBJECT
     Q_INTERFACES(InstrumentInterface)
 public:
+    TestInstrumentForManager()
+        : m_instrument(InstrumentPtr(new Instrument(LP::BassDrum, QString("Test instrument")))) {}
     QString name() const
         { return QString("Test instrument"); }
-    Instrument *instrument() const
-    { return new Instrument(LP::BassDrum, QString("Test instrument")); }
+    InstrumentPtr instrument() const
+    { return m_instrument; }
+
+private:
+    InstrumentPtr m_instrument;
 };
 
 #endif // TESTINSTRUMENTFORMANAGER_H

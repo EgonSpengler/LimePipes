@@ -15,9 +15,9 @@
 
 const QScopedPointer<DataPolicyCollection> Tune::m_policies(initPolicies());
 
-void Tune::setInstrument(Instrument *instrument)
+void Tune::setInstrument(InstrumentPtr instrument)
 {
-    m_data.insert(LP::tuneInstrument, QVariant::fromValue<Instrument*>(instrument));
+    m_data.insert(LP::tuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
 }
 
 bool Tune::okToInsertChild(const MusicItem *item)

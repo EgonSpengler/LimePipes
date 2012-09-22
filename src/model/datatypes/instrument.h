@@ -11,6 +11,7 @@
 
 #include <QMetaType>
 #include <QString>
+#include <QSharedPointer>
 #include "../../interfaces/interfaceglobals.h"
 
 class Instrument
@@ -37,6 +38,8 @@ private:
     QString m_name;
 };
 
-Q_DECLARE_METATYPE(Instrument*)
+typedef QSharedPointer<Instrument> InstrumentPtr;
+
+Q_DECLARE_METATYPE(InstrumentPtr)
 
 #endif // INSTRUMENT_H

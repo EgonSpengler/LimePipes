@@ -91,8 +91,8 @@ void MusicModelTest::testInsertTuneIntoScore()
 {
     QModelIndex score = m_model->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
-    QModelIndex tune = m_model->insertTuneIntoScore(0, score, new TestInstrument());
-    Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
+    QModelIndex tune = m_model->insertTuneIntoScore(0, score, InstrumentPtr(new TestInstrument()));
+    InstrumentPtr instrument = m_model->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
     QVERIFY2(instrument->name() == "Bass drum", "Failed getting instrument back");
@@ -100,7 +100,7 @@ void MusicModelTest::testInsertTuneIntoScore()
     // Now, the rowsInserted signal should not be called when inserting rows
     QSignalSpy spy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
 
-    Instrument *instrument2 = new TestInstrument();
+    InstrumentPtr instrument2 = InstrumentPtr(new TestInstrument());
     m_model->insertTuneIntoScore(-1, score, instrument2);
     m_model->insertTuneIntoScore(5, score, instrument2);
 
@@ -111,8 +111,8 @@ void MusicModelTest::testAppendTuneToScore()
 {
     QModelIndex score = m_model->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
-    QModelIndex tune = m_model->appendTuneToScore(score, new TestInstrument());
-    Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
+    QModelIndex tune = m_model->appendTuneToScore(score, InstrumentPtr(new TestInstrument()));
+    InstrumentPtr instrument = m_model->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
     QVERIFY2(instrument->name() == "Bass drum", "Failed getting instrument back");
@@ -120,8 +120,8 @@ void MusicModelTest::testAppendTuneToScore()
 
 void MusicModelTest::testInsertTuneWithScore()
 {
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new TestInstrument());
-    Instrument *instrument = m_model->data(tune, LP::tuneInstrument).value<Instrument *>();
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+    InstrumentPtr instrument = m_model->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
     QVERIFY2(instrument->name() == "Bass drum", "Failed getting score title from index");
@@ -132,7 +132,7 @@ void MusicModelTest::testInsertTuneWithScore()
 
 void MusicModelTest::testInsertSymbol()
 {
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new TestInstrument());
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
     QModelIndex symbol1 = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
     QVERIFY2(symbol1.isValid(), "Failed inserting symbol");
     QVERIFY2(m_model->data(symbol1, LP::symbolName) == "testsymbol", "Failed getting symbol's name");
@@ -150,7 +150,7 @@ void MusicModelTest::testInsertSymbol()
 
 void MusicModelTest::testCallOfOkToInsertChild()
 {
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", new TestInstrument());
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
 
     QModelIndex validSymbol = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "valid symbol"));
     QVERIFY2(validSymbol.isValid(), "Failed inserting valid symbol");
@@ -161,7 +161,7 @@ void MusicModelTest::testCallOfOkToInsertChild()
 
 void MusicModelTest::testQAbstractItemModelImplementation()
 {
-    Instrument *instrument = new Instrument(LP::GreatHighlandBagpipe, "Bagpipe");
+    InstrumentPtr instrument = InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, "Bagpipe"));
     for (int i=0; i < 3; i++) {
         m_model->insertScore(0, "Score Title");
     }

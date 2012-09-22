@@ -31,9 +31,9 @@ public:
 
     QModelIndex insertScore(int row, const QString &title);
     QModelIndex appendScore(const QString &title);
-    QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, Instrument *instrument);
-    QModelIndex appendTuneToScore(const QModelIndex &score, Instrument *instrument);
-    QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, Instrument *instrument);
+    QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, InstrumentPtr instrument);
+    QModelIndex appendTuneToScore(const QModelIndex &score, InstrumentPtr instrument);
+    QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, InstrumentPtr instrument);
     QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol);
     
     MusicItem *itemForIndex(const QModelIndex& index) const;

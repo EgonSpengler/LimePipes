@@ -34,7 +34,7 @@ private Q_SLOTS:
 
 private:
     Tune *m_tune;
-    Instrument *m_instrument;
+    InstrumentPtr m_instrument;
 };
 
 void TuneTest::init()
@@ -46,12 +46,11 @@ void TuneTest::init()
 void TuneTest::cleanup()
 {
     delete m_tune;
-    delete m_instrument;
 }
 
 void TuneTest::testConstructor()
 {
-    Instrument *instrument = m_tune->instrument();
+    InstrumentPtr instrument = m_tune->instrument();
     QVERIFY2(instrument != 0, "Failed default tune has no instrument");
 
     // Tune with default instrument

@@ -86,12 +86,12 @@ QModelIndex MusicModel::appendScore(const QString &title)
     return insertScore(m_rootItem->childCount(), title);
 }
 
-QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, Instrument *instrument)
+QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, InstrumentPtr instrument)
 {
     return insertItem(row, score, new Tune(instrument));
 }
 
-QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, Instrument *instrument)
+QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, InstrumentPtr instrument)
 {
     if (MusicItem *item = itemForIndex(score)) {
         return insertTuneIntoScore(item->childCount(), score, instrument);
@@ -99,7 +99,7 @@ QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, Instrument *
     return QModelIndex();
 }
 
-QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, Instrument *instrument)
+QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, InstrumentPtr instrument)
 {
     QModelIndex score = insertScore(rowOfScore, scoreTitle);
     return insertTuneIntoScore(0, score, instrument);

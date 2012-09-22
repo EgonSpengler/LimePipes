@@ -15,19 +15,20 @@
 #include <itemdatatypes.h>
 #include <datatypes/instrument.h>
 #include <datapolicycollection.h>
+#include <interfaces/instrumentinterface.h>
 
 class Tune : public MusicItem
 {
 public:
     explicit Tune()
         : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
-        { setInstrument(new Instrument()); }
-    explicit Tune(Instrument *instrument)
+        { setInstrument(InstrumentPtr(new Instrument())); }
+    explicit Tune(InstrumentPtr instrument)
         : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
         { setInstrument(instrument); }
 
-    Instrument *instrument() const
-        { return data(LP::tuneInstrument).value<Instrument*>(); }
+    InstrumentPtr instrument() const
+        { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
     bool okToInsertChild(const MusicItem *item);
     const DataPolicy dataPolicyForRole(int role) const
         { return m_policies->policyForRole(role); }
@@ -36,7 +37,7 @@ public:
 private:
     bool hasInstrument() const
         { return data(LP::tuneInstrument).isValid(); }
-    void setInstrument(Instrument *instrument);
+    void setInstrument(InstrumentPtr instrument);
     const Symbol *symbolFromMusicItem(const MusicItem *item)
         { return static_cast<const Symbol*>(item); }
     const static QScopedPointer<DataPolicyCollection> m_policies;

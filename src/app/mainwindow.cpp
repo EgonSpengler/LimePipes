@@ -29,6 +29,8 @@
 #include <app/addsymbolsdialog.h>
 #include <app/instrumentmanager.h>
 
+#include <QDebug>
+
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -77,16 +79,16 @@ void MainWindow::createObjectNames()
     m_model->setObjectName("musicModel");
 }
 
-Instrument *MainWindow::instrumentFromCurrentIndex()
+InstrumentPtr MainWindow::instrumentFromCurrentIndex()
 {
     QModelIndex currentIndex = m_treeView->currentIndex();
     if (currentIndex.isValid()) {
         QVariant currentInstrument = m_model->data(currentIndex, LP::tuneInstrument);
         if (currentInstrument.isValid()) {
-            return currentInstrument.value<Instrument *>();
+            return currentInstrument.value<InstrumentPtr>();
         }
     }
-    return 0;
+    return InstrumentPtr();
 }
 
 void MainWindow::fileNew()
@@ -98,7 +100,7 @@ void MainWindow::editAddTune()
 {
     NewTuneDialog dialog(m_instrumentManager->instrumentNames(), this);
     if (dialog.exec() == QDialog::Accepted) {
-        Instrument *instrument = m_instrumentManager->instrumentForName(dialog.instrumentTitle());
+        InstrumentPtr instrument = m_instrumentManager->instrumentForName(dialog.instrumentTitle());
         if ( instrument->type() != LP::NoInstrument ) {
             QModelIndex score = m_model->appendScore(dialog.scoreTitle());
             QModelIndex tune = m_model->appendTuneToScore(score, instrument);
@@ -109,8 +111,8 @@ void MainWindow::editAddTune()
 
 void MainWindow::editAddSymbols()
 {
-    Instrument *instrument = instrumentFromCurrentIndex();
-    if (instrument && instrument->type() != LP::NoInstrument) {
+    InstrumentPtr instrument = instrumentFromCurrentIndex();
+    if (!instrument.isNull() && instrument->type() != LP::NoInstrument) {
         m_addSymbolsDialog->setSymbolNames(
                     m_instrumentManager->symbolNamesForInstrument(instrument->name()));
         m_addSymbolsDialog->show();
@@ -123,7 +125,7 @@ void MainWindow::editAddSymbols()
 
 void MainWindow::insertSymbol(const QString &symbolName)
 {
-    Instrument *instrument = instrumentFromCurrentIndex();
+    InstrumentPtr instrument = instrumentFromCurrentIndex();
     if (instrument && instrument->type() != LP::NoInstrument) {
         Symbol *symbol = m_instrumentManager->symbolForName(instrument->name(), symbolName);
         if (symbol->symbolType() != LP::NoSymbolType) {

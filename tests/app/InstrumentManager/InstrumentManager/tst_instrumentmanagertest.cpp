@@ -110,7 +110,7 @@ void InstrumentManagerTest::testInstrumentForName()
 {
     Q_ASSERT(m_instrumentPluginNames.count() > 0);
     QString instrumentName = m_instrumentPluginNames.at(0);
-    Instrument *instrument = m_manager->instrumentForName(instrumentName);
+    InstrumentPtr instrument = m_manager->instrumentForName(instrumentName);
 
     QVERIFY2(instrument->name() == instrumentName, "Failed getting instrument for name");
 }

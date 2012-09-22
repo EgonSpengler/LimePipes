@@ -27,23 +27,21 @@ private Q_SLOTS:
     void testCopyConstructor();
 
 private:
-    Instrument *m_instrument;
+    InstrumentPtr m_instrument;
 };
 
 void InstrumentTest::init()
 {
-    m_instrument = new Instrument();
+    m_instrument = InstrumentPtr(new Instrument());
 }
 
 void InstrumentTest::cleanup()
 {
-    delete m_instrument;
 }
 
 void InstrumentTest::testCreateInstrument()
 {
-    delete m_instrument;
-    m_instrument = new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument"));
+    m_instrument = InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument")));
     QVERIFY2(m_instrument->name() == "TestInstrument", "Failed to set instrument name in constructor");
     QVERIFY2(m_instrument->type() == LP::GreatHighlandBagpipe, "Failed to set instrument type in constructor");
 }
@@ -58,10 +56,9 @@ void InstrumentTest::testDefaultValues()
 
 void InstrumentTest::testQVariant()
 {
-    delete m_instrument;
-    m_instrument = new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument"));
-    QVariant var = QVariant::fromValue<Instrument*>(m_instrument);
-    QVERIFY2(var.value<Instrument*>()->name().isEmpty() != true, "Failed using Instrument as QVariant");
+    m_instrument = InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument")));
+    QVariant var = QVariant::fromValue<InstrumentPtr>(m_instrument);
+    QVERIFY2(var.value<InstrumentPtr>()->name().isEmpty() != true, "Failed using Instrument as QVariant");
 }
 
 void InstrumentTest::testCopyConstructor()

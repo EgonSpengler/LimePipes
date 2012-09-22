@@ -3,6 +3,7 @@
 # Project created by QtCreator 2012-09-21T18:00:27
 #
 #-------------------------------------------------
+include( ../../../tests.pri )
 include( ../InstrumentManager/InstrumentManager.pri )
 include( ../../../../src/model/datatypes/datatypes.pri )
 
