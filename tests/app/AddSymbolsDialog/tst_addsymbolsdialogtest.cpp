@@ -14,7 +14,7 @@
 #include <QPushButton>
 #include <QSignalSpy>
 
-#include "../../../src/app/addsymbolsdialog.h"
+#include "app/addsymbolsdialog.h"
 
 class AddSymbolsDialogTest : public QObject
 {

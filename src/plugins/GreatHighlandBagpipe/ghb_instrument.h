@@ -10,6 +10,7 @@
 #define GREATHIGHLANDBAGPIPEINSTRUMENT_H
 
 #include <instrument.h>
+#include <ghb_symboltypes.h>
 
 class GHB_Instrument : public Instrument
 {

@@ -7,7 +7,7 @@
  */
 
 /*!
-  * @class InstrumentInterface
+  * @class SymbolInterface
   * This is the plugin interface for Symbols.
   */
 

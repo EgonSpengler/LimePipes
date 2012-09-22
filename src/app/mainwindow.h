@@ -12,12 +12,15 @@
 #include <QMainWindow>
 #include <QMap>
 
+class QTreeView;
+class QDir;
 class InstrumentInterface;
 class SymbolInterface;
 class Instrument;
 class MusicModel;
-class QTreeView;
 class AddSymbolsDialog;
+class NewTuneDialog;
+class InstrumentManager;
 
 namespace Ui {
 class MainWindow;
@@ -38,25 +41,17 @@ private slots:
     void insertSymbol(const QString &symbolName);
 
 private:
+    QDir pluginsDir();
     void createModelAndView();
-    void createActions();
-    void createMenusAndToolBar();
     void createConnections();
-    void loadInstrument(QObject *plugin);
-    void loadStaticPlugins();
-    Instrument *instrumentForName(const QString &name);
+    void createObjectNames();
     Instrument *instrumentFromCurrentIndex();
 
-    QAction *fileNewAction;
-    QAction *fileCloseAction;
-    QAction *editAddTuneAction;
-    QAction *editAddSymbolsAction;
     Ui::MainWindow *ui;
     QTreeView *m_treeView;
     MusicModel *m_model;
-    QMap<QString, InstrumentInterface*> m_instruments;
-    QMap<QString, SymbolInterface*> m_symbols;
     AddSymbolsDialog *m_addSymbolsDialog;
+    InstrumentManager *m_instrumentManager;
 };
 
 #endif // MAINWINDOW_H

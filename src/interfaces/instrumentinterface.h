@@ -16,7 +16,7 @@
 
 #include <QtPlugin>
 #include <interfaceglobals.h>
-#include <datatypes/instrument.h>
+#include <instrument.h>
 
 class QString;
 

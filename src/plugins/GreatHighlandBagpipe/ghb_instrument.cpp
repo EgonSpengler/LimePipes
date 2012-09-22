@@ -12,7 +12,8 @@ bool GHB_Instrument::supportsSymbolType(int type) const
 {
     switch (type) {
 
-    case LP::MelodyNote:
+    case GHB::MelodyNote:
+    case GHB::Doubling:
     case LP::Bar:
         return true;
     default:

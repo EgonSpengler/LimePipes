@@ -65,8 +65,9 @@ void GHB_PluginTest::testInstrumentID()
 void GHB_PluginTest::testsupportedSymbolTypes()
 {
     QVERIFY2(m_bagpipe->instrument()->supportsSymbolType(LP::NoSymbolType) == false, "Fail Bagpipe Instrument does support NoSymbolType");
-    QVERIFY2(m_bagpipe->instrument()->supportsSymbolType(LP::MelodyNote), "Failed Bagpipe Instrument does not support melody notes");
-    QVERIFY2(m_bagpipe->instrument()->supportsSymbolType(LP::Bar), "Failed Bagpipe Instrument oes not support bar");
+    QVERIFY2(m_bagpipe->instrument()->supportsSymbolType(GHB::MelodyNote), "Failed Bagpipe Instrument does not support ghb melody notes");
+    QVERIFY2(m_bagpipe->instrument()->supportsSymbolType(GHB::Doubling), "Failed Bagpipe Instrument does not support doublings");
+    QVERIFY2(m_bagpipe->instrument()->supportsSymbolType(LP::Bar), "Failed Bagpipe Instrument does not support bar");
 }
 
 void GHB_PluginTest::testSymbolNamesForAllSymbols()

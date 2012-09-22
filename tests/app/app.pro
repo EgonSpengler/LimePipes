@@ -2,4 +2,6 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     AddSymbolsDialog \
-    NewTuneDialog
+    NewTuneDialog \
+    InstrumentManager \
+    MainWindow

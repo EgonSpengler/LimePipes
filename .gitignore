@@ -15,6 +15,9 @@ doc/developer/latex/*
 # qt.tag file
 doc/developer/qt.tag
 
+# valgrind suppress file
+*.supp
+
 # all buildfiles
 mocs/
 objs/

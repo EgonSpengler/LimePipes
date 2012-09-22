@@ -14,8 +14,6 @@
 #include <QLineEdit>
 #include <QDialogButtonBox>
 
-#include <QDebug>
-
 #include "../../../src/app/newtunedialog.h"
 
 class NewTuneDialogTest : public QObject

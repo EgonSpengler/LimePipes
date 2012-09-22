@@ -15,12 +15,12 @@ TEMPLATE = app
 
 
 SOURCES += tst_addsymbolsdialogtest.cpp \
-    ../../../src/app/addsymbolsdialog.cpp
+    $$LIMEPIPES_SOURCE_TREE/src/app/addsymbolsdialog.cpp
 
 HEADERS += \
-    ../../../src/app/addsymbolsdialog.h
+    $$LIMEPIPES_SOURCE_TREE/src/app/addsymbolsdialog.h
 
 FORMS += \
-    ../../../src/app/addsymbolsdialog.ui
+    $$LIMEPIPES_SOURCE_TREE/src/app/addsymbolsdialog.ui
 
 DEFINES += SRCDIR=\\\"$$PWD/\\\"

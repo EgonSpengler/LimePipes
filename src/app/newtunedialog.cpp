@@ -18,6 +18,7 @@ NewTuneDialog::NewTuneDialog(const QList<QString> &instruments, QWidget *parent)
     ui->instrumentsComboBox->addItems(instruments);
     setOkButtonEnabled(false);
     createConnections();
+    ui->titleLineEdit->setFocus();
 }
 
 NewTuneDialog::~NewTuneDialog()

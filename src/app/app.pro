@@ -9,12 +9,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     newtunedialog.cpp \
-    addsymbolsdialog.cpp
+    addsymbolsdialog.cpp \
+    instrumentmanager.cpp
 
 HEADERS += \
     mainwindow.h \
     newtunedialog.h \
-    addsymbolsdialog.h
+    addsymbolsdialog.h \
+    instrumentmanager.h
 
 RESOURCES += \
     app_resources.qrc
