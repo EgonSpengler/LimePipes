@@ -65,22 +65,6 @@
  <resources/>
  <connections>
   <connection>
-   <sender>fileNewAction</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>fileNew()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>340</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>fileQuitAction</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
@@ -96,42 +80,5 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>editAddTuneAction</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>editAddTune()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>340</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>editAddSymbolsAction</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>editAddSymbols()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>399</x>
-     <y>340</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
- <slots>
-  <slot>fileNew()</slot>
-  <slot>editAddTune()</slot>
-  <slot>editAddSymbols()</slot>
- </slots>
 </ui>

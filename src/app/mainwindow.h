@@ -36,9 +36,9 @@ public:
     ~MainWindow();
 
 private slots:
-    void fileNew();
-    void editAddTune();
-    void editAddSymbols();
+    void on_fileNewAction_triggered();
+    void on_editAddTuneAction_triggered();
+    void on_editAddSymbolsAction_triggered();
     void insertSymbol(const QString &symbolName);
 
 private:

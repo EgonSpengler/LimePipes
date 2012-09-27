@@ -91,12 +91,12 @@ InstrumentPtr MainWindow::instrumentFromCurrentIndex()
     return InstrumentPtr();
 }
 
-void MainWindow::fileNew()
+void MainWindow::on_fileNewAction_triggered()
 {
     m_model->clear();
 }
 
-void MainWindow::editAddTune()
+void MainWindow::on_editAddTuneAction_triggered()
 {
     NewTuneDialog dialog(m_instrumentManager->instrumentNames(), this);
     if (dialog.exec() == QDialog::Accepted) {
@@ -109,7 +109,7 @@ void MainWindow::editAddTune()
     }
 }
 
-void MainWindow::editAddSymbols()
+void MainWindow::on_editAddSymbolsAction_triggered()
 {
     InstrumentPtr instrument = instrumentFromCurrentIndex();
     if (!instrument.isNull() && instrument->type() != LP::NoInstrument) {
