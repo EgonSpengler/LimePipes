@@ -13,3 +13,9 @@
 
 #include "pitch.h"
 
+Pitch::Pitch(const Pitch &other)
+{
+    this->m_name = other.name();
+    this->m_staffPos = other.staffPos();
+}
+

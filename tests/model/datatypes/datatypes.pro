@@ -4,4 +4,5 @@ SUBDIRS += \
     Length \
     Pitch \
     TimeSignature \
-    Instrument
+    Instrument \
+    PitchContext

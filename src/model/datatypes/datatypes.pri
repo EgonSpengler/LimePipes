@@ -5,9 +5,11 @@ SOURCES += \
     $$PWD/length.cpp \
     $$PWD/pitch.cpp \
     $$PWD/timesignature.cpp \
-    $$PWD/instrument.cpp
+    $$PWD/instrument.cpp \
+    $$PWD/pitchcontext.cpp
 HEADERS += \
     $$PWD/length.h \
     $$PWD/pitch.h \
     $$PWD/timesignature.h \
-    $$PWD/instrument.h
+    $$PWD/instrument.h \
+    $$PWD/pitchcontext.h
