@@ -12,15 +12,19 @@
 #include <QMetaType>
 #include <QString>
 #include <QSharedPointer>
+#include "pitchcontext.h"
 #include "../../interfaces/interfaceglobals.h"
 
 class Instrument
 {
 public:
-    explicit Instrument() : m_type(LP::NoInstrument), m_name(QString("No Instrument")) {}
+    explicit Instrument()
+        : m_type(LP::NoInstrument), m_name(QString("No Instrument")), m_pitchContext(PitchContextPtr(new PitchContext())) {}
 
-    explicit Instrument(LP::InstrumentType type, const QString &name )
-        : m_type(type), m_name(name) {}
+    explicit Instrument(LP::InstrumentType type,
+                        const QString &name,
+                        PitchContextPtr pitchContext = PitchContextPtr(new PitchContext()))
+        : m_type(type), m_name(name), m_pitchContext(pitchContext) {}
     Instrument(const Instrument& other)
         { this->m_type = other.m_type;
           this->m_name = other.m_name; }
@@ -30,12 +34,15 @@ public:
         { return m_name; }
     LP::InstrumentType type() const
         { return m_type; }
+    const PitchContextPtr pitchContext() const
+        { return m_pitchContext; }
     virtual bool supportsSymbolType(int type) const
         { Q_UNUSED(type) return false; }
 
 private:
     LP::InstrumentType m_type;
     QString m_name;
+    PitchContextPtr m_pitchContext;
 };
 
 typedef QSharedPointer<Instrument> InstrumentPtr;

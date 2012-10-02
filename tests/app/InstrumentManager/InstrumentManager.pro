@@ -1,6 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    InstrumentManager \
     TestInstrumentGHB \
-    TestInstrumentForManager
+    TestInstrumentForManager \
+    InstrumentManager
+
+CONFIG += ordered

@@ -11,7 +11,8 @@
 
 #include <QStringList>
 #include <QMap>
-#include <pitch.h>
+#include <QSharedPointer>
+#include <model/datatypes/pitch.h>
 
 class PitchContext
 {
@@ -28,5 +29,7 @@ public:
 private:
     QMap<int, PitchPtr> m_pitches;
 };
+
+typedef QSharedPointer<PitchContext> PitchContextPtr;
 
 #endif // PITCHCONTEXT_H

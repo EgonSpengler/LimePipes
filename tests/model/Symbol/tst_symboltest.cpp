@@ -74,7 +74,8 @@ void SymbolTest::testDataPolicyForRole_data()
     QTest::newRow("display role")               << symbol->dataPolicyForRole(Qt::DisplayRole) << true << false;
     QTest::newRow("symbol name")                << symbol->dataPolicyForRole(LP::symbolName) << true << false;
     QTest::newRow("symbol type")                << symbol->dataPolicyForRole(LP::symbolType) << true << false;
-    QTest::newRow("symbol length")              << symbol->dataPolicyForRole(LP::symbolLength) << true << true;
+    QTest::newRow("symbol length")              << symbol->dataPolicyForRole(LP::symbolLength) << false << false;
+    QTest::newRow("symbol pitch")               << symbol->dataPolicyForRole(LP::symbolPitch) << false << false;
     delete symbol;
 }
 

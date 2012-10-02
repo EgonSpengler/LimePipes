@@ -25,6 +25,7 @@ private Q_SLOTS:
     void testDefaultValues();
     void testQVariant();
     void testCopyConstructor();
+    void testPitchContext();
 
 private:
     InstrumentPtr m_instrument;
@@ -48,10 +49,10 @@ void InstrumentTest::testCreateInstrument()
 
 void InstrumentTest::testDefaultValues()
 {
-    Instrument instrument;
-    QVERIFY2(instrument.type() == LP::NoInstrument, "Empty instrument doesn't return NoInstrument type");
-    QVERIFY2(instrument.name() == "No Instrument", "Empty instrument doesn't return No Instrument as name");
-
+    QVERIFY2(m_instrument->type() == LP::NoInstrument, "Empty instrument doesn't return NoInstrument type");
+    QVERIFY2(m_instrument->name() == "No Instrument", "Empty instrument doesn't return No Instrument as name");
+    QVERIFY2(m_instrument->pitchContext()->highestStaffPos() == 0, "Failed, default pitch context highest staff pos");
+    QVERIFY2(m_instrument->pitchContext()->lowestStaffPos() == 0, "Failed, default pitch context lowest staff pos");
 }
 
 void InstrumentTest::testQVariant()
@@ -66,6 +67,19 @@ void InstrumentTest::testCopyConstructor()
     Instrument instrument1(LP::BassDrum, QString("TestInstrument"));
     Instrument instrument2(instrument1);
     QVERIFY2(instrument2.type() == LP::BassDrum, "Failed copy constructor");
+}
+
+void InstrumentTest::testPitchContext()
+{
+    PitchContextPtr pitchContext = PitchContextPtr(new PitchContext());
+    pitchContext->insertPitch(0, "pitch zero");
+    pitchContext->insertPitch(1, "pitch one");
+    pitchContext->insertPitch(2, "pitch two");
+    pitchContext->insertPitch(-1, "pitch minus one");
+
+    m_instrument = InstrumentPtr(new Instrument(LP::BassDrum, "Bass drum", pitchContext));
+    QVERIFY2(m_instrument->pitchContext()->pitchNames().count() == pitchContext->pitchNames().count(),
+             "Failed setting pitch context in constructor");
 }
 
 QTEST_APPLESS_MAIN(InstrumentTest)

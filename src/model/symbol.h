@@ -20,17 +20,33 @@ class Symbol : public MusicItem
 {
     Q_DECLARE_TR_FUNCTIONS(MusicItem)
 public:
+    enum PitchUsage {
+        HasPitch,
+        HasNoPitch
+    };
+
+    enum LengthUsage {
+        HasLength,
+        HasNoLength
+    };
+
     explicit Symbol();
-    explicit Symbol(int type, const QString &name);
+    explicit Symbol(int type, const QString &name,
+                    PitchUsage pitchUsage = HasNoPitch, LengthUsage lengthUsage = HasNoLength);
     virtual ~Symbol() {}
     int symbolType() const
         { return data(LP::symbolType).toInt(); }
-    const DataPolicy dataPolicyForRole(int role) const
-        { return m_policies->policyForRole(role); }
+    const DataPolicy dataPolicyForRole(int role) const;
 
 private:
-    const static QScopedPointer<DataPolicyCollection> m_policies;
     static DataPolicyCollection *initPolicies();
+    void setPitchIsUsed(PitchUsage pitchUsage);
+    void setLengthIsUsed(LengthUsage lengthUsage);
+    bool canRoleBeUsedInSubclass(int role) const;
+    bool isRoleUsedInSubclass(int role) const;
+    const static QScopedPointer<DataPolicyCollection> m_policies;
+    bool m_pitchIsUsed;
+    bool m_lengthIsUsed;
 };
 
 #endif // SYMBOL_H

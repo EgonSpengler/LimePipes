@@ -23,6 +23,8 @@ private Q_SLOTS:
     void cleanup();
     void testDefaultConstructor();
     void testTypeAndNameConstructor();
+    void testPolicysForDynamicDataRoles_data();
+    void testPolicysForDynamicDataRoles();
 
 private:
     MelodyNote *m_melody;
@@ -52,6 +54,29 @@ void MelodyNoteTest::testTypeAndNameConstructor()
     QVERIFY2(m_melody->symbolType() == LP::Bar, "Melody Note doesn't return right symbol type if set through constructor");
     QVERIFY2(m_melody->data(LP::symbolName) == "testtest", "MelodyNote doesn't return symbol name data if set through constructor");
 }
+
+void MelodyNoteTest::testPolicysForDynamicDataRoles_data()
+{
+    MelodyNote *melodyNote = new MelodyNote();
+    QTest::addColumn<DataPolicy>("policy");
+    QTest::addColumn<bool>("readable");
+    QTest::addColumn<bool>("writable");
+
+    QTest::newRow("symbol length")               << melodyNote->dataPolicyForRole(LP::symbolLength) << true << true;
+    QTest::newRow("symbol pitch")                << melodyNote->dataPolicyForRole(LP::symbolPitch) << true << true;
+    delete melodyNote;
+}
+
+void MelodyNoteTest::testPolicysForDynamicDataRoles()
+{
+    QFETCH(DataPolicy, policy);
+    QFETCH(bool, readable);
+    QFETCH(bool, writable);
+
+    QCOMPARE(policy.isReadable(), readable);
+    QCOMPARE(policy.isWritable(), writable);
+}
+
 QTEST_APPLESS_MAIN(MelodyNoteTest)
 
 #include "tst_melodynotetest.moc"
