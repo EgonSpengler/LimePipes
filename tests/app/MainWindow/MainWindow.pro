@@ -6,6 +6,7 @@
 include( ../../tests.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/model.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
+include( $$LIMEPIPES_SOURCE_TREE/src/views/treeview/treeview.pri )
 
 !exists( $${LIMEPIPES_STATIC_PLUGINS_FOLDER}/liblp_greathighlandbagpipe.a ) {
     error( "No static plugin for great highland bagpipe in the folder $${LIMEPIPES_STATIC_PLUGINS_FOLDER} found. Open LimePipes.pro and build it first." )

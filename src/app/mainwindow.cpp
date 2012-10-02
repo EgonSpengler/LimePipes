@@ -28,6 +28,7 @@
 #include <app/newtunedialog.h>
 #include <app/addsymbolsdialog.h>
 #include <app/instrumentmanager.h>
+#include <views/treeview/treeview.h>
 
 #include <QDebug>
 
@@ -61,7 +62,7 @@ QDir MainWindow::pluginsDir()
 
 void MainWindow::createModelAndView()
 {
-    m_treeView = new QTreeView(this);
+    m_treeView = new TreeView(this);
     m_model = new MusicModel(this);
     m_treeView->setModel(m_model);
     setCentralWidget(m_treeView);
