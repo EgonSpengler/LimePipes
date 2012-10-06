@@ -19,33 +19,59 @@ public:
     LengthTest();
     
 private Q_SLOTS:
-    void testCreateLength();
-    void testSetLength();
+    void testValues();
+    void testValueForName();
+    void testNameForValue();
     void testSetLengthAsVariant();
+    void testLengthNames();
 };
 
 LengthTest::LengthTest()
 {
 }
 
-void LengthTest::testCreateLength()
+void LengthTest::testValues()
 {
-    Length length(Length::_32);
-    QVERIFY2(length.length() == Length::_32, "Failed to set length through constructor");
+    QVERIFY2(Length::_1 == 1, "Failed, note value _1");
+    QVERIFY2(Length::_2 == 2, "Failed, note value _2");
+    QVERIFY2(Length::_4 == 4, "Failed, note value _4");
+    QVERIFY2(Length::_8 == 8, "Failed, note value _8");
+    QVERIFY2(Length::_16 == 16, "Failed, note value _16");
+    QVERIFY2(Length::_32 == 32, "Failed, note value _32");
+    QVERIFY2(Length::_64 == 64, "Failed, note value _64");
 }
 
-void LengthTest::testSetLength()
+void LengthTest::testValueForName()
 {
-    Length length(Length::_16);
-    length.setLength(Length::_32);
-    QVERIFY2(length.length() == Length::_32, "Failed to set length");
+    QVERIFY2(Length::valueForName("half") == Length::_2, "Failed getting value for name");
+    // default value is whole note if no valid name is given
+    QVERIFY2(Length::valueForName("uga-uga") == Length::_1, "Failed getting value for non existing name");
+}
+
+void LengthTest::testNameForValue()
+{
+    QVERIFY2(Length::nameForValue(Length::_16) == "sixteenth", "Failed getting name for value");
 }
 
 void LengthTest::testSetLengthAsVariant()
 {
     QVariant var;
-    var.setValue(Length(Length::_4));
-    QVERIFY2(var.value<Length>().length() == Length::_4, "Failed to set as QVariant");
+    var.setValue(Length::_4);
+    QVERIFY2(var.value<Length::Value>() == Length::_4, "Failed to set as QVariant");
+}
+
+void LengthTest::testLengthNames()
+{
+    QStringList names = Length::lengthNames();
+    QVERIFY2(names.count() == 7, "Failed getting length names");
+    QVERIFY2(names.at(0) == "whole", "Failed whole note");
+    QVERIFY2(names.at(1) == "half", "Failed half note");
+    QVERIFY2(names.at(2) == "quarter", "Failed quarter note");
+    QVERIFY2(names.at(3) == "eighth", "Failed eighth note");
+    QVERIFY2(names.at(4) == "sixteenth", "Failed sixteenth note");
+    QVERIFY2(names.at(5) == "thirty-second", "Failed thirty-second note");
+    QVERIFY2(names.at(6) == "sixty-fourth", "Failed sixty-fourth note");
+
 }
 
 QTEST_APPLESS_MAIN(LengthTest)

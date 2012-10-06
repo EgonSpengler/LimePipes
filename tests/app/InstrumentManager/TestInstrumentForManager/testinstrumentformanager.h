@@ -33,7 +33,7 @@ private:
         TestInstrument()
             : Instrument(LP::BassDrum, QString("Test instrument")) {}
         bool supportsSymbolType(int type) const
-            { return false; }
+            { Q_UNUSED(type) return false; }
     };
 
     InstrumentPtr m_instrument;
