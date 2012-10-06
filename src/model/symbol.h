@@ -14,6 +14,7 @@
 #include <musicitem.h>
 #include <itemdatatypes.h>
 #include <datapolicycollection.h>
+#include <datatypes/pitch.h>
 #include "../interfaces/interfaceglobals.h"
 
 class Symbol : public MusicItem
@@ -37,6 +38,8 @@ public:
     int symbolType() const
         { return data(LP::symbolType).toInt(); }
     const DataPolicy dataPolicyForRole(int role) const;
+    bool hasPitch() const;
+    PitchPtr pitch() const;
 
 private:
     static DataPolicyCollection *initPolicies();

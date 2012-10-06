@@ -30,7 +30,7 @@ private:
 
 void GHB_MelodyNoteTest::init()
 {
-    m_melody = new GHB_MelodyNote;
+    m_melody = new GHB_MelodyNote(PitchPtr(new Pitch(0, "Low A")));
 }
 
 void GHB_MelodyNoteTest::cleanup()

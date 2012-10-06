@@ -30,8 +30,6 @@
 #include <app/instrumentmanager.h>
 #include <views/treeview/treeview.h>
 
-#include <QDebug>
-
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
 MainWindow::MainWindow(QWidget *parent) :

@@ -16,8 +16,6 @@
 #include <interfaces/instrumentinterface.h>
 #include <interfaces/symbolinterface.h>
 
-#include <QDebug>
-
 class InstrumentManager
 {
 public:

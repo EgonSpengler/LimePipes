@@ -10,8 +10,6 @@
 #include <QtTest/QtTest>
 #include <pitchcontext.h>
 
-#include <QDebug>
-
 class PitchContextTest : public QObject
 {
     Q_OBJECT
@@ -43,7 +41,6 @@ void PitchContextTest::init()
     m_context->insertPitch(3, "pitch three");
     m_context->insertPitch(-2, "pitch minus two");
     m_context->insertPitch(-1, "pitch minus one");
-
 }
 
 void PitchContextTest::cleanup()

@@ -15,6 +15,7 @@
 #include <QString>
 #include <QStringList>
 #include <ghb_instrument.h>
+#include <pitchcontext.h>
 
 class GreatHighlandBagpipe : public QObject,
                              public InstrumentInterface,
@@ -24,8 +25,8 @@ class GreatHighlandBagpipe : public QObject,
     Q_INTERFACES(InstrumentInterface SymbolInterface)
 
 public:
-    GreatHighlandBagpipe()
-        : m_bagpipe(InstrumentPtr(new GHB_Instrument())) {}
+    GreatHighlandBagpipe();
+
     // Instrument interface
     QString name() const
         { return QString("Great Highland Bagpipe"); }

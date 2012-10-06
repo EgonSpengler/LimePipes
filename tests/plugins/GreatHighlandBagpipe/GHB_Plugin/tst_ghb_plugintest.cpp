@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testInstrumentID();
     void testsupportedSymbolTypes();
     void testSymbolNamesForAllSymbols();
+    void testPitchContext();
 
 private:
     GreatHighlandBagpipe *m_bagpipe;
@@ -80,6 +81,20 @@ void GHB_PluginTest::testSymbolNamesForAllSymbols()
         QVERIFY2(symbol->data(LP::symbolName) == symbolName, "Failed, Symbol's name returned by Plugin doesn't match with name parameter from getSymbol-method.");
         delete symbol;
     }
+}
+
+void GHB_PluginTest::testPitchContext()
+{
+    PitchContextPtr pitchContext = m_bagpipe->instrument()->pitchContext();
+    QVERIFY2(pitchContext->pitchForStaffPos(-2)->name() == "High A", "Failed High A");
+    QVERIFY2(pitchContext->pitchForStaffPos(-1)->name() == "High G", "Failed High G");
+    QVERIFY2(pitchContext->pitchForStaffPos(0)->name() == "F", "Failed F");
+    QVERIFY2(pitchContext->pitchForStaffPos(1)->name() == "E", "Failed E");
+    QVERIFY2(pitchContext->pitchForStaffPos(2)->name() == "D", "Failed D");
+    QVERIFY2(pitchContext->pitchForStaffPos(3)->name() == "C", "Failed C");
+    QVERIFY2(pitchContext->pitchForStaffPos(4)->name() == "B", "Failed B");
+    QVERIFY2(pitchContext->pitchForStaffPos(5)->name() == "Low A", "Failed Low A");
+    QVERIFY2(pitchContext->pitchForStaffPos(6)->name() == "Low G", "Failed Low G");
 }
 
 QTEST_APPLESS_MAIN(GHB_PluginTest)

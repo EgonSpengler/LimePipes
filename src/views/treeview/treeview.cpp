@@ -11,4 +11,6 @@
 TreeView::TreeView(QWidget *parent) :
     QTreeView(parent)
 {
+    m_pitchDelegate = new PitchDelegate();
+    setItemDelegateForColumn(1, m_pitchDelegate);
 }

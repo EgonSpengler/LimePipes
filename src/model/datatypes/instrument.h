@@ -25,9 +25,7 @@ public:
                         const QString &name,
                         PitchContextPtr pitchContext = PitchContextPtr(new PitchContext()))
         : m_type(type), m_name(name), m_pitchContext(pitchContext) {}
-    Instrument(const Instrument& other)
-        { this->m_type = other.m_type;
-          this->m_name = other.m_name; }
+    Instrument(const Instrument& other);
     virtual ~Instrument() {}
 
     QString name() const
@@ -38,6 +36,8 @@ public:
         { return m_pitchContext; }
     virtual bool supportsSymbolType(int type) const
         { Q_UNUSED(type) return false; }
+    QStringList pitchNames() const
+        { return m_pitchContext->pitchNames(); }
 
 private:
     LP::InstrumentType m_type;

@@ -28,6 +28,7 @@ private Q_SLOTS:
     void testDataPolicyForRole_data();
     void testDataPolicyForRole();
     void testSymbolType();
+    void testHasPitch();
 
 private:
     Symbol *m_symbol;
@@ -93,6 +94,14 @@ void SymbolTest::testDataPolicyForRole()
 void SymbolTest::testSymbolType()
 {
     QVERIFY2(m_symbol->symbolType() == LP::NoSymbolType, "Failed to get the default symbol type");
+}
+
+void SymbolTest::testHasPitch()
+{
+    QVERIFY2(m_symbol->hasPitch() == false, "Failed, default symbol should have no pitch");
+    delete m_symbol;
+    m_symbol = new Symbol(LP::BassDrum, "new symbol", Symbol::HasPitch);
+    QVERIFY2(m_symbol->hasPitch(), "Failed, symbol with pitch returned false");
 }
 
 QTEST_APPLESS_MAIN(SymbolTest)

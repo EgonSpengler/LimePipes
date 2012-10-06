@@ -64,9 +64,15 @@ void InstrumentTest::testQVariant()
 
 void InstrumentTest::testCopyConstructor()
 {
-    Instrument instrument1(LP::BassDrum, QString("TestInstrument"));
+    PitchContextPtr pitchContext = PitchContextPtr(new PitchContext());
+    pitchContext->insertPitch(0, "testpitch");
+
+    Instrument instrument1(LP::BassDrum, QString("TestInstrument"), pitchContext);
     Instrument instrument2(instrument1);
     QVERIFY2(instrument2.type() == LP::BassDrum, "Failed copy constructor");
+    QVERIFY2(instrument2.pitchContext().isNull() == false, "Failed, there is no pitch context");
+    QVERIFY2(instrument2.pitchContext()->pitchForStaffPos(0)->name() == "testpitch", "Failed getting pitchcontext from copy constructor");
+    QVERIFY2(instrument2.name() == "TestInstrument", "Failed getting instrument name");
 }
 
 void InstrumentTest::testPitchContext()

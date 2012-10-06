@@ -12,6 +12,7 @@
   */
 
 #include "symbol.h"
+#include <datatypes/pitch.h>
 
 const QScopedPointer<DataPolicyCollection> Symbol::m_policies(initPolicies());
 
@@ -50,6 +51,19 @@ const DataPolicy Symbol::dataPolicyForRole(int role) const
         return DataPolicy(DataPolicy::ReadWrite);
     }
     return m_policies->policyForRole(role);
+}
+
+bool Symbol::hasPitch() const
+{
+    return dataPolicyForRole(LP::symbolPitch).isReadable();
+}
+
+PitchPtr Symbol::pitch() const
+{
+    if (data(LP::symbolPitch).canConvert<PitchPtr>()) {
+        return data(LP::symbolPitch).value<PitchPtr>();
+    }
+    return PitchPtr(new Pitch());
 }
 
 bool Symbol::canRoleBeUsedInSubclass(int role) const

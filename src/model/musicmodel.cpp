@@ -15,9 +15,23 @@
 #include <rootitem.h>
 #include <score.h>
 #include <tune.h>
+#include <datatypes/pitch.h>
 
 namespace {
-const int ColumnCount = 1;
+const int ColumnCount = 2;
+const int ItemColumn = 0;
+const int PitchColumn = 1;
+}
+
+Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
+{
+    Qt::ItemFlags theFlags = QAbstractItemModel::flags(index);
+    if (index.isValid()) {
+        theFlags |= Qt::ItemIsSelectable |
+                    Qt::ItemIsEnabled |
+                    Qt::ItemIsEditable;
+    }
+    return theFlags;
 }
 
 QModelIndex MusicModel::index(int row, int column, const QModelIndex &parent) const
@@ -67,9 +81,44 @@ QVariant MusicModel::data(const QModelIndex &index, int role) const
     if (!m_rootItem || !index.isValid() || index.column() < 0 ||
             index.column() >= ColumnCount)
         return QVariant();
-    if (MusicItem *item = itemForIndex(index))
+    if (MusicItem *item = itemForIndex(index)) {
+        if (index.column() != ItemColumn) {
+            return dataForNonMusicItemColumn(index, role);
+        }
         return item->data(role);
+    }
     return QVariant();
+}
+
+QVariant MusicModel::dataForNonMusicItemColumn(const QModelIndex &index, int role) const
+{
+    if ( (role != Qt::DisplayRole &&
+          role != Qt::EditRole) ||
+         !indexHasItemType(index, MusicItem::SymbolType))
+        return QVariant();
+
+    Symbol *symbol = symbolFromIndex(index);
+    if (symbol) {
+        switch (index.column()) {
+        case PitchColumn:
+            if (symbol->hasPitch()) {
+                    return symbol->pitch()->name();
+            }
+            break;
+        }
+    }
+    return QVariant();
+}
+
+bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (!index.isValid() || index.column() != ItemColumn)
+        return false;
+    if (MusicItem *item = itemForIndex(index)) {
+        item->setData(value, role);
+        return true;
+    }
+    return false;
 }
 
 QModelIndex MusicModel::insertScore(int row, const QString &title)
@@ -110,17 +159,6 @@ QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, Symbol *s
     return insertItem(row, tune, symbol);
 }
 
-bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    if (!index.isValid() || index.column() != 0)
-        return false;
-    if (MusicItem *item = itemForIndex(index)) {
-        item->setData(value, role);
-        return true;
-    }
-    return false;
-}
-
 MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const
 {
     if (index.isValid()) {
@@ -136,6 +174,52 @@ void MusicModel::clear()
     delete m_rootItem;
     m_rootItem = 0;
     reset();
+}
+
+bool MusicModel::isIndexScore(const QModelIndex &index) const
+{
+    return indexHasItemType(index, MusicItem::ScoreType);
+}
+
+bool MusicModel::isIndexTune(const QModelIndex &index) const
+{
+    return indexHasItemType(index, MusicItem::TuneType);
+}
+
+bool MusicModel::isIndexSymbol(const QModelIndex &index) const
+{
+    return indexHasItemType(index, MusicItem::SymbolType);
+}
+
+Score *MusicModel::scoreFromIndex(const QModelIndex &index) const
+{
+    return castedMusicItemFromIndex<Score*>(index);
+}
+
+Tune *MusicModel::tuneFromIndex(const QModelIndex &index) const
+{
+    return castedMusicItemFromIndex<Tune*>(index);
+}
+
+Symbol *MusicModel::symbolFromIndex(const QModelIndex &index) const
+{
+    return castedMusicItemFromIndex<Symbol*>(index);
+}
+
+PitchContextPtr MusicModel::pitchContextFromTuneIndex(const QModelIndex &index) const
+{
+    Tune *tune = tuneFromIndex(index);
+    return tune->instrument()->pitchContext();
+}
+
+bool MusicModel::indexHasItemType(const QModelIndex &index, MusicItem::Type type) const
+{
+    if (MusicItem *item = itemForIndex(index)) {
+        if (item->type() == type) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void MusicModel::createRootItemIfNotPresent()
@@ -164,4 +248,10 @@ QModelIndex MusicModel::insertItem(int row, const QModelIndex &parent, MusicItem
         }
     }
     return QModelIndex();
+}
+
+template<class T>
+T MusicModel::castedMusicItemFromIndex(const QModelIndex &index) const
+{
+    return static_cast<T>(itemForIndex(index));
 }

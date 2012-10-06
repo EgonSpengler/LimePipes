@@ -37,7 +37,7 @@ void PitchTest::testCreatePitch()
 
 void PitchTest::testSetPitchAsQVariant()
 {
-    QVariant var = QVariant::fromValue<Pitch>(Pitch());
+    QVariant var = QVariant::fromValue<PitchPtr>(PitchPtr(new Pitch()));
     QVERIFY2(var.isValid(), "Failed setting Pitch as QVariant");
 }
 

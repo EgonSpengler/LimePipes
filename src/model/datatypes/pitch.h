@@ -10,6 +10,7 @@
 #define PITCH_H
 
 #include <QMetaType>
+#include <QVariant>
 #include <QString>
 #include <QSharedPointer>
 
@@ -18,6 +19,7 @@ class Pitch
 public:
     explicit Pitch()
         : m_staffPos(0), m_name("no name") {}
+
     explicit Pitch(int staffPos, const QString &name)
         : m_staffPos(staffPos), m_name(name) {}
     Pitch(const Pitch &other);
@@ -33,6 +35,6 @@ private:
 
 typedef QSharedPointer<Pitch> PitchPtr;
 
-Q_DECLARE_METATYPE(Pitch)
+Q_DECLARE_METATYPE(PitchPtr)
 
 #endif // PITCH_H

@@ -43,13 +43,17 @@ PitchPtr PitchContext::pitchForName(const QString &name) const
             return pitch;
         }
     }
-    qWarning("pitchname not in context");
+
+    if (!name.isEmpty()) {
+        qWarning("pitchname not in context");
+    }
+
     return PitchPtr(new Pitch(0, "no pitch"));
 }
 
 PitchPtr PitchContext::pitchForStaffPos(int staffPos) const
 {
-    return m_pitches.value(staffPos);
+    return m_pitches.value(staffPos, PitchPtr(new Pitch(0, "no pitch")));
 }
 
 void PitchContext::insertPitch(int staffPos, const QString &name)

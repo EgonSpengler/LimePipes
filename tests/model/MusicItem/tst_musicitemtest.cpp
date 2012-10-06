@@ -16,14 +16,16 @@
 
 #include <testmusicitem.h>
 
-#include <QDebug>
-
 class MusicItemTest : public QObject
 {
     Q_OBJECT
     
 public:
-    MusicItemTest() : m_parent(0), m_child1(0), m_child2(0), m_child3(0) {}
+    MusicItemTest()
+        : m_parent(0),
+          m_child1(0),
+          m_child2(0),
+          m_child3(0) {}
 
 private slots:
     void init();

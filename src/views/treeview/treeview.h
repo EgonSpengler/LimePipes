@@ -10,17 +10,17 @@
 #define TREEVIEW_H
 
 #include <QTreeView>
+#include <pitchdelegate.h>
 
 class TreeView : public QTreeView
 {
     Q_OBJECT
 public:
     explicit TreeView(QWidget *parent = 0);
+    ~TreeView() { delete m_pitchDelegate; }
     
-signals:
-    
-public slots:
-    
+private:
+    PitchDelegate *m_pitchDelegate;
 };
 
 #endif // TREEVIEW_H

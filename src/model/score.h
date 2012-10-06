@@ -14,8 +14,6 @@
 #include <itemdatatypes.h>
 #include <datapolicycollection.h>
 
-#include <QDebug>
-
 class Score : public MusicItem
 {
 public:

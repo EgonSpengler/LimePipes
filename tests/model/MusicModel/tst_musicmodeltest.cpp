@@ -40,6 +40,14 @@ private Q_SLOTS:
     void testQAbstractItemModelImplementation();
     void testItemForIndex();
     void testClear();
+    void testIsScore();
+    void testIsTune();
+    void testIsSymbol();
+    void testScoreFromIndex();
+    void testTuneFromIndex();
+    void testSymbolFromIndex();
+    void testPitchContextFromTuneIndex();
+    void testPitchColumn();
 
 private:
     MusicModel *m_model;
@@ -194,6 +202,65 @@ void MusicModelTest::testClear()
     QVERIFY2(m_model->index(0, 0, QModelIndex()).isValid() == true, "At least one item should be in the model for next test");
     m_model->clear();
     QVERIFY2(m_model->index(0, 0, QModelIndex()).isValid() == false, "Model wasn't cleared");
+}
+
+void MusicModelTest::testIsScore()
+{
+    QModelIndex firstScore = m_model->appendScore("First title");
+    QVERIFY2(m_model->isIndexScore(firstScore), "Failed, should return true for score");
+}
+
+void MusicModelTest::testIsTune()
+{
+    QModelIndex score = m_model->insertScore(0, "First Score");
+    QModelIndex tune = m_model->appendTuneToScore(score, InstrumentPtr(new TestInstrument()));
+    QVERIFY2(m_model->isIndexTune(tune), "Faile, should return true for tune");
+}
+
+void MusicModelTest::testIsSymbol()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+    QModelIndex symbol1 = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
+    QVERIFY2(m_model->isIndexSymbol(symbol1), "Failed, should return true for symbol");
+}
+
+void MusicModelTest::testScoreFromIndex()
+{
+    QModelIndex firstScore = m_model->appendScore("First title");
+    QVERIFY2(m_model->scoreFromIndex(firstScore)->type() == MusicItem::ScoreType, "Failed getting score from index");
+}
+
+void MusicModelTest::testTuneFromIndex()
+{
+    QModelIndex score = m_model->insertScore(0, "First Score");
+    QModelIndex tune = m_model->appendTuneToScore(score, InstrumentPtr(new TestInstrument()));
+    QVERIFY2(m_model->tuneFromIndex(tune)->type() == MusicItem::TuneType, "Failed getting tune from index");
+}
+
+void MusicModelTest::testSymbolFromIndex()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+    QModelIndex symbol1 = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
+    QVERIFY2(m_model->symbolFromIndex(symbol1)->type() == MusicItem::SymbolType, "Failed getting symbol from index");
+}
+
+void MusicModelTest::testPitchContextFromTuneIndex()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+    QVERIFY2(m_model->pitchContextFromTuneIndex(tune)->pitchNames().count() == 1, "Failed getting pitch context from tune index");
+}
+
+void MusicModelTest::testPitchColumn()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+
+    QModelIndex symbolWithPitch = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasPitch));
+    QModelIndex pitchIndex = m_model->sibling(symbolWithPitch.row(), 1, symbolWithPitch);
+    QVERIFY2(m_model->data(pitchIndex, Qt::DisplayRole).isValid(), "No valid data for pitch column");
+
+    QModelIndex symbolWithoutPitch = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch));
+    QModelIndex noPitchIndex = m_model->index(symbolWithoutPitch.row(), 1, symbolWithoutPitch.parent());
+    QVERIFY2(m_model->data(noPitchIndex, Qt::DisplayRole).isValid() == false, "Valid data was returned for symbol with no pitch");
 }
 
 QTEST_APPLESS_MAIN(MusicModelTest)

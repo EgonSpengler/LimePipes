@@ -11,12 +11,16 @@
 
 #include <melodynote.h>
 #include <ghb_symboltypes.h>
+#include <pitch.h>
 
 class GHB_MelodyNote : public MelodyNote
 {
 public:
-    GHB_MelodyNote()
-        : MelodyNote(GHB::MelodyNote, "Melody Note") {}
+    GHB_MelodyNote(PitchPtr pitch)
+        : MelodyNote(GHB::MelodyNote, "Melody Note")
+    {
+        initData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
+    }
 };
 
 #endif // GHB_MELODYNOTE_H

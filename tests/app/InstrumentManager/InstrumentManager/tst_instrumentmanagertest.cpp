@@ -16,8 +16,6 @@
 #include <symbolinterface.h>
 #include <app/instrumentmanager.h>
 
-#include <QDebug>
-
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
 class InstrumentManagerTest : public QObject

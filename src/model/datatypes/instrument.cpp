@@ -11,3 +11,10 @@
 /*! @class Instrument
     @brief A class which provides a Instrument.
 */
+
+Instrument::Instrument(const Instrument &other)
+{
+    this->m_type = other.m_type;
+    this->m_name = other.m_name;
+    this->m_pitchContext = other.m_pitchContext;
+}

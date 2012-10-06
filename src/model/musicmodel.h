@@ -11,6 +11,8 @@
 
 #include <QAbstractItemModel>
 #include <musicitem.h>
+#include <score.h>
+#include <tune.h>
 #include <symbol.h>
 #include "datatypes/instrument.h"
 
@@ -22,6 +24,7 @@ public:
         QAbstractItemModel(parent), m_rootItem(0) {}
     ~MusicModel() { delete m_rootItem; }
 
+    Qt::ItemFlags flags(const QModelIndex &index) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent) const;
@@ -38,12 +41,23 @@ public:
     
     MusicItem *itemForIndex(const QModelIndex& index) const;
     void clear();
+    bool isIndexScore(const QModelIndex &index) const;
+    bool isIndexTune(const QModelIndex &index) const;
+    bool isIndexSymbol(const QModelIndex &index) const;
+    Score *scoreFromIndex(const QModelIndex &index) const;
+    Tune *tuneFromIndex(const QModelIndex &index) const;
+    Symbol *symbolFromIndex(const QModelIndex &index) const;
+    PitchContextPtr pitchContextFromTuneIndex(const QModelIndex &index) const;
 
 private:
-    MusicItem *m_rootItem;
+    bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;
+    template<class T>
+    T castedMusicItemFromIndex(const QModelIndex &index) const;
+    QVariant dataForNonMusicItemColumn(const QModelIndex &index, int role) const;
     void createRootItemIfNotPresent();
     bool isRowValid(MusicItem *item, int row) const;
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
+    MusicItem *m_rootItem;
 };
 
 #endif // MUSICMODEL_H
