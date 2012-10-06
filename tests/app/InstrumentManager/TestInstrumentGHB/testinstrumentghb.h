@@ -26,13 +26,22 @@ class TestInstrumentGHB  :  public QObject,
     Q_INTERFACES(InstrumentInterface)
 public:
     TestInstrumentGHB()
-        : m_instrument(InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, QString("Great Highland Bagpipe")))) {}
+        : m_instrument(InstrumentPtr(new TestInstrument())) {}
     QString name() const
         { return QString("Great Highland Bagpipe"); }
     InstrumentPtr instrument() const
-    { return m_instrument; }
+        { return m_instrument; }
 
 private:
+    class TestInstrument : public Instrument
+    {
+    public:
+        TestInstrument()
+            : Instrument(LP::GreatHighlandBagpipe, QString("Great Highland Bagpipe")) {}
+        bool supportsSymbolType(int type) const
+            { Q_UNUSED(type) return false; }
+    };
+
     InstrumentPtr m_instrument;
 };
 

@@ -25,7 +25,7 @@ InstrumentPtr InstrumentManager::instrumentForName(const QString &name)
     if (instrumentPlugin) {
         return instrumentPlugin->instrument();
     } else {
-        return InstrumentPtr(new Instrument());
+        return InstrumentPtr(new NullInstrument());
     }
 }
 

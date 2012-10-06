@@ -20,13 +20,22 @@ class TestInstrumentForManager :  public QObject,
     Q_INTERFACES(InstrumentInterface)
 public:
     TestInstrumentForManager()
-        : m_instrument(InstrumentPtr(new Instrument(LP::BassDrum, QString("Test instrument")))) {}
+        : m_instrument(InstrumentPtr(new TestInstrument())) {}
     QString name() const
         { return QString("Test instrument"); }
     InstrumentPtr instrument() const
     { return m_instrument; }
 
 private:
+    class TestInstrument : public Instrument
+    {
+    public:
+        TestInstrument()
+            : Instrument(LP::BassDrum, QString("Test instrument")) {}
+        bool supportsSymbolType(int type) const
+            { return false; }
+    };
+
     InstrumentPtr m_instrument;
 };
 

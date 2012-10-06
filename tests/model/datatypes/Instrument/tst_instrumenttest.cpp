@@ -28,12 +28,23 @@ private Q_SLOTS:
     void testPitchContext();
 
 private:
+    class TestInstrument : public Instrument
+    {
+    public:
+        TestInstrument()
+            : Instrument() {}
+        TestInstrument(LP::InstrumentType type, const QString &name, PitchContextPtr pitchContext = PitchContextPtr(new PitchContext()))
+            : Instrument(type, name, pitchContext) {}
+        bool supportsSymbolType(int type) const
+            { Q_UNUSED(type) return false; }
+    };
+
     InstrumentPtr m_instrument;
 };
 
 void InstrumentTest::init()
 {
-    m_instrument = InstrumentPtr(new Instrument());
+    m_instrument = InstrumentPtr(new TestInstrument());
 }
 
 void InstrumentTest::cleanup()
@@ -42,8 +53,8 @@ void InstrumentTest::cleanup()
 
 void InstrumentTest::testCreateInstrument()
 {
-    m_instrument = InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument")));
-    QVERIFY2(m_instrument->name() == "TestInstrument", "Failed to set instrument name in constructor");
+    m_instrument = InstrumentPtr(new TestInstrument(LP::GreatHighlandBagpipe, "Test Instrument"));
+    QVERIFY2(m_instrument->name() == "Test Instrument", "Failed to set instrument name in constructor");
     QVERIFY2(m_instrument->type() == LP::GreatHighlandBagpipe, "Failed to set instrument type in constructor");
 }
 
@@ -57,7 +68,7 @@ void InstrumentTest::testDefaultValues()
 
 void InstrumentTest::testQVariant()
 {
-    m_instrument = InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, QString("TestInstrument")));
+    m_instrument = InstrumentPtr(new TestInstrument());
     QVariant var = QVariant::fromValue<InstrumentPtr>(m_instrument);
     QVERIFY2(var.value<InstrumentPtr>()->name().isEmpty() != true, "Failed using Instrument as QVariant");
 }
@@ -67,8 +78,8 @@ void InstrumentTest::testCopyConstructor()
     PitchContextPtr pitchContext = PitchContextPtr(new PitchContext());
     pitchContext->insertPitch(0, "testpitch");
 
-    Instrument instrument1(LP::BassDrum, QString("TestInstrument"), pitchContext);
-    Instrument instrument2(instrument1);
+    TestInstrument instrument1(LP::BassDrum, QString("TestInstrument"), pitchContext);
+    TestInstrument instrument2(instrument1);
     QVERIFY2(instrument2.type() == LP::BassDrum, "Failed copy constructor");
     QVERIFY2(instrument2.pitchContext().isNull() == false, "Failed, there is no pitch context");
     QVERIFY2(instrument2.pitchContext()->pitchForStaffPos(0)->name() == "testpitch", "Failed getting pitchcontext from copy constructor");
@@ -83,7 +94,7 @@ void InstrumentTest::testPitchContext()
     pitchContext->insertPitch(2, "pitch two");
     pitchContext->insertPitch(-1, "pitch minus one");
 
-    m_instrument = InstrumentPtr(new Instrument(LP::BassDrum, "Bass drum", pitchContext));
+    m_instrument = InstrumentPtr(new TestInstrument(LP::BassDrum, "Bass drum", pitchContext));
     QVERIFY2(m_instrument->pitchContext()->pitchNames().count() == pitchContext->pitchNames().count(),
              "Failed setting pitch context in constructor");
 }

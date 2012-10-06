@@ -169,7 +169,7 @@ void MusicModelTest::testCallOfOkToInsertChild()
 
 void MusicModelTest::testQAbstractItemModelImplementation()
 {
-    InstrumentPtr instrument = InstrumentPtr(new Instrument(LP::GreatHighlandBagpipe, "Bagpipe"));
+    InstrumentPtr instrument = InstrumentPtr(new TestInstrument());
     for (int i=0; i < 3; i++) {
         m_model->insertScore(0, "Score Title");
     }

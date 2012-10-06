@@ -22,7 +22,7 @@ class Tune : public MusicItem
 public:
     explicit Tune()
         : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
-        { setInstrument(InstrumentPtr(new Instrument())); }
+        { setInstrument(InstrumentPtr(new NullInstrument())); }
     explicit Tune(InstrumentPtr instrument)
         : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
         { setInstrument(instrument); }

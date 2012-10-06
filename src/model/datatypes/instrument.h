@@ -34,8 +34,7 @@ public:
         { return m_type; }
     const PitchContextPtr pitchContext() const
         { return m_pitchContext; }
-    virtual bool supportsSymbolType(int type) const
-        { Q_UNUSED(type) return false; }
+    virtual bool supportsSymbolType(int type) const = 0;
     QStringList pitchNames() const
         { return m_pitchContext->pitchNames(); }
 
@@ -43,6 +42,15 @@ private:
     LP::InstrumentType m_type;
     QString m_name;
     PitchContextPtr m_pitchContext;
+};
+
+class NullInstrument : public Instrument
+{
+public:
+    NullInstrument()
+        : Instrument() {}
+    bool supportsSymbolType(int type) const
+        { Q_UNUSED(type) return false; }
 };
 
 typedef QSharedPointer<Instrument> InstrumentPtr;

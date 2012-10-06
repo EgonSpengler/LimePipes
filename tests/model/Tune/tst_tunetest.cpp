@@ -54,7 +54,7 @@ void TuneTest::testConstructor()
     QVERIFY2(instrument != 0, "Failed default tune has no instrument");
 
     // Tune with default instrument
-    QVERIFY2(instrument->name() == Instrument().name(), "Failed to set Instrument in default constructor");
+    QVERIFY2(instrument->name() == NullInstrument().name(), "Failed to set Instrument in default constructor");
 
     delete m_tune;
     m_tune = new Tune(m_instrument);
