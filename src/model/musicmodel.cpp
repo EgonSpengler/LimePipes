@@ -121,6 +121,20 @@ bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int ro
     return false;
 }
 
+QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if (orientation == Qt::Horizontal &&
+        role == Qt::DisplayRole) {
+        switch (section) {
+        case ItemColumn:
+            return tr("Music item");
+        case PitchColumn:
+            return tr("Pitch");
+        }
+    }
+    return QVariant();
+}
+
 QModelIndex MusicModel::insertScore(int row, const QString &title)
 {
     createRootItemIfNotPresent();
