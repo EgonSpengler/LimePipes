@@ -2,8 +2,12 @@ INCLUDEPATH += $$PWD
 
 HEADERS += \
     $$PWD/treeview.h \
-    $$PWD/pitchdelegate.h
+    $$PWD/pitchdelegate.h \
+    $$PWD/lengthdelegate.h \
+    $$PWD/musicsymboldatadelegate.h
 
 SOURCES += \
     $$PWD/treeview.cpp \
-    $$PWD/pitchdelegate.cpp
+    $$PWD/pitchdelegate.cpp \
+    $$PWD/lengthdelegate.cpp \
+    $$PWD/musicsymboldatadelegate.cpp

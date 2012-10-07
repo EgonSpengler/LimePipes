@@ -15,6 +15,7 @@
 #include <itemdatatypes.h>
 #include <datapolicycollection.h>
 #include <datatypes/pitch.h>
+#include <datatypes/length.h>
 #include "../interfaces/interfaceglobals.h"
 
 class Symbol : public MusicItem
@@ -40,6 +41,8 @@ public:
     const DataPolicy dataPolicyForRole(int role) const;
     bool hasPitch() const;
     PitchPtr pitch() const;
+    bool hasLength() const;
+    Length::Value length() const;
 
 private:
     static DataPolicyCollection *initPolicies();
@@ -47,6 +50,7 @@ private:
     void setLengthIsUsed(LengthUsage lengthUsage);
     bool canRoleBeUsedInSubclass(int role) const;
     bool isRoleUsedInSubclass(int role) const;
+    bool isPolicyReadable(int role) const;
     const static QScopedPointer<DataPolicyCollection> m_policies;
     bool m_pitchIsUsed;
     bool m_lengthIsUsed;

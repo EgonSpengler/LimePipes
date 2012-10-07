@@ -6,26 +6,22 @@
  *
  */
 
-#ifndef PITCHDELEGATE_H
-#define PITCHDELEGATE_H
+#ifndef LENGTHDELEGATE_H
+#define LENGTHDELEGATE_H
 
 #include "musicsymboldatadelegate.h"
-#include <symbol.h>
-#include <musicmodel.h>
 
-class PitchDelegate : public MusicSymbolDataDelegate
+class LengthDelegate : public MusicSymbolDataDelegate
 {
     Q_OBJECT
 public:
-    explicit PitchDelegate(QObject *parent = 0)
-        : MusicSymbolDataDelegate(parent) {}
-
+    explicit LengthDelegate(QObject *parent = 0);
     QStringList comboBoxItems(const Symbol *symbol) const;
     bool hasSymbolDelegateData(const Symbol *symbol) const
-        { return symbol->hasPitch(); }
-    QString currentSelectedData(const Symbol *symbol) const
-        { return symbol->pitch()->name(); }
+        { return symbol->hasLength(); }
     void setSymbolDataFromSelectedText(Symbol *symbol, const QString &text) const;
+    QString currentSelectedData(const Symbol *symbol) const
+        { return QString::number(symbol->length()); }
 };
 
-#endif // PITCHDELEGATE_H
+#endif // LENGTHDELEGATE_H

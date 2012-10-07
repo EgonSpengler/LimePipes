@@ -19,7 +19,7 @@
 Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
 {
     if (symbol == tr("Melody Note")) {
-        return new GHB_MelodyNote(m_bagpipe->pitchContext()->pitchForStaffPos(0));
+        return new GHB_MelodyNote(m_bagpipe->pitchContext()->pitchForStaffPos(0), Length::_4);
     }
     if (symbol == tr("Bar")) {
         return new Bar();

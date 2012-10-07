@@ -12,14 +12,16 @@
 #include <melodynote.h>
 #include <ghb_symboltypes.h>
 #include <pitch.h>
+#include <length.h>
 
 class GHB_MelodyNote : public MelodyNote
 {
 public:
-    GHB_MelodyNote(PitchPtr pitch)
+    GHB_MelodyNote(PitchPtr pitch, Length::Value length)
         : MelodyNote(GHB::MelodyNote, "Melody Note")
     {
         initData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
+        initData(QVariant::fromValue<Length::Value>(length), LP::symbolLength);
     }
 };
 

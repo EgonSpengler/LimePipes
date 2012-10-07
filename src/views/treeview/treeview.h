@@ -11,16 +11,18 @@
 
 #include <QTreeView>
 #include <pitchdelegate.h>
+#include <lengthdelegate.h>
 
 class TreeView : public QTreeView
 {
     Q_OBJECT
 public:
     explicit TreeView(QWidget *parent = 0);
-    ~TreeView() { delete m_pitchDelegate; }
+    ~TreeView();
     
 private:
     PitchDelegate *m_pitchDelegate;
+    LengthDelegate *m_lengthDelegate;
 };
 
 #endif // TREEVIEW_H

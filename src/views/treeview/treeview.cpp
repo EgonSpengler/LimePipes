@@ -13,4 +13,13 @@ TreeView::TreeView(QWidget *parent) :
 {
     m_pitchDelegate = new PitchDelegate();
     setItemDelegateForColumn(1, m_pitchDelegate);
+
+    m_lengthDelegate = new LengthDelegate();
+    setItemDelegateForColumn(2, m_lengthDelegate);
+}
+
+TreeView::~TreeView()
+{
+    delete m_pitchDelegate;
+    delete m_lengthDelegate;
 }

@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     TreeView \
-    PitchDelegate
+    PitchDelegate \
+    LengthDelegate
