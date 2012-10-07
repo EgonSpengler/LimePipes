@@ -87,11 +87,12 @@ void PitchDelegateTest::cleanupTestCase()
 
 void PitchDelegateTest::init()
 {
+    int rowOfSymbolWithPitch = 1;
     QModelIndex score = m_model->index(0, 0, QModelIndex());
     Q_ASSERT(score.isValid());
     QModelIndex tune = m_model->index(0, 0, score);
     Q_ASSERT(tune.isValid());
-    m_pitchIndex = m_model->index(1, 0, tune);
+    m_pitchIndex = m_model->index(rowOfSymbolWithPitch, 0, tune);
 }
 
 void PitchDelegateTest::testCreateEditor()

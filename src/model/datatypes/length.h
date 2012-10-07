@@ -12,6 +12,7 @@
 #include <QMetaType>
 #include <QHash>
 #include <QString>
+#include <QList>
 #include <QCoreApplication>
 
 class Length
@@ -30,6 +31,7 @@ public:
     static Value valueForName(const QString &name);
     static QString nameForValue(Length::Value value);
     static QStringList lengthNames();
+    static QList<int> lengthValues();
 
 private:
     explicit Length();

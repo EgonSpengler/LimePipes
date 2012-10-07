@@ -8,7 +8,6 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-
 #include <views/treeview/treeview.h>
 
 class TreeViewTest : public QObject

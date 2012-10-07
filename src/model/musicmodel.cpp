@@ -16,12 +16,19 @@
 #include <score.h>
 #include <tune.h>
 #include <datatypes/pitch.h>
+#include <datatypes/length.h>
 
 namespace {
-const int ColumnCount = 2;
-const int ItemColumn = 0;
-const int PitchColumn = 1;
+
+const int ColumnCount = 3;
+
+enum {
+    ItemColumn = 0,
+    PitchColumn,
+    LengthColumn
+};
 }
+
 
 Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
 {
@@ -105,6 +112,11 @@ QVariant MusicModel::dataForNonMusicItemColumn(const QModelIndex &index, int rol
                     return symbol->pitch()->name();
             }
             break;
+        case LengthColumn:
+            if (symbol->hasLength()) {
+                return symbol->length();
+            }
+            break;
         }
     }
     return QVariant();
@@ -130,6 +142,8 @@ QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int ro
             return tr("Music item");
         case PitchColumn:
             return tr("Pitch");
+        case LengthColumn:
+            return tr("Length");
         }
     }
     return QVariant();

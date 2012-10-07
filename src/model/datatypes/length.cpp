@@ -8,13 +8,12 @@
 
 /*!
   * @class Length
-  * Length data for Symbols in a Tune.
+  * Definition of the length data for symbols.
   */
 
 #include <QDebug>
 #include <QStringList>
 #include "length.h"
-
 
 const QMap<Length::Value, QString>Length::s_lengths(initLengths());
 
@@ -50,4 +49,10 @@ QString Length::nameForValue(Length::Value value)
 QStringList Length::lengthNames()
 {
     return QStringList(s_lengths.values());
+}
+
+QList<int> Length::lengthValues()
+{
+    return QList<int>() << _1 << _2 << _4 << _8 <<
+                           _16 << _32 << _64;
 }

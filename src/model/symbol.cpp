@@ -55,7 +55,12 @@ const DataPolicy Symbol::dataPolicyForRole(int role) const
 
 bool Symbol::hasPitch() const
 {
-    return dataPolicyForRole(LP::symbolPitch).isReadable();
+    return isPolicyReadable(LP::symbolPitch);
+}
+
+bool Symbol::isPolicyReadable(int role) const
+{
+    return dataPolicyForRole(role).isReadable();
 }
 
 PitchPtr Symbol::pitch() const
@@ -64,6 +69,19 @@ PitchPtr Symbol::pitch() const
         return data(LP::symbolPitch).value<PitchPtr>();
     }
     return PitchPtr(new Pitch());
+}
+
+bool Symbol::hasLength() const
+{
+    return isPolicyReadable(LP::symbolLength);
+}
+
+Length::Value Symbol::length() const
+{
+    if (data(LP::symbolLength).canConvert<Length::Value>()) {
+        return data(LP::symbolLength).value<Length::Value>();
+    }
+    return Length::_4;
 }
 
 bool Symbol::canRoleBeUsedInSubclass(int role) const

@@ -24,6 +24,7 @@ private Q_SLOTS:
     void testNameForValue();
     void testSetLengthAsVariant();
     void testLengthNames();
+    void testLengthValues();
 };
 
 LengthTest::LengthTest()
@@ -71,7 +72,18 @@ void LengthTest::testLengthNames()
     QVERIFY2(names.at(4) == "sixteenth", "Failed sixteenth note");
     QVERIFY2(names.at(5) == "thirty-second", "Failed thirty-second note");
     QVERIFY2(names.at(6) == "sixty-fourth", "Failed sixty-fourth note");
+}
 
+void LengthTest::testLengthValues()
+{
+    QVERIFY2(Length::lengthValues().count() == 7, "Failed getting all length values");
+    QVERIFY2(Length::lengthValues().at(0) == Length::_1, "Failed whole note");
+    QVERIFY2(Length::lengthValues().at(1) == Length::_2, "Failed half note");
+    QVERIFY2(Length::lengthValues().at(2) == Length::_4, "Failed quarter note");
+    QVERIFY2(Length::lengthValues().at(3) == Length::_8, "Failed eightn note");
+    QVERIFY2(Length::lengthValues().at(4) == Length::_16, "Failed sixteenth note");
+    QVERIFY2(Length::lengthValues().at(5) == Length::_32, "Failed thirty-second note");
+    QVERIFY2(Length::lengthValues().at(6) == Length::_64, "Failed sixty-fourth note");
 }
 
 QTEST_APPLESS_MAIN(LengthTest)

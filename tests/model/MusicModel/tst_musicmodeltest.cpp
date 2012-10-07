@@ -30,6 +30,8 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testHeaderData();
+    void testColumnCount();
     void testInsertScore();
     void testAppendScore();
     void testInsertTuneIntoScore();
@@ -48,6 +50,7 @@ private Q_SLOTS:
     void testSymbolFromIndex();
     void testPitchContextFromTuneIndex();
     void testPitchColumn();
+    void testLengthColumn();
 
 private:
     MusicModel *m_model;
@@ -61,6 +64,18 @@ void MusicModelTest::init()
 void MusicModelTest::cleanup()
 {
     delete m_model;
+}
+
+void MusicModelTest::testHeaderData()
+{
+    QVERIFY2(m_model->headerData(0, Qt::Horizontal, Qt::DisplayRole) == "Music item", "Failed music item column header");
+    QVERIFY2(m_model->headerData(1, Qt::Horizontal, Qt::DisplayRole) == "Pitch", "Failed pitch column header");
+    QVERIFY2(m_model->headerData(2, Qt::Horizontal, Qt::DisplayRole) == "Length", "Failed length column header");
+}
+
+void MusicModelTest::testColumnCount()
+{
+    QVERIFY2(m_model->columnCount(QModelIndex()) == 3, "Wrong column count");
 }
 
 void MusicModelTest::testInsertScore()
@@ -261,6 +276,19 @@ void MusicModelTest::testPitchColumn()
     QModelIndex symbolWithoutPitch = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch));
     QModelIndex noPitchIndex = m_model->index(symbolWithoutPitch.row(), 1, symbolWithoutPitch.parent());
     QVERIFY2(m_model->data(noPitchIndex, Qt::DisplayRole).isValid() == false, "Valid data was returned for symbol with no pitch");
+}
+
+void MusicModelTest::testLengthColumn()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+
+    QModelIndex symbolWithLength = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch, Symbol::HasLength));
+    QModelIndex lengthIndex = m_model->sibling(symbolWithLength.row(), 2, symbolWithLength);
+    QVERIFY2(m_model->data(lengthIndex, Qt::DisplayRole).isValid(), "No valid data for length column");
+
+    QModelIndex symbolWithoutLength = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch, Symbol::HasNoLength));
+    QModelIndex noLengthIndex = m_model->index(symbolWithoutLength.row(), 2, symbolWithoutLength.parent());
+    QVERIFY2(m_model->data(noLengthIndex, Qt::DisplayRole).isValid() == false, "Valid data was returned for symbol with no length");
 }
 
 QTEST_APPLESS_MAIN(MusicModelTest)

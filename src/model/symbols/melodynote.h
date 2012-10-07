@@ -10,7 +10,6 @@
 #define MELODYNOTE_H
 
 #include <QCoreApplication>
-
 #include <symbol.h>
 
 class MelodyNote : public Symbol
