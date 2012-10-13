@@ -30,14 +30,6 @@ bool Tune::okToInsertChild(const MusicItem *item)
     return false;
 }
 
-QVariant Tune::readData(int role) const
-{
-    if (role == Qt::DisplayRole) {
-        return this->instrument()->name() + " tune";
-    }
-    return MusicItem::readData(role);
-}
-
 DataPolicyCollection *Tune::initPolicies()
 {
     DataPolicyCollection *collection = new DataPolicyCollection();

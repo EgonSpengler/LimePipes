@@ -28,7 +28,6 @@ private Q_SLOTS:
     void testChildType();
     void testDataPolicyForRole_data();
     void testDataPolicyForRole();
-    void testSetInstrumentDisplayRole();
     void testOkToInsertChildRedefinition();
     void testSetData();
 
@@ -93,13 +92,6 @@ void TuneTest::testDataPolicyForRole()
 
     QCOMPARE(policy.isReadable(), readable);
     QCOMPARE(policy.isWritable(), writable);
-}
-
-void TuneTest::testSetInstrumentDisplayRole()
-{
-    delete m_tune;
-    m_tune = new Tune(m_instrument);
-    QVERIFY2(m_tune->data(Qt::DisplayRole) == m_instrument->name() + " tune", "Failed setting display role");
 }
 
 void TuneTest::testOkToInsertChildRedefinition()

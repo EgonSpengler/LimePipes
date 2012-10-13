@@ -18,18 +18,6 @@
 #include <datatypes/pitch.h>
 #include <datatypes/length.h>
 
-namespace {
-
-const int ColumnCount = 3;
-
-enum {
-    ItemColumn = 0,
-    PitchColumn,
-    LengthColumn
-};
-}
-
-
 Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags theFlags = QAbstractItemModel::flags(index);
@@ -43,7 +31,7 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
 
 QModelIndex MusicModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (!m_rootItem || row < 0 || column < 0 || column >= ColumnCount
+    if (!m_rootItem || row < 0 || column != 0
             || (parent.isValid() && parent.column() != 0))
         return QModelIndex();
     MusicItem *parentItem = itemForIndex(parent);
@@ -80,73 +68,29 @@ int MusicModel::rowCount(const QModelIndex &parent) const
 
 int MusicModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() && parent.column() != 0 ? 0 : ColumnCount;
+    return parent.isValid() && parent.column() != 0 ? 0 : 1;
 }
 
 QVariant MusicModel::data(const QModelIndex &index, int role) const
 {
-    if (!m_rootItem || !index.isValid() || index.column() < 0 ||
-            index.column() >= ColumnCount)
+    if (!m_rootItem || !index.isValid() || index.column() != 0 )
         return QVariant();
+
     if (MusicItem *item = itemForIndex(index)) {
-        if (index.column() != ItemColumn) {
-            return dataForNonMusicItemColumn(index, role);
-        }
         return item->data(role);
-    }
-    return QVariant();
-}
-
-QVariant MusicModel::dataForNonMusicItemColumn(const QModelIndex &index, int role) const
-{
-    if ( (role != Qt::DisplayRole &&
-          role != Qt::EditRole) ||
-         !indexHasItemType(index, MusicItem::SymbolType))
-        return QVariant();
-
-    Symbol *symbol = symbolFromIndex(index);
-    if (symbol) {
-        switch (index.column()) {
-        case PitchColumn:
-            if (symbol->hasPitch()) {
-                    return symbol->pitch()->name();
-            }
-            break;
-        case LengthColumn:
-            if (symbol->hasLength()) {
-                return symbol->length();
-            }
-            break;
-        }
     }
     return QVariant();
 }
 
 bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (!index.isValid() || index.column() != ItemColumn)
+    if (!index.isValid() || index.column() != 0)
         return false;
     if (MusicItem *item = itemForIndex(index)) {
         item->setData(value, role);
         return true;
     }
     return false;
-}
-
-QVariant MusicModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    if (orientation == Qt::Horizontal &&
-        role == Qt::DisplayRole) {
-        switch (section) {
-        case ItemColumn:
-            return tr("Music item");
-        case PitchColumn:
-            return tr("Pitch");
-        case LengthColumn:
-            return tr("Length");
-        }
-    }
-    return QVariant();
 }
 
 QModelIndex MusicModel::insertScore(int row, const QString &title)

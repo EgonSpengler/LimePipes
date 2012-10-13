@@ -30,7 +30,6 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testHeaderData();
     void testColumnCount();
     void testInsertScore();
     void testAppendScore();
@@ -49,8 +48,10 @@ private Q_SLOTS:
     void testTuneFromIndex();
     void testSymbolFromIndex();
     void testPitchContextFromTuneIndex();
-    void testPitchColumn();
-    void testLengthColumn();
+
+// For later use in proxymodel.
+//    void testPitchColumn();
+//    void testLengthColumn();
 
 private:
     MusicModel *m_model;
@@ -66,16 +67,9 @@ void MusicModelTest::cleanup()
     delete m_model;
 }
 
-void MusicModelTest::testHeaderData()
-{
-    QVERIFY2(m_model->headerData(0, Qt::Horizontal, Qt::DisplayRole) == "Music item", "Failed music item column header");
-    QVERIFY2(m_model->headerData(1, Qt::Horizontal, Qt::DisplayRole) == "Pitch", "Failed pitch column header");
-    QVERIFY2(m_model->headerData(2, Qt::Horizontal, Qt::DisplayRole) == "Length", "Failed length column header");
-}
-
 void MusicModelTest::testColumnCount()
 {
-    QVERIFY2(m_model->columnCount(QModelIndex()) == 3, "Wrong column count");
+    QVERIFY2(m_model->columnCount(QModelIndex()) == 1, "Wrong column count");
 }
 
 void MusicModelTest::testInsertScore()
@@ -265,6 +259,7 @@ void MusicModelTest::testPitchContextFromTuneIndex()
     QVERIFY2(m_model->pitchContextFromTuneIndex(tune)->pitchNames().count() == 1, "Failed getting pitch context from tune index");
 }
 
+/*
 void MusicModelTest::testPitchColumn()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
@@ -290,7 +285,7 @@ void MusicModelTest::testLengthColumn()
     QModelIndex noLengthIndex = m_model->index(symbolWithoutLength.row(), 2, symbolWithoutLength.parent());
     QVERIFY2(m_model->data(noLengthIndex, Qt::DisplayRole).isValid() == false, "Valid data was returned for symbol with no length");
 }
-
+*/
 QTEST_APPLESS_MAIN(MusicModelTest)
 
 #include "tst_musicmodeltest.moc"

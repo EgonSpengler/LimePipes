@@ -58,13 +58,7 @@ bool MusicItem::addChild(MusicItem *item)
 
 QVariant MusicItem::data(int role) const
 {
-    DataPolicy data = dataPolicyForRole(role);
-
-    if (data.isReadable()) {
-        role = getDataRoleForAccess(role, data);
-        return readData(role);
-    }
-    return QVariant();
+    return m_data.value(role, QVariant());
 }
 
 void MusicItem::setData(const QVariant &value, int role)

@@ -52,7 +52,6 @@ void SymbolTest::testConstructor()
     Symbol symbol(333, "Testsymbol");
     QVERIFY2(symbol.data(LP::symbolType).toInt() == 333, "Failed setting symbol Id in constructor");
     QVERIFY2(symbol.data(LP::symbolName) == "Testsymbol", "Failed setting symbol name in constructor");
-    QVERIFY2(symbol.data(Qt::DisplayRole) == "Testsymbol", "DisplayRole should equal name");
 }
 
 void SymbolTest::testType()

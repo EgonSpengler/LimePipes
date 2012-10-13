@@ -57,7 +57,7 @@ public:
 
 protected:
     virtual QVariant readData(int role) const
-        { return m_data.value(role); }
+        { return m_data.value(role, QVariant()); }
     void initData(const QVariant &value, int role)
         { writeData(value, role); }
     QMap<int, QVariant> m_data;

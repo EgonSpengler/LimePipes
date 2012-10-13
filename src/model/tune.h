@@ -32,7 +32,6 @@ public:
     bool okToInsertChild(const MusicItem *item);
     const DataPolicy dataPolicyForRole(int role) const
         { return m_policies->policyForRole(role); }
-    QVariant readData(int role) const;
 
 private:
     bool hasInstrument() const

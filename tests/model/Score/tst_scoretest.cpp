@@ -86,9 +86,6 @@ void ScoreTest::testSetData()
     m_score->setData("test title", LP::scoreTitle);
     QVERIFY2(m_score->data(LP::scoreTitle) == "test title", "Failed set title");
 
-    m_score->setData("new test title", Qt::DisplayRole);
-    QVERIFY2(m_score->data(Qt::DisplayRole) == "new test title", "Failed set title with display role");
-
     m_score->setData("test composer", LP::scoreComposer);
     QVERIFY2(m_score->data(LP::scoreComposer) == "test composer", "Failed set composer");
 
@@ -118,7 +115,6 @@ void ScoreTest::testSetGetTitle()
 {
     m_score->setTitle(QString("New Title"));
     QVERIFY2(m_score->data(LP::scoreTitle) == "New Title", "Failed setting title");
-    QVERIFY2(m_score->data(Qt::DisplayRole) == "New Title", "Failed setting display role through title");
     QVERIFY2(m_score->title() == "New Title", "Failed getting title");
 }
 

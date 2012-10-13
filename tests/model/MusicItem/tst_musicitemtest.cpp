@@ -33,7 +33,6 @@ private slots:
     void testCreateMusicItem();
     void testInitData();
     void testDataPolicyForRole();
-    void testReadData();
     void testChildAt();
     void testRowOfChild();
     void testChildCount();
@@ -113,13 +112,6 @@ void MusicItemTest::testDataPolicyForRole()
     delete m_testItem;
 }
 
-void MusicItemTest::testReadData()
-{
-    MusicItem *item = new TestMusicItem();
-    QVERIFY2(item->data(TestMusicItem::readDataReimplementationRole) == TestMusicItem::dataForReadDataReimplementation, "read data was not called");
-    delete item;
-}
-
 void MusicItemTest::testChildAt()
 {
     QVERIFY2(m_parent->childAt(1) == m_child2, "Failed to get the childitem at row");
@@ -149,9 +141,10 @@ void MusicItemTest::testChildrenGetter()
 void MusicItemTest::testInsertChild()
 {
     MusicItem *newChild = musicItemFactory(m_parent->childType());
-    newChild->setData("newChild", Qt::DisplayRole);
+    Q_ASSERT(newChild->type() == MusicItem::ScoreType);
+    newChild->setData("newChild", LP::scoreTitle);
     QVERIFY2(m_parent->insertChild(1, newChild), "insertChild returnded false");
-    QVERIFY2(m_parent->childAt(1)->data(Qt::DisplayRole) == "newChild", "Failed to insert child");
+    QVERIFY2(m_parent->childAt(1)->data(LP::scoreTitle) == "newChild", "Failed to insert child");
 
     // Insert Item thats not the correct child item
     int childCountBefore = m_parent->childCount();
@@ -166,9 +159,10 @@ void MusicItemTest::testAddChild()
 {
     int childCountBefore = m_parent->childCount();
     MusicItem *newChild = musicItemFactory(m_parent->childType());
-    newChild->setData("newChild", Qt::DisplayRole);
+    Q_ASSERT(newChild->type() == MusicItem::ScoreType);
+    newChild->setData("newChild", LP::scoreTitle);
     QVERIFY2(m_parent->addChild(newChild), "addChild returned false");
-    QVERIFY2(m_parent->childAt(childCountBefore)->data(Qt::DisplayRole) == "newChild", "Failed to add child");
+    QVERIFY2(m_parent->childAt(childCountBefore)->data(LP::scoreTitle) == "newChild", "Failed to add child");
 
     // Add Item thats not the correct child item
     childCountBefore = m_parent->childCount();
@@ -211,11 +205,12 @@ void MusicItemTest::testInsertNoItemTypeChild()
 
 void MusicItemTest::testSwapChildren()
 {
-    m_child1->setData("child1", Qt::DisplayRole);
-    m_child2->setData("child2", Qt::DisplayRole);
+    Q_ASSERT(m_child1->type() == MusicItem::ScoreType);
+    m_child1->setData("child1", LP::scoreTitle);
+    m_child2->setData("child2", LP::scoreTitle);
     m_parent->swapChildren(0, 1);
-    QVERIFY2(m_parent->childAt(0)->data(Qt::DisplayRole) == "child2", "Failed to swap children");
-    QVERIFY2(m_parent->childAt(1)->data(Qt::DisplayRole) == "child1", "Failed to swap children");
+    QVERIFY2(m_parent->childAt(0)->data(LP::scoreTitle) == "child2", "Failed to swap children");
+    QVERIFY2(m_parent->childAt(1)->data(LP::scoreTitle) == "child1", "Failed to swap children");
 }
 
 void MusicItemTest::testType()

@@ -15,7 +15,7 @@ class TestMusicItem : public MusicItem
 {
 public:
     static const char *dataForInitDataRole;
-    static const char *dataForReadDataReimplementation;
+
     enum testDataRoles {
         initDataRole = 10000,
         readDataReimplementationRole,
@@ -26,7 +26,6 @@ public:
     explicit TestMusicItem();
 
     const DataPolicy dataPolicyForRole(int role) const;
-    QVariant readData(int role) const;
 };
 
 #endif // TESTMUSICITEM_H

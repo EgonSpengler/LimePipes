@@ -8,7 +8,6 @@
 
 #include "testmusicitem.h"
 
-const char *TestMusicItem::dataForReadDataReimplementation = "read data reimplementation";
 const char *TestMusicItem::dataForInitDataRole = "init data";
 
 TestMusicItem::TestMusicItem()
@@ -28,12 +27,4 @@ const DataPolicy TestMusicItem::dataPolicyForRole(int role) const
         return DataPolicy(DataPolicy::ReadWrite);
     }
     return DataPolicy(DataPolicy::NoAccess);
-}
-
-QVariant TestMusicItem::readData(int role) const
-{
-    if (role == readDataReimplementationRole) {
-        return QVariant(dataForReadDataReimplementation);
-    }
-    return MusicItem::readData(role);
 }

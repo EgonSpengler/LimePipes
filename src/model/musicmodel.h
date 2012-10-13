@@ -31,7 +31,6 @@ public:
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 
     QModelIndex insertScore(int row, const QString &title);
     QModelIndex appendScore(const QString &title);
@@ -54,7 +53,6 @@ private:
     bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;
     template<class T>
     T castedMusicItemFromIndex(const QModelIndex &index) const;
-    QVariant dataForNonMusicItemColumn(const QModelIndex &index, int role) const;
     void createRootItemIfNotPresent();
     bool isRowValid(MusicItem *item, int row) const;
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
