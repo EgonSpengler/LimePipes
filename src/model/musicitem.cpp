@@ -61,14 +61,13 @@ QVariant MusicItem::data(int role) const
     return m_data.value(role, QVariant());
 }
 
-void MusicItem::setData(const QVariant &value, int role)
+bool MusicItem::setData(const QVariant &value, int role)
 {
-    DataPolicy data = dataPolicyForRole(role);
-
-    if (data.isWritable()) {
-        role = getDataRoleForAccess(role, data);
+    if (itemSupportsWritingOfData(role)) {
         writeData(value, role);
+        return true;
     }
+    return false;
 }
 
 int MusicItem::getDataRoleForAccess(int role, DataPolicy policy) const

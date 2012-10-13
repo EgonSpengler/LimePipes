@@ -23,8 +23,6 @@ const DataPolicy TestMusicItem::dataPolicyForRole(int role) const
         return DataPolicy(DataPolicy::Read);
     case defaultDataRole:
         return DataPolicy(DataPolicy::ReadWrite, defaultProxyDataRole);
-    case readDataReimplementationRole:
-        return DataPolicy(DataPolicy::ReadWrite);
     }
     return DataPolicy(DataPolicy::NoAccess);
 }

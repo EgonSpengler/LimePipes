@@ -30,6 +30,12 @@ bool Tune::okToInsertChild(const MusicItem *item)
     return false;
 }
 
+bool Tune::itemSupportsWritingOfData(int role) const
+{
+    Q_UNUSED(role)
+    return false;
+}
+
 DataPolicyCollection *Tune::initPolicies()
 {
     DataPolicyCollection *collection = new DataPolicyCollection();

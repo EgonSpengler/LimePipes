@@ -32,6 +32,7 @@ private slots:
     void cleanup();
     void testCreateMusicItem();
     void testInitData();
+    void testItemSupportsWritingOfData();
     void testDataPolicyForRole();
     void testChildAt();
     void testRowOfChild();
@@ -98,6 +99,13 @@ void MusicItemTest::testInitData()
     QVERIFY2(item->dataPolicyForRole(TestMusicItem::initDataRole).isWritable() == false, "Data Role must be read only for this test");
     QVERIFY2(item->data(TestMusicItem::initDataRole) == TestMusicItem::dataForInitDataRole, "Failed init data in MusicItem subclass");
     delete item;
+}
+
+void MusicItemTest::testItemSupportsWritingOfData()
+{
+    MusicItem *item = new TestMusicItem();
+    QVERIFY2(item->setData(QVariant(), LP::symbolName) == true, "Fail, TestMusicItem supports writing of symbol name role");
+    QVERIFY2(item->setData(QVariant(), TestMusicItem::notWritableRole) == false, "Fail, role was writable.");
 }
 
 void MusicItemTest::testDataPolicyForRole()

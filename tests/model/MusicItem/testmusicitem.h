@@ -18,14 +18,20 @@ public:
 
     enum testDataRoles {
         initDataRole = 10000,
-        readDataReimplementationRole,
         defaultDataRole,
-        defaultProxyDataRole
+        defaultProxyDataRole,
+        notWritableRole
     };
 
     explicit TestMusicItem();
 
     const DataPolicy dataPolicyForRole(int role) const;
+    bool itemSupportsWritingOfData(int role) const
+    {
+        if (role == notWritableRole)
+            return false;
+        return true;
+    }
 };
 
 #endif // TESTMUSICITEM_H

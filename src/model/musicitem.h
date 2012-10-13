@@ -50,14 +50,13 @@ public:
     Type childType() const
         { return m_childType; }
     QVariant data(int role = Qt::UserRole) const;
-    void setData(const QVariant &value, int role);
+    bool setData(const QVariant &value, int role);
     virtual bool okToInsertChild( const MusicItem *item )
         { Q_UNUSED(item) return true; }
+    virtual bool itemSupportsWritingOfData(int role) const = 0;
     virtual const DataPolicy dataPolicyForRole(int role) const = 0;
 
 protected:
-    virtual QVariant readData(int role) const
-        { return m_data.value(role, QVariant()); }
     void initData(const QVariant &value, int role)
         { writeData(value, role); }
     QMap<int, QVariant> m_data;

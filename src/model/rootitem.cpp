@@ -12,3 +12,9 @@
   */
 
 #include "rootitem.h"
+
+bool RootItem::itemSupportsWritingOfData(int role) const
+{
+    Q_UNUSED(role)
+    return false;
+}

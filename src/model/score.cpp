@@ -20,6 +20,21 @@ void Score::setTitle(const QString &title)
     setData(title, LP::scoreTitle);
 }
 
+bool Score::itemSupportsWritingOfData(int role) const
+{
+    switch (role) {
+    case LP::scoreArranger:
+    case LP::scoreComposer:
+    case LP::scoreCopyright:
+    case LP::scoreTimeSignature:
+    case LP::scoreTitle:
+    case LP::scoreYear:
+        return true;
+    default:
+        return false;
+    }
+}
+
 DataPolicyCollection *Score::initPolicies()
 {
     DataPolicyCollection *collection = new DataPolicyCollection();

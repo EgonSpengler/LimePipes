@@ -84,6 +84,20 @@ Length::Value Symbol::length() const
     return Length::_4;
 }
 
+bool Symbol::itemSupportsWritingOfData(int role) const
+{
+    switch (role) {
+    case LP::symbolPitch:
+        if (this->hasPitch())
+        return true;
+    case LP::symbolLength:
+        if (this->hasLength())
+            return true;
+    default:
+        return false;
+    }
+}
+
 bool Symbol::canRoleBeUsedInSubclass(int role) const
 {
     if (role == LP::symbolPitch ||

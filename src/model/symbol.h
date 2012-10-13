@@ -43,6 +43,7 @@ public:
     PitchPtr pitch() const;
     bool hasLength() const;
     Length::Value length() const;
+    bool itemSupportsWritingOfData(int role) const;
 
 private:
     static DataPolicyCollection *initPolicies();

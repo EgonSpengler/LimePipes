@@ -28,6 +28,7 @@ public:
     void setTitle(const QString &title);
     QString title() const
         { return data(LP::scoreTitle).toString(); }  
+    bool itemSupportsWritingOfData(int role) const;
 
 private:
     const static QScopedPointer<DataPolicyCollection> m_policies;

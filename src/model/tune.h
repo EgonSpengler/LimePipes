@@ -32,6 +32,7 @@ public:
     bool okToInsertChild(const MusicItem *item);
     const DataPolicy dataPolicyForRole(int role) const
         { return m_policies->policyForRole(role); }
+    bool itemSupportsWritingOfData(int role) const;
 
 private:
     bool hasInstrument() const
