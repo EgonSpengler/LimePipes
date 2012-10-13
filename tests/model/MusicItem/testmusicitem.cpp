@@ -15,14 +15,3 @@ TestMusicItem::TestMusicItem()
 {
     initData(dataForInitDataRole, initDataRole);
 }
-
-const DataPolicy TestMusicItem::dataPolicyForRole(int role) const
-{
-    switch (role) {
-    case initDataRole:
-        return DataPolicy(DataPolicy::Read);
-    case defaultDataRole:
-        return DataPolicy(DataPolicy::ReadWrite, defaultProxyDataRole);
-    }
-    return DataPolicy(DataPolicy::NoAccess);
-}

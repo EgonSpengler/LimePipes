@@ -70,10 +70,3 @@ bool MusicItem::setData(const QVariant &value, int role)
     return false;
 }
 
-int MusicItem::getDataRoleForAccess(int role, DataPolicy policy) const
-{
-    if (policy.hasProxyRole()) {
-        return policy.proxyRole();
-    }
-    return role;
-}

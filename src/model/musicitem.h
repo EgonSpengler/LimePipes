@@ -54,7 +54,6 @@ public:
     virtual bool okToInsertChild( const MusicItem *item )
         { Q_UNUSED(item) return true; }
     virtual bool itemSupportsWritingOfData(int role) const = 0;
-    virtual const DataPolicy dataPolicyForRole(int role) const = 0;
 
 protected:
     void initData(const QVariant &value, int role)
@@ -62,7 +61,6 @@ protected:
     QMap<int, QVariant> m_data;
 
 private:
-    int getDataRoleForAccess(int role, DataPolicy policy) const;
     void writeData(const QVariant &value, int role)
        { m_data.insert(role, value); }
     QList<MusicItem*> m_children;

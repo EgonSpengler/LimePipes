@@ -33,7 +33,6 @@ private slots:
     void testCreateMusicItem();
     void testInitData();
     void testItemSupportsWritingOfData();
-    void testDataPolicyForRole();
     void testChildAt();
     void testRowOfChild();
     void testChildCount();
@@ -96,7 +95,6 @@ void MusicItemTest::testCreateMusicItem()
 void MusicItemTest::testInitData()
 {
     MusicItem *item = new TestMusicItem();
-    QVERIFY2(item->dataPolicyForRole(TestMusicItem::initDataRole).isWritable() == false, "Data Role must be read only for this test");
     QVERIFY2(item->data(TestMusicItem::initDataRole) == TestMusicItem::dataForInitDataRole, "Failed init data in MusicItem subclass");
     delete item;
 }
@@ -106,18 +104,6 @@ void MusicItemTest::testItemSupportsWritingOfData()
     MusicItem *item = new TestMusicItem();
     QVERIFY2(item->setData(QVariant(), LP::symbolName) == true, "Fail, TestMusicItem supports writing of symbol name role");
     QVERIFY2(item->setData(QVariant(), TestMusicItem::notWritableRole) == false, "Fail, role was writable.");
-}
-
-void MusicItemTest::testDataPolicyForRole()
-{
-    MusicItem *m_testItem = new TestMusicItem();
-
-    m_testItem = new TestMusicItem();
-    DataPolicy defaultPolicy = m_testItem->dataPolicyForRole(TestMusicItem::defaultDataRole);
-    QVERIFY2(defaultPolicy.isReadable() == true, "data policy is not readable");
-    QVERIFY2(defaultPolicy.isWritable() == true, "data policy is not writable");
-
-    delete m_testItem;
 }
 
 void MusicItemTest::testChildAt()
