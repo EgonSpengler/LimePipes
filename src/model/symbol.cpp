@@ -15,36 +15,29 @@
 #include <datatypes/pitch.h>
 
 Symbol::Symbol()
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
-      m_pitchIsUsed(false),
-      m_lengthIsUsed(false)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
 {
+    setDefaultSymbolOptions();
     initData(LP::NoSymbolType, LP::symbolType);
     initData( tr("No name symbol"), LP::symbolName);
 }
 
-Symbol::Symbol(int type, const QString &name, PitchUsage pitchUsage, LengthUsage lengthUsage)
+Symbol::Symbol(int type, const QString &name)
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
 {
+    setDefaultSymbolOptions();
     initData(type, LP::symbolType);
     initData(name, LP::symbolName);
-    setPitchIsUsed(pitchUsage);
-    setLengthIsUsed(lengthUsage);
 }
 
-void Symbol::setPitchIsUsed(Symbol::PitchUsage pitchUsage)
+void Symbol::setDefaultSymbolOptions()
 {
-    m_pitchIsUsed = pitchUsage == HasPitch ? true : false;
-}
-
-void Symbol::setLengthIsUsed(Symbol::LengthUsage lengthUsage)
-{
-    m_lengthIsUsed = lengthUsage == HasLength ? true : false;
+    m_symbolOptions = Symbol::Options(Symbol::NoOption);
 }
 
 bool Symbol::hasPitch() const
 {
-    return m_pitchIsUsed;
+    return m_symbolOptions.testFlag(Symbol::HasPitch);
 }
 
 PitchPtr Symbol::pitch() const
@@ -57,7 +50,7 @@ PitchPtr Symbol::pitch() const
 
 bool Symbol::hasLength() const
 {
-    return m_lengthIsUsed;
+    return m_symbolOptions.testFlag(Symbol::HasPitch);
 }
 
 Length::Value Symbol::length() const
@@ -82,22 +75,7 @@ bool Symbol::itemSupportsWritingOfData(int role) const
     }
 }
 
-bool Symbol::canRoleBeUsedInSubclass(int role) const
+void Symbol::setSymbolOptions(Symbol::Options options)
 {
-    if (role == LP::symbolPitch ||
-        role == LP::symbolLength) {
-        return true;
-    }
-    return false;
-}
-
-bool Symbol::isRoleUsedInSubclass(int role) const
-{
-    switch (role) {
-    case LP::symbolLength:
-        return m_lengthIsUsed;
-    case LP::symbolPitch:
-        return m_pitchIsUsed;
-    }
-    return false;
+    m_symbolOptions = options;
 }

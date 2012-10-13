@@ -30,6 +30,16 @@ private Q_SLOTS:
 
 private:
     Symbol *m_symbol;
+    class TestSymbol : public Symbol
+    {
+    public:
+        TestSymbol()
+            : Symbol()
+        {
+            setSymbolOptions(Symbol::HasPitch |
+                             Symbol::HasLength);
+        }
+    };
 };
 
 void SymbolTest::init()
@@ -71,7 +81,7 @@ void SymbolTest::testHasPitch()
 {
     QVERIFY2(m_symbol->hasPitch() == false, "Failed, default symbol should have no pitch");
     delete m_symbol;
-    m_symbol = new Symbol(LP::BassDrum, "new symbol", Symbol::HasPitch);
+    m_symbol = new TestSymbol();
     QVERIFY2(m_symbol->hasPitch(), "Failed, symbol with pitch returned false");
 }
 

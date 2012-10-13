@@ -16,10 +16,11 @@ class MelodyNote : public Symbol
 {
     Q_DECLARE_TR_FUNCTIONS(MelodyNote)
 public:
-    explicit MelodyNote()
-        : Symbol(LP::MelodyNote, tr("Melody Note"), Symbol::HasPitch, Symbol::HasLength) {}
-    MelodyNote(int type, const QString &name)
-        : Symbol(type, name, Symbol::HasPitch, Symbol::HasLength) {}
+    explicit MelodyNote();
+    explicit MelodyNote(int type, const QString &name);
+
+private:
+    void initSymbolOptions();
 };
 
 #endif // MELODYNOTE_H

@@ -50,9 +50,11 @@ private:
     {
     public:
         SymbolWithLength(Length::Value length)
-            : Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch, Symbol::HasLength)
+            : Symbol(LP::Bar, "testsymbol")
         {
             initData(QVariant::fromValue<Length::Value>(length), LP::symbolLength);
+            setSymbolOptions(Symbol::HasPitch |
+                             Symbol::HasLength);
         }
     };
 

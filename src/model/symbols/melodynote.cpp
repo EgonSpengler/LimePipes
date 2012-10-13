@@ -13,3 +13,22 @@
 
 #include "melodynote.h"
 
+MelodyNote::MelodyNote()
+    : Symbol(LP::MelodyNote, tr("Melody Note"))
+{
+    initSymbolOptions();
+}
+
+MelodyNote::MelodyNote(int type, const QString &name)
+    : Symbol(type, name)
+{
+    initSymbolOptions();
+}
+
+void MelodyNote::initSymbolOptions()
+{
+    setSymbolOptions(Symbol::HasPitch |
+                     Symbol::HasLength);
+}
+
+

@@ -21,19 +21,15 @@ class Symbol : public MusicItem
 {
     Q_DECLARE_TR_FUNCTIONS(MusicItem)
 public:
-    enum PitchUsage {
-        HasPitch,
-        HasNoPitch
+    enum Option {
+        NoOption =     0x00,
+        HasPitch =     0x01,
+        HasLength =    0x02
     };
-
-    enum LengthUsage {
-        HasLength,
-        HasNoLength
-    };
+    Q_DECLARE_FLAGS(Options, Option)
 
     explicit Symbol();
-    explicit Symbol(int type, const QString &name,
-                    PitchUsage pitchUsage = HasNoPitch, LengthUsage lengthUsage = HasNoLength);
+    explicit Symbol(int type, const QString &name);
     virtual ~Symbol() {}
     int symbolType() const
         { return data(LP::symbolType).toInt(); }
@@ -43,13 +39,14 @@ public:
     Length::Value length() const;
     bool itemSupportsWritingOfData(int role) const;
 
+protected:
+    void setSymbolOptions(Symbol::Options options);
+
 private:
-    void setPitchIsUsed(PitchUsage pitchUsage);
-    void setLengthIsUsed(LengthUsage lengthUsage);
-    bool canRoleBeUsedInSubclass(int role) const;
-    bool isRoleUsedInSubclass(int role) const;
-    bool m_pitchIsUsed;
-    bool m_lengthIsUsed;
+    void setDefaultSymbolOptions();
+    Symbol::Options m_symbolOptions;
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(Symbol::Options)
 
 #endif // SYMBOL_H
