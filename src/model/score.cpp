@@ -13,8 +13,6 @@
 
 #include "score.h"
 
-const QScopedPointer<DataPolicyCollection> Score::m_policies(initPolicies());
-
 void Score::setTitle(const QString &title)
 {
     setData(title, LP::scoreTitle);
@@ -33,17 +31,4 @@ bool Score::itemSupportsWritingOfData(int role) const
     default:
         return false;
     }
-}
-
-DataPolicyCollection *Score::initPolicies()
-{
-    DataPolicyCollection *collection = new DataPolicyCollection();
-    collection->setPolicy(Qt::DisplayRole, DataPolicy(DataPolicy::ReadWrite, LP::scoreTitle));
-    collection->setPolicy(LP::scoreTitle, DataPolicy(DataPolicy::ReadWrite));
-    collection->setPolicy(LP::scoreArranger, DataPolicy(DataPolicy::ReadWrite));
-    collection->setPolicy(LP::scoreComposer, DataPolicy(DataPolicy::ReadWrite));
-    collection->setPolicy(LP::scoreCopyright, DataPolicy(DataPolicy::ReadWrite));
-    collection->setPolicy(LP::scoreTimeSignature, DataPolicy(DataPolicy::ReadWrite));
-    collection->setPolicy(LP::scoreYear, DataPolicy(DataPolicy::ReadWrite));
-    return collection;
 }

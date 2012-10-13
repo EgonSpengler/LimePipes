@@ -13,7 +13,6 @@
 #include <QScopedPointer>
 #include <musicitem.h>
 #include <itemdatatypes.h>
-#include <datapolicycollection.h>
 #include <datatypes/pitch.h>
 #include <datatypes/length.h>
 #include "../interfaces/interfaceglobals.h"
@@ -38,7 +37,6 @@ public:
     virtual ~Symbol() {}
     int symbolType() const
         { return data(LP::symbolType).toInt(); }
-    const DataPolicy dataPolicyForRole(int role) const;
     bool hasPitch() const;
     PitchPtr pitch() const;
     bool hasLength() const;
@@ -46,13 +44,10 @@ public:
     bool itemSupportsWritingOfData(int role) const;
 
 private:
-    static DataPolicyCollection *initPolicies();
     void setPitchIsUsed(PitchUsage pitchUsage);
     void setLengthIsUsed(LengthUsage lengthUsage);
     bool canRoleBeUsedInSubclass(int role) const;
     bool isRoleUsedInSubclass(int role) const;
-    bool isPolicyReadable(int role) const;
-    const static QScopedPointer<DataPolicyCollection> m_policies;
     bool m_pitchIsUsed;
     bool m_lengthIsUsed;
 };

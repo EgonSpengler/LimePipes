@@ -24,8 +24,6 @@ private Q_SLOTS:
     void cleanup();
     void testType();
     void testChildType();
-    void testDataPolicyForRole_data();
-    void testDataPolicyForRole();
     void testSetData();
     void testConstructor();
     void testSetGetTitle();
@@ -52,33 +50,6 @@ void ScoreTest::testType()
 void ScoreTest::testChildType()
 {
     QVERIFY2(m_score->childType() == MusicItem::TuneType, "The child itemtype of score is not TuneType");
-}
-
-void ScoreTest::testDataPolicyForRole_data()
-{
-    Score *score = new Score();
-    QTest::addColumn<DataPolicy>("policy");
-    QTest::addColumn<bool>("readable");
-    QTest::addColumn<bool>("writable");
-
-    QTest::newRow("display role")            << score->dataPolicyForRole(Qt::DisplayRole) << true << true;
-    QTest::newRow("score title")            << score->dataPolicyForRole(LP::scoreTitle) << true << true;
-    QTest::newRow("score composer")         << score->dataPolicyForRole(LP::scoreComposer) << true << true;
-    QTest::newRow("score arranger")         << score->dataPolicyForRole(LP::scoreArranger) << true << true;
-    QTest::newRow("score year")             << score->dataPolicyForRole(LP::scoreYear) << true << true;
-    QTest::newRow("score copyright")        << score->dataPolicyForRole(LP::scoreCopyright) << true << true;
-    QTest::newRow("score timesignature")    << score->dataPolicyForRole(LP::scoreTimeSignature) << true << true;
-    delete score;
-}
-
-void ScoreTest::testDataPolicyForRole()
-{
-    QFETCH(DataPolicy, policy);
-    QFETCH(bool, readable);
-    QFETCH(bool, writable);
-
-    QCOMPARE(policy.isReadable(), readable);
-    QCOMPARE(policy.isWritable(), writable);
 }
 
 void ScoreTest::testSetData()

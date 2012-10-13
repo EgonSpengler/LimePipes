@@ -13,7 +13,6 @@
 #include <QVariant>
 #include <QString>
 #include <QMap>
-#include <datapolicy.h>
 
 class MusicItem
 {

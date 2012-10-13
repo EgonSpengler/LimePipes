@@ -16,8 +16,6 @@ class RootItem : public MusicItem
 public:
     explicit RootItem()
         : MusicItem(MusicItem::RootItemType, MusicItem::ScoreType) {}
-    const DataPolicy dataPolicyForRole(int role) const
-    { Q_UNUSED(role) return DataPolicy(DataPolicy::NoAccess); }
     bool itemSupportsWritingOfData(int role) const;
 };
 

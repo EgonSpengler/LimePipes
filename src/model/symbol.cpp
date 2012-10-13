@@ -14,8 +14,6 @@
 #include "symbol.h"
 #include <datatypes/pitch.h>
 
-const QScopedPointer<DataPolicyCollection> Symbol::m_policies(initPolicies());
-
 Symbol::Symbol()
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
       m_pitchIsUsed(false),
@@ -44,23 +42,9 @@ void Symbol::setLengthIsUsed(Symbol::LengthUsage lengthUsage)
     m_lengthIsUsed = lengthUsage == HasLength ? true : false;
 }
 
-const DataPolicy Symbol::dataPolicyForRole(int role) const
-{
-    if (canRoleBeUsedInSubclass(role) &&
-            isRoleUsedInSubclass(role)) {
-        return DataPolicy(DataPolicy::ReadWrite);
-    }
-    return m_policies->policyForRole(role);
-}
-
 bool Symbol::hasPitch() const
 {
-    return isPolicyReadable(LP::symbolPitch);
-}
-
-bool Symbol::isPolicyReadable(int role) const
-{
-    return dataPolicyForRole(role).isReadable();
+    return m_pitchIsUsed;
 }
 
 PitchPtr Symbol::pitch() const
@@ -73,7 +57,7 @@ PitchPtr Symbol::pitch() const
 
 bool Symbol::hasLength() const
 {
-    return isPolicyReadable(LP::symbolLength);
+    return m_lengthIsUsed;
 }
 
 Length::Value Symbol::length() const
@@ -116,13 +100,4 @@ bool Symbol::isRoleUsedInSubclass(int role) const
         return m_pitchIsUsed;
     }
     return false;
-}
-
-DataPolicyCollection *Symbol::initPolicies()
-{
-    DataPolicyCollection *collection = new DataPolicyCollection();
-    collection->setPolicy(Qt::DisplayRole, DataPolicy(DataPolicy::Read, LP::symbolName));
-    collection->setPolicy(LP::symbolName, DataPolicy(DataPolicy::Read));
-    collection->setPolicy(LP::symbolType, DataPolicy(DataPolicy::Read));
-    return collection;
 }

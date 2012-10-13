@@ -8,6 +8,4 @@ SUBDIRS += \
     Tune \
     Score \
     RootItem \
-    symbols \
-    DataPolicy \
-    DataPolicyCollection
+    symbols

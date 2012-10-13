@@ -26,8 +26,6 @@ private Q_SLOTS:
     void testConstructor();
     void testType();
     void testChildType();
-    void testDataPolicyForRole_data();
-    void testDataPolicyForRole();
     void testOkToInsertChildRedefinition();
     void testSetData();
 
@@ -70,28 +68,6 @@ void TuneTest::testType()
 void TuneTest::testChildType()
 {
     QVERIFY2(m_tune->childType() == MusicItem::SymbolType, "The child itemtype of tune is not Symbol type");
-}
-
-void TuneTest::testDataPolicyForRole_data()
-{
-    Tune *tune = new Tune();
-    QTest::addColumn<DataPolicy>("policy");
-    QTest::addColumn<bool>("readable");
-    QTest::addColumn<bool>("writable");
-
-    QTest::newRow("display role")               << tune->dataPolicyForRole(Qt::DisplayRole) << true << false;
-    QTest::newRow("tune instrument")            << tune->dataPolicyForRole(LP::tuneInstrument) << true << false;
-    delete tune;
-}
-
-void TuneTest::testDataPolicyForRole()
-{
-    QFETCH(DataPolicy, policy);
-    QFETCH(bool, readable);
-    QFETCH(bool, writable);
-
-    QCOMPARE(policy.isReadable(), readable);
-    QCOMPARE(policy.isWritable(), writable);
 }
 
 void TuneTest::testOkToInsertChildRedefinition()

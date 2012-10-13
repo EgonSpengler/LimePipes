@@ -14,7 +14,6 @@
 #include <symbol.h>
 #include <itemdatatypes.h>
 #include <datatypes/instrument.h>
-#include <datapolicycollection.h>
 #include <interfaces/instrumentinterface.h>
 
 class Tune : public MusicItem
@@ -30,18 +29,12 @@ public:
     InstrumentPtr instrument() const
         { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
     bool okToInsertChild(const MusicItem *item);
-    const DataPolicy dataPolicyForRole(int role) const
-        { return m_policies->policyForRole(role); }
     bool itemSupportsWritingOfData(int role) const;
 
 private:
-    bool hasInstrument() const
-        { return data(LP::tuneInstrument).isValid(); }
     void setInstrument(InstrumentPtr instrument);
     const Symbol *symbolFromMusicItem(const MusicItem *item)
         { return static_cast<const Symbol*>(item); }
-    const static QScopedPointer<DataPolicyCollection> m_policies;
-    static DataPolicyCollection *initPolicies();
 };
 
 #endif // TUNE_H

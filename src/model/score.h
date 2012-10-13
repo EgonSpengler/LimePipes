@@ -12,7 +12,6 @@
 #include <QScopedPointer>
 #include <musicitem.h>
 #include <itemdatatypes.h>
-#include <datapolicycollection.h>
 
 class Score : public MusicItem
 {
@@ -22,17 +21,11 @@ public:
     explicit Score(const QString &title)
         : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
         { setTitle(title); }
-    const DataPolicy dataPolicyForRole(int role) const
-        { return m_policies->policyForRole(role); }
 
     void setTitle(const QString &title);
     QString title() const
         { return data(LP::scoreTitle).toString(); }  
     bool itemSupportsWritingOfData(int role) const;
-
-private:
-    const static QScopedPointer<DataPolicyCollection> m_policies;
-    static DataPolicyCollection *initPolicies();
 };
 
 #endif // SCORE_H

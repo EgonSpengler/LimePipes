@@ -13,8 +13,6 @@
 
 #include "tune.h"
 
-const QScopedPointer<DataPolicyCollection> Tune::m_policies(initPolicies());
-
 void Tune::setInstrument(InstrumentPtr instrument)
 {
     m_data.insert(LP::tuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
@@ -35,12 +33,3 @@ bool Tune::itemSupportsWritingOfData(int role) const
     Q_UNUSED(role)
     return false;
 }
-
-DataPolicyCollection *Tune::initPolicies()
-{
-    DataPolicyCollection *collection = new DataPolicyCollection();
-    collection->setPolicy(Qt::DisplayRole, DataPolicy(DataPolicy::Read));
-    collection->setPolicy(LP::tuneInstrument, DataPolicy(DataPolicy::Read));
-    return collection;
-}
-
