@@ -8,8 +8,8 @@
 
 #include "treeview.h"
 
-TreeView::TreeView(QWidget *parent) :
-    QTreeView(parent)
+TreeView::TreeView(QWidget *parent)
+    : QTreeView(parent)
 {
     m_pitchDelegate = new PitchDelegate();
     setItemDelegateForColumn(1, m_pitchDelegate);
@@ -23,3 +23,4 @@ TreeView::~TreeView()
     delete m_pitchDelegate;
     delete m_lengthDelegate;
 }
+

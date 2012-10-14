@@ -18,13 +18,12 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
 #include <QDir>
-#include <QTreeView>
 #include <QMessageBox>
 #include <instrumentinterface.h>
 #include <symbolinterface.h>
 #include <musicmodel.h>
+#include <musicproxymodel.h>
 #include <app/newtunedialog.h>
 #include <app/addsymbolsdialog.h>
 #include <app/instrumentmanager.h>
@@ -61,7 +60,12 @@ QDir MainWindow::pluginsDir()
 void MainWindow::createModelAndView()
 {
     m_treeView = new TreeView(this);
-    m_model = new MusicModel(this);
+
+    MusicModel *musicModel = new MusicModel(this);
+    MusicProxyModel *proxyModel = new MusicProxyModel(this);
+    proxyModel->setSourceModel(musicModel);
+    m_model = proxyModel;
+
     m_treeView->setModel(m_model);
     setCentralWidget(m_treeView);
 }
@@ -90,21 +94,34 @@ InstrumentPtr MainWindow::instrumentFromCurrentIndex()
     return InstrumentPtr();
 }
 
+MusicModelInterface *MainWindow::musicModelFromItemModel(QAbstractItemModel *model)
+{
+    return dynamic_cast<MusicModelInterface*>(model);
+}
+
 void MainWindow::on_fileNewAction_triggered()
 {
-    m_model->clear();
+    MusicModelInterface *musicModel;
+    if ((musicModel = musicModelFromItemModel(m_model)))
+        musicModel->clear();
 }
 
 void MainWindow::on_editAddTuneAction_triggered()
 {
     NewTuneDialog dialog(m_instrumentManager->instrumentNames(), this);
     if (dialog.exec() == QDialog::Accepted) {
+
         InstrumentPtr instrument = m_instrumentManager->instrumentForName(dialog.instrumentTitle());
-        if ( instrument->type() != LP::NoInstrument ) {
-            QModelIndex score = m_model->appendScore(dialog.scoreTitle());
-            QModelIndex tune = m_model->appendTuneToScore(score, instrument);
-            m_treeView->setCurrentIndex(tune);
-        }
+        MusicModelInterface *musicModel;
+        musicModel = musicModelFromItemModel(m_model);
+
+        if (instrument->type() == LP::NoInstrument ||
+            !musicModel)
+            return;
+
+        QModelIndex score = musicModel->appendScore(dialog.scoreTitle());
+        QModelIndex tune = musicModel->appendTuneToScore(score, instrument);
+        m_treeView->setCurrentIndex(tune);
     }
 }
 
@@ -126,10 +143,16 @@ void MainWindow::insertSymbol(const QString &symbolName)
 {
     InstrumentPtr instrument = instrumentFromCurrentIndex();
     if (instrument && instrument->type() != LP::NoInstrument) {
+
         Symbol *symbol = m_instrumentManager->symbolForName(instrument->name(), symbolName);
-        if (symbol->symbolType() != LP::NoSymbolType) {
-            m_model->insertSymbol(0, m_treeView->currentIndex(), symbol);
-            m_treeView->expand(m_treeView->currentIndex());
-        }
+        MusicModelInterface *musicModel;
+        musicModel = musicModelFromItemModel(m_model);
+
+        if (symbol->symbolType() == LP::NoSymbolType ||
+            !musicModel)
+            return;
+
+        musicModel->insertSymbol(0, m_treeView->currentIndex(), symbol);
+        m_treeView->expand(m_treeView->currentIndex());
     }
 }

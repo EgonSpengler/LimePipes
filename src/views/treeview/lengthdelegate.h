@@ -10,6 +10,7 @@
 #define LENGTHDELEGATE_H
 
 #include "musicsymboldatadelegate.h"
+#include <symbol.h>
 
 class LengthDelegate : public MusicSymbolDataDelegate
 {

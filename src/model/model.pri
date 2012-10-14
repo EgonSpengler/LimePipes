@@ -16,4 +16,5 @@ HEADERS += \
     $$PWD/symbol.h \
     $$PWD/score.h \
     $$PWD/rootitem.h \
-    $$PWD/../interfaces/interfaceglobals.h
+    $$PWD/../interfaces/interfaceglobals.h \
+    ../model/musicmodelinterface.h

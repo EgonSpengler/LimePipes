@@ -31,8 +31,8 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
 
 QModelIndex MusicModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if (!m_rootItem || row < 0 || column != 0
-            || (parent.isValid() && parent.column() != 0))
+    if (!m_rootItem || row < 0 || column < 0 || column >= m_columnCount ||
+        (parent.isValid() && parent.column() != 0))
         return QModelIndex();
     MusicItem *parentItem = itemForIndex(parent);
     Q_ASSERT(parentItem);
@@ -68,12 +68,13 @@ int MusicModel::rowCount(const QModelIndex &parent) const
 
 int MusicModel::columnCount(const QModelIndex &parent) const
 {
-    return parent.isValid() && parent.column() != 0 ? 0 : 1;
+    return parent.isValid() && parent.column() != 0 ? 0 : m_columnCount;
 }
 
 QVariant MusicModel::data(const QModelIndex &index, int role) const
 {
-    if (!m_rootItem || !index.isValid() || index.column() != 0 )
+    if (!m_rootItem || !index.isValid() || index.column() < 0 ||
+        index.column() >= m_columnCount)
         return QVariant();
 
     if (MusicItem *item = itemForIndex(index)) {
@@ -91,6 +92,13 @@ bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int ro
         return true;
     }
     return false;
+}
+
+void MusicModel::setColumnCount(int columns)
+{
+    if (columns < 1)
+        return;
+    m_columnCount = columns;
 }
 
 QModelIndex MusicModel::insertScore(int row, const QString &title)

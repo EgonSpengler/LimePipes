@@ -29,7 +29,7 @@ public:
     virtual void setSymbolDataFromSelectedText(Symbol *symbol, const QString &text) const = 0;
 
 private:
-    const MusicModel *musicModelFromIndex(const QModelIndex &index) const;
+    const MusicModelInterface *musicModelFromIndex(const QModelIndex &index) const;
     bool isSymbolIndexOk(const QModelIndex &index) const;
 };
 

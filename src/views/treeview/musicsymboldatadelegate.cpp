@@ -26,7 +26,7 @@ QWidget *MusicSymbolDataDelegate::createEditor(QWidget *parent, const QStyleOpti
 void MusicSymbolDataDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     QComboBox *comboBox = static_cast<QComboBox*>(editor);
-    const MusicModel *model = musicModelFromIndex(index);
+    const MusicModelInterface *model = musicModelFromIndex(index);
 
     if (isSymbolIndexOk(index) == false)
         return;
@@ -49,7 +49,7 @@ void MusicSymbolDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *
 {
     Q_UNUSED(model)
     QComboBox *comboBox = static_cast<QComboBox*>(editor);
-    const MusicModel *musicModel = musicModelFromIndex(index);
+    const MusicModelInterface *musicModel = musicModelFromIndex(index);
     if (!musicModel ||
         !isSymbolIndexOk(index))
         return;
@@ -68,7 +68,7 @@ void MusicSymbolDataDelegate::updateEditorGeometry(QWidget *editor, const QStyle
 
 bool MusicSymbolDataDelegate::isSymbolIndexOk(const QModelIndex &index) const
 {
-    const MusicModel *model = musicModelFromIndex(index);
+    const MusicModelInterface *model = musicModelFromIndex(index);
     if (model &&
         model->isIndexSymbol(index) &&
         model->isIndexTune(index.parent()))
@@ -76,9 +76,10 @@ bool MusicSymbolDataDelegate::isSymbolIndexOk(const QModelIndex &index) const
     return false;
 }
 
-const MusicModel *MusicSymbolDataDelegate::musicModelFromIndex(const QModelIndex &index) const
+const MusicModelInterface *MusicSymbolDataDelegate::musicModelFromIndex(const QModelIndex &index) const
 {
-    return static_cast<const MusicModel*>(index.model());
+    const QAbstractItemModel *model = index.model();
+    return dynamic_cast<const MusicModelInterface*>(model);
 }
 
 

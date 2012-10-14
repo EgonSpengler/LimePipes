@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     TreeView \
     PitchDelegate \
-    LengthDelegate
+    LengthDelegate \
+    MusicProxyModel

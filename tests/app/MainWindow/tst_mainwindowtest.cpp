@@ -38,7 +38,7 @@ private Q_SLOTS:
 private:
     MainWindow *m_mainWindow;
     QTreeView *m_treeView;
-    MusicModel *m_model;
+    QAbstractItemModel *m_model;
     QAction *m_fileNewAction;
     QAction *m_fileQuitAction;
     QAction *m_editAddTuneAction;
@@ -64,7 +64,7 @@ void MainWindowTest::initTestCase()
     m_editAddSymbolsAction = m_mainWindow->findChild<QAction*>("editAddSymbolsAction");
     Q_ASSERT(m_editAddSymbolsAction);
 
-    m_model = m_mainWindow->findChild<MusicModel*>("musicModel");
+    m_model = m_mainWindow->findChild<QAbstractItemModel*>("musicModel");
     Q_ASSERT(m_model);
 }
 

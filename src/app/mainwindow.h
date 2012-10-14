@@ -22,6 +22,8 @@ class MusicModel;
 class AddSymbolsDialog;
 class NewTuneDialog;
 class InstrumentManager;
+class QAbstractItemModel;
+class MusicModelInterface;
 
 namespace Ui {
 class MainWindow;
@@ -47,10 +49,11 @@ private:
     void createConnections();
     void createObjectNames();
     InstrumentPtr instrumentFromCurrentIndex();
+    MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
 
     Ui::MainWindow *ui;
     QTreeView *m_treeView;
-    MusicModel *m_model;
+    QAbstractItemModel *m_model;
     AddSymbolsDialog *m_addSymbolsDialog;
     InstrumentManager *m_instrumentManager;
 };

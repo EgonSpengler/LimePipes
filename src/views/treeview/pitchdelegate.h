@@ -11,7 +11,6 @@
 
 #include "musicsymboldatadelegate.h"
 #include <symbol.h>
-#include <musicmodel.h>
 
 class PitchDelegate : public MusicSymbolDataDelegate
 {

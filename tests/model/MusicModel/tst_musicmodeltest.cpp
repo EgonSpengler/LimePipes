@@ -15,6 +15,8 @@
 #include <itemdatatypes.h>
 #include <instrument.h>
 #include <symbol.h>
+#include <score.h>
+#include <tune.h>
 
 #include <testinstrument.h>
 

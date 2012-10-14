@@ -10,18 +10,16 @@
 #define MUSICMODEL_H
 
 #include <QAbstractItemModel>
+#include <musicmodelinterface.h>
 #include <musicitem.h>
-#include <score.h>
-#include <tune.h>
-#include <symbol.h>
-#include "datatypes/instrument.h"
 
-class MusicModel : public QAbstractItemModel
+class MusicModel :  public QAbstractItemModel,
+                    public MusicModelInterface
 {
     Q_OBJECT
 public:
     explicit MusicModel(QObject *parent = 0) :
-        QAbstractItemModel(parent), m_rootItem(0) {}
+        QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1) {}
     ~MusicModel() { delete m_rootItem; }
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -32,6 +30,9 @@ public:
     QVariant data(const QModelIndex &index, int role) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
+    void setColumnCount(int columns);
+
+    // MusicModelInterface
     QModelIndex insertScore(int row, const QString &title);
     QModelIndex appendScore(const QString &title);
     QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, InstrumentPtr instrument);
@@ -57,6 +58,7 @@ private:
     bool isRowValid(MusicItem *item, int row) const;
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
     MusicItem *m_rootItem;
+    int m_columnCount;
 };
 
 #endif // MUSICMODEL_H
