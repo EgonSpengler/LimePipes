@@ -49,11 +49,7 @@ private Q_SLOTS:
     void testScoreFromIndex();
     void testTuneFromIndex();
     void testSymbolFromIndex();
-    void testPitchContextFromTuneIndex();
-
-// For later use in proxymodel.
-//    void testPitchColumn();
-//    void testLengthColumn();
+    void testSetColumnCount();
 
 private:
     MusicModel *m_model;
@@ -255,39 +251,13 @@ void MusicModelTest::testSymbolFromIndex()
     QVERIFY2(m_model->symbolFromIndex(symbol1)->type() == MusicItem::SymbolType, "Failed getting symbol from index");
 }
 
-void MusicModelTest::testPitchContextFromTuneIndex()
+void MusicModelTest::testSetColumnCount()
 {
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-    QVERIFY2(m_model->pitchContextFromTuneIndex(tune)->pitchNames().count() == 1, "Failed getting pitch context from tune index");
+    QVERIFY2(m_model->columnCount(QModelIndex()) == 1, "Default column count wasn't 1");
+    m_model->setColumnCount(4);
+    QVERIFY2(m_model->columnCount(QModelIndex()) == 4, "Can't set column count");
 }
 
-/*
-void MusicModelTest::testPitchColumn()
-{
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-
-    QModelIndex symbolWithPitch = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasPitch));
-    QModelIndex pitchIndex = m_model->sibling(symbolWithPitch.row(), 1, symbolWithPitch);
-    QVERIFY2(m_model->data(pitchIndex, Qt::DisplayRole).isValid(), "No valid data for pitch column");
-
-    QModelIndex symbolWithoutPitch = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch));
-    QModelIndex noPitchIndex = m_model->index(symbolWithoutPitch.row(), 1, symbolWithoutPitch.parent());
-    QVERIFY2(m_model->data(noPitchIndex, Qt::DisplayRole).isValid() == false, "Valid data was returned for symbol with no pitch");
-}
-
-void MusicModelTest::testLengthColumn()
-{
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-
-    QModelIndex symbolWithLength = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch, Symbol::HasLength));
-    QModelIndex lengthIndex = m_model->sibling(symbolWithLength.row(), 2, symbolWithLength);
-    QVERIFY2(m_model->data(lengthIndex, Qt::DisplayRole).isValid(), "No valid data for length column");
-
-    QModelIndex symbolWithoutLength = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol", Symbol::HasNoPitch, Symbol::HasNoLength));
-    QModelIndex noLengthIndex = m_model->index(symbolWithoutLength.row(), 2, symbolWithoutLength.parent());
-    QVERIFY2(m_model->data(noLengthIndex, Qt::DisplayRole).isValid() == false, "Valid data was returned for symbol with no length");
-}
-*/
 QTEST_APPLESS_MAIN(MusicModelTest)
 
 #include "tst_musicmodeltest.moc"

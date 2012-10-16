@@ -186,12 +186,6 @@ Symbol *MusicModel::symbolFromIndex(const QModelIndex &index) const
     return castedMusicItemFromIndex<Symbol*>(index);
 }
 
-PitchContextPtr MusicModel::pitchContextFromTuneIndex(const QModelIndex &index) const
-{
-    Tune *tune = tuneFromIndex(index);
-    return tune->instrument()->pitchContext();
-}
-
 bool MusicModel::indexHasItemType(const QModelIndex &index, MusicItem::Type type) const
 {
     if (MusicItem *item = itemForIndex(index)) {

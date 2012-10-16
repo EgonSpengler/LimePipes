@@ -123,7 +123,7 @@ MusicModel *MusicProxyModel::musicModel() const
 QModelIndex MusicProxyModel::insertScore(int row, const QString &title)
 {
     if (MusicModel *model = musicModel()) {
-        return model->insertScore(row, title);
+        return mapFromSource(model->insertScore(row, title));
     }
     return QModelIndex();
 }
@@ -141,7 +141,7 @@ QModelIndex MusicProxyModel::insertTuneIntoScore(int row, const QModelIndex &sco
 {
     if (MusicModel *model = musicModel()) {
         QModelIndex srcIndex = mapToSource(score);
-        return model->insertTuneIntoScore(row, srcIndex, instrument);
+        return mapFromSource(model->insertTuneIntoScore(row, srcIndex, instrument));
     }
     return QModelIndex();
 }
@@ -149,7 +149,7 @@ QModelIndex MusicProxyModel::insertTuneIntoScore(int row, const QModelIndex &sco
 QModelIndex MusicProxyModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, InstrumentPtr instrument)
 {
     if (MusicModel *model = musicModel()) {
-        return model->insertTuneWithScore(rowOfScore, scoreTitle, instrument);
+        return mapFromSource(model->insertTuneWithScore(rowOfScore, scoreTitle, instrument));
     }
     return QModelIndex();
 }
@@ -178,7 +178,7 @@ MusicItem *MusicProxyModel::itemForIndex(const QModelIndex &index) const
 {
     if (musicModel()) {
         QModelIndex srcIndex = mapToSource(index);
-        return itemForIndex(srcIndex);
+        return musicModel()->itemForIndex(srcIndex);
     }
     return 0;
 }
@@ -242,13 +242,4 @@ Symbol *MusicProxyModel::symbolFromIndex(const QModelIndex &index) const
         return model->symbolFromIndex(srcIndex);
     }
     return new Symbol();
-}
-
-PitchContextPtr MusicProxyModel::pitchContextFromTuneIndex(const QModelIndex &index) const
-{
-    if (MusicModel *model = musicModel()) {
-        QModelIndex srcIndex = mapToSource(index);
-        return model->pitchContextFromTuneIndex(srcIndex);
-    }
-    return PitchContextPtr(new PitchContext());
 }

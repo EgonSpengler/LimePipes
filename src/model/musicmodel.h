@@ -48,7 +48,6 @@ public:
     Score *scoreFromIndex(const QModelIndex &index) const;
     Tune *tuneFromIndex(const QModelIndex &index) const;
     Symbol *symbolFromIndex(const QModelIndex &index) const;
-    PitchContextPtr pitchContextFromTuneIndex(const QModelIndex &index) const;
 
 private:
     bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;

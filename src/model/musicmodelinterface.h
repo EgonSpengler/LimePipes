@@ -37,7 +37,6 @@ public:
     virtual Score *scoreFromIndex(const QModelIndex &index) const = 0;
     virtual Tune *tuneFromIndex(const QModelIndex &index) const = 0;
     virtual Symbol *symbolFromIndex(const QModelIndex &index) const = 0;
-    virtual PitchContextPtr pitchContextFromTuneIndex(const QModelIndex &index) const = 0;
 };
 
 #endif // MUSICMODELINTERFACE_H
