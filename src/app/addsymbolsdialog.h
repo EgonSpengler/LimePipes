@@ -22,6 +22,7 @@ class AddSymbolsDialog : public QDialog
 public:
     explicit AddSymbolsDialog(QWidget *parent = 0);
     ~AddSymbolsDialog();
+
     void setSymbolNames(const QStringList &symbolNames);
 
 signals:

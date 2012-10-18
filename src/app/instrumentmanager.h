@@ -22,17 +22,17 @@ class InstrumentManager
 {
 public:
     explicit InstrumentManager(const QDir &pluginsDir);
-    QList<QString> instrumentNames()
-        { return m_instrumentPlugins.keys(); }
-    int staticPluginsCount() const
-        { return m_staticPlugins; }
-    int dynamicPluginsCount() const
-        { return m_dynamicPlugins; }
-    QString pluginsPath() const
-        { return m_pluginsDir.absolutePath(); }
-    InstrumentPtr instrumentForName(const QString &name);
+
     QList<QString> symbolNamesForInstrument(const QString &instrumentName);
     Symbol *symbolForName(const QString &instrumentName, const QString &symbolName);
+
+    QList<QString> instrumentNames() { return m_instrumentPlugins.keys(); }
+    InstrumentPtr instrumentForName(const QString &name);
+
+    int staticPluginsCount() const { return m_staticPlugins; }
+    int dynamicPluginsCount() const { return m_dynamicPlugins; }
+
+    QString pluginsPath() const { return m_pluginsDir.absolutePath(); }
 
 private:
     void loadStaticPlugins();

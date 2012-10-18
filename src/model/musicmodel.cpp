@@ -16,6 +16,11 @@
 #include <score.h>
 #include <tune.h>
 
+MusicModel::MusicModel(QObject *parent)
+    : QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1)
+{
+}
+
 Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags theFlags = QAbstractItemModel::flags(index);

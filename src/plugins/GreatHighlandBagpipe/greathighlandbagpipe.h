@@ -9,11 +9,11 @@
 #ifndef GREATHIGHLANDBAGPIPE_H
 #define GREATHIGHLANDBAGPIPE_H
 
-#include <instrumentinterface.h>
-#include <symbolinterface.h>
 #include <QObject>
 #include <QStringList>
 #include <ghb_instrument.h>
+#include <instrumentinterface.h>
+#include <symbolinterface.h>
 
 class GreatHighlandBagpipe : public QObject,
                              public InstrumentInterface,
@@ -26,17 +26,11 @@ public:
     GreatHighlandBagpipe();
 
     // Instrument interface
-    QString name() const
-        { return QString("Great Highland Bagpipe"); }
-    InstrumentPtr instrument() const
-        { return m_bagpipe; }
+    QString name() const { return QString("Great Highland Bagpipe"); }
+    InstrumentPtr instrument() const { return m_bagpipe; }
 
     // Symbols interface
-    QStringList symbols()
-        { return QStringList() << tr("Melody Note")
-                               << tr("Bar")
-                               << tr("Doubling");
-        }
+    QStringList symbols();
     Symbol *getSymbol(const QString &symbol);
 
 private:

@@ -40,11 +40,13 @@ public:
     QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol);
 
     MusicItem *itemForIndex(const QModelIndex &index) const;
-    void clear();
+
     bool isIndexScore(const QModelIndex &index) const;
     bool isIndexTune(const QModelIndex &index) const;
     bool isIndexSymbol(const QModelIndex &index) const;
     bool indexSupportsWritingOfData(const QModelIndex &index, int role) const;
+
+    void clear();
 
 private:
     MusicModel *musicModel() const;

@@ -22,6 +22,7 @@ class NewTuneDialog : public QDialog
 public:
     explicit NewTuneDialog(const QList<QString> &instruments, QWidget *parent = 0);
     ~NewTuneDialog();
+
     QString scoreTitle() const;
     QString instrumentTitle() const;
     

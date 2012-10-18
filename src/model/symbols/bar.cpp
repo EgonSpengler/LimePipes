@@ -12,3 +12,8 @@
   */
 
 #include "bar.h"
+
+Bar::Bar()
+    : Symbol(LP::Bar,  tr("Bar"))
+{
+}

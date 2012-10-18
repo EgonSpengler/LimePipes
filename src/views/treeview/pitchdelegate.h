@@ -15,8 +15,7 @@ class PitchDelegate : public MusicSymbolDataDelegate
 {
     Q_OBJECT
 public:
-    explicit PitchDelegate(QObject *parent = 0)
-        : MusicSymbolDataDelegate(parent) {}
+    explicit PitchDelegate(QObject *parent = 0) : MusicSymbolDataDelegate(parent) {}
 
     QStringList comboBoxItems(const QModelIndex &symbolIndex) const;
     QString currentSelectedData(const QModelIndex &symbolIndex) const;

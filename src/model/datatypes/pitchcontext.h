@@ -9,11 +9,11 @@
 #ifndef PITCHCONTEXT_H
 #define PITCHCONTEXT_H
 
-#include <QStringList>
 #include <QMap>
+#include <QStringList>
 #include <QSharedPointer>
-#include <model/datatypes/pitch.h>
 #include <QVariant>
+#include <model/datatypes/pitch.h>
 
 class PitchContext
 {
@@ -22,9 +22,12 @@ public:
 
     int lowestStaffPos() const;
     int highestStaffPos() const;
+
     QStringList pitchNames() const;
+
     PitchPtr pitchForName(const QString &name) const;
     PitchPtr pitchForStaffPos(int staffPos) const;
+
     void insertPitch(int staffPos, const QString &name);
 
 private:

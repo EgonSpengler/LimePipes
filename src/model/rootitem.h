@@ -14,8 +14,8 @@
 class RootItem : public MusicItem
 {
 public:
-    explicit RootItem()
-        : MusicItem(MusicItem::RootItemType, MusicItem::ScoreType) {}
+    explicit RootItem();
+
     bool itemSupportsWritingOfData(int role) const;
 };
 

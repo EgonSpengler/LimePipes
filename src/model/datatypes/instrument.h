@@ -18,25 +18,19 @@
 class Instrument
 {
 public:
-    explicit Instrument()
-        : m_type(LP::NoInstrument), m_name(QString("No Instrument")), m_pitchContext(PitchContextPtr(new PitchContext())) {}
-
+    explicit Instrument();
     explicit Instrument(LP::InstrumentType type,
                         const QString &name,
-                        PitchContextPtr pitchContext = PitchContextPtr(new PitchContext()))
-        : m_type(type), m_name(name), m_pitchContext(pitchContext) {}
+                        PitchContextPtr pitchContext = PitchContextPtr(new PitchContext()));
     Instrument(const Instrument& other);
     virtual ~Instrument() {}
 
-    QString name() const
-        { return m_name; }
-    LP::InstrumentType type() const
-        { return m_type; }
-    const PitchContextPtr pitchContext() const
-        { return m_pitchContext; }
+    LP::InstrumentType type() const { return m_type; }
+    QString name() const { return m_name; }
+
+    const PitchContextPtr pitchContext() const { return m_pitchContext; }
+    QStringList pitchNames() const { return m_pitchContext->pitchNames(); }
     virtual bool supportsSymbolType(int type) const = 0;
-    QStringList pitchNames() const
-        { return m_pitchContext->pitchNames(); }
 
 private:
     LP::InstrumentType m_type;
@@ -47,10 +41,8 @@ private:
 class NullInstrument : public Instrument
 {
 public:
-    NullInstrument()
-        : Instrument() {}
-    bool supportsSymbolType(int type) const
-        { Q_UNUSED(type) return false; }
+    NullInstrument() : Instrument() {}
+    bool supportsSymbolType(int type) const { Q_UNUSED(type) return false; }
 };
 
 typedef QSharedPointer<Instrument> InstrumentPtr;

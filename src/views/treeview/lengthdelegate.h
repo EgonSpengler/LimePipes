@@ -15,8 +15,7 @@ class LengthDelegate : public MusicSymbolDataDelegate
 {
     Q_OBJECT
 public:
-    explicit LengthDelegate(QObject *parent = 0)
-        : MusicSymbolDataDelegate(parent) {}
+    explicit LengthDelegate(QObject *parent = 0) : MusicSymbolDataDelegate(parent) {}
 
     QStringList comboBoxItems(const QModelIndex &symbolIndex) const;
     QString currentSelectedData(const QModelIndex &symbolIndex) const;

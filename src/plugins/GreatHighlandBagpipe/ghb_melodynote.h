@@ -17,12 +17,7 @@
 class GHB_MelodyNote : public MelodyNote
 {
 public:
-    GHB_MelodyNote(PitchPtr pitch, Length::Value length)
-        : MelodyNote(GHB::MelodyNote, "Melody Note")
-    {
-        initData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
-        initData(QVariant::fromValue<Length::Value>(length), LP::symbolLength);
-    }
+    GHB_MelodyNote(PitchPtr pitch, Length::Value length);
 };
 
 #endif // GHB_MELODYNOTE_H

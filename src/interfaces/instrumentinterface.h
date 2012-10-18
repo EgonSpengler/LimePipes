@@ -23,8 +23,8 @@ class QString;
 class InstrumentInterface {
 public:
     virtual ~InstrumentInterface() {}
-    virtual QString name() const = 0;
     virtual InstrumentPtr instrument() const = 0;
+    virtual QString name() const = 0;
 };
 
 Q_DECLARE_INTERFACE(InstrumentInterface,

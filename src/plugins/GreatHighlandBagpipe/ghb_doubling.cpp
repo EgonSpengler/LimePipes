@@ -7,3 +7,8 @@
  */
 
 #include "ghb_doubling.h"
+
+GHB_Doubling::GHB_Doubling()
+    : Symbol(GHB::Doubling, "Doubling")
+{
+}

@@ -18,6 +18,18 @@ void Tune::setInstrument(InstrumentPtr instrument)
     m_data.insert(LP::tuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
 }
 
+Tune::Tune()
+    : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
+{
+    setInstrument(InstrumentPtr(new NullInstrument()));
+}
+
+Tune::Tune(InstrumentPtr instrument)
+    : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
+{
+    setInstrument(instrument);
+}
+
 bool Tune::okToInsertChild(const MusicItem *item)
 {
     const Symbol *symbol = symbolFromMusicItem(item);
@@ -26,6 +38,11 @@ bool Tune::okToInsertChild(const MusicItem *item)
         return instrument()->supportsSymbolType(type);
     }
     return false;
+}
+
+const Symbol *Tune::symbolFromMusicItem(const MusicItem *item)
+{
+    return static_cast<const Symbol*>(item);
 }
 
 bool Tune::itemSupportsWritingOfData(int role) const

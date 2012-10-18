@@ -18,8 +18,8 @@
 #include <interfaceglobals.h>
 #include <model/symbol.h>
 
-class QStringList;
 class QString;
+class QStringList;
 
 class SymbolInterface {
 public:

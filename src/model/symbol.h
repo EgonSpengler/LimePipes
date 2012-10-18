@@ -30,12 +30,15 @@ public:
     explicit Symbol();
     explicit Symbol(int type, const QString &name);
     virtual ~Symbol() {}
-    int symbolType() const
-        { return data(LP::symbolType).toInt(); }
+
+    int symbolType() const { return data(LP::symbolType).toInt(); }
+
     bool hasPitch() const;
     PitchPtr pitch() const;
+
     bool hasLength() const;
     Length::Value length() const;
+
     bool itemSupportsWritingOfData(int role) const;
 
 protected:

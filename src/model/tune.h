@@ -17,22 +17,16 @@
 class Tune : public MusicItem
 {
 public:
-    explicit Tune()
-        : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
-        { setInstrument(InstrumentPtr(new NullInstrument())); }
-    explicit Tune(InstrumentPtr instrument)
-        : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
-        { setInstrument(instrument); }
+    explicit Tune();
+    explicit Tune(InstrumentPtr instrument);
 
-    InstrumentPtr instrument() const
-        { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
+    InstrumentPtr instrument() const { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
     bool okToInsertChild(const MusicItem *item);
     bool itemSupportsWritingOfData(int role) const;
 
 private:
     void setInstrument(InstrumentPtr instrument);
-    const Symbol *symbolFromMusicItem(const MusicItem *item)
-        { return static_cast<const Symbol*>(item); }
+    const Symbol *symbolFromMusicItem(const MusicItem *item);
 };
 
 #endif // TUNE_H

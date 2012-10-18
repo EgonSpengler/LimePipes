@@ -15,8 +15,7 @@
 class GHB_Doubling : public Symbol
 {
 public:
-    GHB_Doubling()
-        : Symbol(GHB::Doubling, "Doubling") {}
+    GHB_Doubling();
 };
 
 #endif // GHB_DOUBLING_H

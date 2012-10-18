@@ -25,21 +25,16 @@ public:
         _12_8
     };
 
+    explicit TimeSignature();
+    explicit TimeSignature(Type type);
+    ~TimeSignature() {}
+    TimeSignature(const TimeSignature& timeSig) { m_type = timeSig.signature(); }
+
     static int beatCount(Type type);
     static int beatUnit(Type type);
 
-    explicit TimeSignature()
-        : m_type(_2_2) {}
-    explicit TimeSignature(Type type)
-        : m_type(type) {}
-    ~TimeSignature() {}
-    TimeSignature(const TimeSignature& timeSig)
-    { m_type = timeSig.signature(); }
-
-    void setSignature(Type type)
-        { m_type = type; }
-    Type signature() const
-        { return m_type; }
+    void setSignature(Type type) { m_type = type; }
+    Type signature() const { return m_type; }
 
 private:
     Type m_type;

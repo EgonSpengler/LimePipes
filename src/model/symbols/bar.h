@@ -16,8 +16,7 @@ class Bar : public Symbol
 {
     Q_DECLARE_TR_FUNCTIONS(Bar)
 public:
-    explicit Bar()
-        : Symbol(LP::Bar,  tr("Bar")) {}
+    explicit Bar();
 };
 
 #endif // BAR_H

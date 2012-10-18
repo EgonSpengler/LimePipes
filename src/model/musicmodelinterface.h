@@ -28,12 +28,13 @@ public:
     virtual QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol) = 0;
 
     virtual MusicItem *itemForIndex(const QModelIndex& index) const = 0;
-    virtual void clear() = 0;
 
     virtual bool isIndexScore(const QModelIndex &index) const = 0;
     virtual bool isIndexTune(const QModelIndex &index) const = 0;
     virtual bool isIndexSymbol(const QModelIndex &index) const = 0;
     virtual bool indexSupportsWritingOfData(const QModelIndex &index, int role) const = 0;
+
+    virtual void clear() = 0;
 };
 
 #endif // MUSICMODELINTERFACE_H

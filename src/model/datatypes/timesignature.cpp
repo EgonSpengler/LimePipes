@@ -13,6 +13,16 @@
 
 #include "timesignature.h"
 
+TimeSignature::TimeSignature()
+    : m_type(_2_2)
+{
+}
+
+TimeSignature::TimeSignature(TimeSignature::Type type)
+    : m_type(type)
+{
+}
+
 int TimeSignature::beatCount(TimeSignature::Type type)
 {
     switch (type) {

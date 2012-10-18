@@ -17,16 +17,12 @@ class QString;
 class Pitch
 {
 public:
-    explicit Pitch()
-        : m_staffPos(0), m_name("no name") {}
-
-    explicit Pitch(int staffPos, const QString &name)
-        : m_staffPos(staffPos), m_name(name) {}
+    explicit Pitch();
+    explicit Pitch(int staffPos, const QString &name);
     Pitch(const Pitch &other);
-    QString name() const
-        { return m_name; }
-    int staffPos() const
-        { return m_staffPos; }
+
+    QString name() const { return m_name; }
+    int staffPos() const { return m_staffPos; }
 
 private:
     int m_staffPos;

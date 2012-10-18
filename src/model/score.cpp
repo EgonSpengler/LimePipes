@@ -13,6 +13,17 @@
 
 #include "score.h"
 
+Score::Score()
+    : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
+{
+}
+
+Score::Score(const QString &title)
+    : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
+{
+    setTitle(title);
+}
+
 void Score::setTitle(const QString &title)
 {
     setData(title, LP::scoreTitle);

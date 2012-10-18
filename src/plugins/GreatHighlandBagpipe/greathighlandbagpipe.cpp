@@ -16,6 +16,18 @@
 #include <ghb_doubling.h>
 #include <bar.h>
 
+GreatHighlandBagpipe::GreatHighlandBagpipe()
+    : m_bagpipe(InstrumentPtr(new GHB_Instrument()))
+{
+}
+
+QStringList GreatHighlandBagpipe::symbols()
+{
+    return QStringList()    << tr("Melody Note")
+                            << tr("Bar")
+                            << tr("Doubling");
+}
+
 Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
 {
     if (symbol == tr("Melody Note")) {
@@ -28,11 +40,6 @@ Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
         return new GHB_Doubling();
     }
     return new Symbol();
-}
-
-GreatHighlandBagpipe::GreatHighlandBagpipe()
-    : m_bagpipe(InstrumentPtr(new GHB_Instrument()))
-{
 }
 
 Q_EXPORT_PLUGIN2(lp_greathighlandbagpipe, GreatHighlandBagpipe)

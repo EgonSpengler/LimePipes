@@ -13,6 +13,11 @@
 
 #include "rootitem.h"
 
+RootItem::RootItem()
+    : MusicItem(MusicItem::RootItemType, MusicItem::ScoreType)
+{
+}
+
 bool RootItem::itemSupportsWritingOfData(int role) const
 {
     Q_UNUSED(role)

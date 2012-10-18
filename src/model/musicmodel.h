@@ -18,19 +18,20 @@ class MusicModel :  public QAbstractItemModel,
                     public MusicModelInterface
 {
     Q_OBJECT
+
 public:
-    explicit MusicModel(QObject *parent = 0) :
-        QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1) {}
+    explicit MusicModel(QObject *parent = 0);
     ~MusicModel() { delete m_rootItem; }
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &index) const;
     int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
+
     QVariant data(const QModelIndex &index, int role) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role);
 
+    int columnCount(const QModelIndex &parent) const;
     void setColumnCount(int columns);
 
     // MusicModelInterface
@@ -42,18 +43,22 @@ public:
     QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol);
     
     MusicItem *itemForIndex(const QModelIndex& index) const;
-    void clear();
+
     bool isIndexScore(const QModelIndex &index) const;
     bool isIndexTune(const QModelIndex &index) const;
     bool isIndexSymbol(const QModelIndex &index) const;
     bool indexSupportsWritingOfData(const QModelIndex &index, int role) const;
 
+    void clear();
+
 private:
     bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;
-    template<class T>
-    T castedMusicItemFromIndex(const QModelIndex &index) const;
     void createRootItemIfNotPresent();
     bool isRowValid(MusicItem *item, int row) const;
+
+    template<class T>
+    T castedMusicItemFromIndex(const QModelIndex &index) const;
+
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
     MusicItem *m_rootItem;
     int m_columnCount;

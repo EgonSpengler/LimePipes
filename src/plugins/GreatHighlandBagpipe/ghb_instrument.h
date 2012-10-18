@@ -15,28 +15,14 @@
 class GHB_PitchContext : public PitchContext
 {
 public:
-    explicit GHB_PitchContext()
-        : PitchContext()
-    {
-        insertPitch(0, "F");
-        insertPitch(1, "E");
-        insertPitch(2, "D");
-        insertPitch(3, "C");
-        insertPitch(4, "B");
-        insertPitch(5, "Low A");
-        insertPitch(-1, "High G");
-        insertPitch(-2, "High A");
-        insertPitch(6, "Low G");
-    }
+    explicit GHB_PitchContext();
 };
 
 class GHB_Instrument : public Instrument
 {
 public:
-    GHB_Instrument()
-        : Instrument(LP::GreatHighlandBagpipe,
-                     QString("Great Highland Bagpipe"),
-                     PitchContextPtr(new GHB_PitchContext())) {}
+    GHB_Instrument();
+
     bool supportsSymbolType(int type) const;
 };
 

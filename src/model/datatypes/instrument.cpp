@@ -12,6 +12,18 @@
     @brief A class which provides a Instrument.
 */
 
+Instrument::Instrument()
+    : m_type(LP::NoInstrument),
+      m_name(QString("No Instrument")),
+      m_pitchContext(PitchContextPtr(new PitchContext()))
+{
+}
+
+Instrument::Instrument(LP::InstrumentType type, const QString &name, PitchContextPtr pitchContext)
+    : m_type(type), m_name(name), m_pitchContext(pitchContext)
+{
+}
+
 Instrument::Instrument(const Instrument &other)
 {
     this->m_type = other.m_type;

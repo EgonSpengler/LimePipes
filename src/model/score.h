@@ -16,15 +16,12 @@
 class Score : public MusicItem
 {
 public:
-    explicit Score()
-        : MusicItem(MusicItem::ScoreType, MusicItem::TuneType) {}
-    explicit Score(const QString &title)
-        : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
-        { setTitle(title); }
+    explicit Score();
+    explicit Score(const QString &title);
 
     void setTitle(const QString &title);
-    QString title() const
-        { return data(LP::scoreTitle).toString(); }  
+    QString title() const { return data(LP::scoreTitle).toString(); }
+
     bool itemSupportsWritingOfData(int role) const;
 };
 

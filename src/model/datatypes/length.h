@@ -29,9 +29,10 @@ public:
         _64 = 64
     };
     static Value valueForName(const QString &name);
+    static QList<int> lengthValues();
+
     static QString nameForValue(Length::Value value);
     static QStringList lengthNames();
-    static QList<int> lengthValues();
 
 private:
     explicit Length();
