@@ -10,7 +10,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMap>
 #include <datatypes/instrument.h>
 
 class QTreeView;

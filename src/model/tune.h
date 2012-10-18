@@ -9,11 +9,9 @@
 #ifndef TUNE_H
 #define TUNE_H
 
-#include <QScopedPointer>
 #include <musicitem.h>
 #include <symbol.h>
 #include <itemdatatypes.h>
-#include <datatypes/instrument.h>
 #include <interfaces/instrumentinterface.h>
 
 class Tune : public MusicItem

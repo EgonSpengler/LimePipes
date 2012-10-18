@@ -10,7 +10,6 @@
 #define BAR_H
 
 #include <QCoreApplication>
-
 #include <symbol.h>
 
 class Bar : public Symbol

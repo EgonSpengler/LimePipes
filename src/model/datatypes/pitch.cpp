@@ -12,6 +12,7 @@
   */
 
 #include "pitch.h"
+#include <QString>
 
 Pitch::Pitch(const Pitch &other)
 {

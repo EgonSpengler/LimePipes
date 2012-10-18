@@ -10,8 +10,9 @@
 #define TREEVIEW_H
 
 #include <QTreeView>
-#include <pitchdelegate.h>
-#include <lengthdelegate.h>
+
+class PitchDelegate;
+class LengthDelegate;
 
 class TreeView : public QTreeView
 {

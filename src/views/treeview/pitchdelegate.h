@@ -10,7 +10,6 @@
 #define PITCHDELEGATE_H
 
 #include "musicsymboldatadelegate.h"
-#include <symbol.h>
 
 class PitchDelegate : public MusicSymbolDataDelegate
 {
@@ -19,12 +18,10 @@ public:
     explicit PitchDelegate(QObject *parent = 0)
         : MusicSymbolDataDelegate(parent) {}
 
-    QStringList comboBoxItems(const Symbol *symbol) const;
-    bool hasSymbolDelegateData(const Symbol *symbol) const
-        { return symbol->hasPitch(); }
-    QString currentSelectedData(const Symbol *symbol) const
-        { return symbol->pitch()->name(); }
-    void setSymbolDataFromSelectedText(Symbol *symbol, const QString &text) const;
+    QStringList comboBoxItems(const QModelIndex &symbolIndex) const;
+    QString currentSelectedData(const QModelIndex &symbolIndex) const;
+    bool hasSymbolDelegateData(const QModelIndex &symbolIndex) const;
+    void setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const;
 };
 
 #endif // PITCHDELEGATE_H

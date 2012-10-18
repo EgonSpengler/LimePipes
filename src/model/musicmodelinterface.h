@@ -33,10 +33,7 @@ public:
     virtual bool isIndexScore(const QModelIndex &index) const = 0;
     virtual bool isIndexTune(const QModelIndex &index) const = 0;
     virtual bool isIndexSymbol(const QModelIndex &index) const = 0;
-
-    virtual Score *scoreFromIndex(const QModelIndex &index) const = 0;
-    virtual Tune *tuneFromIndex(const QModelIndex &index) const = 0;
-    virtual Symbol *symbolFromIndex(const QModelIndex &index) const = 0;
+    virtual bool indexSupportsWritingOfData(const QModelIndex &index, int role) const = 0;
 };
 
 #endif // MUSICMODELINTERFACE_H

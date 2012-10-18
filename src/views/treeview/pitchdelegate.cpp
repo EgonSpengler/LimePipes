@@ -7,24 +7,52 @@
  */
 
 #include "pitchdelegate.h"
+#include <musicmodelinterface.h>
 #include <itemdatatypes.h>
-#include <tune.h>
+#include <pitch.h>
+#include <pitchcontext.h>
+#include <instrument.h>
 
-QStringList PitchDelegate::comboBoxItems(const Symbol *symbol) const
+QStringList PitchDelegate::comboBoxItems(const QModelIndex &symbolIndex) const
 {
-    Tune *tune = static_cast<Tune*>(symbol->parent());
-    if (tune) {
-        return tune->instrument()->pitchNames();
+    QModelIndex tune = symbolIndex.parent();
+    QVariant instrumentVar = tune.data(LP::tuneInstrument);
+
+    if (instrumentVar.canConvert<InstrumentPtr>()) {
+        InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+        return instrument->pitchNames();
     }
     return QStringList();
 }
 
-void PitchDelegate::setSymbolDataFromSelectedText(Symbol *symbol, const QString &text) const
+bool PitchDelegate::hasSymbolDelegateData(const QModelIndex &symbolIndex) const
 {
-    Tune *tune = static_cast<Tune*>(symbol->parent());
-    if (tune) {
-        PitchContextPtr pitchContext = tune->instrument()->pitchContext();
+    const MusicModelInterface *musicModel = dynamic_cast<const MusicModelInterface*>(symbolIndex.model());
+    if (musicModel) {
+        return musicModel->indexSupportsWritingOfData(symbolIndex, LP::symbolPitch);
+    }
+    return false;
+}
+
+QString PitchDelegate::currentSelectedData(const QModelIndex &symbolIndex) const
+{
+    QVariant pitchVar = symbolIndex.data(LP::symbolPitch);
+    if (pitchVar.canConvert<PitchPtr>()) {
+        PitchPtr pitch = pitchVar.value<PitchPtr>();
+        return pitch->name();
+    }
+    return "";
+}
+
+void PitchDelegate::setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const
+{
+    QModelIndex tune = symbolIndex.parent();
+    QVariant instrumentVar = tune.data(LP::tuneInstrument);
+
+    if (instrumentVar.canConvert<InstrumentPtr>()) {
+        InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+        PitchContextPtr pitchContext = instrument->pitchContext();
         PitchPtr pitch = pitchContext->pitchForName(text);
-        symbol->setData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
+        model->setData(symbolIndex, QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
     }
 }

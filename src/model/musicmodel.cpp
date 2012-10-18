@@ -15,8 +15,6 @@
 #include <rootitem.h>
 #include <score.h>
 #include <tune.h>
-#include <datatypes/pitch.h>
-#include <datatypes/length.h>
 
 Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
 {
@@ -171,19 +169,12 @@ bool MusicModel::isIndexSymbol(const QModelIndex &index) const
     return indexHasItemType(index, MusicItem::SymbolType);
 }
 
-Score *MusicModel::scoreFromIndex(const QModelIndex &index) const
+bool MusicModel::indexSupportsWritingOfData(const QModelIndex &index, int role) const
 {
-    return castedMusicItemFromIndex<Score*>(index);
-}
-
-Tune *MusicModel::tuneFromIndex(const QModelIndex &index) const
-{
-    return castedMusicItemFromIndex<Tune*>(index);
-}
-
-Symbol *MusicModel::symbolFromIndex(const QModelIndex &index) const
-{
-    return castedMusicItemFromIndex<Symbol*>(index);
+    if (MusicItem *item = itemForIndex(index)) {
+        return item->itemSupportsWritingOfData(role);
+    }
+    return false;
 }
 
 bool MusicModel::indexHasItemType(const QModelIndex &index, MusicItem::Type type) const

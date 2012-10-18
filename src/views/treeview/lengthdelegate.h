@@ -10,19 +10,18 @@
 #define LENGTHDELEGATE_H
 
 #include "musicsymboldatadelegate.h"
-#include <symbol.h>
 
 class LengthDelegate : public MusicSymbolDataDelegate
 {
     Q_OBJECT
 public:
-    explicit LengthDelegate(QObject *parent = 0);
-    QStringList comboBoxItems(const Symbol *symbol) const;
-    bool hasSymbolDelegateData(const Symbol *symbol) const
-        { return symbol->hasLength(); }
-    void setSymbolDataFromSelectedText(Symbol *symbol, const QString &text) const;
-    QString currentSelectedData(const Symbol *symbol) const
-        { return QString::number(symbol->length()); }
+    explicit LengthDelegate(QObject *parent = 0)
+        : MusicSymbolDataDelegate(parent) {}
+
+    QStringList comboBoxItems(const QModelIndex &symbolIndex) const;
+    QString currentSelectedData(const QModelIndex &symbolIndex) const;
+    bool hasSymbolDelegateData(const QModelIndex &symbolIndex) const;
+    void setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const;
 };
 
 #endif // LENGTHDELEGATE_H

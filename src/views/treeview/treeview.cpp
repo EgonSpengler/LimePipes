@@ -7,6 +7,8 @@
  */
 
 #include "treeview.h"
+#include <pitchdelegate.h>
+#include <lengthdelegate.h>
 
 TreeView::TreeView(QWidget *parent)
     : QTreeView(parent)

@@ -9,10 +9,10 @@
 #ifndef MUSICITEM_H
 #define MUSICITEM_H
 
+#include <Qt>
 #include <QList>
-#include <QVariant>
-#include <QString>
 #include <QMap>
+#include <QVariant>
 
 class MusicItem
 {

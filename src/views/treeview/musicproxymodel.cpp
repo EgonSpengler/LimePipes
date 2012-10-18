@@ -7,9 +7,9 @@
  */
 
 #include "musicproxymodel.h"
+#include <musicmodel.h>
 #include <itemdatatypes.h>
-#include <tune.h>
-#include <score.h>
+#include <length.h>
 
 MusicProxyModel::MusicProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent)
@@ -29,6 +29,18 @@ QVariant MusicProxyModel::data(const QModelIndex &index, int role) const
     return QSortFilterProxyModel::data(index, role);
 }
 
+bool MusicProxyModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcIndex = mapToSource(index);
+        if (srcIndex.column() != ItemColumn) {
+            srcIndex = model->index(srcIndex.row(), ItemColumn, srcIndex.parent());
+        }
+        return model->setData(srcIndex, value, role);
+    }
+    return QSortFilterProxyModel::setData(index, value, role);
+}
+
 QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) const
 {
     MusicModel *model = musicModel();
@@ -42,9 +54,10 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
             return index.data(LP::scoreTitle);
 
         if (model->isIndexTune(srcIndex)) {
-            Tune *tune = model->tuneFromIndex(srcIndex);
-            if (tune) {
-                return tune->instrument()->name() + " tune";
+            QVariant instrumentVar = srcIndex.data(LP::tuneInstrument);
+            if (instrumentVar.canConvert<InstrumentPtr>()) {
+                InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+                return instrument->name() + " tune";
             }
         }
 
@@ -59,17 +72,18 @@ QVariant MusicProxyModel::pitchColumnData(const QModelIndex &index, int role) co
     MusicModel *model = musicModel();
     if (!model)
         return QVariant();
+
     QModelIndex srcIndex = mapToSource(index);
 
     if (role == Qt::DisplayRole) {
         if (model->isIndexSymbol(srcIndex)) {
-            Symbol *symbol = model->symbolFromIndex(srcIndex);
-            if (symbol && symbol->hasPitch()) {
-                return symbol->pitch()->name();
+            QVariant pitchVar = srcIndex.data(LP::symbolPitch);
+            if (pitchVar.canConvert<PitchPtr>()) {
+                PitchPtr pitch = pitchVar.value<PitchPtr>();
+                return pitch->name();
             }
         }
     }
-
     return QSortFilterProxyModel::data(index, role);
 }
 
@@ -78,17 +92,18 @@ QVariant MusicProxyModel::lengthColumnData(const QModelIndex &index, int role) c
     MusicModel *model = musicModel();
     if (!model)
         return QVariant();
+
     QModelIndex srcIndex = mapToSource(index);
 
     if (role == Qt::DisplayRole) {
         if (model->isIndexSymbol(srcIndex)) {
-            Symbol *symbol = model->symbolFromIndex(srcIndex);
-            if (symbol && symbol->hasLength()) {
-                return symbol->length();
+            QVariant lengthVar = srcIndex.data(LP::symbolLength);
+            if (lengthVar.canConvert<Length::Value>()) {
+                Length::Value length = lengthVar.value<Length::Value>();
+                return length;
             }
         }
     }
-
     return QSortFilterProxyModel::data(index, role);
 }
 
@@ -217,29 +232,11 @@ bool MusicProxyModel::isIndexSymbol(const QModelIndex &index) const
     return false;
 }
 
-Score *MusicProxyModel::scoreFromIndex(const QModelIndex &index) const
+bool MusicProxyModel::indexSupportsWritingOfData(const QModelIndex &index, int role) const
 {
     if (MusicModel *model = musicModel()) {
         QModelIndex srcIndex = mapToSource(index);
-        return model->scoreFromIndex(srcIndex);
+        return model->indexSupportsWritingOfData(srcIndex, role);
     }
-    return new Score();
-}
-
-Tune *MusicProxyModel::tuneFromIndex(const QModelIndex &index) const
-{
-    if (MusicModel *model = musicModel()) {
-        QModelIndex srcIndex = mapToSource(index);
-        return model->tuneFromIndex(srcIndex);
-    }
-    return new Tune();
-}
-
-Symbol *MusicProxyModel::symbolFromIndex(const QModelIndex &index) const
-{
-    if (MusicModel *model = musicModel()) {
-        QModelIndex srcIndex = mapToSource(index);
-        return model->symbolFromIndex(srcIndex);
-    }
-    return new Symbol();
+    return false;
 }

@@ -13,6 +13,7 @@
   */
 
 #include "musicsymboldatadelegate.h"
+#include <musicmodelinterface.h>
 #include <QComboBox>
 
 QWidget *MusicSymbolDataDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -31,32 +32,30 @@ void MusicSymbolDataDelegate::setEditorData(QWidget *editor, const QModelIndex &
     if (isSymbolIndexOk(index) == false)
         return;
 
-    Symbol *symbol = model->symbolFromIndex(index);
-    if (symbol &&
-        hasSymbolDelegateData(symbol) == false)
+    if (model->isIndexSymbol(index) &&
+        hasSymbolDelegateData(index) == false)
         return;
 
-    QStringList items = comboBoxItems(symbol);
+    QStringList items = comboBoxItems(index);
     if (!items.empty()) {
         comboBox->insertItems(0, items);
 
-        int currentItemIndex = comboBox->findText(currentSelectedData(symbol));
+        int currentItemIndex = comboBox->findText(currentSelectedData(index));
         comboBox->setCurrentIndex(currentItemIndex);
     }
 }
 
 void MusicSymbolDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    Q_UNUSED(model)
     QComboBox *comboBox = static_cast<QComboBox*>(editor);
+
     const MusicModelInterface *musicModel = musicModelFromIndex(index);
     if (!musicModel ||
         !isSymbolIndexOk(index))
         return;
 
-    Symbol *symbol = musicModel->symbolFromIndex(index);
-    if (symbol) {
-        setSymbolDataFromSelectedText(symbol, comboBox->currentText());
+    if (musicModel->isIndexSymbol(index)) {
+        setSymbolDataFromSelectedText(model, index, comboBox->currentText());
     }
 }
 

@@ -10,7 +10,8 @@
 #define MUSICSYMBOLDATADELEGATE_H
 
 #include <QItemDelegate>
-#include <musicmodel.h>
+
+class MusicModelInterface;
 
 class MusicSymbolDataDelegate : public QItemDelegate
 {
@@ -23,10 +24,10 @@ public:
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
     void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
-    virtual QStringList comboBoxItems(const Symbol *symbol) const = 0;
-    virtual bool hasSymbolDelegateData(const Symbol *symbol) const = 0;
-    virtual QString currentSelectedData(const Symbol *symbol) const = 0;
-    virtual void setSymbolDataFromSelectedText(Symbol *symbol, const QString &text) const = 0;
+    virtual QStringList comboBoxItems(const QModelIndex &symbolIndex) const = 0;
+    virtual QString currentSelectedData(const QModelIndex &symbolIndex) const = 0;
+    virtual bool hasSymbolDelegateData(const QModelIndex &symbolIndex) const = 0;
+    virtual void setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const = 0;
 
 private:
     const MusicModelInterface *musicModelFromIndex(const QModelIndex &index) const;

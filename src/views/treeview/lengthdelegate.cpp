@@ -7,15 +7,13 @@
  */
 
 #include "lengthdelegate.h"
+#include <musicmodelinterface.h>
+#include <itemdatatypes.h>
+#include <length.h>
 
-LengthDelegate::LengthDelegate(QObject *parent) :
-    MusicSymbolDataDelegate(parent)
+QStringList LengthDelegate::comboBoxItems(const QModelIndex &symbolIndex) const
 {
-}
-
-QStringList LengthDelegate::comboBoxItems(const Symbol *symbol) const
-{
-    Q_UNUSED(symbol)
+    Q_UNUSED(symbolIndex)
     QStringList items;
     foreach (int length, Length::lengthValues()) {
         items << QString::number(length);
@@ -23,7 +21,16 @@ QStringList LengthDelegate::comboBoxItems(const Symbol *symbol) const
     return items;
 }
 
-void LengthDelegate::setSymbolDataFromSelectedText(Symbol *symbol, const QString &text) const
+bool LengthDelegate::hasSymbolDelegateData(const QModelIndex &symbolIndex) const
+{
+    const MusicModelInterface *musicModel = dynamic_cast<const MusicModelInterface*>(symbolIndex.model());
+    if (musicModel) {
+        return musicModel->indexSupportsWritingOfData(symbolIndex, LP::symbolLength);
+    }
+    return false;
+}
+
+void LengthDelegate::setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const
 {
     bool conversionOk;
     int length = text.toInt(&conversionOk);
@@ -31,6 +38,17 @@ void LengthDelegate::setSymbolDataFromSelectedText(Symbol *symbol, const QString
         return;
 
     if (Length::lengthValues().contains(length)) {
-        symbol->setData(QVariant::fromValue<Length::Value>((Length::Value)length), LP::symbolLength);
+        QVariant lengthVar = QVariant::fromValue<Length::Value>((Length::Value)length);
+        model->setData(symbolIndex, lengthVar, LP::symbolLength);
     }
+}
+
+QString LengthDelegate::currentSelectedData(const QModelIndex &symbolIndex) const
+{
+    QVariant lengthVar = symbolIndex.data(LP::symbolLength);
+    if (lengthVar.canConvert<Length::Value>()) {
+        Length::Value length = lengthVar.value<Length::Value>();
+        return QString::number(length);
+    }
+    return QString();
 }

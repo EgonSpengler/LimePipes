@@ -12,10 +12,8 @@
 #include <instrumentinterface.h>
 #include <symbolinterface.h>
 #include <QObject>
-#include <QString>
 #include <QStringList>
 #include <ghb_instrument.h>
-#include <pitchcontext.h>
 
 class GreatHighlandBagpipe : public QObject,
                              public InstrumentInterface,

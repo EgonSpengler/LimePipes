@@ -9,7 +9,7 @@
 #ifndef SCORE_H
 #define SCORE_H
 
-#include <QScopedPointer>
+#include <QString>
 #include <musicitem.h>
 #include <itemdatatypes.h>
 

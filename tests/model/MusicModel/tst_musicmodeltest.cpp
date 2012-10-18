@@ -46,9 +46,6 @@ private Q_SLOTS:
     void testIsScore();
     void testIsTune();
     void testIsSymbol();
-    void testScoreFromIndex();
-    void testTuneFromIndex();
-    void testSymbolFromIndex();
     void testSetColumnCount();
 
 private:
@@ -229,26 +226,6 @@ void MusicModelTest::testIsSymbol()
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
     QModelIndex symbol1 = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
     QVERIFY2(m_model->isIndexSymbol(symbol1), "Failed, should return true for symbol");
-}
-
-void MusicModelTest::testScoreFromIndex()
-{
-    QModelIndex firstScore = m_model->appendScore("First title");
-    QVERIFY2(m_model->scoreFromIndex(firstScore)->type() == MusicItem::ScoreType, "Failed getting score from index");
-}
-
-void MusicModelTest::testTuneFromIndex()
-{
-    QModelIndex score = m_model->insertScore(0, "First Score");
-    QModelIndex tune = m_model->appendTuneToScore(score, InstrumentPtr(new TestInstrument()));
-    QVERIFY2(m_model->tuneFromIndex(tune)->type() == MusicItem::TuneType, "Failed getting tune from index");
-}
-
-void MusicModelTest::testSymbolFromIndex()
-{
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-    QModelIndex symbol1 = m_model->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
-    QVERIFY2(m_model->symbolFromIndex(symbol1)->type() == MusicItem::SymbolType, "Failed getting symbol from index");
 }
 
 void MusicModelTest::testSetColumnCount()

@@ -11,7 +11,8 @@
 
 #include <QSortFilterProxyModel>
 #include <musicmodelinterface.h>
-#include <musicmodel.h>
+
+class MusicModel;
 
 class MusicProxyModel : public QSortFilterProxyModel,
                         public MusicModelInterface
@@ -26,6 +27,7 @@ public:
 
     explicit MusicProxyModel(QObject *parent = 0);
     QVariant data(const QModelIndex &index, int role) const;
+    bool setData(const QModelIndex &index, const QVariant &value, int role);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void setSourceModel(QAbstractItemModel *sourceModel);
 
@@ -42,9 +44,7 @@ public:
     bool isIndexScore(const QModelIndex &index) const;
     bool isIndexTune(const QModelIndex &index) const;
     bool isIndexSymbol(const QModelIndex &index) const;
-    Score *scoreFromIndex(const QModelIndex &index) const;
-    Tune *tuneFromIndex(const QModelIndex &index) const;
-    Symbol *symbolFromIndex(const QModelIndex &index) const;
+    bool indexSupportsWritingOfData(const QModelIndex &index, int role) const;
 
 private:
     MusicModel *musicModel() const;

@@ -9,12 +9,14 @@
 #ifndef INSTRUMENTMANAGER_H
 #define INSTRUMENTMANAGER_H
 
+#include <QMap>
 #include <QList>
 #include <QString>
-#include <QMap>
 #include <QDir>
 #include <interfaces/instrumentinterface.h>
 #include <interfaces/symbolinterface.h>
+
+class QDir;
 
 class InstrumentManager
 {

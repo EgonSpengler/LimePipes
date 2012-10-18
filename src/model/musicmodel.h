@@ -13,6 +13,7 @@
 #include <musicmodelinterface.h>
 #include <musicitem.h>
 
+
 class MusicModel :  public QAbstractItemModel,
                     public MusicModelInterface
 {
@@ -45,9 +46,7 @@ public:
     bool isIndexScore(const QModelIndex &index) const;
     bool isIndexTune(const QModelIndex &index) const;
     bool isIndexSymbol(const QModelIndex &index) const;
-    Score *scoreFromIndex(const QModelIndex &index) const;
-    Tune *tuneFromIndex(const QModelIndex &index) const;
-    Symbol *symbolFromIndex(const QModelIndex &index) const;
+    bool indexSupportsWritingOfData(const QModelIndex &index, int role) const;
 
 private:
     bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;

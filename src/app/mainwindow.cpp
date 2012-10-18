@@ -20,8 +20,6 @@
 #include "ui_mainwindow.h"
 #include <QDir>
 #include <QMessageBox>
-#include <instrumentinterface.h>
-#include <symbolinterface.h>
 #include <musicmodel.h>
 #include <musicproxymodel.h>
 #include <app/newtunedialog.h>

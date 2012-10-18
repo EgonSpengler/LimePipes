@@ -10,7 +10,6 @@
 #define SYMBOL_H
 
 #include <QCoreApplication>
-#include <QScopedPointer>
 #include <musicitem.h>
 #include <itemdatatypes.h>
 #include <datatypes/pitch.h>

@@ -10,9 +10,9 @@
 #define PITCH_H
 
 #include <QMetaType>
-#include <QVariant>
-#include <QString>
 #include <QSharedPointer>
+
+class QString;
 
 class Pitch
 {

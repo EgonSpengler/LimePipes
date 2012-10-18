@@ -75,9 +75,6 @@ private Q_SLOTS:
     void testIsScore();
     void testIsTune();
     void testIsSymbol();
-    void testScoreFromIndex();
-    void testTuneFromIndex();
-    void testSymbolFromIndex();
     void testPitchColumn();
     void testLengthColumn();
 
@@ -241,26 +238,6 @@ void MusicProxyModelTest::testIsSymbol()
     QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
     QModelIndex symbol1 = m_proxyModel->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
     QVERIFY2(m_proxyModel->isIndexSymbol(symbol1), "Failed, should return true for symbol");
-}
-
-void MusicProxyModelTest::testScoreFromIndex()
-{
-    QModelIndex firstScore = m_proxyModel->appendScore("First title");
-    QVERIFY2(m_proxyModel->scoreFromIndex(firstScore)->type() == MusicItem::ScoreType, "Failed getting score from index");
-}
-
-void MusicProxyModelTest::testTuneFromIndex()
-{
-    QModelIndex score = m_proxyModel->insertScore(0, "First Score");
-    QModelIndex tune = m_proxyModel->appendTuneToScore(score, InstrumentPtr(new TestInstrument()));
-    QVERIFY2(m_proxyModel->tuneFromIndex(tune)->type() == MusicItem::TuneType, "Failed getting tune from index");
-}
-
-void MusicProxyModelTest::testSymbolFromIndex()
-{
-    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-    QModelIndex symbol1 = m_proxyModel->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
-    QVERIFY2(m_proxyModel->symbolFromIndex(symbol1)->type() == MusicItem::SymbolType, "Failed getting symbol from index");
 }
 
 void MusicProxyModelTest::testPitchColumn()
