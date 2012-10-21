@@ -10,8 +10,6 @@ include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
 
 QT       += testlib
 
-QT       -= gui
-
 TARGET = bin/tst_bartest
 CONFIG   += console
 CONFIG   -= app_bundle

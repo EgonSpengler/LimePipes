@@ -16,19 +16,20 @@
 MelodyNote::MelodyNote()
     : Symbol(LP::MelodyNote, tr("Melody Note"))
 {
-    initSymbolOptions();
+    initSymbol();
 }
 
 MelodyNote::MelodyNote(int type, const QString &name)
     : Symbol(type, name)
 {
-    initSymbolOptions();
+    initSymbol();
 }
 
-void MelodyNote::initSymbolOptions()
+void MelodyNote::initSymbol()
 {
     setSymbolOptions(Symbol::HasPitch |
                      Symbol::HasLength);
+    setSymbolGraphicBuilder(new MelodyNoteGraphicBuilder(this));
 }
 
 

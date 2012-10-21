@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <QSignalSpy>
 #include <musicitem.h>
 #include <rootitem.h>
 #include <score.h>
@@ -45,6 +46,7 @@ private slots:
     void testType();
     void testChildType();
     void testOkToInsertChild();
+    void testAfterWritingDataCallback();
 
 private:
     MusicItem *m_parent;
@@ -223,6 +225,16 @@ void MusicItemTest::testOkToInsertChild()
     MusicItem *item = new TestMusicItem();
     QVERIFY2(m_parent->okToInsertChild(item) == true, "Default implementation should return true");
     delete item;
+}
+
+void MusicItemTest::testAfterWritingDataCallback()
+{
+    TestMusicItem *item = new TestMusicItem();
+    QSignalSpy spy(item, SIGNAL(afterWritingDataCalled()));
+    item->setData(123, 456);
+    QVERIFY2(spy.count() == 1, "afterSetData wasn't called after set data");
+    item->testInitData();
+    QVERIFY2(spy.count() == 2, "afterSetData wasn't called after call of initData");
 }
 
 QTEST_APPLESS_MAIN(MusicItemTest)

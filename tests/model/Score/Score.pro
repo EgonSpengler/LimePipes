@@ -9,8 +9,6 @@ include( $$LIMEPIPES_SOURCE_TREE/src/model/model.pri )
 
 QT       += testlib
 
-QT       -= gui
-
 TARGET = bin/tst_scoretest
 CONFIG   += console
 CONFIG   -= app_bundle

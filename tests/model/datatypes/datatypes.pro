@@ -5,4 +5,5 @@ SUBDIRS += \
     Pitch \
     TimeSignature \
     Instrument \
-    PitchContext
+    PitchContext \
+    SymbolGraphic

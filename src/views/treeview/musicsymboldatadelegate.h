@@ -18,6 +18,7 @@ class MusicSymbolDataDelegate : public QItemDelegate
     Q_OBJECT
 public:
     explicit MusicSymbolDataDelegate(QObject *parent = 0) : QItemDelegate(parent) {}
+    virtual ~MusicSymbolDataDelegate() {}
 
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
     void setEditorData(QWidget *editor, const QModelIndex &index) const;

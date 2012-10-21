@@ -11,6 +11,7 @@
 
 #include <QCoreApplication>
 #include <symbol.h>
+#include <melodynotegraphicbuilder.h>
 
 class MelodyNote : public Symbol
 {
@@ -20,7 +21,7 @@ public:
     explicit MelodyNote(int type, const QString &name);
 
 private:
-    void initSymbolOptions();
+    void initSymbol();
 };
 
 #endif // MELODYNOTE_H

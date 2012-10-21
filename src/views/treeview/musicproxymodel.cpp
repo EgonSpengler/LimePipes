@@ -10,6 +10,7 @@
 #include <musicmodel.h>
 #include <itemdatatypes.h>
 #include <length.h>
+#include <symbolgraphic.h>
 
 MusicProxyModel::MusicProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent)
@@ -63,6 +64,17 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
 
         if (model->isIndexSymbol(srcIndex))
             return index.data(LP::symbolName);
+    }
+
+    if (role == Qt::DecorationRole) {
+        if (model->isIndexSymbol(srcIndex)) {
+            QVariant symbolGraphicVar = srcIndex.data(LP::symbolGraphic);
+            if (symbolGraphicVar.canConvert<SymbolGraphicPtr>()) {
+                SymbolGraphicPtr symbolGraphic = symbolGraphicVar.value<SymbolGraphicPtr>();
+                return symbolGraphic->pixmap();
+            }
+
+        }
     }
     return QSortFilterProxyModel::data(index, role);
 }

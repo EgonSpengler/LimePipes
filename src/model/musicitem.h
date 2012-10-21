@@ -50,10 +50,11 @@ public:
 
 protected:
     void initData(const QVariant &value, int role) { writeData(value, role); }
+    virtual void afterWritingData(int role) { Q_UNUSED(role); }
     QMap<int, QVariant> m_data;
 
 private:
-    void writeData(const QVariant &value, int role) { m_data.insert(role, value); }
+    void writeData(const QVariant &value, int role);
     QList<MusicItem*> m_children;
     const Type m_type;
     const Type m_childType;

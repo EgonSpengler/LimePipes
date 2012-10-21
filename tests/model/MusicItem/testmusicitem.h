@@ -10,9 +10,12 @@
 #define TESTMUSICITEM_H
 
 #include <musicitem.h>
+#include <QObject>
 
-class TestMusicItem : public MusicItem
+class TestMusicItem :   public QObject,
+                        public MusicItem
 {
+    Q_OBJECT
 public:
     static const char *dataForInitDataRole;
 
@@ -29,6 +32,15 @@ public:
             return false;
         return true;
     }
+
+    void afterWritingData(int role) { Q_UNUSED(role) emit afterWritingDataCalled(); }
+
+    void testInitData(){
+        initData(123, 123);
+    }
+
+signals:
+    void afterWritingDataCalled();
 };
 
 #endif // TESTMUSICITEM_H

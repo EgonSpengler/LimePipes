@@ -10,8 +10,6 @@ include( $$LIMEPIPES_SOURCE_TREE/src/interfaces/interfaces.pri )
 
 QT       += testlib
 
-QT       -= gui
-
 TARGET = bin/tst_symboltest
 CONFIG   += console
 CONFIG   -= app_bundle

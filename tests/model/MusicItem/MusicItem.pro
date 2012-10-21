@@ -9,8 +9,6 @@ include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
 
 QT       += testlib
 
-QT       -= gui
-
 TARGET = bin/tst_musicitemtest
 CONFIG   += console
 CONFIG   -= app_bundle
@@ -18,9 +16,11 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += tst_musicitemtest.cpp \
+SOURCES += \
+    tst_musicitemtest.cpp \
     testmusicitem.cpp
-DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     testmusicitem.h
+
+DEFINES += SRCDIR=\\\"$$PWD/\\\"

@@ -15,7 +15,8 @@
 #include <datatypes/pitch.h>
 
 Symbol::Symbol()
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
+      m_graphicBuilder(0)
 {
     setDefaultSymbolOptions();
     initData(LP::NoSymbolType, LP::symbolType);
@@ -23,11 +24,19 @@ Symbol::Symbol()
 }
 
 Symbol::Symbol(int type, const QString &name)
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
+      m_graphicBuilder(0)
 {
     setDefaultSymbolOptions();
     initData(type, LP::symbolType);
     initData(name, LP::symbolName);
+}
+
+Symbol::~Symbol()
+{
+    if (m_graphicBuilder != 0) {
+        delete m_graphicBuilder;
+    }
 }
 
 void Symbol::setDefaultSymbolOptions()
@@ -59,6 +68,44 @@ Length::Value Symbol::length() const
         return data(LP::symbolLength).value<Length::Value>();
     }
     return Length::_4;
+}
+
+bool Symbol::hasGraphic() const
+{
+    if (m_graphicBuilder == 0)
+        return false;
+    return true;
+}
+
+void Symbol::setSymbolGraphicBuilder(SymbolGraphicBuilder *builder)
+{
+    if (m_graphicBuilder != 0) {
+        delete m_graphicBuilder;
+    }
+
+    m_graphicBuilder = builder;
+
+    if (m_graphicBuilder != 0) {
+        SymbolGraphicPtr symbolGraphic = m_graphicBuilder->symbolGraphic();
+        initData(QVariant::fromValue<SymbolGraphicPtr>(symbolGraphic), LP::symbolGraphic);
+        m_graphicBuilder->updateSymbolGraphic();
+    }
+}
+
+void Symbol::afterWritingData(int role)
+{
+    if (m_graphicBuilder != 0 &&
+        m_graphicBuilder->isSymbolGraphicAffectedByDataRole(role))
+    {
+        m_graphicBuilder->updateSymbolGraphic();
+    }
+}
+
+void Symbol::createSymbolPixmaps(qreal lineHeight)
+{
+    if (m_graphicBuilder != 0) {
+        m_graphicBuilder->createPixmaps(lineHeight);
+    }
 }
 
 bool Symbol::itemSupportsWritingOfData(int role) const

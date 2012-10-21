@@ -11,8 +11,6 @@ include( $$LIMEPIPES_SOURCE_TREE/src/model/symbols/symbols.pri )
 
 QT       += testlib
 
-QT       -= gui
-
 TARGET = bin/tst_ghb_plugintest
 CONFIG   += console
 CONFIG   -= app_bundle

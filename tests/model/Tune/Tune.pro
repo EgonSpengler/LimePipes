@@ -11,8 +11,6 @@ include( $$LIMEPIPES_SOURCE_TREE/src/plugins/GreatHighlandBagpipe/GreatHighlandB
 
 QT       += testlib
 
-QT       -= gui
-
 TARGET = bin/tst_tunetest
 CONFIG   += console
 CONFIG   -= app_bundle

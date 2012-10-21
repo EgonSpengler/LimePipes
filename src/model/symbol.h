@@ -14,6 +14,7 @@
 #include <itemdatatypes.h>
 #include <datatypes/pitch.h>
 #include <datatypes/length.h>
+#include <symbolgraphicbuilder.h>
 #include "../interfaces/interfaceglobals.h"
 
 class Symbol : public MusicItem
@@ -29,7 +30,7 @@ public:
 
     explicit Symbol();
     explicit Symbol(int type, const QString &name);
-    virtual ~Symbol() {}
+    virtual ~Symbol();
 
     int symbolType() const { return data(LP::symbolType).toInt(); }
 
@@ -39,14 +40,20 @@ public:
     bool hasLength() const;
     Length::Value length() const;
 
+    bool hasGraphic() const;
+    void createSymbolPixmaps(qreal lineHeight);
+
     bool itemSupportsWritingOfData(int role) const;
 
 protected:
     void setSymbolOptions(Symbol::Options options);
+    void setSymbolGraphicBuilder(SymbolGraphicBuilder *builder);
+    void afterWritingData(int role);
 
 private:
     void setDefaultSymbolOptions();
     Symbol::Options m_symbolOptions;
+    SymbolGraphicBuilder *m_graphicBuilder;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Symbol::Options)

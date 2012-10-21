@@ -46,6 +46,6 @@ void GHB_MelodyNoteTest::testDefaultConstructor()
     QVERIFY2(m_melody->data(LP::symbolLength).value<Length::Value>() == Length::_4, "Failed setting length in constructor");
 }
 
-QTEST_APPLESS_MAIN(GHB_MelodyNoteTest)
+QTEST_MAIN(GHB_MelodyNoteTest)
 
 #include "tst_ghb_melodynotetest.moc"

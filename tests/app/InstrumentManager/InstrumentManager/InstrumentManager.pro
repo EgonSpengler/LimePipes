@@ -14,8 +14,6 @@ include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
 
 QT       += testlib
 
-QT       -= gui
-
 TARGET = $$INSTRUMENT_MANAGER_BUILD_DIR/tst_instrumentmanagertest
 CONFIG   += console
 CONFIG   -= app_bundle

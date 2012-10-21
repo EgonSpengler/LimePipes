@@ -6,7 +6,8 @@ SOURCES += \
     $$PWD/tune.cpp \
     $$PWD/symbol.cpp \
     $$PWD/score.cpp \
-    $$PWD/rootitem.cpp
+    $$PWD/rootitem.cpp \
+    $$PWD/symbolgraphicbuilder.cpp
 
 HEADERS += \
     $$PWD/musicmodel.h \
@@ -17,4 +18,5 @@ HEADERS += \
     $$PWD/score.h \
     $$PWD/rootitem.h \
     $$PWD/../interfaces/interfaceglobals.h \
-    ../model/musicmodelinterface.h
+    $$PWD/musicmodelinterface.h \
+    $$PWD/symbolgraphicbuilder.h

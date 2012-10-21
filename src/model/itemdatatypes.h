@@ -39,7 +39,8 @@ enum DataRole {
     symbolType,
     symbolName,
     symbolLength,
-    symbolPitch
+    symbolPitch,
+    symbolGraphic
 };
 
 }

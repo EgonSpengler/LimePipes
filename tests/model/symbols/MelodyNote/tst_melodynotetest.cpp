@@ -42,6 +42,9 @@ void MelodyNoteTest::testDefaultConstructor()
 {
     QVERIFY2(m_melody->symbolType() == LP::MelodyNote, "Melody Note doesn't return right symbol type in default constructor");
     QVERIFY2(m_melody->data(LP::symbolName) == "Melody Note", "MelodyNote doesn't return symbol name data in default constructor");
+    QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
+    QVERIFY2(m_melody->hasLength(), "Melody note has no length");
+    QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
 }
 
 void MelodyNoteTest::testTypeAndNameConstructor()
@@ -51,8 +54,11 @@ void MelodyNoteTest::testTypeAndNameConstructor()
 
     QVERIFY2(m_melody->symbolType() == LP::Bar, "Melody Note doesn't return right symbol type if set through constructor");
     QVERIFY2(m_melody->data(LP::symbolName) == "testtest", "MelodyNote doesn't return symbol name data if set through constructor");
+    QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
+    QVERIFY2(m_melody->hasLength(), "Melody note has no length");
+    QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
 }
 
-QTEST_APPLESS_MAIN(MelodyNoteTest)
+QTEST_MAIN(MelodyNoteTest)
 
 #include "tst_melodynotetest.moc"

@@ -8,4 +8,5 @@ SUBDIRS += \
     Tune \
     Score \
     RootItem \
-    symbols
+    symbols \
+    SymbolGraphicBuilder
