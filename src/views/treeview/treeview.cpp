@@ -34,6 +34,7 @@ void TreeView::keyPressEvent(QKeyEvent *event)
     if (event->key() != Qt::Key_Period) {
         QTreeView::keyPressEvent(event);
     } else {
+        // Add dots to possible melody note under current index
         QModelIndex index = currentIndex();
         QVariant dotsVariant = index.data(LP::melodyNoteDots);
         if (!dotsVariant.isValid())

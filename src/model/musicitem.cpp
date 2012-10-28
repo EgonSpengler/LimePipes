@@ -17,7 +17,7 @@
   * @param item The item to be inserted.
   * @return True by default.
   *
-  * @fn void initData(const QVariant &value, int role)
+  * @fn void MusicItem::initData(const QVariant &value, int role)
   * @brief Subclasses can initialize read only data with this method.
   */
 

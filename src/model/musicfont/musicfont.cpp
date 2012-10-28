@@ -6,6 +6,15 @@
  *
  */
 
+/*!
+  * @class MusicFont musicfont.h
+  * @brief MusicFont represents a font file with symbols for music sheets.
+  *         Subclasses have to set the the font with setFont and call addGlyphNumber to
+  *         assign the correct number from the file to the Glyph constants.
+  *         A Glyph with the height of one line is used to calculate the point size of the font.
+  *
+  */
+
 #include "musicfont.h"
 #include <QCoreApplication>
 #include <QDebug>
