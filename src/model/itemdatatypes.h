@@ -24,7 +24,7 @@ namespace LP {
 /*! The various data roles */
 enum DataRole {
 
-    // Datatypes for Score
+    // Score
     scoreTitle = Qt::UserRole + 1,
     scoreComposer,
     scoreArranger,
@@ -32,15 +32,18 @@ enum DataRole {
     scoreCopyright,
     scoreTimeSignature,
 
-    // Datatypes for Tune
+    // Tune
     tuneInstrument,
 
-    // Datatypes for Symbol
+    // Symbol
     symbolType,
     symbolName,
     symbolLength,
     symbolPitch,
-    symbolGraphic
+    symbolGraphic,
+
+    // MelodyNote
+    melodyNoteDots
 };
 
 }

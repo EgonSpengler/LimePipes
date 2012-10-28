@@ -47,6 +47,7 @@ private slots:
     void testChildType();
     void testOkToInsertChild();
     void testAfterWritingDataCallback();
+    void testBeforeWritingDataCallback();
 
 private:
     MusicItem *m_parent;
@@ -232,9 +233,19 @@ void MusicItemTest::testAfterWritingDataCallback()
     TestMusicItem *item = new TestMusicItem();
     QSignalSpy spy(item, SIGNAL(afterWritingDataCalled()));
     item->setData(123, 456);
-    QVERIFY2(spy.count() == 1, "afterSetData wasn't called after set data");
+    QVERIFY2(spy.count() == 1, "afterSetData wasn't called after write data");
     item->testInitData();
     QVERIFY2(spy.count() == 2, "afterSetData wasn't called after call of initData");
+}
+
+void MusicItemTest::testBeforeWritingDataCallback()
+{
+    TestMusicItem *item = new TestMusicItem();
+    QSignalSpy spy(item, SIGNAL(beforeWritingDataCalled()));
+    item->setData(123, 456);
+    QVERIFY2(spy.count() == 1, "beforeWritingData wasn't called before write data");
+    item->testInitData();
+    QVERIFY2(spy.count() == 2, "beforeWritingDta wasn't called before call of initData");
 }
 
 QTEST_APPLESS_MAIN(MusicItemTest)

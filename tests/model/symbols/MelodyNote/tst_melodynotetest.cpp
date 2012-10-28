@@ -23,6 +23,7 @@ private Q_SLOTS:
     void cleanup();
     void testDefaultConstructor();
     void testTypeAndNameConstructor();
+    void testDots();
 
 private:
     MelodyNote *m_melody;
@@ -45,6 +46,7 @@ void MelodyNoteTest::testDefaultConstructor()
     QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
     QVERIFY2(m_melody->hasLength(), "Melody note has no length");
     QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
+    QVERIFY2(m_melody->data(LP::melodyNoteDots).isValid(), "No default value for dots");
 }
 
 void MelodyNoteTest::testTypeAndNameConstructor()
@@ -57,6 +59,23 @@ void MelodyNoteTest::testTypeAndNameConstructor()
     QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
     QVERIFY2(m_melody->hasLength(), "Melody note has no length");
     QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
+}
+
+void MelodyNoteTest::testDots()
+{
+    QVERIFY2(m_melody->itemSupportsWritingOfData(LP::melodyNoteDots), "Melody note doesn't support writing of Dots data");
+
+    m_melody->setData(1, LP::melodyNoteDots);
+    QVERIFY2(m_melody->data(LP::melodyNoteDots) == 1, "Failed setting dots");
+
+    m_melody->setData(MelodyNote::MaxDots, LP::melodyNoteDots);
+    QVERIFY2(m_melody->data(LP::melodyNoteDots) == MelodyNote::MaxDots, "Failed setting maximum dots");
+
+    m_melody->setData(-1, LP::melodyNoteDots);
+    QVERIFY2(m_melody->data(LP::melodyNoteDots) == 0, "Setting less than zero dots should result in zero dots");
+
+    m_melody->setData(MelodyNote::MaxDots + 1, LP::melodyNoteDots);
+    QVERIFY2(m_melody->data(LP::melodyNoteDots) == MelodyNote::MaxDots, "Setting more than maximum of dots doesn't result in maximum");
 }
 
 QTEST_MAIN(MelodyNoteTest)

@@ -34,6 +34,7 @@ public:
     }
 
     void afterWritingData(int role) { Q_UNUSED(role) emit afterWritingDataCalled(); }
+    void beforeWritingData(QVariant &value, int role) { Q_UNUSED(role) Q_UNUSED(value) emit beforeWritingDataCalled(); }
 
     void testInitData(){
         initData(123, 123);
@@ -41,6 +42,7 @@ public:
 
 signals:
     void afterWritingDataCalled();
+    void beforeWritingDataCalled();
 };
 
 #endif // TESTMUSICITEM_H

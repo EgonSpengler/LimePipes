@@ -20,6 +20,10 @@ public:
     explicit MelodyNote();
     explicit MelodyNote(int type, const QString &name);
 
+    bool itemSupportsWritingOfData(int role) const;
+    void beforeWritingData(QVariant &value, int role);
+    const static int MaxDots = 2;
+
 private:
     void initSymbol();
 };

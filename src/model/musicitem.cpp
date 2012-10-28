@@ -73,6 +73,8 @@ bool MusicItem::setData(const QVariant &value, int role)
 
 void MusicItem::writeData(const QVariant &value, int role)
 {
-    m_data.insert(role, value);
+    QVariant insertValue(value);
+    beforeWritingData(insertValue, role);
+    m_data.insert(role, insertValue);
     afterWritingData(role);
 }
