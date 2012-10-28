@@ -8,7 +8,7 @@ include( $$LIMEPIPES_SOURCE_TREE/src/model/musicfont/musicfont.pri )
 
 QT       += testlib
 
-TARGET = tst_emmentalermusicfonttest
+TARGET = bin/tst_emmentalermusicfonttest
 CONFIG   += console
 CONFIG   -= app_bundle
 
