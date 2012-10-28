@@ -38,7 +38,7 @@ public:
         : SymbolGraphicBuilder(item)
     {}
 
-    void createPixmaps(qreal lineHeight) { Q_UNUSED(lineHeight) }
+    void createPixmaps(int lineHeight) { Q_UNUSED(lineHeight) }
     void updateSymbolGraphic() { }
 
     QVariant getItemData(int role) {

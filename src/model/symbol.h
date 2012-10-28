@@ -41,17 +41,17 @@ public:
     Length::Value length() const;
 
     bool hasGraphic() const;
-    void createSymbolPixmaps(qreal lineHeight);
+    void createSymbolPixmaps(int lineHeight);
 
     bool itemSupportsWritingOfData(int role) const;
 
 protected:
     void setSymbolOptions(Symbol::Options options);
     void setSymbolGraphicBuilder(SymbolGraphicBuilder *builder);
-    void afterWritingData(int role);
 
 private:
     void setDefaultSymbolOptions();
+    void afterWritingData(int role);
     Symbol::Options m_symbolOptions;
     SymbolGraphicBuilder *m_graphicBuilder;
 };

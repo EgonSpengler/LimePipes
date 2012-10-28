@@ -16,13 +16,18 @@ class MelodyNoteGraphicBuilder : public SymbolGraphicBuilder
 public:
     MelodyNoteGraphicBuilder(MusicItem *item);
 
-    void createPixmaps(qreal lineHeight);
+    void createPixmaps(int lineHeight);
     void updateSymbolGraphic();
     bool isSymbolGraphicAffectedByDataRole(int role);
 
 private:
     bool isPitchOnLine();
     bool itemHasRequiredData();
+    void initSpaceBetweenGlyphs();
+    void createNoteheads();
+    void createDot();
+    QPixmap pixmapForActualItemData();
+    QRectF rectForActualItemData();
 };
 
 #endif // MELODYNOTEGRAPHICBUILDER_H

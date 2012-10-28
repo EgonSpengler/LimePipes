@@ -9,4 +9,5 @@ SUBDIRS += \
     Score \
     RootItem \
     symbols \
-    SymbolGraphicBuilder
+    SymbolGraphicBuilder \
+    musicfont

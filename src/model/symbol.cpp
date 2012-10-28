@@ -101,9 +101,10 @@ void Symbol::afterWritingData(int role)
     }
 }
 
-void Symbol::createSymbolPixmaps(qreal lineHeight)
+void Symbol::createSymbolPixmaps(int lineHeight)
 {
     if (m_graphicBuilder != 0) {
+        m_graphicBuilder->setLineHeight(lineHeight);
         m_graphicBuilder->createPixmaps(lineHeight);
     }
 }

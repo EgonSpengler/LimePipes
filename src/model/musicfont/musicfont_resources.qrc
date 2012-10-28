@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/musicfonts">
+        <file alias="emmentaler-11">resources/emmentaler-11.otf</file>
+    </qresource>
+</RCC>

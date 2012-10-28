@@ -11,6 +11,7 @@
 
 #include <musicitem.h>
 #include <model/datatypes/symbolgraphic.h>
+#include <model/musicfont/emmentalermusicfont.h>
 
 class SymbolGraphicBuilder
 {
@@ -19,13 +20,16 @@ public:
     virtual ~SymbolGraphicBuilder() {}
 
     SymbolGraphicPtr symbolGraphic() { return m_graphic; }
+    void setLineHeight(int lineHeight);
+    qreal lineHeight() const;
 
 public slots:
-    virtual void createPixmaps(qreal lineHeight) = 0;
+    virtual void createPixmaps(int lineHeight) = 0;
     virtual void updateSymbolGraphic() = 0;
     virtual bool isSymbolGraphicAffectedByDataRole(int role) = 0;
 
 protected:
+    MusicFontPtr musicFont() { return s_musicFont; }
     QVariant itemData(int role) { return m_item->data(role); }
     void setSymbolGraphicPixmap(const QPixmap &pixmap) { m_graphic->setPixmap(pixmap); }
     void setSymbolGraphicYOffset(qreal yOffset) { m_graphic->setYOffset(yOffset); }
@@ -34,6 +38,7 @@ private:
     void initSymbolGraphic();
     MusicItem *m_item;
     SymbolGraphicPtr m_graphic;
+    static MusicFontPtr s_musicFont;
 };
 
 #endif // SYMBOLGRAPHICBUILDER_H

@@ -1,3 +1,5 @@
+include( $$LIMEPIPES_SOURCE_TREE/src/model/musicfont/musicfont.pri )
+
 INCLUDEPATH += $$PWD
 
 SOURCES += \

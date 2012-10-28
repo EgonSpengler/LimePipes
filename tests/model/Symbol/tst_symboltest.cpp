@@ -29,7 +29,7 @@ public:
     {}
     ~TestGraphicBuilder() {}
 
-    void createPixmaps(qreal lineHeight) {
+    void createPixmaps(int lineHeight) {
         Q_UNUSED(lineHeight)
         emit createPixmapsCalled();
     }
@@ -174,13 +174,15 @@ void SymbolTest::testSetSymbolGraphicBuilder()
 
 void SymbolTest::testCreateSymbolPixmaps()
 {
+    int testLineHeight = 55;
     TestGraphicBuilder *graphicBuilder = new TestGraphicBuilder(m_symbol);
     QSignalSpy spy(graphicBuilder, SIGNAL(createPixmapsCalled()));
     TestSymbol *testSymbol = static_cast<TestSymbol*>(m_symbol);
     Q_ASSERT(testSymbol);
     testSymbol->setGraphicBuilder(graphicBuilder);
-    m_symbol->createSymbolPixmaps(20.12);
+    m_symbol->createSymbolPixmaps(testLineHeight);
     QVERIFY2(spy.count() == 1, "graphic builder's create pixmaps wasn't called");
+    QVERIFY2(graphicBuilder->lineHeight() == testLineHeight, "line height wasn't set for graphics builder");
 }
 
 void SymbolTest::testAfterWritingDataCall()
