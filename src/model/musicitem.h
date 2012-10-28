@@ -50,8 +50,8 @@ public:
 
 protected:
     void initData(const QVariant &value, int role) { writeData(value, role); }
-    virtual void beforeWritingData(QVariant &value, int role) { Q_UNUSED(value) Q_UNUSED(role); }
-    virtual void afterWritingData(int role) { Q_UNUSED(role); }
+    virtual void beforeWritingData(QVariant &value, int role);
+    virtual void afterWritingData(int role);
     QMap<int, QVariant> m_data;
 
 private:

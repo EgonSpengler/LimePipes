@@ -71,6 +71,17 @@ bool MusicItem::setData(const QVariant &value, int role)
     return false;
 }
 
+void MusicItem::beforeWritingData(QVariant &value, int role)
+{
+    Q_UNUSED(value)
+    Q_UNUSED(role);
+}
+
+void MusicItem::afterWritingData(int role)
+{
+    Q_UNUSED(role);
+}
+
 void MusicItem::writeData(const QVariant &value, int role)
 {
     QVariant insertValue(value);

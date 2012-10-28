@@ -7,6 +7,7 @@
  */
 
 #include "symbolgraphicbuilder.h"
+#include <model/musicfont/emmentalermusicfont.h>
 
 MusicFontPtr SymbolGraphicBuilder::s_musicFont = MusicFontPtr(0);
 

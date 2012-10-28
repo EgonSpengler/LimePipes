@@ -54,11 +54,13 @@ public:
     explicit MusicFont(int lineHeight);
     virtual ~MusicFont() { }
 
-    int glyphNumber(Glyph glyph);
-    QRectF boundingRectForGlyph(Glyph glyph);
     void paintGlyph(QPainter *painter, Glyph glyph);
+
     void setLineHeight(int lineHeight);
     qreal lineHeight() const;
+
+    int glyphNumber(Glyph glyph);
+    QRectF boundingRectForGlyph(Glyph glyph);
 
 protected:
     void addGlyphNumber(Glyph glyph, int number);

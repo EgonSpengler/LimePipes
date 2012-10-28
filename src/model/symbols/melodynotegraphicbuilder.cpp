@@ -11,41 +11,30 @@
 #include <model/datatypes/length.h>
 #include <model/itemdatatypes.h>
 #include <QPainter>
-#include <QPixmapCache>
-
-#include <QDebug>
+#include <QPixmap>
 
 namespace {
 
-qreal spaceBetweenGlyphs = 0;
-
-const QString NoteHeadWithHole("noteHeadWithHole");
-const QString NoteHeadWithoutHole("noteHeadWithoutHole");
-const QString Dot("Dot");
+qreal SpaceBetweenNoteheadAndDots = 0;
+qreal SpaceBetweenDots = 0;
 
 }
 
 MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder(MusicItem *item)
     : SymbolGraphicBuilder(item)
 {
-    if (spaceBetweenGlyphs == 0) {
-        initSpaceBetweenGlyphs();
-    }
-
-    createPixmaps(200);
+    initSpaceBetweenNoteheadAndDots();
+    initSpaceBetweenDots();
 }
 
 void MelodyNoteGraphicBuilder::createPixmaps(int lineHeight)
 {
     Q_UNUSED(lineHeight)
-
-    createNoteheads();
-    createDot();
 }
 
 void MelodyNoteGraphicBuilder::updateSymbolGraphic()
 {
-    if (!itemHasRequiredData())
+    if (!itemHasRequiredDataForGraphic())
         return;
 
     QPixmap pixmap = pixmapForActualItemData();
@@ -54,65 +43,86 @@ void MelodyNoteGraphicBuilder::updateSymbolGraphic()
 
 QPixmap MelodyNoteGraphicBuilder::pixmapForActualItemData()
 {
-    //QRectF pixmapRect = rectForActualItemData();
+    QRectF pixmapRect = rectForActualItemData();
 
-    QPixmap pixmap;
-    Length::Value length = itemData(LP::symbolLength).value<Length::Value>();
-    if (length < Length::_4) {
-        if (!QPixmapCache::find(NoteHeadWithHole, pixmap)) {
-            createNoteheads();
-            QPixmapCache::find(NoteHeadWithHole, pixmap);
-        }
-    } else {
-        if (!QPixmapCache::find(NoteHeadWithoutHole, pixmap)) {
-            createNoteheads();
-            QPixmapCache::find(NoteHeadWithoutHole, pixmap);
-        }
-    }
+    QPixmap pixmap(pixmapRect.width(), pixmapRect.height());
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+
+    painter.translate(0.0, yOffsetForNotehead(pixmapRect.height()));
+    addNotehead(&painter);
+
+    painter.resetTransform();
+    painter.translate(xOffsetForDots(), yOffsetForDots(pixmapRect.height()));
+    addDots(&painter);
 
     return pixmap;
 }
 
 QRectF MelodyNoteGraphicBuilder::rectForActualItemData()
 {
-    return QRectF();
+    QRectF rect = musicFont()->boundingRectForGlyph(MusicFont::Noteheads_s1);
+
+    int dotCount = itemData(LP::melodyNoteDots).value<int>();
+    qreal dotWidth = musicFont()->boundingRectForGlyph(MusicFont::Dot).width();
+    qreal dotsTotalWidth = dotCount * dotWidth + (dotCount - 1) * SpaceBetweenDots;
+
+    rect.adjust(0, 0, SpaceBetweenNoteheadAndDots + dotsTotalWidth, 0);
+
+    return rect;
 }
 
-void MelodyNoteGraphicBuilder::createNoteheads()
+qreal MelodyNoteGraphicBuilder::yOffsetForNotehead(qreal pixmapHeight)
 {
-    QRectF noteheadRect = musicFont()->boundingRectForGlyph(MusicFont::Noteheads_s1);
-    QPixmap noteheadPixmap(noteheadRect.size().toSize());
-    noteheadPixmap.fill(Qt::transparent);
-
-    QPainter painter(&noteheadPixmap);
-    painter.translate(0.0, noteheadRect.height() / 2);
-
-    musicFont()->paintGlyph(&painter, MusicFont::Noteheads_s1);
-    QPixmapCache::insert(NoteHeadWithHole, noteheadPixmap);
-
-    noteheadPixmap.fill(Qt::transparent);
-
-    musicFont()->paintGlyph(&painter, MusicFont::Noteheads_s2);
-    QPixmapCache::insert(NoteHeadWithoutHole, noteheadPixmap);
+    qreal noteheadHeight = musicFont()->boundingRectForGlyph(actualNoteheadGlyph()).height();
+    qreal offset = pixmapHeight - noteheadHeight + noteheadHeight /2;
+    return offset;
 }
 
-void MelodyNoteGraphicBuilder::createDot()
+qreal MelodyNoteGraphicBuilder::xOffsetForDots()
 {
-    QRectF dotRect = musicFont()->boundingRectForGlyph(MusicFont::Dot);
-    QPixmap dotPixmap(dotRect.size().toSize());
-    dotPixmap.fill(Qt::transparent);
+    qreal noteHeadWidth = musicFont()->boundingRectForGlyph(actualNoteheadGlyph()).width();
+    return noteHeadWidth + SpaceBetweenNoteheadAndDots;
+}
 
-    QPainter painter(&dotPixmap);
-    painter.translate(0.0, dotRect.height() / 2);
+qreal MelodyNoteGraphicBuilder::yOffsetForDots(qreal pixmapHeight)
+{
+    qreal dotHeight = musicFont()->boundingRectForGlyph(MusicFont::Dot).height();
+    if (isPitchOnLine()) {
+        return dotHeight / 2;
+    } else {
+        return yOffsetForNotehead(pixmapHeight);
+    }
+}
 
-    musicFont()->paintGlyph(&painter, MusicFont::Dot);
-    QPixmapCache::insert(Dot, dotPixmap);
+void MelodyNoteGraphicBuilder::addNotehead(QPainter *painter)
+{
+    musicFont()->paintGlyph(painter, actualNoteheadGlyph());
+}
+
+MusicFont::Glyph MelodyNoteGraphicBuilder::actualNoteheadGlyph()
+{
+    Length::Value length = itemData(LP::symbolLength).value<Length::Value>();
+    if (length < Length::_4)
+        return MusicFont::Noteheads_s1;
+    return MusicFont::Noteheads_s2;
+}
+
+void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
+{
+    qreal dotWidth = musicFont()->boundingRectForGlyph(MusicFont::Dot).width();
+    painter->save();
+    musicFont()->paintGlyph(painter, MusicFont::Dot);
+    painter->translate(SpaceBetweenDots + dotWidth, 0.0);
+    musicFont()->paintGlyph(painter, MusicFont::Dot);
+    painter->restore();
 }
 
 bool MelodyNoteGraphicBuilder::isSymbolGraphicAffectedByDataRole(int role)
 {
     if (role == LP::symbolPitch ||
-        role == LP::symbolLength)
+        role == LP::symbolLength ||
+        role == LP::melodyNoteDots)
         return true;
     return false;
 }
@@ -130,17 +140,30 @@ bool MelodyNoteGraphicBuilder::isPitchOnLine()
     return false;
 }
 
-bool MelodyNoteGraphicBuilder::itemHasRequiredData()
+bool MelodyNoteGraphicBuilder::itemHasRequiredDataForGraphic()
 {
     if (itemData(LP::symbolPitch).isValid() &&
-        itemData(LP::symbolLength).isValid()) {
+            itemData(LP::symbolLength).isValid() &&
+            itemData(LP::melodyNoteDots).isValid()) {
         return true;
     }
     return false;
 }
 
-void MelodyNoteGraphicBuilder::initSpaceBetweenGlyphs()
+void MelodyNoteGraphicBuilder::initSpaceBetweenNoteheadAndDots()
 {
+    if (SpaceBetweenNoteheadAndDots != 0)
+        return;
+
     QRectF dot = musicFont()->boundingRectForGlyph(MusicFont::Dot);
-    spaceBetweenGlyphs = 1.3 * dot.width();
+    SpaceBetweenNoteheadAndDots = 0.8 * dot.width();
+}
+
+void MelodyNoteGraphicBuilder::initSpaceBetweenDots()
+{
+    if (SpaceBetweenDots != 0)
+        return;
+
+    QRectF dot = musicFont()->boundingRectForGlyph(MusicFont::Dot);
+    SpaceBetweenDots = 0.7 * dot.width();
 }

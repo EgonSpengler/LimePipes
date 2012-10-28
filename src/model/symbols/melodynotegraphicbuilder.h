@@ -11,6 +11,9 @@
 
 #include <model/symbolgraphicbuilder.h>
 
+class QPixmap;
+class QPainter;
+
 class MelodyNoteGraphicBuilder : public SymbolGraphicBuilder
 {
 public:
@@ -21,13 +24,23 @@ public:
     bool isSymbolGraphicAffectedByDataRole(int role);
 
 private:
-    bool isPitchOnLine();
-    bool itemHasRequiredData();
-    void initSpaceBetweenGlyphs();
-    void createNoteheads();
-    void createDot();
     QPixmap pixmapForActualItemData();
     QRectF rectForActualItemData();
+
+    bool isPitchOnLine();
+    bool itemHasRequiredDataForGraphic();
+
+    void initSpaceBetweenNoteheadAndDots();
+    void initSpaceBetweenDots();
+
+    qreal yOffsetForNotehead(qreal pixmapHeight);
+    qreal yOffsetForDots(qreal pixmapHeight);
+    qreal xOffsetForDots();
+
+    void addNotehead(QPainter *painter);
+    void addDots(QPainter *painter);
+
+    MusicFont::Glyph actualNoteheadGlyph();
 };
 
 #endif // MELODYNOTEGRAPHICBUILDER_H
