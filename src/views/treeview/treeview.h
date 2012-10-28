@@ -20,6 +20,8 @@ class TreeView : public QTreeView
 public:
     explicit TreeView(QWidget *parent = 0);
     ~TreeView();
+
+    void keyPressEvent(QKeyEvent *event);
     
 private:
     PitchDelegate *m_pitchDelegate;
