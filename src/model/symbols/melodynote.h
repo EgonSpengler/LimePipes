@@ -22,7 +22,7 @@ public:
 
     bool itemSupportsWritingOfData(int role) const;
     void beforeWritingData(QVariant &value, int role);
-    const static int MaxDots = 2;
+    const static int MaxDots = 4;
 
 private:
     void initSymbol();

@@ -13,6 +13,8 @@
 #include <QPainter>
 #include <QPixmap>
 
+#include <QDebug>
+
 namespace {
 
 qreal SpaceBetweenNoteheadAndDots = 0;
@@ -112,9 +114,18 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
 {
     qreal dotWidth = musicFont()->boundingRectForGlyph(MusicFont::Dot).width();
     painter->save();
-    musicFont()->paintGlyph(painter, MusicFont::Dot);
-    painter->translate(SpaceBetweenDots + dotWidth, 0.0);
-    musicFont()->paintGlyph(painter, MusicFont::Dot);
+    QVariant dotCountVariant = itemData(LP::melodyNoteDots);
+    if (dotCountVariant.isValid() &&
+        dotCountVariant.canConvert<int>()) {
+
+        int dotCount = dotCountVariant.value<int>();
+
+        for (int i = 0; i < dotCount; i++) {
+            musicFont()->paintGlyph(painter, MusicFont::Dot);
+            painter->translate(SpaceBetweenDots + dotWidth, 0.0);
+        }
+    }
+
     painter->restore();
 }
 
