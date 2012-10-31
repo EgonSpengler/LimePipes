@@ -13,8 +13,6 @@
 #include <QPainter>
 #include <QPixmap>
 
-#include <QDebug>
-
 namespace {
 
 qreal SpaceBetweenNoteheadAndDots = 0;

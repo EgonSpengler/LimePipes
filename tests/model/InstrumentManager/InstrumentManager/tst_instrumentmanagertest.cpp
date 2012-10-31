@@ -14,7 +14,7 @@
 #include <QPluginLoader>
 #include <instrumentinterface.h>
 #include <symbolinterface.h>
-#include <app/instrumentmanager.h>
+#include <model/instrumentmanager.h>
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 

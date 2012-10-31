@@ -20,7 +20,6 @@ class Instrument;
 class MusicModel;
 class AddSymbolsDialog;
 class NewTuneDialog;
-class InstrumentManager;
 class QAbstractItemModel;
 class MusicModelInterface;
 
@@ -43,7 +42,6 @@ private slots:
     void insertSymbol(const QString &symbolName);
 
 private:
-    QDir pluginsDir();
     void createModelAndView();
     void createConnections();
     void createObjectNames();
@@ -54,7 +52,6 @@ private:
     QTreeView *m_treeView;
     QAbstractItemModel *m_model;
     AddSymbolsDialog *m_addSymbolsDialog;
-    InstrumentManager *m_instrumentManager;
 };
 
 #endif // MAINWINDOW_H

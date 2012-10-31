@@ -235,6 +235,6 @@ void MusicModelTest::testSetColumnCount()
     QVERIFY2(m_model->columnCount(QModelIndex()) == 4, "Can't set column count");
 }
 
-QTEST_APPLESS_MAIN(MusicModelTest)
+QTEST_MAIN(MusicModelTest)
 
 #include "tst_musicmodeltest.moc"

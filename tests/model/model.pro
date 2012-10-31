@@ -10,4 +10,5 @@ SUBDIRS += \
     RootItem \
     symbols \
     SymbolGraphicBuilder \
+    InstrumentManager \
     musicfont

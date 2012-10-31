@@ -26,15 +26,13 @@ LIBS =  -L$${LIMEPIPES_SOURCE_TREE}/plugins_static -llp_greathighlandbagpipe
 SOURCES += tst_mainwindowtest.cpp \
     ../../../src/app/newtunedialog.cpp \
     ../../../src/app/mainwindow.cpp \
-    ../../../src/app/addsymbolsdialog.cpp \
-    ../../../src/app/instrumentmanager.cpp
+    ../../../src/app/addsymbolsdialog.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     ../../../src/app/newtunedialog.h \
     ../../../src/app/mainwindow.h \
-    ../../../src/app/addsymbolsdialog.h \
-    ../../../src/app/instrumentmanager.h
+    ../../../src/app/addsymbolsdialog.h
 
 FORMS += \
     ../../../src/app/newtunedialog.ui \

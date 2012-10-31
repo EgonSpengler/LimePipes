@@ -19,6 +19,20 @@
 MusicModel::MusicModel(QObject *parent)
     : QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1)
 {
+    m_instrumentManager = new InstrumentManager(pluginsDir());
+}
+
+MusicModel::~MusicModel()
+{
+    delete m_rootItem;
+    delete m_instrumentManager;
+}
+
+QDir MusicModel::pluginsDir()
+{
+    QDir pluginsDir(qApp->applicationDirPath());
+    pluginsDir.cd("plugins");
+    return pluginsDir;
 }
 
 Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const

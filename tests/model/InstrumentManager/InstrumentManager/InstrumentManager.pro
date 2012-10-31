@@ -20,11 +20,7 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += tst_instrumentmanagertest.cpp \
-    $$LIMEPIPES_SOURCE_TREE/src/app/instrumentmanager.cpp
+SOURCES += tst_instrumentmanagertest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 LIBS =  -L$${LIMEPIPES_SOURCE_TREE}/plugins_static -llp_greathighlandbagpipe
-
-HEADERS += \
-    $$LIMEPIPES_SOURCE_TREE/src/app/instrumentmanager.h

@@ -10,9 +10,9 @@
 #define MUSICMODEL_H
 
 #include <QAbstractItemModel>
+#include <instrumentmanager.h>
 #include <musicmodelinterface.h>
 #include <musicitem.h>
-
 
 class MusicModel :  public QAbstractItemModel,
                     public MusicModelInterface
@@ -21,7 +21,9 @@ class MusicModel :  public QAbstractItemModel,
 
 public:
     explicit MusicModel(QObject *parent = 0);
-    ~MusicModel() { delete m_rootItem; }
+    ~MusicModel();
+
+    QDir pluginsDir();
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
@@ -62,6 +64,7 @@ private:
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
     MusicItem *m_rootItem;
     int m_columnCount;
+    InstrumentManager *m_instrumentManager;
 };
 
 #endif // MUSICMODEL_H
