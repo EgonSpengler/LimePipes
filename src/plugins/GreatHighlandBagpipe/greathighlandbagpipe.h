@@ -30,7 +30,7 @@ public:
     InstrumentPtr instrument() const { return m_bagpipe; }
 
     // Symbols interface
-    QStringList symbols();
+    QStringList symbols() const;
     Symbol *getSymbol(const QString &symbol);
 
 private:

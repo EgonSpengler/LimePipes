@@ -28,6 +28,6 @@ public:
 };
 
 Q_DECLARE_INTERFACE(InstrumentInterface,
-                    "org.limepipes.LimePipes.InstrumentInterface/0.1")
+                    "org.limepipes.LimePipes.InstrumentInterface/0.2")
 
 #endif // INSTRUMENT_INTERFACE_H

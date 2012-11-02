@@ -132,27 +132,44 @@ QModelIndex MusicModel::appendScore(const QString &title)
     return insertScore(m_rootItem->childCount(), title);
 }
 
-QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, InstrumentPtr instrument)
+QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName)
 {
+    InstrumentPtr instrument = m_instrumentManager->instrumentForName(instrumentName);
     return insertItem(row, score, new Tune(instrument));
 }
 
-QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, InstrumentPtr instrument)
+QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, const QString &instrumentName)
 {
     if (MusicItem *item = itemForIndex(score)) {
-        return insertTuneIntoScore(item->childCount(), score, instrument);
+        return insertTuneIntoScore(item->childCount(), score, instrumentName);
     }
     return QModelIndex();
 }
 
-QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, InstrumentPtr instrument)
+QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName)
 {
     QModelIndex score = insertScore(rowOfScore, scoreTitle);
-    return insertTuneIntoScore(0, score, instrument);
+    return insertTuneIntoScore(0, score, instrumentName);
 }
 
-QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, Symbol *symbol)
+QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, const QString &symbolName)
 {
+    MusicItem *tuneItem = itemForIndex(tune);
+    if (!tuneItem)
+        return QModelIndex();
+
+    QVariant instrumentVar = tuneItem->data(LP::tuneInstrument);
+    if (!instrumentVar.isValid() &&
+        !instrumentVar.canConvert<InstrumentPtr>())
+        return QModelIndex();
+
+    InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+    Symbol *symbol = m_instrumentManager->symbolForName(instrument->name(), symbolName);
+
+    if (symbol &&
+        symbol->symbolType() == LP::NoSymbolType)
+        return QModelIndex();
+
     return insertItem(row, tune, symbol);
 }
 

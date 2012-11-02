@@ -23,10 +23,10 @@ class InstrumentManager
 public:
     explicit InstrumentManager(const QDir &pluginsDir);
 
-    QList<QString> symbolNamesForInstrument(const QString &instrumentName);
+    QList<QString> symbolNamesForInstrument(const QString &instrumentName) const;
     Symbol *symbolForName(const QString &instrumentName, const QString &symbolName);
 
-    QList<QString> instrumentNames() { return m_instrumentPlugins.keys(); }
+    QList<QString> instrumentNames() const { return m_instrumentPlugins.keys(); }
     InstrumentPtr instrumentForName(const QString &name);
 
     int staticPluginsCount() const { return m_staticPlugins; }

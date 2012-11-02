@@ -10,7 +10,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <datatypes/instrument.h>
 
 class QTreeView;
 class QDir;
@@ -45,7 +44,7 @@ private:
     void createModelAndView();
     void createConnections();
     void createObjectNames();
-    InstrumentPtr instrumentFromCurrentIndex();
+    QString instrumentFromCurrentIndex();
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
 
     Ui::MainWindow *ui;

@@ -18,9 +18,8 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += tst_pitchdelegatetest.cpp \
-    pitchdelegateinstrument.cpp
+SOURCES += tst_pitchdelegatetest.cpp
+
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-HEADERS += \
-    pitchdelegateinstrument.h
+LIBS =  -L$${TEST_PLUGINS_FOLDER} -llp_musicmodeltestplugin

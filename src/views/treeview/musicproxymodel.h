@@ -34,10 +34,10 @@ public:
     // MusicModelInterface
     QModelIndex insertScore(int row, const QString &title);
     QModelIndex appendScore(const QString &title);
-    QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, InstrumentPtr instrument);
-    QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, InstrumentPtr instrument);
-    QModelIndex appendTuneToScore(const QModelIndex &score, InstrumentPtr instrument);
-    QModelIndex insertSymbol(int row, const QModelIndex &tune, Symbol *symbol);
+    QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName);
+    QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName);
+    QModelIndex appendTuneToScore(const QModelIndex &score, const QString &instrumentName);
+    QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName);
 
     MusicItem *itemForIndex(const QModelIndex &index) const;
 
@@ -47,6 +47,9 @@ public:
     bool indexSupportsWritingOfData(const QModelIndex &index, int role) const;
 
     void clear();
+
+    QStringList instrumentNames() const;
+    QStringList symbolNamesForInstrument(const QString &instrument) const;
 
 private:
     MusicModel *musicModel() const;

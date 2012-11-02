@@ -29,7 +29,7 @@ InstrumentPtr InstrumentManager::instrumentForName(const QString &name)
     }
 }
 
-QList<QString> InstrumentManager::symbolNamesForInstrument(const QString &instrumentName)
+QList<QString> InstrumentManager::symbolNamesForInstrument(const QString &instrumentName) const
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
         return m_instrumentSymbols.value(instrumentName)->symbols();
@@ -40,7 +40,8 @@ QList<QString> InstrumentManager::symbolNamesForInstrument(const QString &instru
 Symbol *InstrumentManager::symbolForName(const QString &instrumentName, const QString &symbolName)
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
-        return m_instrumentSymbols.value(instrumentName)->getSymbol(symbolName);
+        if (m_instrumentSymbols.value(instrumentName)->symbols().contains(symbolName))
+            return m_instrumentSymbols.value(instrumentName)->getSymbol(symbolName);
     }
     return new Symbol();
 }

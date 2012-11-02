@@ -15,12 +15,12 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-
 SOURCES += tst_musicmodeltest.cpp \
-    qt_modeltest/modeltest.cpp \
-    testinstrument.cpp
+    qt_modeltest/modeltest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    qt_modeltest/modeltest.h \
-    testinstrument.h
+    qt_modeltest/modeltest.h
+
+LIBS =  -L$${TEST_PLUGINS_FOLDER} -llp_musicmodeltestplugin
+

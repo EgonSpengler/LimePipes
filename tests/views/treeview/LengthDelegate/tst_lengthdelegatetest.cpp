@@ -14,6 +14,8 @@
 #include <lengthdelegate.h>
 #include <melodynote.h>
 
+Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
+
 class LengthDelegateTest : public QObject
 {
     Q_OBJECT
@@ -37,6 +39,7 @@ private Q_SLOTS:
     void testSetModelData();
 
 private:
+    QModelIndex symbolIndex(LP::DataRole role, bool hasData);
     MusicModel *m_model;
     LengthDelegate *m_delegate;
     QPersistentModelIndex *m_tuneIndex;
@@ -45,38 +48,37 @@ private:
     QWidget *m_parentWidget;
     QComboBox *m_editor;
     QModelIndex m_lengthIndex;
-
-    class SymbolWithLength : public Symbol
-    {
-    public:
-        SymbolWithLength(Length::Value length)
-            : Symbol(LP::Bar, "testsymbol")
-        {
-            initData(QVariant::fromValue<Length::Value>(length), LP::symbolLength);
-            setSymbolOptions(Symbol::HasPitch |
-                             Symbol::HasLength);
-        }
-    };
-
-    class TestInstrument : public Instrument
-    {
-    public:
-        TestInstrument()
-            : Instrument(LP::BassDrum, "Bass") {}
-        bool supportsSymbolType(int type) const
-        { Q_UNUSED(type) return true; }
-    };
+    QStringList m_instrumentNames;
+    QStringList m_symbolNames;
 };
 
 void LengthDelegateTest::initTestCase()
 {
     m_model = new MusicModel(this);
+
+    m_instrumentNames = m_model->instrumentNames();
+    if (m_instrumentNames.isEmpty()) {
+        qWarning("There was no plugin loaded by the model.");
+        return;
+    }
+
+    m_symbolNames = m_model->symbolNamesForInstrument(m_instrumentNames.at(0));
+    if (m_symbolNames.isEmpty()) {
+        qWarning("Plugin's instrument has no symbols.");
+        return;
+    }
+
     m_tuneIndex = new QPersistentModelIndex(
-                m_model->insertTuneWithScore(0, "One score", InstrumentPtr(new TestInstrument())));
-    m_symbolWithLengthIndex = new QPersistentModelIndex(
-                m_model->insertSymbol(0, *m_tuneIndex, new SymbolWithLength(Length::_4)));
-    m_symbolWithNoLengthIndex = new QPersistentModelIndex(
-                m_model->insertSymbol(0, *m_tuneIndex, new Symbol(LP::Bar, "no length symbol")));
+                m_model->insertTuneWithScore(0, "One score", m_model->instrumentNames().at(0)));
+
+    m_symbolWithLengthIndex = new QPersistentModelIndex(symbolIndex(LP::symbolLength, true));
+    if (!m_symbolWithLengthIndex->isValid())
+        qWarning("Instrument plugin has no symbol with length");
+
+    m_symbolWithNoLengthIndex = new QPersistentModelIndex(symbolIndex(LP::symbolLength, false));
+    if (!m_symbolWithNoLengthIndex->isValid())
+        qWarning("Instrument plugin has no symbol with no length");
+
     m_parentWidget = new QWidget();
     m_delegate = new LengthDelegate(this);
 }
@@ -93,13 +95,7 @@ void LengthDelegateTest::cleanupTestCase()
 
 void LengthDelegateTest::init()
 {
-    int rowOfSymbolWithLength = 1;
-
-    QModelIndex score = m_model->index(0, 0, QModelIndex());
-    Q_ASSERT(score.isValid());
-    QModelIndex tune = m_model->index(0, 0, score);
-    Q_ASSERT(tune.isValid());
-    m_lengthIndex = m_model->index(rowOfSymbolWithLength, 0, tune);
+    m_lengthIndex = m_model->index(m_symbolWithLengthIndex->row(), 0, m_symbolWithLengthIndex->parent());
     Q_ASSERT(m_lengthIndex.isValid());
 }
 
@@ -140,6 +136,25 @@ void LengthDelegateTest::testSetModelData()
     length = m_symbolWithLengthIndex->data(LP::symbolLength).value<Length::Value>();
     lengthFromSymbolData = QString::number(length);
     QVERIFY2(m_editor->currentText() == lengthFromSymbolData, "Failed setting length");
+}
+
+QModelIndex LengthDelegateTest::symbolIndex(LP::DataRole role, bool hasData)
+{
+    QModelIndex tuneIndex = m_model->insertTuneWithScore(0, "score", m_instrumentNames.at(0));
+    foreach (QString symbolName, m_symbolNames) {
+        QModelIndex symbolIndex = m_model->insertSymbol(0, tuneIndex, symbolName);
+        QVariant dataVar = symbolIndex.data(role);
+        if (hasData) {
+            if (dataVar.isValid()) {
+                return symbolIndex;
+            }
+        } else {
+            if (!dataVar.isValid()) {
+                return symbolIndex;
+            }
+        }
+    }
+    return QModelIndex();
 }
 
 QTEST_MAIN(LengthDelegateTest)

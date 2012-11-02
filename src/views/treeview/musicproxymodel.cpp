@@ -164,38 +164,38 @@ QModelIndex MusicProxyModel::appendScore(const QString &title)
     return QModelIndex();
 }
 
-QModelIndex MusicProxyModel::insertTuneIntoScore(int row, const QModelIndex &score, InstrumentPtr instrument)
+QModelIndex MusicProxyModel::insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName)
 {
     if (MusicModel *model = musicModel()) {
         QModelIndex srcIndex = mapToSource(score);
-        return mapFromSource(model->insertTuneIntoScore(row, srcIndex, instrument));
+        return mapFromSource(model->insertTuneIntoScore(row, srcIndex, instrumentName));
     }
     return QModelIndex();
 }
 
-QModelIndex MusicProxyModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, InstrumentPtr instrument)
+QModelIndex MusicProxyModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName)
 {
     if (MusicModel *model = musicModel()) {
-        return mapFromSource(model->insertTuneWithScore(rowOfScore, scoreTitle, instrument));
+        return mapFromSource(model->insertTuneWithScore(rowOfScore, scoreTitle, instrumentName));
     }
     return QModelIndex();
 }
 
-QModelIndex MusicProxyModel::appendTuneToScore(const QModelIndex &score, InstrumentPtr instrument)
+QModelIndex MusicProxyModel::appendTuneToScore(const QModelIndex &score, const QString &instrumentName)
 {
     if (MusicModel *model = musicModel()) {
         QModelIndex srcScoreIndex = mapToSource(score);
-        QModelIndex srcIndex = model->appendTuneToScore(srcScoreIndex, instrument);
+        QModelIndex srcIndex = model->appendTuneToScore(srcScoreIndex, instrumentName);
         return mapFromSource(srcIndex);
     }
     return QModelIndex();
 }
 
-QModelIndex MusicProxyModel::insertSymbol(int row, const QModelIndex &tune, Symbol *symbol)
+QModelIndex MusicProxyModel::insertSymbol(int row, const QModelIndex &tune, const QString &symbolName)
 {
     if (MusicModel *model = musicModel()) {
         QModelIndex srcTuneIndex = mapToSource(tune);
-        QModelIndex srcIndex = model->insertSymbol(row, srcTuneIndex, symbol);
+        QModelIndex srcIndex = model->insertSymbol(row, srcTuneIndex, symbolName);
         return mapFromSource(srcIndex);
     }
     return QModelIndex();
@@ -215,6 +215,22 @@ void MusicProxyModel::clear()
     if (MusicModel *model = musicModel()) {
         model->clear();
     }
+}
+
+QStringList MusicProxyModel::instrumentNames() const
+{
+    if (MusicModel *model = musicModel()) {
+        return model->instrumentNames();
+    }
+    return QStringList();
+}
+
+QStringList MusicProxyModel::symbolNamesForInstrument(const QString &instrument) const
+{
+    if (MusicModel *model = musicModel()) {
+        return model->symbolNamesForInstrument(instrument);
+    }
+    return QStringList();
 }
 
 bool MusicProxyModel::isIndexScore(const QModelIndex &index) const

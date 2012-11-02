@@ -19,3 +19,5 @@ TEMPLATE = app
 
 SOURCES += tst_musicproxymodeltest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
+
+LIBS =  -L$${TEST_PLUGINS_FOLDER} -llp_musicmodeltestplugin

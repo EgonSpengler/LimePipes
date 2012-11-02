@@ -21,7 +21,7 @@ GreatHighlandBagpipe::GreatHighlandBagpipe()
 {
 }
 
-QStringList GreatHighlandBagpipe::symbols()
+QStringList GreatHighlandBagpipe::symbols() const
 {
     return QStringList()    << tr("Melody Note")
                             << tr("Bar")

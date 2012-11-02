@@ -24,11 +24,11 @@ class QStringList;
 class SymbolInterface {
 public:
     virtual ~SymbolInterface() {}
-    virtual QStringList symbols() = 0;
+    virtual QStringList symbols() const = 0;
     virtual Symbol *getSymbol( const QString &symbol ) = 0;
 };
 
 Q_DECLARE_INTERFACE(SymbolInterface,
-                    "org.limepipes.LimePipes.SymbolInterface/0.1")
+                    "org.limepipes.LimePipes.SymbolInterface/0.2")
 
 #endif // SYMBOLINTERFACE_H

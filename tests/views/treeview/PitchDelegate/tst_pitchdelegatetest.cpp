@@ -9,13 +9,13 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QComboBox>
-#include <pitchdelegateinstrument.h>
 #include <pitchdelegate.h>
 #include <pitch.h>
 #include <symbol.h>
 #include <instrument.h>
 #include <musicmodel.h>
-#include <melodynote.h>
+
+Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
 
 class PitchDelegateTest : public QObject
 {
@@ -41,6 +41,7 @@ private Q_SLOTS:
     void setModelData();
 
 private:
+    QModelIndex symbolIndex(LP::DataRole role, bool hasData);
     MusicModel *m_model;
     PitchDelegate *m_delegate;
     InstrumentPtr m_instrument;
@@ -50,27 +51,46 @@ private:
     QWidget *m_parentWidget;
     QComboBox *m_editor;
     QModelIndex m_pitchIndex;
-
-    class SymbolWithPitch : public MelodyNote
-    {
-    public:
-        SymbolWithPitch(PitchPtr pitch)
-        {
-            initData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
-        }
-    };
+    QStringList m_instrumentNames;
+    QStringList m_symbolNames;
 };
 
 void PitchDelegateTest::initTestCase()
 {
     m_model = new MusicModel(this);
-    m_instrument = InstrumentPtr(new PitchDelegateInstrument());
+
+    m_instrumentNames = m_model->instrumentNames();
+    if (m_instrumentNames.isEmpty()) {
+        qWarning("There was no plugin loaded by the model.");
+        return;
+    }
+
+    m_symbolNames = m_model->symbolNamesForInstrument(m_instrumentNames.at(0));
+    if (m_symbolNames.isEmpty()) {
+        qWarning("Plugin's instrument has no symbols.");
+        return;
+    }
+
     m_tuneIndex = new QPersistentModelIndex(
-                m_model->insertTuneWithScore(0, "One score", m_instrument));
-    m_symbolWithPitchIndex = new QPersistentModelIndex(
-                m_model->insertSymbol(0, *m_tuneIndex, new SymbolWithPitch(m_instrument->pitchContext()->pitchForStaffPos(0))));
-    m_symbolWithNoPitchIndex = new QPersistentModelIndex(
-                m_model->insertSymbol(0, *m_tuneIndex, new Symbol(LP::Bar, "no pitch symbol")));
+                m_model->insertTuneWithScore(0, "One score", m_model->instrumentNames().at(0)));
+
+    QVariant instrumentVar = m_tuneIndex->data(LP::tuneInstrument);
+    if (!instrumentVar.isValid())
+            qWarning("Tune has no instrument");
+    if (instrumentVar.canConvert<InstrumentPtr>()) {
+        m_instrument = instrumentVar.value<InstrumentPtr>();
+    } else {
+        qWarning("Can't convert instrument variant into instrument");
+    }
+
+    m_symbolWithPitchIndex = new QPersistentModelIndex(symbolIndex(LP::symbolPitch, true));
+    if (!m_symbolWithPitchIndex->isValid())
+        qWarning("Instrument plugin has no symbol with pitch");
+
+    m_symbolWithNoPitchIndex = new QPersistentModelIndex(symbolIndex(LP::symbolPitch, false));
+    if (!m_symbolWithNoPitchIndex->isValid())
+        qWarning("Instrument plugin has no symbol with no pitch");
+
     m_parentWidget = new QWidget();
     m_delegate = new PitchDelegate(this);
 }
@@ -87,12 +107,8 @@ void PitchDelegateTest::cleanupTestCase()
 
 void PitchDelegateTest::init()
 {
-    int rowOfSymbolWithPitch = 1;
-    QModelIndex score = m_model->index(0, 0, QModelIndex());
-    Q_ASSERT(score.isValid());
-    QModelIndex tune = m_model->index(0, 0, score);
-    Q_ASSERT(tune.isValid());
-    m_pitchIndex = m_model->index(rowOfSymbolWithPitch, 0, tune);
+    m_pitchIndex = m_model->index(m_symbolWithPitchIndex->row(), 0, m_symbolWithPitchIndex->parent());
+    Q_ASSERT(m_pitchIndex.isValid());
 }
 
 void PitchDelegateTest::testCreateEditor()
@@ -130,6 +146,25 @@ void PitchDelegateTest::setModelData()
     m_delegate->setModelData(m_editor, m_model, m_pitchIndex);
     pitchFromSymbolData = m_symbolWithPitchIndex->data(LP::symbolPitch).value<PitchPtr>();
     QVERIFY2(m_editor->currentText() == pitchFromSymbolData->name(), "Failed setting pitch");
+}
+
+QModelIndex PitchDelegateTest::symbolIndex(LP::DataRole role, bool hasData)
+{
+    QModelIndex tuneIndex = m_model->insertTuneWithScore(0, "score", m_instrumentNames.at(0));
+    foreach (QString symbolName, m_symbolNames) {
+        QModelIndex symbolIndex = m_model->insertSymbol(0, tuneIndex, symbolName);
+        QVariant dataVar = symbolIndex.data(role);
+        if (hasData) {
+            if (dataVar.isValid()) {
+                return symbolIndex;
+            }
+        } else {
+            if (!dataVar.isValid()) {
+                return symbolIndex;
+            }
+        }
+    }
+    return QModelIndex();
 }
 
 QTEST_MAIN(PitchDelegateTest)

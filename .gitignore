@@ -28,6 +28,7 @@ bin/
 build/
 # the compiled static plugins
 plugins_static/
+plugins_bin/
 *.so*
 Makefile
 

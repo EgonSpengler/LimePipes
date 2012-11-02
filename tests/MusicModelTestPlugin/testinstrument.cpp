@@ -8,4 +8,3 @@
 
 #include "testinstrument.h"
 
-int TestInstrument::notOkToInsertSymbolType = 123456;

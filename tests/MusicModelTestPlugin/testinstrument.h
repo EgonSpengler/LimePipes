@@ -6,26 +6,29 @@
  *
  */
 
-#ifndef PITCHDELEGATEINSTRUMENT_H
-#define PITCHDELEGATEINSTRUMENT_H
+#ifndef TESTINSTRUMENT_H
+#define TESTINSTRUMENT_H
 
 #include <instrument.h>
 
-class PitchDelegateInstrument : public Instrument
+class TestInstrument : public Instrument
 {
 public:
-    PitchDelegateInstrument()
+    TestInstrument()
         : Instrument(LP::BassDrum,
-                     "PitchDelegateInstrument",
-                     PitchContextPtr(new DelegatePitchContext())) {}
-    bool supportsSymbolType(int type) const
-        { Q_UNUSED(type) return true; }
+                     "Testinstrument",
+                     PitchContextPtr(new TestPitchContext())) {}
+
+    bool supportsSymbolType(int type) const {
+        Q_UNUSED(type)
+        return true;
+    }
 
 private:
-    class DelegatePitchContext : public PitchContext
+    class TestPitchContext : public PitchContext
     {
     public:
-        explicit DelegatePitchContext()
+        explicit TestPitchContext()
             : PitchContext()
         {
             insertPitch(0, "F");
@@ -41,4 +44,4 @@ private:
     };
 };
 
-#endif // PITCHDELEGATEINSTRUMENT_H
+#endif // TESTINSTRUMENT_H

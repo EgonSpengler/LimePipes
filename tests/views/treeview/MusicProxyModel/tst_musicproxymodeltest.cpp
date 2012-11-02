@@ -18,6 +18,8 @@
 #include <tune.h>
 #include <musicproxymodel.h>
 
+Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
+
 namespace {
 
 class SymbolWithPitchAndLength : public Symbol
@@ -33,20 +35,6 @@ public:
     }
 };
 
-class TestInstrument : public Instrument
-{
-public:
-    static int notOkToInsertSymbolType;
-    TestInstrument()
-        : Instrument(LP::BassDrum, "Bass drum") {}
-    bool supportsSymbolType(int type) const {
-        if (type == notOkToInsertSymbolType) {
-            return false;
-        }
-        return true;
-    }
-};
-int TestInstrument::notOkToInsertSymbolType = 123456;
 }
 
 class MusicProxyModelTest : public QObject
@@ -60,6 +48,7 @@ public:
     { qRegisterMetaType<QModelIndex>("QModelIndex"); }
     
 private Q_SLOTS:
+    void initTestcase();
     void init();
     void cleanup();
     void testColumnCount();
@@ -79,9 +68,27 @@ private Q_SLOTS:
     void testLengthColumn();
 
 private:
+    QModelIndex symbolIndexWithData(LP::DataRole role);
     MusicModel *m_sourceModel;
     MusicProxyModel *m_proxyModel;
+    QStringList m_instrumentNames;
+    QStringList m_symbolNames;
 };
+
+void MusicProxyModelTest::initTestcase()
+{
+    m_instrumentNames = m_sourceModel->instrumentNames();
+    if (m_instrumentNames.isEmpty()) {
+        qWarning("There was no plugin loaded by the model.");
+        return;
+    }
+
+    m_symbolNames = m_sourceModel->symbolNamesForInstrument(m_instrumentNames.at(0));
+    if (m_symbolNames.isEmpty()) {
+        qWarning("Plugin's instrument has no symbols.");
+        return;
+    }
+}
 
 void MusicProxyModelTest::init()
 {
@@ -137,18 +144,17 @@ void MusicProxyModelTest::testInsertTuneIntoScore()
 {
     QModelIndex score = m_proxyModel->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
-    QModelIndex tune = m_proxyModel->insertTuneIntoScore(0, score, InstrumentPtr(new TestInstrument()));
+    QModelIndex tune = m_proxyModel->insertTuneIntoScore(0, score, m_instrumentNames.at(0));
     InstrumentPtr instrument = m_proxyModel->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
-    QVERIFY2(instrument->name() == "Bass drum", "Failed getting instrument back");
+    QVERIFY2(instrument->name() == m_instrumentNames.at(0), "Failed getting instrument back");
 
     // Now, the rowsInserted signal should not be called when inserting rows
     QSignalSpy spy(m_proxyModel, SIGNAL(rowsInserted(const QModelIndex, int, int)));
 
-    InstrumentPtr instrument2 = InstrumentPtr(new TestInstrument());
-    m_proxyModel->insertTuneIntoScore(-1, score, instrument2);
-    m_proxyModel->insertTuneIntoScore(5, score, instrument2);
+    m_proxyModel->insertTuneIntoScore(-1, score, m_instrumentNames.at(0));
+    m_proxyModel->insertTuneIntoScore(5, score, m_instrumentNames.at(0));
 
     QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
 }
@@ -157,20 +163,20 @@ void MusicProxyModelTest::testAppendTuneToScore()
 {
     QModelIndex score = m_proxyModel->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
-    QModelIndex tune = m_proxyModel->appendTuneToScore(score, InstrumentPtr(new TestInstrument()));
+    QModelIndex tune = m_proxyModel->appendTuneToScore(score, m_instrumentNames.at(0));
     InstrumentPtr instrument = m_proxyModel->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
-    QVERIFY2(instrument->name() == "Bass drum", "Failed getting instrument back");
+    QVERIFY2(instrument->name() == m_instrumentNames.at(0), "Failed getting instrument back");
 }
 
 void MusicProxyModelTest::testInsertTuneWithScore()
 {
-    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
     InstrumentPtr instrument = m_proxyModel->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
-    QVERIFY2(instrument->name() == "Bass drum", "Failed getting score title from index");
+    QVERIFY2(instrument->name() == m_instrumentNames.at(0), "Failed getting score title from index");
     // New tune and new score => tune in row and column 0
     QVERIFY2(tune.column() == 0, "Tune is in wrong column");
     QVERIFY2(tune.row() == 0, "Tune is in wrong row");
@@ -178,30 +184,28 @@ void MusicProxyModelTest::testInsertTuneWithScore()
 
 void MusicProxyModelTest::testInsertSymbol()
 {
-    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-    QModelIndex symbol1 = m_proxyModel->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
+    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex symbol1 = m_proxyModel->insertSymbol(0, tune, m_symbolNames.at(0));
     QVERIFY2(symbol1.isValid(), "Failed inserting symbol");
-    QVERIFY2(m_proxyModel->data(symbol1, LP::symbolName) == "testsymbol", "Failed getting symbol's name");
+    QVERIFY2(m_proxyModel->data(symbol1, LP::symbolName) == m_symbolNames.at(0), "Failed getting symbol's name");
 
     // Now, the rowsInserted signal should not be called when inserting rows
     QSignalSpy spy(m_proxyModel, SIGNAL(rowsInserted(const QModelIndex, int, int)));
 
-    Symbol *symbol2 = new Symbol(LP::Bar, "testsymbol2");
-    m_proxyModel->insertSymbol(5, tune, symbol2);
-    m_proxyModel->insertSymbol(-1, tune, symbol2);
-    delete symbol2;
+    m_proxyModel->insertSymbol(5, tune, m_symbolNames.at(0));
+    m_proxyModel->insertSymbol(-1, tune, m_symbolNames.at(0));
 
     QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
 }
 
 void MusicProxyModelTest::testCallOfOkToInsertChild()
 {
-    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
+    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
 
-    QModelIndex validSymbol = m_proxyModel->insertSymbol(0, tune, new Symbol(LP::Bar, "valid symbol"));
+    QModelIndex validSymbol = m_proxyModel->insertSymbol(0, tune, m_symbolNames.at(0));
     QVERIFY2(validSymbol.isValid(), "Failed inserting valid symbol");
 
-    QModelIndex invalidSymbol = m_proxyModel->insertSymbol(0, tune, new Symbol(TestInstrument::notOkToInsertSymbolType, "invalid symbol"));
+    QModelIndex invalidSymbol = m_proxyModel->insertSymbol(0, tune, "invalid symbol name");
     QVERIFY2(invalidSymbol.isValid() == false, "Failed. It was possible to insert a invalid symbol");
 }
 
@@ -229,41 +233,55 @@ void MusicProxyModelTest::testIsScore()
 void MusicProxyModelTest::testIsTune()
 {
     QModelIndex score = m_proxyModel->insertScore(0, "First Score");
-    QModelIndex tune = m_proxyModel->appendTuneToScore(score, InstrumentPtr(new TestInstrument()));
+    QModelIndex tune = m_proxyModel->appendTuneToScore(score, m_instrumentNames.at(0));
     QVERIFY2(m_proxyModel->isIndexTune(tune), "Faile, should return true for tune");
 }
 
 void MusicProxyModelTest::testIsSymbol()
 {
-    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-    QModelIndex symbol1 = m_proxyModel->insertSymbol(0, tune, new Symbol(LP::Bar, "testsymbol"));
+    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex symbol1 = m_proxyModel->insertSymbol(0, tune, m_symbolNames.at(0));
     QVERIFY2(m_proxyModel->isIndexSymbol(symbol1), "Failed, should return true for symbol");
 }
 
 void MusicProxyModelTest::testPitchColumn()
 {
-    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-    QModelIndex symbolWithPitch = m_proxyModel->insertSymbol(0, tune, new SymbolWithPitchAndLength());
+    QModelIndex symbolWithPitch = symbolIndexWithData(LP::symbolPitch);
+
+    if (!symbolWithPitch.isValid())
+        qWarning("Used instrument plugin supports no symbol with pitch");
 
     QModelIndex pitchIndex = m_proxyModel->sibling(symbolWithPitch.row(), MusicProxyModel::PitchColumn, symbolWithPitch);
-    QVERIFY2(symbolWithPitch.isValid(), "Failed inserting symbol with pitch");
     QVERIFY2(pitchIndex.isValid(), "Fail, pitch index isn't valid");
 
     QVariant pitchVariant = m_proxyModel->data(pitchIndex, LP::symbolPitch);
     QVERIFY2(pitchVariant.canConvert<PitchPtr>(), "Pitch wasn't returned");
-    QVERIFY2(pitchVariant.value<PitchPtr>()->name() == "testpitch", "Wrong pitch was returned");
 }
 
 void MusicProxyModelTest::testLengthColumn()
 {
-    QModelIndex tune = m_proxyModel->insertTuneWithScore(0, "First Score", InstrumentPtr(new TestInstrument()));
-    QModelIndex symbolWithLength = m_proxyModel->insertSymbol(0, tune, new SymbolWithPitchAndLength());
+    QModelIndex symbolWithLength = symbolIndexWithData(LP::symbolLength);
 
     QModelIndex lengthIndex = m_proxyModel->sibling(symbolWithLength.row(), MusicProxyModel::LengthColumn, symbolWithLength);
-    QVERIFY2(symbolWithLength.isValid(), "Failed inserting symbol with length");
     QVERIFY2(lengthIndex.isValid(), "Fail, length index isn't valid");
+
+    QVariant lengthVariant = m_proxyModel->data(lengthIndex, LP::symbolLength);
+    QVERIFY2(lengthVariant.canConvert<Length::Value>(), "Length wasn't returnde");
 }
 
-QTEST_APPLESS_MAIN(MusicProxyModelTest)
+QModelIndex MusicProxyModelTest::symbolIndexWithData(LP::DataRole role)
+{
+    QModelIndex tuneIndex = m_proxyModel->insertTuneWithScore(0, "first score", m_instrumentNames.at(0));
+    foreach (QString symbolName, m_symbolNames) {
+        QModelIndex symbolIndex = m_proxyModel->insertSymbol(0, tuneIndex, symbolName);
+        QVariant dataVar = symbolIndex.data(role);
+        if (dataVar.isValid()) {
+            return symbolIndex;
+        }
+    }
+    return QModelIndex();
+}
+
+QTEST_MAIN(MusicProxyModelTest)
 
 #include "tst_musicproxymodeltest.moc"
