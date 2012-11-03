@@ -24,8 +24,10 @@ private Q_SLOTS:
     void testDefaultConstructor();
     void testTypeAndNameConstructor();
     void testDots();
+    void testWriteItemDataToStream();
 
 private:
+    QString patternForTag(const QString &tagname, const QString &data);
     MelodyNote *m_melody;
 };
 
@@ -76,6 +78,31 @@ void MelodyNoteTest::testDots()
 
     m_melody->setData(MelodyNote::MaxDots + 1, LP::melodyNoteDots);
     QVERIFY2(m_melody->data(LP::melodyNoteDots) == MelodyNote::MaxDots, "Setting more than maximum of dots doesn't result in maximum");
+}
+
+void MelodyNoteTest::testWriteItemDataToStream()
+{
+    QString data;
+    QXmlStreamWriter writer(&data);
+    PitchPtr testPitch(new Pitch(2, "test pitch name"));
+    int dotCnt = 3;
+
+    m_melody->setData(QVariant::fromValue<PitchPtr>(testPitch), LP::symbolPitch);
+    m_melody->setData(dotCnt, LP::melodyNoteDots);
+
+    m_melody->writeItemDataToXmlStream(&writer);
+
+    QString pitchTag = patternForTag("PITCH", testPitch->name());
+    QString dotsTag = patternForTag("DOTS", QString::number(dotCnt, 10));
+
+    QVERIFY2(data.contains(pitchTag, Qt::CaseInsensitive), "No symbol pitch tag found, maybe the same base class method wasn't called");
+    QVERIFY2(data.contains(dotsTag, Qt::CaseInsensitive), "No melody dots tag found");
+}
+
+QString MelodyNoteTest::patternForTag(const QString &tagname, const QString &data)
+{
+    QString tag = QString("<") + tagname + ">" + data;
+    return tag;
 }
 
 QTEST_MAIN(MelodyNoteTest)

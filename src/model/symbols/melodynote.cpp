@@ -12,6 +12,7 @@
   */
 
 #include "melodynote.h"
+#include <QXmlStreamWriter>
 
 const int MelodyNote::MaxDots;
 
@@ -54,4 +55,17 @@ void MelodyNote::initSymbol()
     setSymbolOptions(Symbol::HasPitch |
                      Symbol::HasLength);
     setSymbolGraphicBuilder(new MelodyNoteGraphicBuilder(this));
+}
+
+void MelodyNote::writeItemDataToXmlStream(QXmlStreamWriter *writer)
+{
+    Symbol::writeItemDataToXmlStream(writer);
+
+    QVariant dotsVar = data(LP::melodyNoteDots);
+    if (dotsVar.isValid() &&
+        dotsVar.canConvert<int>()) {
+        int dots = dotsVar.value<int>();
+        if (dots > 0)
+            writer->writeTextElement("DOTS", QString::number(dots, 10));
+    }
 }

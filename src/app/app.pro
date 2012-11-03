@@ -3,6 +3,7 @@ include( ../model/model.pri )
 include( ../model/datatypes/datatypes.pri )
 include( ../model/symbols/symbols.pri )
 include( ../views/treeview/treeview.pri )
+include( ../utilities/utilities.pri )
 
 TEMPLATE = app
 

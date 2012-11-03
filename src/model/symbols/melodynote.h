@@ -24,6 +24,8 @@ public:
     void beforeWritingData(QVariant &value, int role);
     const static int MaxDots = 4;
 
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+
 private:
     void initSymbol();
 };

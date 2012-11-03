@@ -51,6 +51,8 @@ public:
     QStringList instrumentNames() const;
     QStringList symbolNamesForInstrument(const QString &instrument) const;
 
+    void save(const QString &filename=QString());
+
 private:
     MusicModel *musicModel() const;
     QVariant itemColumnData(const QModelIndex &index, int role) const;

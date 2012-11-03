@@ -15,8 +15,6 @@
 #include <symbol.h>
 #include <symbolgraphicbuilder.h>
 
-#include <QDebug>
-
 namespace {
 
 class TestGraphicBuilder :  public QObject,
@@ -85,8 +83,10 @@ private Q_SLOTS:
     void testSetSymbolGraphicBuilder();
     void testCreateSymbolPixmaps();
     void testAfterWritingDataCall();
+    void testWriteToXmlStream();
 
 private:
+    QString patternForTag(const QString &tagname, const QString &data);
     Symbol *m_symbol;
 };
 
@@ -195,6 +195,36 @@ void SymbolTest::testAfterWritingDataCall()
     QSignalSpy spy(testSymbol, SIGNAL(afterWritingDataCalled()));
     m_symbol->setData(Length::_32, LP::symbolLength);
     QVERIFY2(spy.count() != 0, "Symbol graphic wasn't updated after setting data");
+}
+
+void SymbolTest::testWriteToXmlStream()
+{
+    QString data;
+    QXmlStreamWriter writer(&data);
+    PitchPtr testPitch(new Pitch(2, "test pitch name"));
+    Length::Value testLength(Length::_32);
+
+    TestSymbol testSymbol;
+    Q_ASSERT(testSymbol.itemSupportsWritingOfData(LP::symbolPitch));
+    Q_ASSERT(testSymbol.itemSupportsWritingOfData(LP::symbolLength));
+
+    testSymbol.setData(QVariant::fromValue<PitchPtr>(testPitch), LP::symbolPitch);
+    testSymbol.setData(QVariant::fromValue<Length::Value>(testLength), LP::symbolLength);
+
+    testSymbol.writeItemDataToXmlStream(&writer);
+    QString nameTag  = patternForTag("NAME", testSymbol.data(LP::symbolName).toString());
+    QString pitchTag = patternForTag("PITCH", testPitch->name());
+    QString lengthTag = patternForTag("LENGTH", QString::number(testLength, 10));
+
+    QVERIFY2(data.contains(nameTag, Qt::CaseInsensitive), "No symbol name tag found");
+    QVERIFY2(data.contains(pitchTag, Qt::CaseInsensitive), "No pitch tag found");
+    QVERIFY2(data.contains(lengthTag, Qt::CaseInsensitive), "No length tag found");
+}
+
+QString SymbolTest::patternForTag(const QString &tagname, const QString &data)
+{
+    QString tag = QString("<") + tagname + ">" + data;
+    return tag;
 }
 
 QTEST_MAIN(SymbolTest)

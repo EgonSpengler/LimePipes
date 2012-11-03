@@ -11,6 +11,8 @@
 
 #include <QMetaType>
 
+class QXmlStreamWriter;
+
 class TimeSignature
 {
 public:
@@ -36,7 +38,11 @@ public:
     void setSignature(Type type) { m_type = type; }
     Type signature() const { return m_type; }
 
+    void writeToXmlStream(QXmlStreamWriter *writer);
+    static QString xmlTagName() { return s_xmlTagName; }
+
 private:
+    static QString s_xmlTagName;
     Type m_type;
 };
 

@@ -17,6 +17,7 @@ public:
     explicit RootItem();
 
     bool itemSupportsWritingOfData(int role) const;
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }
 };
 
 #endif // ROOTITEM_H

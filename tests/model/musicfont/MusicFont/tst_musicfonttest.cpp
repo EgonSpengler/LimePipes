@@ -10,8 +10,6 @@
 #include <QtTest/QtTest>
 #include <musicfont.h>
 
-#include <QDebug>
-
 namespace {
 
 class TestMusicFont : public MusicFont

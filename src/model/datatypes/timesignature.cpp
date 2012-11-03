@@ -12,6 +12,9 @@
   */
 
 #include "timesignature.h"
+#include <QXmlStreamWriter>
+
+QString TimeSignature::s_xmlTagName = QString("TIMESIG");
 
 TimeSignature::TimeSignature()
     : m_type(_2_2)
@@ -64,4 +67,12 @@ int TimeSignature::beatUnit(TimeSignature::Type type)
         qWarning("type not supported in TimeSignature::beatUnit");
         return 0;
     }
+}
+
+void TimeSignature::writeToXmlStream(QXmlStreamWriter *writer)
+{
+    writer->writeStartElement(s_xmlTagName);
+    writer->writeTextElement("BEATCOUNT", QString::number(beatCount(m_type)));
+    writer->writeTextElement("BEATUNIT", QString::number(beatUnit(m_type)));
+    writer->writeEndElement();
 }

@@ -14,6 +14,8 @@
 #include <QMap>
 #include <QVariant>
 
+class QXmlStreamWriter;
+
 class MusicItem
 {
 public:
@@ -47,6 +49,7 @@ public:
     bool setData(const QVariant &value, int role);
 
     virtual bool itemSupportsWritingOfData(int role) const = 0;
+    virtual void writeItemDataToXmlStream(QXmlStreamWriter *writer) = 0;
 
 protected:
     void initData(const QVariant &value, int role) { writeData(value, role); }

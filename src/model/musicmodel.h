@@ -14,6 +14,8 @@
 #include <musicmodelinterface.h>
 #include <musicitem.h>
 
+class QXmlStreamWriter;
+
 class MusicModel :  public QAbstractItemModel,
                     public MusicModelInterface
 {
@@ -56,13 +58,15 @@ public:
     QStringList instrumentNames() const { return m_instrumentManager->instrumentNames(); }
     QStringList symbolNamesForInstrument(const QString &instrument) const { return m_instrumentManager->symbolNamesForInstrument(instrument); }
 
+    void save(const QString &filename);
+
 private:
+    void writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const;
+    const QString tagNameFromItem(MusicItem *musicItem) const;
+
     bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;
     void createRootItemIfNotPresent();
     bool isRowValid(MusicItem *item, int row) const;
-
-    template<class T>
-    T castedMusicItemFromIndex(const QModelIndex &index) const;
 
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
     MusicItem *m_rootItem;

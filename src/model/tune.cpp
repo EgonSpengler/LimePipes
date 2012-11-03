@@ -12,6 +12,7 @@
   */
 
 #include "tune.h"
+#include <QXmlStreamWriter>
 
 void Tune::setInstrument(InstrumentPtr instrument)
 {
@@ -49,4 +50,9 @@ bool Tune::itemSupportsWritingOfData(int role) const
 {
     Q_UNUSED(role)
     return false;
+}
+
+void Tune::writeItemDataToXmlStream(QXmlStreamWriter *writer)
+{
+    writer->writeTextElement("INSTRUMENT", instrument()->name());
 }

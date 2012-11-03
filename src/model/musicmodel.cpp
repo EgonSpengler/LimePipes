@@ -12,9 +12,19 @@
  */
 
 #include "musicmodel.h"
+#include <QXmlStreamWriter>
 #include <rootitem.h>
 #include <score.h>
 #include <tune.h>
+#include <utilities/error.h>
+
+namespace {
+
+const QString ScoreTag("SCORE");
+const QString TuneTag("TUNE");
+const QString SymbolTag("SYMBOL");
+
+}
 
 MusicModel::MusicModel(QObject *parent)
     : QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1)
@@ -190,6 +200,59 @@ void MusicModel::clear()
     reset();
 }
 
+void MusicModel::save(const QString &filename)
+{
+    if (!filename.isEmpty())
+        m_filename = filename;
+
+    if (m_filename.isEmpty())
+        throw LP::Error(tr("no filename specified"));
+
+    QFile file(m_filename);
+    if (!file.open(QIODevice::WriteOnly|QIODevice::Text))
+        throw LP::Error(file.errorString());
+
+    QXmlStreamWriter writer(&file);
+    writer.setAutoFormatting(true);
+    writer.writeStartDocument();
+    writer.writeStartElement("LIMEPIPES");
+    writer.writeAttribute("VERSION", "0.1");
+    writeMusicItemAndChildren(&writer, m_rootItem);
+    writer.writeEndElement(); // LIMEPIPES
+    writer.writeEndDocument();
+}
+
+void MusicModel::writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const
+{
+    if (musicItem->type() == MusicItem::NoItemType)
+        return;
+
+    if (musicItem->type() != MusicItem::RootItemType)
+        writer->writeStartElement(tagNameFromItem(musicItem));
+
+    musicItem->writeItemDataToXmlStream(writer);
+
+    foreach (MusicItem *child, musicItem->children())
+        writeMusicItemAndChildren(writer, child);
+
+    if (musicItem->type() != MusicItem::RootItemType)
+        writer->writeEndElement();
+}
+
+const QString MusicModel::tagNameFromItem(MusicItem *musicItem) const
+{
+    switch (musicItem->type()) {
+    case MusicItem::ScoreType:
+        return ScoreTag;
+    case MusicItem::TuneType:
+        return TuneTag;
+    case MusicItem::SymbolType:
+        return SymbolTag;
+    default:
+        return "";
+    }
+}
+
 bool MusicModel::isIndexScore(const QModelIndex &index) const
 {
     return indexHasItemType(index, MusicItem::ScoreType);
@@ -249,10 +312,4 @@ QModelIndex MusicModel::insertItem(int row, const QModelIndex &parent, MusicItem
         }
     }
     return QModelIndex();
-}
-
-template<class T>
-T MusicModel::castedMusicItemFromIndex(const QModelIndex &index) const
-{
-    return static_cast<T>(itemForIndex(index));
 }

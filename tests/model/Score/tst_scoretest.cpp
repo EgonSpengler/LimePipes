@@ -27,8 +27,10 @@ private Q_SLOTS:
     void testSetData();
     void testConstructor();
     void testSetGetTitle();
+    void testWriteToXmlStream();
 
 private:
+    QString patternForTag(const QString &tagname, const QString &data);
     Score *m_score;
 };
 
@@ -87,6 +89,41 @@ void ScoreTest::testSetGetTitle()
     m_score->setTitle(QString("New Title"));
     QVERIFY2(m_score->data(LP::scoreTitle) == "New Title", "Failed setting title");
     QVERIFY2(m_score->title() == "New Title", "Failed getting title");
+}
+
+void ScoreTest::testWriteToXmlStream()
+{
+    QString data;
+    QXmlStreamWriter writer(&data);
+
+    QString scoreTitle("test title");
+    QString scoreComposer("test composer");
+    QString scoreArranger("test arranger");
+    QString scoreYear("test year");
+    QString scoreCopyright("test copyright");
+    TimeSignature scoreTimeSig(TimeSignature::_3_8);
+
+    m_score->setTitle(scoreTitle);
+    m_score->setData(scoreComposer, LP::scoreComposer);
+    m_score->setData(scoreArranger, LP::scoreArranger);
+    m_score->setData(scoreYear, LP::scoreYear);
+    m_score->setData(scoreCopyright, LP::scoreCopyright);
+    m_score->setData(QVariant::fromValue<TimeSignature>(scoreTimeSig), LP::scoreTimeSignature);
+
+    m_score->writeItemDataToXmlStream(&writer);
+
+    QVERIFY2(data.contains(patternForTag("TITLE", scoreTitle), Qt::CaseInsensitive), "No title tag found");
+    QVERIFY2(data.contains(patternForTag("COMPOSER", scoreComposer), Qt::CaseInsensitive), "No composer tag found");
+    QVERIFY2(data.contains(patternForTag("ARRANGER", scoreArranger), Qt::CaseInsensitive), "No arranger tag found");
+    QVERIFY2(data.contains(patternForTag("YEAR", scoreYear), Qt::CaseInsensitive), "No year tag found");
+    QVERIFY2(data.contains(patternForTag("COPYRIGHT", scoreCopyright), Qt::CaseInsensitive), "No copyright tag found");
+    QVERIFY2(data.contains(TimeSignature::xmlTagName(), Qt::CaseInsensitive), "Time signature wasn't written to xml stream");
+}
+
+QString ScoreTest::patternForTag(const QString &tagname, const QString &data)
+{
+    QString tag = QString("<") + tagname + ">" + data;
+    return tag;
 }
 
 QTEST_APPLESS_MAIN(ScoreTest)

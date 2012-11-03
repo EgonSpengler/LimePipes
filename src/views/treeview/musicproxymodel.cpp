@@ -233,6 +233,14 @@ QStringList MusicProxyModel::symbolNamesForInstrument(const QString &instrument)
     return QStringList();
 }
 
+void MusicProxyModel::save(const QString &filename)
+{
+    if (MusicModel *model = musicModel()) {
+        model->setFilename(this->filename());
+        model->save(filename);
+    }
+}
+
 bool MusicProxyModel::isIndexScore(const QModelIndex &index) const
 {
     if (MusicModel *model = musicModel()) {

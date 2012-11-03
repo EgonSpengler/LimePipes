@@ -8,7 +8,6 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-
 #include <timesignature.h>
 
 class TimeSignatureTest : public QObject
@@ -22,6 +21,7 @@ private Q_SLOTS:
     void testBeatCount();
     void testBeatUnit();
     void testQVariant();
+    void testWriteToXmlStream();
 };
 
 TimeSignatureTest::TimeSignatureTest()
@@ -56,6 +56,28 @@ void TimeSignatureTest::testQVariant()
 {
     QVariant var = QVariant::fromValue(TimeSignature());
     QVERIFY2(var.isValid(), "Failed setting TimeSignature as QVariant");
+}
+
+void TimeSignatureTest::testWriteToXmlStream()
+{
+    QString data;
+    QXmlStreamWriter writer(&data);
+    TimeSignature timeSig(TimeSignature::_6_8);
+
+    QVERIFY2(!TimeSignature::xmlTagName().isEmpty(), "Time Signature has no xml tag");
+
+    QString timeSigStartTag = QString("<") + TimeSignature::xmlTagName() + ">";
+    QString timeSigEndTag = QString("</") + TimeSignature::xmlTagName() + ">";
+    QString beatCountTag = QString("<BEATCOUNT>") + QString::number(TimeSignature::beatCount(timeSig.signature()), 10);
+    QString beatUnitTag = QString("<BEATUNIT>") + QString::number(TimeSignature::beatUnit(timeSig.signature()), 10);
+
+    timeSig.writeToXmlStream(&writer);
+
+    QVERIFY2(data.contains(timeSigStartTag, Qt::CaseInsensitive), "No time sig start tag found");
+    QVERIFY2(data.contains(timeSigEndTag, Qt::CaseInsensitive), "No time sig end tag found");
+    QVERIFY2(!data.contains(timeSigStartTag + timeSigEndTag, Qt::CaseInsensitive), "time sig end tag follows directly a start tag");
+    QVERIFY2(data.contains(beatCountTag, Qt::CaseInsensitive), "No tag for beat count found");
+    QVERIFY2(data.contains(beatUnitTag, Qt::CaseInsensitive), "No tag for beat unit found");
 }
 
 QTEST_APPLESS_MAIN(TimeSignatureTest)

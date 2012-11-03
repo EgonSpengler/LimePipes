@@ -13,6 +13,7 @@
 
 #include "symbol.h"
 #include <datatypes/pitch.h>
+#include <QXmlStreamWriter>
 
 Symbol::Symbol()
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
@@ -120,6 +121,36 @@ bool Symbol::itemSupportsWritingOfData(int role) const
             return true;
     default:
         return false;
+    }
+}
+
+void Symbol::writeItemDataToXmlStream(QXmlStreamWriter *writer)
+{
+    if (data(LP::symbolName).isValid())
+        writer->writeTextElement("NAME", data(LP::symbolName).toString());
+    if (this->hasPitch())
+        writePitch(writer);
+    if (this->hasLength())
+        writeLength(writer);
+}
+
+void Symbol::writePitch(QXmlStreamWriter *writer)
+{
+    QVariant pitchVar = data(LP::symbolPitch);
+    if (pitchVar.isValid() &&
+        pitchVar.canConvert<PitchPtr>()) {
+        PitchPtr pitch = pitchVar.value<PitchPtr>();
+        writer->writeTextElement("PITCH", pitch->name());
+    }
+}
+
+void Symbol::writeLength(QXmlStreamWriter *writer)
+{
+    QVariant lengthVar = data(LP::symbolLength);
+    if (lengthVar.isValid() &&
+        lengthVar.canConvert<Length::Value>()) {
+        Length::Value length = lengthVar.value<Length::Value>();
+        writer->writeTextElement("LENGTH", QString::number(length, 10));
     }
 }
 

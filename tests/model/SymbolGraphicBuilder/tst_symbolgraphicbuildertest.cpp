@@ -27,6 +27,7 @@ public:
 
     bool itemSupportsWritingOfData(int role) const
     { Q_UNUSED(role) return true; }
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }
 };
 
 int TestMusicItem::initialDataRole = 1234;

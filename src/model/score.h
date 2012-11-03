@@ -23,6 +23,10 @@ public:
     QString title() const { return data(LP::scoreTitle).toString(); }
 
     bool itemSupportsWritingOfData(int role) const;
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+
+private:
+    QString textDataForRole(LP::DataRole role);
 };
 
 #endif // SCORE_H

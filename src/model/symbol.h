@@ -44,6 +44,7 @@ public:
     void createSymbolPixmaps(int lineHeight);
 
     bool itemSupportsWritingOfData(int role) const;
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
 
 protected:
     void setSymbolOptions(Symbol::Options options);
@@ -52,6 +53,8 @@ protected:
 private:
     void setDefaultSymbolOptions();
     void afterWritingData(int role);
+    void writePitch(QXmlStreamWriter *writer);
+    void writeLength(QXmlStreamWriter *writer);
     Symbol::Options m_symbolOptions;
     SymbolGraphicBuilder *m_graphicBuilder;
 };

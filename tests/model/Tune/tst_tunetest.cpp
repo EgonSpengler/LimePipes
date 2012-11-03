@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <QXmlStreamWriter>
 #include <tune.h>
 #include <symbol.h>
 #include <greathighlandbagpipe.h>
@@ -28,6 +29,7 @@ private Q_SLOTS:
     void testChildType();
     void testOkToInsertChildRedefinition();
     void testSetData();
+    void testWriteToXmlStream();
 
 private:
     Tune *m_tune;
@@ -93,6 +95,18 @@ void TuneTest::testOkToInsertChildRedefinition()
 void TuneTest::testSetData()
 {
     m_tune->data(Qt::DisplayRole);
+}
+
+void TuneTest::testWriteToXmlStream()
+{
+    delete m_tune;
+    m_tune = new Tune(m_instrument);
+    QString data;
+    QXmlStreamWriter writer(&data);
+    QString instrumentTag = QString("<instrument>") += m_instrument->name();
+
+    m_tune->writeItemDataToXmlStream(&writer);
+    QVERIFY2(data.contains(instrumentTag, Qt::CaseInsensitive), "No instrument tag found");
 }
 
 QTEST_APPLESS_MAIN(TuneTest)

@@ -36,6 +36,9 @@ public:
 
 private slots:
     void on_fileNewAction_triggered();
+    void on_fileOpenAction_triggered();
+    void on_fileSaveAction_triggered();
+    void on_fileSaveAsAction_triggered();
     void on_editAddTuneAction_triggered();
     void on_editAddSymbolsAction_triggered();
     void insertSymbol(const QString &symbolName);
@@ -44,6 +47,7 @@ private:
     void createModelAndView();
     void createConnections();
     void createObjectNames();
+    void loadFile(const QString &fileName);
     QString instrumentFromCurrentIndex();
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
 

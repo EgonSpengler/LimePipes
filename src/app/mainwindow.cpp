@@ -18,8 +18,11 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 #include <QDir>
+#include <QFileDialog>
 #include <QMessageBox>
+#include <utilities/error.h>
 #include <musicmodel.h>
 #include <itemdatatypes.h>
 #include <musicproxymodel.h>
@@ -28,6 +31,13 @@
 #include <views/treeview/treeview.h>
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
+
+namespace {
+
+const int StatusTimeout =   10 /* seconds */
+                            * 1000 /* milli seconds */;
+
+}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -93,6 +103,64 @@ void MainWindow::on_fileNewAction_triggered()
     MusicModelInterface *musicModel;
     if ((musicModel = musicModelFromItemModel(m_model)))
         musicModel->clear();
+}
+
+void MainWindow::on_fileOpenAction_triggered()
+{
+    QString filename;
+    QString dir(".");
+
+    filename = QFileDialog::getOpenFileName(this,
+            tr("%1 - Open").arg(QApplication::applicationName()),
+            dir, tr("LimePipes (*.lime)"));
+
+    if (!filename.isEmpty())
+        loadFile(filename);
+}
+
+void MainWindow::loadFile(const QString &fileName)
+{
+    Q_UNUSED(fileName)
+}
+
+void MainWindow::on_fileSaveAction_triggered()
+{
+    MusicModelInterface *model = musicModelFromItemModel(m_model);
+    if (model->filename().isEmpty()) {
+        on_fileSaveAsAction_triggered();
+    } else {
+        try {
+            model->save();
+            setWindowTitle(tr("%1 - %2[*]")
+                    .arg(QApplication::applicationName())
+                    .arg(QFileInfo(model->filename()).fileName()));
+            statusBar()->showMessage(tr("Saved %1")
+                    .arg(model->filename()), StatusTimeout);
+        } catch (LP::Error &error) {
+            qWarning() << tr("Failed to save %1: %2").arg(model->filename())
+                          .arg(QString::fromUtf8(error.what()));
+        }
+    }
+}
+
+void MainWindow::on_fileSaveAsAction_triggered()
+{
+    MusicModelInterface *model = musicModelFromItemModel(m_model);
+    QString filename = model->filename();
+    QString dir = filename.isEmpty() ? "." : QFileInfo(filename).path();
+    filename = QFileDialog::getSaveFileName(this,
+            tr("%1 - Save As").arg(QApplication::applicationName()),
+            dir,
+            tr("%1 (*.lime)").arg(QApplication::applicationName()));
+
+    if (filename.isEmpty())
+        return;
+
+    if (!filename.toLower().endsWith(".lime"))
+        filename += ".lime";
+
+    model->setFilename(filename);
+    on_fileSaveAction_triggered();
 }
 
 void MainWindow::on_editAddTuneAction_triggered()

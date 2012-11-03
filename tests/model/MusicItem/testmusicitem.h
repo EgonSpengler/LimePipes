@@ -40,6 +40,8 @@ public:
         initData(123, 123);
     }
 
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }
+
 signals:
     void afterWritingDataCalled();
     void beforeWritingDataCalled();
