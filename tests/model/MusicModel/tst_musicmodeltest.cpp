@@ -10,6 +10,9 @@
 #include <QtTest/QtTest>
 #include <QSignalSpy>
 #include <QMetaType>
+#include <QStack>
+#include <QTemporaryFile>
+#include <QXmlStreamReader>
 #include "qt_modeltest/modeltest.h"
 #include <musicmodel.h>
 #include <itemdatatypes.h>
@@ -49,11 +52,15 @@ private Q_SLOTS:
     void testIsTune();
     void testIsSymbol();
     void testSetColumnCount();
+    void testSave();
 
 private:
+    bool isMusicItemTag(const QStringRef &tagName);
+    void checkTagHierarchy(const QStringRef &parentTag, const QStringRef &tag);
     MusicModel *m_model;
     QStringList m_instrumentNames;
     QStringList m_symbolNames;
+    QStringList m_musicItemTagNames;
 };
 
 void MusicModelTest::initTestcase()
@@ -69,6 +76,8 @@ void MusicModelTest::initTestcase()
         qWarning("Plugin's instrument has no symbols.");
         return;
     }
+
+    m_musicItemTagNames = QStringList() << "SCORE" << "TUNE" << "SYMBOL" << "LIMEPIPES";
 }
 
 void MusicModelTest::cleanupTestcase()
@@ -251,6 +260,65 @@ void MusicModelTest::testSetColumnCount()
     QVERIFY2(m_model->columnCount(QModelIndex()) == 1, "Default column count wasn't 1");
     m_model->setColumnCount(4);
     QVERIFY2(m_model->columnCount(QModelIndex()) == 4, "Can't set column count");
+}
+
+void MusicModelTest::testSave()
+{
+    QTemporaryFile tempFile;
+    QStack<QStringRef> musicItemTagStack;
+    Q_ASSERT(tempFile.open());
+
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    tune = m_model->insertTuneWithScore(0, "Second Score", m_instrumentNames.at(0));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+
+    m_model->save(tempFile.fileName());
+
+    QXmlStreamReader reader(&tempFile);
+
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (reader.isStartElement()) {
+            if (isMusicItemTag(reader.name())) {
+                if (musicItemTagStack.count())
+                    checkTagHierarchy(musicItemTagStack.top(), reader.name());
+                musicItemTagStack.push(reader.name());
+            }
+        }
+        if (reader.isEndElement()) {
+            if (isMusicItemTag(reader.name())) {
+                QVERIFY2(musicItemTagStack.pop() == reader.name(), "Music items are not correctly nested");
+            }
+        }
+    }
+    QVERIFY2(!reader.hasError(), "Error occured while reading saved xml file");
+}
+
+bool MusicModelTest::isMusicItemTag(const QStringRef &tagName)
+{
+    QString tag = QString().append(tagName);
+    return m_musicItemTagNames.contains(tag, Qt::CaseInsensitive);
+}
+
+void MusicModelTest::checkTagHierarchy(const QStringRef &parentTag, const QStringRef &tag)
+{
+    QString parentTagStr = QString().append(parentTag);
+    QString tagStr = QString().append(tag);
+
+    if (parentTagStr.compare("LIMEPIPES", Qt::CaseInsensitive) == 0) {
+        QVERIFY2(tagStr.compare("SCORE", Qt::CaseInsensitive) == 0, "Failed, tag can't be under LIMEPIPES tag");
+    }
+
+    if (parentTagStr.compare("SCORE", Qt::CaseInsensitive) == 0) {
+        QVERIFY2(tagStr.compare("TUNE", Qt::CaseInsensitive) == 0, "Failed, tag can't be under SCORE tag");
+    }
+
+    if (parentTagStr.compare("TUNE", Qt::CaseInsensitive) == 0) {
+        QVERIFY2(tagStr.compare("SYMBOL", Qt::CaseInsensitive) == 0, "Failed, tag can't be under TUNE tag");
+    }
 }
 
 QTEST_MAIN(MusicModelTest)
