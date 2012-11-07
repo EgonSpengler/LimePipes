@@ -69,3 +69,12 @@ void MelodyNote::writeItemDataToXmlStream(QXmlStreamWriter *writer)
             writer->writeTextElement("DOTS", QString::number(dots, 10));
     }
 }
+
+void MelodyNote::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
+{
+    if (QString("DOTS").compare(reader->name(), Qt::CaseInsensitive) == 0) {
+        int dots = reader->readElementText().toInt();
+        setData(dots, LP::melodyNoteDots);
+    }
+    Symbol::readCurrentElementFromXmlStream(reader);
+}

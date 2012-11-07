@@ -50,6 +50,7 @@ public:
     {
         setSymbolOptions(Symbol::HasPitch |
                          Symbol::HasLength);
+        initData(QVariant::fromValue<Length::Value>(Length::_16), LP::symbolLength);
     }
 
     void setGraphicBuilder(SymbolGraphicBuilder *builder) { setSymbolGraphicBuilder(builder); }
@@ -84,8 +85,11 @@ private Q_SLOTS:
     void testCreateSymbolPixmaps();
     void testAfterWritingDataCall();
     void testWriteToXmlStream();
+    void testReadFromXmlStream();
 
 private:
+    void readTextElement(const QString &tagName, const QString &elementText);
+    void readString(const QString &string);
     QString patternForTag(const QString &tagname, const QString &data);
     Symbol *m_symbol;
 };
@@ -225,6 +229,41 @@ QString SymbolTest::patternForTag(const QString &tagname, const QString &data)
 {
     QString tag = QString("<") + tagname + ">" + data;
     return tag;
+}
+
+void SymbolTest::testReadFromXmlStream()
+{
+    Length::Value length = Length::_64;
+    Q_ASSERT(length != m_symbol->length());
+
+    readTextElement("LENGTH", QString::number(length));
+    QVERIFY2(m_symbol->length() == length, "Failed reading length");
+}
+
+void SymbolTest::readTextElement(const QString &tagName, const QString &elementText)
+{
+    QString data = QString("<") + tagName + ">" + elementText + "</" + tagName +">";
+    readString(data);
+}
+
+void SymbolTest::readString(const QString &string)
+{
+    QXmlStreamReader reader(string);
+
+    QVERIFY2(!reader.atEnd(), "Reader already at end");
+    QVERIFY2(!reader.hasError(), "Reader has error");
+
+    while (reader.name().isEmpty()) {
+        reader.readNext();
+        if (reader.hasError())
+            break;
+    }
+
+    QVERIFY2(reader.isStartElement(), "No start element given");
+
+    m_symbol->readCurrentElementFromXmlStream(&reader);
+
+    QVERIFY2(!reader.hasError(), "Reader has error after loading");
 }
 
 QTEST_MAIN(SymbolTest)

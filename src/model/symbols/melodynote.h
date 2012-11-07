@@ -25,6 +25,7 @@ public:
     const static int MaxDots = 4;
 
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
     void initSymbol();

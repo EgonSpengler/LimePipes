@@ -74,6 +74,7 @@ private:
     void processScoreTag(QXmlStreamReader *reader, MusicItem **item);
     void processTuneTag(QXmlStreamReader *reader, MusicItem **item);
     void processSymbolTag(QXmlStreamReader *reader, MusicItem **item);
+    void readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem **item);
 
     bool isEndTagOfCurrentItem(QXmlStreamReader *reader, MusicItem *item);
     bool isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item);

@@ -65,6 +65,7 @@ private Q_SLOTS:
     void testValidTuneThreeValidSymbols();
     void testLoadedInstrument();
     void testLoadedSymbolName();
+    void testLoadedSymbolPitch();
 
 private:
     void checkForTuneCount(const QString &filename, int count);
@@ -492,7 +493,7 @@ void MusicModelTest::testLoadedInstrument()
 
 void MusicModelTest::testLoadedSymbolName()
 {
-    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_symbol*.lime");
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_symbol_*.lime");
     Q_ASSERT(fileInfos.count() > 0);
 
     foreach (QFileInfo file, fileInfos) {
@@ -512,6 +513,32 @@ void MusicModelTest::testLoadedSymbolName()
 
         QString symbolName = symbolNameVar.toString();
         QVERIFY2(symbolName == m_symbolNames.at(0), "Symbol name doesn't match");
+    }
+}
+
+void MusicModelTest::testLoadedSymbolPitch()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_symbolpitch*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        loadModel(file.absoluteFilePath());
+
+        QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+        QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
+        QModelIndex symbolIndex = m_model->index(0, 0, tuneIndex);
+
+        Q_ASSERT(scoreIndex.isValid() &&
+                 tuneIndex.isValid() &&
+                 symbolIndex.isValid());
+
+        QVariant symbolPitchVar = symbolIndex.data(LP::symbolPitch);
+        Q_ASSERT(symbolPitchVar.isValid());
+        Q_ASSERT(symbolPitchVar.canConvert<PitchPtr>());
+
+        PitchPtr pitch = symbolPitchVar.value<PitchPtr>();
+
+        QVERIFY2(pitch->name() == "Low A", "Failed loading Pitch");
     }
 }
 

@@ -28,7 +28,7 @@ private Q_SLOTS:
     void testConstructor();
     void testSetGetTitle();
     void testWriteToXmlStream();
-    void testReadFromStream();
+    void testReadFromXmlStream();
 
 private:
     void readTextElement(const QString &tagName, const QString &elementText);
@@ -124,7 +124,7 @@ void ScoreTest::testWriteToXmlStream()
     QVERIFY2(data.contains(TimeSignature::xmlTagName(), Qt::CaseInsensitive), "Time signature wasn't written to xml stream");
 }
 
-void ScoreTest::testReadFromStream()
+void ScoreTest::testReadFromXmlStream()
 {
     readTextElement("TiTlE", "Testtitle");
     QVERIFY2(m_score->title() == "Testtitle", "Failed loading score title with no uppercase tag");

@@ -134,7 +134,12 @@ void Symbol::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 
 void Symbol::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
 {
-    Q_UNUSED(reader)
+    if (QString("LENGTH").compare(reader->name(), Qt::CaseInsensitive) == 0) {
+        int length = reader->readElementText().toInt();
+        if (Length::lengthValues().contains(length)) {
+            setData(QVariant::fromValue<Length::Value>((Length::Value)length), LP::symbolLength);
+        }
+    }
 }
 
 void Symbol::writePitch(QXmlStreamWriter *writer)

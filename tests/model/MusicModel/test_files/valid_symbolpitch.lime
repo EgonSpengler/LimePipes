@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LIMEPIPES VERSION="0.1">
+    <SCORE>
+        <TUNE INSTRUMENT="Testinstrument">
+            <SYMBOL NAME="Testsymbol with pitch and length">
+		<PITCH>Low A</PITCH>
+            </SYMBOL>
+        </TUNE>
+    </SCORE>
+</LIMEPIPES>

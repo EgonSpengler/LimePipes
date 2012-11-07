@@ -324,6 +324,7 @@ void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)
                 processSymbolTag(reader, &item);
                 break;
             case MusicItem::SymbolType:
+                readPitchIfSymbolHasPitch(reader, &item);
                 item->readCurrentElementFromXmlStream(reader);
                 break;
             case MusicItem::NoItemType:
@@ -421,6 +422,27 @@ void MusicModel::processSymbolTag(QXmlStreamReader *reader, MusicItem **item)
         *item = newSymbolForTuneItem(reader, *item);
     else
         (*item)->readCurrentElementFromXmlStream(reader);
+}
+
+void MusicModel::readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem **item)
+{
+    Symbol *symbol = static_cast<Symbol*>(*item);
+    if (!symbol)
+        return;
+
+    if (reader->name() == "PITCH" &&
+        symbol->hasPitch()) {
+            InstrumentPtr instrument = instrumentFromItem((*item)->parent());
+            if (instrument->type() == LP::NoInstrument)
+                return;
+
+            QStringList pitchNames(instrument->pitchContext()->pitchNames());
+            QString readPitchName = reader->readElementText();
+            if (pitchNames.contains(readPitchName)) {
+                PitchPtr pitch = instrument->pitchContext()->pitchForName(readPitchName);
+                (*item)->setData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
+            }
+    }
 }
 
 bool MusicModel::isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item)

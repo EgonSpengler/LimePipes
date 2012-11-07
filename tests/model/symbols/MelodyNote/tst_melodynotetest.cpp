@@ -25,8 +25,11 @@ private Q_SLOTS:
     void testTypeAndNameConstructor();
     void testDots();
     void testWriteItemDataToStream();
+    void testReadFromXmlStream();
 
 private:
+    void readTextElement(const QString &tagName, const QString &elementText);
+    void readString(const QString &string);
     QString patternForTag(const QString &tagname, const QString &data);
     MelodyNote *m_melody;
 };
@@ -99,10 +102,51 @@ void MelodyNoteTest::testWriteItemDataToStream()
     QVERIFY2(data.contains(dotsTag, Qt::CaseInsensitive), "No melody dots tag found");
 }
 
+void MelodyNoteTest::testReadFromXmlStream()
+{
+    int dots = 2;
+    Q_ASSERT(dots != m_melody->data(LP::melodyNoteDots).toInt());
+
+    readTextElement("DOTS", QString::number(dots));
+    QVERIFY2(m_melody->data(LP::melodyNoteDots).toInt() == dots, "Failed reading dots");
+
+    Length::Value length = Length::_64;
+    Q_ASSERT(length != m_melody->length());
+
+    readTextElement("LENGTH", QString::number(length));
+    QVERIFY2(m_melody->length() == length, "Failed reading length");
+}
+
 QString MelodyNoteTest::patternForTag(const QString &tagname, const QString &data)
 {
     QString tag = QString("<") + tagname + ">" + data;
     return tag;
+}
+
+void MelodyNoteTest::readTextElement(const QString &tagName, const QString &elementText)
+{
+    QString data = QString("<") + tagName + ">" + elementText + "</" + tagName +">";
+    readString(data);
+}
+
+void MelodyNoteTest::readString(const QString &string)
+{
+    QXmlStreamReader reader(string);
+
+    QVERIFY2(!reader.atEnd(), "Reader already at end");
+    QVERIFY2(!reader.hasError(), "Reader has error");
+
+    while (reader.name().isEmpty()) {
+        reader.readNext();
+        if (reader.hasError())
+            break;
+    }
+
+    QVERIFY2(reader.isStartElement(), "No start element given");
+
+    m_melody->readCurrentElementFromXmlStream(&reader);
+
+    QVERIFY2(!reader.hasError(), "Reader has error after loading");
 }
 
 QTEST_MAIN(MelodyNoteTest)
