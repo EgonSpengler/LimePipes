@@ -21,7 +21,9 @@ private Q_SLOTS:
     void testBeatCount();
     void testBeatUnit();
     void testQVariant();
+    void testSetSignature();
     void testWriteToXmlStream();
+    void testReadFromXmlStream();
 };
 
 TimeSignatureTest::TimeSignatureTest()
@@ -58,6 +60,35 @@ void TimeSignatureTest::testQVariant()
     QVERIFY2(var.isValid(), "Failed setting TimeSignature as QVariant");
 }
 
+void TimeSignatureTest::testSetSignature()
+{
+    TimeSignature timeSig(TimeSignature::_2_4);
+
+    timeSig.setSignature(2, 2);
+    QVERIFY2(timeSig.signature() == TimeSignature::_2_2, "Failed setting signature");
+
+    timeSig.setSignature(2, 4);
+    QVERIFY2(timeSig.signature() == TimeSignature::_2_4, "Failed setting signature");
+
+    timeSig.setSignature(3, 4);
+    QVERIFY2(timeSig.signature() == TimeSignature::_3_4, "Failed setting signature");
+
+    timeSig.setSignature(4, 4);
+    QVERIFY2(timeSig.signature() == TimeSignature::_4_4, "Failed setting signature");
+
+    timeSig.setSignature(3, 8);
+    QVERIFY2(timeSig.signature() == TimeSignature::_3_8, "Failed setting signature");
+
+    timeSig.setSignature(6, 8);
+    QVERIFY2(timeSig.signature() == TimeSignature::_6_8, "Failed setting signature");
+
+    timeSig.setSignature(9, 8);
+    QVERIFY2(timeSig.signature() == TimeSignature::_9_8, "Failed setting signature");
+
+    timeSig.setSignature(12, 8);
+    QVERIFY2(timeSig.signature() == TimeSignature::_12_8, "Failed setting signature");
+}
+
 void TimeSignatureTest::testWriteToXmlStream()
 {
     QString data;
@@ -78,6 +109,39 @@ void TimeSignatureTest::testWriteToXmlStream()
     QVERIFY2(!data.contains(timeSigStartTag + timeSigEndTag, Qt::CaseInsensitive), "time sig end tag follows directly a start tag");
     QVERIFY2(data.contains(beatCountTag, Qt::CaseInsensitive), "No tag for beat count found");
     QVERIFY2(data.contains(beatUnitTag, Qt::CaseInsensitive), "No tag for beat unit found");
+}
+
+void TimeSignatureTest::testReadFromXmlStream()
+{
+    TimeSignature::Type timeSigType = TimeSignature::_12_8;
+    TimeSignature timeSig(timeSigType);
+    int beatCount = 3;
+    int beatUnit = 4;
+
+    QVERIFY2(timeSig.beatCount() != beatCount, "Beat count sould differ for the test");
+    QVERIFY2(timeSig.beatUnit() != beatUnit, "Beat unit should differ for the test");
+
+    QString data = QString("<") + TimeSignature::xmlTagName() + ">" +
+            "<BEATCOUNT>" + QString::number(beatCount) + "</BEATCOUNT>" +
+            "<BEATUNIT>" + QString::number(beatUnit) + "</BEATUNIT>" +
+            "</" + TimeSignature::xmlTagName() + ">";
+    QXmlStreamReader reader(data);
+
+    while (reader.name().isEmpty()) {
+        reader.readNext();
+        if (reader.hasError())
+            break;
+    }
+
+    QVERIFY2(reader.isStartElement(), "No start element given");
+
+    timeSig.readFromXmlStream(&reader);
+
+    QString errorMessage = QString("Reader has error after loading") + reader.errorString();
+    QVERIFY2(!reader.hasError(), errorMessage.toUtf8());
+
+    QVERIFY2(timeSig.beatCount() == beatCount, "Beat count wasn't loaded");
+    QVERIFY2(timeSig.beatUnit() == beatUnit, "Beat unit wasn't loaded");
 }
 
 QTEST_APPLESS_MAIN(TimeSignatureTest)

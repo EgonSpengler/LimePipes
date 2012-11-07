@@ -216,7 +216,7 @@ void SymbolTest::testWriteToXmlStream()
     QString pitchTag = patternForTag("PITCH", testPitch->name());
     QString lengthTag = patternForTag("LENGTH", QString::number(testLength, 10));
 
-    QVERIFY2(data.contains(nameTag, Qt::CaseInsensitive), "No symbol name tag found");
+    QVERIFY2(!data.contains(nameTag, Qt::CaseInsensitive), "Symbol tag was found");
     QVERIFY2(data.contains(pitchTag, Qt::CaseInsensitive), "No pitch tag found");
     QVERIFY2(data.contains(lengthTag, Qt::CaseInsensitive), "No length tag found");
 }

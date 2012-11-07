@@ -120,7 +120,23 @@ void MainWindow::on_fileOpenAction_triggered()
 
 void MainWindow::loadFile(const QString &fileName)
 {
-    Q_UNUSED(fileName)
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    MusicModelInterface *model = musicModelFromItemModel(m_model);
+    try {
+        model->load(fileName);
+
+        setWindowTitle(tr("%1 - %2[*]")
+                .arg(QApplication::applicationName())
+                .arg(QFileInfo(fileName).fileName()));
+        statusBar()->showMessage(tr("Loaded %1").arg(fileName),
+                                 StatusTimeout);
+    } catch (LP::Error &error) {
+        qWarning() << tr("Error") << tr("Failed to load %1: %2")
+                .arg(fileName).arg(QString::fromUtf8(error.what()));
+    }
+
+    QApplication::restoreOverrideCursor();
 }
 
 void MainWindow::on_fileSaveAction_triggered()

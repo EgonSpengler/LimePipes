@@ -15,8 +15,8 @@
 #include <datatypes/pitch.h>
 #include <QXmlStreamWriter>
 
-Symbol::Symbol()
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
+Symbol::Symbol(MusicItem *parent)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent),
       m_graphicBuilder(0)
 {
     setDefaultSymbolOptions();
@@ -126,12 +126,15 @@ bool Symbol::itemSupportsWritingOfData(int role) const
 
 void Symbol::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 {
-    if (data(LP::symbolName).isValid())
-        writer->writeTextElement("NAME", data(LP::symbolName).toString());
     if (this->hasPitch())
         writePitch(writer);
     if (this->hasLength())
         writeLength(writer);
+}
+
+void Symbol::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
+{
+    Q_UNUSED(reader)
 }
 
 void Symbol::writePitch(QXmlStreamWriter *writer)

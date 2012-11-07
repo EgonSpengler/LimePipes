@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <QDir>
 #include <QSignalSpy>
 #include <QMetaType>
 #include <QStack>
@@ -15,6 +16,7 @@
 #include <QXmlStreamReader>
 #include "qt_modeltest/modeltest.h"
 #include <musicmodel.h>
+#include <utilities/error.h>
 #include <itemdatatypes.h>
 #include <instrument.h>
 #include <symbol.h>
@@ -53,8 +55,23 @@ private Q_SLOTS:
     void testIsSymbol();
     void testSetColumnCount();
     void testSave();
+    void testInvalidDocuments();
+    void testValidMinimalDocuments();
+    void testValidDocumentThreeScores();
+    void testInvalidScores();
+    void testValidScoreThreeValidTunes();
+    void testInvalidTunes();
+    void testInvalidSymbols();
+    void testValidTuneThreeValidSymbols();
+    void testLoadedInstrument();
+    void testLoadedSymbolName();
 
 private:
+    void checkForTuneCount(const QString &filename, int count);
+    void checkForScoreCount(const QString &filename, int count);
+    void checkForSymbolCount(const QString &filename, int count);
+    void loadModel(const QString &filename);
+    QFileInfoList fileInfosForPatternList(const QStringList &patterns);
     bool isMusicItemTag(const QStringRef &tagName);
     void checkTagHierarchy(const QStringRef &parentTag, const QStringRef &tag);
     MusicModel *m_model;
@@ -279,6 +296,7 @@ void MusicModelTest::testSave()
 
     QXmlStreamReader reader(&tempFile);
 
+    // Check nesting of items
     while (!reader.atEnd()) {
         reader.readNext();
         if (reader.isStartElement()) {
@@ -294,7 +312,30 @@ void MusicModelTest::testSave()
             }
         }
     }
-    QVERIFY2(!reader.hasError(), "Error occured while reading saved xml file");
+    QString errorMessage = QString("Error occured while reading saved xml file: ") + reader.errorString();
+    QVERIFY2(!reader.hasError(), errorMessage.toUtf8());
+
+    // Check for instrument and symbol name attribute
+    tempFile.reset();
+    reader.setDevice(&tempFile);
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (reader.isStartElement()) {
+            if (reader.name() == "TUNE") {
+                QVERIFY2(reader.attributes().hasAttribute("INSTRUMENT"), "Tune has no instrument attribute");
+                QVERIFY2(reader.attributes().value("INSTRUMENT") == m_instrumentNames.at(0), "Tune returned wrong instrument name");
+            }
+            if (reader.name() == "SYMBOL") {
+                QVERIFY2(reader.attributes().hasAttribute("NAME"), "Symbol has no name attribute");
+                QVERIFY2(!reader.attributes().value("NAME").isEmpty(), "Symbol name was empty");
+            }
+        }
+        if (reader.isEndElement()) {
+
+        }
+    }
+    errorMessage = QString("Error occured while reading saved xml file for attribute check: ") + reader.errorString();
+    QVERIFY2(!reader.hasError(), errorMessage.toUtf8());
 }
 
 bool MusicModelTest::isMusicItemTag(const QStringRef &tagName)
@@ -319,6 +360,183 @@ void MusicModelTest::checkTagHierarchy(const QStringRef &parentTag, const QStrin
     if (parentTagStr.compare("TUNE", Qt::CaseInsensitive) == 0) {
         QVERIFY2(tagStr.compare("SYMBOL", Qt::CaseInsensitive) == 0, "Failed, tag can't be under TUNE tag");
     }
+}
+
+QFileInfoList MusicModelTest::fileInfosForPatternList(const QStringList &patterns)
+{
+    QDir testFileDir(QString(SRCDIR) + "test_files");
+    Q_ASSERT(testFileDir.exists());
+    return testFileDir.entryInfoList(patterns, QDir::Files);
+}
+
+void MusicModelTest::testInvalidDocuments()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "invalid_document*.lime");
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForScoreCount(file.absoluteFilePath(), 0);
+    }
+}
+
+void MusicModelTest::testValidMinimalDocuments()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_document_minimal*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForScoreCount(file.absoluteFilePath(), 1);
+    }
+}
+
+void MusicModelTest::testValidDocumentThreeScores()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_document_three_scores*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForScoreCount(file.absoluteFilePath(), 3);
+    }
+}
+
+void MusicModelTest::checkForScoreCount(const QString &filename, int count)
+{
+    loadModel(filename);
+    int scoreCount = m_model->rowCount(QModelIndex());
+    QString message = QString("Wrong count of scores loaded (") + QString::number(scoreCount) + " scores) from file: " + filename;
+    QVERIFY2(scoreCount == count, message.toUtf8());
+}
+
+void MusicModelTest::testInvalidScores()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "invalid_score*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForTuneCount(file.absoluteFilePath(), 0);
+    }
+}
+
+void MusicModelTest::testValidScoreThreeValidTunes()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_score_three*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForTuneCount(file.absoluteFilePath(), 3);
+    }
+}
+
+void MusicModelTest::checkForTuneCount(const QString &filename, int count)
+{
+    loadModel(filename);
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+
+    int tuneCount = 0;
+    if (scoreIndex.isValid())
+        tuneCount = m_model->rowCount(scoreIndex);
+
+    QString message = QString("Wrong count of scores loaded (" + QString::number(tuneCount) + " tunes) from file: ") + filename;
+    QVERIFY2(tuneCount == count, message.toUtf8());
+}
+
+void MusicModelTest::loadModel(const QString &filename)
+{
+    try {
+        m_model->load(filename);
+    } catch (LP::Error &error) {
+        qWarning() << "Error: " << QString::fromUtf8(error.what()) + filename;
+    }
+}
+
+void MusicModelTest::testInvalidTunes()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "invalid_tune*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForSymbolCount(file.absoluteFilePath(), 0);
+    }
+}
+
+void MusicModelTest::testValidTuneThreeValidSymbols()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_tune_three*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForSymbolCount(file.absoluteFilePath(), 3);
+    }
+}
+
+void MusicModelTest::testLoadedInstrument()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_tune_test_loaded_instrument*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        loadModel(file.absoluteFilePath());
+
+        QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+        QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
+
+        QVERIFY2(scoreIndex.isValid() && tuneIndex.isValid(), "No valid indexes");
+
+        QVariant instrumentVar = tuneIndex.data(LP::tuneInstrument);
+        QVERIFY2(instrumentVar.isValid(), "No valid instrument");
+        QVERIFY2(instrumentVar.canConvert<InstrumentPtr>(), "Can't convert into instrument");
+
+        InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+        QVERIFY2(instrument->name() == m_instrumentNames.at(0), "Valid instrument wasn't loaded");
+    }
+}
+
+void MusicModelTest::testLoadedSymbolName()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "valid_symbol*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        loadModel(file.absoluteFilePath());
+
+        QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+        QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
+        QModelIndex symbolIndex = m_model->index(0, 0, tuneIndex);
+
+        QVERIFY2(scoreIndex.isValid() &&
+                 tuneIndex.isValid() &&
+                 symbolIndex.isValid(), "No valid indexes");
+
+        QVariant symbolNameVar = symbolIndex.data(LP::symbolName);
+        QVERIFY2(symbolNameVar.isValid(), "No valid symbol name");
+        QVERIFY2(!symbolNameVar.toString().isEmpty(), "Symbol name is empty or invalid");
+
+        QString symbolName = symbolNameVar.toString();
+        QVERIFY2(symbolName == m_symbolNames.at(0), "Symbol name doesn't match");
+    }
+}
+
+void MusicModelTest::testInvalidSymbols()
+{
+    QFileInfoList fileInfos = fileInfosForPatternList(QStringList() << "invalid_symbol*.lime");
+    Q_ASSERT(fileInfos.count() > 0);
+
+    foreach (QFileInfo file, fileInfos) {
+        checkForSymbolCount(file.absoluteFilePath(), 0);
+    }
+}
+
+void MusicModelTest::checkForSymbolCount(const QString &filename, int count)
+{
+    loadModel(filename);
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+    QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
+
+    int symbolCount = 0;
+    if (scoreIndex.isValid() && tuneIndex.isValid())
+        symbolCount = m_model->rowCount(tuneIndex);
+
+    QString message = QString("Wrong count of symbols loaded (" + QString::number(symbolCount) + " symbols) from file: ") + filename;
+    QVERIFY2(symbolCount == count, message.toUtf8());
 }
 
 QTEST_MAIN(MusicModelTest)

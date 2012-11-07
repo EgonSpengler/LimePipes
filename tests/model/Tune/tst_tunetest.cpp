@@ -106,7 +106,7 @@ void TuneTest::testWriteToXmlStream()
     QString instrumentTag = QString("<instrument>") += m_instrument->name();
 
     m_tune->writeItemDataToXmlStream(&writer);
-    QVERIFY2(data.contains(instrumentTag, Qt::CaseInsensitive), "No instrument tag found");
+    QVERIFY2(!data.contains(instrumentTag, Qt::CaseInsensitive), "Instrument tag was found");
 }
 
 QTEST_APPLESS_MAIN(TuneTest)

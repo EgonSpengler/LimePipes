@@ -17,17 +17,19 @@
 class Tune : public MusicItem
 {
 public:
-    explicit Tune();
+    explicit Tune(MusicItem *parent=0);
     explicit Tune(InstrumentPtr instrument);
 
     InstrumentPtr instrument() const { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
+    void setInstrument(InstrumentPtr instrument);
+
     bool okToInsertChild(const MusicItem *item);
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
-    void setInstrument(InstrumentPtr instrument);
     const Symbol *symbolFromMusicItem(const MusicItem *item);
 };
 

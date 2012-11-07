@@ -28,8 +28,12 @@ private Q_SLOTS:
     void testConstructor();
     void testSetGetTitle();
     void testWriteToXmlStream();
+    void testReadFromStream();
 
 private:
+    void readTextElement(const QString &tagName, const QString &elementText);
+    void readTimeSignatureElement(TimeSignature::Type type);
+    void readString(const QString &string);
     QString patternForTag(const QString &tagname, const QString &data);
     Score *m_score;
 };
@@ -118,6 +122,65 @@ void ScoreTest::testWriteToXmlStream()
     QVERIFY2(data.contains(patternForTag("YEAR", scoreYear), Qt::CaseInsensitive), "No year tag found");
     QVERIFY2(data.contains(patternForTag("COPYRIGHT", scoreCopyright), Qt::CaseInsensitive), "No copyright tag found");
     QVERIFY2(data.contains(TimeSignature::xmlTagName(), Qt::CaseInsensitive), "Time signature wasn't written to xml stream");
+}
+
+void ScoreTest::testReadFromStream()
+{
+    readTextElement("TiTlE", "Testtitle");
+    QVERIFY2(m_score->title() == "Testtitle", "Failed loading score title with no uppercase tag");
+
+    readTextElement("CoMPOsER", "Test composer");
+    QVERIFY2(m_score->data(LP::scoreComposer) == "Test composer", "Failed loading score composer with no uppercase tag");
+
+    readTextElement("ARrANgER", "Test arranger");
+    QVERIFY2(m_score->data(LP::scoreArranger) == "Test arranger", "Failed loading score arranger with no uppercase tag");
+
+    readTextElement("YeAr", "Test year");
+    QVERIFY2(m_score->data(LP::scoreYear) == "Test year", "Failed loading score year with no uppercase tag");
+
+    readTextElement("CopYRIgHT", "Test copyright");
+    QVERIFY2(m_score->data(LP::scoreCopyright) == "Test copyright", "Failed loading score copyright with no uppercase tag");
+
+    TimeSignature::Type timeSig = TimeSignature::_12_8;
+    readTimeSignatureElement(timeSig);
+
+    QVERIFY2(m_score->data(LP::scoreTimeSignature).isValid(), "No valid time signature after loading");
+}
+
+void ScoreTest::readTextElement(const QString &tagName, const QString &elementText)
+{
+    QString data = QString("<") + tagName + ">" + elementText + "</" + tagName +">";
+    readString(data);
+}
+
+void ScoreTest::readString(const QString &string)
+{
+    QXmlStreamReader reader(string);
+
+    QVERIFY2(!reader.atEnd(), "Reader already at end");
+    QVERIFY2(!reader.hasError(), "Reader has error");
+
+    while (reader.name().isEmpty()) {
+        reader.readNext();
+        if (reader.hasError())
+            break;
+    }
+
+    QVERIFY2(reader.isStartElement(), "No start element given");
+
+    m_score->readCurrentElementFromXmlStream(&reader);
+
+    QVERIFY2(!reader.hasError(), "Reader has error after loading");
+}
+
+void ScoreTest::readTimeSignatureElement(TimeSignature::Type type)
+{
+    TimeSignature timeSig(type);
+    QString data;
+    QXmlStreamWriter writer(&data);
+    timeSig.writeToXmlStream(&writer);
+
+    readString(data);
 }
 
 QString ScoreTest::patternForTag(const QString &tagname, const QString &data)

@@ -241,6 +241,14 @@ void MusicProxyModel::save(const QString &filename)
     }
 }
 
+void MusicProxyModel::load(const QString &filename)
+{
+    if (MusicModel *model = musicModel()) {
+        model->setFilename(filename);
+        model->load(filename);
+    }
+}
+
 bool MusicProxyModel::isIndexScore(const QModelIndex &index) const
 {
     if (MusicModel *model = musicModel()) {

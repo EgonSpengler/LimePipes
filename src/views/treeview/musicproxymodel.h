@@ -52,6 +52,7 @@ public:
     QStringList symbolNamesForInstrument(const QString &instrument) const;
 
     void save(const QString &filename=QString());
+    void load(const QString &filename);
 
 private:
     MusicModel *musicModel() const;

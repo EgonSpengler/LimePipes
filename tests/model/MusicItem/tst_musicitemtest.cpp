@@ -35,6 +35,8 @@ private slots:
     void testInitData();
     void testItemSupportsWritingOfData();
     void testChildAt();
+    void testTakeChild();
+    void testParent();
     void testRowOfChild();
     void testChildCount();
     void testHasChildren();
@@ -45,6 +47,7 @@ private slots:
     void testSwapChildren();
     void testType();
     void testChildType();
+    void testSetParent();
     void testOkToInsertChild();
     void testAfterWritingDataCallback();
     void testBeforeWritingDataCallback();
@@ -112,6 +115,20 @@ void MusicItemTest::testItemSupportsWritingOfData()
 void MusicItemTest::testChildAt()
 {
     QVERIFY2(m_parent->childAt(1) == m_child2, "Failed to get the childitem at row");
+}
+
+void MusicItemTest::testTakeChild()
+{
+    int childCountBefore = m_parent->childCount();
+    MusicItem *item = m_parent->takeChild(1);
+    QVERIFY2(m_parent->childCount() == childCountBefore - 1, "Failed taking child");
+    QVERIFY2(item == m_child2, "Failed, took wrong child");
+    QVERIFY2(item->parent() == 0, "Failed, removed item has still a parent");
+}
+
+void MusicItemTest::testParent()
+{
+    QVERIFY2(m_child1->parent() == m_parent, "Failed getting right parent");
 }
 
 void MusicItemTest::testRowOfChild()
@@ -219,6 +236,16 @@ void MusicItemTest::testChildType()
 {
     // A MusicItem is used as the root item. So the child type should be ScoreType
     QVERIFY2(m_parent->childType() == MusicItem::ScoreType, "childType() in MusicItem doesn't return ScoreType");
+}
+
+void MusicItemTest::testSetParent()
+{
+    MusicItem *item = musicItemFactory(MusicItem::RootItemType);
+
+    m_child1->setParent(item);
+
+    QVERIFY2(m_child1->parent() == item, "Failed setting parent");
+    QVERIFY2(item->rowOfChild(m_child1) != -1, "Item was not added to parent");
 }
 
 void MusicItemTest::testOkToInsertChild()

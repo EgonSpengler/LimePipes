@@ -41,6 +41,7 @@ public:
     }
 
     void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader) { Q_UNUSED(reader) }
 
 signals:
     void afterWritingDataCalled();

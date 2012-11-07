@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LiMEpipES VERSION="0.1">
+    <sCOrE>
+        <tUNe INSTRUMENT="Testinstrument">
+            <SyMBOl NAME="Testsymbol with pitch and length">
+            </SyMBOl>
+            <SyMBOl>
+            </SyMBOl>
+            <SyMBOl NAME="Testsymbol with pitch and length">
+            </SyMBOl>
+            <SyMBOl NAME="Testsymbol with pitch and length">
+            </SyMBOl>
+        </tUNe>
+    </sCOrE>
+</LiMEpipES>

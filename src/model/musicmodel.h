@@ -10,11 +10,13 @@
 #define MUSICMODEL_H
 
 #include <QAbstractItemModel>
+#include <QHash>
 #include <instrumentmanager.h>
 #include <musicmodelinterface.h>
 #include <musicitem.h>
 
 class QXmlStreamWriter;
+class QXmlStreamReader;
 
 class MusicModel :  public QAbstractItemModel,
                     public MusicModelInterface
@@ -59,19 +61,56 @@ public:
     QStringList symbolNamesForInstrument(const QString &instrument) const { return m_instrumentManager->symbolNamesForInstrument(instrument); }
 
     void save(const QString &filename);
+    void load(const QString &filename);
 
 private:
     void writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const;
-    const QString tagNameFromItem(MusicItem *musicItem) const;
+
+    void writeTuneAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const;
+    void writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const;
+
+    void readMusicItems(QXmlStreamReader *reader, MusicItem *item);
+
+    void processScoreTag(QXmlStreamReader *reader, MusicItem **item);
+    void processTuneTag(QXmlStreamReader *reader, MusicItem **item);
+    void processSymbolTag(QXmlStreamReader *reader, MusicItem **item);
+
+    bool isEndTagOfCurrentItem(QXmlStreamReader *reader, MusicItem *item);
+    bool isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item);
+    bool isValidTuneTag(QXmlStreamReader *reader);
+    bool isValidScoreTag(QXmlStreamReader *reader);
+
+    bool tagHasNonEmptyAttribute(QXmlStreamReader *reader, const QString &attributeName);
+    bool tagHasNameOfItemType(QStringRef tagname, MusicItem::Type type);
+
+    bool instrumentNameIsSupported(const QString &instrumentName);
+    bool symbolNameIsSupported(QXmlStreamReader *reader, MusicItem *tuneItem);
+
+    MusicItem *newTuneWithInstrument(QXmlStreamReader *reader, MusicItem *item);
+    MusicItem *newSymbolForTuneItem(QXmlStreamReader *reader, MusicItem *item);
+
+    InstrumentPtr instrumentFromItem(MusicItem *item);
+    template<typename T>
+    T *itemPointerToNewChildItem(MusicItem **parent);
+
+    QString attributeValue(QXmlStreamReader *reader, const QString &attributeName);
+
+    const QString tagNameOfMusicItemType(MusicItem::Type type) const;
 
     bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;
     void createRootItemIfNotPresent();
     bool isRowValid(MusicItem *item, int row) const;
 
+    static QHash<int, QString> initItemTypeTags();
+    bool isMusicItemTag(const QString &tagName);
+    bool isMusicItemTag(const QStringRef &tagName);
+
+
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
     MusicItem *m_rootItem;
     int m_columnCount;
     InstrumentManager *m_instrumentManager;
+    static QHash<int, QString> s_itemTypeTags;
 };
 
 #endif // MUSICMODEL_H

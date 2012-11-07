@@ -12,6 +12,7 @@
 #include <QMetaType>
 
 class QXmlStreamWriter;
+class QXmlStreamReader;
 
 class TimeSignature
 {
@@ -35,10 +36,15 @@ public:
     static int beatCount(Type type);
     static int beatUnit(Type type);
 
+    int beatCount() const;
+    int beatUnit() const;
+
     void setSignature(Type type) { m_type = type; }
+    void setSignature(int beatCount, int beatUnit);
     Type signature() const { return m_type; }
 
     void writeToXmlStream(QXmlStreamWriter *writer);
+    void readFromXmlStream(QXmlStreamReader *reader);
     static QString xmlTagName() { return s_xmlTagName; }
 
 private:

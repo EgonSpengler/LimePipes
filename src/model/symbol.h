@@ -28,7 +28,7 @@ public:
     };
     Q_DECLARE_FLAGS(Options, Option)
 
-    explicit Symbol();
+    explicit Symbol(MusicItem *parent=0);
     explicit Symbol(int type, const QString &name);
     virtual ~Symbol();
 
@@ -45,6 +45,7 @@ public:
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 protected:
     void setSymbolOptions(Symbol::Options options);

@@ -16,7 +16,7 @@
 class Score : public MusicItem
 {
 public:
-    explicit Score();
+    explicit Score(MusicItem *parent=0);
     explicit Score(const QString &title);
 
     void setTitle(const QString &title);
@@ -24,6 +24,7 @@ public:
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
     QString textDataForRole(LP::DataRole role);

@@ -31,6 +31,22 @@ MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
         m_parent->addChild(this);
 }
 
+void MusicItem::setParent(MusicItem *parent)
+{
+    Q_ASSERT(parent);
+
+    if (m_parent != 0) {
+        int rowOfThisItemInParent = m_parent->rowOfChild(this);
+        Q_ASSERT(rowOfThisItemInParent != -1);
+        MusicItem *thisItem = m_parent->takeChild(rowOfThisItemInParent);
+        Q_ASSERT(thisItem == this);
+        Q_ASSERT(m_parent == 0);
+    }
+
+    m_parent = parent;
+    m_parent->addChild(this);
+}
+
 bool MusicItem::insertChild(int row, MusicItem *item)
 {
     if (m_childType == NoItemType)
@@ -55,6 +71,14 @@ bool MusicItem::addChild(MusicItem *item)
         return true;
     }
     return false;
+}
+
+MusicItem *MusicItem::takeChild(int row)
+{
+    MusicItem *item = m_children.takeAt(row);
+    Q_ASSERT(item);
+    item->m_parent = 0;
+    return item;
 }
 
 QVariant MusicItem::data(int role) const

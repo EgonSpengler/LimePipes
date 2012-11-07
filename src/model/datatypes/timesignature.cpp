@@ -13,6 +13,7 @@
 
 #include "timesignature.h"
 #include <QXmlStreamWriter>
+#include <QXmlStreamReader>
 
 QString TimeSignature::s_xmlTagName = QString("TIMESIG");
 
@@ -69,10 +70,80 @@ int TimeSignature::beatUnit(TimeSignature::Type type)
     }
 }
 
+int TimeSignature::beatCount() const
+{
+    return TimeSignature::beatCount(m_type);
+}
+
+int TimeSignature::beatUnit() const
+{
+    return TimeSignature::beatUnit(m_type);
+}
+
+void TimeSignature::setSignature(int beatCount, int beatUnit)
+{
+    if (beatCount != 2 &&
+        beatCount != 3 &&
+        beatCount != 4 &&
+        beatCount != 6 &&
+        beatCount != 9 &&
+        beatCount != 12)
+        return;
+
+    if (beatUnit != 2 &&
+        beatUnit != 4 &&
+        beatUnit != 8)
+        return;
+
+    if (beatCount ==  2 && beatUnit == 2) m_type = _2_2;
+    if (beatCount ==  2 && beatUnit == 4) m_type = _2_4;
+    if (beatCount ==  3 && beatUnit == 4) m_type = _3_4;
+    if (beatCount ==  4 && beatUnit == 4) m_type = _4_4;
+    if (beatCount ==  3 && beatUnit == 8) m_type = _3_8;
+    if (beatCount ==  6 && beatUnit == 8) m_type = _6_8;
+    if (beatCount ==  9 && beatUnit == 8) m_type =  _9_8;
+    if (beatCount == 12 && beatUnit == 8) m_type = _12_8;
+}
+
 void TimeSignature::writeToXmlStream(QXmlStreamWriter *writer)
 {
     writer->writeStartElement(s_xmlTagName);
     writer->writeTextElement("BEATCOUNT", QString::number(beatCount(m_type)));
     writer->writeTextElement("BEATUNIT", QString::number(beatUnit(m_type)));
     writer->writeEndElement();
+}
+
+void TimeSignature::readFromXmlStream(QXmlStreamReader *reader)
+{
+    int beatCount = 0;
+    int beatUnit = 0;
+
+    while (reader->readNext()) {
+        if (reader->isStartElement()) {
+            if (reader->name() == "BEATCOUNT") {
+                QString beatCountText = QString().append(reader->readElementText());
+                beatCount = beatCountText.toInt();
+            }
+            else if (reader->name() == "BEATUNIT") {
+                QString beatUnitText = QString().append(reader->readElementText());
+                beatUnit = beatUnitText.toInt();
+            }
+            else
+                break;
+        }
+
+        if (reader->isEndElement()) {
+            if (reader->name() == s_xmlTagName ||
+                (beatCount != 0 && beatUnit != 0))
+            break;
+        }
+
+        if (reader->hasError())
+            break;
+    }
+
+    if (beatCount != 0 &&
+        beatUnit != 0) {
+        setSignature(beatCount, beatUnit);
+    }
 }

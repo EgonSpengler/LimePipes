@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MANGOPIPES VERSION="0.1">
+    <SCORE>
+        <TITLE>Highland Cathedral</TITLE>
+        <TUNE>
+            <INSTRUMENT>Great Highland Bagpipe</INSTRUMENT>
+            <SYMBOL>
+                <NAME>Melody Note</NAME>
+                <PITCH>Low G</PITCH>
+                <LENGTH>1</LENGTH>
+            </SYMBOL>
+            <SYMBOL>
+                <NAME>Bar</NAME>
+            </SYMBOL>
+        </TUNE>
+    </SCORE>
+</MANGOPIPES>

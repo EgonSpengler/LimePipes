@@ -15,8 +15,8 @@
 #include <QXmlStreamWriter>
 #include <timesignature.h>
 
-Score::Score()
-    : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
+Score::Score(MusicItem *parent)
+    : MusicItem(MusicItem::ScoreType, MusicItem::TuneType, parent)
 {
 }
 
@@ -64,6 +64,30 @@ void Score::writeItemDataToXmlStream(QXmlStreamWriter *writer)
         timeSigVar.canConvert<TimeSignature>()) {
         TimeSignature timeSig = timeSigVar.value<TimeSignature>();
         timeSig.writeToXmlStream(writer);
+    }
+}
+
+void Score::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
+{
+    if (QString("TITLE").compare(reader->name(), Qt::CaseInsensitive) == 0)
+        setTitle(reader->readElementText());
+
+    if (QString("COMPOSER").compare(reader->name(), Qt::CaseInsensitive) == 0)
+        setData(reader->readElementText(), LP::scoreComposer);
+
+    if (QString("ARRANGER").compare(reader->name(), Qt::CaseInsensitive) == 0)
+        setData(reader->readElementText(), LP::scoreArranger);
+
+    if (QString("COPYRIGHT").compare(reader->name(), Qt::CaseInsensitive) == 0)
+        setData(reader->readElementText(), LP::scoreCopyright);
+
+    if (QString("YEAR").compare(reader->name(), Qt::CaseInsensitive) == 0)
+        setData(reader->readElementText(), LP::scoreYear);
+
+    if (TimeSignature::xmlTagName().compare(reader->name(), Qt::CaseInsensitive) == 0) {
+        TimeSignature timeSig;
+        timeSig.readFromXmlStream(reader);
+        setData(QVariant::fromValue<TimeSignature>(timeSig), LP::scoreTimeSignature);
     }
 }
 

@@ -44,6 +44,7 @@ public:
     void setFilename(const QString &filename) { m_filename = filename; }
 
     virtual void save(const QString &filename=QString()) = 0;
+    virtual void load(const QString &filename=QString()) = 0;
 
 protected:
     QString m_filename;

@@ -15,6 +15,7 @@
 #include <QVariant>
 
 class QXmlStreamWriter;
+class QXmlStreamReader;
 
 class MusicItem
 {
@@ -34,6 +35,7 @@ public:
     Type childType() const { return m_childType; }
 
     MusicItem *parent() const { return m_parent; }
+    void setParent(MusicItem *parent);
 
     bool hasChildren() const { return !m_children.isEmpty(); }
     bool insertChild(int row, MusicItem *item);
@@ -42,6 +44,7 @@ public:
     int rowOfChild(MusicItem *item) const { return m_children.indexOf(item); }
     int childCount() const { return m_children.count(); }
     MusicItem *childAt(int row) const { return m_children.value(row); }
+    MusicItem *takeChild(int row);
     QList<MusicItem*> children() const { return m_children; }
     virtual bool okToInsertChild( const MusicItem *item ) { Q_UNUSED(item) return true; }
 
@@ -50,11 +53,13 @@ public:
 
     virtual bool itemSupportsWritingOfData(int role) const = 0;
     virtual void writeItemDataToXmlStream(QXmlStreamWriter *writer) = 0;
+    virtual void readCurrentElementFromXmlStream(QXmlStreamReader *reader) = 0;
 
 protected:
     void initData(const QVariant &value, int role) { writeData(value, role); }
     virtual void beforeWritingData(QVariant &value, int role);
     virtual void afterWritingData(int role);
+
     QMap<int, QVariant> m_data;
 
 private:

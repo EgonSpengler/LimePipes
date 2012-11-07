@@ -19,8 +19,8 @@ void Tune::setInstrument(InstrumentPtr instrument)
     m_data.insert(LP::tuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
 }
 
-Tune::Tune()
-    : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
+Tune::Tune(MusicItem *parent)
+    : MusicItem(MusicItem::TuneType, MusicItem::SymbolType, parent)
 {
     setInstrument(InstrumentPtr(new NullInstrument()));
 }
@@ -54,5 +54,10 @@ bool Tune::itemSupportsWritingOfData(int role) const
 
 void Tune::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 {
-    writer->writeTextElement("INSTRUMENT", instrument()->name());
+    Q_UNUSED(writer)
+}
+
+void Tune::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
+{
+    Q_UNUSED(reader)
 }

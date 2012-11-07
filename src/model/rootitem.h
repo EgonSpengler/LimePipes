@@ -18,6 +18,7 @@ public:
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader) { Q_UNUSED(reader) }
 };
 
 #endif // ROOTITEM_H
