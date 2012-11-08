@@ -144,6 +144,21 @@ void MusicModel::setColumnCount(int columns)
     m_columnCount = columns;
 }
 
+bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
+{
+    if (!m_rootItem)
+        return false;
+
+    MusicItem *item = parent.isValid() ? itemForIndex(parent)
+                                       : m_rootItem;
+
+    beginRemoveRows(parent, row, row + count - 1);
+    for (int i = 0; i < count; ++i)
+        delete item->takeChild(row);
+    endRemoveRows();
+    return true;
+}
+
 QModelIndex MusicModel::insertScore(int row, const QString &title)
 {
     createRootItemIfNotPresent();

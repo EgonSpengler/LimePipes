@@ -40,6 +40,8 @@ public:
     int columnCount(const QModelIndex &parent) const;
     void setColumnCount(int columns);
 
+    bool removeRows(int row, int count, const QModelIndex &parent);
+
     // MusicModelInterface
     QModelIndex insertScore(int row, const QString &title);
     QModelIndex appendScore(const QString &title);

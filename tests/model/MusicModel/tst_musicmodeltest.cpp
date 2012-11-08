@@ -23,6 +23,8 @@
 #include <score.h>
 #include <tune.h>
 
+#include <QDebug>
+
 Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
 
 class MusicModelTest : public QObject
@@ -54,6 +56,7 @@ private Q_SLOTS:
     void testIsTune();
     void testIsSymbol();
     void testSetColumnCount();
+    void testRemoveRows();
     void testSave();
     void testInvalidDocuments();
     void testValidMinimalDocuments();
@@ -278,6 +281,38 @@ void MusicModelTest::testSetColumnCount()
     QVERIFY2(m_model->columnCount(QModelIndex()) == 1, "Default column count wasn't 1");
     m_model->setColumnCount(4);
     QVERIFY2(m_model->columnCount(QModelIndex()) == 4, "Can't set column count");
+}
+
+void MusicModelTest::testRemoveRows()
+{
+    QString symbolNameWithLength = "Testsymbol with pitch and length";
+    int indexOfTestsymbol = m_symbolNames.indexOf(symbolNameWithLength);
+    Q_ASSERT(indexOfTestsymbol != -1);
+
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex symbol1 = m_model->insertSymbol(0, tune, symbolNameWithLength);
+    m_model->setData(symbol1, Length::_1, LP::symbolLength);
+    QModelIndex symbol2 = m_model->insertSymbol(0, tune, symbolNameWithLength);
+    m_model->setData(symbol2, Length::_2, LP::symbolLength);
+    QModelIndex symbol3 = m_model->insertSymbol(0, tune, symbolNameWithLength);
+    m_model->setData(symbol3, Length::_4, LP::symbolLength);
+
+    Q_ASSERT(m_model->rowCount(tune) == 3);
+
+    QModelIndex thirdSymbol = m_model->index(2, 0, tune);
+    Q_ASSERT(thirdSymbol.isValid());
+    Length::Value lengthOfThirdSymbol = m_model->data(thirdSymbol, LP::symbolLength).value<Length::Value>();
+
+    QVERIFY2(m_model->removeRows(0, 2, tune), "Remove rows returned false");
+
+    QVERIFY2(m_model->rowCount(tune) == 1, "Wrong row count after removing rows");
+
+    QModelIndex lastRemainingSymbol = m_model->index(0, 0, tune);
+    Q_ASSERT(thirdSymbol.isValid());
+
+    Length::Value lengthOfLastRemaining = m_model->data(lastRemainingSymbol, LP::symbolLength).value<Length::Value>();
+
+    QVERIFY2(lengthOfThirdSymbol == lengthOfLastRemaining, "Length value of last remaining symbol is wron");
 }
 
 void MusicModelTest::testSave()
