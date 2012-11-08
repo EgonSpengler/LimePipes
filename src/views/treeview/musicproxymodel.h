@@ -15,7 +15,7 @@
 class MusicModel;
 
 class MusicProxyModel : public QSortFilterProxyModel,
-                        public MusicModelInterface
+        public MusicModelInterface
 {
     Q_OBJECT
 public:

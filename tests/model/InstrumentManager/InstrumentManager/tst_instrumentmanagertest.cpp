@@ -31,7 +31,7 @@ public:
           m_manager(0)
     {}
     ~InstrumentManagerTest()
-        { delete m_manager, delete m_pluginsPath; }
+    { delete m_manager, delete m_pluginsPath; }
 
 private Q_SLOTS:
     void initTestCase();

@@ -63,7 +63,7 @@ void MelodyNote::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 
     QVariant dotsVar = data(LP::melodyNoteDots);
     if (dotsVar.isValid() &&
-        dotsVar.canConvert<int>()) {
+            dotsVar.canConvert<int>()) {
         int dots = dotsVar.value<int>();
         if (dots > 0)
             writer->writeTextElement("DOTS", QString::number(dots, 10));

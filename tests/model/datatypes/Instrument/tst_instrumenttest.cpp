@@ -36,7 +36,7 @@ private:
         TestInstrument(LP::InstrumentType type, const QString &name, PitchContextPtr pitchContext = PitchContextPtr(new PitchContext()))
             : Instrument(type, name, pitchContext) {}
         bool supportsSymbolType(int type) const
-            { Q_UNUSED(type) return false; }
+        { Q_UNUSED(type) return false; }
     };
 
     InstrumentPtr m_instrument;

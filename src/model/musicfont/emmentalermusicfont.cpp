@@ -68,7 +68,7 @@ void EmmentalerMusicFont::addRestGlyphs()
     addGlyphNumber(Rests_M1,    0xE106);
     addGlyphNumber(Rests_2,     0xE107);
     addGlyphNumber(Rests_2classical,
-                                0xE108);
+                   0xE108);
     addGlyphNumber(Rests_3,     0xE109);
     addGlyphNumber(Rests_4,     0xE10A);
     addGlyphNumber(Rests_5,     0xE10B);
@@ -94,7 +94,7 @@ void EmmentalerMusicFont::addClefGlyphs()
     addGlyphNumber(Clefs_F,     0xE16E);
     addGlyphNumber(Clefs_G,     0xE170);
     addGlyphNumber(Clefs_Percussion,
-                                0xE172);
+                   0xE172);
     addGlyphNumber(Clefs_Tab,   0xE174);
 }
 

@@ -18,7 +18,7 @@
 namespace {
 
 class TestGraphicBuilder :  public QObject,
-                            public SymbolGraphicBuilder
+        public SymbolGraphicBuilder
 {
     Q_OBJECT
 public:
@@ -41,7 +41,7 @@ signals:
 };
 
 class TestSymbol :  public QObject,
-                    public Symbol
+        public Symbol
 {
     Q_OBJECT
 public:

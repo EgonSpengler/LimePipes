@@ -61,7 +61,7 @@ void Score::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 
     QVariant timeSigVar = data(LP::scoreTimeSignature);
     if (timeSigVar.isValid() &&
-        timeSigVar.canConvert<TimeSignature>()) {
+            timeSigVar.canConvert<TimeSignature>()) {
         TimeSignature timeSig = timeSigVar.value<TimeSignature>();
         timeSig.writeToXmlStream(writer);
     }

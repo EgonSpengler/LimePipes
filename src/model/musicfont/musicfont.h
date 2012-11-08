@@ -28,12 +28,12 @@ public:
 
         // Rests
         Rests_0, Rests_1, Rests_0o, Rests_1o, Rests_M3, Rests_M2, Rests_M1,
-            Rests_2, Rests_2classical, Rests_3, Rests_4, Rests_5, Rests_6, Rests_7,
+        Rests_2, Rests_2classical, Rests_3, Rests_4, Rests_5, Rests_6, Rests_7,
 
         // Accidentals
         Accidentals_Sharp, Accidentals_Sharp_ArrowUp, Accidentals_Sharp_ArrowDown, Accidentals_Sharp_ArrowBoth,
-            Accidentals_Sharp_SlashSlash_Stem, Accidentals_Sharp_SlashSlashSlash_StemStem, Accidentals_Sharp_SlashSlashSlash_Stem,
-            Accidentals_Sharp_SlashSlash_StemStemStem,
+        Accidentals_Sharp_SlashSlash_Stem, Accidentals_Sharp_SlashSlashSlash_StemStem, Accidentals_Sharp_SlashSlashSlash_Stem,
+        Accidentals_Sharp_SlashSlash_StemStemStem,
 
         // Clefs
         Clefs_C, Clefs_F, Clefs_G, Clefs_Percussion, Clefs_Tab,

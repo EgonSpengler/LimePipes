@@ -96,7 +96,7 @@ void Symbol::setSymbolGraphicBuilder(SymbolGraphicBuilder *builder)
 void Symbol::afterWritingData(int role)
 {
     if (m_graphicBuilder != 0 &&
-        m_graphicBuilder->isSymbolGraphicAffectedByDataRole(role))
+            m_graphicBuilder->isSymbolGraphicAffectedByDataRole(role))
     {
         m_graphicBuilder->updateSymbolGraphic();
     }
@@ -115,7 +115,7 @@ bool Symbol::itemSupportsWritingOfData(int role) const
     switch (role) {
     case LP::symbolPitch:
         if (this->hasPitch())
-        return true;
+            return true;
     case LP::symbolLength:
         if (this->hasLength())
             return true;
@@ -146,7 +146,7 @@ void Symbol::writePitch(QXmlStreamWriter *writer)
 {
     QVariant pitchVar = data(LP::symbolPitch);
     if (pitchVar.isValid() &&
-        pitchVar.canConvert<PitchPtr>()) {
+            pitchVar.canConvert<PitchPtr>()) {
         PitchPtr pitch = pitchVar.value<PitchPtr>();
         writer->writeTextElement("PITCH", pitch->name());
     }
@@ -156,7 +156,7 @@ void Symbol::writeLength(QXmlStreamWriter *writer)
 {
     QVariant lengthVar = data(LP::symbolLength);
     if (lengthVar.isValid() &&
-        lengthVar.canConvert<Length::Value>()) {
+            lengthVar.canConvert<Length::Value>()) {
         Length::Value length = lengthVar.value<Length::Value>();
         writer->writeTextElement("LENGTH", QString::number(length, 10));
     }

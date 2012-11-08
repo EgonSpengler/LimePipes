@@ -34,8 +34,9 @@ Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
 namespace {
 
-const int StatusTimeout =   10 /* seconds */
-                            * 1000 /* milli seconds */;
+const int StatusTimeout =
+        10      /* seconds */
+        * 1000  /* milli seconds */;
 
 }
 
@@ -111,8 +112,8 @@ void MainWindow::on_fileOpenAction_triggered()
     QString dir(".");
 
     filename = QFileDialog::getOpenFileName(this,
-            tr("%1 - Open").arg(QApplication::applicationName()),
-            dir, tr("LimePipes (*.lime)"));
+                                            tr("%1 - Open").arg(QApplication::applicationName()),
+                                            dir, tr("LimePipes (*.lime)"));
 
     if (!filename.isEmpty())
         loadFile(filename);
@@ -127,13 +128,13 @@ void MainWindow::loadFile(const QString &fileName)
         model->load(fileName);
 
         setWindowTitle(tr("%1 - %2[*]")
-                .arg(QApplication::applicationName())
-                .arg(QFileInfo(fileName).fileName()));
+                       .arg(QApplication::applicationName())
+                       .arg(QFileInfo(fileName).fileName()));
         statusBar()->showMessage(tr("Loaded %1").arg(fileName),
                                  StatusTimeout);
     } catch (LP::Error &error) {
         qWarning() << tr("Error") << tr("Failed to load %1: %2")
-                .arg(fileName).arg(QString::fromUtf8(error.what()));
+                      .arg(fileName).arg(QString::fromUtf8(error.what()));
     }
 
     QApplication::restoreOverrideCursor();
@@ -148,10 +149,10 @@ void MainWindow::on_fileSaveAction_triggered()
         try {
             model->save();
             setWindowTitle(tr("%1 - %2[*]")
-                    .arg(QApplication::applicationName())
-                    .arg(QFileInfo(model->filename()).fileName()));
+                           .arg(QApplication::applicationName())
+                           .arg(QFileInfo(model->filename()).fileName()));
             statusBar()->showMessage(tr("Saved %1")
-                    .arg(model->filename()), StatusTimeout);
+                                     .arg(model->filename()), StatusTimeout);
         } catch (LP::Error &error) {
             qWarning() << tr("Failed to save %1: %2").arg(model->filename())
                           .arg(QString::fromUtf8(error.what()));
@@ -165,9 +166,9 @@ void MainWindow::on_fileSaveAsAction_triggered()
     QString filename = model->filename();
     QString dir = filename.isEmpty() ? "." : QFileInfo(filename).path();
     filename = QFileDialog::getSaveFileName(this,
-            tr("%1 - Save As").arg(QApplication::applicationName()),
-            dir,
-            tr("%1 (*.lime)").arg(QApplication::applicationName()));
+                                            tr("%1 - Save As").arg(QApplication::applicationName()),
+                                            dir,
+                                            tr("%1 (*.lime)").arg(QApplication::applicationName()));
 
     if (filename.isEmpty())
         return;

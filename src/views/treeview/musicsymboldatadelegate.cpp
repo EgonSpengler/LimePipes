@@ -33,7 +33,7 @@ void MusicSymbolDataDelegate::setEditorData(QWidget *editor, const QModelIndex &
         return;
 
     if (model->isIndexSymbol(index) &&
-        hasSymbolDelegateData(index) == false)
+            hasSymbolDelegateData(index) == false)
         return;
 
     QStringList items = comboBoxItems(index);
@@ -51,7 +51,7 @@ void MusicSymbolDataDelegate::setModelData(QWidget *editor, QAbstractItemModel *
 
     const MusicModelInterface *musicModel = musicModelFromIndex(index);
     if (!musicModel ||
-        !isSymbolIndexOk(index))
+            !isSymbolIndexOk(index))
         return;
 
     if (musicModel->isIndexSymbol(index)) {
@@ -69,8 +69,8 @@ bool MusicSymbolDataDelegate::isSymbolIndexOk(const QModelIndex &index) const
 {
     const MusicModelInterface *model = musicModelFromIndex(index);
     if (model &&
-        model->isIndexSymbol(index) &&
-        model->isIndexTune(index.parent()))
+            model->isIndexSymbol(index) &&
+            model->isIndexTune(index.parent()))
         return true;
     return false;
 }

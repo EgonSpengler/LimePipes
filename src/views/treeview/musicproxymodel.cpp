@@ -122,7 +122,7 @@ QVariant MusicProxyModel::lengthColumnData(const QModelIndex &index, int role) c
 QVariant MusicProxyModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if (orientation == Qt::Horizontal &&
-        role == Qt::DisplayRole) {
+            role == Qt::DisplayRole) {
         if (section == ItemColumn)
             return tr("Music item");
         if (section == PitchColumn)

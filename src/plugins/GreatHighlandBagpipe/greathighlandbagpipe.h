@@ -15,9 +15,9 @@
 #include <instrumentinterface.h>
 #include <symbolinterface.h>
 
-class GreatHighlandBagpipe : public QObject,
-                             public InstrumentInterface,
-                             public SymbolInterface
+class GreatHighlandBagpipe :    public QObject,
+                                public InstrumentInterface,
+                                public SymbolInterface
 {
     Q_OBJECT
     Q_INTERFACES(InstrumentInterface SymbolInterface)

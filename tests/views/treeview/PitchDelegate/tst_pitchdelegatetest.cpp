@@ -76,7 +76,7 @@ void PitchDelegateTest::initTestCase()
 
     QVariant instrumentVar = m_tuneIndex->data(LP::tuneInstrument);
     if (!instrumentVar.isValid())
-            qWarning("Tune has no instrument");
+        qWarning("Tune has no instrument");
     if (instrumentVar.canConvert<InstrumentPtr>()) {
         m_instrument = instrumentVar.value<InstrumentPtr>();
     } else {

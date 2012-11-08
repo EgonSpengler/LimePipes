@@ -114,7 +114,7 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
     painter->save();
     QVariant dotCountVariant = itemData(LP::melodyNoteDots);
     if (dotCountVariant.isValid() &&
-        dotCountVariant.canConvert<int>()) {
+            dotCountVariant.canConvert<int>()) {
 
         int dotCount = dotCountVariant.value<int>();
 
@@ -130,8 +130,8 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
 bool MelodyNoteGraphicBuilder::isSymbolGraphicAffectedByDataRole(int role)
 {
     if (role == LP::symbolPitch ||
-        role == LP::symbolLength ||
-        role == LP::melodyNoteDots)
+            role == LP::symbolLength ||
+            role == LP::melodyNoteDots)
         return true;
     return false;
 }

@@ -19,7 +19,7 @@ class QXmlStreamWriter;
 class QXmlStreamReader;
 
 class MusicModel :  public QAbstractItemModel,
-                    public MusicModelInterface
+        public MusicModelInterface
 {
     Q_OBJECT
 

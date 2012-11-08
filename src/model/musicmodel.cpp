@@ -379,7 +379,7 @@ void MusicModel::processTuneTag(QXmlStreamReader *reader, MusicItem **item)
 bool MusicModel::isValidTuneTag(QXmlStreamReader *reader)
 {
     if (tagHasNameOfItemType(reader->name(), MusicItem::TuneType) &&
-        tagHasNonEmptyAttribute(reader, "INSTRUMENT") &&
+            tagHasNonEmptyAttribute(reader, "INSTRUMENT") &&
             instrumentNameIsSupported(attributeValue(reader, "INSTRUMENT"))) {
         return true;
     }
@@ -431,25 +431,25 @@ void MusicModel::readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem *
         return;
 
     if (reader->name() == "PITCH" &&
-        symbol->hasPitch()) {
-            InstrumentPtr instrument = instrumentFromItem((*item)->parent());
-            if (instrument->type() == LP::NoInstrument)
-                return;
+            symbol->hasPitch()) {
+        InstrumentPtr instrument = instrumentFromItem((*item)->parent());
+        if (instrument->type() == LP::NoInstrument)
+            return;
 
-            QStringList pitchNames(instrument->pitchContext()->pitchNames());
-            QString readPitchName = reader->readElementText();
-            if (pitchNames.contains(readPitchName)) {
-                PitchPtr pitch = instrument->pitchContext()->pitchForName(readPitchName);
-                (*item)->setData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
-            }
+        QStringList pitchNames(instrument->pitchContext()->pitchNames());
+        QString readPitchName = reader->readElementText();
+        if (pitchNames.contains(readPitchName)) {
+            PitchPtr pitch = instrument->pitchContext()->pitchForName(readPitchName);
+            (*item)->setData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
+        }
     }
 }
 
 bool MusicModel::isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item)
 {
     if (tagHasNameOfItemType(reader->name(), MusicItem::SymbolType) &&
-        tagHasNonEmptyAttribute(reader, "NAME") &&
-        symbolNameIsSupported(reader, item)) {
+            tagHasNonEmptyAttribute(reader, "NAME") &&
+            symbolNameIsSupported(reader, item)) {
         return true;
     }
     return false;
@@ -476,7 +476,7 @@ InstrumentPtr MusicModel::instrumentFromItem(MusicItem *item)
 {
     QVariant instrumentVar = item->data(LP::tuneInstrument);
     if (instrumentVar.isValid() &&
-        instrumentVar.canConvert<InstrumentPtr>()) {
+            instrumentVar.canConvert<InstrumentPtr>()) {
         return instrumentVar.value<InstrumentPtr>();
     }
     return InstrumentPtr(new NullInstrument());
@@ -499,7 +499,7 @@ MusicItem *MusicModel::newSymbolForTuneItem(QXmlStreamReader *reader, MusicItem 
 bool MusicModel::isEndTagOfCurrentItem(QXmlStreamReader *reader, MusicItem *item)
 {
     if (isMusicItemTag(reader->name()) &&
-        tagNameOfMusicItemType(item->type()).compare(reader->name(), Qt::CaseInsensitive) == 0) {
+            tagNameOfMusicItemType(item->type()).compare(reader->name(), Qt::CaseInsensitive) == 0) {
         return true;
     }
     return false;

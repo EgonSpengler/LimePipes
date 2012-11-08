@@ -83,16 +83,16 @@ int TimeSignature::beatUnit() const
 void TimeSignature::setSignature(int beatCount, int beatUnit)
 {
     if (beatCount != 2 &&
-        beatCount != 3 &&
-        beatCount != 4 &&
-        beatCount != 6 &&
-        beatCount != 9 &&
-        beatCount != 12)
+            beatCount != 3 &&
+            beatCount != 4 &&
+            beatCount != 6 &&
+            beatCount != 9 &&
+            beatCount != 12)
         return;
 
     if (beatUnit != 2 &&
-        beatUnit != 4 &&
-        beatUnit != 8)
+            beatUnit != 4 &&
+            beatUnit != 8)
         return;
 
     if (beatCount ==  2 && beatUnit == 2) m_type = _2_2;
@@ -134,8 +134,8 @@ void TimeSignature::readFromXmlStream(QXmlStreamReader *reader)
 
         if (reader->isEndElement()) {
             if (reader->name() == s_xmlTagName ||
-                (beatCount != 0 && beatUnit != 0))
-            break;
+                    (beatCount != 0 && beatUnit != 0))
+                break;
         }
 
         if (reader->hasError())
@@ -143,7 +143,7 @@ void TimeSignature::readFromXmlStream(QXmlStreamReader *reader)
     }
 
     if (beatCount != 0 &&
-        beatUnit != 0) {
+            beatUnit != 0) {
         setSignature(beatCount, beatUnit);
     }
 }
