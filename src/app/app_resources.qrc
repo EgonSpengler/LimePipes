@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/application">
         <file alias="application_icon">resources/img/application.svg</file>
+        <file alias="document-new">resources/img/document-new.svg</file>
+        <file alias="document-open">resources/img/document-open.svg</file>
+        <file alias="document-save">resources/img/document-save.svg</file>
+        <file alias="document-save-as">resources/img/document-save-as.svg</file>
     </qresource>
 </RCC>
