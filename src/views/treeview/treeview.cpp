@@ -21,6 +21,11 @@ TreeView::TreeView(QWidget *parent)
 
     m_lengthDelegate = new LengthDelegate();
     setItemDelegateForColumn(2, m_lengthDelegate);
+
+    setSelectionMode(QAbstractItemView::ContiguousSelection);
+    setDragEnabled(true);
+    setAcceptDrops(true);
+    setDropIndicatorShown(true);
 }
 
 TreeView::~TreeView()

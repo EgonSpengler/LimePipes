@@ -23,9 +23,16 @@
 #include <score.h>
 #include <tune.h>
 
-#include <QDebug>
-
 Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
+
+namespace {
+
+const int CompressionLevelOfMimeData = 9;
+const QString ScoreMimeType  = "application/vnd.limepipes.xml.score.z";
+const QString TuneMimeType   = "application/vnd.limepipes.xml.tune.z";
+const QString SymbolMimeType = "application/vnd.limepipes.xml.symbol.z";
+
+}
 
 class MusicModelTest : public QObject
 {
@@ -69,12 +76,19 @@ private Q_SLOTS:
     void testLoadedInstrument();
     void testLoadedSymbolName();
     void testLoadedSymbolPitch();
+    void testSupportedDragAndDropActions();
+    void testMimeTypes();
+    void testMimeData();
 
 private:
     void checkForTuneCount(const QString &filename, int count);
     void checkForScoreCount(const QString &filename, int count);
     void checkForSymbolCount(const QString &filename, int count);
     void loadModel(const QString &filename);
+    void populateModelWithTestdata();
+    void checkMimeDataForTags(const QModelIndexList &indexes, const QString &tagName);
+    void checkMimeDataForTagname(const QMimeData *data, const QString &tagname);
+    void checkRootChildItemsForTagnameAndCount(QXmlStreamReader *reader, const QString &tagName, int count);
     QFileInfoList fileInfosForPatternList(const QStringList &patterns);
     bool isMusicItemTag(const QStringRef &tagName);
     void checkTagHierarchy(const QStringRef &parentTag, const QStringRef &tag);
@@ -575,6 +589,136 @@ void MusicModelTest::testLoadedSymbolPitch()
 
         QVERIFY2(pitch->name() == "Low A", "Failed loading Pitch");
     }
+}
+
+void MusicModelTest::testSupportedDragAndDropActions()
+{
+    QVERIFY2(m_model->supportedDragActions() == Qt::MoveAction, "Model doesn't support move drag action");
+    QVERIFY2(m_model->supportedDropActions() == Qt::MoveAction, "Model doesn't support move drop action");
+}
+
+void MusicModelTest::testMimeTypes()
+{
+    QVERIFY2(m_model->mimeTypes().contains(ScoreMimeType), "Mime types doesn't contain score type");
+    QVERIFY2(m_model->mimeTypes().contains(TuneMimeType), "Mime types doesn't contain tune type");
+    QVERIFY2(m_model->mimeTypes().contains(SymbolMimeType), "Mime types doesn't contain symbol type");
+}
+
+void MusicModelTest::testMimeData()
+{
+    populateModelWithTestdata();
+    QModelIndex scoreIndex1 = m_model->index(0, 0, QModelIndex());
+    Q_ASSERT(scoreIndex1.isValid());
+    QModelIndex scoreIndex2 = m_model->index(1, 0, QModelIndex());
+    Q_ASSERT(scoreIndex2.isValid());
+
+    QModelIndex tuneIndex1 = m_model->index(0, 0, scoreIndex1);
+    Q_ASSERT(tuneIndex1.isValid());
+    QModelIndex tuneIndex2 = m_model->index(0, 0, scoreIndex2);
+    Q_ASSERT(tuneIndex2.isValid());
+
+    QModelIndex symbolIndex1 = m_model->index(0, 0, tuneIndex1);
+    Q_ASSERT(symbolIndex1.isValid());
+    QModelIndex symbolIndex2 = m_model->index(1, 0, tuneIndex1);
+    Q_ASSERT(symbolIndex2.isValid());
+
+    QModelIndexList indexList = QModelIndexList() << tuneIndex1 << scoreIndex1;
+    QVERIFY2(m_model->mimeData(indexList) == 0, "Model should always return 0 if model indexes are from different hierarchy");
+
+    indexList.clear();
+    indexList << symbolIndex1 << symbolIndex2;
+    QVERIFY2(m_model->mimeData(indexList) != 0, "Model should return non 0 value if indexes are the same hierarchy");
+
+    indexList.clear();
+    indexList << scoreIndex1 << scoreIndex2;
+    checkMimeDataForTags(indexList, "SCORE");
+
+    indexList.clear();
+    indexList << tuneIndex1 << tuneIndex2;
+    checkMimeDataForTags(indexList, "TUNE");
+
+    indexList.clear();
+    indexList << symbolIndex1 << symbolIndex2;
+    checkMimeDataForTags(indexList, "SYMBOL");
+}
+
+void MusicModelTest::populateModelWithTestdata()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(1));
+    tune = m_model->insertTuneWithScore(0, "Second Score", m_instrumentNames.at(0));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(1));
+    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+}
+
+void MusicModelTest::checkMimeDataForTags(const QModelIndexList &indexes, const QString &tagName)
+{
+    QMimeData *mimeData = m_model->mimeData(indexes);
+    checkMimeDataForTagname(mimeData, tagName);
+
+    QVERIFY2(mimeData->formats().count() == 1, "More than one format is supported by data");
+    const QString dataFormat = mimeData->formats().at(0);
+
+    QByteArray xmlData = qUncompress(mimeData->data(dataFormat));
+    Q_ASSERT(!xmlData.isEmpty());
+
+    QXmlStreamReader reader(xmlData);
+    checkRootChildItemsForTagnameAndCount(&reader, tagName, indexes.count());
+}
+
+void MusicModelTest::checkMimeDataForTagname(const QMimeData *data, const QString &tagname)
+{
+    if (tagname.compare("SCORE", Qt::CaseInsensitive) == 0) {
+        QVERIFY2(data->hasFormat(ScoreMimeType), "Mime data has no score format");
+        return;
+    }
+    else if (tagname.compare("TUNE", Qt::CaseInsensitive) == 0) {
+        QVERIFY2(data->hasFormat(TuneMimeType), "Mime data has no tune format");
+        return;
+    }
+    else if (tagname.compare("SYMBOL", Qt::CaseInsensitive) == 0) {
+        QVERIFY2(data->hasFormat(SymbolMimeType), "Mime data has no symbol format");
+        return;
+    }
+    else {
+        Q_ASSERT(true);
+    }
+}
+
+void MusicModelTest::checkRootChildItemsForTagnameAndCount(QXmlStreamReader *reader, const QString &tagName, int count)
+{
+    QStack<QString> tagNameStack;
+
+    int countOfXmlRootChildTags = 0;
+    while (!reader->atEnd()) {
+        reader->readNext();
+        if (reader->isStartElement()) {
+            if (tagNameStack.count() == 1) { // Root child
+                if (tagName.compare(reader->name(), Qt::CaseInsensitive) == 0) {
+                    countOfXmlRootChildTags++;
+                } else {
+                    Q_ASSERT(true);
+                }
+            }
+            tagNameStack.push(QString().append(reader->name()));
+        }
+        if (reader->isEndElement()) {
+            bool tagNameIsTopOfStack = tagNameStack.top().compare(reader->name(), Qt::CaseInsensitive) == 0;
+
+            QVERIFY2(tagNameIsTopOfStack, "No valid xml");
+            Q_ASSERT(tagNameIsTopOfStack);
+
+            if (tagNameIsTopOfStack) {
+                tagNameStack.pop();
+            }
+        }
+    }
+
+    QString errorMessage = reader->errorString();
+    QVERIFY2(!reader->hasError(), errorMessage.toUtf8());
+
+    QVERIFY2(count == countOfXmlRootChildTags, "Wrong count of root items in mime data");
 }
 
 void MusicModelTest::testInvalidSymbols()

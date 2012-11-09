@@ -13,12 +13,22 @@
 
 #include "musicmodel.h"
 #include <QDebug>
+#include <QMimeData>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <rootitem.h>
 #include <score.h>
 #include <tune.h>
 #include <utilities/error.h>
+
+namespace {
+
+const int MaxCompression = 9;
+const QString ScoreMimeType  = "application/vnd.limepipes.xml.score.z";
+const QString TuneMimeType   = "application/vnd.limepipes.xml.tune.z";
+const QString SymbolMimeType = "application/vnd.limepipes.xml.symbol.z";
+
+}
 
 QHash<int, QString> MusicModel::s_itemTypeTags = initItemTypeTags();
 
@@ -65,9 +75,12 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
 {
     Qt::ItemFlags theFlags = QAbstractItemModel::flags(index);
     if (index.isValid()) {
-        theFlags |= Qt::ItemIsSelectable |
-                Qt::ItemIsEnabled |
-                Qt::ItemIsEditable;
+        theFlags |= Qt::ItemIsSelectable
+                | Qt::ItemIsEnabled
+                | Qt::ItemIsEditable;
+        if (index.column() == 0) {
+            theFlags |= Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
+        }
     }
     return theFlags;
 }
@@ -157,6 +170,84 @@ bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
         delete item->takeChild(row);
     endRemoveRows();
     return true;
+}
+
+QStringList MusicModel::mimeTypes() const
+{
+    return QStringList() << ScoreMimeType << TuneMimeType << SymbolMimeType;
+}
+
+QMimeData *MusicModel::mimeData(const QModelIndexList &indexes) const
+{
+    Q_ASSERT(indexes.count());
+    if (!allModelIndexesHaveTheSameMusicItemType(indexes))
+        return 0;
+
+    QString mimeDataType;
+    QMimeData *mimeData = new QMimeData();
+    QByteArray xmlData;
+    QXmlStreamWriter writer(&xmlData);
+
+    writer.writeStartElement("DRAGITEMS");
+    foreach (QModelIndex index, indexes) {
+        if (MusicItem *item = itemForIndex(index)) {
+            if (mimeDataType.isEmpty())
+                mimeDataType = mimeTypeForItem(item);
+
+            writeMusicItemAndChildren(&writer, item);
+        }
+    }
+    writer.writeEndElement();
+
+    if (!mimeDataType.isEmpty()) {
+        mimeData->setData(mimeDataType, qCompress(xmlData, MaxCompression));
+        return mimeData;
+    }
+    return 0;
+}
+
+bool MusicModel::allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &indexes) const
+{
+    int itemType = -1;
+    MusicItem *item = 0;
+    foreach (QModelIndex index, indexes) {
+        item = itemForIndex(index);
+        if (!item)
+            return false;
+
+        if (itemType == -1)
+            itemType = item->type();
+        else {
+            if (item->type() != itemType) {
+                qWarning() << "Not all indexes have the same type.";
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+const QString MusicModel::mimeTypeForItem(const MusicItem *item) const
+{
+    switch (item->type()) {
+    case MusicItem::ScoreType:
+        return ScoreMimeType;
+    case MusicItem::TuneType:
+        return TuneMimeType;
+    case MusicItem::SymbolType:
+        return SymbolMimeType;
+    default:
+        return QString();
+    }
+}
+
+bool MusicModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    qDebug() << "drop mime data called";
+    qDebug() << "parent index: " << parent;
+    qDebug() << "row: " << row;
+    qDebug() << "column: " << column;
+    return false;
 }
 
 QModelIndex MusicModel::insertScore(int row, const QString &title)
@@ -347,11 +438,9 @@ void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)
                 break;
             }
         }
-        else if (reader->isEndElement()) {
-            if (isEndTagOfCurrentItem(reader, item)) {
-                item = item->parent();
-            }
-        }
+        if (reader->isEndElement() &&
+                isEndTagOfCurrentItem(reader, item))
+            item = item->parent();
     }
 no_valid_document:
     ;/* Nothing to do */

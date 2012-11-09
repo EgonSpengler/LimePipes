@@ -42,6 +42,11 @@ public:
 
     bool removeRows(int row, int count, const QModelIndex &parent);
 
+    Qt::DropActions supportedDropActions() const { return Qt::MoveAction; }
+    QStringList mimeTypes() const;
+    QMimeData *mimeData(const QModelIndexList &indexes) const;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+
     // MusicModelInterface
     QModelIndex insertScore(int row, const QString &title);
     QModelIndex appendScore(const QString &title);
@@ -66,6 +71,9 @@ public:
     void load(const QString &filename);
 
 private:
+    bool allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &indexes) const;
+    const QString mimeTypeForItem(const MusicItem *item) const;
+
     void writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const;
 
     void writeTuneAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const;
