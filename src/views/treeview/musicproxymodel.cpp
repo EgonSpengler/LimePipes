@@ -249,6 +249,14 @@ void MusicProxyModel::load(const QString &filename)
     }
 }
 
+QUndoStack *MusicProxyModel::undoStack() const
+{
+    if (MusicModel *model = musicModel()) {
+        return model->undoStack();
+    }
+    return 0;
+}
+
 bool MusicProxyModel::isIndexScore(const QModelIndex &index) const
 {
     if (MusicModel *model = musicModel()) {

@@ -16,6 +16,7 @@ class Tune;
 class Symbol;
 class QModelIndex;
 class QStringList;
+class QUndoStack;
 class MusicItem;
 
 class MusicModelInterface
@@ -45,6 +46,8 @@ public:
 
     virtual void save(const QString &filename=QString()) = 0;
     virtual void load(const QString &filename=QString()) = 0;
+
+    virtual QUndoStack *undoStack() const = 0;
 
 protected:
     QString m_filename;

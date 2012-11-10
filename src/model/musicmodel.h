@@ -17,6 +17,7 @@
 
 class QXmlStreamWriter;
 class QXmlStreamReader;
+class QUndoStack;
 
 class MusicModel :  public QAbstractItemModel,
         public MusicModelInterface
@@ -70,6 +71,8 @@ public:
     void save(const QString &filename);
     void load(const QString &filename);
 
+    QUndoStack *undoStack() const { return m_undoStack; }
+
 private:
     bool allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &indexes) const;
     const QString mimeTypeForItem(const MusicItem *item) const;
@@ -118,12 +121,13 @@ private:
     bool isMusicItemTag(const QString &tagName);
     bool isMusicItemTag(const QStringRef &tagName);
 
-
     QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
+
     MusicItem *m_rootItem;
     int m_columnCount;
     InstrumentManager *m_instrumentManager;
     static QHash<int, QString> s_itemTypeTags;
+    QUndoStack *m_undoStack;
 };
 
 #endif // MUSICMODEL_H

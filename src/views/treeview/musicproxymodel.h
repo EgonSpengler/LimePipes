@@ -54,6 +54,8 @@ public:
     void save(const QString &filename=QString());
     void load(const QString &filename);
 
+    QUndoStack *undoStack() const;
+
 private:
     MusicModel *musicModel() const;
     QVariant itemColumnData(const QModelIndex &index, int role) const;

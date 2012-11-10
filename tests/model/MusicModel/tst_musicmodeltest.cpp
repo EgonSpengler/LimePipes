@@ -82,6 +82,7 @@ private Q_SLOTS:
     void testDropMimeDataScores();
     void testDropMimeDataTunes();
     void testDropMimeDataSymbols();
+    void testUndoStack();
 
 private:
     void checkForTuneCount(const QString &filename, int count);
@@ -722,6 +723,11 @@ void MusicModelTest::testDropMimeDataSymbols()
     QModelIndex model2Symbol = model2.index(0, 0, tuneModel2);
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol");
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
+}
+
+void MusicModelTest::testUndoStack()
+{
+    QVERIFY2(m_model->undoStack() != 0, "No undo stack returned");
 }
 
 void MusicModelTest::populateModelWithTestdata()

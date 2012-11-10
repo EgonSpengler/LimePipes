@@ -19,6 +19,7 @@
 #include "musicmodel.h"
 #include <QDebug>
 #include <QMimeData>
+#include <QUndoStack>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <rootitem.h>
@@ -47,20 +48,11 @@ QHash<int, QString> MusicModel::initItemTypeTags()
     return typeTags;
 }
 
-bool MusicModel::isMusicItemTag(const QString &tagName)
-{
-    return s_itemTypeTags.values().contains(tagName.toUpper());
-}
-
-bool MusicModel::isMusicItemTag(const QStringRef &tagName)
-{
-    return isMusicItemTag(QString().append(tagName));
-}
-
 MusicModel::MusicModel(QObject *parent)
     : QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1)
 {
     m_instrumentManager = new InstrumentManager(pluginsDir());
+    m_undoStack = new QUndoStack(this);
 }
 
 MusicModel::~MusicModel()
@@ -530,6 +522,16 @@ void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)
     }
 no_valid_document:
     ;/* Nothing to do */
+}
+
+bool MusicModel::isMusicItemTag(const QString &tagName)
+{
+    return s_itemTypeTags.values().contains(tagName.toUpper());
+}
+
+bool MusicModel::isMusicItemTag(const QStringRef &tagName)
+{
+    return isMusicItemTag(QString().append(tagName));
 }
 
 void MusicModel::processScoreTag(QXmlStreamReader *reader, MusicItem **item)
