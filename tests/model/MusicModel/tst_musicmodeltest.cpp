@@ -79,6 +79,9 @@ private Q_SLOTS:
     void testSupportedDragAndDropActions();
     void testMimeTypes();
     void testMimeData();
+    void testDropMimeDataScores();
+    void testDropMimeDataTunes();
+    void testDropMimeDataSymbols();
 
 private:
     void checkForTuneCount(const QString &filename, int count);
@@ -640,6 +643,85 @@ void MusicModelTest::testMimeData()
     indexList.clear();
     indexList << symbolIndex1 << symbolIndex2;
     checkMimeDataForTags(indexList, "SYMBOL");
+}
+
+void MusicModelTest::testDropMimeDataScores()
+{
+    populateModelWithTestdata();
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+    Q_ASSERT(scoreIndex.isValid());
+    QModelIndex scoreIndex2 = m_model->index(1, 0, QModelIndex());
+    Q_ASSERT(scoreIndex2.isValid());
+    QMimeData *data = m_model->mimeData(QModelIndexList() << scoreIndex << scoreIndex2);
+
+    QString scoreTitleRow0 = m_model->data(scoreIndex, LP::scoreTitle).toString();
+    Q_ASSERT(!scoreTitleRow0.isEmpty());
+    QString scoreTitleRow1 = m_model->data(scoreIndex2, LP::scoreTitle).toString();
+    Q_ASSERT(!scoreTitleRow1.isEmpty());
+
+    MusicModel model2;
+    model2.dropMimeData(data, Qt::MoveAction, 0, 0, QModelIndex());
+    QVERIFY2(model2.rowCount(QModelIndex()) == 2, "Failed dropping scores into model");
+
+    QModelIndex droppedScore1 = model2.index(0, 0, QModelIndex());
+    QString droppedScoreTitleRow0 = model2.data(droppedScore1, LP::scoreTitle).toString();
+    Q_ASSERT(!droppedScoreTitleRow0.isEmpty());
+
+    QModelIndex droppedScore2 = model2.index(1, 0, QModelIndex());
+    QString droppedScoreTitleRow1 = model2.data(droppedScore2, LP::scoreTitle).toString();
+    Q_ASSERT(!droppedScoreTitleRow1.isEmpty());
+
+    QVERIFY2(scoreTitleRow0 == droppedScoreTitleRow0, "Dropped score in row 0 is on wrong place");
+    QVERIFY2(scoreTitleRow1 == droppedScoreTitleRow1, "Dropped score in row 1 is on wrong place");
+
+    model2.clear();
+    model2.dropMimeData(data, Qt::MoveAction, -1, -1, QModelIndex());
+    QVERIFY2(model2.rowCount(QModelIndex()) == 2, "Failed dropping scores at end");
+}
+
+void MusicModelTest::testDropMimeDataTunes()
+{
+    populateModelWithTestdata();
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+    Q_ASSERT(scoreIndex.isValid());
+    QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
+    Q_ASSERT(tuneIndex.isValid());
+    QMimeData *data = m_model->mimeData(QModelIndexList() << tuneIndex);
+
+    MusicModel model2;
+    QModelIndex scoreModel2 = model2.insertScore(0, "New Score");
+    model2.dropMimeData(data, Qt::MoveAction, 0, 0, scoreModel2);
+    QVERIFY2(model2.rowCount(scoreModel2) == 1, "Tune wasn't inserted");
+}
+
+void MusicModelTest::testDropMimeDataSymbols()
+{
+    QString symbolNameWithLength = "Testsymbol with pitch and length";
+    populateModelWithTestdata();
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+    Q_ASSERT(scoreIndex.isValid());
+    QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
+    Q_ASSERT(tuneIndex.isValid());
+
+    for (int i = 0; i < 2; i++)
+        m_model->insertSymbol(0, tuneIndex, symbolNameWithLength);
+
+    QModelIndex symbol1 = m_model->index(0, 0, tuneIndex);
+    m_model->setData(symbol1, QVariant::fromValue<Length::Value>(Length::_1), LP::symbolLength);
+    QModelIndex symbol2 = m_model->index(1, 0, tuneIndex);
+    m_model->setData(symbol2, QVariant::fromValue<Length::Value>(Length::_2), LP::symbolLength);
+
+    Q_ASSERT(m_model->data(symbol1, LP::symbolLength).isValid());
+
+    QMimeData *data = m_model->mimeData(QModelIndexList() << symbol1 << symbol1);
+    MusicModel model2;
+    QModelIndex tuneModel2 = model2.insertTuneWithScore(0, "test score", m_instrumentNames.at(0));
+    model2.dropMimeData(data, Qt::MoveAction, 0, 0, tuneModel2);
+
+    QVERIFY2(model2.rowCount(tuneModel2) == 2, "Failed inserting symbols");
+    QModelIndex model2Symbol = model2.index(0, 0, tuneModel2);
+    QVERIFY2(model2.data(model2Symbol, LP::symbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol");
+    QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
 }
 
 void MusicModelTest::populateModelWithTestdata()

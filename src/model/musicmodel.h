@@ -45,7 +45,7 @@ public:
     Qt::DropActions supportedDropActions() const { return Qt::MoveAction; }
     QStringList mimeTypes() const;
     QMimeData *mimeData(const QModelIndexList &indexes) const;
-    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+    bool dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent);
 
     // MusicModelInterface
     QModelIndex insertScore(int row, const QString &title);
@@ -73,6 +73,8 @@ public:
 private:
     bool allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &indexes) const;
     const QString mimeTypeForItem(const MusicItem *item) const;
+    bool dataHasSupportedMimeType(const QMimeData *data);
+    bool itemSupportsDropOfMimeType(const MusicItem *item, const QString &mimeType);
 
     void writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const;
 

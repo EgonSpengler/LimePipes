@@ -9,6 +9,11 @@
 /*!
  * @class MusicModel
  * @brief The implementation of the QAbstractItemModel.
+ *
+ * @fn bool dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+ * @brief To keep the readMusicItems method simple, this method uses a temporary item for reading
+ * the mime data. This is used because readMusicItems doesn't have a possibility to insert new items into a specific row
+ * and always appends the read items.
  */
 
 #include "musicmodel.h"
@@ -188,7 +193,7 @@ QMimeData *MusicModel::mimeData(const QModelIndexList &indexes) const
     QByteArray xmlData;
     QXmlStreamWriter writer(&xmlData);
 
-    writer.writeStartElement("DRAGITEMS");
+    writer.writeStartElement(s_itemTypeTags.value(MusicItem::RootItemType));
     foreach (QModelIndex index, indexes) {
         if (MusicItem *item = itemForIndex(index)) {
             if (mimeDataType.isEmpty())
@@ -241,13 +246,94 @@ const QString MusicModel::mimeTypeForItem(const MusicItem *item) const
     }
 }
 
-bool MusicModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent)
 {
-    qDebug() << "drop mime data called";
-    qDebug() << "parent index: " << parent;
-    qDebug() << "row: " << row;
-    qDebug() << "column: " << column;
+    if (action == Qt::IgnoreAction)
+        return true;
+
+    if (action != Qt::MoveAction || column > 0 ||
+            !mimeData || !dataHasSupportedMimeType(mimeData))
+        return false;
+
+    Q_ASSERT(mimeData->formats().count() == 1);
+    QString mimeType = mimeData->formats().at(0);
+
+    createRootItemIfNotPresent();
+    if (MusicItem *parentItem = itemForIndex(parent)) {
+        if (!itemSupportsDropOfMimeType(parentItem, mimeType))
+            return false;
+
+        NullMusicItem tempParentItem(*parentItem);
+        QByteArray xmlData = qUncompress(mimeData->data(mimeType));
+        QXmlStreamReader reader(xmlData);
+        readMusicItems(&reader, &tempParentItem);
+
+        int countOfNewChildsToInsert = tempParentItem.childCount();
+        if (!countOfNewChildsToInsert)
+            return false;
+
+        if (row == -1) {  // Append to parent's childs
+            row = parentItem->childCount();
+
+            int rowEnd = row + countOfNewChildsToInsert - 1;
+            if (rowEnd == -1)
+                rowEnd = 0;
+
+            beginInsertRows(parent, row, rowEnd);
+            foreach (MusicItem *item, tempParentItem.children())
+                parentItem->addChild(item);
+            endInsertRows();
+        }
+        else { // Insert into parent's childs
+            QListIterator<MusicItem*> i(tempParentItem.children());
+            i.toBack();
+
+            beginInsertRows(parent, row, row + countOfNewChildsToInsert - 1);
+            while (i.hasPrevious()) {
+                MusicItem *newItem = i.previous();
+                parentItem->insertChild(row, newItem);
+            }
+            endInsertRows();
+        }
+        // Prevent temporary parent item from deleting childs in its destructor
+        while (tempParentItem.childCount()) {
+            MusicItem *item = tempParentItem.takeChild(0);
+            item->setParent(parentItem);
+        }
+
+        Q_ASSERT(tempParentItem.childCount() == 0);
+        return true;
+    }
     return false;
+}
+
+bool MusicModel::dataHasSupportedMimeType(const QMimeData *data)
+{
+    if (data->hasFormat(ScoreMimeType) ||
+            data->hasFormat(TuneMimeType) ||
+            data->hasFormat(SymbolMimeType))
+        return true;
+    return false;
+}
+
+bool MusicModel::itemSupportsDropOfMimeType(const MusicItem *item, const QString &mimeType)
+{
+    switch(item->type()) {
+    case MusicItem::RootItemType:
+        if (mimeType == ScoreMimeType)
+            return true;
+        return false;
+    case MusicItem::ScoreType:
+        if (mimeType == TuneMimeType)
+            return true;
+        return false;
+    case MusicItem::TuneType:
+        if (mimeType == SymbolMimeType)
+            return true;
+        return false;
+    default:
+        return false;
+    }
 }
 
 QModelIndex MusicModel::insertScore(int row, const QString &title)
@@ -596,7 +682,7 @@ MusicItem *MusicModel::newSymbolForTuneItem(QXmlStreamReader *reader, MusicItem 
 
     MusicItem *parent = item;
     item = m_instrumentManager->symbolForName(instrument->name(), symbolNameFromAttribute);
-    item->setParent(parent);
+    parent->addChild(item);
     return item;
 }
 

@@ -44,7 +44,6 @@ void MusicItem::setParent(MusicItem *parent)
     }
 
     m_parent = parent;
-    m_parent->addChild(this);
 }
 
 bool MusicItem::insertChild(int row, MusicItem *item)

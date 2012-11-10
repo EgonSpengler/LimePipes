@@ -32,6 +32,7 @@ private slots:
     void init();
     void cleanup();
     void testCreateMusicItem();
+    void testNullItemCopyConstructor();
     void testInitData();
     void testItemSupportsWritingOfData();
     void testChildAt();
@@ -96,6 +97,19 @@ void MusicItemTest::cleanup()
 void MusicItemTest::testCreateMusicItem()
 {
     QVERIFY2(m_parent == m_child1->parent(), "Parent item not set in constructor, or parent-getter fail");
+}
+
+void MusicItemTest::testNullItemCopyConstructor()
+{
+    QString testTitle = "Test title";
+    MusicItem *scoreItem = musicItemFactory(MusicItem::ScoreType);
+    scoreItem->setData(QVariant(testTitle), LP::scoreTitle);
+
+    NullMusicItem copyItem(*scoreItem);
+    QVERIFY2(scoreItem->type() == copyItem.type(), "Items have not the same type");
+    QVERIFY2(scoreItem->childType() == copyItem.childType(), "Items have not the same child type");
+    QVERIFY2(scoreItem->data(LP::scoreTitle).toString() == copyItem.data(LP::scoreTitle).toString(),
+             "Data wasn't copied");
 }
 
 void MusicItemTest::testInitData()
@@ -245,7 +259,7 @@ void MusicItemTest::testSetParent()
     m_child1->setParent(item);
 
     QVERIFY2(m_child1->parent() == item, "Failed setting parent");
-    QVERIFY2(item->rowOfChild(m_child1) != -1, "Item was not added to parent");
+    QVERIFY2(item->rowOfChild(m_child1) == -1, "Item was added to parent");
 }
 
 void MusicItemTest::testOkToInsertChild()
