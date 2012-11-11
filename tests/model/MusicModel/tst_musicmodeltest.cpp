@@ -13,6 +13,7 @@
 #include <QMetaType>
 #include <QStack>
 #include <QTemporaryFile>
+#include <QUndoStack>
 #include <QXmlStreamReader>
 #include "qt_modeltest/modeltest.h"
 #include <musicmodel.h>
@@ -82,7 +83,13 @@ private Q_SLOTS:
     void testDropMimeDataScores();
     void testDropMimeDataTunes();
     void testDropMimeDataSymbols();
-    void testUndoStack();
+    void testUndoStackInsertScore();
+    void testUndoStackAppendScore();
+    void testUndoStackInsertTuneIntoScore();
+    void testUndoStackAppendTuneToScore();
+    void testUndoStackInsertTuneWithScore();
+    void testUndoStackInsertSymbol();
+    void testUndoStackRemoveRows();
 
 private:
     void checkForTuneCount(const QString &filename, int count);
@@ -317,6 +324,7 @@ void MusicModelTest::testRemoveRows()
 
     Q_ASSERT(m_model->rowCount(tune) == 3);
 
+    // Removing Symbols
     QModelIndex thirdSymbol = m_model->index(2, 0, tune);
     Q_ASSERT(thirdSymbol.isValid());
     Length::Value lengthOfThirdSymbol = m_model->data(thirdSymbol, LP::symbolLength).value<Length::Value>();
@@ -330,7 +338,30 @@ void MusicModelTest::testRemoveRows()
 
     Length::Value lengthOfLastRemaining = m_model->data(lastRemainingSymbol, LP::symbolLength).value<Length::Value>();
 
-    QVERIFY2(lengthOfThirdSymbol == lengthOfLastRemaining, "Length value of last remaining symbol is wron");
+    QVERIFY2(lengthOfThirdSymbol == lengthOfLastRemaining, "Length value of last remaining symbol is wrong");
+
+    // Removing Tune
+    m_model->insertTuneIntoScore(1, m_model->index(0, 0, QModelIndex()), m_instrumentNames.at(0));
+    QModelIndex scoreIndex1 = m_model->index(0, 0, QModelIndex());
+    QVERIFY2(m_model->rowCount(scoreIndex1) == 2, "Not two tunes in score");
+    m_model->removeRows(1, 1, scoreIndex1);
+    QVERIFY2(m_model->rowCount(scoreIndex1) == 1, "Tune wasn't removed");
+
+    // Removing Scores
+    m_model->insertScore(1, "Second Score");
+    m_model->insertScore(2, "Third score");
+    m_model->insertScore(3, "Fourth score");
+    QString titleOfScoreInRow0 = m_model->data(m_model->index(0, 0, QModelIndex()), LP::scoreTitle).toString();
+    Q_ASSERT(!titleOfScoreInRow0.isEmpty());
+    QString titleOfScoreInRow3 = m_model->data(m_model->index(3, 0, QModelIndex()), LP::scoreTitle).toString();
+    Q_ASSERT(!titleOfScoreInRow3.isEmpty());
+
+    m_model->removeRows(1, 2, QModelIndex());
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 2, "Failed removing scores");
+    QString newTitleOfScoreInRow0 = m_model->data(m_model->index(0, 0, QModelIndex()), LP::scoreTitle).toString();
+    QString newTitleOfScoreInRow1 = m_model->data(m_model->index(1, 0, QModelIndex()), LP::scoreTitle).toString();
+    QVERIFY2(newTitleOfScoreInRow0 == titleOfScoreInRow0, "Title of score in row 0 is wrong");
+    QVERIFY2(newTitleOfScoreInRow1 == titleOfScoreInRow3, "Title of score in row 1 is wrong");
 }
 
 void MusicModelTest::testSave()
@@ -725,9 +756,110 @@ void MusicModelTest::testDropMimeDataSymbols()
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
 }
 
-void MusicModelTest::testUndoStack()
+void MusicModelTest::testUndoStackInsertScore()
 {
-    QVERIFY2(m_model->undoStack() != 0, "No undo stack returned");
+    m_model->insertScore(0, "First Score");
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+    QVERIFY2(m_model->undoStack()->count() == 1, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 1, "No score was inserted into model");
+    QVERIFY2(m_model->rowCount(scoreIndex) == 0, "Score has child elements");
+
+    m_model->undoStack()->undo();
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 0, "Score wasn't removed after undo");
+
+    m_model->undoStack()->redo();
+    scoreIndex = m_model->index(0, 0, QModelIndex());
+    QVERIFY2(m_model->data(scoreIndex, LP::scoreTitle).toString() == "First Score", "Redo doesn't insert the same score");
+}
+
+void MusicModelTest::testUndoStackAppendScore()
+{
+    m_model->appendScore("First Score");
+    QVERIFY2(m_model->undoStack()->count() == 1, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 1, "No score was inserted into model");
+
+    m_model->undoStack()->undo();
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 0, "Score wasn't removed after undo");
+}
+
+void MusicModelTest::testUndoStackInsertTuneIntoScore()
+{
+    QModelIndex score = m_model->insertScore(0, "First score");
+    Q_ASSERT(m_model->undoStack()->count() == 1);
+    m_model->insertTuneIntoScore(0, score, m_instrumentNames.at(0));
+
+    QVERIFY2(m_model->undoStack()->count() == 2, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(score) == 1, "No tune was inserted into score");
+
+    m_model->undoStack()->undo();
+    QVERIFY2(m_model->rowCount(score) == 0, "Tune wasn't removed after undo");
+}
+
+void MusicModelTest::testUndoStackAppendTuneToScore()
+{
+    QModelIndex score = m_model->insertScore(0, "First score");
+    Q_ASSERT(m_model->undoStack()->count() == 1);
+    m_model->appendTuneToScore(score, m_instrumentNames.at(0));
+
+    QVERIFY2(m_model->undoStack()->count() == 2, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(score) == 1, "No tune was inserted into score");
+
+    m_model->undoStack()->undo();
+    QVERIFY2(m_model->rowCount(score) == 0, "Tune wasn't removed after undo");
+}
+
+void MusicModelTest::testUndoStackInsertTuneWithScore()
+{
+    m_model->insertTuneWithScore(0, "First score", m_instrumentNames.at(0));
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+    QVERIFY2(m_model->undoStack()->count() == 1, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 1, "No score was inserted into model");
+    QVERIFY2(m_model->rowCount(scoreIndex) == 1, "Score has no child elements");
+
+    m_model->undoStack()->undo();
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 0, "Score with tune wasn't removed after undo");
+}
+
+void MusicModelTest::testUndoStackInsertSymbol()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First score", m_instrumentNames.at(0));
+    Q_ASSERT(m_model->undoStack()->count() == 1);
+    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    QVERIFY2(m_model->undoStack()->count() == 2, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(tune) == 1, "No symbol was inserted into model");
+
+    m_model->undoStack()->undo();
+    QVERIFY2(m_model->rowCount(tune) == 0, "Symbol wasn't removed after undo");
+}
+
+void MusicModelTest::testUndoStackRemoveRows()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First score", m_instrumentNames.at(0));
+    Q_ASSERT(m_model->undoStack()->count() == 1);
+    for (int i = 0; i < 5; i++) {
+        m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    }
+    int undoStackCountBefore = m_model->undoStack()->count();
+
+    Q_ASSERT(m_model->rowCount(tune) == 5);
+    MusicItem *item0 = m_model->itemForIndex(m_model->index(0, 0, tune));
+    MusicItem *item1 = m_model->itemForIndex(m_model->index(1, 0, tune));
+    MusicItem *item2 = m_model->itemForIndex(m_model->index(2, 0, tune));
+    MusicItem *item3 = m_model->itemForIndex(m_model->index(3, 0, tune));
+    MusicItem *item4 = m_model->itemForIndex(m_model->index(4, 0, tune));
+
+    m_model->removeRows(1, 3, tune);
+    QVERIFY2(m_model->undoStack()->count() - 1 == undoStackCountBefore, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(tune) == 2, "Failed removing rows");
+    QVERIFY2(m_model->itemForIndex(m_model->index(1, 0, tune)) == item4, "last item is on the wrong place");
+
+    m_model->undoStack()->undo();
+    QVERIFY2(m_model->rowCount(tune) == 5, "Failed undo removing of items");
+    QVERIFY2(item0 == m_model->itemForIndex(m_model->index(0, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item1 == m_model->itemForIndex(m_model->index(1, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item2 == m_model->itemForIndex(m_model->index(2, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item3 == m_model->itemForIndex(m_model->index(3, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item4 == m_model->itemForIndex(m_model->index(4, 0, tune)), "item on wrong place after undo");
 }
 
 void MusicModelTest::populateModelWithTestdata()

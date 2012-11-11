@@ -24,6 +24,9 @@ class MusicModel :  public QAbstractItemModel,
 {
     Q_OBJECT
 
+    friend class InsertItemCommand;
+    friend class RemoveItemsCommand;
+
 public:
     explicit MusicModel(QObject *parent = 0);
     ~MusicModel();
@@ -121,7 +124,7 @@ private:
     bool isMusicItemTag(const QString &tagName);
     bool isMusicItemTag(const QStringRef &tagName);
 
-    QModelIndex insertItem(int row, const QModelIndex &parent, MusicItem *item);
+    QModelIndex insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item);
 
     MusicItem *m_rootItem;
     int m_columnCount;

@@ -23,7 +23,6 @@
 
 #include "musicitem.h"
 
-
 MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
     : m_type(type), m_childType(childType), m_parent(parent)
 {

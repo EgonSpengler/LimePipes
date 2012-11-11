@@ -22,6 +22,8 @@
 #include <QUndoStack>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+#include <commands/insertitemcommand.h>
+#include <commands/removeitemscommand.h>
 #include <rootitem.h>
 #include <score.h>
 #include <tune.h>
@@ -159,13 +161,7 @@ bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
     if (!m_rootItem)
         return false;
 
-    MusicItem *item = parent.isValid() ? itemForIndex(parent)
-                                       : m_rootItem;
-
-    beginRemoveRows(parent, row, row + count - 1);
-    for (int i = 0; i < count; ++i)
-        delete item->takeChild(row);
-    endRemoveRows();
+    m_undoStack->push(new RemoveItemsCommand(this, "Remove items", parent, row, count));
     return true;
 }
 
@@ -333,7 +329,7 @@ QModelIndex MusicModel::insertScore(int row, const QString &title)
     createRootItemIfNotPresent();
     Q_ASSERT(m_rootItem->childType() == MusicItem::ScoreType);
 
-    return insertItem(row, QModelIndex(), new Score(title));
+    return insertItem("Insert score", QModelIndex(), row, new Score(title));
 }
 
 QModelIndex MusicModel::appendScore(const QString &title)
@@ -345,7 +341,7 @@ QModelIndex MusicModel::appendScore(const QString &title)
 QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName)
 {
     InstrumentPtr instrument = m_instrumentManager->instrumentForName(instrumentName);
-    return insertItem(row, score, new Tune(instrument));
+    return insertItem("Insert tune into score", score, row, new Tune(instrument));
 }
 
 QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, const QString &instrumentName)
@@ -358,8 +354,11 @@ QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, const QStrin
 
 QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName)
 {
+    m_undoStack->beginMacro(tr("Insert tune with score"));
     QModelIndex score = insertScore(rowOfScore, scoreTitle);
-    return insertTuneIntoScore(0, score, instrumentName);
+    QModelIndex tune = insertTuneIntoScore(0, score, instrumentName);
+    m_undoStack->endMacro();
+    return tune;
 }
 
 QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, const QString &symbolName)
@@ -379,8 +378,9 @@ QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, const QSt
     if (symbol &&
             symbol->symbolType() == LP::NoSymbolType)
         return QModelIndex();
+    QString insertText = tr("Insert %1").arg(symbol->data(LP::symbolName).toString());
 
-    return insertItem(row, tune, symbol);
+    return insertItem(insertText, tune, row, symbol);
 }
 
 MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const
@@ -745,13 +745,11 @@ bool MusicModel::isRowValid(MusicItem *item, int row) const
     return false;
 }
 
-QModelIndex MusicModel::insertItem(int row, const QModelIndex &parent, MusicItem *item)
+QModelIndex MusicModel::insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item)
 {
     if (MusicItem *parentItem = itemForIndex(parent)) {
         if (isRowValid(parentItem, row) && parentItem->okToInsertChild(item)) {
-            beginInsertRows(parent, row, row);
-            parentItem->insertChild(row, item);
-            endInsertRows();
+            m_undoStack->push(new InsertItemCommand(this, text,  parent, row, item));
             return index(row, 0, parent);
         }
     }

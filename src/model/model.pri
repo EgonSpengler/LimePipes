@@ -23,4 +23,6 @@ HEADERS += \
     $$PWD/../interfaces/interfaceglobals.h \
     $$PWD/musicmodelinterface.h \
     $$PWD/symbolgraphicbuilder.h \
-    $$PWD/instrumentmanager.h
+    $$PWD/instrumentmanager.h \
+    $$PWD/commands/insertitemcommand.h \
+    $$PWD/commands/removeitemscommand.h
