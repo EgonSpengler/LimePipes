@@ -49,6 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_addSymbolsDialog = new AddSymbolsDialog(this);
 
     createModelAndView();
+    createMenusAndToolBars();
     createConnections();
     createObjectNames();
 }
@@ -71,10 +72,23 @@ void MainWindow::createModelAndView()
     setCentralWidget(m_treeView);
 }
 
+void MainWindow::createMenusAndToolBars()
+{
+    MusicModelInterface *musicModel = musicModelFromItemModel(m_model);
+    ui->editUndoAction->setEnabled(musicModel->undoStack()->canUndo());
+    ui->editRedoAction->setEnabled(musicModel->undoStack()->canRedo());
+}
+
 void MainWindow::createConnections()
 {
     connect(m_addSymbolsDialog, SIGNAL(insertSymbol(QString)),
             this, SLOT(insertSymbol(QString)));
+
+    MusicModelInterface *musicModel = musicModelFromItemModel(m_model);
+    connect(musicModel->undoStack(), SIGNAL(canUndoChanged(bool)),
+            ui->editUndoAction, SLOT(setEnabled(bool)));
+    connect(musicModel->undoStack(), SIGNAL(canRedoChanged(bool)),
+            ui->editRedoAction, SLOT(setEnabled(bool)));
 }
 
 void MainWindow::createObjectNames()
@@ -191,9 +205,13 @@ void MainWindow::on_editAddTuneAction_triggered()
 
     NewTuneDialog dialog(musicModel->instrumentNames(), this);
     if (dialog.exec() == QDialog::Accepted) {
-        QModelIndex tune = musicModel->insertTuneWithScore(m_model->rowCount(QModelIndex()),
-                                        dialog.scoreTitle(), dialog.instrumentTitle());
+        musicModel->undoStack()->beginMacro(tr("Add Tune"));
+
+        QModelIndex score = musicModel->appendScore(dialog.scoreTitle());
+        QModelIndex tune = musicModel->appendTuneToScore(score, dialog.instrumentTitle());
         m_treeView->setCurrentIndex(tune);
+
+        musicModel->undoStack()->endMacro();
     }
 }
 

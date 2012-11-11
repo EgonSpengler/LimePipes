@@ -92,6 +92,7 @@ private Q_SLOTS:
     void testUndoStackRemoveRows();
 
 private:
+    QString nameForItemType(MusicItem::Type type);
     void checkForTuneCount(const QString &filename, int count);
     void checkForScoreCount(const QString &filename, int count);
     void checkForSymbolCount(const QString &filename, int count);
@@ -818,6 +819,10 @@ void MusicModelTest::testUndoStackInsertTuneWithScore()
 
     m_model->undoStack()->undo();
     QVERIFY2(m_model->rowCount(QModelIndex()) == 0, "Score with tune wasn't removed after undo");
+
+    m_model->undoStack()->redo();
+    QVERIFY2(m_model->rowCount(QModelIndex()) == 1, "No score was inserted into model after redo");
+    QVERIFY2(m_model->rowCount(scoreIndex) == 1, "Score has no child elements after redo");
 }
 
 void MusicModelTest::testUndoStackInsertSymbol()
@@ -830,6 +835,9 @@ void MusicModelTest::testUndoStackInsertSymbol()
 
     m_model->undoStack()->undo();
     QVERIFY2(m_model->rowCount(tune) == 0, "Symbol wasn't removed after undo");
+
+    m_model->undoStack()->redo();
+    QVERIFY2(m_model->rowCount(tune) == 1, "No symbol was inserted into model after redo");
 }
 
 void MusicModelTest::testUndoStackRemoveRows()
@@ -860,6 +868,27 @@ void MusicModelTest::testUndoStackRemoveRows()
     QVERIFY2(item2 == m_model->itemForIndex(m_model->index(2, 0, tune)), "item on wrong place after undo");
     QVERIFY2(item3 == m_model->itemForIndex(m_model->index(3, 0, tune)), "item on wrong place after undo");
     QVERIFY2(item4 == m_model->itemForIndex(m_model->index(4, 0, tune)), "item on wrong place after undo");
+
+    m_model->undoStack()->redo();
+    QVERIFY2(m_model->undoStack()->count() - 1 == undoStackCountBefore, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(tune) == 2, "Failed removing rows");
+    QVERIFY2(m_model->itemForIndex(m_model->index(1, 0, tune)) == item4, "last item is on the wrong place");
+}
+
+QString MusicModelTest::nameForItemType(MusicItem::Type type)
+{
+    switch (type) {
+    case MusicItem::RootItemType:
+        return "Root";
+    case MusicItem::ScoreType:
+        return "Score";
+    case MusicItem::TuneType:
+        return "Tune";
+    case MusicItem::SymbolType:
+        return "Symbol";
+    case MusicItem::NoItemType:
+        return "NoItem";
+    }
 }
 
 void MusicModelTest::populateModelWithTestdata()

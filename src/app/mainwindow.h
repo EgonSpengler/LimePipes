@@ -47,6 +47,7 @@ private slots:
 
 private:
     void createModelAndView();
+    void createMenusAndToolBars();
     void createConnections();
     void createObjectNames();
     void loadFile(const QString &fileName);
