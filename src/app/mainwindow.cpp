@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QUndoStack>
 #include <utilities/error.h>
 #include <musicmodel.h>
 #include <itemdatatypes.h>
@@ -190,9 +191,8 @@ void MainWindow::on_editAddTuneAction_triggered()
 
     NewTuneDialog dialog(musicModel->instrumentNames(), this);
     if (dialog.exec() == QDialog::Accepted) {
-
-        QModelIndex score = musicModel->appendScore(dialog.scoreTitle());
-        QModelIndex tune = musicModel->appendTuneToScore(score, dialog.instrumentTitle());
+        QModelIndex tune = musicModel->insertTuneWithScore(m_model->rowCount(QModelIndex()),
+                                        dialog.scoreTitle(), dialog.instrumentTitle());
         m_treeView->setCurrentIndex(tune);
     }
 }
@@ -215,6 +215,22 @@ void MainWindow::on_editAddSymbolsAction_triggered()
         message.setText(tr("Please select a tune"));
         message.exec();
     }
+}
+
+void MainWindow::on_editUndoAction_triggered()
+{
+    MusicModelInterface *musicModel;
+    musicModel = musicModelFromItemModel(m_model);
+
+    musicModel->undoStack()->undo();
+}
+
+void MainWindow::on_editRedoAction_triggered()
+{
+    MusicModelInterface *musicModel;
+    musicModel = musicModelFromItemModel(m_model);
+
+    musicModel->undoStack()->redo();
 }
 
 void MainWindow::insertSymbol(const QString &symbolName)

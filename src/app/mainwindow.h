@@ -41,6 +41,8 @@ private slots:
     void on_fileSaveAsAction_triggered();
     void on_editAddTuneAction_triggered();
     void on_editAddSymbolsAction_triggered();
+    void on_editUndoAction_triggered();
+    void on_editRedoAction_triggered();
     void insertSymbol(const QString &symbolName);
 
 private:

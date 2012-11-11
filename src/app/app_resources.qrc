@@ -7,5 +7,7 @@
         <file alias="document-save-as">resources/img/document-save-as.svg</file>
         <file alias="tune-new">resources/img/tune-new.svg</file>
         <file alias="tune-add-symbols">resources/img/tune-add-symbols.svg</file>
+        <file alias="edit-undo">resources/img/edit-undo.svg</file>
+        <file alias="edit-redo">resources/img/edit-redo.svg</file>
     </qresource>
 </RCC>

@@ -70,6 +70,8 @@
    <addaction name="fileOpenAction"/>
    <addaction name="fileSaveAction"/>
    <addaction name="fileSaveAsAction"/>
+   <addaction name="editUndoAction"/>
+   <addaction name="editRedoAction"/>
    <addaction name="separator"/>
    <addaction name="editAddTuneAction"/>
    <addaction name="editAddSymbolsAction"/>
@@ -152,6 +154,36 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="editUndoAction">
+   <property name="icon">
+    <iconset resource="app_resources.qrc">
+     <normaloff>:/application/edit-undo</normaloff>:/application/edit-undo</iconset>
+   </property>
+   <property name="text">
+    <string>Undo</string>
+   </property>
+   <property name="toolTip">
+    <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
+   </property>
+  </action>
+  <action name="editRedoAction">
+   <property name="icon">
+    <iconset resource="app_resources.qrc">
+     <normaloff>:/application/edit-redo</normaloff>:/application/edit-redo</iconset>
+   </property>
+   <property name="text">
+    <string>Redo</string>
+   </property>
+   <property name="toolTip">
+    <string>Redo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+Z</string>
    </property>
   </action>
  </widget>
