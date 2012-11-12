@@ -22,7 +22,7 @@
 #include <QUndoStack>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
-#include <commands/insertitemcommand.h>
+#include <commands/insertitemscommand.h>
 #include <commands/removeitemscommand.h>
 #include <rootitem.h>
 #include <score.h>
@@ -51,7 +51,8 @@ QHash<int, QString> MusicModel::initItemTypeTags()
 }
 
 MusicModel::MusicModel(QObject *parent)
-    : QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1)
+    : QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1),
+      m_dropMimeDataOccured(false)
 {
     m_instrumentManager = new InstrumentManager(pluginsDir());
     m_undoStack = new QUndoStack(this);
@@ -162,6 +163,11 @@ bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
         return false;
 
     m_undoStack->push(new RemoveItemsCommand(this, "Remove items", parent, row, count));
+
+    if (m_dropMimeDataOccured) {
+        m_undoStack->endMacro();
+        m_dropMimeDataOccured = false;
+    }
     return true;
 }
 
@@ -256,33 +262,16 @@ bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, 
         QXmlStreamReader reader(xmlData);
         readMusicItems(&reader, &tempParentItem);
 
-        int countOfNewChildsToInsert = tempParentItem.childCount();
-        if (!countOfNewChildsToInsert)
+        if (!tempParentItem.childCount())
             return false;
 
-        if (row == -1) {  // Append to parent's childs
+        if (row == -1)  // Append to parent's childs
             row = parentItem->childCount();
 
-            int rowEnd = row + countOfNewChildsToInsert - 1;
-            if (rowEnd == -1)
-                rowEnd = 0;
+        m_undoStack->beginMacro("Drop items");
+        m_undoStack->push(new InsertItemsCommand(this, "Drop items", parent, row, tempParentItem.children()));
+        m_dropMimeDataOccured = true;
 
-            beginInsertRows(parent, row, rowEnd);
-            foreach (MusicItem *item, tempParentItem.children())
-                parentItem->addChild(item);
-            endInsertRows();
-        }
-        else { // Insert into parent's childs
-            QListIterator<MusicItem*> i(tempParentItem.children());
-            i.toBack();
-
-            beginInsertRows(parent, row, row + countOfNewChildsToInsert - 1);
-            while (i.hasPrevious()) {
-                MusicItem *newItem = i.previous();
-                parentItem->insertChild(row, newItem);
-            }
-            endInsertRows();
-        }
         // Prevent temporary parent item from deleting childs in its destructor
         while (tempParentItem.childCount()) {
             MusicItem *item = tempParentItem.takeChild(0);
@@ -749,7 +738,7 @@ QModelIndex MusicModel::insertItem(const QString &text, const QModelIndex &paren
 {
     if (MusicItem *parentItem = itemForIndex(parent)) {
         if (isRowValid(parentItem, row) && parentItem->okToInsertChild(item)) {
-            m_undoStack->push(new InsertItemCommand(this, text,  parent, row, item));
+            m_undoStack->push(new InsertItemsCommand(this, text,  parent, row, QList<MusicItem*>() << item));
             return index(row, 0, parent);
         }
     }

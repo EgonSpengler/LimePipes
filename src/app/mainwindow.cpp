@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QScopedPointer>
 #include <QUndoStack>
 #include <utilities/error.h>
 #include <musicmodel.h>
@@ -52,6 +53,10 @@ MainWindow::MainWindow(QWidget *parent) :
     createMenusAndToolBars();
     createConnections();
     createObjectNames();
+
+    setWindowTitle(tr("%1 [*]")
+                   .arg(QApplication::applicationName()));
+    updateUi();
 }
 
 MainWindow::~MainWindow()
@@ -89,6 +94,9 @@ void MainWindow::createConnections()
             ui->editUndoAction, SLOT(setEnabled(bool)));
     connect(musicModel->undoStack(), SIGNAL(canRedoChanged(bool)),
             ui->editRedoAction, SLOT(setEnabled(bool)));
+
+    connect(musicModel->undoStack(), SIGNAL(cleanChanged(bool)),
+            this, SLOT(setWindowModifiedForUndoStackCleanState(bool)));
 }
 
 void MainWindow::createObjectNames()
@@ -116,9 +124,49 @@ MusicModelInterface *MainWindow::musicModelFromItemModel(QAbstractItemModel *mod
 
 void MainWindow::on_fileNewAction_triggered()
 {
-    MusicModelInterface *musicModel;
-    if ((musicModel = musicModelFromItemModel(m_model)))
+    if (!okToClearData())
+        return;
+
+    if (MusicModelInterface *musicModel = musicModelFromItemModel(m_model)) {
         musicModel->clear();
+        musicModel->setFilename(QString());
+        musicModel->undoStack()->clear();
+    }
+    updateUi();
+}
+
+bool MainWindow::okToClearData()
+{
+    if (MusicModelInterface *musicModel = musicModelFromItemModel(m_model)) {
+        if (!musicModel->undoStack()->isClean()) {
+            QScopedPointer<QMessageBox> messageBox(new QMessageBox(this));
+            messageBox->setWindowModality(Qt::WindowModal);
+            messageBox->setIcon(QMessageBox::Question);
+            messageBox->setWindowTitle(QString("%1 - %2")
+                    .arg(QApplication::applicationName()).arg(tr("Unsaved changes")));
+            messageBox->setText(tr("Save unsaved changes?"));
+            messageBox->addButton(QMessageBox::Save);
+            messageBox->addButton(QMessageBox::Discard);
+            messageBox->addButton(QMessageBox::Cancel);
+            messageBox->setDefaultButton(QMessageBox::Save);
+            messageBox->exec();
+            if (messageBox->clickedButton() ==
+                messageBox->button(QMessageBox::Cancel))
+                return false;
+            if (messageBox->clickedButton() ==
+                messageBox->button(QMessageBox::Save))
+                return saveFile();
+        }
+    }
+    return true;
+}
+
+void MainWindow::updateUi()
+{
+    ui->fileSaveAction->setEnabled(isWindowModified());
+    int rows = m_model->rowCount();
+    ui->fileSaveAsAction->setEnabled(isWindowModified() || rows);
+    ui->editAddSymbolsAction->setEnabled(rows);
 }
 
 void MainWindow::on_fileOpenAction_triggered()
@@ -153,13 +201,25 @@ void MainWindow::loadFile(const QString &fileName)
     }
 
     QApplication::restoreOverrideCursor();
+    updateUi();
 }
 
 void MainWindow::on_fileSaveAction_triggered()
 {
+    saveFile();
+}
+
+void MainWindow::on_fileSaveAsAction_triggered()
+{
+    saveFileAs();
+}
+
+bool MainWindow::saveFile()
+{
+    bool saved = false;
     MusicModelInterface *model = musicModelFromItemModel(m_model);
     if (model->filename().isEmpty()) {
-        on_fileSaveAsAction_triggered();
+        return saveFileAs();
     } else {
         try {
             model->save();
@@ -168,14 +228,18 @@ void MainWindow::on_fileSaveAction_triggered()
                            .arg(QFileInfo(model->filename()).fileName()));
             statusBar()->showMessage(tr("Saved %1")
                                      .arg(model->filename()), StatusTimeout);
+            saved = true;
+            model->undoStack()->setClean();
         } catch (LP::Error &error) {
             qWarning() << tr("Failed to save %1: %2").arg(model->filename())
                           .arg(QString::fromUtf8(error.what()));
         }
     }
+    updateUi();
+    return saved;
 }
 
-void MainWindow::on_fileSaveAsAction_triggered()
+bool MainWindow::saveFileAs()
 {
     MusicModelInterface *model = musicModelFromItemModel(m_model);
     QString filename = model->filename();
@@ -186,13 +250,13 @@ void MainWindow::on_fileSaveAsAction_triggered()
                                             tr("%1 (*.lime)").arg(QApplication::applicationName()));
 
     if (filename.isEmpty())
-        return;
+        return false;
 
     if (!filename.toLower().endsWith(".lime"))
         filename += ".lime";
 
     model->setFilename(filename);
-    on_fileSaveAction_triggered();
+    return saveFile();
 }
 
 void MainWindow::on_editAddTuneAction_triggered()
@@ -213,6 +277,7 @@ void MainWindow::on_editAddTuneAction_triggered()
 
         musicModel->undoStack()->endMacro();
     }
+    updateUi();
 }
 
 void MainWindow::on_editAddSymbolsAction_triggered()
@@ -233,6 +298,7 @@ void MainWindow::on_editAddSymbolsAction_triggered()
         message.setText(tr("Please select a tune"));
         message.exec();
     }
+    updateUi();
 }
 
 void MainWindow::on_editUndoAction_triggered()
@@ -241,6 +307,7 @@ void MainWindow::on_editUndoAction_triggered()
     musicModel = musicModelFromItemModel(m_model);
 
     musicModel->undoStack()->undo();
+    updateUi();
 }
 
 void MainWindow::on_editRedoAction_triggered()
@@ -249,6 +316,7 @@ void MainWindow::on_editRedoAction_triggered()
     musicModel = musicModelFromItemModel(m_model);
 
     musicModel->undoStack()->redo();
+    updateUi();
 }
 
 void MainWindow::insertSymbol(const QString &symbolName)
@@ -265,4 +333,11 @@ void MainWindow::insertSymbol(const QString &symbolName)
         musicModel->insertSymbol(0, m_treeView->currentIndex(), symbolName);
         m_treeView->expand(m_treeView->currentIndex());
     }
+    updateUi();
+}
+
+void MainWindow::setWindowModifiedForUndoStackCleanState(bool clean)
+{
+    setWindowModified(!clean);
+    updateUi();
 }

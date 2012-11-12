@@ -33,7 +33,6 @@ public:
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
-    void testFileNew();
 
 private:
     MainWindow *m_mainWindow;
@@ -71,13 +70,6 @@ void MainWindowTest::initTestCase()
 void MainWindowTest::cleanupTestCase()
 {
     delete m_mainWindow;
-}
-
-void MainWindowTest::testFileNew()
-{
-    QSignalSpy spy(m_model, SIGNAL(modelReset()));
-    m_fileNewAction->trigger();
-    QVERIFY2(spy.count() == 1, "The Model reset signal wasn't emitted");
 }
 
 QTEST_MAIN(MainWindowTest)

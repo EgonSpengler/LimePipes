@@ -24,5 +24,5 @@ HEADERS += \
     $$PWD/musicmodelinterface.h \
     $$PWD/symbolgraphicbuilder.h \
     $$PWD/instrumentmanager.h \
-    $$PWD/commands/insertitemcommand.h \
+    $$PWD/commands/insertitemscommand.h \
     $$PWD/commands/removeitemscommand.h

@@ -90,9 +90,9 @@ private Q_SLOTS:
     void testUndoStackInsertTuneWithScore();
     void testUndoStackInsertSymbol();
     void testUndoStackRemoveRows();
+    void testUndoStackDropMimeData();
 
 private:
-    QString nameForItemType(MusicItem::Type type);
     void checkForTuneCount(const QString &filename, int count);
     void checkForScoreCount(const QString &filename, int count);
     void checkForSymbolCount(const QString &filename, int count);
@@ -725,6 +725,11 @@ void MusicModelTest::testDropMimeDataTunes()
     QModelIndex scoreModel2 = model2.insertScore(0, "New Score");
     model2.dropMimeData(data, Qt::MoveAction, 0, 0, scoreModel2);
     QVERIFY2(model2.rowCount(scoreModel2) == 1, "Tune wasn't inserted");
+
+    model2.clear();
+    scoreModel2 = model2.insertScore(0, "New Score");
+    model2.dropMimeData(data, Qt::MoveAction, -1, 0, scoreModel2);
+    QVERIFY2(model2.rowCount(scoreModel2) == 1, "Failed dropping tune at end");
 }
 
 void MusicModelTest::testDropMimeDataSymbols()
@@ -754,6 +759,15 @@ void MusicModelTest::testDropMimeDataSymbols()
     QVERIFY2(model2.rowCount(tuneModel2) == 2, "Failed inserting symbols");
     QModelIndex model2Symbol = model2.index(0, 0, tuneModel2);
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol");
+    QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
+
+    model2.clear();
+    tuneModel2 = model2.insertTuneWithScore(0, "test score", m_instrumentNames.at(0));
+    model2.dropMimeData(data, Qt::MoveAction, -1, 0, tuneModel2);
+
+    QVERIFY2(model2.rowCount(tuneModel2) == 2, "Failed inserting symbols at end");
+    model2Symbol = model2.index(0, 0, tuneModel2);
+    QVERIFY2(model2.data(model2Symbol, LP::symbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol at end");
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
 }
 
@@ -875,20 +889,23 @@ void MusicModelTest::testUndoStackRemoveRows()
     QVERIFY2(m_model->itemForIndex(m_model->index(1, 0, tune)) == item4, "last item is on the wrong place");
 }
 
-QString MusicModelTest::nameForItemType(MusicItem::Type type)
+void MusicModelTest::testUndoStackDropMimeData()
 {
-    switch (type) {
-    case MusicItem::RootItemType:
-        return "Root";
-    case MusicItem::ScoreType:
-        return "Score";
-    case MusicItem::TuneType:
-        return "Tune";
-    case MusicItem::SymbolType:
-        return "Symbol";
-    case MusicItem::NoItemType:
-        return "NoItem";
-    }
+    populateModelWithTestdata();
+    QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
+    Q_ASSERT(scoreIndex.isValid());
+    QModelIndex scoreIndex2 = m_model->index(1, 0, QModelIndex());
+    Q_ASSERT(scoreIndex2.isValid());
+    QMimeData *data = m_model->mimeData(QModelIndexList() << scoreIndex << scoreIndex2);
+
+    MusicModel model2;
+    model2.dropMimeData(data, Qt::MoveAction, 0, 0, QModelIndex());
+
+    QVERIFY2(model2.undoStack()->count() == 1, "No command/too many commands pushed on undo stack while inserting");
+
+    MusicModel model3;
+    model3.dropMimeData(data, Qt::MoveAction, -1, 0, QModelIndex());
+    QVERIFY2(model2.undoStack()->count() == 1, "No command/too many commands pushed on undo stack while appending");
 }
 
 void MusicModelTest::populateModelWithTestdata()

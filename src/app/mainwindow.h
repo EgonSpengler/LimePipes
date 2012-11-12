@@ -44,6 +44,7 @@ private slots:
     void on_editUndoAction_triggered();
     void on_editRedoAction_triggered();
     void insertSymbol(const QString &symbolName);
+    void setWindowModifiedForUndoStackCleanState(bool clean);
 
 private:
     void createModelAndView();
@@ -51,6 +52,10 @@ private:
     void createConnections();
     void createObjectNames();
     void loadFile(const QString &fileName);
+    bool saveFile();
+    bool saveFileAs();
+    bool okToClearData();
+    void updateUi();
     QString instrumentFromCurrentIndex();
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
 

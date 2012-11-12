@@ -20,24 +20,29 @@ class RemoveItemsCommand : public QUndoCommand
 {
 public:
     RemoveItemsCommand(MusicModel *model, const QString &text, const QModelIndex &parentIndex, int row, int count, QUndoCommand *parent = 0)
-        : QUndoCommand(text, parent), m_model(model), m_parentIndex(parentIndex), m_row(row), m_count(count)
+        : QUndoCommand(text, parent), m_model(model), m_parentIndex(parentIndex), m_row(row), m_removedItemCount(count), isFirstRemove(true)
     {
         m_parentItem = m_model->itemForIndex(parentIndex);
+        Q_ASSERT(m_removedItemCount > 0);
     }
 
     void redo() {
-        m_model->beginRemoveRows(m_parentIndex, m_row, m_row + m_count - 1);
-        for (int i = 0; i < m_count; ++i) {
-            m_items.append(m_parentItem->takeChild(m_row));
+        m_model->beginRemoveRows(m_parentIndex, m_row, m_row + m_removedItemCount - 1);
+        for (int i = 0; i < m_removedItemCount; ++i) {
+            MusicItem *takenChild = m_parentItem->takeChild(m_row);
+
+            if (isFirstRemove)
+                m_removedItems.append(takenChild);
         }
         m_model->endRemoveRows();
+        isFirstRemove = false;
     }
 
     void undo() {
-        Q_ASSERT(m_count > 0);
-        m_model->beginInsertRows(m_parentIndex, m_row, m_row + m_count - 1);
+        Q_ASSERT(m_removedItemCount > 0);
+        m_model->beginInsertRows(m_parentIndex, m_row, m_row + m_removedItemCount - 1);
 
-        QListIterator<MusicItem*> i(m_items);
+        QListIterator<MusicItem*> i(m_removedItems);
         i.toBack();
         while (i.hasPrevious()) {
             MusicItem *undoItem = i.previous();
@@ -52,8 +57,9 @@ private:
     QPersistentModelIndex m_parentIndex;
     MusicItem *m_parentItem;
     int m_row;
-    int m_count;
-    QList<MusicItem*> m_items;
+    int m_removedItemCount;
+    QList<MusicItem*> m_removedItems;
+    bool isFirstRemove;
 };
 
 #endif // REMOVEITEMSCOMMAND_H

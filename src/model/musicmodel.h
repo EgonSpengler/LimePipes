@@ -24,7 +24,7 @@ class MusicModel :  public QAbstractItemModel,
 {
     Q_OBJECT
 
-    friend class InsertItemCommand;
+    friend class InsertItemsCommand;
     friend class RemoveItemsCommand;
 
 public:
@@ -131,6 +131,7 @@ private:
     InstrumentManager *m_instrumentManager;
     static QHash<int, QString> s_itemTypeTags;
     QUndoStack *m_undoStack;
+    bool m_dropMimeDataOccured;
 };
 
 #endif // MUSICMODEL_H
