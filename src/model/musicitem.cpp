@@ -40,6 +40,7 @@ void MusicItem::setParent(MusicItem *parent)
         MusicItem *thisItem = m_parent->takeChild(rowOfThisItemInParent);
         Q_ASSERT(thisItem == this);
         Q_ASSERT(m_parent == 0);
+        Q_UNUSED(thisItem)
     }
 
     m_parent = parent;

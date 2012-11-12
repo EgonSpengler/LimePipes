@@ -48,6 +48,7 @@ public:
         for (int i = 0; i < m_items.count(); ++i) {
             MusicItem *takenChild = m_parentItem->takeChild(m_row);
             Q_ASSERT(m_items.at(i) == takenChild);
+            Q_UNUSED(takenChild)
         }
         m_model->endRemoveRows();
     }
