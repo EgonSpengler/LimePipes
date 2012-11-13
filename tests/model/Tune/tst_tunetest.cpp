@@ -79,16 +79,16 @@ void TuneTest::testOkToInsertChildRedefinition()
     Symbol *invalidSymbol = new Symbol(LP::NoSymbolType, "Melody Note");
 
     // Tune with default instrument should always return false
-    QVERIFY2(m_tune->okToInsertChild(melodyNoteSymbol) == false, "It's not ok to insert Symbol into a tune with default instrument");
-    QVERIFY2(m_tune->okToInsertChild(invalidSymbol) == false, "It's not ok to insert Symbol into a tune with default instrument");
+    QVERIFY2(m_tune->okToInsertChild(melodyNoteSymbol, 0) == false, "It's not ok to insert Symbol into a tune with default instrument");
+    QVERIFY2(m_tune->okToInsertChild(invalidSymbol, 0) == false, "It's not ok to insert Symbol into a tune with default instrument");
 
     // Tune with instrument should return the same as the instrument
     delete m_tune;
     m_tune = new Tune(m_instrument);
     QVERIFY2(m_tune->data(LP::tuneInstrument).isValid() == true, "The next tests requires a Tune with instrument");
-    QVERIFY2(m_instrument->supportsSymbolType(LP::MelodyNote) == m_tune->okToInsertChild(melodyNoteSymbol),
+    QVERIFY2(m_instrument->supportsSymbolType(LP::MelodyNote) == m_tune->okToInsertChild(melodyNoteSymbol, 0),
              "Tune doesn't return the same as the instrument for a valid symbol");
-    QVERIFY2(m_instrument->supportsSymbolType(LP::NoSymbolType) == m_tune->okToInsertChild(invalidSymbol),
+    QVERIFY2(m_instrument->supportsSymbolType(LP::NoSymbolType) == m_tune->okToInsertChild(invalidSymbol, 0),
              "Tune doesn't return the same as the instrument for a invalid symbol");
 }
 

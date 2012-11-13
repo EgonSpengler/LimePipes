@@ -31,7 +31,7 @@ Tune::Tune(InstrumentPtr instrument)
     setInstrument(instrument);
 }
 
-bool Tune::okToInsertChild(const MusicItem *item)
+bool Tune::okToInsertChild(const MusicItem *item, int row)
 {
     const Symbol *symbol = symbolFromMusicItem(item);
     if (symbol) {

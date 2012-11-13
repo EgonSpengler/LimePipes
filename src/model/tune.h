@@ -23,7 +23,7 @@ public:
     InstrumentPtr instrument() const { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
     void setInstrument(InstrumentPtr instrument);
 
-    bool okToInsertChild(const MusicItem *item);
+    bool okToInsertChild(const MusicItem *item, int row);
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);

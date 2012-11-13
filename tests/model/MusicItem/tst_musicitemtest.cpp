@@ -265,7 +265,7 @@ void MusicItemTest::testSetParent()
 void MusicItemTest::testOkToInsertChild()
 {
     MusicItem *item = new TestMusicItem();
-    QVERIFY2(m_parent->okToInsertChild(item) == true, "Default implementation should return true");
+    QVERIFY2(m_parent->okToInsertChild(item, 0) == true, "Default implementation should return true");
     delete item;
 }
 

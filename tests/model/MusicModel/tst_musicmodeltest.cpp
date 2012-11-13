@@ -15,6 +15,7 @@
 #include <QTemporaryFile>
 #include <QUndoStack>
 #include <QXmlStreamReader>
+#include <utilities/error.h>
 #include "qt_modeltest/modeltest.h"
 #include <musicmodel.h>
 #include <utilities/error.h>
@@ -314,6 +315,7 @@ void MusicModelTest::testRemoveRows()
     QString symbolNameWithLength = "Testsymbol with pitch and length";
     int indexOfTestsymbol = m_symbolNames.indexOf(symbolNameWithLength);
     Q_ASSERT(indexOfTestsymbol != -1);
+    Q_UNUSED(indexOfTestsymbol)
 
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
     QModelIndex symbol1 = m_model->insertSymbol(0, tune, symbolNameWithLength);
@@ -368,8 +370,10 @@ void MusicModelTest::testRemoveRows()
 void MusicModelTest::testSave()
 {
     QTemporaryFile tempFile;
+    tempFile.open();
     QStack<QStringRef> musicItemTagStack;
-    Q_ASSERT(tempFile.open());
+
+    Q_ASSERT(!tempFile.fileName().isEmpty());
 
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
     m_model->insertSymbol(0, tune, m_symbolNames.at(0));
@@ -378,7 +382,14 @@ void MusicModelTest::testSave()
     m_model->insertSymbol(0, tune, m_symbolNames.at(0));
     m_model->insertSymbol(0, tune, m_symbolNames.at(0));
 
-    m_model->save(tempFile.fileName());
+
+    try {
+        Q_ASSERT(tempFile.isOpen());
+        m_model->save(tempFile.fileName());
+    }
+    catch (LP::Error &error){
+        qWarning() << "Failed saving: " << error.what();
+    }
 
     QXmlStreamReader reader(&tempFile);
 

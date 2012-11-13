@@ -486,7 +486,7 @@ void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)
             switch (item->type()) {
             case MusicItem::RootItemType:
                 if (!isMusicItemTag(reader->name()))
-                    goto no_valid_document;
+                    throw LP::Error(tr("No valid LimePipes file"));
 
                 processScoreTag(reader, &item);
                 break;
@@ -509,8 +509,6 @@ void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)
                 isEndTagOfCurrentItem(reader, item))
             item = item->parent();
     }
-no_valid_document:
-    ;/* Nothing to do */
 }
 
 bool MusicModel::isMusicItemTag(const QString &tagName)
@@ -737,7 +735,7 @@ bool MusicModel::isRowValid(MusicItem *item, int row) const
 QModelIndex MusicModel::insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item)
 {
     if (MusicItem *parentItem = itemForIndex(parent)) {
-        if (isRowValid(parentItem, row) && parentItem->okToInsertChild(item)) {
+        if (isRowValid(parentItem, row) && parentItem->okToInsertChild(item, row)) {
             m_undoStack->push(new InsertItemsCommand(this, text,  parent, row, QList<MusicItem*>() << item));
             return index(row, 0, parent);
         }

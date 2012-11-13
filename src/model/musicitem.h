@@ -46,7 +46,7 @@ public:
     MusicItem *childAt(int row) const { return m_children.value(row); }
     MusicItem *takeChild(int row);
     QList<MusicItem*> children() const { return m_children; }
-    virtual bool okToInsertChild( const MusicItem *item ) { Q_UNUSED(item) return true; }
+    virtual bool okToInsertChild(const MusicItem *item, int row) { Q_UNUSED(item) Q_UNUSED(row) return true; }
 
     QVariant data(int role = Qt::UserRole) const;
     bool setData(const QVariant &value, int role);
