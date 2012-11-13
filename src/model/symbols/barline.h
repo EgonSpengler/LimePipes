@@ -6,17 +6,17 @@
  *
  */
 
-#ifndef BAR_H
-#define BAR_H
+#ifndef BARLINE_H
+#define BARLINE_H
 
 #include <QCoreApplication>
 #include <symbol.h>
 
-class Bar : public Symbol
+class BarLine : public Symbol
 {
     Q_DECLARE_TR_FUNCTIONS(Bar)
 public:
-    explicit Bar();
+    explicit BarLine();
 };
 
-#endif // BAR_H
+#endif // BARLINE_H

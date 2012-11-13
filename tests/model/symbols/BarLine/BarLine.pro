@@ -10,12 +10,13 @@ include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
 
 QT       += testlib
 
-TARGET = bin/tst_bartest
+TARGET = bin/tst_barlinetest
 CONFIG   += console
 CONFIG   -= app_bundle
 
 TEMPLATE = app
 
 
-SOURCES += tst_bartest.cpp
+SOURCES += \
+    tst_barlinetest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"

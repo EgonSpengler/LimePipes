@@ -35,7 +35,7 @@ bool GHB_Instrument::supportsSymbolType(int type) const
 
     case GHB::MelodyNote:
     case GHB::Doubling:
-    case LP::Bar:
+    case LP::BarLine:
         return true;
     default:
         return false;

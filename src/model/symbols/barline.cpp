@@ -7,13 +7,13 @@
  */
 
 /*!
-  * @class Bar
-  * A @ref Symbol "Bar symbol" represents the vertical bar line in a Staff.
+  * @class BarLine
+  * A @ref The BarLine symbol represents the vertical bar line in a Staff.
   */
 
-#include "bar.h"
+#include "barline.h"
 
-Bar::Bar()
-    : Symbol(LP::Bar,  tr("Bar"))
+BarLine::BarLine()
+    : Symbol(LP::BarLine,  tr("Bar"))
 {
 }
