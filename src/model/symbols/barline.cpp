@@ -20,6 +20,7 @@ BarLine::BarLine(Type type, MusicItem *parent)
 {
     initData(QVariant::fromValue<BarLine::Type>(type), LP::barLineType);
     initData(QVariant(false), LP::barLineRepeat);
+    setSymbolName();
 }
 
 bool BarLine::itemSupportsWritingOfData(int role) const
@@ -35,5 +36,31 @@ void BarLine::beforeWritingData(QVariant &value, int role)
         Type barLineType = data(LP::barLineType).value<BarLine::Type>();
         if (barLineType == Normal)
             value.setValue<bool>(false);
+        setSymbolName();
     }
+}
+
+void BarLine::afterWritingData(int role)
+{
+    if (role == LP::barLineRepeat)
+        setSymbolName();
+}
+
+void BarLine::setSymbolName()
+{
+    Type type = data(LP::barLineType).value<BarLine::Type>();
+    QString name = SymbolName;
+        if (type == StartPart) {
+            name += " ";
+            name += tr("start of part");
+        }
+        if (type == EndPart) {
+            name += " ";
+            name += tr("end of part");
+        }
+        if (data(LP::barLineRepeat).toBool()) {
+            name += " ";
+            name += tr("with repeat");
+        }
+        initData(name, LP::symbolName);
 }

@@ -28,6 +28,10 @@ public:
 
     bool itemSupportsWritingOfData(int role) const;
     void beforeWritingData(QVariant &value, int role);
+    void afterWritingData(int role);
+
+private:
+    void setSymbolName();
 };
 
 Q_DECLARE_METATYPE(BarLine::Type)

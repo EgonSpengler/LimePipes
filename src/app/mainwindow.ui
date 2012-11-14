@@ -74,6 +74,7 @@
    <addaction name="editRedoAction"/>
    <addaction name="separator"/>
    <addaction name="editAddTuneAction"/>
+   <addaction name="editAddTunePartAction"/>
    <addaction name="editAddSymbolsAction"/>
   </widget>
   <action name="fileNewAction">
@@ -190,6 +191,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+Z</string>
+   </property>
+  </action>
+  <action name="editAddTunePartAction">
+   <property name="icon">
+    <iconset resource="app_resources.qrc">
+     <normaloff>:/application/tune-add-part</normaloff>:/application/tune-add-part</iconset>
+   </property>
+   <property name="text">
+    <string>Add &amp;Part</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Part</string>
    </property>
   </action>
  </widget>

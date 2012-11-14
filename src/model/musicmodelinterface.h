@@ -28,6 +28,7 @@ public:
     virtual QModelIndex appendTuneToScore(const QModelIndex &score, const QString &instrumentName) = 0;
     virtual QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName) = 0;
     virtual QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName) = 0;
+    virtual void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat=false) = 0;
 
     virtual MusicItem *itemForIndex(const QModelIndex& index) const = 0;
 

@@ -167,6 +167,7 @@ void MainWindow::updateUi()
     int rows = m_model->rowCount();
     ui->fileSaveAsAction->setEnabled(isWindowModified() || rows);
     ui->editAddSymbolsAction->setEnabled(rows);
+    ui->editAddTunePartAction->setEnabled(rows);
 }
 
 void MainWindow::on_fileOpenAction_triggered()
@@ -278,6 +279,19 @@ void MainWindow::on_editAddTuneAction_triggered()
         musicModel->undoStack()->endMacro();
     }
     updateUi();
+}
+
+void MainWindow::on_editAddTunePartAction_triggered()
+{
+    MusicModelInterface *musicModel;
+    musicModel = musicModelFromItemModel(m_model);
+
+    if (!musicModel)
+        return;
+
+    if (musicModel->isIndexTune(m_treeView->currentIndex())) {
+        musicModel->insertPart(0, m_treeView->currentIndex(), 9, true);
+    }
 }
 
 void MainWindow::on_editAddSymbolsAction_triggered()

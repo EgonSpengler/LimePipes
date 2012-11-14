@@ -40,6 +40,7 @@ private slots:
     void on_fileSaveAction_triggered();
     void on_fileSaveAsAction_triggered();
     void on_editAddTuneAction_triggered();
+    void on_editAddTunePartAction_triggered();
     void on_editAddSymbolsAction_triggered();
     void on_editUndoAction_triggered();
     void on_editRedoAction_triggered();

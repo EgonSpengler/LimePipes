@@ -38,6 +38,7 @@ public:
     QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName);
     QModelIndex appendTuneToScore(const QModelIndex &score, const QString &instrumentName);
     QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName);
+    void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat);
 
     MusicItem *itemForIndex(const QModelIndex &index) const;
 

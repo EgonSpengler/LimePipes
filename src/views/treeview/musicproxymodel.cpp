@@ -201,6 +201,14 @@ QModelIndex MusicProxyModel::insertSymbol(int row, const QModelIndex &tune, cons
     return QModelIndex();
 }
 
+void MusicProxyModel::insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcTuneIndex = mapToSource(tuneIndex);
+        model->insertPart(partPosition, srcTuneIndex, measures, withRepeat);
+    }
+}
+
 MusicItem *MusicProxyModel::itemForIndex(const QModelIndex &index) const
 {
     if (musicModel()) {

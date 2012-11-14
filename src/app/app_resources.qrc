@@ -9,5 +9,6 @@
         <file alias="tune-add-symbols">resources/img/tune-add-symbols.svg</file>
         <file alias="edit-undo">resources/img/edit-undo.svg</file>
         <file alias="edit-redo">resources/img/edit-redo.svg</file>
+        <file alias="tune-add-part">resources/img/tune-add-part.svg</file>
     </qresource>
 </RCC>
