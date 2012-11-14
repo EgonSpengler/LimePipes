@@ -43,7 +43,11 @@ enum DataRole {
     symbolGraphic,
 
     // MelodyNote
-    melodyNoteDots
+    melodyNoteDots,
+
+    // BarLine
+    barLineType,
+    barLineRepeat
 };
 
 }

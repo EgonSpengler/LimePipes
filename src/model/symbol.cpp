@@ -24,10 +24,11 @@ Symbol::Symbol(MusicItem *parent)
     initData( tr("No name symbol"), LP::symbolName);
 }
 
-Symbol::Symbol(int type, const QString &name)
+Symbol::Symbol(int type, const QString &name, MusicItem *parent)
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
       m_graphicBuilder(0)
 {
+    Q_UNUSED(parent)
     setDefaultSymbolOptions();
     initData(type, LP::symbolType);
     initData(name, LP::symbolName);

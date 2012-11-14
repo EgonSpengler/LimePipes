@@ -29,7 +29,7 @@ public:
     Q_DECLARE_FLAGS(Options, Option)
 
     explicit Symbol(MusicItem *parent=0);
-    explicit Symbol(int type, const QString &name);
+    explicit Symbol(int type, const QString &name, MusicItem *parent=0);
     virtual ~Symbol();
 
     int symbolType() const { return data(LP::symbolType).toInt(); }

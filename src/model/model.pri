@@ -1,4 +1,5 @@
 include( $$LIMEPIPES_SOURCE_TREE/src/model/musicfont/musicfont.pri )
+include( $$LIMEPIPES_SOURCE_TREE/src/model/symbols/symbols.pri )
 
 INCLUDEPATH += $$PWD
 

@@ -23,6 +23,8 @@ public:
     InstrumentPtr instrument() const { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
     void setInstrument(InstrumentPtr instrument);
 
+    int startRowOfPart(int partNumber);
+
     bool okToInsertChild(const MusicItem *item, int row);
 
     bool itemSupportsWritingOfData(int role) const;
@@ -30,6 +32,7 @@ public:
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
+    int findStartOfPart(int partNumber);
     const Symbol *symbolFromMusicItem(const MusicItem *item);
 };
 

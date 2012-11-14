@@ -7,7 +7,6 @@ include( ../../../tests.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/views/treeview/treeview.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/model.pri )
 include( $$LIMEPIPES_SOURCE_TREE/src/model/datatypes/datatypes.pri )
-include( $$LIMEPIPES_SOURCE_TREE/src/model/symbols/symbols.pri )
 
 QT       += testlib
 

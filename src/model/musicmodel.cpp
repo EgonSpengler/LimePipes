@@ -26,6 +26,7 @@
 #include <commands/removeitemscommand.h>
 #include <rootitem.h>
 #include <score.h>
+#include <symbols/barline.h>
 #include <tune.h>
 #include <utilities/error.h>
 
@@ -370,6 +371,31 @@ QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, const QSt
     QString insertText = tr("Insert %1").arg(symbol->data(LP::symbolName).toString());
 
     return insertItem(insertText, tune, row, symbol);
+}
+
+void MusicModel::insertPart(int partRow, const QModelIndex &tuneIndex, int measures, bool withRepeat)
+{
+    MusicItem *tuneItem = itemForIndex(tuneIndex);
+    Tune *tune = static_cast<Tune *>(tuneItem);
+    if (!tune)
+        return;
+    int startRowOfPart = tune->startRowOfPart(partRow);
+    QList<MusicItem*> barLines;
+    BarLine *barLine;
+    for (int i=0; i <= measures; i++) {
+        if (i == 0) {
+            barLine = new BarLine(BarLine::StartPart);
+            barLine->setData(true, LP::barLineRepeat);
+        }
+        else if (i == measures) {
+            barLine = new BarLine(BarLine::EndPart);
+            barLine->setData(true, LP::barLineRepeat);
+        }
+        else
+            barLine = new BarLine();
+        barLines << barLine;
+    }
+    m_undoStack->push(new InsertItemsCommand(this, tr("Insert Part"), tuneIndex, startRowOfPart, barLines));
 }
 
 MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const

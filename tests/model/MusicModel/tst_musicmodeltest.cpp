@@ -17,6 +17,7 @@
 #include <QXmlStreamReader>
 #include <utilities/error.h>
 #include "qt_modeltest/modeltest.h"
+#include <barline.h>
 #include <musicmodel.h>
 #include <utilities/error.h>
 #include <itemdatatypes.h>
@@ -56,6 +57,7 @@ private Q_SLOTS:
     void testInsertTuneIntoScore();
     void testAppendTuneToScore();
     void testInsertTuneWithScore();
+    void testInsertPart();
     void testInsertSymbol();
     void testCallOfOkToInsertChild();
     void testQAbstractItemModelImplementation();
@@ -219,6 +221,38 @@ void MusicModelTest::testInsertTuneWithScore()
     // New tune and new score => tune in row and column 0
     QVERIFY2(tune.column() == 0, "Tune is in wrong column");
     QVERIFY2(tune.row() == 0, "Tune is in wrong row");
+}
+
+void MusicModelTest::testInsertPart()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    Q_ASSERT(m_model->rowCount(tune) == 0);
+
+    int measureCount = 9;
+    m_model->insertPart(0, tune, measureCount);
+    QVERIFY2(m_model->rowCount(tune), "No symbols inserted");
+    QVERIFY2(m_model->rowCount(tune) == measureCount + 1, "Wrong count of symbols inserted");
+
+    // 1st part
+    QVariant firstBarLineType = m_model->index(0, 0, tune).data(LP::barLineType);
+    Q_ASSERT(firstBarLineType.isValid() && firstBarLineType.canConvert<BarLine::Type>());
+    QVERIFY2(firstBarLineType.value<BarLine::Type>() == BarLine::StartPart, "1st Part doesn't begin with start barline");
+
+    QVariant lastBarLineType = m_model->index(m_model->rowCount(tune) - 1, 0, tune).data(LP::barLineType);
+    Q_ASSERT(lastBarLineType.isValid() && lastBarLineType.canConvert<BarLine::Type>());
+    QVERIFY2(lastBarLineType.value<BarLine::Type>() == BarLine::EndPart, "1st Part doesn't end with end barline");
+
+    // 2nd part
+    m_model->insertPart(1, tune, measureCount, true);
+    QVariant firstBarLineRepeatValue = m_model->index(measureCount + 1, 0, tune).data(LP::barLineRepeat);
+    Q_ASSERT(firstBarLineRepeatValue.isValid() &&
+             firstBarLineRepeatValue.canConvert<bool>());
+    QVERIFY2(firstBarLineRepeatValue.toBool() == true, "2nd Part doesn't begin with repeat start barline");
+
+    QVariant lastBarLineRepeatValue = m_model->index(m_model->rowCount(tune) - 1, 0, tune).data(LP::barLineRepeat);
+    Q_ASSERT(lastBarLineRepeatValue.isValid() &&
+             lastBarLineRepeatValue.canConvert<bool>());
+    QVERIFY2(lastBarLineRepeatValue.toBool() == true, "2nd Part doesn't end with repeat end barline");
 }
 
 void MusicModelTest::testInsertSymbol()

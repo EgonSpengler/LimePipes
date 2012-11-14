@@ -11,7 +11,10 @@
 #include <QXmlStreamWriter>
 #include <tune.h>
 #include <symbol.h>
+#include <barline.h>
 #include <greathighlandbagpipe.h>
+
+#include <QDebug>
 
 class TuneTest : public QObject
 {
@@ -30,6 +33,7 @@ private Q_SLOTS:
     void testOkToInsertChildRedefinition();
     void testSetData();
     void testWriteToXmlStream();
+    void testRowOfPartStart();
 
 private:
     Tune *m_tune;
@@ -82,7 +86,13 @@ void TuneTest::testOkToInsertChildRedefinition()
     QVERIFY2(m_tune->okToInsertChild(melodyNoteSymbol, 0) == false, "It's not ok to insert Symbol into a tune with default instrument");
     QVERIFY2(m_tune->okToInsertChild(invalidSymbol, 0) == false, "It's not ok to insert Symbol into a tune with default instrument");
 
+    // BarLine symbol should always return true
+    BarLine *barLine = new BarLine(BarLine::StartPart);
+    QVERIFY2(m_tune->okToInsertChild(barLine, 0), "A Single BarLine should not be insertable");
+    delete barLine;
+
     // Tune with instrument should return the same as the instrument
+    // only after a part was added
     delete m_tune;
     m_tune = new Tune(m_instrument);
     QVERIFY2(m_tune->data(LP::tuneInstrument).isValid() == true, "The next tests requires a Tune with instrument");
@@ -107,6 +117,33 @@ void TuneTest::testWriteToXmlStream()
 
     m_tune->writeItemDataToXmlStream(&writer);
     QVERIFY2(!data.contains(instrumentTag, Qt::CaseInsensitive), "Instrument tag was found");
+}
+
+void TuneTest::testRowOfPartStart()
+{
+    QVERIFY2(m_tune->startRowOfPart(2) == 0, "Wrong row returned for empty tune");
+    m_tune->addChild(new BarLine(BarLine::StartPart)); // Part 0 - Row 0
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine(BarLine::EndPart));
+    m_tune->addChild(new BarLine(BarLine::StartPart)); // Part 1 - Row 5
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine(BarLine::EndPart));
+    m_tune->addChild(new BarLine(BarLine::StartPart)); // Part 2 - Row 10
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine());
+    m_tune->addChild(new BarLine(BarLine::EndPart)); // Appended part - Row 15
+
+    QVERIFY2(m_tune->startRowOfPart(-1) == 0, "Wrong row for negative part number");
+    QVERIFY2(m_tune->startRowOfPart(0) == 0, "Wrong row for part number 0");
+    QVERIFY2(m_tune->startRowOfPart(1) == 5, "Wrong row for part number 1");
+    QVERIFY2(m_tune->startRowOfPart(2) == 10, "Wrong row for part number 2");
+    QVERIFY2(m_tune->startRowOfPart(3) == 15, "Wrong row for part number 3");
+    QVERIFY2(m_tune->startRowOfPart(5) == 15, "Wrong row for part number higher than max parts");
 }
 
 QTEST_APPLESS_MAIN(TuneTest)

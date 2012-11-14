@@ -10,13 +10,26 @@
 #define BARLINE_H
 
 #include <QCoreApplication>
+#include <QMetaType>
 #include <symbol.h>
 
 class BarLine : public Symbol
 {
     Q_DECLARE_TR_FUNCTIONS(Bar)
 public:
-    explicit BarLine();
+    enum Type {
+        StartPart,
+        EndPart,
+        Normal
+    };
+    const static QString SymbolName;
+
+    explicit BarLine(Type type=Normal, MusicItem *parent=0);
+
+    bool itemSupportsWritingOfData(int role) const;
+    void beforeWritingData(QVariant &value, int role);
 };
+
+Q_DECLARE_METATYPE(BarLine::Type)
 
 #endif // BARLINE_H
