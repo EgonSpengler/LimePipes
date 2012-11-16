@@ -141,8 +141,9 @@ void LengthDelegateTest::testSetModelData()
 QModelIndex LengthDelegateTest::symbolIndex(LP::DataRole role, bool hasData)
 {
     QModelIndex tuneIndex = m_model->insertTuneWithScore(0, "score", m_instrumentNames.at(0));
+    m_model->insertPart(0, tuneIndex, 9);
     foreach (QString symbolName, m_symbolNames) {
-        QModelIndex symbolIndex = m_model->insertSymbol(0, tuneIndex, symbolName);
+        QModelIndex symbolIndex = m_model->insertSymbol(1, tuneIndex, symbolName);
         QVariant dataVar = symbolIndex.data(role);
         if (hasData) {
             if (dataVar.isValid()) {

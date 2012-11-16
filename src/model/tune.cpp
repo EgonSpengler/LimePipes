@@ -42,14 +42,16 @@ Tune::Tune(InstrumentPtr instrument)
 
 bool Tune::okToInsertChild(const MusicItem *item, int row)
 {
-    Q_UNUSED(row)
     const Symbol *symbol = symbolFromMusicItem(item);
-    if (symbol->symbolType() == LP::BarLine)
-        return true;
 
     if (symbol) {
+        if (symbol->symbolType() == LP::BarLine)
+            return true;
+
         int type = symbol->symbolType();
-        return instrument()->supportsSymbolType(type);
+        if (instrument()->supportsSymbolType(type) &&
+                rowIsPrecededByStartOfPart(row))
+            return true;
     }
     return false;
 }
@@ -90,4 +92,23 @@ int Tune::findStartOfPart(int partNumber)
         ++currentRow;
     }
     return childCount();
+}
+
+bool Tune::rowIsPrecededByStartOfPart(int row)
+{
+    if (row < 1)
+        return false;
+
+    if (row >= childCount())
+        row = childCount() - 1;
+
+    for (int i=row; row!=0; row--) {
+        QVariant barLineTypeVar = children().at(i)->data(LP::barLineType);
+        if (barLineTypeVar.isValid() &&
+                barLineTypeVar.canConvert<BarLine::Type>()) {
+            if (barLineTypeVar.value<BarLine::Type>() == BarLine::StartPart)
+                return true;
+        }
+    }
+    return true;
 }

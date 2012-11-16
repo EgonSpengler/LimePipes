@@ -19,6 +19,7 @@
 #include "musicmodel.h"
 #include <QDebug>
 #include <QMimeData>
+#include <QPair>
 #include <QUndoStack>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
@@ -81,6 +82,12 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
                 | Qt::ItemIsEditable;
         if (index.column() == 0) {
             theFlags |= Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
+        }
+        QVariant symbol = data(index, LP::symbolType);
+        if (symbol.isValid() &&
+                symbol.canConvert<int>() &&
+                symbol.toInt() == LP::BarLine) {
+            theFlags &= Qt::ItemIsEnabled;
         }
     }
     return theFlags;
@@ -250,6 +257,14 @@ bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, 
             !mimeData || !dataHasSupportedMimeType(mimeData))
         return false;
 
+    if (isIndexTune(parent)) {
+        if (row == -1)
+            row = rowCount(parent) - 1;
+        else
+            if (!isRowWithinPartOfTune(parent, row))
+                return false;
+    }
+
     Q_ASSERT(mimeData->formats().count() == 1);
     QString mimeType = mimeData->formats().at(0);
 
@@ -357,6 +372,9 @@ QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, const QSt
     if (!tuneItem)
         return QModelIndex();
 
+    if (!isRowWithinPartOfTune(tune, row))
+        return QModelIndex();
+
     QVariant instrumentVar = tuneItem->data(LP::tuneInstrument);
     if (!instrumentVar.isValid() &&
             !instrumentVar.canConvert<InstrumentPtr>())
@@ -385,11 +403,11 @@ void MusicModel::insertPart(int partRow, const QModelIndex &tuneIndex, int measu
     for (int i=0; i <= measures; i++) {
         if (i == 0) {
             barLine = new BarLine(BarLine::StartPart);
-            barLine->setData(true, LP::barLineRepeat);
+            barLine->setData(withRepeat, LP::barLineRepeat);
         }
         else if (i == measures) {
             barLine = new BarLine(BarLine::EndPart);
-            barLine->setData(true, LP::barLineRepeat);
+            barLine->setData(withRepeat, LP::barLineRepeat);
         }
         else
             barLine = new BarLine();
@@ -406,6 +424,22 @@ MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const
             return item;
     }
     return m_rootItem;
+}
+
+QModelIndex MusicModel::indexForItem(MusicItem *item) const
+{
+    MusicItem *itemPtr = item;
+    QVector<int> childRows;
+    while (itemPtr->parent() != 0) {
+        childRows.prepend(itemPtr->parent()->rowOfChild(itemPtr));
+        itemPtr = itemPtr->parent();
+    }
+
+    QModelIndex indexOfItem = QModelIndex();
+    for (int i=0; i<childRows.count(); i++) {
+        indexOfItem = index(childRows[i], 0, indexOfItem);
+    }
+    return indexOfItem;
 }
 
 void MusicModel::clear()
@@ -547,6 +581,22 @@ bool MusicModel::isMusicItemTag(const QStringRef &tagName)
     return isMusicItemTag(QString().append(tagName));
 }
 
+bool MusicModel::isRowWithinPartOfTune(const QModelIndex &tune, int row)
+{
+    if (rowCount(tune) == 0)
+        return false;
+
+    QModelIndex symbol = index(row, 0, tune);
+    QVariant barLineType = data(symbol, LP::barLineType);
+    if (barLineType.isValid() &&
+            barLineType.canConvert<BarLine::Type>()) {
+        BarLine::Type barType = barLineType.value<BarLine::Type>();
+        if (barType == BarLine::StartPart)
+            return false;
+    }
+    return true;
+}
+
 void MusicModel::processScoreTag(QXmlStreamReader *reader, MusicItem **item)
 {
     if (isValidScoreTag(reader))
@@ -671,7 +721,8 @@ bool MusicModel::symbolNameIsSupported(QXmlStreamReader *reader, MusicItem *tune
     QStringList symbolNames =
             m_instrumentManager->symbolNamesForInstrument(instrument->name());
 
-    if (symbolNames.contains(symbolNameFromAttribute)) {
+    if (symbolNames.contains(symbolNameFromAttribute) ||
+            BarLine::SymbolName.compare(symbolNameFromAttribute, Qt::CaseInsensitive) == 0) {
         return true;
     }
     return false;
@@ -696,8 +747,19 @@ MusicItem *MusicModel::newSymbolForTuneItem(QXmlStreamReader *reader, MusicItem 
         return item;
 
     MusicItem *parent = item;
-    item = m_instrumentManager->symbolForName(instrument->name(), symbolNameFromAttribute);
-    parent->addChild(item);
+    MusicItem *child = 0;
+    if (symbolNameFromAttribute.compare(BarLine::SymbolName, Qt::CaseInsensitive) == 0)
+        child = new BarLine();
+    else
+        child = m_instrumentManager->symbolForName(instrument->name(), symbolNameFromAttribute);
+
+    if (parent->okToInsertChild(child, parent->childCount())) {
+        item = child;
+        parent->addChild(item);
+    }
+    else
+        delete child;
+
     return item;
 }
 

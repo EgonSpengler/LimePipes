@@ -6,7 +6,13 @@
                 <TYPE>Start</TYPE>
                 <REPEAT/>
             </SYMBOL>
-            <SYMBOL NAME="Testsymbol">
+            <SYMBOL NAME="Testsymbol with pitch and length">
+            </SYMBOL>
+            <SYMBOL>
+            </SYMBOL>
+            <SYMBOL NAME="Testsymbol with pitch and length">
+            </SYMBOL>
+            <SYMBOL NAME="Testsymbol with pitch and length">
             </SYMBOL>
             <SYMBOL NAME="Barline">
                 <TYPE>End</TYPE>

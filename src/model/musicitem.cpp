@@ -28,6 +28,8 @@ MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
 {
     if (m_parent)
         m_parent->addChild(this);
+    else
+        m_parent = 0;
 }
 
 void MusicItem::setParent(MusicItem *parent)

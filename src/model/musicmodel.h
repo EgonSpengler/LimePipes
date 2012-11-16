@@ -61,6 +61,7 @@ public:
     void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat=false);
 
     MusicItem *itemForIndex(const QModelIndex& index) const;
+    QModelIndex indexForItem(MusicItem *item) const;
 
     bool isIndexScore(const QModelIndex &index) const;
     bool isIndexTune(const QModelIndex &index) const;
@@ -124,6 +125,8 @@ private:
     static QHash<int, QString> initItemTypeTags();
     bool isMusicItemTag(const QString &tagName);
     bool isMusicItemTag(const QStringRef &tagName);
+
+    bool isRowWithinPartOfTune(const QModelIndex &tune, int row);
 
     QModelIndex insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item);
 

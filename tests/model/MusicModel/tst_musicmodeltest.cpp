@@ -51,6 +51,7 @@ private Q_SLOTS:
     void cleanupTestcase();
     void init();
     void cleanup();
+    void testFlags();
     void testColumnCount();
     void testInsertScore();
     void testAppendScore();
@@ -62,6 +63,7 @@ private Q_SLOTS:
     void testCallOfOkToInsertChild();
     void testQAbstractItemModelImplementation();
     void testItemForIndex();
+    void testIndexForItem();
     void testClear();
     void testIsScore();
     void testIsTune();
@@ -91,6 +93,7 @@ private Q_SLOTS:
     void testUndoStackInsertTuneIntoScore();
     void testUndoStackAppendTuneToScore();
     void testUndoStackInsertTuneWithScore();
+    void testUndoStackInsertPart();
     void testUndoStackInsertSymbol();
     void testUndoStackRemoveRows();
     void testUndoStackDropMimeData();
@@ -142,6 +145,48 @@ void MusicModelTest::init()
 void MusicModelTest::cleanup()
 {
     delete m_model;
+}
+
+void MusicModelTest::testFlags()
+{
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex score = m_model->index(0, 0, QModelIndex());
+    m_model->insertPart(0, tune, 9);
+    QModelIndex symbol = m_model->insertSymbol(1, tune, m_symbolNames.at(0));
+    QModelIndex barLineIndex = m_model->index(0, 0, tune);
+    Q_ASSERT(tune.isValid());
+    Q_ASSERT(score.isValid());
+    Q_ASSERT(symbol.isValid());
+    Q_ASSERT(m_model->data(symbol, LP::symbolType).value<int>() != LP::barLineType);
+    Q_ASSERT(barLineIndex.isValid());
+
+    Qt::ItemFlags scoreFlags = m_model->flags(score);
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsEnabled), "Score is not enabled");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsSelectable), "Score is not selectable");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsEditable), "Score is not editable");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsDragEnabled), "Score is not drag enabled");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsDropEnabled), "Score is not drop enabled");
+
+    Qt::ItemFlags tuneFlags = m_model->flags(tune);
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsEnabled), "Tune is not enabled");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsSelectable), "Tune is not selectable");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsEditable), "Tune is not editable");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsDragEnabled), "Tune is not drag enabled");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsDropEnabled), "Tune is not drop enabled");
+
+    Qt::ItemFlags symbolFlags = m_model->flags(symbol);
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsEnabled), "Symbol is not enabled");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsSelectable), "Symbol is not selectable");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsEditable), "Symbol is not editable");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsDragEnabled), "Symbol is not drag enabled");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsDropEnabled), "Symbol is not drop enabled");
+
+    Qt::ItemFlags barLineFlags = m_model->flags(barLineIndex);
+    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsEnabled), "Bar line is not enabled");
+    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsSelectable) == false, "Bar line is selectable");
+    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsEditable) == false, "Bar line is editable");
+    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsDragEnabled) == false, "Bar line is drag enabled");
+    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsDropEnabled) == false, "Bar line is drop enabled");
 }
 
 void MusicModelTest::testColumnCount()
@@ -259,12 +304,18 @@ void MusicModelTest::testInsertSymbol()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
     QModelIndex symbol1 = m_model->insertSymbol(0, tune, m_symbolNames.at(0));
-    QVERIFY2(symbol1.isValid(), "Failed inserting symbol");
+    QVERIFY2(!symbol1.isValid(), "It was possible to insert a single symbol.");
+
+    m_model->insertPart(0, tune, 9);
+    QModelIndex symbol2 = m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    QVERIFY2(!symbol2.isValid(), "It was possible to insert a symbol outside a part");
+    symbol2 = m_model->insertSymbol(3, tune, m_symbolNames.at(0));
+    QVERIFY2(symbol2.isValid(), "It was not possible to insert a symbol inside a part");
 
     // Now, the rowsInserted signal should not be called when inserting rows
     QSignalSpy spy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
 
-    m_model->insertSymbol(5, tune, m_symbolNames.at(0));
+    m_model->insertSymbol(15, tune, m_symbolNames.at(0));
     m_model->insertSymbol(-1, tune, m_symbolNames.at(0));
 
     QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
@@ -274,7 +325,8 @@ void MusicModelTest::testCallOfOkToInsertChild()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
 
-    QModelIndex validSymbol = m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    m_model->insertPart(0, tune, 9);
+    QModelIndex validSymbol = m_model->insertSymbol(2, tune, m_symbolNames.at(0));
     QVERIFY2(validSymbol.isValid(), "Failed inserting valid symbol");
 
     QModelIndex invalidSymbol = m_model->insertSymbol(0, tune, "invalid symbol name");
@@ -309,6 +361,45 @@ void MusicModelTest::testItemForIndex()
     QVERIFY2(score->data(LP::scoreTitle) == "Random Title", "Failed to get the correct item for an index");
 }
 
+void MusicModelTest::testIndexForItem()
+{
+    MusicItem *score = 0;
+    MusicItem *tune = 0;
+    MusicItem *symbol = 0;
+
+    QModelIndex scoreIndex = m_model->appendScore("Title of score");
+    score = m_model->itemForIndex(scoreIndex);
+    Q_ASSERT(score);
+
+    QModelIndex tuneIndex = m_model->insertTuneIntoScore(0, scoreIndex, m_instrumentNames.at(0));
+    tune = m_model->itemForIndex(tuneIndex);
+    Q_ASSERT(tune);
+
+    QModelIndex symbolIndex = m_model->insertSymbol(0, tuneIndex, m_symbolNames.at(0));
+    symbol = m_model->itemForIndex(symbolIndex);
+    Q_ASSERT(symbol);
+
+    QVERIFY2(m_model->itemForIndex(scoreIndex) == score, "Failed getting score item 1");
+    QVERIFY2(m_model->itemForIndex(tuneIndex) == tune, "Failed getting tune item 1");
+    QVERIFY2(m_model->itemForIndex(symbolIndex) == symbol, "Failed getting symbol item 1");
+
+    scoreIndex = m_model->appendScore("Title of second score");
+    score = m_model->itemForIndex(scoreIndex);
+    Q_ASSERT(score);
+
+    tuneIndex = m_model->appendTuneToScore(scoreIndex, m_instrumentNames.at(0));
+    tune = m_model->itemForIndex(tuneIndex);
+    Q_ASSERT(tune);
+
+    symbolIndex = m_model->insertSymbol(1, tuneIndex, m_symbolNames.at(0));
+    symbol = m_model->itemForIndex(symbolIndex);
+    Q_ASSERT(symbol);
+
+    QVERIFY2(m_model->itemForIndex(scoreIndex) == score, "Failed getting score item 2");
+    QVERIFY2(m_model->itemForIndex(tuneIndex) == tune, "Failed getting tune item 2");
+    QVERIFY2(m_model->itemForIndex(symbolIndex) == symbol, "Failed getting symbol item 2");
+}
+
 void MusicModelTest::testClear()
 {
     m_model->insertScore(0, "Title");
@@ -333,7 +424,8 @@ void MusicModelTest::testIsTune()
 void MusicModelTest::testIsSymbol()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    QModelIndex symbol1 = m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+    m_model->insertPart(0, tune, 9);
+    QModelIndex symbol1 = m_model->insertSymbol(3, tune, m_symbolNames.at(0));
     QVERIFY2(m_model->isIndexSymbol(symbol1), "Failed, should return true for symbol");
 }
 
@@ -346,20 +438,22 @@ void MusicModelTest::testSetColumnCount()
 
 void MusicModelTest::testRemoveRows()
 {
+    int barLineSymbolCount = 10;
     QString symbolNameWithLength = "Testsymbol with pitch and length";
     int indexOfTestsymbol = m_symbolNames.indexOf(symbolNameWithLength);
     Q_ASSERT(indexOfTestsymbol != -1);
     Q_UNUSED(indexOfTestsymbol)
 
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    QModelIndex symbol1 = m_model->insertSymbol(0, tune, symbolNameWithLength);
+    m_model->insertPart(0, tune, barLineSymbolCount - 1);
+    QModelIndex symbol1 = m_model->insertSymbol(2, tune, symbolNameWithLength);
     m_model->setData(symbol1, Length::_1, LP::symbolLength);
-    QModelIndex symbol2 = m_model->insertSymbol(0, tune, symbolNameWithLength);
+    QModelIndex symbol2 = m_model->insertSymbol(2, tune, symbolNameWithLength);
     m_model->setData(symbol2, Length::_2, LP::symbolLength);
-    QModelIndex symbol3 = m_model->insertSymbol(0, tune, symbolNameWithLength);
+    QModelIndex symbol3 = m_model->insertSymbol(2, tune, symbolNameWithLength);
     m_model->setData(symbol3, Length::_4, LP::symbolLength);
 
-    Q_ASSERT(m_model->rowCount(tune) == 3);
+    Q_ASSERT(m_model->rowCount(tune) == 13); // 10 bar lines, 3 symbols
 
     // Removing Symbols
     QModelIndex thirdSymbol = m_model->index(2, 0, tune);
@@ -368,7 +462,7 @@ void MusicModelTest::testRemoveRows()
 
     QVERIFY2(m_model->removeRows(0, 2, tune), "Remove rows returned false");
 
-    QVERIFY2(m_model->rowCount(tune) == 1, "Wrong row count after removing rows");
+    QVERIFY2(m_model->rowCount(tune) == 1 + barLineSymbolCount, "Wrong row count after removing rows");
 
     QModelIndex lastRemainingSymbol = m_model->index(0, 0, tune);
     Q_ASSERT(thirdSymbol.isValid());
@@ -562,9 +656,9 @@ void MusicModelTest::checkForTuneCount(const QString &filename, int count)
     loadModel(filename);
     QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
 
-    int tuneCount = 0;
-    if (scoreIndex.isValid())
-        tuneCount = m_model->rowCount(scoreIndex);
+    int tuneCount = -1;
+    Q_ASSERT(scoreIndex.isValid());
+    tuneCount = m_model->rowCount(scoreIndex);
 
     QString message = QString("Wrong count of scores loaded (" + QString::number(tuneCount) + " tunes) from file: ") + filename;
     QVERIFY2(tuneCount == count, message.toUtf8());
@@ -595,7 +689,7 @@ void MusicModelTest::testValidTuneThreeValidSymbols()
     Q_ASSERT(fileInfos.count() > 0);
 
     foreach (QFileInfo file, fileInfos) {
-        checkForSymbolCount(file.absoluteFilePath(), 3);
+        checkForSymbolCount(file.absoluteFilePath(), 5);
     }
 }
 
@@ -631,7 +725,7 @@ void MusicModelTest::testLoadedSymbolName()
 
         QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
         QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
-        QModelIndex symbolIndex = m_model->index(0, 0, tuneIndex);
+        QModelIndex symbolIndex = m_model->index(1, 0, tuneIndex); // row 0 and row 2 are start and end of part symbols
 
         QVERIFY2(scoreIndex.isValid() &&
                  tuneIndex.isValid() &&
@@ -656,7 +750,7 @@ void MusicModelTest::testLoadedSymbolPitch()
 
         QModelIndex scoreIndex = m_model->index(0, 0, QModelIndex());
         QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
-        QModelIndex symbolIndex = m_model->index(0, 0, tuneIndex);
+        QModelIndex symbolIndex = m_model->index(1, 0, tuneIndex); // row 0 and row 2 are start and end of part symbols
 
         Q_ASSERT(scoreIndex.isValid() &&
                  tuneIndex.isValid() &&
@@ -698,9 +792,10 @@ void MusicModelTest::testMimeData()
     QModelIndex tuneIndex2 = m_model->index(0, 0, scoreIndex2);
     Q_ASSERT(tuneIndex2.isValid());
 
-    QModelIndex symbolIndex1 = m_model->index(0, 0, tuneIndex1);
+
+    QModelIndex symbolIndex1 = m_model->index(1, 0, tuneIndex1);
     Q_ASSERT(symbolIndex1.isValid());
-    QModelIndex symbolIndex2 = m_model->index(1, 0, tuneIndex1);
+    QModelIndex symbolIndex2 = m_model->index(2, 0, tuneIndex1);
     Q_ASSERT(symbolIndex2.isValid());
 
     QModelIndexList indexList = QModelIndexList() << tuneIndex1 << scoreIndex1;
@@ -787,31 +882,37 @@ void MusicModelTest::testDropMimeDataSymbols()
     Q_ASSERT(tuneIndex.isValid());
 
     for (int i = 0; i < 2; i++)
-        m_model->insertSymbol(0, tuneIndex, symbolNameWithLength);
+        m_model->insertSymbol(1, tuneIndex, symbolNameWithLength);
 
-    QModelIndex symbol1 = m_model->index(0, 0, tuneIndex);
+    QModelIndex symbol1 = m_model->index(1, 0, tuneIndex);
     m_model->setData(symbol1, QVariant::fromValue<Length::Value>(Length::_1), LP::symbolLength);
-    QModelIndex symbol2 = m_model->index(1, 0, tuneIndex);
+    QModelIndex symbol2 = m_model->index(2, 0, tuneIndex);
     m_model->setData(symbol2, QVariant::fromValue<Length::Value>(Length::_2), LP::symbolLength);
 
     Q_ASSERT(m_model->data(symbol1, LP::symbolLength).isValid());
 
-    QMimeData *data = m_model->mimeData(QModelIndexList() << symbol1 << symbol1);
+    QMimeData *data = m_model->mimeData(QModelIndexList() << symbol1 << symbol2);
     MusicModel model2;
+    int barLineCount = 10;
     QModelIndex tuneModel2 = model2.insertTuneWithScore(0, "test score", m_instrumentNames.at(0));
-    model2.dropMimeData(data, Qt::MoveAction, 0, 0, tuneModel2);
+    model2.insertPart(0, tuneModel2, barLineCount - 1);
+    model2.dropMimeData(data, Qt::MoveAction, 1, 0, tuneModel2);
 
-    QVERIFY2(model2.rowCount(tuneModel2) == 2, "Failed inserting symbols");
-    QModelIndex model2Symbol = model2.index(0, 0, tuneModel2);
+    QVERIFY2(model2.rowCount(tuneModel2) == 2 + barLineCount, "Failed inserting symbols");
+    QModelIndex model2Symbol = model2.index(1, 0, tuneModel2);
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol");
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
 
     model2.clear();
     tuneModel2 = model2.insertTuneWithScore(0, "test score", m_instrumentNames.at(0));
+    model2.insertPart(0, tuneModel2, barLineCount - 1);
     model2.dropMimeData(data, Qt::MoveAction, -1, 0, tuneModel2);
 
-    QVERIFY2(model2.rowCount(tuneModel2) == 2, "Failed inserting symbols at end");
-    model2Symbol = model2.index(0, 0, tuneModel2);
+    QVERIFY2(model2.rowCount(tuneModel2) == 2 + barLineCount, "Failed inserting symbols at end");
+
+    // Appending results in insert before last bar line
+    model2Symbol = model2.index(barLineCount - 1, 0, tuneModel2);
+
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol at end");
     QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
 }
@@ -884,54 +985,66 @@ void MusicModelTest::testUndoStackInsertTuneWithScore()
     QVERIFY2(m_model->rowCount(scoreIndex) == 1, "Score has no child elements after redo");
 }
 
+void MusicModelTest::testUndoStackInsertPart()
+{
+    QModelIndex tuneIndex = m_model->insertTuneWithScore(0, "First score", m_instrumentNames.at(0));
+    m_model->insertPart(0, tuneIndex, 9);
+    QVERIFY2(m_model->undoStack()->count() == 2, "No command/too many commands pushed on undo stack");
+}
+
 void MusicModelTest::testUndoStackInsertSymbol()
 {
+    int barLineSymbolCount = 10;
     QModelIndex tune = m_model->insertTuneWithScore(0, "First score", m_instrumentNames.at(0));
-    Q_ASSERT(m_model->undoStack()->count() == 1);
-    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
-    QVERIFY2(m_model->undoStack()->count() == 2, "No command/too many commands pushed on undo stack");
-    QVERIFY2(m_model->rowCount(tune) == 1, "No symbol was inserted into model");
+    m_model->insertPart(0, tune, barLineSymbolCount - 1);
+
+    Q_ASSERT(m_model->undoStack()->count() == 2);
+    m_model->insertSymbol(1, tune, m_symbolNames.at(0));
+    QVERIFY2(m_model->undoStack()->count() == 3, "No command/too many commands pushed on undo stack");
+    QVERIFY2(m_model->rowCount(tune) == 1 + barLineSymbolCount, "No symbol was inserted into model");
 
     m_model->undoStack()->undo();
-    QVERIFY2(m_model->rowCount(tune) == 0, "Symbol wasn't removed after undo");
+    QVERIFY2(m_model->rowCount(tune) == barLineSymbolCount, "Symbol wasn't removed after undo");
 
     m_model->undoStack()->redo();
-    QVERIFY2(m_model->rowCount(tune) == 1, "No symbol was inserted into model after redo");
+    QVERIFY2(m_model->rowCount(tune) == 1 + barLineSymbolCount, "No symbol was inserted into model after redo");
 }
 
 void MusicModelTest::testUndoStackRemoveRows()
 {
+    int barLineSymbolCount = 10;
     QModelIndex tune = m_model->insertTuneWithScore(0, "First score", m_instrumentNames.at(0));
-    Q_ASSERT(m_model->undoStack()->count() == 1);
+    m_model->insertPart(0, tune, barLineSymbolCount - 1);
+    Q_ASSERT(m_model->undoStack()->count() == 2);
     for (int i = 0; i < 5; i++) {
-        m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+        m_model->insertSymbol(1, tune, m_symbolNames.at(0));
     }
     int undoStackCountBefore = m_model->undoStack()->count();
 
-    Q_ASSERT(m_model->rowCount(tune) == 5);
-    MusicItem *item0 = m_model->itemForIndex(m_model->index(0, 0, tune));
-    MusicItem *item1 = m_model->itemForIndex(m_model->index(1, 0, tune));
-    MusicItem *item2 = m_model->itemForIndex(m_model->index(2, 0, tune));
-    MusicItem *item3 = m_model->itemForIndex(m_model->index(3, 0, tune));
-    MusicItem *item4 = m_model->itemForIndex(m_model->index(4, 0, tune));
+    Q_ASSERT(m_model->rowCount(tune) == 5 + barLineSymbolCount);
+    MusicItem *item0 = m_model->itemForIndex(m_model->index(1, 0, tune));
+    MusicItem *item1 = m_model->itemForIndex(m_model->index(2, 0, tune));
+    MusicItem *item2 = m_model->itemForIndex(m_model->index(3, 0, tune));
+    MusicItem *item3 = m_model->itemForIndex(m_model->index(4, 0, tune));
+    MusicItem *item4 = m_model->itemForIndex(m_model->index(5, 0, tune));
 
-    m_model->removeRows(1, 3, tune);
+    m_model->removeRows(2, 3, tune);
     QVERIFY2(m_model->undoStack()->count() - 1 == undoStackCountBefore, "No command/too many commands pushed on undo stack");
-    QVERIFY2(m_model->rowCount(tune) == 2, "Failed removing rows");
-    QVERIFY2(m_model->itemForIndex(m_model->index(1, 0, tune)) == item4, "last item is on the wrong place");
+    QVERIFY2(m_model->rowCount(tune) == 2 + barLineSymbolCount, "Failed removing rows");
+    QVERIFY2(m_model->itemForIndex(m_model->index(2, 0, tune)) == item4, "last item is on the wrong place");
 
     m_model->undoStack()->undo();
-    QVERIFY2(m_model->rowCount(tune) == 5, "Failed undo removing of items");
-    QVERIFY2(item0 == m_model->itemForIndex(m_model->index(0, 0, tune)), "item on wrong place after undo");
-    QVERIFY2(item1 == m_model->itemForIndex(m_model->index(1, 0, tune)), "item on wrong place after undo");
-    QVERIFY2(item2 == m_model->itemForIndex(m_model->index(2, 0, tune)), "item on wrong place after undo");
-    QVERIFY2(item3 == m_model->itemForIndex(m_model->index(3, 0, tune)), "item on wrong place after undo");
-    QVERIFY2(item4 == m_model->itemForIndex(m_model->index(4, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(m_model->rowCount(tune) == 5 + barLineSymbolCount, "Failed undo removing of items");
+    QVERIFY2(item0 == m_model->itemForIndex(m_model->index(1, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item1 == m_model->itemForIndex(m_model->index(2, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item2 == m_model->itemForIndex(m_model->index(3, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item3 == m_model->itemForIndex(m_model->index(4, 0, tune)), "item on wrong place after undo");
+    QVERIFY2(item4 == m_model->itemForIndex(m_model->index(5, 0, tune)), "item on wrong place after undo");
 
     m_model->undoStack()->redo();
     QVERIFY2(m_model->undoStack()->count() - 1 == undoStackCountBefore, "No command/too many commands pushed on undo stack");
-    QVERIFY2(m_model->rowCount(tune) == 2, "Failed removing rows");
-    QVERIFY2(m_model->itemForIndex(m_model->index(1, 0, tune)) == item4, "last item is on the wrong place");
+    QVERIFY2(m_model->rowCount(tune) == 2 + barLineSymbolCount, "Failed removing rows");
+    QVERIFY2(m_model->itemForIndex(m_model->index(2, 0, tune)) == item4, "last item is on the wrong place");
 }
 
 void MusicModelTest::testUndoStackDropMimeData()
@@ -956,11 +1069,17 @@ void MusicModelTest::testUndoStackDropMimeData()
 void MusicModelTest::populateModelWithTestdata()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
-    m_model->insertSymbol(0, tune, m_symbolNames.at(1));
+
+    m_model->insertPart(0, tune, 9);
+
+    m_model->insertSymbol(1, tune, m_symbolNames.at(0));
+    m_model->insertSymbol(1, tune, m_symbolNames.at(1));
     tune = m_model->insertTuneWithScore(0, "Second Score", m_instrumentNames.at(0));
-    m_model->insertSymbol(0, tune, m_symbolNames.at(1));
-    m_model->insertSymbol(0, tune, m_symbolNames.at(0));
+
+    m_model->insertPart(0, tune, 9);
+
+    m_model->insertSymbol(1, tune, m_symbolNames.at(1));
+    m_model->insertSymbol(1, tune, m_symbolNames.at(0));
 }
 
 void MusicModelTest::checkMimeDataForTags(const QModelIndexList &indexes, const QString &tagName)
@@ -1049,8 +1168,9 @@ void MusicModelTest::checkForSymbolCount(const QString &filename, int count)
     QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
 
     int symbolCount = 0;
-    if (scoreIndex.isValid() && tuneIndex.isValid())
-        symbolCount = m_model->rowCount(tuneIndex);
+    Q_ASSERT(scoreIndex.isValid());
+    Q_ASSERT(tuneIndex.isValid());
+    symbolCount = m_model->rowCount(tuneIndex);
 
     QString message = QString("Wrong count of symbols loaded (" + QString::number(symbolCount) + " symbols) from file: ") + filename;
     QVERIFY2(symbolCount == count, message.toUtf8());

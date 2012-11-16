@@ -105,11 +105,11 @@ void MainWindow::createObjectNames()
     m_model->setObjectName("musicModel");
 }
 
-QString MainWindow::instrumentFromCurrentIndex()
+QString MainWindow::instrumentFromParentOfCurrentSymbolIndex()
 {
     QModelIndex currentIndex = m_treeView->currentIndex();
     if (currentIndex.isValid()) {
-        QVariant currentInstrument = m_model->data(currentIndex, LP::tuneInstrument);
+        QVariant currentInstrument = m_model->data(currentIndex.parent(), LP::tuneInstrument);
         if (currentInstrument.isValid()) {
             return currentInstrument.value<InstrumentPtr>()->name();
         }
@@ -291,6 +291,12 @@ void MainWindow::on_editAddTunePartAction_triggered()
 
     if (musicModel->isIndexTune(m_treeView->currentIndex())) {
         musicModel->insertPart(0, m_treeView->currentIndex(), 9, true);
+        m_treeView->expand(m_treeView->currentIndex());
+    }
+    else {
+        QMessageBox message;
+        message.setText(tr("Please select a tune to add part"));
+        message.exec();
     }
 }
 
@@ -302,14 +308,14 @@ void MainWindow::on_editAddSymbolsAction_triggered()
     if (!musicModel)
         return;
 
-    QString instrumentName = instrumentFromCurrentIndex();
+    QString instrumentName = instrumentFromParentOfCurrentSymbolIndex();
     if (!instrumentName.isEmpty()) {
         m_addSymbolsDialog->setSymbolNames(
                     musicModel->symbolNamesForInstrument(instrumentName));
         m_addSymbolsDialog->show();
     } else {
         QMessageBox message;
-        message.setText(tr("Please select a tune"));
+        message.setText(tr("Please select a symbol as position to insert a new symbol"));
         message.exec();
     }
     updateUi();
@@ -330,12 +336,13 @@ void MainWindow::on_editRedoAction_triggered()
     musicModel = musicModelFromItemModel(m_model);
 
     musicModel->undoStack()->redo();
+    m_treeView->expandAll();
     updateUi();
 }
 
 void MainWindow::insertSymbol(const QString &symbolName)
 {
-    QString instrumentName = instrumentFromCurrentIndex();
+    QString instrumentName = instrumentFromParentOfCurrentSymbolIndex();
     if (!instrumentName.isEmpty()) {
 
         MusicModelInterface *musicModel;
@@ -344,7 +351,8 @@ void MainWindow::insertSymbol(const QString &symbolName)
         if (!musicModel)
             return;
 
-        musicModel->insertSymbol(0, m_treeView->currentIndex(), symbolName);
+        musicModel->insertSymbol(m_treeView->currentIndex().row(),
+                                 m_treeView->currentIndex().parent(), symbolName);
         m_treeView->expand(m_treeView->currentIndex());
     }
     updateUi();

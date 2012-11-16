@@ -28,10 +28,13 @@ public:
 
     bool itemSupportsWritingOfData(int role) const;
     void beforeWritingData(QVariant &value, int role);
-    void afterWritingData(int role);
+
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
-    void setSymbolName();
+    QString typeName(Type barType);
+    BarLine::Type typeForName(const QString &typeName);
 };
 
 Q_DECLARE_METATYPE(BarLine::Type)

@@ -12,6 +12,8 @@
   */
 
 #include "barline.h"
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
 
 const QString BarLine::SymbolName(tr("Barline"));
 
@@ -20,7 +22,6 @@ BarLine::BarLine(Type type, MusicItem *parent)
 {
     initData(QVariant::fromValue<BarLine::Type>(type), LP::barLineType);
     initData(QVariant(false), LP::barLineRepeat);
-    setSymbolName();
 }
 
 bool BarLine::itemSupportsWritingOfData(int role) const
@@ -36,31 +37,71 @@ void BarLine::beforeWritingData(QVariant &value, int role)
         Type barLineType = data(LP::barLineType).value<BarLine::Type>();
         if (barLineType == Normal)
             value.setValue<bool>(false);
-        setSymbolName();
     }
 }
 
-void BarLine::afterWritingData(int role)
+void BarLine::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 {
-    if (role == LP::barLineRepeat)
-        setSymbolName();
+    Symbol::writeItemDataToXmlStream(writer);
+
+    QVariant typeVar = data(LP::barLineType);
+    QVariant repeatVar = data(LP::barLineRepeat);
+    if (typeVar.isValid() &&
+            typeVar.canConvert<BarLine::Type>()) {
+        Type barType = typeVar.value<BarLine::Type>();
+        if (barType != Normal) {
+            writer->writeTextElement("TYPE", typeName(barType));
+            if (repeatVar.isValid() &&
+                    repeatVar.canConvert<bool>()) {
+                bool repeat = repeatVar.value<bool>();
+                if (repeat) {
+                    writer->writeStartElement("REPEAT");
+                    writer->writeEndElement();
+                }
+            }
+        }
+    }
 }
 
-void BarLine::setSymbolName()
+void BarLine::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
 {
-    Type type = data(LP::barLineType).value<BarLine::Type>();
-    QString name = SymbolName;
-        if (type == StartPart) {
-            name += " ";
-            name += tr("start of part");
+    if (QString("TYPE").compare(reader->name(), Qt::CaseInsensitive) == 0) {
+        BarLine::Type readType = typeForName(reader->readElementText());
+        initData(QVariant::fromValue<BarLine::Type>(readType), LP::barLineType);
+    }
+    if (QString("REPEAT").compare(reader->name(), Qt::CaseInsensitive) == 0) {
+        QVariant typeVar = data(LP::barLineType);
+        if (typeVar.isValid() &&
+                typeVar.canConvert<BarLine::Type>()) {
+            BarLine::Type barType = typeVar.value<BarLine::Type>();
+            if (barType == Normal)
+                return;
+            setData(true, LP::barLineRepeat);
         }
-        if (type == EndPart) {
-            name += " ";
-            name += tr("end of part");
-        }
-        if (data(LP::barLineRepeat).toBool()) {
-            name += " ";
-            name += tr("with repeat");
-        }
-        initData(name, LP::symbolName);
+        BarLine::Type readType = typeForName(reader->readElementText());
+        initData(QVariant::fromValue<BarLine::Type>(readType), LP::barLineType);
+    }
+    Symbol::readCurrentElementFromXmlStream(reader);
+}
+
+QString BarLine::typeName(Type barType)
+{
+    switch (barType) {
+    case StartPart:
+        return QString("Start");
+    case EndPart:
+        return QString("End");
+    default:
+        return QString("Normal");
+    }
+}
+
+BarLine::Type BarLine::typeForName(const QString &typeName)
+{
+    if (typeName.compare("Start", Qt::CaseInsensitive) == 0)
+        return StartPart;
+    else if (typeName.compare("End", Qt::CaseInsensitive) == 0)
+        return EndPart;
+    else
+        return Normal;
 }

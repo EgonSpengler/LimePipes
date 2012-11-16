@@ -4,10 +4,6 @@
         <TUNE INSTRUMENT="Testinstrument">
             <SYMBOL NAME="Testsymbol with pitch and length">
             </SYMBOL>
-            <SYMBOL>
-            </SYMBOL>
-            <SYMBOL NAME="Testsymbol with pitch and length">
-            </SYMBOL>
             <SYMBOL NAME="Testsymbol with pitch and length">
             </SYMBOL>
         </TUNE>

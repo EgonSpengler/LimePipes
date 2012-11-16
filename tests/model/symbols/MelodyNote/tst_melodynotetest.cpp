@@ -30,7 +30,7 @@ private Q_SLOTS:
 private:
     void readTextElement(const QString &tagName, const QString &elementText);
     void readString(const QString &string);
-    QString patternForTag(const QString &tagname, const QString &data);
+    QString tagString(const QString &tagname, const QString &data);
     MelodyNote *m_melody;
 };
 
@@ -95,8 +95,8 @@ void MelodyNoteTest::testWriteItemDataToStream()
 
     m_melody->writeItemDataToXmlStream(&writer);
 
-    QString pitchTag = patternForTag("PITCH", testPitch->name());
-    QString dotsTag = patternForTag("DOTS", QString::number(dotCnt, 10));
+    QString pitchTag = tagString("PITCH", testPitch->name());
+    QString dotsTag = tagString("DOTS", QString::number(dotCnt, 10));
 
     QVERIFY2(data.contains(pitchTag, Qt::CaseInsensitive), "No symbol pitch tag found, maybe the same base class method wasn't called");
     QVERIFY2(data.contains(dotsTag, Qt::CaseInsensitive), "No melody dots tag found");
@@ -117,7 +117,7 @@ void MelodyNoteTest::testReadFromXmlStream()
     QVERIFY2(m_melody->length() == length, "Failed reading length");
 }
 
-QString MelodyNoteTest::patternForTag(const QString &tagname, const QString &data)
+QString MelodyNoteTest::tagString(const QString &tagname, const QString &data)
 {
     QString tag = QString("<") + tagname + ">" + data;
     return tag;

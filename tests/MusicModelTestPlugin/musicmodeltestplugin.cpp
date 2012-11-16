@@ -12,7 +12,7 @@
 Symbol *MusicModelTestPlugin::getSymbol(const QString &symbol)
 {
     if (symbol == "Testsymbol") {
-        return new Symbol(LP::BarLine, "Testsymbol");
+        return new Symbol(LP::MelodyNote, "Testsymbol");
     }
     if (symbol == symbolNameWithPitchAndLength) {
         int staffPosOfDefaultPitch = m_instrument->pitchContext()->highestStaffPos();

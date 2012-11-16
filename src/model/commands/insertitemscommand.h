@@ -20,7 +20,7 @@ class InsertItemsCommand : public QUndoCommand
 {
 public:
     InsertItemsCommand(MusicModel *model, const QString &text, const QModelIndex &parentIndex, int row, const QList<MusicItem*> &items, QUndoCommand *parent = 0)
-        : QUndoCommand(text, parent), m_model(model), m_parentIndex(parentIndex), m_row(row), m_items(items)
+        : QUndoCommand(text, parent), m_model(model), m_row(row), m_items(items)
     {
         Q_ASSERT(m_row >= 0);
         Q_ASSERT(m_items.count());
@@ -34,7 +34,7 @@ public:
         QListIterator<MusicItem*> i(m_items);
         i.toBack();
 
-        m_model->beginInsertRows(m_parentIndex, m_row, m_row + m_items.count() - 1);
+        m_model->beginInsertRows(m_model->indexForItem(m_parentItem), m_row, m_row + m_items.count() - 1);
         while (i.hasPrevious()) {
             MusicItem *newItem = i.previous();
             m_parentItem->insertChild(m_row, newItem);
@@ -44,7 +44,7 @@ public:
 
     void undo() {
         Q_ASSERT(m_parentItem->childCount() >= m_row + m_items.count());
-        m_model->beginRemoveRows(m_parentIndex, m_row, m_row + m_items.count() - 1);
+        m_model->beginRemoveRows(m_model->indexForItem(m_parentItem), m_row, m_row + m_items.count() - 1);
         for (int i = 0; i < m_items.count(); ++i) {
             MusicItem *takenChild = m_parentItem->takeChild(m_row);
             Q_ASSERT(m_items.at(i) == takenChild);
@@ -55,7 +55,6 @@ public:
 
 private:
     MusicModel *m_model;
-    QPersistentModelIndex m_parentIndex;
     int m_row;
     MusicItem *m_parentItem;
     QList<MusicItem*> m_items;

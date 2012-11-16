@@ -33,6 +33,7 @@ public:
 
 private:
     int findStartOfPart(int partNumber);
+    bool rowIsPrecededByStartOfPart(int row);
     const Symbol *symbolFromMusicItem(const MusicItem *item);
 };
 

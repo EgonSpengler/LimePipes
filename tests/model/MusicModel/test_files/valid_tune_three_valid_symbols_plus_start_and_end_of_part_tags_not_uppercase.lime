@@ -2,6 +2,10 @@
 <LiMEpipES VERSION="0.1">
     <sCOrE>
         <tUNe INSTRUMENT="Testinstrument">
+            <SYMBOL NAME="Barline">
+                <TYPE>Start</TYPE>
+                <REPEAT/>
+            </SYMBOL>
             <SyMBOl NAME="Testsymbol with pitch and length">
             </SyMBOl>
             <SyMBOl>
@@ -10,6 +14,10 @@
             </SyMBOl>
             <SyMBOl NAME="Testsymbol with pitch and length">
             </SyMBOl>
+            <SYMBOL NAME="Barline">
+                <TYPE>End</TYPE>
+                <REPEAT/>
+            </SYMBOL>
         </tUNe>
     </sCOrE>
 </LiMEpipES>

@@ -14,8 +14,6 @@
 #include <barline.h>
 #include <greathighlandbagpipe.h>
 
-#include <QDebug>
-
 class TuneTest : public QObject
 {
     Q_OBJECT
