@@ -24,6 +24,8 @@ public:
     void keyPressEvent(QKeyEvent *event);
     
 private:
+    void handleAddDots();
+    void handleDeleteCurrentItem();
     PitchDelegate *m_pitchDelegate;
     LengthDelegate *m_lengthDelegate;
 };

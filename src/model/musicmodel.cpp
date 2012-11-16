@@ -170,6 +170,11 @@ bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
     if (!m_rootItem)
         return false;
 
+    for (int i = row; i < row + count; i++) {
+        if (isBarLineSymbol(parent, i))
+            return false;
+    }
+
     m_undoStack->push(new RemoveItemsCommand(this, "Remove items", parent, row, count));
 
     if (m_dropMimeDataOccured) {
@@ -595,6 +600,15 @@ bool MusicModel::isRowWithinPartOfTune(const QModelIndex &tune, int row)
             return false;
     }
     return true;
+}
+
+bool MusicModel::isBarLineSymbol(const QModelIndex &tune, int row)
+{
+    QModelIndex symbolIndex = index(row, 0, tune);
+    QVariant barLineTypeVar = symbolIndex.data(LP::barLineType);
+    if (barLineTypeVar.isValid())
+        return true;
+    return false;
 }
 
 void MusicModel::processScoreTag(QXmlStreamReader *reader, MusicItem **item)

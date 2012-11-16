@@ -36,26 +36,41 @@ TreeView::~TreeView()
 
 void TreeView::keyPressEvent(QKeyEvent *event)
 {
-    if (event->key() != Qt::Key_Period) {
+    switch (event->key()) {
+    case Qt::Key_Period:
+        handleAddDots();
+        break;
+    case Qt::Key_Delete:
+        handleDeleteCurrentItem();
+        break;
+    default:
         QTreeView::keyPressEvent(event);
-    } else {
-        // Add dots to possible melody note under current index
-        QModelIndex index = currentIndex();
-        QVariant dotsVariant = index.data(LP::melodyNoteDots);
-        if (!dotsVariant.isValid())
-            return;
-
-        if (dotsVariant.canConvert<int>()) {
-            int dots = dotsVariant.value<int>();
-
-            dots++;
-
-            if (dots > MelodyNote::MaxDots)
-                dots = 0;
-
-            model()->setData(index, QVariant(dots), LP::melodyNoteDots);
-            update(index);
-        }
     }
 }
 
+void TreeView::handleAddDots()
+{
+    // Add dots to possible melody note under current index
+    QModelIndex index = currentIndex();
+    QVariant dotsVariant = index.data(LP::melodyNoteDots);
+    if (!dotsVariant.isValid())
+        return;
+
+    if (dotsVariant.canConvert<int>()) {
+        int dots = dotsVariant.value<int>();
+
+        dots++;
+
+        if (dots > MelodyNote::MaxDots)
+            dots = 0;
+
+        model()->setData(index, QVariant(dots), LP::melodyNoteDots);
+        update(index);
+    }
+}
+
+void TreeView::handleDeleteCurrentItem()
+{
+    QModelIndex index = currentIndex();
+    model()->removeRow(index.row(), index.parent());
+}

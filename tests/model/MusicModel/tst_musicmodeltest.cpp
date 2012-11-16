@@ -446,6 +446,12 @@ void MusicModelTest::testRemoveRows()
 
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
     m_model->insertPart(0, tune, barLineSymbolCount - 1);
+
+    // Barline symbols aren't allowed to be deleted
+    int rowCountBefore = m_model->rowCount(tune);
+    m_model->removeRow(1, tune);
+    QVERIFY2(m_model->rowCount(tune) == rowCountBefore, "Single bar lines can be removed");
+
     QModelIndex symbol1 = m_model->insertSymbol(2, tune, symbolNameWithLength);
     m_model->setData(symbol1, Length::_1, LP::symbolLength);
     QModelIndex symbol2 = m_model->insertSymbol(2, tune, symbolNameWithLength);
@@ -460,7 +466,7 @@ void MusicModelTest::testRemoveRows()
     Q_ASSERT(thirdSymbol.isValid());
     Length::Value lengthOfThirdSymbol = m_model->data(thirdSymbol, LP::symbolLength).value<Length::Value>();
 
-    QVERIFY2(m_model->removeRows(0, 2, tune), "Remove rows returned false");
+    QVERIFY2(m_model->removeRows(2, 2, tune), "Remove rows returned false");
 
     QVERIFY2(m_model->rowCount(tune) == 1 + barLineSymbolCount, "Wrong row count after removing rows");
 

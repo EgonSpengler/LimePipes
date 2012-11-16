@@ -127,6 +127,7 @@ private:
     bool isMusicItemTag(const QStringRef &tagName);
 
     bool isRowWithinPartOfTune(const QModelIndex &tune, int row);
+    bool isBarLineSymbol(const QModelIndex &tune, int row);
 
     QModelIndex insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item);
 
