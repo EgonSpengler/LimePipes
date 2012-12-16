@@ -14,7 +14,9 @@
 #include "melodynote.h"
 #include <QXmlStreamWriter>
 
-const int MelodyNote::MaxDots;
+#ifndef Q_OS_WIN
+    const int MelodyNote::MaxDots;
+#endif
 
 MelodyNote::MelodyNote()
     : Symbol(LP::MelodyNote, tr("Melody Note"))

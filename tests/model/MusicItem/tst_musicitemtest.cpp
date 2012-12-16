@@ -15,7 +15,7 @@
 #include <tune.h>
 #include <symbol.h>
 
-#include <testmusicitem.h>
+#include "testmusicitem.h"
 
 class MusicItemTest : public QObject
 {

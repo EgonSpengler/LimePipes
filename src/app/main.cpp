@@ -8,7 +8,7 @@
 
 #include <QtGui/QApplication>
 #include <QIcon>
-#include <mainwindow.h>
+#include "mainwindow.h"
 
 int main(int argc, char *argv[])
 {
