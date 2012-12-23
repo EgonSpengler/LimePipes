@@ -1,20 +1,6 @@
-project( lp_greathighlandbagpipe )
-
-cmake_minimum_required( VERSION 2.6 )
-
-set ( CMAKE_BUILD_TYPE Release )
-
-add_definitions ( -Wall )
-
-find_package ( Qt4 REQUIRED )
-
 ADD_DEFINITIONS(-DQT_STATICPLUGIN)
 include ( ${QT_USE_FILE} )
 
-include_directories (
-        ${CMAKE_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}
-	${QT_QTCORE_INCLUDE_DIR} ${QT_QTGUI_INCLUDE_DIR}
-	)
 set ( LIBRARY_OUTPUT_PATH ${STATIC_PLUGINS_FOLDER} )
 
 set ( lp_greathighlandbagpipe_HEADERS

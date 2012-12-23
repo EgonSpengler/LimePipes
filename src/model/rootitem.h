@@ -9,7 +9,7 @@
 #ifndef ROOTITEM_H
 #define ROOTITEM_H
 
-#include <musicitem.h>
+#include "musicitem.h"
 
 class RootItem : public MusicItem
 {

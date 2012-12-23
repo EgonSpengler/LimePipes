@@ -9,25 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 
-#include <rootitem.h>
-
-class RootItemTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    RootItemTest()
-        : m_rootItem(0) {}
-    
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testType();
-    void testChildType();
-
-private:
-    RootItem *m_rootItem;
-};
+#include "tst_rootitemtest.h"
 
 void RootItemTest::init()
 {
@@ -49,6 +31,6 @@ void RootItemTest::testChildType()
     QVERIFY2(m_rootItem->childType() == MusicItem::ScoreType, "The child itemtype of RootItem is not Score type");
 }
 
-QTEST_APPLESS_MAIN(RootItemTest)
+QTEST_MAIN(RootItemTest)
 
 #include "tst_rootitemtest.moc"
