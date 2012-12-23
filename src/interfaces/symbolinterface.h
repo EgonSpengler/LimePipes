@@ -16,7 +16,7 @@
 
 #include <QtPlugin>
 #include <interfaceglobals.h>
-#include <model/symbol.h>
+#include <symbol.h>
 
 class QString;
 class QStringList;

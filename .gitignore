@@ -1,5 +1,5 @@
 # user specific project files 
-*.pro.user
+*.user
 
 #autosave files
 *.autosave

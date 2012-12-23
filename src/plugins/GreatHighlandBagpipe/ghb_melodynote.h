@@ -9,10 +9,10 @@
 #ifndef GHB_MELODYNOTE_H
 #define GHB_MELODYNOTE_H
 
-#include <melodynote.h>
-#include <ghb_symboltypes.h>
-#include <pitch.h>
-#include <length.h>
+#include <symbols/melodynote.h>
+#include "ghb_symboltypes.h"
+#include <datatypes/pitch.h>
+#include <datatypes/length.h>
 
 class GHB_MelodyNote : public MelodyNote
 {

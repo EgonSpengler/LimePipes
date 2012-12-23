@@ -9,8 +9,8 @@
 #ifndef GREATHIGHLANDBAGPIPEINSTRUMENT_H
 #define GREATHIGHLANDBAGPIPEINSTRUMENT_H
 
-#include <instrument.h>
-#include <ghb_symboltypes.h>
+#include <datatypes/instrument.h>
+#include "ghb_symboltypes.h"
 
 class GHB_PitchContext : public PitchContext
 {
