@@ -8,72 +8,14 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <QSignalSpy>
-#include <QMetaType>
-#include <musicmodel.h>
+#include <QtTest/QSignalSpy>
 #include <itemdatatypes.h>
-#include <instrument.h>
-#include <symbol.h>
+#include <datatypes/instrument.h>
 #include <score.h>
 #include <tune.h>
-#include <musicproxymodel.h>
+#include "tst_musicproxymodeltest.h"
 
 Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
-
-namespace {
-
-class SymbolWithPitchAndLength : public Symbol
-{
-public:
-    SymbolWithPitchAndLength()
-        : Symbol()
-    {
-        setSymbolOptions(Symbol::HasPitch |
-                         Symbol::HasLength);
-        initData(QVariant::fromValue<PitchPtr>(PitchPtr(new Pitch(2, "testpitch"))), LP::symbolPitch);
-        initData(QVariant::fromValue<Length::Value>(Length::_32), LP::symbolLength);
-    }
-};
-
-}
-
-class MusicProxyModelTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    MusicProxyModelTest()
-        : m_sourceModel(0),
-          m_proxyModel(0)
-    { qRegisterMetaType<QModelIndex>("QModelIndex"); }
-    
-private Q_SLOTS:
-    void initTestcase();
-    void init();
-    void cleanup();
-    void testColumnCount();
-    void testInsertScore();
-    void testAppendScore();
-    void testInsertTuneIntoScore();
-    void testAppendTuneToScore();
-    void testInsertTuneWithScore();
-    void testInsertSymbol();
-    void testCallOfOkToInsertChild();
-    void testItemForIndex();
-    void testClear();
-    void testIsScore();
-    void testIsTune();
-    void testIsSymbol();
-    void testPitchColumn();
-    void testLengthColumn();
-
-private:
-    QModelIndex symbolIndexWithData(LP::DataRole role);
-    MusicModel *m_sourceModel;
-    MusicProxyModel *m_proxyModel;
-    QStringList m_instrumentNames;
-    QStringList m_symbolNames;
-};
 
 void MusicProxyModelTest::initTestcase()
 {
@@ -286,5 +228,3 @@ QModelIndex MusicProxyModelTest::symbolIndexWithData(LP::DataRole role)
 }
 
 QTEST_MAIN(MusicProxyModelTest)
-
-#include "tst_musicproxymodeltest.moc"

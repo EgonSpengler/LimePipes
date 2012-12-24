@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QDir>
-#include <QSignalSpy>
+#include <QtTest/QSignalSpy>
 #include <QMetaType>
 #include <QStack>
 #include <QTemporaryFile>
@@ -17,14 +17,14 @@
 #include <QXmlStreamReader>
 #include <utilities/error.h>
 #include "qt_modeltest/modeltest.h"
-#include <barline.h>
-#include <musicmodel.h>
+#include <symbols/barline.h>
 #include <utilities/error.h>
 #include <itemdatatypes.h>
-#include <instrument.h>
+#include <datatypes/instrument.h>
 #include <symbol.h>
 #include <score.h>
 #include <tune.h>
+#include "tst_musicmodeltest.h"
 
 Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
 
@@ -36,85 +36,6 @@ const QString TuneMimeType   = "application/vnd.limepipes.xml.tune.z";
 const QString SymbolMimeType = "application/vnd.limepipes.xml.symbol.z";
 
 }
-
-class MusicModelTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    MusicModelTest()
-        : m_model(0)
-    { qRegisterMetaType<QModelIndex>("QModelIndex"); }
-    
-private Q_SLOTS:
-    void initTestcase();
-    void cleanupTestcase();
-    void init();
-    void cleanup();
-    void testFlags();
-    void testColumnCount();
-    void testInsertScore();
-    void testAppendScore();
-    void testInsertTuneIntoScore();
-    void testAppendTuneToScore();
-    void testInsertTuneWithScore();
-    void testInsertPart();
-    void testInsertSymbol();
-    void testCallOfOkToInsertChild();
-    void testQAbstractItemModelImplementation();
-    void testItemForIndex();
-    void testIndexForItem();
-    void testClear();
-    void testIsScore();
-    void testIsTune();
-    void testIsSymbol();
-    void testSetColumnCount();
-    void testRemoveRows();
-    void testSave();
-    void testInvalidDocuments();
-    void testValidMinimalDocuments();
-    void testValidDocumentThreeScores();
-    void testInvalidScores();
-    void testValidScoreThreeValidTunes();
-    void testInvalidTunes();
-    void testInvalidSymbols();
-    void testValidTuneThreeValidSymbols();
-    void testLoadedInstrument();
-    void testLoadedSymbolName();
-    void testLoadedSymbolPitch();
-    void testSupportedDragAndDropActions();
-    void testMimeTypes();
-    void testMimeData();
-    void testDropMimeDataScores();
-    void testDropMimeDataTunes();
-    void testDropMimeDataSymbols();
-    void testUndoStackInsertScore();
-    void testUndoStackAppendScore();
-    void testUndoStackInsertTuneIntoScore();
-    void testUndoStackAppendTuneToScore();
-    void testUndoStackInsertTuneWithScore();
-    void testUndoStackInsertPart();
-    void testUndoStackInsertSymbol();
-    void testUndoStackRemoveRows();
-    void testUndoStackDropMimeData();
-
-private:
-    void checkForTuneCount(const QString &filename, int count);
-    void checkForScoreCount(const QString &filename, int count);
-    void checkForSymbolCount(const QString &filename, int count);
-    void loadModel(const QString &filename);
-    void populateModelWithTestdata();
-    void checkMimeDataForTags(const QModelIndexList &indexes, const QString &tagName);
-    void checkMimeDataForTagname(const QMimeData *data, const QString &tagname);
-    void checkRootChildItemsForTagnameAndCount(QXmlStreamReader *reader, const QString &tagName, int count);
-    QFileInfoList fileInfosForPatternList(const QStringList &patterns);
-    bool isMusicItemTag(const QStringRef &tagName);
-    void checkTagHierarchy(const QStringRef &parentTag, const QStringRef &tag);
-    MusicModel *m_model;
-    QStringList m_instrumentNames;
-    QStringList m_symbolNames;
-    QStringList m_musicItemTagNames;
-};
 
 void MusicModelTest::initTestcase()
 {
@@ -595,7 +516,7 @@ void MusicModelTest::checkTagHierarchy(const QStringRef &parentTag, const QStrin
 
 QFileInfoList MusicModelTest::fileInfosForPatternList(const QStringList &patterns)
 {
-    QDir testFileDir(QString(SRCDIR) + "test_files");
+    QDir testFileDir( TESTFILE_DIRECTORY );
     Q_ASSERT(testFileDir.exists());
     return testFileDir.entryInfoList(patterns, QDir::Files);
 }
@@ -1183,5 +1104,3 @@ void MusicModelTest::checkForSymbolCount(const QString &filename, int count)
 }
 
 QTEST_MAIN(MusicModelTest)
-
-#include "tst_musicmodeltest.moc"

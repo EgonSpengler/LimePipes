@@ -8,49 +8,10 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <QComboBox>
-#include <length.h>
-#include <musicmodel.h>
-#include <lengthdelegate.h>
-#include <melodynote.h>
+#include <datatypes/length.h>
+#include "tst_lengthdelegatetest.h"
 
 Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
-
-class LengthDelegateTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    LengthDelegateTest()
-        : m_model(0),
-          m_delegate(0),
-          m_tuneIndex(0),
-          m_symbolWithLengthIndex(0),
-          m_symbolWithNoLengthIndex(0),
-          m_parentWidget(0),
-          m_editor(0) {}
-    
-private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
-    void init();
-    void testCreateEditor();
-    void testSetEditorData();
-    void testSetModelData();
-
-private:
-    QModelIndex symbolIndex(LP::DataRole role, bool hasData);
-    MusicModel *m_model;
-    LengthDelegate *m_delegate;
-    QPersistentModelIndex *m_tuneIndex;
-    QPersistentModelIndex *m_symbolWithLengthIndex;
-    QPersistentModelIndex *m_symbolWithNoLengthIndex;
-    QWidget *m_parentWidget;
-    QComboBox *m_editor;
-    QModelIndex m_lengthIndex;
-    QStringList m_instrumentNames;
-    QStringList m_symbolNames;
-};
 
 void LengthDelegateTest::initTestCase()
 {
@@ -159,5 +120,3 @@ QModelIndex LengthDelegateTest::symbolIndex(LP::DataRole role, bool hasData)
 }
 
 QTEST_MAIN(LengthDelegateTest)
-
-#include "tst_lengthdelegatetest.moc"

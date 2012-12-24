@@ -8,35 +8,9 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <score.h>
-#include <timesignature.h>
+#include <datatypes/timesignature.h>
 #include <itemdatatypes.h>
-
-class ScoreTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    ScoreTest() : m_score(0) {}
-    
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testType();
-    void testChildType();
-    void testSetData();
-    void testConstructor();
-    void testSetGetTitle();
-    void testWriteToXmlStream();
-    void testReadFromXmlStream();
-
-private:
-    void readTextElement(const QString &tagName, const QString &elementText);
-    void readTimeSignatureElement(TimeSignature::Type type);
-    void readString(const QString &string);
-    QString patternForTag(const QString &tagname, const QString &data);
-    Score *m_score;
-};
+#include "tst_scoretest.h"
 
 void ScoreTest::init()
 {

@@ -8,23 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <timesignature.h>
-
-class TimeSignatureTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    TimeSignatureTest();
-    
-private Q_SLOTS:
-    void testBeatCount();
-    void testBeatUnit();
-    void testQVariant();
-    void testSetSignature();
-    void testWriteToXmlStream();
-    void testReadFromXmlStream();
-};
+#include "tst_timesignaturetest.h"
 
 TimeSignatureTest::TimeSignatureTest()
 {

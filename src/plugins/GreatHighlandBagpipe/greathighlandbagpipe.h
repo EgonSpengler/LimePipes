@@ -11,7 +11,7 @@
 
 #include <QObject>
 #include <QStringList>
-#include <ghb_instrument.h>
+#include "ghb_instrument.h"
 #include <interfaces/instrumentinterface.h>
 #include <interfaces/symbolinterface.h>
 

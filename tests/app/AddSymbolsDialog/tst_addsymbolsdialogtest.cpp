@@ -9,32 +9,10 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QtCore/QCoreApplication>
-#include <QListWidget>
 #include <QListWidgetItem>
 #include <QPushButton>
-#include <QSignalSpy>
-
-#include "app/addsymbolsdialog.h"
-
-class AddSymbolsDialogTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    AddSymbolsDialogTest()
-        : m_dialog(0), m_symbolsListWidget(0), m_insertButton(0) {}
-    
-private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
-    void testSetSymbolNames();
-    void testInsertSymbol();
-
-private:
-    AddSymbolsDialog *m_dialog;
-    QListWidget *m_symbolsListWidget;
-    QPushButton *m_insertButton;
-};
+#include <QtTest/QSignalSpy>
+#include "tst_addsymbolsdialogtest.h"
 
 void AddSymbolsDialogTest::initTestCase()
 {
@@ -77,5 +55,3 @@ void AddSymbolsDialogTest::testInsertSymbol()
 }
 
 QTEST_MAIN(AddSymbolsDialogTest)
-
-#include "tst_addsymbolsdialogtest.moc"

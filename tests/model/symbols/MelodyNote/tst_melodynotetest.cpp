@@ -8,31 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <melodynote.h>
-
-class MelodyNoteTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    MelodyNoteTest()
-        : m_melody(0) {}
-
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testDefaultConstructor();
-    void testTypeAndNameConstructor();
-    void testDots();
-    void testWriteItemDataToStream();
-    void testReadFromXmlStream();
-
-private:
-    void readTextElement(const QString &tagName, const QString &elementText);
-    void readString(const QString &string);
-    QString tagString(const QString &tagname, const QString &data);
-    MelodyNote *m_melody;
-};
+#include "tst_melodynotetest.h"
 
 void MelodyNoteTest::init()
 {

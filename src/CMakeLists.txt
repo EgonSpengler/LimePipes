@@ -1,8 +1,12 @@
-set ( limepipes_HEADERS
+set( limepipes_HEADERS
+        interfaces/instrumentinterface.h
+        interfaces/interfaceglobals.h
+        interfaces/symbolinterface.h
+
         utilities/error.h
         )
 
-set ( limepipes_SOURCES
+set( limepipes_SOURCES
         app/main.cpp
         app/mainwindow.cpp
         app/newtunedialog.cpp
@@ -15,14 +19,10 @@ set ( limepipes_SOURCES
         views/treeview/treeview.cpp
         )
 
-set ( limepipes_MOC_HEADERS
+set( limepipes_MOC_HEADERS
         app/mainwindow.h
         app/newtunedialog.h
         app/addsymbolsdialog.h
-
-        interfaces/instrumentinterface.h
-        interfaces/interfaceglobals.h
-        interfaces/symbolinterface.h
 
         views/treeview/lengthdelegate.h
         views/treeview/musicproxymodel.h
@@ -31,19 +31,19 @@ set ( limepipes_MOC_HEADERS
         views/treeview/treeview.h
         )
 
-set ( limepipes_UIs
+set( limepipes_UIs
         app/mainwindow.ui
         app/newtunedialog.ui
         app/addsymbolsdialog.ui
         )
 
-set ( limepipes_RESOURCES
+set( limepipes_RESOURCES
         app/app_resources.qrc
         )
 
-include ( ${QT_USE_FILE} )
+include( ${QT_USE_FILE} )
 
-include_directories (
+include_directories(
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -58,15 +58,15 @@ include_directories (
 add_subdirectory( model )
 add_subdirectory( plugins )
 
-QT4_WRAP_UI(limepipes_SOURCES ${limepipes_UIs})
+QT4_WRAP_UI( limepipes_SOURCES ${limepipes_UIs} )
 
-QT4_WRAP_CPP(limepipes_SOURCES ${limepipes_MOC_HEADERS})
+QT4_WRAP_CPP( limepipes_SOURCES ${limepipes_MOC_HEADERS} )
 
-QT4_ADD_RESOURCES(limepipes_SOURCES ${limepipes_RESOURCES})
+QT4_ADD_RESOURCES( limepipes_SOURCES ${limepipes_RESOURCES} )
 
-set(EXECUTABLE_OUTPUT_PATH ${OUTPUT_BIN_FOLDER})
-add_executable ( limepipes ${limepipes_SOURCES} )
+set( EXECUTABLE_OUTPUT_PATH ${OUTPUT_BIN_FOLDER} )
+add_executable( limepipes ${limepipes_SOURCES} )
 
-target_link_libraries ( limepipes  ${QT_LIBRARIES} lp_greathighlandbagpipe lp_model)
+target_link_libraries( limepipes  ${QT_LIBRARIES} lp_greathighlandbagpipe lp_model)
 
-INSTALL ( TARGETS limepipes DESTINATION bin )
+install( TARGETS limepipes DESTINATION bin )

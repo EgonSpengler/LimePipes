@@ -9,34 +9,10 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QXmlStreamWriter>
-#include <tune.h>
 #include <symbol.h>
-#include <barline.h>
-#include <greathighlandbagpipe.h>
-
-class TuneTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    TuneTest()
-        : m_tune(0) {}
-    
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testConstructor();
-    void testType();
-    void testChildType();
-    void testOkToInsertChildRedefinition();
-    void testSetData();
-    void testWriteToXmlStream();
-    void testRowOfPartStart();
-
-private:
-    Tune *m_tune;
-    InstrumentPtr m_instrument;
-};
+#include <symbols/barline.h>
+#include <plugins/GreatHighlandBagpipe/greathighlandbagpipe.h>
+#include "tst_tunetest.h"
 
 void TuneTest::init()
 {

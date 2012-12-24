@@ -8,25 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-
-#include <ghb_melodynote.h>
-
-class GHB_MelodyNoteTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    GHB_MelodyNoteTest()
-        : m_melody(0) {}
-    
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testDefaultConstructor();
-
-private:
-    GHB_MelodyNote *m_melody;
-};
+#include "tst_ghb_melodynotetest.h"
 
 void GHB_MelodyNoteTest::init()
 {

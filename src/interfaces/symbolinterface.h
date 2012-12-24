@@ -15,7 +15,7 @@
 #define SYMBOLINTERFACE_H
 
 #include <QtPlugin>
-#include <interfaceglobals.h>
+#include "interfaceglobals.h"
 #include <symbol.h>
 
 class QString;

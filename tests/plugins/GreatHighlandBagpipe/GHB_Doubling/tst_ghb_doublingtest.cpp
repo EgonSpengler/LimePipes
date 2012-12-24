@@ -8,25 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-
-#include <ghb_doubling.h>
-
-class GHB_DoublingTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    GHB_DoublingTest()
-        : m_doubling(0) {}
-    
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testDefaultConstructor();
-
-private:
-    GHB_Doubling *m_doubling;
-};
+#include "tst_ghb_doublingtest.h"
 
 void GHB_DoublingTest::init()
 {

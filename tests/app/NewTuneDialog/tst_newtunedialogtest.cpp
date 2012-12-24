@@ -9,34 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QtCore/QCoreApplication>
-#include <QComboBox>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QDialogButtonBox>
-
-#include "../../../src/app/newtunedialog.h"
-
-class NewTuneDialogTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    NewTuneDialogTest()
-        : m_dialog(0), m_instrumentsCombo(0), m_buttonBox(0), m_okButton(0), m_titleLineEdit(0) {}
-    
-private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
-    void testInstrumentsComboFilled();
-    void testEnableDisableOkButton();
-
-private:
-    NewTuneDialog *m_dialog;
-    QComboBox *m_instrumentsCombo;
-    QDialogButtonBox *m_buttonBox;
-    QPushButton *m_okButton;
-    QLineEdit *m_titleLineEdit;
-};
+#include "tst_newtunedialogtest.h"
 
 void NewTuneDialogTest::initTestCase()
 {
@@ -91,5 +64,3 @@ void NewTuneDialogTest::testEnableDisableOkButton()
 }
 
 QTEST_MAIN(NewTuneDialogTest)
-
-#include "tst_newtunedialogtest.moc"

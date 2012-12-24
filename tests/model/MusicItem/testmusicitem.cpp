@@ -15,3 +15,4 @@ TestMusicItem::TestMusicItem()
 {
     initData(dataForInitDataRole, initDataRole);
 }
+

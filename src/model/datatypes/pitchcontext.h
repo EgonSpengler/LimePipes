@@ -13,7 +13,7 @@
 #include <QStringList>
 #include <QSharedPointer>
 #include <QVariant>
-#include <model/datatypes/pitch.h>
+#include "pitch.h"
 
 class PitchContext
 {

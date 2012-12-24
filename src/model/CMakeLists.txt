@@ -1,4 +1,4 @@
-set ( lp_model_HEADERS
+set( lp_model_HEADERS
         instrumentmanager.h
         itemdatatypes.h
         musicitem.h
@@ -9,16 +9,25 @@ set ( lp_model_HEADERS
         tune.h
         symbolgraphicbuilder.h
 
+        commands/insertitemscommand.h
+        commands/removeitemscommand.h
+
+        datatypes/instrument.h
+        datatypes/length.h
+        datatypes/pitch.h
         datatypes/pitchcontext.h
+        datatypes/symbolgraphic.h
+        datatypes/timesignature.h
 
         musicfont/emmentalermusicfont.h
         musicfont/musicfont.h
 
         symbols/melodynote.h
         symbols/melodynotegraphicbuilder.h
+        symbols/barline.h
         )
 
-set ( lp_model_SOURCES
+set( lp_model_SOURCES
         instrumentmanager.cpp
         musicitem.cpp
         musicmodel.cpp
@@ -43,31 +52,20 @@ set ( lp_model_SOURCES
         symbols/melodynotegraphicbuilder.cpp
         )
 
-set ( lp_model_MOC_HEADERS
+set( lp_model_MOC_HEADERS
         musicmodel.h
-
-        commands/insertitemscommand.h
-        commands/removeitemscommand.h
-
-        datatypes/instrument.h
-        datatypes/length.h
-        datatypes/pitch.h
-        datatypes/symbolgraphic.h
-        datatypes/timesignature.h
-
-        symbols/barline.h
         )
 
-set ( lp_model_RESOURCES
+set( lp_model_RESOURCES
         musicfont/musicfont_resources.qrc
         )
 
-include ( ${QT_USE_FILE} )
+include( ${QT_USE_FILE} )
 
-set ( LIBRARY_OUTPUT_PATH ${STATIC_PLUGINS_FOLDER} )
+set( LIBRARY_OUTPUT_PATH ${STATIC_PLUGINS_FOLDER} )
 
-QT4_WRAP_CPP(lp_model_SOURCES ${lp_model_MOC_HEADERS})
+qt4_wrap_cpp( lp_model_SOURCES ${lp_model_MOC_HEADERS} )
 
-QT4_ADD_RESOURCES(lp_model_SOURCES ${lp_model_RESOURCES})
+qt4_add_resources( lp_model_SOURCES ${lp_model_RESOURCES} )
 
-add_library ( lp_model ${lp_model_SOURCES} )
+add_library( lp_model ${lp_model_SOURCES} )

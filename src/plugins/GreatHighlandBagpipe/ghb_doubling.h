@@ -10,7 +10,7 @@
 #define GHB_DOUBLING_H
 
 #include <symbol.h>
-#include <ghb_symboltypes.h>
+#include "ghb_symboltypes.h"
 
 class GHB_Doubling : public Symbol
 {
