@@ -8,30 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <barline.h>
-
-class BarLineTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    BarLineTest()
-        : m_bar(0) {}
-
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testConstructor();
-    void testBarSymbolType();
-    void testWritingOfData();
-    void testRepeat();
-    void testWriteItemDataToStream();
-    void testReadItemFromStream();
-
-private:
-    void readString(const QString &string);
-    BarLine *m_bar;
-};
+#include "tst_barlinetest.h"
 
 void BarLineTest::init()
 {

@@ -13,8 +13,8 @@
 #include <QList>
 #include <QString>
 #include <QDir>
-#include <interfaces/instrumentinterface.h>
-#include <interfaces/symbolinterface.h>
+#include <instrumentinterface.h>
+#include <symbolinterface.h>
 
 class QDir;
 
@@ -22,6 +22,7 @@ class InstrumentManager
 {
 public:
     explicit InstrumentManager(const QDir &pluginsDir);
+    ~InstrumentManager()  {}
 
     QList<QString> symbolNamesForInstrument(const QString &instrumentName) const;
     Symbol *symbolForName(const QString &instrumentName, const QString &symbolName);

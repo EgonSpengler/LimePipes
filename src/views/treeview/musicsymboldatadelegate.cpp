@@ -80,5 +80,3 @@ const MusicModelInterface *MusicSymbolDataDelegate::musicModelFromIndex(const QM
     const QAbstractItemModel *model = index.model();
     return dynamic_cast<const MusicModelInterface*>(model);
 }
-
-

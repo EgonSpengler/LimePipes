@@ -8,21 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <pitch.h>
-
-class PitchTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    PitchTest();
-    
-private Q_SLOTS:
-    void testCreatePitch();
-    void testSetPitchAsQVariant();
-    void testName();
-    void testStaffPos();
-};
+#include "tst_pitchtest.h"
 
 PitchTest::PitchTest()
 {

@@ -12,7 +12,7 @@
 #include <musicitem.h>
 #include <symbol.h>
 #include <itemdatatypes.h>
-#include <interfaces/instrumentinterface.h>
+#include <instrumentinterface.h>
 
 class Tune : public MusicItem
 {

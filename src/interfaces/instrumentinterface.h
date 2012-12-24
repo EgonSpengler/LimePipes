@@ -15,8 +15,8 @@
 #define INSTRUMENT_INTERFACE_H
 
 #include <QtPlugin>
-#include <interfaces/interfaceglobals.h>
-#include <datatypes/instrument.h>
+#include "interfaceglobals.h"
+#include <src/model/datatypes/instrument.h>
 
 class QString;
 

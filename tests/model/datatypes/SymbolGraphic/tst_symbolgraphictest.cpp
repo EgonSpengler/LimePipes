@@ -8,20 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <symbolgraphic.h>
-
-class SymbolGraphicTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    SymbolGraphicTest();
-    
-private Q_SLOTS:
-    void testDefaultConstructor();
-    void testConstructor();
-    void testQVariant();
-};
+#include "tst_symbolgraphictest.h"
 
 SymbolGraphicTest::SymbolGraphicTest()
 {

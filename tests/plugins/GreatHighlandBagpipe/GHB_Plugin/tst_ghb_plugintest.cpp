@@ -9,31 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <interfaceglobals.h>
-
-#include <greathighlandbagpipe.h>
-
-
-class GHB_PluginTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    GHB_PluginTest()
-        : m_bagpipe(0) {}
-    
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testCreate();
-    void testName();
-    void testInstrumentID();
-    void testsupportedSymbolTypes();
-    void testSymbolNamesForAllSymbols();
-    void testPitchContext();
-
-private:
-    GreatHighlandBagpipe *m_bagpipe;
-};
+#include "tst_ghb_plugintest.h"
 
 void GHB_PluginTest::init()
 {

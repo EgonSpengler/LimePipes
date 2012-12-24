@@ -8,8 +8,8 @@
 
 #include "treeview.h"
 #include <QKeyEvent>
-#include <pitchdelegate.h>
-#include <lengthdelegate.h>
+#include "pitchdelegate.h"
+#include "lengthdelegate.h"
 #include <model/itemdatatypes.h>
 #include <model/symbols/melodynote.h>
 

@@ -13,7 +13,7 @@
 
 #include "score.h"
 #include <QXmlStreamWriter>
-#include <timesignature.h>
+#include <datatypes/timesignature.h>
 
 Score::Score(MusicItem *parent)
     : MusicItem(MusicItem::ScoreType, MusicItem::TuneType, parent)

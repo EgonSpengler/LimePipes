@@ -8,24 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <QVariant>
-#include <length.h>
-
-class LengthTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    LengthTest();
-    
-private Q_SLOTS:
-    void testValues();
-    void testValueForName();
-    void testNameForValue();
-    void testSetLengthAsVariant();
-    void testLengthNames();
-    void testLengthValues();
-};
+#include "tst_lengthtest.h"
 
 LengthTest::LengthTest()
 {

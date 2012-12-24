@@ -14,53 +14,12 @@
 #include <QPluginLoader>
 #include <instrumentinterface.h>
 #include <symbolinterface.h>
-#include <model/instrumentmanager.h>
+#include <instrumentmanager.h>
+#include "tst_instrumentmanagertest.h"
+
+#include <QDebug>
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
-
-class InstrumentManagerTest : public QObject
-{
-    Q_OBJECT
-
-public:
-    InstrumentManagerTest()
-        : m_staticInstrumentPlugins(0),
-          m_dynamicInstrumentPlugins(0),
-          m_pluginsWithDoubleName(0),
-          m_pluginsPath(0),
-          m_manager(0)
-    {}
-    ~InstrumentManagerTest()
-    { delete m_manager, delete m_pluginsPath; }
-
-private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
-    void testPreconditions();
-    void testPluginsWereLoaded();
-    void testLoadedStaticPlugins();
-    void testPluginsPath();
-    void testLoadedDynamicPlugins();
-    void testInstrumentForName();
-    void testInstrumentNames();
-    void testSymbolNamesForInstrument();
-    void testGetSymbolByName();
-
-private:
-    void loadStaticPlugins();
-    void loadDynamicPlugins();
-    void setPluginsPath();
-    void insertPluginIfInstrument(QObject *plugin, bool isStaticPlugin);
-    void insertPluginName(const QString &name, bool isStaticPlugin);
-    QList<QString> getSymbolNamesFromInstrumentName(const QString &instrumentName);
-    int m_staticInstrumentPlugins;
-    int m_dynamicInstrumentPlugins;
-    int m_pluginsWithDoubleName;
-    QDir *m_pluginsPath;
-    QList<QString> m_instrumentPluginNames;
-    InstrumentManager *m_manager;
-    QList<QString> m_managerInstrumentNames;
-};
 
 void InstrumentManagerTest::initTestCase()
 {
@@ -73,7 +32,6 @@ void InstrumentManagerTest::initTestCase()
 
 void InstrumentManagerTest::cleanupTestCase()
 {
-    delete m_manager;
 }
 
 void InstrumentManagerTest::testPreconditions()
@@ -179,7 +137,7 @@ void InstrumentManagerTest::insertPluginIfInstrument(QObject *plugin, bool isSta
     }
 }
 
-void InstrumentManagerTest::insertPluginName(const QString&name, bool isStaticPlugin)
+void InstrumentManagerTest::insertPluginName(const QString &name, bool isStaticPlugin)
 {
     if (m_instrumentPluginNames.contains(name)) {
         m_pluginsWithDoubleName++;

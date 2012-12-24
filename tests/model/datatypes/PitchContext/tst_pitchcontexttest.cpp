@@ -8,29 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <pitchcontext.h>
-
-class PitchContextTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    PitchContextTest()
-        :m_context(0) {}
-    
-private Q_SLOTS:
-    void init();
-    void cleanup();
-    void testDefaultConstructor();
-    void testLowestStaffPos();
-    void testHighestStaffPos();
-    void testPitchNames();
-    void testPitchForName();
-    void testPitchForStaffPos();
-
-private:
-    PitchContext *m_context;
-};
+#include "tst_pitchcontexttest.h"
 
 void PitchContextTest::init()
 {

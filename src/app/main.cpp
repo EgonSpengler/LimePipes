@@ -12,6 +12,8 @@
 
 int main(int argc, char *argv[])
 {
+    Q_INIT_RESOURCE( musicfont_resources );  // Because model is static plugin
+
     QApplication app(argc, argv);
     app.setApplicationName(app.translate("main", "LimePipes"));
     app.setWindowIcon(QIcon(":/application/application_icon"));

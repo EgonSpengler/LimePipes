@@ -8,18 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <views/treeview/treeview.h>
-
-class TreeViewTest : public QObject
-{
-    Q_OBJECT
-    
-public:
-    TreeViewTest();
-    
-private Q_SLOTS:
-    void testCreateTreeView();
-};
+#include "tst_treeviewtest.h"
 
 TreeViewTest::TreeViewTest()
 {
@@ -31,5 +20,3 @@ void TreeViewTest::testCreateTreeView()
 }
 
 QTEST_MAIN(TreeViewTest)
-
-#include "tst_treeviewtest.moc"

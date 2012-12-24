@@ -11,7 +11,7 @@
 
 #include <instrumentinterface.h>
 #include <QString>
-#include <instrument.h>
+#include <datatypes/instrument.h>
 
 class TestInstrumentForManager :  public QObject,
                                   public InstrumentInterface
