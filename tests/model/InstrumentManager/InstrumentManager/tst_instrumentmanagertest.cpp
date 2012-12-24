@@ -17,8 +17,6 @@
 #include <instrumentmanager.h>
 #include "tst_instrumentmanagertest.h"
 
-#include <QDebug>
-
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
 void InstrumentManagerTest::initTestCase()

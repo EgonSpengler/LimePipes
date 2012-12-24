@@ -11,8 +11,6 @@
 #include <QtCore/QCoreApplication>
 #include "tst_emmentalermusicfonttest.h"
 
-#include <QDebug>
-
 void EmmentalerMusicFontTest::initTestCase()
 {
     m_musicFont = new EmmentalerMusicFont(m_lineHeight);
@@ -26,8 +24,6 @@ void EmmentalerMusicFontTest::cleanupTestCase()
 void EmmentalerMusicFontTest::testLineHeightOfNoteHead()
 {
     QRectF boundingRect = m_musicFont->boundingRectForGlyph(MusicFont::Noteheads_s1);
-    qDebug() << "Bounding rect: " << boundingRect;
-    qDebug() << "line height: " << m_lineHeight;
     bool heightInRange = (boundingRect.height() == m_lineHeight ||
                           boundingRect.height() == m_lineHeight + 1);
     QVERIFY2(heightInRange, "Notehead hasn't got line height or line height+1");
