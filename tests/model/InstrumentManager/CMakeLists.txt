@@ -9,15 +9,38 @@ target_link_libraries( InstrumentManagerTest ${TEST_LIBRARIES} lp_greathighlandb
 add_test( NAME InstrumentManagerTest COMMAND InstrumentManagerTest )
 
 # TestInstrumentForManager
-set( TestInstrumentForManager_SOURCES TestInstrumentForManager/testinstrumentformanager.cpp )
+set( TestInstrumentForManager_SOURCES
+        TestInstrumentForManager/testinstrumentformanager.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/instrument.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitchcontext.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitch.cpp
+        )
 set( TestInstrumentForManager_MOC_HEADERS TestInstrumentForManager/testinstrumentformanager.h )
+
+set( TestInstrumentForManager_HEADERS
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/instrument.h
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitchcontext.h
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitch.h
+        )
 qt4_wrap_cpp(TestInstrumentForManager_SOURCES ${TestInstrumentForManager_MOC_HEADERS})
-add_library( lp_TestInstrumentForManager SHARED ${TestInstrumentForManager_SOURCES} )
-target_link_libraries( lp_TestInstrumentForManager ${QT_LIBRARIES} )
+add_library( lp_TestInstrumentForManager SHARED ${TestInstrumentForManager_SOURCES} ${TestInstrumentForManager_HEADERS} )
+target_link_libraries( lp_TestInstrumentForManager ${QT_LIBRARIES}  )
 
 # TestInstrumentGHB
-SET( TestInstrumentGHB_SOURCES TestInstrumentGHB/testinstrumentghb.cpp )
+SET( TestInstrumentGHB_SOURCES
+        TestInstrumentGHB/testinstrumentghb.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/instrument.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitchcontext.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitch.cpp
+        )
+
 SET( TestInstrumentGHB_MOC_HEADERS TestInstrumentGHB/testinstrumentghb.h )
-qt4_wrap_cpp(TestInstrumentGHB_SOURCES ${TestInstrumentGHB_MOC_HEADERS})
+
+set( TestInstrumentGHB_HEADERS
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/instrument.h
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitchcontext.h
+        ${CMAKE_SOURCE_DIR}/src/model/datatypes/pitch.h
+        )
+qt4_wrap_cpp(TestInstrumentGHB_SOURCES ${TestInstrumentGHB_MOC_HEADERS} ${TestInstrumentGHB_HEADERS})
 add_library( lp_TestInstrumentGHB SHARED ${TestInstrumentGHB_SOURCES} )
 target_link_libraries( lp_TestInstrumentGHB ${QT_LIBRARIES} )
