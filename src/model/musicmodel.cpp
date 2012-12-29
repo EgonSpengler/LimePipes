@@ -54,7 +54,8 @@ QHash<int, QString> MusicModel::initItemTypeTags()
 
 MusicModel::MusicModel(QObject *parent)
     : QAbstractItemModel(parent), m_rootItem(0), m_columnCount(1),
-      m_dropMimeDataOccured(false)
+      m_dropMimeDataOccured(false),
+      m_noDropOccured(false)
 {
     m_instrumentManager = new InstrumentManager(pluginsDir());
     m_undoStack = new QUndoStack(this);
@@ -167,6 +168,11 @@ void MusicModel::setColumnCount(int columns)
 
 bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+    if (m_noDropOccured) {
+        m_noDropOccured = false;
+        return false;
+    }
+
     if (!m_rootItem)
         return false;
 
@@ -275,8 +281,10 @@ bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, 
 
     createRootItemIfNotPresent();
     if (MusicItem *parentItem = itemForIndex(parent)) {
-        if (!itemSupportsDropOfMimeType(parentItem, mimeType))
+        if (!itemSupportsDropOfMimeType(parentItem, mimeType)) {
+            m_noDropOccured = true;
             return false;
+        }
 
         NullMusicItem tempParentItem(*parentItem);
         QByteArray xmlData = qUncompress(mimeData->data(mimeType));

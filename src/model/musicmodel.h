@@ -137,6 +137,12 @@ private:
     static QHash<int, QString> s_itemTypeTags;
     QUndoStack *m_undoStack;
     bool m_dropMimeDataOccured;
+
+    // Fixes Qt Bug #6679.
+    // This Bug should be fixed in Qt in a newer version (4.8.x).
+    // After that, this variable can be removed and the root CMakeLists.txt should contain
+    // an entry for the required minimum Qt Version ( find_package( Qt4 4.8.x REQUIRED ))
+    bool m_noDropOccured;
 };
 
 #endif // MUSICMODEL_H
