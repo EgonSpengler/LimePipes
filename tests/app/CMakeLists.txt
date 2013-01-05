@@ -50,6 +50,7 @@ set( MainwindowTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/app/mainwindow.cpp
         ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.cpp
         ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.cpp
+        ${CMAKE_SOURCE_DIR}/src/app/aboutdialog.cpp
 
         ${CMAKE_SOURCE_DIR}/src/views/treeview/lengthdelegate.cpp
         ${CMAKE_SOURCE_DIR}/src/views/treeview/musicproxymodel.cpp
@@ -63,6 +64,7 @@ set( MainwindowTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/app/mainwindow.h
         ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.h
         ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.h
+        ${CMAKE_SOURCE_DIR}/src/app/aboutdialog.h
 
         ${CMAKE_SOURCE_DIR}/src/views/treeview/lengthdelegate.h
         ${CMAKE_SOURCE_DIR}/src/views/treeview/musicproxymodel.h
@@ -75,6 +77,7 @@ set( MainwindowTest_UIs
         ${CMAKE_SOURCE_DIR}/src/app/mainwindow.ui
         ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.ui
         ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.ui
+        ${CMAKE_SOURCE_DIR}/src/app/aboutdialog.ui
         )
 
 qt4_wrap_cpp( MainwindowTest_SOURCES ${MainwindowTest_MOC_HEADERS} )

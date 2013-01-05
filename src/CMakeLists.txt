@@ -11,6 +11,7 @@ set( limepipes_SOURCES
         app/mainwindow.cpp
         app/newtunedialog.cpp
         app/addsymbolsdialog.cpp
+        app/aboutdialog.cpp
 
         views/treeview/lengthdelegate.cpp
         views/treeview/musicproxymodel.cpp
@@ -23,6 +24,7 @@ set( limepipes_MOC_HEADERS
         app/mainwindow.h
         app/newtunedialog.h
         app/addsymbolsdialog.h
+        app/aboutdialog.h
 
         views/treeview/lengthdelegate.h
         views/treeview/musicproxymodel.h
@@ -35,6 +37,7 @@ set( limepipes_UIs
         app/mainwindow.ui
         app/newtunedialog.ui
         app/addsymbolsdialog.ui
+        app/aboutdialog.ui
         )
 
 set( limepipes_RESOURCES
@@ -44,6 +47,7 @@ set( limepipes_RESOURCES
 include( ${QT_USE_FILE} )
 
 include_directories(
+        ${PROJECT_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}

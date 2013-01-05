@@ -19,6 +19,7 @@ class Instrument;
 class MusicModel;
 class AddSymbolsDialog;
 class NewTuneDialog;
+class AboutDialog;
 class QAbstractItemModel;
 class MusicModelInterface;
 
@@ -44,6 +45,7 @@ private slots:
     void on_editAddSymbolsAction_triggered();
     void on_editUndoAction_triggered();
     void on_editRedoAction_triggered();
+    void on_helpAboutAction_triggered();
     void insertSymbol(const QString &symbolName);
     void setWindowModifiedForUndoStackCleanState(bool clean);
 
@@ -64,6 +66,7 @@ private:
     QTreeView *m_treeView;
     QAbstractItemModel *m_model;
     AddSymbolsDialog *m_addSymbolsDialog;
+    AboutDialog *m_aboutDialog;
 };
 
 #endif // MAINWINDOW_H

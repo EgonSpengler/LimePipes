@@ -28,9 +28,11 @@
 #include <musicmodel.h>
 #include <itemdatatypes.h>
 #include <treeview/musicproxymodel.h>
-#include <app/newtunedialog.h>
-#include <app/addsymbolsdialog.h>
 #include <views/treeview/treeview.h>
+#include "newtunedialog.h"
+#include "addsymbolsdialog.h"
+#include "aboutdialog.h"
+
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
@@ -48,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     m_addSymbolsDialog = new AddSymbolsDialog(this);
+    m_aboutDialog = new AboutDialog(this);
 
     createModelAndView();
     createMenusAndToolBars();
@@ -338,6 +341,11 @@ void MainWindow::on_editRedoAction_triggered()
     musicModel->undoStack()->redo();
     m_treeView->expandAll();
     updateUi();
+}
+
+void MainWindow::on_helpAboutAction_triggered()
+{
+    m_aboutDialog->show();
 }
 
 void MainWindow::insertSymbol(const QString &symbolName)
