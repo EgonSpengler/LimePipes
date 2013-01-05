@@ -1,3 +1,1 @@
-#define LimePipes_VERSION_MAJOR @LimePipes_VERSION_MAJOR@
-#define LimePipes_VERSION_MINOR @LimePipes_VERSION_MINOR@
-#define LimePipes_VERSION_PATCH @LimePipes_VERSION_PATCH@
+#define Project_VERSION "@Project_VERSION@"

@@ -41,8 +41,15 @@
     <addaction name="editAddTuneAction"/>
     <addaction name="editAddSymbolsAction"/>
    </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="helpAboutAction"/>
+   </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
+   <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <property name="windowTitle">
@@ -203,6 +210,11 @@
    </property>
    <property name="toolTip">
     <string>Add Part</string>
+   </property>
+  </action>
+  <action name="helpAboutAction">
+   <property name="text">
+    <string>&amp;About</string>
    </property>
   </action>
  </widget>
