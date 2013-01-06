@@ -45,6 +45,13 @@ target_link_libraries( NewTuneDialogTest ${TEST_LIBRARIES} )
 add_test( NAME NewTuneDialogTest COMMAND NewTuneDialogTest )
 
 # MainWindow
+set( MainwindowTest_HEADERS
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.h
+        )
+
 set( MainwindowTest_SOURCES
         MainWindow/tst_mainwindowtest.cpp
         ${CMAKE_SOURCE_DIR}/src/app/mainwindow.cpp
@@ -57,6 +64,13 @@ set( MainwindowTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/treeview/musicsymboldatadelegate.cpp
         ${CMAKE_SOURCE_DIR}/src/views/treeview/pitchdelegate.cpp
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.cpp
+
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentitem.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
         )
 
 set( MainwindowTest_MOC_HEADERS
@@ -71,6 +85,9 @@ set( MainwindowTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/treeview/musicsymboldatadelegate.h
         ${CMAKE_SOURCE_DIR}/src/views/treeview/pitchdelegate.h
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.h
+
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
         )
 
 set( MainwindowTest_UIs
@@ -84,6 +101,6 @@ qt4_wrap_cpp( MainwindowTest_SOURCES ${MainwindowTest_MOC_HEADERS} )
 
 qt4_wrap_ui( MainwindowTest_SOURCES ${MainwindowTest_UIs} )
 
-add_executable( MainwindowTest ${MainwindowTest_SOURCES} )
+add_executable( MainwindowTest ${MainwindowTest_SOURCES} ${MainwindowTest_HEADERS} )
 target_link_libraries( MainwindowTest lp_greathighlandbagpipe ${TEST_LIBRARIES} )
 add_test( NAME MainwindowTest COMMAND MainwindowTest )
