@@ -47,8 +47,6 @@ add_test( NAME NewTuneDialogTest COMMAND NewTuneDialogTest )
 # MainWindow
 set( MainwindowTest_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentitem.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.h
         )
 
@@ -69,7 +67,6 @@ set( MainwindowTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentitem.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
         )
 
@@ -88,6 +85,7 @@ set( MainwindowTest_MOC_HEADERS
 
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
         )
 
 set( MainwindowTest_UIs

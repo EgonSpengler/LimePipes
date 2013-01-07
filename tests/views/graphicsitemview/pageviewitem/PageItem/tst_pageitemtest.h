@@ -24,6 +24,8 @@ private Q_SLOTS:
     void testInsertRow();
     void testRemoveRowIndex();
     void testRemoveRowItem();
+    void testRemainingVerticalSpace();
+    void testRemainingVerticalSpaceChangedSignal();
 
 private:
     PageItem *m_pageItem;

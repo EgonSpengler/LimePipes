@@ -8,9 +8,11 @@
 
 #include "pageitem.h"
 #include "pagecontentrowitem.h"
+#include <QGraphicsLayout>
+#include <QGraphicsLinearLayout>
+#include <QGraphicsDropShadowEffect>
 #include <QPainter>
 #include <QPrinter>
-#include <QGraphicsDropShadowEffect>
 
 namespace {
 
@@ -28,12 +30,17 @@ PageItem::PageItem(QGraphicsItem *parent)
                          printer.paperRect().height());
     qreal margin = minEdge * 0.1;
     printer.setPageMargins(margin, margin, margin, margin, QPrinter::DevicePixel);
-    setPageAndPaperRectFromPrinter(printer);
+    setPageAndContentRectFromPrinter(printer);
 
-    m_pageContentItem = new PageContentItem(this);
-    m_pageContentItem->setPreferredWidth(m_pageContentRect.width());
-    m_pageContentItem->setGeometry(m_pageContentRect.topLeft().x(), m_pageContentRect.topLeft().y(),
-                            m_pageContentRect.width(), 0);
+    // Layout adjusts itselt to the contents rect
+    setContentsMargins(m_pageContentRect.x(), m_pageContentRect.y(),
+                       m_pageRect.width() - m_pageContentRect.x() - m_pageContentRect.width(),
+                       m_pageRect.height() - m_pageContentRect.y() - m_pageContentRect.height());
+
+    m_layout = new QGraphicsLinearLayout(Qt::Vertical);
+    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setSpacing(0);
+    setLayout(m_layout);
 
     QPalette pagePalette = palette();
     pagePalette.setColor(QPalette::Window, Qt::white);
@@ -53,7 +60,7 @@ void PageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawRect(m_pageContentRect);
 }
 
-void PageItem::setPageAndPaperRectFromPrinter(const QPrinter &printer)
+void PageItem::setPageAndContentRectFromPrinter(const QPrinter &printer)
 {
     m_pageRect = printer.paperRect();
     m_pageContentRect = printer.pageRect();
@@ -77,37 +84,52 @@ void PageItem::setPageAndPaperRectFromPrinter(const QPrinter &printer)
     setPreferredSize(m_pageRect.size());
 }
 
+int PageItem::remainingVerticalSpace() const
+{
+    if (!m_layout->count())
+        return m_pageContentRect.height();
+
+    QGraphicsLayoutItem *lastItem = m_layout->itemAt(m_layout->count() - 1);
+
+    return m_pageContentRect.height() -
+            (lastItem->geometry().y() - m_pageContentRect.y()) -
+             lastItem->geometry().height();
+}
+
 int PageItem::rowCount() const
 {
-    return m_pageContentItem->rowCount();
+    return m_layout->count();
 }
 
 PageContentRowItem *PageItem::rowAt(int index)
 {
-    return m_pageContentItem->rowAt(index);
+    return qgraphicsitem_cast<PageContentRowItem *>(m_layout->itemAt(index)->graphicsItem());
 }
 
 void PageItem::removeRow(int index)
 {
-    m_pageContentItem->removeRow(index);
+    m_layout->removeAt(index);
 }
 
 void PageItem::removeRow(PageContentRowItem *row)
 {
-    m_pageContentItem->removeRow(row);
+    m_layout->removeItem(row);
 }
 
 void PageItem::appendRow(PageContentRowItem *row)
 {
-    m_pageContentItem->insertRow(m_pageContentItem->rowCount(), row);
+    insertRow(m_layout->count(), row);
 }
 
 void PageItem::prependRow(PageContentRowItem *row)
 {
-    m_pageContentItem->insertRow(0, row);
+    insertRow(0, row);
 }
 
 void PageItem::insertRow(int index, PageContentRowItem *row)
 {
-    m_pageContentItem->insertRow(index, row);
+    int spaceBefore = remainingVerticalSpace();
+    m_layout->insertItem(index, row);
+    m_layout->activate();
+    emit remainingVerticalSpaceChanged(spaceBefore, remainingVerticalSpace());
 }

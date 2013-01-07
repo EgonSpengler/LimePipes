@@ -11,12 +11,14 @@
 
 #include <QGraphicsWidget>
 #include "../itemtypes.h"
-#include "pagecontentitem.h"
 
 class PageContentRowItem;
+class QGraphicsLinearLayout;
 
 class PageItem : public QGraphicsWidget
 {
+    Q_OBJECT
+
 public:
     explicit PageItem(QGraphicsItem *parent = 0);
 
@@ -24,22 +26,27 @@ public:
     int type() const { return Type; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void setPageAndPaperRectFromPrinter(const QPrinter &printer);
+    void setPageAndContentRectFromPrinter(const QPrinter &printer);
 
     int remainingVerticalSpace() const;
-    void appendRow(PageContentRowItem *row);
-    void prependRow(PageContentRowItem *row);
-    void insertRow(int index, PageContentRowItem *row);
     int rowCount() const;
+
     PageContentRowItem *rowAt(int index);
+
+    void appendRow(PageContentRowItem *row);
+    void insertRow(int index, PageContentRowItem *row);
+    void prependRow(PageContentRowItem *row);
     void removeRow(int index);
     void removeRow(PageContentRowItem *row);
+
+signals:
+    void remainingVerticalSpaceChanged(int oldValue, int newValue);
 
 private:
     int m_shortEdgeWidth;
     QRectF m_pageRect;
     QRectF m_pageContentRect;
-    PageContentItem *m_pageContentItem;
+    QGraphicsLinearLayout *m_layout;
 };
 
 #endif // PAGEITEM_H

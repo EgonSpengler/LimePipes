@@ -6,8 +6,6 @@ set( limepipes_HEADERS
         utilities/error.h
 
         views/graphicsitemview/pageviewitem/pageviewitem.h
-        views/graphicsitemview/pageviewitem/pageitem.h
-        views/graphicsitemview/pageviewitem/pagecontentitem.h
         views/graphicsitemview/pageviewitem/pagecontentrowitem.h
         )
 
@@ -28,7 +26,6 @@ set( limepipes_SOURCES
         views/graphicsitemview/graphicsscene.cpp
         views/graphicsitemview/pageviewitem/pageviewitem.cpp
         views/graphicsitemview/pageviewitem/pageitem.cpp
-        views/graphicsitemview/pageviewitem/pagecontentitem.cpp
         views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
         )
 
@@ -46,6 +43,7 @@ set( limepipes_MOC_HEADERS
 
         views/graphicsitemview/graphicsview.h
         views/graphicsitemview/graphicsscene.h
+        views/graphicsitemview/pageviewitem/pageitem.h
         )
 
 set( limepipes_UIs

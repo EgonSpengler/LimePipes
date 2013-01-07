@@ -6,8 +6,11 @@
  *
  */
 
+#include <QList>
 #include <QString>
 #include <QtTest/QtTest>
+#include <QtTest/QSignalSpy>
+#include <QVariant>
 #include <QCoreApplication>
 #include <views/graphicsitemview/pageviewitem/pagecontentrowitem.h>
 #include "tst_pageitemtest.h"
@@ -96,6 +99,64 @@ void PageItemTest::testRemoveRowItem()
     QVERIFY2(m_pageItem->rowCount() == 2, "Failed removing row");
     QVERIFY2(m_pageItem->rowAt(0) == row1, "Failed removing row, row 0 wrong");
     QVERIFY2(m_pageItem->rowAt(1) == row3, "Failed removing row, row 1 wrong");
+}
+
+void PageItemTest::testRemainingVerticalSpace()
+{
+    QVERIFY2(m_pageItem->remainingVerticalSpace() > 0, "No remaining space on blank page");
+
+    qreal spaceBefore = m_pageItem->remainingVerticalSpace();
+    PageContentRowItem *row = new PageContentRowItem();
+    m_pageItem->appendRow(row);
+    QVERIFY2(spaceBefore - row->preferredHeight() == m_pageItem->remainingVerticalSpace(), "Remaining space after appending row doesn't fit");
+
+    spaceBefore = m_pageItem->remainingVerticalSpace();
+    row = new PageContentRowItem();
+    m_pageItem->prependRow(row);
+    QVERIFY2(spaceBefore - row->preferredHeight() == m_pageItem->remainingVerticalSpace(), "Remaining space after prepending row doesn't fit");
+
+    spaceBefore = m_pageItem->remainingVerticalSpace();
+    row = new PageContentRowItem();
+    m_pageItem->insertRow(1, row);
+    QVERIFY2(spaceBefore - row->preferredHeight() == m_pageItem->remainingVerticalSpace(), "Remaining space after inserting row doesn't fit");
+
+    spaceBefore = m_pageItem->remainingVerticalSpace();
+    m_pageItem->removeRow(row);
+    QVERIFY2(spaceBefore == m_pageItem->remainingVerticalSpace(), "Remaining space after removing row doesn't fit");
+}
+
+void PageItemTest::testRemainingVerticalSpaceChangedSignal()
+{
+    // appendRow
+    QSignalSpy spy(m_pageItem, SIGNAL(remainingVerticalSpaceChanged(int,int)));
+    qreal remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
+
+    m_pageItem->appendRow(new PageContentRowItem());
+    QVERIFY2(spy.count() == 1, "append: Signal wasn't emitted");
+
+    QList<QVariant> arguments = spy.takeFirst();
+    QVERIFY2(arguments.at(0).toInt() == remainingSpaceBefore, "append: Signal returned wrong value for old value");
+    QVERIFY2(arguments.at(1).toInt() == m_pageItem->remainingVerticalSpace(), "append: Signal returned wrong value for new value");
+
+    // prependRow
+    remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
+
+    m_pageItem->prependRow(new PageContentRowItem());
+    QVERIFY2(spy.count() == 1, "prepend: Signal wasn't emitted");
+
+    arguments = spy.takeFirst();
+    QVERIFY2(arguments.at(0).toInt() == remainingSpaceBefore, "prepend: Signal returned wrong value for old value");
+    QVERIFY2(arguments.at(1).toInt() == m_pageItem->remainingVerticalSpace(), "prepend: Signal returned wrong value for new value");
+
+    // insertRow
+    remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
+
+    m_pageItem->insertRow(1, new PageContentRowItem());
+    QVERIFY2(spy.count() == 1, "insert: Signal wasn't emitted");
+
+    arguments = spy.takeFirst();
+    QVERIFY2(arguments.at(0).toInt() == remainingSpaceBefore, "insert: Signal returned wrong value for old value");
+    QVERIFY2(arguments.at(1).toInt() == m_pageItem->remainingVerticalSpace(), "insert: Signal returned wrong value for new value");
 }
 
 QTEST_MAIN(PageItemTest)
