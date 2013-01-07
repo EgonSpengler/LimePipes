@@ -38,3 +38,17 @@ add_executable( PageItemTest ${PageItemTest_SOURCES}
         ${PageViewItem_HEADERS} )
 target_link_libraries( PageItemTest ${TEST_LIBRARIES} )
 add_test( NAME PageItemTest COMMAND PageItemTest )
+
+# PageViewItem
+set( PageViewItemTest_SOURCES
+        pageviewitem/PageViewItem/tst_pageviewitemtest.cpp
+        )
+set( PageViewItemTest_MOC_HEADERS
+        pageviewitem/PageViewItem/tst_pageviewitemtest.h
+        )
+qt4_wrap_cpp( PageViewItemTest_SOURCES ${PageViewItemTest_MOC_HEADERS} )
+add_executable( PageViewItemTest ${PageViewItemTest_SOURCES}
+        ${PageViewItem_SOURCES}
+        ${PageViewItem_HEADERS} )
+target_link_libraries( PageViewItemTest ${TEST_LIBRARIES} )
+add_test( NAME PageViewItemTest COMMAND PageViewItemTest )
