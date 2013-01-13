@@ -26,6 +26,7 @@ private Q_SLOTS:
     void testRemoveRowItem();
     void testRemainingVerticalSpace();
     void testRemainingVerticalSpaceChangedSignal();
+    void testRowExceedsContentBoundsSignal();
 
 private:
     PageItem *m_pageItem;

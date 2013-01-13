@@ -132,4 +132,6 @@ void PageItem::insertRow(int index, PageContentRowItem *row)
     m_layout->insertItem(index, row);
     m_layout->activate();
     emit remainingVerticalSpaceChanged(spaceBefore, remainingVerticalSpace());
+    if (remainingVerticalSpace() < 0)
+        emit lastRowExceedsContentBounds();
 }

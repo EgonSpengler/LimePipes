@@ -159,4 +159,35 @@ void PageItemTest::testRemainingVerticalSpaceChangedSignal()
     QVERIFY2(arguments.at(1).toInt() == m_pageItem->remainingVerticalSpace(), "insert: Signal returned wrong value for new value");
 }
 
+void PageItemTest::testRowExceedsContentBoundsSignal()
+{
+     // appendRow
+    QSignalSpy spy(m_pageItem, SIGNAL(lastRowExceedsContentBounds()));
+    PageContentRowItem *row = new PageContentRowItem();
+    m_pageItem->appendRow(row);
+    qreal defaultRowHeight = row->preferredHeight();
+
+    while (m_pageItem->remainingVerticalSpace() > defaultRowHeight) {
+        m_pageItem->appendRow(new PageContentRowItem());
+    }
+    m_pageItem->appendRow(new PageContentRowItem());
+
+    QVERIFY2( m_pageItem->remainingVerticalSpace() < 0, "Vertical space should be less than 0");
+    QVERIFY2(spy.count() == 1, "Signal wasn't emitted by append row");
+
+    m_pageItem->removeRow(m_pageItem->rowCount() - 1);
+    Q_ASSERT(m_pageItem->remainingVerticalSpace() > 0 && m_pageItem->remainingVerticalSpace() < defaultRowHeight);
+    m_pageItem->insertRow(3, new PageContentRowItem());
+    Q_ASSERT(m_pageItem->remainingVerticalSpace() < 0);
+
+    QVERIFY2(spy.count() == 2, "Signal wasn't emitted by insert row");
+
+    m_pageItem->removeRow(m_pageItem->rowCount() - 1);
+    Q_ASSERT(m_pageItem->remainingVerticalSpace() > 0 && m_pageItem->remainingVerticalSpace() < defaultRowHeight);
+    m_pageItem->prependRow(new PageContentRowItem());
+    Q_ASSERT(m_pageItem->remainingVerticalSpace() < 0);
+
+    QVERIFY2(spy.count() == 3, "Signal wasn't emitted by prepend row");
+}
+
 QTEST_MAIN(PageItemTest)

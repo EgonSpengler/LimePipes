@@ -41,6 +41,7 @@ public:
 
 signals:
     void remainingVerticalSpaceChanged(int oldValue, int newValue);
+    void lastRowExceedsContentBounds();
 
 private:
     int m_shortEdgeWidth;
