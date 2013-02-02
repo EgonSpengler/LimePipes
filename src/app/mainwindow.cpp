@@ -23,12 +23,15 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QScopedPointer>
+#include <QSplitter>
 #include <QUndoStack>
 #include <utilities/error.h>
 #include <musicmodel.h>
 #include <itemdatatypes.h>
 #include <treeview/musicproxymodel.h>
 #include <views/treeview/treeview.h>
+#include <views/graphicsitemview/graphicsscene.h>
+#include <views/graphicsitemview/graphicsview.h>
 #include "newtunedialog.h"
 #include "addsymbolsdialog.h"
 #include "aboutdialog.h"
@@ -70,6 +73,12 @@ MainWindow::~MainWindow()
 void MainWindow::createModelAndView()
 {
     m_treeView = new TreeView(this);
+    m_graphicsScene = new GraphicsScene(this);
+    m_graphicsView = new GraphicsView(m_graphicsScene);
+
+    QSplitter *splitter = new QSplitter(this);
+    splitter->addWidget(m_treeView);
+    splitter->addWidget(m_graphicsView);
 
     MusicModel *musicModel = new MusicModel(this);
     MusicProxyModel *proxyModel = new MusicProxyModel(this);
@@ -77,7 +86,7 @@ void MainWindow::createModelAndView()
     m_model = proxyModel;
 
     m_treeView->setModel(m_model);
-    setCentralWidget(m_treeView);
+    setCentralWidget(splitter);
 }
 
 void MainWindow::createMenusAndToolBars()

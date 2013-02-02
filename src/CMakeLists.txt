@@ -4,6 +4,8 @@ set( limepipes_HEADERS
         interfaces/symbolinterface.h
 
         utilities/error.h
+
+        views/graphicsitemview/pageviewitem/pagecontentrowitem.h
         )
 
 set( limepipes_SOURCES
@@ -18,6 +20,12 @@ set( limepipes_SOURCES
         views/treeview/musicsymboldatadelegate.cpp
         views/treeview/pitchdelegate.cpp
         views/treeview/treeview.cpp
+
+        views/graphicsitemview/graphicsview.cpp
+        views/graphicsitemview/graphicsscene.cpp
+        views/graphicsitemview/pageviewitem/pageviewitem.cpp
+        views/graphicsitemview/pageviewitem/pageitem.cpp
+        views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
         )
 
 set( limepipes_MOC_HEADERS
@@ -31,6 +39,11 @@ set( limepipes_MOC_HEADERS
         views/treeview/musicsymboldatadelegate.h
         views/treeview/pitchdelegate.h
         views/treeview/treeview.h
+
+        views/graphicsitemview/graphicsview.h
+        views/graphicsitemview/graphicsscene.h
+        views/graphicsitemview/pageviewitem/pageitem.h
+        views/graphicsitemview/pageviewitem/pageviewitem.h
         )
 
 set( limepipes_UIs
