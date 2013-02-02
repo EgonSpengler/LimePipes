@@ -103,17 +103,26 @@ int PageItem::rowCount() const
 
 PageContentRowItem *PageItem::rowAt(int index)
 {
+    if (!isValidRowIndex(index))
+        return 0;
+
     return qgraphicsitem_cast<PageContentRowItem *>(m_layout->itemAt(index)->graphicsItem());
 }
 
 void PageItem::removeRow(int index)
 {
+    int verticalSpaceBefore = remainingVerticalSpace();
     m_layout->removeAt(index);
+    m_layout->activate();
+    emit remainingVerticalSpaceChanged(verticalSpaceBefore, remainingVerticalSpace());
 }
 
 void PageItem::removeRow(PageContentRowItem *row)
 {
+    int verticalSpaceBefore = remainingVerticalSpace();
     m_layout->removeItem(row);
+    m_layout->activate();
+    emit remainingVerticalSpaceChanged(verticalSpaceBefore, remainingVerticalSpace());
 }
 
 void PageItem::appendRow(PageContentRowItem *row)
@@ -134,4 +143,12 @@ void PageItem::insertRow(int index, PageContentRowItem *row)
     emit remainingVerticalSpaceChanged(spaceBefore, remainingVerticalSpace());
     if (remainingVerticalSpace() < 0)
         emit lastRowExceedsContentBounds();
+}
+
+bool PageItem::isValidRowIndex(int rowIndex)
+{
+    if (rowIndex < 0 ||
+            rowIndex >= m_layout->count())
+        return false;
+    return true;
 }

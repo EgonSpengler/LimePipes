@@ -34,8 +34,9 @@ public:
     PageContentRowItem *rowAt(int index);
 
     void appendRow(PageContentRowItem *row);
-    void insertRow(int index, PageContentRowItem *row);
     void prependRow(PageContentRowItem *row);
+    void insertRow(int index, PageContentRowItem *row);
+
     void removeRow(int index);
     void removeRow(PageContentRowItem *row);
 
@@ -44,6 +45,7 @@ signals:
     void lastRowExceedsContentBounds();
 
 private:
+    bool isValidRowIndex(int rowIndex);
     int m_shortEdgeWidth;
     QRectF m_pageRect;
     QRectF m_pageContentRect;

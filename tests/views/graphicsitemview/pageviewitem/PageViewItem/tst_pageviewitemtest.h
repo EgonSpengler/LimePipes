@@ -10,7 +10,8 @@
 #define TST_PAGEVIEWITEMTEST_H
 
 #include <QObject>
-#include <views/graphicsitemview/pageviewitem/pageviewitem.h>
+
+class PageViewItem;
 
 class PageViewItemTest : public QObject
 {
@@ -19,9 +20,32 @@ public:
     explicit PageViewItemTest(QObject *parent = 0);
     
 private Q_SLOTS:
+    void initTestCase();
     void init();
     void cleanup();
+    void testInitialPageCount();
+    void testRowCount();
+    void testPageCount();
+    void testRowCountMultipage();
+    void testRowAt();
+    void testRowCountOfPage();
+    void testRowAtMultipage();
+    void testInsertRow();
+    void testInsertRowMultipage();
+    void testInsertRowMultipageHighRow();
+    void testPrependRow();
+    void testRemoveRow();
+    void testRemoveRowMultipage();
+    void testRemoveRowMultipageHighRow();
+    void testRemoveLastEmptyPage();
+
+private:
+    void fillFirstPage();
     
+private:
+    PageViewItem *m_pageViewItem;
+    qreal m_defaultVerticalSpacePerPage;
+    qreal m_defaultRowItemHeight;
 };
 
 #endif // TST_PAGEVIEWITEMTEST_H

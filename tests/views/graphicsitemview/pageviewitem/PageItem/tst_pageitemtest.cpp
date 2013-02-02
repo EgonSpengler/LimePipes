@@ -122,7 +122,7 @@ void PageItemTest::testRemainingVerticalSpace()
 
     spaceBefore = m_pageItem->remainingVerticalSpace();
     m_pageItem->removeRow(row);
-    QVERIFY2(spaceBefore == m_pageItem->remainingVerticalSpace(), "Remaining space after removing row doesn't fit");
+    QVERIFY2(spaceBefore == m_pageItem->remainingVerticalSpace() - row->preferredHeight(), "Remaining space after removing row doesn't fit");
 }
 
 void PageItemTest::testRemainingVerticalSpaceChangedSignal()
@@ -157,6 +157,32 @@ void PageItemTest::testRemainingVerticalSpaceChangedSignal()
     arguments = spy.takeFirst();
     QVERIFY2(arguments.at(0).toInt() == remainingSpaceBefore, "insert: Signal returned wrong value for old value");
     QVERIFY2(arguments.at(1).toInt() == m_pageItem->remainingVerticalSpace(), "insert: Signal returned wrong value for new value");
+
+    // remove Row with index
+    remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
+
+    m_pageItem->removeRow(1);
+    QVERIFY2(spy.count() == 1, "remove index: Signal wasn't emitted");
+
+    arguments = spy.takeFirst();
+    QVERIFY2(arguments.at(0).toInt() == remainingSpaceBefore, "remove index: Signal returned wrong value for old value");
+    QVERIFY2(arguments.at(1).toInt() == m_pageItem->remainingVerticalSpace(), "remove index: Signal returned wrong value for new value");
+
+
+    // removeRow with Item
+    Q_ASSERT(m_pageItem->rowCount() >= 2);
+    PageContentRowItem *testRow = new PageContentRowItem();
+    m_pageItem->insertRow(1, testRow);
+    spy.takeFirst();
+
+    remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
+
+    m_pageItem->removeRow(testRow);
+    QVERIFY2(spy.count() == 1, "remove item: Signal wasn't emitted");
+
+    arguments = spy.takeFirst();
+    QVERIFY2(arguments.at(0).toInt() == remainingSpaceBefore, "remove item: Signal returned wrong value for old value");
+    QVERIFY2(arguments.at(1).toInt() == m_pageItem->remainingVerticalSpace(), "remove item: Signal returned wrong value for new value");
 }
 
 void PageItemTest::testRowExceedsContentBoundsSignal()

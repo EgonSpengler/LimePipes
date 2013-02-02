@@ -1,6 +1,5 @@
 set( PageViewItem_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.h
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
         )
 set( PageViewItem_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.cpp
@@ -14,6 +13,7 @@ set( PageContentRowItemTest_SOURCES
         )
 set( PageContentRowItemTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
         pageviewitem/PageContentRowItem/tst_pagecontentrowitemtest.h
         )
 qt4_wrap_cpp( PageContentRowItemTest_SOURCES ${PageContentRowItemTest_MOC_HEADERS} )
@@ -29,6 +29,7 @@ set( PageItemTest_SOURCES
         )
 set( PageItemTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
         pageviewitem/PageItem/tst_pageitemtest.h
         )
 qt4_wrap_cpp( PageItemTest_SOURCES ${PageItemTest_MOC_HEADERS} )
@@ -44,6 +45,7 @@ set( PageViewItemTest_SOURCES
         )
 set( PageViewItemTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
         pageviewitem/PageViewItem/tst_pageviewitemtest.h
         )
 qt4_wrap_cpp( PageViewItemTest_SOURCES ${PageViewItemTest_MOC_HEADERS} )
