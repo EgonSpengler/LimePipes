@@ -72,7 +72,7 @@ void PageViewItem::prependRow(PageContentRowItem *row)
     insertRow(0, row);
 }
 
-PageContentRowItem *PageViewItem::rowAt(int index)
+PageContentRowItem *PageViewItem::rowAt(int index) const
 {
     int row_count = rowCount();
     if (index < 0 || index > row_count)
@@ -175,7 +175,7 @@ void PageViewItem::removePage(PageItem *page)
     m_pageLayout->removeItem(page);
 }
 
-bool PageViewItem::isPageItemLastPage(PageItem *page)
+bool PageViewItem::isPageItemLastPage(PageItem *page) const
 {
     return indexOfPage(page) == m_pageLayout->count() - 1;
 }

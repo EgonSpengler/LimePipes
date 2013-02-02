@@ -35,10 +35,9 @@ public:
     void appendRow(PageContentRowItem *row);
     void prependRow(PageContentRowItem *row);
     void insertRow(int index, PageContentRowItem *row);
-
-    PageContentRowItem *rowAt(int index);
-
     void removeRow(int rowIndex);
+
+    PageContentRowItem *rowAt(int index) const;
 
 private slots:
     void rowExceedsBoundsOfPage();
@@ -47,7 +46,7 @@ private slots:
 private:
     void addPage();
     void removePage(PageItem *page);
-    bool isPageItemLastPage(PageItem *page);
+    bool isPageItemLastPage(PageItem *page) const;
     PageItem *pageAt(int pageIndex) const;
     PageItem *getLastPage() const;
     PageItem *pageWithRowIndex(int rowIndex) const;
