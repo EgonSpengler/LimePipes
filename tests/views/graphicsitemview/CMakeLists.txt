@@ -57,13 +57,20 @@ add_test( NAME PageViewItemTest COMMAND PageViewItemTest )
 
 # GraphicsItemView
 set( GraphicsItemViewTest_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.cpp
         GraphicsItemView/tst_graphicsitemviewtest.cpp
         )
 set( GraphicsItemViewTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
         GraphicsItemView/tst_graphicsitemviewtest.h
         )
 qt4_wrap_cpp( GraphicsItemViewTest_SOURCES ${GraphicsItemViewTest_MOC_HEADERS} )
-add_executable( GraphicsItemViewTest ${GraphicsItemViewTest_SOURCES} )
+add_executable( GraphicsItemViewTest ${GraphicsItemViewTest_SOURCES}
+        ${PageViewItem_SOURCES}
+        ${PageViewItem_HEADERS} )
 target_link_libraries( GraphicsItemViewTest ${TEST_LIBRARIES} )
 add_test( NAME GraphicsItemViewTest COMMAND GraphicsItemViewTest )

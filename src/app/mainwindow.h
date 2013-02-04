@@ -22,7 +22,7 @@ class NewTuneDialog;
 class AboutDialog;
 class QAbstractItemModel;
 class MusicModelInterface;
-class GraphicsView;
+class GraphicsItemView;
 class GraphicsScene;
 
 namespace Ui {
@@ -66,7 +66,7 @@ private:
 
     Ui::MainWindow *ui;
     QTreeView *m_treeView;
-    GraphicsView *m_graphicsView;
+    GraphicsItemView *m_graphicsItemView;
     GraphicsScene *m_graphicsScene;
     QAbstractItemModel *m_model;
     AddSymbolsDialog *m_addSymbolsDialog;

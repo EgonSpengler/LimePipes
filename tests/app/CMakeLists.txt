@@ -62,6 +62,7 @@ set( MainwindowTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/treeview/pitchdelegate.cpp
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.cpp
 
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.cpp
@@ -82,6 +83,7 @@ set( MainwindowTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/treeview/pitchdelegate.h
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.h
 
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
