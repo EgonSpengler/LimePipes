@@ -23,6 +23,7 @@ set( limepipes_SOURCES
 
         views/graphicsitemview/graphicsview.cpp
         views/graphicsitemview/graphicsscene.cpp
+        views/graphicsitemview/graphicsitemview.cpp
         views/graphicsitemview/pageviewitem/pageviewitem.cpp
         views/graphicsitemview/pageviewitem/pageitem.cpp
         views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
@@ -42,6 +43,7 @@ set( limepipes_MOC_HEADERS
 
         views/graphicsitemview/graphicsview.h
         views/graphicsitemview/graphicsscene.h
+        views/graphicsitemview/graphicsitemview.h
         views/graphicsitemview/pageviewitem/pageitem.h
         views/graphicsitemview/pageviewitem/pageviewitem.h
         )
