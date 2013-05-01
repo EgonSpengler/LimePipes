@@ -30,8 +30,7 @@
 #include <itemdatatypes.h>
 #include <treeview/musicproxymodel.h>
 #include <views/treeview/treeview.h>
-#include <views/graphicsitemview/graphicsscene.h>
-#include <views/graphicsitemview/graphicsview.h>
+#include <views/graphicsitemview/graphicsitemview.h>
 #include "newtunedialog.h"
 #include "addsymbolsdialog.h"
 #include "aboutdialog.h"
@@ -73,12 +72,11 @@ MainWindow::~MainWindow()
 void MainWindow::createModelAndView()
 {
     m_treeView = new TreeView(this);
-    m_graphicsScene = new GraphicsScene(this);
-    m_graphicsView = new GraphicsView(m_graphicsScene);
+    m_graphicsItemView = new GraphicsItemView(this);
 
     QSplitter *splitter = new QSplitter(this);
     splitter->addWidget(m_treeView);
-    splitter->addWidget(m_graphicsView);
+    splitter->addWidget(m_graphicsItemView);
 
     MusicModel *musicModel = new MusicModel(this);
     MusicProxyModel *proxyModel = new MusicProxyModel(this);
@@ -86,6 +84,7 @@ void MainWindow::createModelAndView()
     m_model = proxyModel;
 
     m_treeView->setModel(m_model);
+    m_graphicsItemView->setModel(m_model);
     setCentralWidget(splitter);
 }
 

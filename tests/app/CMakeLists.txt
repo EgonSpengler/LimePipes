@@ -47,6 +47,7 @@ add_test( NAME NewTuneDialogTest COMMAND NewTuneDialogTest )
 # MainWindow
 set( MainwindowTest_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/musicsheetrowitems/textrowitem.h
         )
 
 set( MainwindowTest_SOURCES
@@ -62,11 +63,13 @@ set( MainwindowTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/treeview/pitchdelegate.cpp
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.cpp
 
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/musicsheetrowitems/textrowitem.cpp
         )
 
 set( MainwindowTest_MOC_HEADERS
@@ -82,6 +85,7 @@ set( MainwindowTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/treeview/pitchdelegate.h
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.h
 
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
