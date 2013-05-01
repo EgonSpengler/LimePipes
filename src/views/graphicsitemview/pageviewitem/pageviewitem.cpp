@@ -211,7 +211,9 @@ PageItem *PageViewItem::pageWithRowIndex(int rowIndex) const
     for (int i=0; i < m_pageLayout->count(); i++) {
         currentPage = pageAt(i);
         currentPageFirstIndex = firstIndexOfPage(currentPage);
-        currentPageLastIndex = currentPageFirstIndex + currentPage->rowCount() - 1;
+
+        if (currentPage->rowCount())
+            currentPageLastIndex = currentPageFirstIndex + currentPage->rowCount() - 1;
 
         if (rowIndex >= currentPageFirstIndex &&
                 rowIndex <= currentPageLastIndex)

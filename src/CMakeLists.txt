@@ -6,6 +6,7 @@ set( limepipes_HEADERS
         utilities/error.h
 
         views/graphicsitemview/pageviewitem/pagecontentrowitem.h
+        views/graphicsitemview/musicsheetrowitems/textrowitem.h
         )
 
 set( limepipes_SOURCES
@@ -27,6 +28,7 @@ set( limepipes_SOURCES
         views/graphicsitemview/pageviewitem/pageviewitem.cpp
         views/graphicsitemview/pageviewitem/pageitem.cpp
         views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
+        views/graphicsitemview/musicsheetrowitems/textrowitem.cpp
         )
 
 set( limepipes_MOC_HEADERS

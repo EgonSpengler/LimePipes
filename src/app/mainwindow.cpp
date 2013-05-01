@@ -84,6 +84,7 @@ void MainWindow::createModelAndView()
     m_model = proxyModel;
 
     m_treeView->setModel(m_model);
+    m_graphicsItemView->setModel(m_model);
     setCentralWidget(splitter);
 }
 

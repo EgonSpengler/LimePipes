@@ -47,6 +47,7 @@ add_test( NAME NewTuneDialogTest COMMAND NewTuneDialogTest )
 # MainWindow
 set( MainwindowTest_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/musicsheetrowitems/textrowitem.h
         )
 
 set( MainwindowTest_SOURCES
@@ -68,6 +69,7 @@ set( MainwindowTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/musicsheetrowitems/textrowitem.cpp
         )
 
 set( MainwindowTest_MOC_HEADERS
