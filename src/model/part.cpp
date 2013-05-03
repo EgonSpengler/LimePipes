@@ -12,3 +12,15 @@ Part::Part(MusicItem *parent)
     : MusicItem(MusicItem::PartType, MusicItem::MeasureType, parent)
 {
 }
+
+bool Part::itemSupportsWritingOfData(int role) const
+{
+}
+
+void Part::writeItemDataToXmlStream(QXmlStreamWriter *writer)
+{
+}
+
+void Part::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
+{
+}

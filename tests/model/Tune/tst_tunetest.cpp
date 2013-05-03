@@ -37,7 +37,6 @@ void TuneTest::testConstructor()
     m_tune = new Tune(m_instrument);
     QVERIFY2(m_tune->instrument()->name() == m_instrument->name(), "Failed to set Instrument in constructor");
     QVERIFY2(m_tune->type() == MusicItem::TuneType, "Tune returns the wrong type");
-    QVERIFY2(m_tune->childType() == MusicItem::SymbolType, "The child itemtype of tune is wrong");
 }
 
 void TuneTest::testType()
@@ -47,7 +46,7 @@ void TuneTest::testType()
 
 void TuneTest::testChildType()
 {
-    QVERIFY2(m_tune->childType() == MusicItem::SymbolType, "The child itemtype of tune is not Symbol type");
+    QVERIFY2(m_tune->childType() == MusicItem::PartType, "The child itemtype of tune is not Part type");
 }
 
 void TuneTest::testOkToInsertChildRedefinition()

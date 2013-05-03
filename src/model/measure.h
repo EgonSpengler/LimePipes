@@ -15,6 +15,10 @@ class Measure : public MusicItem
 {
 public:
     Measure(MusicItem *parent=0);
+
+    bool itemSupportsWritingOfData(int role) const;
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 };
 
 #endif // MEASURE_H

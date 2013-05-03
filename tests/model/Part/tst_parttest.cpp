@@ -16,17 +16,19 @@ PartTest::PartTest()
 {
 }
 
-void PartTest::initTestCase()
+void PartTest::init()
 {
+    m_part = new Part();
 }
 
-void PartTest::cleanupTestCase()
+void PartTest::cleanup()
 {
+    delete m_part;
 }
 
 void PartTest::testType()
 {
-    QVERIFY2(true, "Failure");
+    QVERIFY2(m_part->type() == MusicItem::PartType, "Part item returns the wrong type");
 }
 
 QTEST_MAIN(PartTest)

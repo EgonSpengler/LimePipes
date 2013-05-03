@@ -20,9 +20,12 @@ public:
     PartTest();
 
 private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
+    void init();
+    void cleanup();
     void testType();
+
+private:
+    Part *m_part;
 };
 
 #endif // TST_PARTTEST_H

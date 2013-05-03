@@ -12,3 +12,16 @@ Measure::Measure(MusicItem *parent)
     : MusicItem(MusicItem::MeasureType, MusicItem::SymbolType, parent)
 {
 }
+
+bool Measure::itemSupportsWritingOfData(int role) const
+{
+    return false;
+}
+
+void Measure::writeItemDataToXmlStream(QXmlStreamWriter *writer)
+{
+}
+
+void Measure::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
+{
+}

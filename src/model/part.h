@@ -15,6 +15,10 @@ class Part : public MusicItem
 {
 public:
     Part(MusicItem *parent=0);
+
+    bool itemSupportsWritingOfData(int role) const;
+    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
+    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 };
 
 #endif // PART_H

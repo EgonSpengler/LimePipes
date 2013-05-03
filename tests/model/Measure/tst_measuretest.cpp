@@ -16,17 +16,19 @@ MeasureTest::MeasureTest()
 {
 }
 
-void MeasureTest::initTestCase()
+void MeasureTest::init()
 {
+    m_measure = new Measure();
 }
 
-void MeasureTest::cleanupTestCase()
+void MeasureTest::cleanup()
 {
+    delete m_measure;
 }
 
 void MeasureTest::testType()
 {
-    QVERIFY2(true, "Failure");
+    QVERIFY2(m_measure->type() == MusicItem::MeasureType, "Measure item returns the wrong type");
 }
 
 QTEST_MAIN(MeasureTest)

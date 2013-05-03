@@ -20,9 +20,12 @@ public:
     MeasureTest();
 
 private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
+    void init();
+    void cleanup();
     void testType();
+
+private:
+    Measure *m_measure;
 };
 
 #endif // TST_MEASURETEST_H
