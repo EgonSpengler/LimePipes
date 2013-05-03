@@ -24,6 +24,8 @@ public:
         RootItemType = 1,
         ScoreType,
         TuneType,
+        PartType,
+        MeasureType,
         SymbolType,
         NoItemType
     };

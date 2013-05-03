@@ -29,13 +29,13 @@ int Tune::startRowOfPart(int partNumber)
 }
 
 Tune::Tune(MusicItem *parent)
-    : MusicItem(MusicItem::TuneType, MusicItem::SymbolType, parent)
+    : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
     setInstrument(InstrumentPtr(new NullInstrument()));
 }
 
 Tune::Tune(InstrumentPtr instrument)
-    : MusicItem(MusicItem::TuneType, MusicItem::SymbolType)
+    : MusicItem(MusicItem::TuneType, MusicItem::PartType)
 {
     setInstrument(instrument);
 }

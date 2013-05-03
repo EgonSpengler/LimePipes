@@ -7,6 +7,8 @@ set( lp_model_HEADERS
         score.h
         symbol.h
         tune.h
+        part.h
+        measure.h
         symbolgraphicbuilder.h
 
         commands/insertitemscommand.h
@@ -35,6 +37,8 @@ set( lp_model_SOURCES
         score.cpp
         symbol.cpp
         tune.cpp
+        part.cpp
+        measure.cpp
         symbolgraphicbuilder.cpp
 
         datatypes/instrument.cpp

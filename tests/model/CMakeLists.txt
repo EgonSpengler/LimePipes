@@ -44,6 +44,20 @@ add_executable( ScoreTest ${ScoreTest_SOURCES} )
 target_link_libraries( ScoreTest ${TEST_LIBRARIES} )
 add_test( NAME ScoreTest COMMAND ScoreTest )
 
+# Part
+set( PartTest_SOURCES Part/tst_parttest.cpp )
+qt4_automoc( ${PartTest_SOURCES} )
+add_executable( PartTest ${PartTest_SOURCES} )
+target_link_libraries( PartTest ${TEST_LIBRARIES} )
+add_test( NAME PartTest COMMAND PartTest )
+
+# Measure
+set( MeasureTest_SOURCES Measure/tst_measuretest.cpp )
+qt4_automoc( ${MeasureTest_SOURCES} )
+add_executable( MeasureTest ${MeasureTest_SOURCES} )
+target_link_libraries( MeasureTest ${TEST_LIBRARIES} )
+add_test( NAME MeasureTest COMMAND MeasureTest )
+
 # Symbol
 set( SymbolTest_SOURCES Symbol/tst_symboltest.cpp )
 qt4_automoc( ${SymbolTest_SOURCES} )
