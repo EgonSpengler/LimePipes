@@ -29,6 +29,8 @@
 #include <score.h>
 #include <symbols/barline.h>
 #include <tune.h>
+#include <part.h>
+#include <measure.h>
 #include <utilities/error.h>
 
 namespace {
@@ -168,6 +170,11 @@ void MusicModel::setColumnCount(int columns)
 
 bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
 {
+    if (row < 0 || row > rowCount(parent) - 1)
+        return false;
+    if (row + count > rowCount(parent))
+        return false;
+
     if (m_noDropOccured) {
         m_noDropOccured = false;
         return false;
@@ -377,6 +384,64 @@ QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &score
     QModelIndex tune = insertTuneIntoScore(0, score, instrumentName);
     m_undoStack->endMacro();
     return tune;
+}
+
+QModelIndex MusicModel::insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat)
+{
+    m_undoStack->beginMacro(tr("Insert part into tune"));
+    QModelIndex part = insertItem(tr("Insert part into tune"), tune, row, new Part());
+    setData(part, QVariant::fromValue<bool>(withRepeat), LP::partRepeat);
+    for (int i=0; i<measures; i++) {
+        insertItem(tr("Insert measure"), part, 0, new Measure());
+    }
+    m_undoStack->endMacro();
+    return part;
+}
+
+QModelIndex MusicModel::appendPartToTune(const QModelIndex &tune, int measures, bool withRepeat)
+{
+    return insertPartIntoTune(rowCount(tune), tune, measures, withRepeat);
+}
+
+QModelIndex MusicModel::insertMeasureIntoPart(int row, const QModelIndex &part)
+{
+    return insertItem(tr("Insert measure"), part, row, new Measure());
+}
+
+QModelIndex MusicModel::appendMeasureToPart(const QModelIndex &part)
+{
+    return insertMeasureIntoPart(rowCount(part), part);
+}
+
+QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName)
+{
+    MusicItem *measureItem = itemForIndex(measure);
+    if (!measureItem)
+        return QModelIndex();
+
+    QModelIndex tuneIndex = measure.parent().parent();
+    Q_ASSERT(isIndexTune(tuneIndex));
+    MusicItem *tuneItem = itemForIndex(tuneIndex);
+
+    QVariant instrumentVar = tuneItem->data(LP::tuneInstrument);
+    if (!instrumentVar.isValid() &&
+            !instrumentVar.canConvert<InstrumentPtr>())
+        return QModelIndex();
+
+    InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+    Symbol *symbol = m_instrumentManager->symbolForName(instrument->name(), symbolName);
+
+    if (symbol &&
+            symbol->symbolType() == LP::NoSymbolType)
+        return QModelIndex();
+    QString insertText = tr("Insert %1").arg(symbol->data(LP::symbolName).toString());
+
+    return insertItem(insertText, measure, row, symbol);
+}
+
+QModelIndex MusicModel::appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName)
+{
+    return insertSymbolIntoMeasure(rowCount(measure), measure, symbolName);
 }
 
 QModelIndex MusicModel::insertSymbol(int row, const QModelIndex &tune, const QString &symbolName)

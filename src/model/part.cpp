@@ -6,11 +6,13 @@
  *
  */
 
+#include <itemdatatypes.h>
 #include "part.h"
 
 Part::Part(MusicItem *parent)
     : MusicItem(MusicItem::PartType, MusicItem::MeasureType, parent)
 {
+    initData(QVariant::fromValue<bool>(false), LP::partRepeat);
 }
 
 bool Part::itemSupportsWritingOfData(int role) const

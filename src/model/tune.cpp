@@ -42,18 +42,21 @@ Tune::Tune(InstrumentPtr instrument)
 
 bool Tune::okToInsertChild(const MusicItem *item, int row)
 {
-    const Symbol *symbol = symbolFromMusicItem(item);
+    // Todo: Measure item should be aware of instrument
+    return true;
 
-    if (symbol) {
-        if (symbol->symbolType() == LP::BarLine)
-            return true;
+//    const Symbol *symbol = symbolFromMusicItem(item);
 
-        int type = symbol->symbolType();
-        if (instrument()->supportsSymbolType(type) &&
-                rowIsPrecededByStartOfPart(row))
-            return true;
-    }
-    return false;
+//    if (symbol) {
+//        if (symbol->symbolType() == LP::BarLine)
+//            return true;
+
+//        int type = symbol->symbolType();
+//        if (instrument()->supportsSymbolType(type) &&
+//                rowIsPrecededByStartOfPart(row))
+//            return true;
+//    }
+//    return false;
 }
 
 const Symbol *Tune::symbolFromMusicItem(const MusicItem *item)

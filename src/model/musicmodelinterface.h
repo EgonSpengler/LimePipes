@@ -24,11 +24,24 @@ class MusicModelInterface
 public:
     virtual QModelIndex insertScore(int row, const QString &title) = 0;
     virtual QModelIndex appendScore(const QString &title) = 0;
+
     virtual QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName) = 0;
     virtual QModelIndex appendTuneToScore(const QModelIndex &score, const QString &instrumentName) = 0;
     virtual QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName) = 0;
+
+    virtual QModelIndex insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat=false) = 0;
+    virtual QModelIndex appendPartToTune(const QModelIndex &tune, int measures, bool withRepeat=false) = 0;
+
+    virtual QModelIndex insertMeasureIntoPart(int row, const QModelIndex &part) = 0;
+    virtual QModelIndex appendMeasureToPart(const QModelIndex &part) = 0;
+
+    virtual QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName) = 0;
+    virtual QModelIndex appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName) = 0;
+
+    // Obsolete
     virtual QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName) = 0;
     virtual void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat=false) = 0;
+    // End Obsolete
 
     virtual MusicItem *itemForIndex(const QModelIndex& index) const = 0;
 

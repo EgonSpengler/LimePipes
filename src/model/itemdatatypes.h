@@ -35,6 +35,12 @@ enum DataRole {
     // Tune
     tuneInstrument,
 
+    // Part
+    partRepeat,
+
+    // Measure
+    measureIsUpbeat,
+
     // Symbol
     symbolType,
     symbolName,

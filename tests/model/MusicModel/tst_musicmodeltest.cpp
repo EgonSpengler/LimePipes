@@ -68,48 +68,6 @@ void MusicModelTest::cleanup()
     delete m_model;
 }
 
-void MusicModelTest::testFlags()
-{
-    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    QModelIndex score = m_model->index(0, 0, QModelIndex());
-    m_model->insertPart(0, tune, 9);
-    QModelIndex symbol = m_model->insertSymbol(1, tune, m_symbolNames.at(0));
-    QModelIndex barLineIndex = m_model->index(0, 0, tune);
-    Q_ASSERT(tune.isValid());
-    Q_ASSERT(score.isValid());
-    Q_ASSERT(symbol.isValid());
-    Q_ASSERT(m_model->data(symbol, LP::symbolType).value<int>() != LP::barLineType);
-    Q_ASSERT(barLineIndex.isValid());
-
-    Qt::ItemFlags scoreFlags = m_model->flags(score);
-    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsEnabled), "Score is not enabled");
-    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsSelectable), "Score is not selectable");
-    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsEditable), "Score is not editable");
-    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsDragEnabled), "Score is not drag enabled");
-    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsDropEnabled), "Score is not drop enabled");
-
-    Qt::ItemFlags tuneFlags = m_model->flags(tune);
-    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsEnabled), "Tune is not enabled");
-    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsSelectable), "Tune is not selectable");
-    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsEditable), "Tune is not editable");
-    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsDragEnabled), "Tune is not drag enabled");
-    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsDropEnabled), "Tune is not drop enabled");
-
-    Qt::ItemFlags symbolFlags = m_model->flags(symbol);
-    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsEnabled), "Symbol is not enabled");
-    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsSelectable), "Symbol is not selectable");
-    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsEditable), "Symbol is not editable");
-    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsDragEnabled), "Symbol is not drag enabled");
-    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsDropEnabled), "Symbol is not drop enabled");
-
-    Qt::ItemFlags barLineFlags = m_model->flags(barLineIndex);
-    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsEnabled), "Bar line is not enabled");
-    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsSelectable) == false, "Bar line is selectable");
-    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsEditable) == false, "Bar line is editable");
-    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsDragEnabled) == false, "Bar line is drag enabled");
-    QVERIFY2(barLineFlags.testFlag(Qt::ItemIsDropEnabled) == false, "Bar line is drop enabled");
-}
-
 void MusicModelTest::testColumnCount()
 {
     QVERIFY2(m_model->columnCount(QModelIndex()) == 1, "Wrong column count");
@@ -189,69 +147,145 @@ void MusicModelTest::testInsertTuneWithScore()
     QVERIFY2(tune.row() == 0, "Tune is in wrong row");
 }
 
-void MusicModelTest::testInsertPart()
+void MusicModelTest::testInsertPartIntoTune()
 {
+    int measureCount = 12;
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    Q_ASSERT(m_model->rowCount(tune) == 0);
+    QModelIndex part = m_model->insertPartIntoTune(0, tune, measureCount, true);
 
-    int measureCount = 9;
-    m_model->insertPart(0, tune, measureCount);
-    QVERIFY2(m_model->rowCount(tune), "No symbols inserted");
-    QVERIFY2(m_model->rowCount(tune) == measureCount + 1, "Wrong count of symbols inserted");
-
-    // 1st part
-    QVariant firstBarLineType = m_model->index(0, 0, tune).data(LP::barLineType);
-    Q_ASSERT(firstBarLineType.isValid() && firstBarLineType.canConvert<BarLine::Type>());
-    QVERIFY2(firstBarLineType.value<BarLine::Type>() == BarLine::StartPart, "1st Part doesn't begin with start barline");
-
-    QVariant lastBarLineType = m_model->index(m_model->rowCount(tune) - 1, 0, tune).data(LP::barLineType);
-    Q_ASSERT(lastBarLineType.isValid() && lastBarLineType.canConvert<BarLine::Type>());
-    QVERIFY2(lastBarLineType.value<BarLine::Type>() == BarLine::EndPart, "1st Part doesn't end with end barline");
-
-    // 2nd part
-    m_model->insertPart(1, tune, measureCount, true);
-    QVariant firstBarLineRepeatValue = m_model->index(measureCount + 1, 0, tune).data(LP::barLineRepeat);
-    Q_ASSERT(firstBarLineRepeatValue.isValid() &&
-             firstBarLineRepeatValue.canConvert<bool>());
-    QVERIFY2(firstBarLineRepeatValue.toBool() == true, "2nd Part doesn't begin with repeat start barline");
-
-    QVariant lastBarLineRepeatValue = m_model->index(m_model->rowCount(tune) - 1, 0, tune).data(LP::barLineRepeat);
-    Q_ASSERT(lastBarLineRepeatValue.isValid() &&
-             lastBarLineRepeatValue.canConvert<bool>());
-    QVERIFY2(lastBarLineRepeatValue.toBool() == true, "2nd Part doesn't end with repeat end barline");
+    QVERIFY2(part.isValid(), "Failed inserting Part into Tune");
+    QVERIFY2(m_model->rowCount(part) != 0, "No measures were inserted");
+    QVERIFY2(m_model->rowCount(part) == measureCount, "Not the correct count of measures were inserted");
+    QVERIFY2(part.data(LP::partRepeat).toBool() == true, "Wrong part repeat value returned");
 }
 
-void MusicModelTest::testInsertSymbol()
+void MusicModelTest::testAppendPartIntoTune()
+{
+    int measureCount = 12;
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex part = m_model->appendPartToTune(tune, measureCount, true);
+
+    QVERIFY2(part.isValid(), "Failed appending Part to Tune");
+    QVERIFY2(m_model->rowCount(part) != 0, "No measures were inserted");
+    QVERIFY2(m_model->rowCount(part) == 12, "Not the correct count of measures were inserted");
+    QVERIFY2(part.data(LP::partRepeat).toBool() == true, "Wrong part repeat value returned");
+}
+
+void MusicModelTest::testInsertMeasureIntoPart()
+{
+    int measureCount = 8;
+    int measureInsertPos = 4;
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex part = m_model->appendPartToTune(tune, measureCount, true);
+    QModelIndex measure = m_model->insertMeasureIntoPart(measureInsertPos, part);
+
+    QVERIFY2(measure.isValid(), "Failed inserting measure into part");
+    QVERIFY2(measure.row() == measureInsertPos, "Measure was inserted in wrong place");
+    QVERIFY2(m_model->rowCount(part) == measureCount + 1, "Measure not inserted in right part");
+}
+
+void MusicModelTest::testAppendMeasureToPart()
+{
+    int measureCount = 8;
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex part = m_model->appendPartToTune(tune, measureCount, true);
+    QModelIndex measure = m_model->appendMeasureToPart(part);
+
+    QVERIFY2(measure.isValid(), "Failed appending measure to part");
+    QVERIFY2(measure.row() == m_model->rowCount(part) - 1, "Measure was not appended at end");
+    QVERIFY2(m_model->rowCount(part) == measureCount + 1, "Measure not appended in right part");
+}
+
+void MusicModelTest::testInsertSymbolIntoMeasure()
+{
+    int measureCount = 8;
+    int measureInsertPos = 4;
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex part = m_model->appendPartToTune(tune, measureCount, true);
+    QModelIndex measure = m_model->insertMeasureIntoPart(measureInsertPos, part);
+    QModelIndex symbol = m_model->insertSymbolIntoMeasure(0, measure, m_symbolNames.at(0));
+
+    QVERIFY2(symbol.isValid(), "Failed inserting symbol into measure");
+    QVERIFY2(m_model->rowCount(measure) == 1, "Failed inserting symbol into right measure");
+    QVERIFY2(symbol.data(LP::symbolName) == m_symbolNames.at(0), "Failed inserting right symbol with name");
+}
+
+void MusicModelTest::testAppendSymbolToMeasure()
+{
+    int measureCount = 8;
+    int measureInsertPos = 4;
+    QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex part = m_model->appendPartToTune(tune, measureCount, true);
+    QModelIndex measure = m_model->insertMeasureIntoPart(measureInsertPos, part);
+    QModelIndex symbol = m_model->appendSymbolToMeasure(measure, m_symbolNames.at(0));
+
+    QVERIFY2(symbol.isValid(), "Failed inserting symbol into measure");
+    QVERIFY2(m_model->rowCount(measure) == 1, "Failed inserting symbol into right measure");
+    QVERIFY2(symbol.data(LP::symbolName) == m_symbolNames.at(0), "Failed inserting right symbol with name");
+}
+
+void MusicModelTest::testFlags()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    QModelIndex symbol1 = m_model->insertSymbol(0, tune, m_symbolNames.at(0));
-    QVERIFY2(!symbol1.isValid(), "It was possible to insert a single symbol.");
+    QModelIndex score = m_model->index(0, 0, QModelIndex());
+    QModelIndex part = m_model->insertPartIntoTune(0, tune, 9);
+    QModelIndex measure = part.child(1, 0);
+    QModelIndex symbol = m_model->insertSymbolIntoMeasure(0, measure, m_symbolNames.at(0));
 
-    m_model->insertPart(0, tune, 9);
-    QModelIndex symbol2 = m_model->insertSymbol(0, tune, m_symbolNames.at(0));
-    QVERIFY2(!symbol2.isValid(), "It was possible to insert a symbol outside a part");
-    symbol2 = m_model->insertSymbol(3, tune, m_symbolNames.at(0));
-    QVERIFY2(symbol2.isValid(), "It was not possible to insert a symbol inside a part");
+    Q_ASSERT(tune.isValid());
+    Q_ASSERT(score.isValid());
+    Q_ASSERT(part.isValid());
+    Q_ASSERT(measure.isValid());
+    Q_ASSERT(symbol.isValid());
 
-    // Now, the rowsInserted signal should not be called when inserting rows
-    QSignalSpy spy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
 
-    m_model->insertSymbol(15, tune, m_symbolNames.at(0));
-    m_model->insertSymbol(-1, tune, m_symbolNames.at(0));
+    Qt::ItemFlags scoreFlags = m_model->flags(score);
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsEnabled),     "Score is not enabled");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsSelectable),  "Score is not selectable");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsEditable),    "Score is not editable");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsDragEnabled), "Score is not drag enabled");
+    QVERIFY2(scoreFlags.testFlag(Qt::ItemIsDropEnabled), "Score is not drop enabled");
 
-    QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
+    Qt::ItemFlags tuneFlags = m_model->flags(tune);
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsEnabled),     "Tune is not enabled");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsSelectable),  "Tune is not selectable");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsEditable),    "Tune is not editable");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsDragEnabled), "Tune is not drag enabled");
+    QVERIFY2(tuneFlags.testFlag(Qt::ItemIsDropEnabled), "Tune is not drop enabled");
+
+    Qt::ItemFlags partFlags = m_model->flags(part);
+    QVERIFY2(partFlags.testFlag(Qt::ItemIsEnabled),     "Part is not enabled");
+    QVERIFY2(partFlags.testFlag(Qt::ItemIsSelectable),  "Part is not selectable");
+    QVERIFY2(partFlags.testFlag(Qt::ItemIsEditable),    "Part is not editable");
+    QVERIFY2(partFlags.testFlag(Qt::ItemIsDragEnabled), "Part is not drag enabled");
+    QVERIFY2(partFlags.testFlag(Qt::ItemIsDropEnabled),  "Part is not drop enabled");
+
+    Qt::ItemFlags measureFlags = m_model->flags(measure);
+    QVERIFY2(measureFlags.testFlag(Qt::ItemIsEnabled),      "Measure is not enabled");
+    QVERIFY2(measureFlags.testFlag(Qt::ItemIsSelectable),   "Measure is not selectable");
+    QVERIFY2(measureFlags.testFlag(Qt::ItemIsEditable),     "Measure is not editable");
+    QVERIFY2(measureFlags.testFlag(Qt::ItemIsDragEnabled),  "Measure is not drag enabled");
+    QVERIFY2(measureFlags.testFlag(Qt::ItemIsDropEnabled),  "Measure is not drop enabled");
+
+    Qt::ItemFlags symbolFlags = m_model->flags(symbol);
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsEnabled),       "Symbol is not enabled");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsSelectable),    "Symbol is not selectable");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsEditable),      "Symbol is not editable");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsDragEnabled),   "Symbol is not drag enabled");
+    QVERIFY2(symbolFlags.testFlag(Qt::ItemIsDropEnabled),   "Symbol is not drop enabled");
 }
 
 void MusicModelTest::testCallOfOkToInsertChild()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
+    QModelIndex part = m_model->insertPartIntoTune(0, tune, 9);
+    QModelIndex measure = m_model->insertMeasureIntoPart(1, part);
 
-    m_model->insertPart(0, tune, 9);
-    QModelIndex validSymbol = m_model->insertSymbol(2, tune, m_symbolNames.at(0));
+    QModelIndex validSymbol = m_model->appendSymbolToMeasure(measure, m_symbolNames.at(0));
     QVERIFY2(validSymbol.isValid(), "Failed inserting valid symbol");
 
-    QModelIndex invalidSymbol = m_model->insertSymbol(0, tune, "invalid symbol name");
-    QVERIFY2(invalidSymbol.isValid() == false, "Failed. It was possible to insert a invalid symbol name");
+    QModelIndex invalidSymbol = m_model->appendSymbolToMeasure(measure, "invalid symbol name");
+    QVERIFY2(invalidSymbol.isValid() == false, "Failed. It was possible to insert an invalid symbol name");
 }
 
 void MusicModelTest::testQAbstractItemModelImplementation()
@@ -345,8 +379,9 @@ void MusicModelTest::testIsTune()
 void MusicModelTest::testIsSymbol()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    m_model->insertPart(0, tune, 9);
-    QModelIndex symbol1 = m_model->insertSymbol(3, tune, m_symbolNames.at(0));
+    QModelIndex part = m_model->appendPartToTune(tune, 10);
+    QModelIndex measure = m_model->insertMeasureIntoPart(0, part);
+    QModelIndex symbol1 = m_model->appendSymbolToMeasure(measure, m_symbolNames.at(0));
     QVERIFY2(m_model->isIndexSymbol(symbol1), "Failed, should return true for symbol");
 }
 
@@ -357,41 +392,53 @@ void MusicModelTest::testSetColumnCount()
     QVERIFY2(m_model->columnCount(QModelIndex()) == 4, "Can't set column count");
 }
 
+void MusicModelTest::testRemoveInvalidRows()
+{
+    int scoreCount = 5;
+    Q_ASSERT(scoreCount > 3);
+    for (int i=0; i<scoreCount; i++) {
+        m_model->appendScore("Score");
+    }
+
+    Q_ASSERT(m_model->rowCount(QModelIndex()) == scoreCount);
+
+    QVERIFY2(m_model->removeRows(-1, 1, QModelIndex()) == false, "It is possible to remove rows with negative index");
+    QVERIFY2(m_model->removeRows(scoreCount, 1, QModelIndex()) == false, "It is possible to remove row one row past last row");
+
+    QVERIFY2(m_model->removeRows(scoreCount -2, 3, QModelIndex()) == false, "It is possible to remove row past last row");
+    QVERIFY2(m_model->removeRows(scoreCount -2, 2, QModelIndex()) == true, "Remove from middle to end is not possible");
+}
+
 void MusicModelTest::testRemoveRows()
 {
-    int barLineSymbolCount = 10;
+    int measureCount = 10;
+    int measureNr    =  3;  // Measure number for model index
     QString symbolNameWithLength = "Testsymbol with pitch and length";
     int indexOfTestsymbol = m_symbolNames.indexOf(symbolNameWithLength);
     Q_ASSERT(indexOfTestsymbol != -1);
     Q_UNUSED(indexOfTestsymbol)
 
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    m_model->insertPart(0, tune, barLineSymbolCount - 1);
+    QModelIndex part = m_model->insertPartIntoTune(0, tune, measureCount);
+    QModelIndex measure = part.child(measureNr, 0);
 
-    // Barline symbols aren't allowed to be deleted
-    int rowCountBefore = m_model->rowCount(tune);
-    m_model->removeRow(1, tune);
-    QVERIFY2(m_model->rowCount(tune) == rowCountBefore, "Single bar lines can be removed");
-
-    QModelIndex symbol1 = m_model->insertSymbol(2, tune, symbolNameWithLength);
+    QModelIndex symbol1 = m_model->appendSymbolToMeasure(measure, symbolNameWithLength);
     m_model->setData(symbol1, Length::_1, LP::symbolLength);
-    QModelIndex symbol2 = m_model->insertSymbol(2, tune, symbolNameWithLength);
+    QModelIndex symbol2 = m_model->appendSymbolToMeasure(measure, symbolNameWithLength);
     m_model->setData(symbol2, Length::_2, LP::symbolLength);
-    QModelIndex symbol3 = m_model->insertSymbol(2, tune, symbolNameWithLength);
+    QModelIndex symbol3 = m_model->appendSymbolToMeasure(measure, symbolNameWithLength);
     m_model->setData(symbol3, Length::_4, LP::symbolLength);
 
-    Q_ASSERT(m_model->rowCount(tune) == 13); // 10 bar lines, 3 symbols
-
     // Removing Symbols
-    QModelIndex thirdSymbol = m_model->index(2, 0, tune);
+    QModelIndex thirdSymbol = m_model->index(2, 0, measure);
     Q_ASSERT(thirdSymbol.isValid());
     Length::Value lengthOfThirdSymbol = m_model->data(thirdSymbol, LP::symbolLength).value<Length::Value>();
 
-    QVERIFY2(m_model->removeRows(2, 2, tune), "Remove rows returned false");
+    QVERIFY2(m_model->removeRows(0, 2, measure), "Remove rows returned false");
 
-    QVERIFY2(m_model->rowCount(tune) == 1 + barLineSymbolCount, "Wrong row count after removing rows");
+    QVERIFY2(m_model->rowCount(measure) == 1, "Wrong row count after removing rows from measure");
 
-    QModelIndex lastRemainingSymbol = m_model->index(0, 0, tune);
+    QModelIndex lastRemainingSymbol = m_model->index(0, 0, measure);
     Q_ASSERT(thirdSymbol.isValid());
 
     Length::Value lengthOfLastRemaining = m_model->data(lastRemainingSymbol, LP::symbolLength).value<Length::Value>();

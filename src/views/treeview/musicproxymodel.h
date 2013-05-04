@@ -37,8 +37,17 @@ public:
     QModelIndex insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName);
     QModelIndex insertTuneWithScore(int rowOfScore, const QString &scoreTitle, const QString &instrumentName);
     QModelIndex appendTuneToScore(const QModelIndex &score, const QString &instrumentName);
+    QModelIndex insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat=false);
+    QModelIndex appendPartToTune(const QModelIndex &tune, int measures, bool withRepeat=false);
+    QModelIndex insertMeasureIntoPart(int row, const QModelIndex &part);
+    QModelIndex appendMeasureToPart(const QModelIndex &part);
+    QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName);
+    QModelIndex appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName);
+
+    // Obsolete
     QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName);
     void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat=false);
+    // End Obsolete
 
     MusicItem *itemForIndex(const QModelIndex &index) const;
 

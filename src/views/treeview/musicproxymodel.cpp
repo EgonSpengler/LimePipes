@@ -191,6 +191,66 @@ QModelIndex MusicProxyModel::appendTuneToScore(const QModelIndex &score, const Q
     return QModelIndex();
 }
 
+QModelIndex MusicProxyModel::insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcTuneIndex = mapToSource(tune);
+        QModelIndex srcIndex = model->insertPartIntoTune(row, srcTuneIndex, measures, withRepeat);
+        return mapFromSource(srcIndex);
+    }
+    return QModelIndex();
+}
+
+QModelIndex MusicProxyModel::appendPartToTune(const QModelIndex &tune, int measures, bool withRepeat)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcTuneIndex = mapToSource(tune);
+        QModelIndex srcIndex = model->appendPartToTune(srcTuneIndex, measures, withRepeat);
+        return mapFromSource(srcIndex);
+    }
+    return QModelIndex();
+}
+
+QModelIndex MusicProxyModel::insertMeasureIntoPart(int row, const QModelIndex &part)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcPartIndex = mapToSource(part);
+        QModelIndex srcIndex = model->insertMeasureIntoPart(row, srcPartIndex);
+        return mapFromSource(srcIndex);
+    }
+    return QModelIndex();
+}
+
+QModelIndex MusicProxyModel::appendMeasureToPart(const QModelIndex &part)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcPartIndex = mapToSource(part);
+        QModelIndex srcIndex = model->appendMeasureToPart(srcPartIndex);
+        return mapFromSource(srcIndex);
+    }
+    return QModelIndex();
+}
+
+QModelIndex MusicProxyModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcMeasureIndex = mapToSource(measure);
+        QModelIndex srcIndex = model->insertSymbolIntoMeasure(row, srcMeasureIndex, symbolName);
+        return mapFromSource(srcIndex);
+    }
+    return QModelIndex();
+}
+
+QModelIndex MusicProxyModel::appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName)
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex srcMeasureIndex = mapToSource(measure);
+        QModelIndex srcIndex = model->appendSymbolToMeasure(srcMeasureIndex, symbolName);
+        return mapFromSource(srcIndex);
+    }
+    return QModelIndex();
+}
+
 QModelIndex MusicProxyModel::insertSymbol(int row, const QModelIndex &tune, const QString &symbolName)
 {
     if (MusicModel *model = musicModel()) {
