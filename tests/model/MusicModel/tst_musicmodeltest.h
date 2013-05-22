@@ -51,10 +51,14 @@ private Q_SLOTS:
     void testRemoveInvalidRows();
     void testRemoveRows();
     void testSave();
+    void testXsdFile();
+    void checkTestfilesAgainstXsd();
     void testInvalidDocuments();
     void testValidMinimalDocuments();
     void testValidDocumentThreeScores();
-    void testInvalidScores();
+    void testInvalidScoreTuneWithNoInstrument();
+    void testInvalidScoreWrongItemsUnderScore();
+    void testInvalidScoreFourValidTunes();
     void testValidScoreThreeValidTunes();
     void testInvalidTunes();
     void testInvalidSymbols();
@@ -67,6 +71,8 @@ private Q_SLOTS:
     void testMimeData();
     void testDropMimeDataScores();
     void testDropMimeDataTunes();
+    void testDropMimeDataParts();
+    void testDropMimeDataMeasures();
     void testDropMimeDataSymbols();
     void testUndoStackInsertScore();
     void testUndoStackAppendScore();

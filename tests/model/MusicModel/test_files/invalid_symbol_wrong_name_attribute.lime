@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<LIMEPIPES VERSION="0.1">
-    <SCORE>
-        <TUNE INSTRUMENT="Testinstrument">
-            <SYMBOL NAME="Something no symbol is called">
-            </SYMBOL>
-        </TUNE>
-    </SCORE>
-</LIMEPIPES>

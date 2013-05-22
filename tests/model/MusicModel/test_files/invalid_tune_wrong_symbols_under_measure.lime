@@ -4,7 +4,12 @@
       <SCOREDATA>
     	  <TITLE>TestScore</TITLE>
       </SCOREDATA>
-        <TUNE>
+        <TUNE INSTRUMENT="Testinstrument">
+            <PART>
+	      <MEASURE>
+		    <PART></Part>
+   	      </MEASURE>
+         </PART>
         </TUNE>
     </SCORE>
 </LIMEPIPES>

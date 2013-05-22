@@ -38,16 +38,13 @@ public:
     virtual QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName) = 0;
     virtual QModelIndex appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName) = 0;
 
-    // Obsolete
-    virtual QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName) = 0;
-    virtual void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat=false) = 0;
-    // End Obsolete
-
     virtual MusicItem *itemForIndex(const QModelIndex& index) const = 0;
 
     virtual bool isIndexScore(const QModelIndex &index) const = 0;
     virtual bool isIndexTune(const QModelIndex &index) const = 0;
     virtual bool isIndexSymbol(const QModelIndex &index) const = 0;
+    virtual bool isIndexPart(const QModelIndex &index) const = 0;
+    virtual bool isIndexMeasure(const QModelIndex &index) const = 0;
     virtual bool indexSupportsWritingOfData(const QModelIndex &index, int role) const = 0;
 
     virtual void clear() = 0;

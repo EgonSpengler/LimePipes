@@ -61,7 +61,7 @@ private:
     bool saveFileAs();
     bool okToClearData();
     void updateUi();
-    QString instrumentFromParentOfCurrentSymbolIndex();
+    QString instrumentFromParentOfCurrentIndex();
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
 
     Ui::MainWindow *ui;

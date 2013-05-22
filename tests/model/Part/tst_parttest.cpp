@@ -9,6 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QtCore/QCoreApplication>
+#include <itemdatatypes.h>
 
 #include "tst_parttest.h"
 
@@ -29,6 +30,11 @@ void PartTest::cleanup()
 void PartTest::testType()
 {
     QVERIFY2(m_part->type() == MusicItem::PartType, "Part item returns the wrong type");
+}
+
+void PartTest::testItemSupportsWritingOfData()
+{
+    QVERIFY2(m_part->itemSupportsWritingOfData(LP::partRepeat), "Part doesn't support writing of part repeat data");
 }
 
 QTEST_MAIN(PartTest)

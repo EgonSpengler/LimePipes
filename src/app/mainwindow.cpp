@@ -116,11 +116,21 @@ void MainWindow::createObjectNames()
     m_model->setObjectName("musicModel");
 }
 
-QString MainWindow::instrumentFromParentOfCurrentSymbolIndex()
+QString MainWindow::instrumentFromParentOfCurrentIndex()
 {
     QModelIndex currentIndex = m_treeView->currentIndex();
+    MusicModelInterface *musicModel = musicModelFromItemModel(m_model);
+    if (!musicModel) return QString();
+
+    while (!musicModel->isIndexTune(currentIndex)) {
+        currentIndex = currentIndex.parent();
+
+        if (!currentIndex.isValid())
+            break;
+    }
+
     if (currentIndex.isValid()) {
-        QVariant currentInstrument = m_model->data(currentIndex.parent(), LP::tuneInstrument);
+        QVariant currentInstrument = m_model->data(currentIndex, LP::tuneInstrument);
         if (currentInstrument.isValid()) {
             return currentInstrument.value<InstrumentPtr>()->name();
         }
@@ -301,7 +311,7 @@ void MainWindow::on_editAddTunePartAction_triggered()
         return;
 
     if (musicModel->isIndexTune(m_treeView->currentIndex())) {
-        musicModel->insertPart(0, m_treeView->currentIndex(), 9, true);
+        musicModel->insertPartIntoTune(0, m_treeView->currentIndex(), 9, true);
         m_treeView->expand(m_treeView->currentIndex());
     }
     else {
@@ -319,7 +329,7 @@ void MainWindow::on_editAddSymbolsAction_triggered()
     if (!musicModel)
         return;
 
-    QString instrumentName = instrumentFromParentOfCurrentSymbolIndex();
+    QString instrumentName = instrumentFromParentOfCurrentIndex();
     if (!instrumentName.isEmpty()) {
         m_addSymbolsDialog->setSymbolNames(
                     musicModel->symbolNamesForInstrument(instrumentName));
@@ -358,17 +368,28 @@ void MainWindow::on_helpAboutAction_triggered()
 
 void MainWindow::insertSymbol(const QString &symbolName)
 {
-    QString instrumentName = instrumentFromParentOfCurrentSymbolIndex();
+    QString instrumentName = instrumentFromParentOfCurrentIndex();
     if (!instrumentName.isEmpty()) {
 
         MusicModelInterface *musicModel;
         musicModel = musicModelFromItemModel(m_model);
 
-        if (!musicModel)
+        QModelIndex currentIndex = m_treeView->currentIndex();
+
+        if (!musicModel) return;
+
+        if (!(musicModel->isIndexMeasure(currentIndex) ||
+              musicModel->isIndexSymbol(currentIndex)))
             return;
 
-        musicModel->insertSymbol(m_treeView->currentIndex().row(),
-                                 m_treeView->currentIndex().parent(), symbolName);
+        if (musicModel->isIndexMeasure(currentIndex)) {
+            musicModel->appendSymbolToMeasure(currentIndex, symbolName);
+        }
+        if (musicModel->isIndexSymbol(currentIndex)) {
+            musicModel->insertSymbolIntoMeasure(currentIndex.row(),
+                                     currentIndex.parent(), symbolName);
+        }
+
         m_treeView->expand(m_treeView->currentIndex());
     }
     updateUi();

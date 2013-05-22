@@ -11,6 +11,7 @@
 
 #include <QObject>
 #include <src/model/measure.h>
+#include <src/model/datatypes/instrument.h>
 
 class MeasureTest : public QObject
 {
@@ -23,9 +24,12 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
+    void testChildType();
+    void testOkToInsertChildRedefinition();
 
 private:
     Measure *m_measure;
+    InstrumentPtr m_instrument;
 };
 
 #endif // TST_MEASURETEST_H

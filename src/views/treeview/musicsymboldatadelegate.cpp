@@ -70,7 +70,7 @@ bool MusicSymbolDataDelegate::isSymbolIndexOk(const QModelIndex &index) const
     const MusicModelInterface *model = musicModelFromIndex(index);
     if (model &&
             model->isIndexSymbol(index) &&
-            model->isIndexTune(index.parent()))
+            model->isIndexMeasure(index.parent()))
         return true;
     return false;
 }

@@ -7,6 +7,7 @@
 # swap and temp files
 *~
 *.swp
+._*
 
 # generated documenation
 doc/developer/html/*

@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LIMEPIPES VERSION="0.1">
     <SCORE>
-        <TUNE INSTRUMENT="Testinstrument">
-            <SYMBOL>
-            </SYMBOL>
-        </TUNE>
+      <SCOREDATA>
+    	  <TITLE>TestScore</TITLE>
+      </SCOREDATA>
+      <TUNE INSTRUMENT="Testinstrument">
+         <PART>
+	      <MEASURE>
+		    <SYMBOL>
+		      	<LENGTH>2</LENGTH>
+                    </SYMBOL>
+   	      </MEASURE>
+         </PART>
+      </TUNE>
     </SCORE>
 </LIMEPIPES>

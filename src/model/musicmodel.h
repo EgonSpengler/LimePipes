@@ -64,16 +64,13 @@ public:
     QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName);
     QModelIndex appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName);
 
-    // Obsolete
-    QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName);
-    void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat=false);
-    // End Obsolete
-
     MusicItem *itemForIndex(const QModelIndex& index) const;
     QModelIndex indexForItem(MusicItem *item) const;
 
     bool isIndexScore(const QModelIndex &index) const;
     bool isIndexTune(const QModelIndex &index) const;
+    bool isIndexPart(const QModelIndex &index) const;
+    bool isIndexMeasure(const QModelIndex &index) const;
     bool isIndexSymbol(const QModelIndex &index) const;
     bool indexSupportsWritingOfData(const QModelIndex &index, int role) const;
 
@@ -102,22 +99,27 @@ private:
 
     void processScoreTag(QXmlStreamReader *reader, MusicItem **item);
     void processTuneTag(QXmlStreamReader *reader, MusicItem **item);
+    void processPartTag(QXmlStreamReader *reader, MusicItem **item);
+    void processMeasureTag(QXmlStreamReader *reader, MusicItem **item);
     void processSymbolTag(QXmlStreamReader *reader, MusicItem **item);
     void readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem **item);
 
     bool isEndTagOfCurrentItem(QXmlStreamReader *reader, MusicItem *item);
     bool isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item);
     bool isValidTuneTag(QXmlStreamReader *reader);
+    bool isValidPartTag(QXmlStreamReader *reader);
+    bool isValidMeasureTag(QXmlStreamReader *reader);
     bool isValidScoreTag(QXmlStreamReader *reader);
 
     bool tagHasNonEmptyAttribute(QXmlStreamReader *reader, const QString &attributeName);
     bool tagHasNameOfItemType(QStringRef tagname, MusicItem::Type type);
 
     bool instrumentNameIsSupported(const QString &instrumentName);
-    bool symbolNameIsSupported(QXmlStreamReader *reader, MusicItem *tuneItem);
+    bool symbolNameIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem);
 
     MusicItem *newTuneWithInstrument(QXmlStreamReader *reader, MusicItem *item);
-    MusicItem *newSymbolForTuneItem(QXmlStreamReader *reader, MusicItem *item);
+    MusicItem *newSymbolForMeasureItem(QXmlStreamReader *reader, MusicItem *item);
+    MusicItem *getTuneItemParent(MusicItem *item);
 
     InstrumentPtr instrumentFromItem(MusicItem *item);
     template<typename T>

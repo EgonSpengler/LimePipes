@@ -14,6 +14,7 @@ add_test( NAME MusicItemTest COMMAND MusicItemTest )
 
 # MusicModel
 set(TESTFILE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/MusicModel/test_files")
+set(LIMEPIPES_XSD_FILE "${limepipes_SOURCE_DIR}/limepipes.xsd")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/MusicModel/config.h.in
         ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
@@ -27,7 +28,7 @@ set( MusicModelTest_MOC_HEADERS
         )
 qt4_wrap_cpp( MusicModelTest_SOURCES ${MusicModelTest_MOC_HEADERS} )
 add_executable( MusicModelTest ${MusicModelTest_SOURCES} )
-target_link_libraries( MusicModelTest ${TEST_LIBRARIES} lp_musicmodeltestplugin )
+target_link_libraries( MusicModelTest ${TEST_LIBRARIES} ${QT_QTXMLPATTERNS_LIBRARY} lp_musicmodeltestplugin )
 add_test( NAME MusicModelTest COMMAND MusicModelTest )
 
 # RootItem
@@ -55,7 +56,7 @@ add_test( NAME PartTest COMMAND PartTest )
 set( MeasureTest_SOURCES Measure/tst_measuretest.cpp )
 qt4_automoc( ${MeasureTest_SOURCES} )
 add_executable( MeasureTest ${MeasureTest_SOURCES} )
-target_link_libraries( MeasureTest ${TEST_LIBRARIES} )
+target_link_libraries( MeasureTest lp_greathighlandbagpipe ${TEST_LIBRARIES} )
 add_test( NAME MeasureTest COMMAND MeasureTest )
 
 # Symbol

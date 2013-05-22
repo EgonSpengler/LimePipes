@@ -6,6 +6,9 @@
  *
  */
 
+#include <instrumentinterface.h>
+#include <itemdatatypes.h>
+#include <symbol.h>
 #include "measure.h"
 
 Measure::Measure(MusicItem *parent)
@@ -24,4 +27,25 @@ void Measure::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 
 void Measure::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
 {
+}
+
+bool Measure::okToInsertChild(const MusicItem *item, int row)
+{
+    Q_UNUSED(row);
+
+    MusicItem *part = parent();
+    if (!part) return false;
+
+    MusicItem *tune = part->parent();
+    if (!tune) return false;
+
+    QVariant instrumentVar = tune->data(LP::tuneInstrument);
+    if (!instrumentVar.isValid() || !instrumentVar.canConvert<InstrumentPtr>())
+        return false;
+
+    const Symbol *symbol = static_cast<const Symbol*>(item);
+    if (!symbol) return false;
+
+    InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+    return instrument->supportsSymbolType(symbol->symbolType());
 }

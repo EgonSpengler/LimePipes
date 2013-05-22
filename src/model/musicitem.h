@@ -65,11 +65,11 @@ protected:
     Type m_type;
     Type m_childType;
     QMap<int, QVariant> m_data;
+    MusicItem *m_parent;
 
 private:
     void writeData(const QVariant &value, int role);
     QList<MusicItem*> m_children;
-    MusicItem *m_parent;
 };
 
 class NullMusicItem : public MusicItem
@@ -79,6 +79,7 @@ public:
         : MusicItem(MusicItem::NoItemType, MusicItem::NoItemType) {}
     NullMusicItem(const MusicItem &other)
     {
+        m_parent = other.parent();
         m_type = other.type();
         m_childType = other.childType();
         m_data = other.itemData();

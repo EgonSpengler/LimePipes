@@ -10,5 +10,7 @@
         </TUNE>
         <TUNE INSTRUMENT="Testinstrument">
         </TUNE>
+        <TUNE INSTRUMENT="Testinstrument">
+        </TUNE>
     </SCORE>
 </LIMEPIPES>

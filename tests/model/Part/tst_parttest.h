@@ -10,7 +10,7 @@
 #define TST_PARTTEST_H
 
 #include <QObject>
-#include <src/model/part.h>
+#include <part.h>
 
 class PartTest : public QObject
 {
@@ -23,6 +23,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
+    void testItemSupportsWritingOfData();
 
 private:
     Part *m_part;

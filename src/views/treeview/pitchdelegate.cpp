@@ -15,7 +15,9 @@
 
 QStringList PitchDelegate::comboBoxItems(const QModelIndex &symbolIndex) const
 {
-    QModelIndex tune = symbolIndex.parent();
+    QModelIndex tune = symbolIndex.parent().parent().parent();
+    if (!tune.isValid()) return QStringList();
+
     QVariant instrumentVar = tune.data(LP::tuneInstrument);
 
     if (instrumentVar.canConvert<InstrumentPtr>()) {
@@ -46,7 +48,9 @@ QString PitchDelegate::currentSelectedData(const QModelIndex &symbolIndex) const
 
 void PitchDelegate::setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const
 {
-    QModelIndex tune = symbolIndex.parent();
+    QModelIndex tune = symbolIndex.parent().parent().parent();
+    if (!tune.isValid()) return;
+
     QVariant instrumentVar = tune.data(LP::tuneInstrument);
 
     if (instrumentVar.canConvert<InstrumentPtr>()) {

@@ -64,6 +64,10 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
 
         if (model->isIndexSymbol(srcIndex))
             return index.data(LP::symbolName);
+        if (model->isIndexPart(srcIndex))
+            return QString("Part");
+        if (model->isIndexMeasure(srcIndex))
+            return QString("Measure");
     }
 
     if (role == Qt::DecorationRole) {
@@ -73,7 +77,6 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
                 SymbolGraphicPtr symbolGraphic = symbolGraphicVar.value<SymbolGraphicPtr>();
                 return symbolGraphic->pixmap();
             }
-
         }
     }
     return QSortFilterProxyModel::data(index, role);
@@ -251,24 +254,6 @@ QModelIndex MusicProxyModel::appendSymbolToMeasure(const QModelIndex &measure, c
     return QModelIndex();
 }
 
-QModelIndex MusicProxyModel::insertSymbol(int row, const QModelIndex &tune, const QString &symbolName)
-{
-    if (MusicModel *model = musicModel()) {
-        QModelIndex srcTuneIndex = mapToSource(tune);
-        QModelIndex srcIndex = model->insertSymbol(row, srcTuneIndex, symbolName);
-        return mapFromSource(srcIndex);
-    }
-    return QModelIndex();
-}
-
-void MusicProxyModel::insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat)
-{
-    if (MusicModel *model = musicModel()) {
-        QModelIndex srcTuneIndex = mapToSource(tuneIndex);
-        model->insertPart(partPosition, srcTuneIndex, measures, withRepeat);
-    }
-}
-
 MusicItem *MusicProxyModel::itemForIndex(const QModelIndex &index) const
 {
     if (musicModel()) {
@@ -339,6 +324,24 @@ bool MusicProxyModel::isIndexTune(const QModelIndex &index) const
     if (MusicModel *model = musicModel()) {
         QModelIndex srcIndex = mapToSource(index);
         return model->isIndexTune(srcIndex);
+    }
+    return false;
+}
+
+bool MusicProxyModel::isIndexPart(const QModelIndex &index) const
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex partIndex = mapToSource(index);
+        return model->isIndexPart(partIndex);
+    }
+    return false;
+}
+
+bool MusicProxyModel::isIndexMeasure(const QModelIndex &index) const
+{
+    if (MusicModel *model = musicModel()) {
+        QModelIndex measureIndex = mapToSource(index);
+        return model->isIndexMeasure(measureIndex);
     }
     return false;
 }

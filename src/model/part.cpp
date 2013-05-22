@@ -17,6 +17,9 @@ Part::Part(MusicItem *parent)
 
 bool Part::itemSupportsWritingOfData(int role) const
 {
+    if (role == LP::partRepeat)
+        return true;
+    return false;
 }
 
 void Part::writeItemDataToXmlStream(QXmlStreamWriter *writer)

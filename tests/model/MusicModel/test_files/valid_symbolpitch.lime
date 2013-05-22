@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LIMEPIPES VERSION="0.1">
     <SCORE>
+      <SCOREDATA>
+    	  <TITLE>TestScore</TITLE>
+      </SCOREDATA>
         <TUNE INSTRUMENT="Testinstrument">
-	    <SYMBOL NAME="Barline">
-                <TYPE>Start</TYPE>
-                <REPEAT/>
-            </SYMBOL>
-            <SYMBOL NAME="Testsymbol with pitch and length">
-		<PITCH>Low A</PITCH>
-            </SYMBOL>
-            <SYMBOL NAME="Barline">
-                <TYPE>End</TYPE>
-                <REPEAT/>
-            </SYMBOL>
-        </TUNE>
+          <PART>
+	    	   <MEASURE>
+		         <SYMBOL NAME="Testsymbol with pitch and length">
+		      		<PITCH>Low A</PITCH>
+          		</SYMBOL>
+   	      </MEASURE>
+         </PART>
+       </TUNE>
     </SCORE>
 </LIMEPIPES>

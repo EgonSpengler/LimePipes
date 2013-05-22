@@ -25,7 +25,7 @@ namespace LP {
 enum DataRole {
 
     // Score
-    scoreTitle = Qt::UserRole + 1,
+    scoreTitle = Qt::UserRole,
     scoreComposer,
     scoreArranger,
     scoreYear,

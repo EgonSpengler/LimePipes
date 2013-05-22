@@ -14,11 +14,12 @@
 class Measure : public MusicItem
 {
 public:
-    Measure(MusicItem *parent=0);
+    explicit Measure(MusicItem *parent=0);
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
+    bool okToInsertChild(const MusicItem *item, int row);
 };
 
 #endif // MEASURE_H

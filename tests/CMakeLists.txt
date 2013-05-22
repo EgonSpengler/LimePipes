@@ -6,6 +6,7 @@ include_directories(
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${QT_QTCORE_INCLUDE_DIR}
+        ${QT_QTXMLPATTERNS_INCLUDE_DIR}
         ${QT_QTGUI_INCLUDE_DIR}
         ${limepipes_SOURCE_DIR}
         "${limepipes_SOURCE_DIR}/src"

@@ -29,7 +29,6 @@ private Q_SLOTS:
     void testOkToInsertChildRedefinition();
     void testSetData();
     void testWriteToXmlStream();
-    void testRowOfPartStart();
 
 private:
     Tune *m_tune;

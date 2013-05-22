@@ -1,2 +1,3 @@
 // The path to the test files directory
 #define TESTFILE_DIRECTORY "@TESTFILE_PATH@"
+#define LIMEPIPES_XSD_FILE "@LIMEPIPES_XSD_FILE@"

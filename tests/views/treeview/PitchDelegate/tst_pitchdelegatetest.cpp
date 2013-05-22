@@ -109,9 +109,11 @@ void PitchDelegateTest::setModelData()
 QModelIndex PitchDelegateTest::symbolIndex(LP::DataRole role, bool hasData)
 {
     QModelIndex tuneIndex = m_model->insertTuneWithScore(0, "score", m_instrumentNames.at(0));
-    m_model->insertPart(0, tuneIndex, 9);
+    QModelIndex partIndex = m_model->insertPartIntoTune(0, tuneIndex, 5);
+    QModelIndex measureIndex = m_model->index(0, 0, partIndex);
+
     foreach (QString symbolName, m_symbolNames) {
-        QModelIndex symbolIndex = m_model->insertSymbol(1, tuneIndex, symbolName);
+        QModelIndex symbolIndex = m_model->insertSymbolIntoMeasure(0, measureIndex, symbolName);
         QVariant dataVar = symbolIndex.data(role);
         if (hasData) {
             if (dataVar.isValid()) {

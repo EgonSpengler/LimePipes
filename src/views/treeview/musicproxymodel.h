@@ -44,15 +44,12 @@ public:
     QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName);
     QModelIndex appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName);
 
-    // Obsolete
-    QModelIndex insertSymbol(int row, const QModelIndex &tune, const QString &symbolName);
-    void insertPart(int partPosition, const QModelIndex &tuneIndex, int measures, bool withRepeat=false);
-    // End Obsolete
-
     MusicItem *itemForIndex(const QModelIndex &index) const;
 
     bool isIndexScore(const QModelIndex &index) const;
     bool isIndexTune(const QModelIndex &index) const;
+    bool isIndexPart(const QModelIndex &index) const;
+    bool isIndexMeasure(const QModelIndex &index) const;
     bool isIndexSymbol(const QModelIndex &index) const;
     bool indexSupportsWritingOfData(const QModelIndex &index, int role) const;
 

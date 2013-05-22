@@ -25,16 +25,9 @@ public:
 
     int startRowOfPart(int partNumber);
 
-    bool okToInsertChild(const MusicItem *item, int row);
-
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
-
-private:
-    int findStartOfPart(int partNumber);
-    bool rowIsPrecededByStartOfPart(int row);
-    const Symbol *symbolFromMusicItem(const MusicItem *item);
 };
 
 #endif // TUNE_H
