@@ -16,6 +16,11 @@ doc/developer/latex/*
 # qt.tag file
 doc/developer/qt.tag
 
+# tag files
+tags
+*.taghl
+.vimprj/
+
 # valgrind suppress file
 *.supp
 
