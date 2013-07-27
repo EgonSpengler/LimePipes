@@ -4,6 +4,8 @@ include( ${QT_USE_FILE} )
 set( LIBRARY_OUTPUT_PATH ${STATIC_PLUGINS_FOLDER} )
 
 set( lp_greathighlandbagpipe_HEADERS
+        ${CMAKE_SOURCE_DIR}/src/model/symbols/melodynote.h
+        ${CMAKE_SOURCE_DIR}/src/model/symbols/melodynotegraphicbuilder.h
     	ghb_instrument.h
     	ghb_symboltypes.h
     	ghb_melodynote.h
@@ -11,7 +13,9 @@ set( lp_greathighlandbagpipe_HEADERS
 	)
 
 set( lp_greathighlandbagpipe_SOURCES
-	greathighlandbagpipe.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/symbols/melodynote.cpp
+        ${CMAKE_SOURCE_DIR}/src/model/symbols/melodynotegraphicbuilder.cpp
+	    greathighlandbagpipe.cpp
     	ghb_instrument.cpp
     	ghb_melodynote.cpp
     	ghb_doubling.cpp

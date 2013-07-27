@@ -13,18 +13,17 @@
 
 class VisualMusicModelInterface {
 public:
-    explicit VisualMusicModelInterface ();
-    virtual ~VisualMusicModelInterface ();
-
-    QGraphicsScene *scene() = 0;
-    void setModel(QAbstractItemModel *model) = 0;
-    virtual insertScore(int row, const QString &title) = 0;
-    virtual insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName) = 0;
-    virtual insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat=false) = 0;
-    virtual insertMeasureIntoPart(int row, const QModelIndex &part) = 0;
-    virtual insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName) = 0;
-    virtual dataChanged(const QModelIndex& index) = 0;
-    virtual rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) = 0;
+    virtual ~VisualMusicModelInterface() {}
+    virtual QGraphicsScene *scene() = 0;
+    virtual void setModel(QAbstractItemModel *model) = 0;
+    virtual QAbstractItemModel *model() const = 0;
+    virtual void insertScore(int row, const QString &title) = 0;
+    virtual void insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName) = 0;
+    virtual void insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat=false) = 0;
+    virtual void insertMeasureIntoPart(int row, const QModelIndex &part) = 0;
+    virtual void insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName) = 0;
+    virtual void dataChanged(const QModelIndex& index) = 0;
+    virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end) = 0;
 };
 
 

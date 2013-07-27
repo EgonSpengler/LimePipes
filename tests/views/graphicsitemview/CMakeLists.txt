@@ -62,6 +62,7 @@ set( GraphicsItemViewTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
         GraphicsItemView/tst_graphicsitemviewtest.cpp
         )
 set( GraphicsItemViewTest_MOC_HEADERS
@@ -69,10 +70,31 @@ set( GraphicsItemViewTest_MOC_HEADERS
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
         GraphicsItemView/tst_graphicsitemviewtest.h
+        GraphicsItemView/visualmusicmodeldummy.h
         )
 qt4_wrap_cpp( GraphicsItemViewTest_SOURCES ${GraphicsItemViewTest_MOC_HEADERS} )
 add_executable( GraphicsItemViewTest ${GraphicsItemViewTest_SOURCES}
         ${PageViewItem_SOURCES}
         ${PageViewItem_HEADERS} )
-target_link_libraries( GraphicsItemViewTest ${TEST_LIBRARIES} )
+target_link_libraries( GraphicsItemViewTest ${TEST_LIBRARIES} lp_greathighlandbagpipe )
 add_test( NAME GraphicsItemViewTest COMMAND GraphicsItemViewTest )
+
+# VisualMusicModel
+set( VisualMusicModelTest_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.cpp
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
+        visualmusicmodel/VisualMusicModel/tst_visualmusicmodel.cpp
+        )
+set( VisualMusicModelTest_MOC_HEADERS
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
+        visualmusicmodel/VisualMusicModel/tst_visualmusicmodel.h
+        )
+qt4_wrap_cpp( VisualMusicModelTest_SOURCES ${VisualMusicModelTest_MOC_HEADERS} )
+add_executable( VisualMusicModelTest ${VisualMusicModelTest_SOURCES}
+    ${VisualMusicModelTest_SOURCES})
+target_link_libraries( VisualMusicModelTest ${TEST_LIBRARIES} )
+add_test( NAME VisualMusicModelTest COMMAND VisualMusicModelTest )

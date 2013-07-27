@@ -10,15 +10,16 @@
 #define GRAPHICSITEMVIEW_H
 
 #include <QAbstractItemView>
+#include "visualmusicmodel/visualmusicmodelinterface.h"
 
 class GraphicsView;
-class GraphicsScene;
 
 class GraphicsItemView : public QAbstractItemView
 {
     Q_OBJECT
 public:
     explicit GraphicsItemView(QWidget *parent = 0);
+    ~GraphicsItemView();
 
     QRect visualRect(const QModelIndex &index) const;
     void scrollTo(const QModelIndex &index, ScrollHint hint);
@@ -30,9 +31,17 @@ public:
     void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);
     QRegion visualRegionForSelection(const QItemSelection &selection) const;
 
+    void setVisualMusicModel(VisualMusicModelInterface *visualMusicModel);
+    VisualMusicModelInterface *visualMusicModel() const;
+
+    void rowsInserted(const QModelIndex &parent, int start, int end);
+
 private:
-    GraphicsScene *m_scene;
-    GraphicsView *m_view;
+    void handleInsertScores(int start, int end);
+    void handleInsertTunes(const QModelIndex& scoreIndex, int start, int end);
+    void handleInsertPartIntoTune(const QModelIndex& tuneIndex, int start, int end);
+    GraphicsView *m_graphicsView;
+    VisualMusicModelInterface *m_visualMusicModel;
 };
 
 #endif // GRAPHICSITEMVIEW_H

@@ -10,18 +10,28 @@
 #define TST_GRAPHICSITEMVIEWTEST_H
 
 #include <QObject>
-//#include <views/graphicsitemview/graphicsitemview.h>
+
+class GraphicsItemView;
+class VisualMusicModelDummy;
+class MusicModel;
 
 class GraphicsItemViewTest : public QObject
 {
     Q_OBJECT
 public:
     GraphicsItemViewTest();
-    
+
 private Q_SLOTS:
+    void testScoreInserted();
+    void testTuneInserted();
+    void testPartInserted();
     void init();
     void cleanup();
-    
+
+private:
+    GraphicsItemView *m_graphicsItemView;
+    VisualMusicModelDummy *m_visualMusicModelDummy;
+    MusicModel *m_model;
 };
 
 #endif // TST_GRAPHICSITEMVIEWTEST_H

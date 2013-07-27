@@ -1,5 +1,6 @@
 # user specific project files 
 *.user
+*.user.*
 
 #autosave files
 *.autosave
@@ -19,7 +20,11 @@ doc/developer/qt.tag
 # tag files
 tags
 *.taghl
+
+# vim specific
 .vimprj/
+.ycm_extra_conf.py
+.ycm_extra_conf.pyc
 
 # valgrind suppress file
 *.supp

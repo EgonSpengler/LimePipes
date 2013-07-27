@@ -11,13 +11,16 @@
 
 #include <QGraphicsWidget>
 #include <QList>
+#include "pagecontentrowitem.h"
+#include "pageviewinterface.h"
 #include "../itemtypes.h"
 
 class PageItem;
 class PageContentRowItem;
 class QGraphicsLinearLayout;
 
-class PageViewItem : public QGraphicsWidget
+class PageViewItem : public QGraphicsWidget,
+                     public PageViewInterface
 {
     Q_OBJECT
 public:

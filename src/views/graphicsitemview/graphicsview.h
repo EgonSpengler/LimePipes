@@ -15,7 +15,7 @@ class GraphicsView : public QGraphicsView
 {
     Q_OBJECT
 public:
-    explicit GraphicsView(QGraphicsScene *scene, QWidget *parent = 0);
+    explicit GraphicsView(QWidget *parent = 0);
 };
 
 #endif // GRAPHICSVIEW_H
