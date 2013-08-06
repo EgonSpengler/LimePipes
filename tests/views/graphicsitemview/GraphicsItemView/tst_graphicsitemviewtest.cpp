@@ -61,6 +61,35 @@ void GraphicsItemViewTest::testPartInserted()
     QVERIFY2(signalSpy.count(), "Insert part wasn't called on VisualMusicModelInterface");
 }
 
+void GraphicsItemViewTest::testInsertMeasure()
+{
+    QSignalSpy signalSpy(m_visualMusicModelDummy, SIGNAL(insertMeasureIntoPartCalled()));
+
+    QModelIndex score = m_model->insertScore(0, "Testscore");
+    QModelIndex tune  = m_model->insertTuneIntoScore(0, score, m_model->instrumentNames().at(0));
+    m_model->insertPartIntoTune(0, tune, 8);
+
+    QVERIFY2(signalSpy.count() == 8, "Insert measure wasn't called on VisualMusicModelInterface");
+}
+
+void GraphicsItemViewTest::testInsertSymbol()
+{
+    QSignalSpy signalSpy(m_visualMusicModelDummy, SIGNAL(insertSymbolIntoMeasureCalled()));
+
+    QModelIndex score = m_model->insertScore(0, "Testscore");
+    QModelIndex tune  = m_model->insertTuneIntoScore(0, score, m_model->instrumentNames().at(0));
+    QModelIndex part  = m_model->insertPartIntoTune(0, tune, 8);
+    QModelIndex measure = m_model->index(0, 0, part);
+
+    Q_ASSERT(m_model->instrumentNames().count());
+    QString instrumentName = m_model->instrumentNames().at(0);
+    Q_ASSERT(m_model->symbolNamesForInstrument(instrumentName).count());
+    QString symbolName = m_model->symbolNamesForInstrument(instrumentName).at(0);
+    m_model->insertSymbolIntoMeasure(0, measure, symbolName);
+
+    QVERIFY2(signalSpy.count() == 1, "Insert symbol wasn't called on VisualMusicModelInterface");
+}
+
 void GraphicsItemViewTest::cleanup()
 {
     delete m_graphicsItemView;

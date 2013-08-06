@@ -40,6 +40,8 @@ private:
     void handleInsertScores(int start, int end);
     void handleInsertTunes(const QModelIndex& scoreIndex, int start, int end);
     void handleInsertPartIntoTune(const QModelIndex& tuneIndex, int start, int end);
+    void handleInsertMeasureIntoPart(const QModelIndex& partIndex, int start, int end);
+    void handleInsertSymbolIntoMeasure(const QModelIndex& measureIndex, int start, int end);
     GraphicsView *m_graphicsView;
     VisualMusicModelInterface *m_visualMusicModel;
 };

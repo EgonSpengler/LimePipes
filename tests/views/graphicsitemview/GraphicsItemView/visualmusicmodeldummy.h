@@ -40,12 +40,12 @@ public:
         emit insertScoreCalled();
     }
 
-    void insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName)
+    void insertTuneIntoScore(int row, const QModelIndex &score)
     {
         emit insertTuneIntoScoreCalled();
     }
 
-    void insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat)
+    void insertPartIntoTune(int row, const QModelIndex &tune)
     {
         emit insertPartIntoTuneCalled();
     }
@@ -55,7 +55,7 @@ public:
         emit insertMeasureIntoPartCalled();
     }
 
-    void insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName)
+    void insertSymbolIntoMeasure(int row, const QModelIndex &measure)
     {
         emit insertSymbolIntoMeasureCalled();
     }

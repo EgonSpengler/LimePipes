@@ -1,9 +1,9 @@
 /**
  * @author Thomas Baumann <teebaum@ymail.com>
- * 
+ *
  * @section LICENSE
  * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
- * 
+ *
  */
 
 #include "../graphicsscene.h"
@@ -34,7 +34,7 @@ void VisualMusicModel::insertMeasureIntoPart(int row, const QModelIndex &part)
 {
 }
 
-void VisualMusicModel::insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat)
+void VisualMusicModel::insertPartIntoTune(int row, const QModelIndex &tune)
 {
 }
 
@@ -42,11 +42,11 @@ void VisualMusicModel::insertScore(int row, const QString &title)
 {
 }
 
-void VisualMusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName)
+void VisualMusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure)
 {
 }
 
-void VisualMusicModel::insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName)
+void VisualMusicModel::insertTuneIntoScore(int row, const QModelIndex &score)
 {
 }
 

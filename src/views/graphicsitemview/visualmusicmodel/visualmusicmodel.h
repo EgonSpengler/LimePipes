@@ -1,9 +1,9 @@
 /**
  * @author Thomas Baumann <teebaum@ymail.com>
- * 
+ *
  * @section LICENSE
  * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
- * 
+ *
  */
 #ifndef VISUALMUSICMODEL_H_7R3SY07L
 #define VISUALMUSICMODEL_H_7R3SY07L
@@ -24,10 +24,10 @@ public:
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
     void insertScore(int row, const QString &title);
-    void insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName);
-    void insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat=false);
+    void insertTuneIntoScore(int row, const QModelIndex &score);
+    void insertPartIntoTune(int row, const QModelIndex &tune);
     void insertMeasureIntoPart(int row, const QModelIndex &part);
-    void insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName);
+    void insertSymbolIntoMeasure(int row, const QModelIndex &measure);
     void dataChanged(const QModelIndex& index);
     void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
 
@@ -36,4 +36,4 @@ private:
     GraphicsScene *m_scene;
 };
 
-#endif // VISUALMUSICMODEL_H_7R3SY07L 
+#endif // VISUALMUSICMODEL_H_7R3SY07L

@@ -107,6 +107,12 @@ void GraphicsItemView::rowsInserted(const QModelIndex &parent, int start, int en
     if (item->type() == MusicItem::TuneType) {
         handleInsertPartIntoTune(parent, start, end);
     }
+    if (item->type() == MusicItem::PartType) {
+        handleInsertMeasureIntoPart(parent, start, end);
+    }
+    if (item->type() == MusicItem::MeasureType) {
+        handleInsertSymbolIntoMeasure(parent, start, end);
+    }
 }
 
 void GraphicsItemView::handleInsertScores(int start, int end)
@@ -125,14 +131,7 @@ void GraphicsItemView::handleInsertTunes(const QModelIndex &scoreIndex, int star
 {
     if (!model()) return;
     for (int i=start; i<=end; i++) {
-        QModelIndex tuneIndex = model()->index(i, 0, scoreIndex);
-        QVariant instrumentVar = tuneIndex.data(LP::tuneInstrument);
-        if (!instrumentVar.isValid()) return;
-        InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-        QString instrumentName = instrument->name();
-        if (instrumentName.isEmpty()) continue;
-
-        m_visualMusicModel->insertTuneIntoScore(i, scoreIndex, instrumentName);
+        m_visualMusicModel->insertTuneIntoScore(i, scoreIndex);
     }
 }
 
@@ -140,15 +139,23 @@ void GraphicsItemView::handleInsertPartIntoTune(const QModelIndex &tuneIndex, in
 {
     if (!model()) return;
     for (int i=start; i<=end; i++) {
-        QModelIndex currentPart = model()->index(i, 0, tuneIndex);
-        int measureCount = 0;
-        bool partHasRepeat = false;
-        if (currentPart.isValid()) {
-            measureCount = model()->rowCount(currentPart);
-            partHasRepeat = currentPart.data(LP::partRepeat).toBool();
-        }
+        m_visualMusicModel->insertPartIntoTune(i, tuneIndex);
+    }
+}
 
-        m_visualMusicModel->insertPartIntoTune(i, tuneIndex, measureCount, partHasRepeat);
+void GraphicsItemView::handleInsertMeasureIntoPart(const QModelIndex &partIndex, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        m_visualMusicModel->insertMeasureIntoPart(i, partIndex);
+    }
+}
+
+void GraphicsItemView::handleInsertSymbolIntoMeasure(const QModelIndex &measureIndex, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        m_visualMusicModel->insertSymbolIntoMeasure(i, measureIndex);
     }
 }
 
