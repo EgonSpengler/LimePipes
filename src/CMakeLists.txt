@@ -8,6 +8,8 @@ set( limepipes_HEADERS
         views/graphicsitemview/pageviewitem/pagecontentrowitem.h
         views/graphicsitemview/musicsheetrowitems/textrowitem.h
         views/graphicsitemview/visualmusicmodel/visualmusicmodel.h
+        views/graphicsitemview/visualmusicmodel/visualiteminterface.h
+        views/graphicsitemview/visualmusicmodel/abstractvisualitem.h
         )
 
 set( limepipes_SOURCES
@@ -31,6 +33,8 @@ set( limepipes_SOURCES
         views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
         views/graphicsitemview/musicsheetrowitems/textrowitem.cpp
         views/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
+        views/graphicsitemview/visualmusicmodel/abstractvisualitem.cpp
+        views/graphicsitemview/visualmusicmodel/visualrootitem.cpp
         )
 
 set( limepipes_MOC_HEADERS
