@@ -57,49 +57,48 @@ add_executable( PageViewItemTest ${PageViewItemTest_SOURCES}
 target_link_libraries( PageViewItemTest ${TEST_LIBRARIES} )
 add_test( NAME PageViewItemTest COMMAND PageViewItemTest )
 
+set(CMAKE_AUTOMOC ON)
+
+file(GLOB_RECURSE GraphicsItemView_SOURCES "${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp")
+# VisualMusicModel
+set( VisualMusicModelTest_SOURCES
+        visualmusicmodel/VisualMusicModel/tst_visualmusicmodel.cpp
+        )
+
+add_executable( VisualMusicModelTest
+    ${GraphicsItemView_SOURCES}
+    ${VisualMusicModelTest_SOURCES}
+    ${VisualMusicModelTest_SOURCES})
+target_link_libraries( VisualMusicModelTest ${TEST_LIBRARIES} lp_greathighlandbagpipe )
+add_test( NAME VisualMusicModelTest COMMAND VisualMusicModelTest )
+
+
+file(GLOB_RECURSE GraphicsItemView_SOURCES "${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp")
 # GraphicsItemView
 set( GraphicsItemViewTest_SOURCES
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
         GraphicsItemView/tst_graphicsitemviewtest.cpp
-        )
-set( GraphicsItemViewTest_MOC_HEADERS
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.h
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
-        GraphicsItemView/tst_graphicsitemviewtest.h
         GraphicsItemView/visualmusicmodeldummy.h
         )
-qt4_wrap_cpp( GraphicsItemViewTest_SOURCES ${GraphicsItemViewTest_MOC_HEADERS} )
-add_executable( GraphicsItemViewTest ${GraphicsItemViewTest_SOURCES}
-        ${PageViewItem_SOURCES}
-        ${PageViewItem_HEADERS} )
+
+add_executable( GraphicsItemViewTest
+        ${VisualMusicModel_SOURCES}
+        ${GraphicsItemViewTest_SOURCES}
+        ${GraphicsItemView_SOURCES} )
+
 target_link_libraries( GraphicsItemViewTest ${TEST_LIBRARIES} lp_greathighlandbagpipe )
 add_test( NAME GraphicsItemViewTest COMMAND GraphicsItemViewTest )
 
-# VisualMusicModel
-set( VisualMusicModelTest_SOURCES
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
-        visualmusicmodel/VisualMusicModel/tst_visualmusicmodel.cpp
+# AbstractVisualItemTest
+file(GLOB_RECURSE AbstractVisualItem_SOURCES ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp)
+set( AbstractVisualItem_TEST_SOURCES
+        visualmusicmodel/AbstractVisualItem/tst_abstractvisualitemtest.cpp
+        visualmusicmodel/AbstractVisualItem/testabstractvisualitem.cpp
         )
-set( VisualMusicModelTest_MOC_HEADERS
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
-        visualmusicmodel/VisualMusicModel/tst_visualmusicmodel.h
-        )
-qt4_wrap_cpp( VisualMusicModelTest_SOURCES ${VisualMusicModelTest_MOC_HEADERS} )
-add_executable( VisualMusicModelTest ${VisualMusicModelTest_SOURCES}
-    ${VisualMusicModelTest_SOURCES})
-target_link_libraries( VisualMusicModelTest ${TEST_LIBRARIES} )
-add_test( NAME VisualMusicModelTest COMMAND VisualMusicModelTest )
 
-set(CMAKE_AUTOMOC ON)
+add_executable( AbstractVisualItemTest ${AbstractVisualItem_SOURCES}
+    ${AbstractVisualItem_TEST_SOURCES})
+target_link_libraries( AbstractVisualItemTest ${TEST_LIBRARIES} )
+add_test( NAME AbstractVisualItemTest COMMAND AbstractVisualItemTest )
 
 # VisualRootItem
 file(GLOB_RECURSE VisualRootItem_SOURCES ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp)

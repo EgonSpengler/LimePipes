@@ -9,6 +9,7 @@
 *~
 *.swp
 ._*
+.DS_Store
 
 # generated documenation
 doc/developer/html/*

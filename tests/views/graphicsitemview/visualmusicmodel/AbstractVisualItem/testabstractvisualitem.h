@@ -1,27 +1,21 @@
-/**
- * @author  Thomas Baumann <teebaum@ymail.com>
- *
- * @section LICENSE
- * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
- *
- */
+#ifndef TESTABSTRACTVISUALITEM_H
+#define TESTABSTRACTVISUALITEM_H
 
-#ifndef VISUALSCORE_H
-#define VISUALSCORE_H
+#include <views/graphicsitemview/visualmusicmodel/abstractvisualitem.h>
 
-#include "abstractvisualitem.h"
-
-class VisualScore : public AbstractVisualItem
+class TestAbstractVisualItem : public AbstractVisualItem
 {
 public:
-    explicit VisualScore();
+    explicit TestAbstractVisualItem();
+    virtual ~TestAbstractVisualItem() {}
 
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
+
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
-#endif // VISUALSCORE_H
+#endif // TESTABSTRACTVISUALITEM_H

@@ -7,12 +7,14 @@
  */
 
 #include "../graphicsscene.h"
+#include "visualrootitem.h"
 #include "visualmusicmodel.h"
 
 VisualMusicModel::VisualMusicModel(QObject *parent)
     : QObject(parent),
       m_model(0),
-      m_scene(0)
+      m_scene(0),
+      m_rootItem(0)
 {
     m_scene = new GraphicsScene(this);
 }
@@ -40,6 +42,7 @@ void VisualMusicModel::insertPartIntoTune(int row, const QModelIndex &tune)
 
 void VisualMusicModel::insertScore(int row, const QString &title)
 {
+    createRootItemIfNotPresent();
 }
 
 void VisualMusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure)
@@ -54,10 +57,14 @@ void VisualMusicModel::rowsAboutToBeRemoved(const QModelIndex& parent, int start
 {
 }
 
+void VisualMusicModel::createRootItemIfNotPresent()
+{
+    if (m_rootItem == 0)
+        m_rootItem = new VisualRootItem();
+}
+
 void VisualMusicModel::setModel(QAbstractItemModel *model)
 {
-    if (m_model != 0)
-        delete m_model;
     m_model = model;
 }
 

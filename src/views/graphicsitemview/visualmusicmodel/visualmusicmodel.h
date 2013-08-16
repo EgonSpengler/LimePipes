@@ -9,13 +9,18 @@
 #define VISUALMUSICMODEL_H_7R3SY07L
 
 #include <QObject>
+#include <QHash>
+#include "abstractvisualitem.h"
 #include "visualmusicmodelinterface.h"
 
 class GraphicsScene;
+class VisualRootItem;
 
 class VisualMusicModel : public QObject,
                          public VisualMusicModelInterface
 {
+    friend class VisualMusicModelTest;
+
 public:
     explicit VisualMusicModel(QObject *parent=0);
     virtual ~VisualMusicModel();
@@ -32,8 +37,11 @@ public:
     void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
 
 private:
+    void createRootItemIfNotPresent();
     QAbstractItemModel *m_model;
     GraphicsScene *m_scene;
+    VisualRootItem *m_rootItem;
+    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualScoreIndexes;
 };
 
 #endif // VISUALMUSICMODEL_H_7R3SY07L

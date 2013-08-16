@@ -7,6 +7,7 @@
  */
 
 #include <QString>
+#include <views/graphicsitemview/visualmusicmodel/visualscore.h>
 #include <QtTest/QtTest>
 
 class VisualScoreTest : public QObject
@@ -17,16 +18,31 @@ public:
     VisualScoreTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void init();
+    void cleanup();
+    void testType();
+
+private:
+    VisualScore *m_visualScore;
 };
 
 VisualScoreTest::VisualScoreTest()
 {
 }
 
-void VisualScoreTest::testCase1()
+void VisualScoreTest::init()
 {
-    QVERIFY2(true, "Failure");
+    m_visualScore = new VisualScore();
+}
+
+void VisualScoreTest::cleanup()
+{
+    delete m_visualScore;
+}
+
+void VisualScoreTest::testType()
+{
+    QVERIFY2(m_visualScore->type() == AbstractVisualItem::VisualScoreItem, "Visual score returned wrong type");
 }
 
 QTEST_APPLESS_MAIN(VisualScoreTest)

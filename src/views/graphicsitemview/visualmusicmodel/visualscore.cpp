@@ -11,3 +11,29 @@
 VisualScore::VisualScore()
 {
 }
+
+
+AbstractVisualItem::Type VisualScore::type() const
+{
+    return AbstractVisualItem::VisualScoreItem;
+}
+
+void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
+{
+}
+
+void VisualScore::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualScore::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualScore::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualScore::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+}

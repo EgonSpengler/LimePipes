@@ -15,6 +15,13 @@ class VisualRootItem : public AbstractVisualItem
 {
 public:
     explicit VisualRootItem();
+
+    Type type() const;
+    void setDataFromIndex(const QPersistentModelIndex &index);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // VISUALROOTITEM_H

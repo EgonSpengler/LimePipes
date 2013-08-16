@@ -28,6 +28,10 @@ public:
     virtual void setDataFromIndex(const QPersistentModelIndex& index) = 0;
 
     explicit AbstractVisualItem();
+    virtual ~AbstractVisualItem() {}
+
+private:
+    QList<AbstractVisualItem*> m_childItems;
 };
 
 #endif // ABSTRACTVISUALITEM_H
