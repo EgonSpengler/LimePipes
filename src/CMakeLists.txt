@@ -35,6 +35,7 @@ set( limepipes_SOURCES
         views/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
         views/graphicsitemview/visualmusicmodel/abstractvisualitem.cpp
         views/graphicsitemview/visualmusicmodel/visualrootitem.cpp
+        views/graphicsitemview/visualmusicmodel/visualscore.cpp
         )
 
 set( limepipes_MOC_HEADERS
@@ -54,6 +55,8 @@ set( limepipes_MOC_HEADERS
         views/graphicsitemview/graphicsitemview.h
         views/graphicsitemview/pageviewitem/pageitem.h
         views/graphicsitemview/pageviewitem/pageviewitem.h
+
+        views/graphicsitemview/visualmusicmodel/visualmusicmodel.h
         )
 
 set( limepipes_UIs

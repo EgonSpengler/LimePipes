@@ -69,7 +69,7 @@ void MusicFont::updateFont()
         setNewPointSizeToHeightOfGlyph(lineHeightGlyph);
         lineHeightGlyphRect = boundingRectForGlyph(lineHeightGlyph);
 
-    } while (lineHeightGlyphRect.height() != m_lineHeight &&
+    } while (qRound(lineHeightGlyphRect.height()) != m_lineHeight &&
              lineHeightGlyphRect.height() != m_lineHeight + 1);
 }
 

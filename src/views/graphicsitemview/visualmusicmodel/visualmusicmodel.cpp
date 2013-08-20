@@ -6,6 +6,9 @@
  *
  */
 
+#include <QAbstractItemModel>
+#include <musicitem.h>
+#include <views/graphicsitemview/visualmusicmodel/visualscore.h>
 #include "../graphicsscene.h"
 #include "visualrootitem.h"
 #include "visualmusicmodel.h"
@@ -28,33 +31,28 @@ QGraphicsScene *VisualMusicModel::scene()
     return m_scene;
 }
 
-void VisualMusicModel::dataChanged(const QModelIndex& index)
-{
-}
-
-void VisualMusicModel::insertMeasureIntoPart(int row, const QModelIndex &part)
-{
-}
-
-void VisualMusicModel::insertPartIntoTune(int row, const QModelIndex &tune)
-{
-}
-
-void VisualMusicModel::insertScore(int row, const QString &title)
+void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int end)
 {
     createRootItemIfNotPresent();
-}
 
-void VisualMusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure)
-{
-}
+    if (!parent.isValid()) {
+        handleInsertScores(start, end);
+    }
+    MusicItem *item = static_cast<MusicItem*>(parent.internalPointer());
+    if (!item) return;
 
-void VisualMusicModel::insertTuneIntoScore(int row, const QModelIndex &score)
-{
-}
-
-void VisualMusicModel::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
-{
+    if (item->type() == MusicItem::ScoreType) {
+        handleInsertTunes(parent, start, end);
+    }
+    if (item->type() == MusicItem::TuneType) {
+        handleInsertPartIntoTune(parent, start, end);
+    }
+    if (item->type() == MusicItem::PartType) {
+        handleInsertMeasureIntoPart(parent, start, end);
+    }
+    if (item->type() == MusicItem::MeasureType) {
+        handleInsertSymbolIntoMeasure(parent, start, end);
+    }
 }
 
 void VisualMusicModel::createRootItemIfNotPresent()
@@ -63,9 +61,52 @@ void VisualMusicModel::createRootItemIfNotPresent()
         m_rootItem = new VisualRootItem();
 }
 
+void VisualMusicModel::handleInsertScores(int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex scoreIndex(m_model->index(i, 0));
+        if (scoreIndex.isValid()) {
+            VisualScore *score = new VisualScore();
+            m_visualScoreIndexes.insert(scoreIndex, score);
+        }
+    }
+}
+
+void VisualMusicModel::handleInsertTunes(const QModelIndex &scoreIndex, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+    }
+}
+
+void VisualMusicModel::handleInsertPartIntoTune(const QModelIndex &tuneIndex, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+    }
+}
+
+void VisualMusicModel::handleInsertMeasureIntoPart(const QModelIndex &partIndex, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+    }
+}
+
+void VisualMusicModel::handleInsertSymbolIntoMeasure(const QModelIndex &measureIndex, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+    }
+}
+
 void VisualMusicModel::setModel(QAbstractItemModel *model)
 {
     m_model = model;
+
+    connect(m_model, SIGNAL(rowsInserted(QModelIndex, int, int)),
+            this, SLOT(rowsInserted(QModelIndex,int,int)));
 }
 
 

@@ -19,6 +19,8 @@ class VisualRootItem;
 class VisualMusicModel : public QObject,
                          public VisualMusicModelInterface
 {
+    Q_OBJECT
+
     friend class VisualMusicModelTest;
 
 public:
@@ -28,16 +30,17 @@ public:
     QGraphicsScene *scene();
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
-    void insertScore(int row, const QString &title);
-    void insertTuneIntoScore(int row, const QModelIndex &score);
-    void insertPartIntoTune(int row, const QModelIndex &tune);
-    void insertMeasureIntoPart(int row, const QModelIndex &part);
-    void insertSymbolIntoMeasure(int row, const QModelIndex &measure);
-    void dataChanged(const QModelIndex& index);
-    void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
+
+private slots:
+    void rowsInserted(const QModelIndex &parent, int start, int end);
 
 private:
     void createRootItemIfNotPresent();
+    void handleInsertScores(int start, int end);
+    void handleInsertTunes(const QModelIndex& scoreIndex, int start, int end);
+    void handleInsertPartIntoTune(const QModelIndex& tuneIndex, int start, int end);
+    void handleInsertMeasureIntoPart(const QModelIndex& partIndex, int start, int end);
+    void handleInsertSymbolIntoMeasure(const QModelIndex& measureIndex, int start, int end);
     QAbstractItemModel *m_model;
     GraphicsScene *m_scene;
     VisualRootItem *m_rootItem;

@@ -24,7 +24,6 @@ VisualMusicModelTest::VisualMusicModelTest(QObject *parent)
 
 void VisualMusicModelTest::testSetModel()
 {
-    qDebug() << "init";
     QStandardItemModel *model = new QStandardItemModel(this);
     m_visualMusicModel->setModel(model);
     QVERIFY2(m_visualMusicModel->model() == model, "Failed setting QAbstractItemModel and getting it back");
@@ -34,7 +33,8 @@ void VisualMusicModelTest::testIsertScore()
 {
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
-    m_visualMusicModel->insertScore(0, "Testscore");
+    m_musicModel->insertScore(0, "Testscore");
+
     QVERIFY2(m_visualMusicModel->m_rootItem != 0, "Root item is still 0 after insert of score");
     QVERIFY2(m_visualMusicModel->m_visualScoreIndexes.count() == 1,
              "No visual score was inserted");

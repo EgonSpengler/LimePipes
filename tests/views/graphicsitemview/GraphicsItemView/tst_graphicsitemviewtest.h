@@ -22,11 +22,6 @@ public:
     GraphicsItemViewTest();
 
 private Q_SLOTS:
-    void testScoreInserted();
-    void testTuneInserted();
-    void testPartInserted();
-    void testInsertMeasure();
-    void testInsertSymbol();
     void init();
     void cleanup();
 

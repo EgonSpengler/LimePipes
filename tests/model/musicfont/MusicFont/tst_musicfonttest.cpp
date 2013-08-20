@@ -28,7 +28,7 @@ void MusicFontTest::testBoundingRectForGlyph()
 
     QRectF glyphRect = musicFont.boundingRectForGlyph(musicFont.lineHeightGlyph());
 
-    QVERIFY2(glyphRect.height() == lineHeight, "Line height glyph must have a heigt of line height");
+    QVERIFY2(qRound(glyphRect.height()) == lineHeight, "Line height glyph must have a heigt of line height");
 }
 
 QTEST_MAIN(MusicFontTest)

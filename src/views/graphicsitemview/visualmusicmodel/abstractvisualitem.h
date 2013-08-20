@@ -30,7 +30,13 @@ public:
     explicit AbstractVisualItem();
     virtual ~AbstractVisualItem() {}
 
+    void insertItem(int row, AbstractVisualItem *item);
+    int childItemCount();
+    AbstractVisualItem *childItemAt(int row);
+    void removeItemAt(int row);
+
 private:
+    bool isValidIndex(int row);
     QList<AbstractVisualItem*> m_childItems;
 };
 
