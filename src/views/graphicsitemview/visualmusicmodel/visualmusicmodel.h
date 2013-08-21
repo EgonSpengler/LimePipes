@@ -45,6 +45,10 @@ private:
     GraphicsScene *m_scene;
     VisualRootItem *m_rootItem;
     QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualScoreIndexes;
+    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualTuneIndexes;
+    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualPartIndexes;
+    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualMeasureIndexes;
+    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualSymbolIndexes;
 };
 
 #endif // VISUALMUSICMODEL_H_7R3SY07L

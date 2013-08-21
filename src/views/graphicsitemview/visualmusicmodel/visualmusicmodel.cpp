@@ -9,6 +9,10 @@
 #include <QAbstractItemModel>
 #include <musicitem.h>
 #include <views/graphicsitemview/visualmusicmodel/visualscore.h>
+#include <views/graphicsitemview/visualmusicmodel/visualtune.h>
+#include <views/graphicsitemview/visualmusicmodel/visualpart.h>
+#include <views/graphicsitemview/visualmusicmodel/visualmeasure.h>
+#include <views/graphicsitemview/visualmusicmodel/visualsymbol.h>
 #include "../graphicsscene.h"
 #include "visualrootitem.h"
 #include "visualmusicmodel.h"
@@ -77,6 +81,11 @@ void VisualMusicModel::handleInsertTunes(const QModelIndex &scoreIndex, int star
 {
     if (!model()) return;
     for (int i=start; i<=end; i++) {
+        QPersistentModelIndex tuneIndex(m_model->index(i, 0, scoreIndex));
+        if (tuneIndex.isValid()) {
+            VisualTune *tune = new VisualTune();
+            m_visualTuneIndexes.insert(tuneIndex, tune);
+        }
     }
 }
 
@@ -84,6 +93,11 @@ void VisualMusicModel::handleInsertPartIntoTune(const QModelIndex &tuneIndex, in
 {
     if (!model()) return;
     for (int i=start; i<=end; i++) {
+        QPersistentModelIndex partIndex(m_model->index(i, 0, tuneIndex));
+        if (partIndex.isValid()) {
+            VisualPart *part = new VisualPart();
+            m_visualPartIndexes.insert(partIndex, part);
+        }
     }
 }
 

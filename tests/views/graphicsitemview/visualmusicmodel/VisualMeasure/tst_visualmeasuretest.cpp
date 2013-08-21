@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <views/graphicsitemview/visualmusicmodel/visualmeasure.h>
 
 class VisualMeasureTest : public QObject
 {
@@ -17,16 +18,33 @@ public:
     VisualMeasureTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void init();
+    void cleanup();
+    void testType();
+
+private:
+    VisualMeasure *m_visualMeasure;
 };
 
 VisualMeasureTest::VisualMeasureTest()
+    : m_visualMeasure(0)
 {
 }
 
-void VisualMeasureTest::testCase1()
+void VisualMeasureTest::init()
 {
-    QVERIFY2(true, "Failure");
+    m_visualMeasure = new VisualMeasure();
+}
+
+void VisualMeasureTest::cleanup()
+{
+    delete m_visualMeasure;
+}
+
+void VisualMeasureTest::testType()
+{
+    QVERIFY2(m_visualMeasure->type() == AbstractVisualItem::VisualMeasureItem,
+             "Visual measure returned wrong type");
 }
 
 QTEST_APPLESS_MAIN(VisualMeasureTest)

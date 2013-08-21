@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <views/graphicsitemview/visualmusicmodel/visualpart.h>
 
 class VisualPartTest : public QObject
 {
@@ -17,16 +18,33 @@ public:
     VisualPartTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void init();
+    void cleanup();
+    void testType();
+
+private:
+    VisualPart *m_visualPart;
 };
 
 VisualPartTest::VisualPartTest()
+    : m_visualPart(0)
 {
 }
 
-void VisualPartTest::testCase1()
+void VisualPartTest::init()
 {
-    QVERIFY2(true, "Failure");
+    m_visualPart = new VisualPart();
+}
+
+void VisualPartTest::cleanup()
+{
+    delete m_visualPart;
+}
+
+void VisualPartTest::testType()
+{
+    QVERIFY2(m_visualPart->type() == AbstractVisualItem::VisualPartItem,
+             "Visual part returned wrong type");
 }
 
 QTEST_APPLESS_MAIN(VisualPartTest)

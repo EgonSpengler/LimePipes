@@ -7,8 +7,8 @@
  */
 
 #include <QString>
-#include <views/graphicsitemview/visualmusicmodel/visualscore.h>
 #include <QtTest/QtTest>
+#include <views/graphicsitemview/visualmusicmodel/visualscore.h>
 
 class VisualScoreTest : public QObject
 {

@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <views/graphicsitemview/visualmusicmodel/visualtune.h>
 
 class VisualTuneTest : public QObject
 {
@@ -17,16 +18,33 @@ public:
     VisualTuneTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void init();
+    void cleanup();
+    void testType();
+
+private:
+    VisualTune *m_visualTune;
 };
 
 VisualTuneTest::VisualTuneTest()
+    : m_visualTune(0)
 {
 }
 
-void VisualTuneTest::testCase1()
+void VisualTuneTest::init()
 {
-    QVERIFY2(true, "Failure");
+    m_visualTune = new VisualTune();
+}
+
+void VisualTuneTest::cleanup()
+{
+    delete m_visualTune;
+}
+
+void VisualTuneTest::testType()
+{
+    QVERIFY2(m_visualTune->type() == AbstractVisualItem::VisualTuneItem,
+             "Visual tune returned wrong type");
 }
 
 QTEST_APPLESS_MAIN(VisualTuneTest)

@@ -11,3 +11,29 @@
 VisualSymbol::VisualSymbol()
 {
 }
+
+
+AbstractVisualItem::Type VisualSymbol::type() const
+{
+    return AbstractVisualItem::VisualSymbolItem;
+}
+
+void VisualSymbol::setDataFromIndex(const QPersistentModelIndex &index)
+{
+}
+
+void VisualSymbol::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualSymbol::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualSymbol::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualSymbol::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+}

@@ -29,15 +29,36 @@ void VisualMusicModelTest::testSetModel()
     QVERIFY2(m_visualMusicModel->model() == model, "Failed setting QAbstractItemModel and getting it back");
 }
 
-void VisualMusicModelTest::testIsertScore()
+void VisualMusicModelTest::testInsertScore()
 {
-    Q_ASSERT(m_musicModel->instrumentNames().count());
-
     m_musicModel->insertScore(0, "Testscore");
 
     QVERIFY2(m_visualMusicModel->m_rootItem != 0, "Root item is still 0 after insert of score");
     QVERIFY2(m_visualMusicModel->m_visualScoreIndexes.count() == 1,
              "No visual score was inserted");
+}
+
+void VisualMusicModelTest::testInsertTune()
+{
+    Q_ASSERT(m_musicModel->instrumentNames().count());
+
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+
+    QVERIFY2(m_visualMusicModel->m_visualTuneIndexes.count() == 1,
+             "No visual tune was inserted");
+}
+
+void VisualMusicModelTest::testInsertPart()
+{
+    Q_ASSERT(m_musicModel->instrumentNames().count());
+
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+    m_musicModel->insertPartIntoTune(0, tuneIndex, 8);
+
+    QVERIFY2(m_visualMusicModel->m_visualPartIndexes.count() == 1,
+             "No visual part was inserted");
 }
 
 void VisualMusicModelTest::cleanup()

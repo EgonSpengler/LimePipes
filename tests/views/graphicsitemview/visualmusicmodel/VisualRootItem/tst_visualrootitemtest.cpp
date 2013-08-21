@@ -7,6 +7,7 @@
  */
 
 #include <QString>
+#include <views/graphicsitemview/visualmusicmodel/visualrootitem.h>
 #include <QtTest/QtTest>
 #include <QCoreApplication>
 
@@ -18,16 +19,32 @@ public:
     VisualRootItemTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void init();
+    void cleanup();
+    void testType();
+
+private:
+    VisualRootItem *m_rootItem;
 };
 
 VisualRootItemTest::VisualRootItemTest()
+    : m_rootItem(0)
 {
 }
 
-void VisualRootItemTest::testCase1()
+void VisualRootItemTest::init()
 {
-    QVERIFY2(true, "Failure");
+    m_rootItem = new VisualRootItem();
+}
+
+void VisualRootItemTest::cleanup()
+{
+    delete m_rootItem;
+}
+
+void VisualRootItemTest::testType()
+{
+    QVERIFY2(m_rootItem->type() == AbstractVisualItem::VisualRootItem, "Visual root item returned wrong type");
 }
 
 QTEST_MAIN(VisualRootItemTest)

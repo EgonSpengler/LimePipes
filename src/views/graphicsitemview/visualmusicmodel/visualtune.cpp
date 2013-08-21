@@ -11,3 +11,28 @@
 VisualTune::VisualTune()
 {
 }
+
+AbstractVisualItem::Type VisualTune::type() const
+{
+    return AbstractVisualItem::VisualTuneItem;
+}
+
+void VisualTune::setDataFromIndex(const QPersistentModelIndex &index)
+{
+}
+
+void VisualTune::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualTune::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualTune::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualTune::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+}

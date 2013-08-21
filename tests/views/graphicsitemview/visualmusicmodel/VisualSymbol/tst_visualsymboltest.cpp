@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <views/graphicsitemview/visualmusicmodel/visualsymbol.h>
 
 class VisualSymbolTest : public QObject
 {
@@ -17,16 +18,33 @@ public:
     VisualSymbolTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void init();
+    void cleanup();
+    void testType();
+
+private:
+    VisualSymbol *m_visualSymbol;
 };
 
 VisualSymbolTest::VisualSymbolTest()
+    : m_visualSymbol(0)
 {
 }
 
-void VisualSymbolTest::testCase1()
+void VisualSymbolTest::init()
 {
-    QVERIFY2(true, "Failure");
+    m_visualSymbol = new VisualSymbol();
+}
+
+void VisualSymbolTest::cleanup()
+{
+    delete m_visualSymbol;
+}
+
+void VisualSymbolTest::testType()
+{
+    QVERIFY2(m_visualSymbol->type() == AbstractVisualItem::VisualSymbolItem,
+             "Visual symbol returned wrong type");
 }
 
 QTEST_APPLESS_MAIN(VisualSymbolTest)

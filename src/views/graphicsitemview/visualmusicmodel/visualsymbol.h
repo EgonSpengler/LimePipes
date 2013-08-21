@@ -15,6 +15,14 @@ class VisualSymbol : public AbstractVisualItem
 {
 public:
     explicit VisualSymbol();
+
+    Type type() const;
+    void setDataFromIndex(const QPersistentModelIndex &index);
+
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // VISUALSYMBOL_H

@@ -11,3 +11,28 @@
 VisualPart::VisualPart()
 {
 }
+
+AbstractVisualItem::Type VisualPart::type() const
+{
+    return AbstractVisualItem::VisualPartItem;
+}
+
+void VisualPart::setDataFromIndex(const QPersistentModelIndex &index)
+{
+}
+
+void VisualPart::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualPart::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualPart::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+}
+
+void VisualPart::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+}

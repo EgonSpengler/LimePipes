@@ -18,7 +18,9 @@ public:
 
 private Q_SLOTS:
     void testSetModel();
-    void testIsertScore();
+    void testInsertScore();
+    void testInsertTune();
+    void testInsertPart();
     void init();
     void cleanup();
 
