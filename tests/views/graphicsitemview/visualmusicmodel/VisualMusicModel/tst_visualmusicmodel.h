@@ -21,6 +21,8 @@ private Q_SLOTS:
     void testInsertScore();
     void testInsertTune();
     void testInsertPart();
+    void testInsertMeasure();
+    void testInsertSymbol();
     void init();
     void cleanup();
 

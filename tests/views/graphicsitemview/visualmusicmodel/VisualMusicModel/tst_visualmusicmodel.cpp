@@ -61,6 +61,36 @@ void VisualMusicModelTest::testInsertPart()
              "No visual part was inserted");
 }
 
+void VisualMusicModelTest::testInsertMeasure()
+{
+    int measureCount = 8;
+    Q_ASSERT(m_musicModel->instrumentNames().count());
+
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+    m_musicModel->insertPartIntoTune(0, tuneIndex, measureCount);
+
+    QVERIFY2(m_visualMusicModel->m_visualMeasureIndexes.count() == measureCount,
+             "Not the correct visual measure count was inserted");
+}
+
+void VisualMusicModelTest::testInsertSymbol()
+{
+    Q_ASSERT(m_musicModel->instrumentNames().count());
+    QString instrumentName = m_musicModel->instrumentNames().at(0);
+    Q_ASSERT(m_musicModel->symbolNamesForInstrument(instrumentName).count());
+    QString symbolName(m_musicModel->symbolNamesForInstrument(instrumentName).at(0));
+
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+    QModelIndex partIndex  = m_musicModel->insertPartIntoTune(0, tuneIndex, 8);
+    QModelIndex measureIndex = m_musicModel->index(0, 0, partIndex);
+    m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
+
+    QVERIFY2(m_visualMusicModel->m_visualSymbolIndexes.count() == 1,
+             "No visual symbol was inserted");
+}
+
 void VisualMusicModelTest::cleanup()
 {
     delete m_visualMusicModel;

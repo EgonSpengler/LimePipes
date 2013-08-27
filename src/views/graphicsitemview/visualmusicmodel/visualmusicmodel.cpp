@@ -105,6 +105,11 @@ void VisualMusicModel::handleInsertMeasureIntoPart(const QModelIndex &partIndex,
 {
     if (!model()) return;
     for (int i=start; i<=end; i++) {
+        QPersistentModelIndex measureIndex(m_model->index(i, 0, partIndex));
+        if (measureIndex.isValid()) {
+            VisualMeasure *measure = new VisualMeasure();
+            m_visualMeasureIndexes.insert(measureIndex, measure);
+        }
     }
 }
 
@@ -112,6 +117,11 @@ void VisualMusicModel::handleInsertSymbolIntoMeasure(const QModelIndex &measureI
 {
     if (!model()) return;
     for (int i=start; i<=end; i++) {
+        QPersistentModelIndex symbolIndex(m_model->index(i, 0, measureIndex));
+        if (symbolIndex.isValid()) {
+            VisualSymbol *symbol = new VisualSymbol();
+            m_visualSymbolIndexes.insert(symbolIndex, symbol);
+        }
     }
 }
 
