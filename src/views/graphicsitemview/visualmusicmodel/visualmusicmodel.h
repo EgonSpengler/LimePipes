@@ -36,11 +36,9 @@ private slots:
 
 private:
     void createRootItemIfNotPresent();
-    void handleInsertScores(int start, int end);
-    void handleInsertTunes(const QModelIndex& scoreIndex, int start, int end);
-    void handleInsertPartIntoTune(const QModelIndex& tuneIndex, int start, int end);
-    void handleInsertMeasureIntoPart(const QModelIndex& partIndex, int start, int end);
-    void handleInsertSymbolIntoMeasure(const QModelIndex& measureIndex, int start, int end);
+    template <class T>
+    void insertNewItemsIntoHash(const QModelIndex& index, int start, int end,
+                                QHash<QPersistentModelIndex, AbstractVisualItem*>& hash);
     QAbstractItemModel *m_model;
     GraphicsScene *m_scene;
     VisualRootItem *m_rootItem;

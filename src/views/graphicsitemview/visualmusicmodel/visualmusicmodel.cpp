@@ -40,22 +40,22 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     createRootItemIfNotPresent();
 
     if (!parent.isValid()) {
-        handleInsertScores(start, end);
+        insertNewItemsIntoHash<VisualScore>(parent, start, end, m_visualScoreIndexes);
     }
     MusicItem *item = static_cast<MusicItem*>(parent.internalPointer());
     if (!item) return;
 
     if (item->type() == MusicItem::ScoreType) {
-        handleInsertTunes(parent, start, end);
+        insertNewItemsIntoHash<VisualTune>(parent, start, end, m_visualTuneIndexes);
     }
     if (item->type() == MusicItem::TuneType) {
-        handleInsertPartIntoTune(parent, start, end);
+        insertNewItemsIntoHash<VisualPart>(parent, start, end, m_visualPartIndexes);
     }
     if (item->type() == MusicItem::PartType) {
-        handleInsertMeasureIntoPart(parent, start, end);
+        insertNewItemsIntoHash<VisualMeasure>(parent, start, end, m_visualMeasureIndexes);
     }
     if (item->type() == MusicItem::MeasureType) {
-        handleInsertSymbolIntoMeasure(parent, start, end);
+        insertNewItemsIntoHash<VisualSymbol>(parent, start, end, m_visualSymbolIndexes);
     }
 }
 
@@ -63,66 +63,6 @@ void VisualMusicModel::createRootItemIfNotPresent()
 {
     if (m_rootItem == 0)
         m_rootItem = new VisualRootItem();
-}
-
-void VisualMusicModel::handleInsertScores(int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex scoreIndex(m_model->index(i, 0));
-        if (scoreIndex.isValid()) {
-            VisualScore *score = new VisualScore();
-            m_visualScoreIndexes.insert(scoreIndex, score);
-        }
-    }
-}
-
-void VisualMusicModel::handleInsertTunes(const QModelIndex &scoreIndex, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex tuneIndex(m_model->index(i, 0, scoreIndex));
-        if (tuneIndex.isValid()) {
-            VisualTune *tune = new VisualTune();
-            m_visualTuneIndexes.insert(tuneIndex, tune);
-        }
-    }
-}
-
-void VisualMusicModel::handleInsertPartIntoTune(const QModelIndex &tuneIndex, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex partIndex(m_model->index(i, 0, tuneIndex));
-        if (partIndex.isValid()) {
-            VisualPart *part = new VisualPart();
-            m_visualPartIndexes.insert(partIndex, part);
-        }
-    }
-}
-
-void VisualMusicModel::handleInsertMeasureIntoPart(const QModelIndex &partIndex, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex measureIndex(m_model->index(i, 0, partIndex));
-        if (measureIndex.isValid()) {
-            VisualMeasure *measure = new VisualMeasure();
-            m_visualMeasureIndexes.insert(measureIndex, measure);
-        }
-    }
-}
-
-void VisualMusicModel::handleInsertSymbolIntoMeasure(const QModelIndex &measureIndex, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex symbolIndex(m_model->index(i, 0, measureIndex));
-        if (symbolIndex.isValid()) {
-            VisualSymbol *symbol = new VisualSymbol();
-            m_visualSymbolIndexes.insert(symbolIndex, symbol);
-        }
-    }
 }
 
 void VisualMusicModel::setModel(QAbstractItemModel *model)
@@ -137,4 +77,18 @@ void VisualMusicModel::setModel(QAbstractItemModel *model)
 QAbstractItemModel *VisualMusicModel::model() const
 {
     return m_model;
+}
+
+template <class T>
+void VisualMusicModel::insertNewItemsIntoHash(const QModelIndex &index, int start, int end,
+                                              QHash<QPersistentModelIndex, AbstractVisualItem *> &hash)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        if (itemIndex.isValid()) {
+            T *item = new T();
+            hash.insert(itemIndex, item);
+        }
+    }
 }
