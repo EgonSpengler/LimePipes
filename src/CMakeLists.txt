@@ -40,6 +40,8 @@ set( limepipes_SOURCES
         views/graphicsitemview/visualmusicmodel/visualpart.cpp
         views/graphicsitemview/visualmusicmodel/visualmeasure.cpp
         views/graphicsitemview/visualmusicmodel/visualsymbol.cpp
+
+        views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.cpp
         )
 
 set( limepipes_MOC_HEADERS

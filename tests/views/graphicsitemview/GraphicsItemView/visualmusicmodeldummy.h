@@ -9,7 +9,7 @@
 #ifndef VISUALMUSICMODELDUMMY_H
 #define VISUALMUSICMODELDUMMY_H
 
-#include <views/graphicsitemview/visualmusicmodel/visualmusicmodelinterface.h>
+#include <views/graphicsitemview/visualmusicmodelinterface.h>
 #include <QObject>
 
 class VisualMusicModelDummy : public QObject,

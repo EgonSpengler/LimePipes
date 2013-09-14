@@ -11,7 +11,7 @@
 #include <QObject>
 #include <QHash>
 #include "abstractvisualitem.h"
-#include "visualmusicmodelinterface.h"
+#include "../visualmusicmodelinterface.h"
 
 class GraphicsScene;
 class VisualRootItem;

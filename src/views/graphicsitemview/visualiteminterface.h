@@ -14,6 +14,7 @@ class QGraphicsSceneMouseEvent;
 class VisualItemInterface
 {
 public:
+    explicit VisualItemInterface() {}
     virtual ~VisualItemInterface() {}
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) = 0;

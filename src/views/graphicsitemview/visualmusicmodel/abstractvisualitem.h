@@ -10,7 +10,7 @@
 #define ABSTRACTVISUALITEM_H
 
 #include <QPersistentModelIndex>
-#include "visualiteminterface.h"
+#include "../visualiteminterface.h"
 
 class AbstractVisualItem : public VisualItemInterface
 {

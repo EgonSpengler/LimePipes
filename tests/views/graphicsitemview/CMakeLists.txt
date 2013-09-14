@@ -165,3 +165,15 @@ add_executable( VisualSymbolTest ${VisualSymbol_SOURCES}
     ${VisualSymbol_TEST_SOURCES})
 target_link_libraries( VisualSymbolTest ${TEST_LIBRARIES} )
 add_test( NAME VisualSymbolTest COMMAND VisualSymbolTest )
+
+# InteractingGraphicsItem
+file(GLOB_RECURSE VisualSymbol_SOURCES ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp)
+set( InteractingGraphicsItem_TEST_SOURCES
+        interactinggraphicsitem/InteractingGraphicsItem/tst_interactinggraphicsitemtest.cpp
+        interactinggraphicsitem/InteractingGraphicsItem/visualitemdummy.cpp
+        )
+
+add_executable( InteractingGraphicsItemTest ${VisualSymbol_SOURCES}
+    ${InteractingGraphicsItem_TEST_SOURCES})
+target_link_libraries( InteractingGraphicsItemTest ${TEST_LIBRARIES} )
+add_test( NAME InteractingGraphicsItemTest COMMAND InteractingGraphicsItemTest )
