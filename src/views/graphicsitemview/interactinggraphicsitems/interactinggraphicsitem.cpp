@@ -23,3 +23,27 @@ void InteractingGraphicsItem::setVisualItem(VisualItemInterface *visualItem)
 {
     m_visualItem = visualItem;
 }
+
+void InteractingGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_visualItem)
+        m_visualItem->mousePressEvent(event);
+}
+
+void InteractingGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_visualItem)
+        m_visualItem->mouseMoveEvent(event);
+}
+
+void InteractingGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_visualItem)
+        m_visualItem->mouseReleaseEvent(event);
+}
+
+void InteractingGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_visualItem)
+        m_visualItem->mouseDoubleClickEvent(event);
+}

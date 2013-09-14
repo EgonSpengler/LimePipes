@@ -13,11 +13,19 @@
 
 class InteractingGraphicsItem : public QGraphicsWidget
 {
+    friend class InteractingGraphicsItemTest;
+
 public:
     explicit InteractingGraphicsItem(QGraphicsItem *parent = 0);
 
     VisualItemInterface *visualItem() const;
     void setVisualItem(VisualItemInterface *visualItem);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
     VisualItemInterface *m_visualItem;
