@@ -12,7 +12,7 @@ It runs on Linux, Windows, MacOSX.
 
 Build dependencies
 ********************
-- Qt4 SDK including QtCreator >= 4.7 (http://qt.nokia.com/downloads)
+- Qt4 SDK including QtCreator >= 4.7 (http://qt-project.org/downloads)
 
 
 Runtime dependencies
