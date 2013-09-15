@@ -42,6 +42,7 @@ set( limepipes_SOURCES
         views/graphicsitemview/visualmusicmodel/visualsymbol.cpp
 
         views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.cpp
+        views/graphicsitemview/interactinggraphicsitems/scorepropertiesitem.cpp
         )
 
 set( limepipes_MOC_HEADERS
