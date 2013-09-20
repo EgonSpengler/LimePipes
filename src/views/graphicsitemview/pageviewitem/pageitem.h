@@ -12,7 +12,6 @@
 #include <QGraphicsWidget>
 #include "../itemtypes.h"
 
-class PageContentRowItem;
 class QGraphicsLinearLayout;
 
 class PageItem : public QGraphicsWidget
@@ -31,14 +30,14 @@ public:
     int remainingVerticalSpace() const;
     int rowCount() const;
 
-    PageContentRowItem *rowAt(int index);
+    QGraphicsWidget *rowAt(int index);
 
-    void appendRow(PageContentRowItem *row);
-    void prependRow(PageContentRowItem *row);
-    void insertRow(int index, PageContentRowItem *row);
+    void appendRow(QGraphicsWidget *row);
+    void prependRow(QGraphicsWidget *row);
+    void insertRow(int index, QGraphicsWidget *row);
 
     void removeRow(int index);
-    void removeRow(PageContentRowItem *row);
+    void removeRow(QGraphicsWidget *row);
 
 signals:
     void remainingVerticalSpaceChanged(int oldValue, int newValue);

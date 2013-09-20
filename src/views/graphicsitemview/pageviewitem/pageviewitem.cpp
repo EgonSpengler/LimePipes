@@ -56,7 +56,7 @@ int PageViewItem::rowCountOfPage(int index) const
     return page->rowCount();
 }
 
-void PageViewItem::appendRow(PageContentRowItem *row)
+void PageViewItem::appendRow(QGraphicsWidget *row)
 {
     PageItem *lastPage = getLastPage();
 
@@ -67,12 +67,12 @@ void PageViewItem::appendRow(PageContentRowItem *row)
     lastPage->appendRow(row);
 }
 
-void PageViewItem::prependRow(PageContentRowItem *row)
+void PageViewItem::prependRow(QGraphicsWidget *row)
 {
     insertRow(0, row);
 }
 
-PageContentRowItem *PageViewItem::rowAt(int index) const
+QGraphicsWidget *PageViewItem::rowAt(int index) const
 {
     int row_count = rowCount();
     if (index < 0 || index > row_count)
@@ -90,7 +90,7 @@ void PageViewItem::removeRow(int rowIndex)
     page->removeRow(rowIndex - firstIndexOfPage(page));
 }
 
-void PageViewItem::insertRow(int index, PageContentRowItem *row)
+void PageViewItem::insertRow(int index, QGraphicsWidget *row)
 {
     PageItem *insertPage = pageWithRowIndex(index);
     int firstIndexOfInsertPage = firstIndexOfPage(insertPage);
@@ -112,7 +112,7 @@ void PageViewItem::rowExceedsBoundsOfPage()
     nextPage = pageAt(nextPageIndex);
 
     while (page->remainingVerticalSpace() < 0) {
-        PageContentRowItem *lastRowOfPage = page->rowAt(page->rowCount() - 1);
+        QGraphicsWidget *lastRowOfPage = page->rowAt(page->rowCount() - 1);
         Q_ASSERT(lastRowOfPage);
 
         nextPage->prependRow(lastRowOfPage);
@@ -130,7 +130,7 @@ void PageViewItem::remainingVerticalSpaceHasChanged(int oldValue, int newValue)
             isPageItemLastPage(page))
         return;
 
-    PageContentRowItem *firstRowOfNextPage = nextPage->rowAt(0);
+    QGraphicsWidget *firstRowOfNextPage = nextPage->rowAt(0);
 
     while (firstRowOfNextPage &&
         page->remainingVerticalSpace() >= firstRowOfNextPage->preferredHeight()) {

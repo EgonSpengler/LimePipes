@@ -16,7 +16,6 @@
 #include "../itemtypes.h"
 
 class PageItem;
-class PageContentRowItem;
 class QGraphicsLinearLayout;
 
 class PageViewItem : public QGraphicsWidget,
@@ -35,12 +34,12 @@ public:
     int rowCount() const;
     int rowCountOfPage(int index) const;
 
-    void appendRow(PageContentRowItem *row);
-    void prependRow(PageContentRowItem *row);
-    void insertRow(int index, PageContentRowItem *row);
+    void appendRow(QGraphicsWidget *row);
+    void prependRow(QGraphicsWidget *row);
+    void insertRow(int index, QGraphicsWidget *row);
     void removeRow(int rowIndex);
 
-    PageContentRowItem *rowAt(int index) const;
+    QGraphicsWidget *rowAt(int index) const;
 
 private slots:
     void rowExceedsBoundsOfPage();

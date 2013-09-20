@@ -101,12 +101,12 @@ int PageItem::rowCount() const
     return m_layout->count();
 }
 
-PageContentRowItem *PageItem::rowAt(int index)
+QGraphicsWidget *PageItem::rowAt(int index)
 {
     if (!isValidRowIndex(index))
         return 0;
 
-    return qgraphicsitem_cast<PageContentRowItem *>(m_layout->itemAt(index)->graphicsItem());
+    return dynamic_cast<QGraphicsWidget *>(m_layout->itemAt(index)->graphicsItem());
 }
 
 void PageItem::removeRow(int index)
@@ -117,7 +117,7 @@ void PageItem::removeRow(int index)
     emit remainingVerticalSpaceChanged(verticalSpaceBefore, remainingVerticalSpace());
 }
 
-void PageItem::removeRow(PageContentRowItem *row)
+void PageItem::removeRow(QGraphicsWidget *row)
 {
     int verticalSpaceBefore = remainingVerticalSpace();
     m_layout->removeItem(row);
@@ -125,17 +125,17 @@ void PageItem::removeRow(PageContentRowItem *row)
     emit remainingVerticalSpaceChanged(verticalSpaceBefore, remainingVerticalSpace());
 }
 
-void PageItem::appendRow(PageContentRowItem *row)
+void PageItem::appendRow(QGraphicsWidget *row)
 {
     insertRow(m_layout->count(), row);
 }
 
-void PageItem::prependRow(PageContentRowItem *row)
+void PageItem::prependRow(QGraphicsWidget *row)
 {
     insertRow(0, row);
 }
 
-void PageItem::insertRow(int index, PageContentRowItem *row)
+void PageItem::insertRow(int index, QGraphicsWidget *row)
 {
     int spaceBefore = remainingVerticalSpace();
     m_layout->insertItem(index, row);

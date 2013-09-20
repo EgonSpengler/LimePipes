@@ -6,7 +6,7 @@
  * 
  */
 
-class PageContentRowItem;
+class QGraphicsWidget;
 
 class PageViewInterface {
 public:
@@ -14,12 +14,12 @@ public:
     virtual int rowCount() const = 0;
     virtual int rowCountOfPage(int index) const = 0;
 
-    virtual void appendRow(PageContentRowItem *row) = 0;
-    virtual void prependRow(PageContentRowItem *row) = 0;
-    virtual void insertRow(int index, PageContentRowItem *row) = 0;
+    virtual void appendRow(QGraphicsWidget *row) = 0;
+    virtual void prependRow(QGraphicsWidget *row) = 0;
+    virtual void insertRow(int index, QGraphicsWidget *row) = 0;
     virtual void removeRow(int rowIndex) = 0;
 
-    virtual PageContentRowItem *rowAt(int index) const = 0;
+    virtual QGraphicsWidget *rowAt(int index) const = 0;
 
 };
 

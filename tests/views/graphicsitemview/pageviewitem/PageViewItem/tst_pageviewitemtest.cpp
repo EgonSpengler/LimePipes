@@ -115,11 +115,11 @@ void PageViewItemTest::testRowAtMultipage()
     m_pageViewItem->appendRow(row2);
     m_pageViewItem->appendRow(row3);
 
-    PageContentRowItem *firstRowSecondPage = m_pageViewItem->rowAt(rowCountFirstPage);
+    QGraphicsWidget *firstRowSecondPage = m_pageViewItem->rowAt(rowCountFirstPage);
     QVERIFY2(firstRowSecondPage != 0, "Failed getting first row of second page. It's 0");
     QVERIFY2(firstRowSecondPage == row1, "First row of second page is not expected row");
 
-    PageContentRowItem *secondRowSecondPage = m_pageViewItem->rowAt(rowCountFirstPage + 1);
+    QGraphicsWidget *secondRowSecondPage = m_pageViewItem->rowAt(rowCountFirstPage + 1);
     QVERIFY2(secondRowSecondPage != 0, "Failed getting second row of second page. It's 0");
     QVERIFY2(secondRowSecondPage == row2, "Second row of second page is not expected row");
 }
@@ -145,7 +145,7 @@ void PageViewItemTest::testInsertRowMultipage()
     Q_ASSERT(rowCountOfFirstPage > 5);
 
     PageContentRowItem *insertRow = new PageContentRowItem();
-    PageContentRowItem *lastRow = m_pageViewItem->rowAt(m_pageViewItem->rowCount() - 1);
+    QGraphicsWidget *lastRow = m_pageViewItem->rowAt(m_pageViewItem->rowCount() - 1);
     m_pageViewItem->insertRow(5, insertRow);
 
     QVERIFY2(m_pageViewItem->rowAt(5) == insertRow, "Failed inserting row");
@@ -182,7 +182,7 @@ void PageViewItemTest::testRemoveRow()
     fillFirstPage();
     Q_ASSERT(m_pageViewItem->rowCount() > removeRowIndex + 1);
 
-    PageContentRowItem *rowAfterDeleteRow = m_pageViewItem->rowAt(removeRowIndex + 1);
+    QGraphicsWidget *rowAfterDeleteRow = m_pageViewItem->rowAt(removeRowIndex + 1);
 
     m_pageViewItem->removeRow(removeRowIndex);
 
