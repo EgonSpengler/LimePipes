@@ -13,6 +13,7 @@
 #include <views/graphicsitemview/visualmusicmodel/visualpart.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmeasure.h>
 #include <views/graphicsitemview/visualmusicmodel/visualsymbol.h>
+#include "../abstractscorepropertiesholder.h"
 #include "../graphicsscene.h"
 #include "visualrootitem.h"
 #include "visualmusicmodel.h"
@@ -145,16 +146,18 @@ QAbstractItemModel *VisualMusicModel::model() const
     return m_model;
 }
 
-//template <class T>
-//void VisualMusicModel::insertNewItemsIntoHash(const QModelIndex &index, int start, int end,
-//                                              QHash<QPersistentModelIndex, T*> &hash)
-//{
-//    if (!model()) return;
-//    for (int i=start; i<=end; i++) {
-//        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
-//        if (itemIndex.isValid()) {
-//            T *item = new T();
-//            hash.insert(itemIndex, item);
-//        }
-//    }
-//}
+AbstractScorePropertiesHolder *VisualMusicModel::scorePropertiesHolderFromIndex(const QModelIndex &scoreIndex)
+{
+    if (!m_visualScoreIndexes.contains(scoreIndex))
+        return 0;
+
+    return static_cast<AbstractScorePropertiesHolder*>(m_visualScoreIndexes.value(scoreIndex));
+}
+
+VisualScoreInterface *VisualMusicModel::visualScoreFromIndex(const QModelIndex &scoreIndex)
+{
+    if (!m_visualScoreIndexes.contains(scoreIndex))
+        return 0;
+
+    return static_cast<VisualScoreInterface*>(m_visualScoreIndexes.value(scoreIndex));
+}

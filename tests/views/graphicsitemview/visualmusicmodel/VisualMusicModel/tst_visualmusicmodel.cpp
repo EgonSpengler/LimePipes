@@ -11,6 +11,7 @@
 #include <QCoreApplication>
 #include <QStandardItemModel>
 #include <model/musicmodel.h>
+#include <graphicsitemview/visualmusicmodel/visualscore.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 #include "tst_visualmusicmodel.h"
 
@@ -99,6 +100,32 @@ void VisualMusicModelTest::testInsertSymbol()
     QVERIFY2(m_visualMusicModel->m_visualSymbolIndexes.count() == 1,
              "No visual symbol was inserted");
     QVERIFY2(spy.count() == 1, "Symbol inserted wasn't emitted");
+}
+
+void VisualMusicModelTest::testVisualScorePropertiesHolderFromIndex()
+{
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
+    AbstractScorePropertiesHolder *scorePropertiesHolder =
+            static_cast<AbstractScorePropertiesHolder*>(visualScore);
+
+    Q_ASSERT(scorePropertiesHolder);
+
+    QVERIFY2(scorePropertiesHolder ==
+             m_visualMusicModel->scorePropertiesHolderFromIndex(scoreIndex),
+             "score properties holder for index isn't the visual score");
+}
+
+void VisualMusicModelTest::testVisualScoreFromIndex()
+{
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
+
+    Q_ASSERT(visualScore);
+
+    QVERIFY2(visualScore ==
+             m_visualMusicModel->visualScoreFromIndex(scoreIndex),
+             "visual score for index isn't the visual score");
 }
 
 void VisualMusicModelTest::cleanup()

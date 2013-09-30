@@ -20,6 +20,8 @@ class VisualTune;
 class VisualPart;
 class VisualMeasure;
 class VisualSymbol;
+class AbstractScorePropertiesHolder;
+class VisualScoreInterface;
 
 class VisualMusicModel : public QObject,
                          public VisualMusicModelInterface
@@ -35,6 +37,9 @@ public:
     QGraphicsScene *scene();
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
+
+    AbstractScorePropertiesHolder *scorePropertiesHolderFromIndex(const QModelIndex& scoreIndex);
+    VisualScoreInterface *visualScoreFromIndex(const QModelIndex& scoreIndex);
 
 signals:
     void scoreInserted(const QModelIndex& scoreIndex);

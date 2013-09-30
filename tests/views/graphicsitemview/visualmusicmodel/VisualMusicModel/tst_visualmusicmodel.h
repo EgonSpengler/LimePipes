@@ -23,6 +23,8 @@ private Q_SLOTS:
     void testInsertPart();
     void testInsertMeasure();
     void testInsertSymbol();
+    void testVisualScorePropertiesHolderFromIndex();
+    void testVisualScoreFromIndex();
     void init();
     void cleanup();
 
