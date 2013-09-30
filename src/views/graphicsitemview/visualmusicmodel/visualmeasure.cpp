@@ -8,7 +8,8 @@
 
 #include "visualmeasure.h"
 
-VisualMeasure::VisualMeasure()
+VisualMeasure::VisualMeasure(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -18,21 +19,5 @@ AbstractVisualItem::Type VisualMeasure::type() const
 }
 
 void VisualMeasure::setDataFromIndex(const QPersistentModelIndex &index)
-{
-}
-
-void VisualMeasure::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualMeasure::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualMeasure::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualMeasure::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
 }

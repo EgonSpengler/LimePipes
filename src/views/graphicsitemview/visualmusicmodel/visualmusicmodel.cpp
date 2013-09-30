@@ -17,6 +17,7 @@
 #include "visualrootitem.h"
 #include "visualmusicmodel.h"
 
+
 VisualMusicModel::VisualMusicModel(QObject *parent)
     : QObject(parent),
       m_model(0),
@@ -40,22 +41,87 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     createRootItemIfNotPresent();
 
     if (!parent.isValid()) {
-        insertNewItemsIntoHash<VisualScore>(parent, start, end, m_visualScoreIndexes);
+        insertNewScores(parent, start, end);
     }
     MusicItem *item = static_cast<MusicItem*>(parent.internalPointer());
     if (!item) return;
 
     if (item->type() == MusicItem::ScoreType) {
-        insertNewItemsIntoHash<VisualTune>(parent, start, end, m_visualTuneIndexes);
+        insertNewTunes(parent, start, end);
     }
     if (item->type() == MusicItem::TuneType) {
-        insertNewItemsIntoHash<VisualPart>(parent, start, end, m_visualPartIndexes);
+        insertNewParts(parent, start, end);
     }
     if (item->type() == MusicItem::PartType) {
-        insertNewItemsIntoHash<VisualMeasure>(parent, start, end, m_visualMeasureIndexes);
+        insertNewMeasures(parent, start, end);
     }
     if (item->type() == MusicItem::MeasureType) {
-        insertNewItemsIntoHash<VisualSymbol>(parent, start, end, m_visualSymbolIndexes);
+        insertNewSymbols(parent, start, end);
+    }
+}
+
+void VisualMusicModel::insertNewScores(const QModelIndex &index, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        if (itemIndex.isValid()) {
+            VisualScore *score = new VisualScore(this);
+            m_visualScoreIndexes.insert(itemIndex, score);
+            emit scoreInserted(itemIndex);
+        }
+    }
+}
+
+void VisualMusicModel::insertNewTunes(const QModelIndex &index, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        if (itemIndex.isValid()) {
+            VisualTune *tune = new VisualTune(this);
+            m_visualTuneIndexes.insert(itemIndex, tune);
+            emit tuneInserted(itemIndex);
+        }
+    }
+}
+
+void VisualMusicModel::insertNewParts(const QModelIndex &index, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        if (itemIndex.isValid()) {
+            VisualPart *part = new VisualPart(this);
+            m_visualPartIndexes.insert(itemIndex, part);
+            emit partInserted(itemIndex);
+        }
+    }
+}
+
+void VisualMusicModel::insertNewMeasures(const QModelIndex &index, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        if (itemIndex.isValid()) {
+            VisualMeasure *measure = new VisualMeasure(this);
+            m_visualMeasureIndexes.insert(itemIndex, measure);
+            emit measureInserted(itemIndex);
+        }
+    }
+}
+
+void VisualMusicModel::insertNewSymbols(const QModelIndex &index, int start, int end)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        if (itemIndex.isValid()) {
+            VisualSymbol *symbol = new VisualSymbol(this);
+            m_visualSymbolIndexes.insert(itemIndex, symbol);
+            emit symbolInserted(itemIndex);
+        }
     }
 }
 
@@ -79,16 +145,16 @@ QAbstractItemModel *VisualMusicModel::model() const
     return m_model;
 }
 
-template <class T>
-void VisualMusicModel::insertNewItemsIntoHash(const QModelIndex &index, int start, int end,
-                                              QHash<QPersistentModelIndex, AbstractVisualItem *> &hash)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
-        if (itemIndex.isValid()) {
-            T *item = new T();
-            hash.insert(itemIndex, item);
-        }
-    }
-}
+//template <class T>
+//void VisualMusicModel::insertNewItemsIntoHash(const QModelIndex &index, int start, int end,
+//                                              QHash<QPersistentModelIndex, T*> &hash)
+//{
+//    if (!model()) return;
+//    for (int i=start; i<=end; i++) {
+//        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+//        if (itemIndex.isValid()) {
+//            T *item = new T();
+//            hash.insert(itemIndex, item);
+//        }
+//    }
+//}

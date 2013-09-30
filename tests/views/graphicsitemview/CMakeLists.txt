@@ -161,7 +161,7 @@ add_test( NAME VisualSymbolTest COMMAND VisualSymbolTest )
 # InteractingGraphicsItem
 set( InteractingGraphicsItem_TEST_SOURCES
         interactinggraphicsitem/InteractingGraphicsItem/tst_interactinggraphicsitemtest.cpp
-        interactinggraphicsitem/InteractingGraphicsItem/visualitemdummy.cpp
+        interactinggraphicsitem/InteractingGraphicsItem/interactingitemdummy.cpp
         )
 
 add_executable( InteractingGraphicsItemTest ${GraphicsItemView_SOURCES}
@@ -171,10 +171,21 @@ add_test( NAME InteractingGraphicsItemTest COMMAND InteractingGraphicsItemTest )
 
 # ScorePropertiesItem
 set( ScorePropertiesItem_TEST_SOURCES
-        interactinggraphicsitem/ScorePropertiesItem/tst_scorepropertiesitemtest.cpp
+        ScorePropertiesItem/tst_scorepropertiesitemtest.cpp
         )
 
 add_executable( ScorePropertiesItemTest ${GraphicsItemView_SOURCES}
     ${ScorePropertiesItem_TEST_SOURCES})
 target_link_libraries( ScorePropertiesItemTest ${TEST_LIBRARIES} )
 add_test( NAME ScorePropertiesItemTest COMMAND ScorePropertiesItemTest )
+
+# AbstractScorePropertiesHolder
+set( AbstractScorePropertiesHolder_TEST_SOURCES
+        AbstractScorePropertiesHolder/tst_abstractscorepropertiesholdertest.cpp
+        AbstractScorePropertiesHolder/scorepropertiesholderdummy.cpp
+        )
+
+add_executable( AbstractScorePropertiesHolder ${GraphicsItemView_SOURCES}
+    ${AbstractScorePropertiesHolder_TEST_SOURCES})
+target_link_libraries( AbstractScorePropertiesHolder ${TEST_LIBRARIES} )
+add_test( NAME AbstractScorePropertiesHolder COMMAND AbstractScorePropertiesHolder )

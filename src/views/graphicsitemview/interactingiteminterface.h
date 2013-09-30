@@ -6,16 +6,16 @@
  *
  */
 
-#ifndef VISUALITEMINTERFACE_H
-#define VISUALITEMINTERFACE_H
+#ifndef INTERACTINGITEMINTERFACE_H
+#define INTERACTINGITEMINTERFACE_H
 
 class QGraphicsSceneMouseEvent;
 
-class VisualItemInterface
+class InteractingItemInterface
 {
 public:
-    explicit VisualItemInterface() {}
-    virtual ~VisualItemInterface() {}
+    explicit InteractingItemInterface() {}
+    virtual ~InteractingItemInterface() {}
 
     virtual void mousePressEvent(QGraphicsSceneMouseEvent *event) = 0;
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) = 0;
@@ -23,4 +23,4 @@ public:
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) = 0;
 };
 
-#endif // VISUALITEMINTERFACE_H
+#endif // INTERACTINGITEMINTERFACE_H

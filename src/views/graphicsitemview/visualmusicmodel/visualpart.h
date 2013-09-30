@@ -9,20 +9,17 @@
 #ifndef VISUALPART_H
 #define VISUALPART_H
 
+#include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualPart : public AbstractVisualItem
+class VisualPart : public QObject,
+                   public AbstractVisualItem
 {
 public:
-    explicit VisualPart();
+    explicit VisualPart(QObject *parent = 0);
 
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
-
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // VISUALPART_H

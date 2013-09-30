@@ -5,11 +5,12 @@
  * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
  *
  */
+
 #ifndef INTERACTINGGRAPHICSITEM_H
 #define INTERACTINGGRAPHICSITEM_H
 
 #include <QGraphicsWidget>
-#include "../visualiteminterface.h"
+#include "../interactingiteminterface.h"
 
 class InteractingGraphicsItem : public QGraphicsWidget
 {
@@ -18,8 +19,8 @@ class InteractingGraphicsItem : public QGraphicsWidget
 public:
     explicit InteractingGraphicsItem(QGraphicsItem *parent = 0);
 
-    VisualItemInterface *visualItem() const;
-    void setVisualItem(VisualItemInterface *visualItem);
+    InteractingItemInterface *interactingItem() const;
+    void setInteractingItem(InteractingItemInterface *interactingItem);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -28,7 +29,7 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
 private:
-    VisualItemInterface *m_visualItem;
+    InteractingItemInterface *m_visualItem;
 };
 
 #endif // INTERACTINGGRAPHICSITEM_H

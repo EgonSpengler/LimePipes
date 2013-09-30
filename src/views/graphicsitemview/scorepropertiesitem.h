@@ -9,15 +9,14 @@
 #ifndef SCOREPROPERTIESITEM_H
 #define SCOREPROPERTIESITEM_H
 
-#include "../scorepropertiesinterface.h"
-#include "interactinggraphicsitem.h"
+#include <QString>
+#include "scorepropertiesinterface.h"
 
-class ScorePropertiesItem : public ScorePropertiesInterface,
-                            public InteractingGraphicsItem
+class ScorePropertiesItem : public ScorePropertiesInterface
 {
 public:
     explicit ScorePropertiesItem();
-    virtual ~ScorePropertiesItem() {}
+    ~ScorePropertiesItem() {}
 
     // ScorePropertiesInterface interface
 public:

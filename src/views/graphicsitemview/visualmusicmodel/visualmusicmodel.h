@@ -15,6 +15,11 @@
 
 class GraphicsScene;
 class VisualRootItem;
+class VisualScore;
+class VisualTune;
+class VisualPart;
+class VisualMeasure;
+class VisualSymbol;
 
 class VisualMusicModel : public QObject,
                          public VisualMusicModelInterface
@@ -31,22 +36,31 @@ public:
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
 
+signals:
+    void scoreInserted(const QModelIndex& scoreIndex);
+    void tuneInserted(const QModelIndex& tuneIndex);
+    void partInserted(const QModelIndex& partIndex);
+    void measureInserted(const QModelIndex& measureIndex);
+    void symbolInserted(const QModelIndex& symbolIndex);
+
 private slots:
     void rowsInserted(const QModelIndex &parent, int start, int end);
 
 private:
     void createRootItemIfNotPresent();
-    template <class T>
-    void insertNewItemsIntoHash(const QModelIndex& index, int start, int end,
-                                QHash<QPersistentModelIndex, AbstractVisualItem*>& hash);
+    void insertNewScores(const QModelIndex& index, int start, int end);
+    void insertNewTunes(const QModelIndex& index, int start, int end);
+    void insertNewParts(const QModelIndex& index, int start, int end);
+    void insertNewMeasures(const QModelIndex& index, int start, int end);
+    void insertNewSymbols(const QModelIndex& index, int start, int end);
     QAbstractItemModel *m_model;
     GraphicsScene *m_scene;
     VisualRootItem *m_rootItem;
-    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualScoreIndexes;
-    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualTuneIndexes;
-    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualPartIndexes;
-    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualMeasureIndexes;
-    QHash<QPersistentModelIndex, AbstractVisualItem*> m_visualSymbolIndexes;
+    QHash<QPersistentModelIndex, VisualScore*> m_visualScoreIndexes;
+    QHash<QPersistentModelIndex, VisualTune*> m_visualTuneIndexes;
+    QHash<QPersistentModelIndex, VisualPart*> m_visualPartIndexes;
+    QHash<QPersistentModelIndex, VisualMeasure*> m_visualMeasureIndexes;
+    QHash<QPersistentModelIndex, VisualSymbol*> m_visualSymbolIndexes;
 };
 
 #endif // VISUALMUSICMODEL_H_7R3SY07L

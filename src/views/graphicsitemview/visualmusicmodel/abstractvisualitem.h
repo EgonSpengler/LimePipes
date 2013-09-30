@@ -10,9 +10,8 @@
 #define ABSTRACTVISUALITEM_H
 
 #include <QPersistentModelIndex>
-#include "../visualiteminterface.h"
 
-class AbstractVisualItem : public VisualItemInterface
+class AbstractVisualItem
 {
 public:
     enum Type {
@@ -24,11 +23,12 @@ public:
         VisualSymbolItem
     };
 
-    virtual Type type() const = 0;
-    virtual void setDataFromIndex(const QPersistentModelIndex& index) = 0;
-
     explicit AbstractVisualItem();
     virtual ~AbstractVisualItem() {}
+
+    virtual Type type() const = 0;
+
+    virtual void setDataFromIndex(const QPersistentModelIndex& index) = 0;
 
     void insertItem(int row, AbstractVisualItem *item);
     int childItemCount();

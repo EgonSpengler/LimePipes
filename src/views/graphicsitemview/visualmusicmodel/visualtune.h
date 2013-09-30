@@ -9,20 +9,17 @@
 #ifndef VISUALTUNE_H
 #define VISUALTUNE_H
 
+#include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualTune : public AbstractVisualItem
+class VisualTune : public QObject,
+                       public AbstractVisualItem
 {
 public:
-    explicit VisualTune();
+    explicit VisualTune(QObject *parent = 0);
 
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
-
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // VISUALTUNE_H

@@ -7,6 +7,7 @@
  */
 
 #include <QtTest/QtTest>
+#include <QtTest/QSignalSpy>
 #include <QCoreApplication>
 #include <QStandardItemModel>
 #include <model/musicmodel.h>
@@ -15,11 +16,10 @@
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
-#include <QDebug>
-
 VisualMusicModelTest::VisualMusicModelTest(QObject *parent)
     : QObject(parent)
 {
+    qRegisterMetaType<QModelIndex>("QModelIndex");
 }
 
 void VisualMusicModelTest::testSetModel()
@@ -31,15 +31,18 @@ void VisualMusicModelTest::testSetModel()
 
 void VisualMusicModelTest::testInsertScore()
 {
+    QSignalSpy spy(m_visualMusicModel, SIGNAL(scoreInserted(QModelIndex)));
     m_musicModel->insertScore(0, "Testscore");
 
     QVERIFY2(m_visualMusicModel->m_rootItem != 0, "Root item is still 0 after insert of score");
     QVERIFY2(m_visualMusicModel->m_visualScoreIndexes.count() == 1,
              "No visual score was inserted");
+    QVERIFY2(spy.count() == 1, "Score inserted signal wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertTune()
 {
+    QSignalSpy spy(m_visualMusicModel, SIGNAL(tuneInserted(QModelIndex)));
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
@@ -47,10 +50,12 @@ void VisualMusicModelTest::testInsertTune()
 
     QVERIFY2(m_visualMusicModel->m_visualTuneIndexes.count() == 1,
              "No visual tune was inserted");
+    QVERIFY2(spy.count() == 1, "Tune inserted signal wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertPart()
 {
+    QSignalSpy spy(m_visualMusicModel, SIGNAL(partInserted(QModelIndex)));
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
@@ -59,10 +64,12 @@ void VisualMusicModelTest::testInsertPart()
 
     QVERIFY2(m_visualMusicModel->m_visualPartIndexes.count() == 1,
              "No visual part was inserted");
+    QVERIFY2(spy.count() == 1, "Part inserted signal wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertMeasure()
 {
+    QSignalSpy spy(m_visualMusicModel, SIGNAL(measureInserted(QModelIndex)));
     int measureCount = 8;
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
@@ -72,10 +79,12 @@ void VisualMusicModelTest::testInsertMeasure()
 
     QVERIFY2(m_visualMusicModel->m_visualMeasureIndexes.count() == measureCount,
              "Not the correct visual measure count was inserted");
+    QVERIFY2(spy.count() == measureCount, "Measure inserted wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertSymbol()
 {
+    QSignalSpy spy(m_visualMusicModel, SIGNAL(symbolInserted(QModelIndex)));
     Q_ASSERT(m_musicModel->instrumentNames().count());
     QString instrumentName = m_musicModel->instrumentNames().at(0);
     Q_ASSERT(m_musicModel->symbolNamesForInstrument(instrumentName).count());
@@ -89,6 +98,7 @@ void VisualMusicModelTest::testInsertSymbol()
 
     QVERIFY2(m_visualMusicModel->m_visualSymbolIndexes.count() == 1,
              "No visual symbol was inserted");
+    QVERIFY2(spy.count() == 1, "Symbol inserted wasn't emitted");
 }
 
 void VisualMusicModelTest::cleanup()

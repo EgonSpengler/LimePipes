@@ -8,10 +8,11 @@
 
 #include "visualscore.h"
 
-VisualScore::VisualScore()
+VisualScore::VisualScore(QObject *parent)
+    : AbstractScorePropertiesHolder(parent),
+      m_graphicalScore(0)
 {
 }
-
 
 AbstractVisualItem::Type VisualScore::type() const
 {
@@ -22,18 +23,37 @@ void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
 {
 }
 
-void VisualScore::mousePressEvent(QGraphicsSceneMouseEvent *event)
+
+void VisualScore::setNewTitle(const QString &title)
 {
 }
 
-void VisualScore::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void VisualScore::setNewComposer(const QString &composer)
 {
 }
 
-void VisualScore::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void VisualScore::setNewArranger(const QString &arranger)
 {
 }
 
-void VisualScore::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void VisualScore::setNewYear(const QString &year)
 {
+}
+
+void VisualScore::setNewCopyright(const QString &copyright)
+{
+}
+
+void VisualScore::setNewTimeSignature(const TimeSignature &timeSig)
+{
+}
+
+GraphicalScoreInterface *VisualScore::graphicalScore() const
+{
+    return m_graphicalScore;
+}
+
+void VisualScore::setGraphicalScore(GraphicalScoreInterface *graphicalScore)
+{
+    m_graphicalScore = graphicalScore;
 }

@@ -8,7 +8,8 @@
 
 #include "visualpart.h"
 
-VisualPart::VisualPart()
+VisualPart::VisualPart(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -18,21 +19,5 @@ AbstractVisualItem::Type VisualPart::type() const
 }
 
 void VisualPart::setDataFromIndex(const QPersistentModelIndex &index)
-{
-}
-
-void VisualPart::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualPart::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualPart::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualPart::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
 }

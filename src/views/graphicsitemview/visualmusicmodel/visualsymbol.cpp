@@ -8,10 +8,10 @@
 
 #include "visualsymbol.h"
 
-VisualSymbol::VisualSymbol()
+VisualSymbol::VisualSymbol(QObject *parent)
+    : QObject(parent)
 {
 }
-
 
 AbstractVisualItem::Type VisualSymbol::type() const
 {
@@ -19,21 +19,5 @@ AbstractVisualItem::Type VisualSymbol::type() const
 }
 
 void VisualSymbol::setDataFromIndex(const QPersistentModelIndex &index)
-{
-}
-
-void VisualSymbol::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualSymbol::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualSymbol::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualSymbol::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
 }

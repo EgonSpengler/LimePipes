@@ -14,12 +14,12 @@ InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)
 {
 }
 
-VisualItemInterface *InteractingGraphicsItem::visualItem() const
+InteractingItemInterface *InteractingGraphicsItem::interactingItem() const
 {
     return m_visualItem;
 }
 
-void InteractingGraphicsItem::setVisualItem(VisualItemInterface *visualItem)
+void InteractingGraphicsItem::setInteractingItem(InteractingItemInterface *visualItem)
 {
     m_visualItem = visualItem;
 }

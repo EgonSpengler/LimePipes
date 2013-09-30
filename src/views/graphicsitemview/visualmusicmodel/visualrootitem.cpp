@@ -21,19 +21,3 @@ AbstractVisualItem::Type VisualRootItem::type() const
 void VisualRootItem::setDataFromIndex(const QPersistentModelIndex &index)
 {
 }
-
-void VisualRootItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualRootItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualRootItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualRootItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
-{
-}

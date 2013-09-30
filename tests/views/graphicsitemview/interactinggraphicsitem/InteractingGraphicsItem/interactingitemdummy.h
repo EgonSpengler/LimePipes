@@ -1,15 +1,23 @@
-#ifndef VISUALITEMDUMMY_H
-#define VISUALITEMDUMMY_H
+/**
+ * @author Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
+ *
+ */
+
+#ifndef INTERACTINGITEMDUMMY_H
+#define INTERACTINGITEMDUMMY_H
 
 #include <QObject>
-#include <views/graphicsitemview/visualiteminterface.h>
+#include <views/graphicsitemview/interactingiteminterface.h>
 
-class VisualItemDummy : public QObject,
-                        public VisualItemInterface
+class InteractingItemDummy : public QObject,
+                             public InteractingItemInterface
 {
     Q_OBJECT
 public:
-    explicit VisualItemDummy(QObject *parent = 0);
+    explicit InteractingItemDummy(QObject *parent = 0);
 
 signals:
     void mousePressEventTriggered();
@@ -40,4 +48,4 @@ public:
     }
 };
 
-#endif // VISUALITEMDUMMY_H
+#endif // INTERACTINGITEMDUMMY_H

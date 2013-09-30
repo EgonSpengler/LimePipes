@@ -42,7 +42,8 @@ set( limepipes_SOURCES
         views/graphicsitemview/visualmusicmodel/visualsymbol.cpp
 
         views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.cpp
-        views/graphicsitemview/interactinggraphicsitems/scorepropertiesitem.cpp
+        views/graphicsitemview/scorepropertiesitem.cpp
+        views/graphicsitemview/abstractscorepropertiesholder.cpp
         )
 
 set( limepipes_MOC_HEADERS
@@ -60,6 +61,7 @@ set( limepipes_MOC_HEADERS
         views/graphicsitemview/graphicsview.h
         views/graphicsitemview/graphicsscene.h
         views/graphicsitemview/graphicsitemview.h
+        views/graphicsitemview/abstractscorepropertiesholder.h
         views/graphicsitemview/pageviewitem/pageitem.h
         views/graphicsitemview/pageviewitem/pageviewitem.h
 

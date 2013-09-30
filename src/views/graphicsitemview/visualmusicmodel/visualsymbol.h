@@ -9,20 +9,17 @@
 #ifndef VISUALSYMBOL_H
 #define VISUALSYMBOL_H
 
+#include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualSymbol : public AbstractVisualItem
+class VisualSymbol : public QObject,
+                     public AbstractVisualItem
 {
 public:
-    explicit VisualSymbol();
+    explicit VisualSymbol(QObject *parent = 0);
 
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
-
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // VISUALSYMBOL_H

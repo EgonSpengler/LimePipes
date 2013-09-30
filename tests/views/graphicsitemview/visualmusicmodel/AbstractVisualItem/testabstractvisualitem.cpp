@@ -1,9 +1,16 @@
+/**
+ * @author  Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
+ *
+ */
+
 #include "testabstractvisualitem.h"
 
 TestAbstractVisualItem::TestAbstractVisualItem()
 {
 }
-
 
 AbstractVisualItem::Type TestAbstractVisualItem::type() const
 {
@@ -11,21 +18,5 @@ AbstractVisualItem::Type TestAbstractVisualItem::type() const
 }
 
 void TestAbstractVisualItem::setDataFromIndex(const QPersistentModelIndex &index)
-{
-}
-
-void TestAbstractVisualItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void TestAbstractVisualItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void TestAbstractVisualItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void TestAbstractVisualItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
 }

@@ -9,20 +9,17 @@
 #ifndef VISUALMEASURE_H
 #define VISUALMEASURE_H
 
+#include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualMeasure : public AbstractVisualItem
+class VisualMeasure : public QObject,
+                      public AbstractVisualItem
 {
 public:
-    explicit VisualMeasure();
+    explicit VisualMeasure(QObject *parent = 0);
 
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
-
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // VISUALMEASURE_H

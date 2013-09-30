@@ -13,7 +13,7 @@
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
 #include <views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.h>
-#include "visualitemdummy.h"
+#include "interactingitemdummy.h"
 
 class InteractingGraphicsItemTest : public QObject
 {
@@ -25,7 +25,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testSetGetVisualItemInterface();
+    void testSetGetInteractingItemInterface();
     void testMousePressEvent();
     void testMouseMoveEvent();
     void testMouseReleseEvent();
@@ -33,40 +33,40 @@ private Q_SLOTS:
 
 private:
     InteractingGraphicsItem *m_interactingGraphicsItem;
-    VisualItemDummy *m_visualItemDummy;
+    InteractingItemDummy *m_interactingItemDummy;
 };
 
 InteractingGraphicsItemTest::InteractingGraphicsItemTest()
     : m_interactingGraphicsItem(0),
-      m_visualItemDummy(0)
+      m_interactingItemDummy(0)
 {
 }
 
 void InteractingGraphicsItemTest::init()
 {
-    m_visualItemDummy = new VisualItemDummy();
+    m_interactingItemDummy = new InteractingItemDummy();
     m_interactingGraphicsItem = new InteractingGraphicsItem();
-    m_interactingGraphicsItem->setVisualItem(m_visualItemDummy);
+    m_interactingGraphicsItem->setInteractingItem(m_interactingItemDummy);
 }
 
 void InteractingGraphicsItemTest::cleanup()
 {
     delete m_interactingGraphicsItem;
-    delete m_visualItemDummy;
+    delete m_interactingItemDummy;
 }
 
-void InteractingGraphicsItemTest::testSetGetVisualItemInterface()
+void InteractingGraphicsItemTest::testSetGetInteractingItemInterface()
 {
-    VisualItemInterface *visualItem = new VisualItemDummy();
-    m_interactingGraphicsItem->setVisualItem(visualItem);
+    InteractingItemInterface *visualItem = new InteractingItemDummy();
+    m_interactingGraphicsItem->setInteractingItem(visualItem);
 
-    QVERIFY2(m_interactingGraphicsItem->visualItem() == visualItem,
+    QVERIFY2(m_interactingGraphicsItem->interactingItem() == visualItem,
              "Can't get visual item back from interacting item");
 }
 
 void InteractingGraphicsItemTest::testMousePressEvent()
 {
-    QSignalSpy spy(m_visualItemDummy, SIGNAL(mousePressEventTriggered()));
+    QSignalSpy spy(m_interactingItemDummy, SIGNAL(mousePressEventTriggered()));
 
     QGraphicsSceneMouseEvent *mouseEvent = new QGraphicsSceneMouseEvent();
     m_interactingGraphicsItem->mousePressEvent(mouseEvent);
@@ -78,7 +78,7 @@ void InteractingGraphicsItemTest::testMousePressEvent()
 
 void InteractingGraphicsItemTest::testMouseMoveEvent()
 {
-    QSignalSpy spy(m_visualItemDummy, SIGNAL(mouseMoveEventTriggered()));
+    QSignalSpy spy(m_interactingItemDummy, SIGNAL(mouseMoveEventTriggered()));
 
     QGraphicsSceneMouseEvent *mouseEvent = new QGraphicsSceneMouseEvent();
     m_interactingGraphicsItem->mouseMoveEvent(mouseEvent);
@@ -90,7 +90,7 @@ void InteractingGraphicsItemTest::testMouseMoveEvent()
 
 void InteractingGraphicsItemTest::testMouseReleseEvent()
 {
-    QSignalSpy spy(m_visualItemDummy, SIGNAL(mouseReleaseEventTriggered()));
+    QSignalSpy spy(m_interactingItemDummy, SIGNAL(mouseReleaseEventTriggered()));
 
     QGraphicsSceneMouseEvent *mouseEvent = new QGraphicsSceneMouseEvent();
     m_interactingGraphicsItem->mouseReleaseEvent(mouseEvent);
@@ -102,7 +102,7 @@ void InteractingGraphicsItemTest::testMouseReleseEvent()
 
 void InteractingGraphicsItemTest::testMouseDoubleClickEvent()
 {
-    QSignalSpy spy(m_visualItemDummy, SIGNAL(mouseDoubleClickEventTriggered()));
+    QSignalSpy spy(m_interactingItemDummy, SIGNAL(mouseDoubleClickEventTriggered()));
 
     QGraphicsSceneMouseEvent *mouseEvent = new QGraphicsSceneMouseEvent();
     m_interactingGraphicsItem->mouseDoubleClickEvent(mouseEvent);

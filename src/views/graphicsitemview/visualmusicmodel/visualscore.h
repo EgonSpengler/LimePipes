@@ -9,19 +9,35 @@
 #ifndef VISUALSCORE_H
 #define VISUALSCORE_H
 
+#include "../abstractscorepropertiesholder.h"
+#include "../visualscoreinterface.h"
 #include "abstractvisualitem.h"
 
-class VisualScore : public AbstractVisualItem
+class VisualScore : public VisualScoreInterface,
+                    public AbstractVisualItem,
+                    public AbstractScorePropertiesHolder
 {
 public:
-    explicit VisualScore();
+    explicit VisualScore(QObject *parent = 0);
 
+    // AbstractVisualItem interface
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+
+    // VisualScoreInterface interface
+    GraphicalScoreInterface *graphicalScore() const;
+    void setGraphicalScore(GraphicalScoreInterface *graphicalScore);
+
+    // AbstractScorePropertiesHolder interface
+    void setNewTitle(const QString &title);
+    void setNewComposer(const QString &composer);
+    void setNewArranger(const QString &arranger);
+    void setNewYear(const QString &year);
+    void setNewCopyright(const QString &copyright);
+    void setNewTimeSignature(const TimeSignature &timeSig);
+
+private:
+    GraphicalScoreInterface *m_graphicalScore;
 };
 
 #endif // VISUALSCORE_H

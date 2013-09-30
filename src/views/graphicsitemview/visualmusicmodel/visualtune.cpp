@@ -8,7 +8,8 @@
 
 #include "visualtune.h"
 
-VisualTune::VisualTune()
+VisualTune::VisualTune(QObject *parent)
+    : QObject(parent)
 {
 }
 
@@ -18,21 +19,5 @@ AbstractVisualItem::Type VisualTune::type() const
 }
 
 void VisualTune::setDataFromIndex(const QPersistentModelIndex &index)
-{
-}
-
-void VisualTune::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualTune::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualTune::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-}
-
-void VisualTune::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
 }
