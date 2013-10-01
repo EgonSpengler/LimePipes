@@ -147,3 +147,8 @@ void TimeSignature::readFromXmlStream(QXmlStreamReader *reader)
         setSignature(beatCount, beatUnit);
     }
 }
+
+bool TimeSignature::operator ==(const TimeSignature &other)
+{
+    return m_type == other.m_type;
+}

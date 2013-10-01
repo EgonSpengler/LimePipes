@@ -40,12 +40,15 @@ public:
     int beatUnit() const;
 
     void setSignature(Type type) { m_type = type; }
+
     void setSignature(int beatCount, int beatUnit);
     Type signature() const { return m_type; }
 
     void writeToXmlStream(QXmlStreamWriter *writer);
     void readFromXmlStream(QXmlStreamReader *reader);
     static QString xmlTagName() { return s_xmlTagName; }
+
+    bool operator ==(const TimeSignature& other);
 
 private:
     static QString s_xmlTagName;

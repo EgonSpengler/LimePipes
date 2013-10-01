@@ -44,12 +44,14 @@ void AbstractScorePropertiesHolderTest::cleanup()
 
 void AbstractScorePropertiesHolderTest::testSetGetScoreProperties()
 {
-    ScorePropertiesInterface *scoreProperties = new ScorePropertiesItem();
+    ScorePropertiesInterface *scoreProperties = new ScorePropertiesItem(this);
     m_scorePropertiesHolder->setScoreProperties(scoreProperties);
     QVERIFY2(scoreProperties == m_scorePropertiesHolder->scoreProperties(),
              "Can't get the same score properties back");
 
     QVERIFY2(true, "Failure");
+
+    delete scoreProperties;
 }
 
 QTEST_APPLESS_MAIN(AbstractScorePropertiesHolderTest)

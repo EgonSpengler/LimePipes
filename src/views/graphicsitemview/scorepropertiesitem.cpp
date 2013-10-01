@@ -8,8 +8,10 @@
 
 #include "scorepropertiesitem.h"
 
-ScorePropertiesItem::ScorePropertiesItem()
+ScorePropertiesItem::ScorePropertiesItem(QObject *parent)
+    : QObject(parent)
 {
+    qRegisterMetaType<TimeSignature>("TimeSignature");
 }
 
 
@@ -20,7 +22,10 @@ QString ScorePropertiesItem::title() const
 
 void ScorePropertiesItem::setTitle(const QString &title)
 {
+    if (m_title == title) return;
+
     m_title = title;
+    emit titleChanged(title);
 }
 
 QString ScorePropertiesItem::composer() const
@@ -30,5 +35,61 @@ QString ScorePropertiesItem::composer() const
 
 void ScorePropertiesItem::setComposer(const QString &composer)
 {
+    if (m_composer == composer) return;
+
     m_composer = composer;
+    emit composerChanged(composer);
+}
+
+
+QString ScorePropertiesItem::arranger() const
+{
+    return m_arranger;
+}
+
+void ScorePropertiesItem::setArranger(const QString &arranger)
+{
+    if (m_arranger == arranger) return;
+
+    m_arranger = arranger;
+    emit arrangerChanged(arranger);
+}
+
+QString ScorePropertiesItem::year() const
+{
+    return m_year;
+}
+
+void ScorePropertiesItem::setYear(const QString &year)
+{
+    if (m_year == year) return;
+
+    m_year = year;
+    emit yearChanged(year);
+}
+
+QString ScorePropertiesItem::copyright() const
+{
+    return m_copyright;
+}
+
+void ScorePropertiesItem::setCopyright(const QString &copyright)
+{
+    if (m_copyright == copyright) return;
+
+    m_copyright = copyright;
+    emit copyrightChanged(copyright);
+}
+
+TimeSignature ScorePropertiesItem::timeSignature() const
+{
+    return m_timeSignature;
+}
+
+void ScorePropertiesItem::setTimeSignature(const TimeSignature &timeSig)
+{
+    if (m_timeSignature == timeSig) return;
+
+    m_timeSignature = timeSig;
+    emit timeSignatureChanged(timeSig);
 }

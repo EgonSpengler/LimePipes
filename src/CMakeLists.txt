@@ -61,6 +61,7 @@ set( limepipes_MOC_HEADERS
         views/graphicsitemview/graphicsview.h
         views/graphicsitemview/graphicsscene.h
         views/graphicsitemview/graphicsitemview.h
+        views/graphicsitemview/scorepropertiesitem.h
         views/graphicsitemview/abstractscorepropertiesholder.h
         views/graphicsitemview/pageviewitem/pageitem.h
         views/graphicsitemview/pageviewitem/pageviewitem.h
