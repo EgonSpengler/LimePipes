@@ -169,6 +169,26 @@ add_executable( InteractingGraphicsItemTest ${GraphicsItemView_SOURCES}
 target_link_libraries( InteractingGraphicsItemTest ${TEST_LIBRARIES} )
 add_test( NAME InteractingGraphicsItemTest COMMAND InteractingGraphicsItemTest )
 
+# InteractingScore
+set( InteractingScore_TEST_SOURCES
+        interactinggraphicsitem/InteractingScore/tst_interactingscoretest.cpp
+        )
+
+add_executable( InteractingScoreTest ${GraphicsItemView_SOURCES}
+    ${InteractingScore_TEST_SOURCES})
+target_link_libraries( InteractingScoreTest ${TEST_LIBRARIES} )
+add_test( NAME InteractingScoreTest COMMAND InteractingScoreTest )
+
+# GraphicalScoreItem
+set( GraphicalScoreItem_TEST_SOURCES
+        interactinggraphicsitem/GraphicalScoreItem/tst_graphicalscoreitemtest.cpp
+        )
+
+add_executable( GraphicalScoreItemTest ${GraphicsItemView_SOURCES}
+    ${GraphicalScoreItem_TEST_SOURCES})
+target_link_libraries( GraphicalScoreItemTest ${TEST_LIBRARIES} )
+add_test( NAME GraphicalScoreItemTest COMMAND GraphicalScoreItemTest )
+
 # ScorePropertiesItem
 set( ScorePropertiesItem_TEST_SOURCES
         ScorePropertiesItem/tst_scorepropertiesitemtest.cpp

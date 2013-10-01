@@ -18,6 +18,7 @@ class InteractingGraphicsItem : public QGraphicsWidget
 
 public:
     explicit InteractingGraphicsItem(QGraphicsItem *parent = 0);
+    virtual ~InteractingGraphicsItem() {}
 
     InteractingItemInterface *interactingItem() const;
     void setInteractingItem(InteractingItemInterface *interactingItem);

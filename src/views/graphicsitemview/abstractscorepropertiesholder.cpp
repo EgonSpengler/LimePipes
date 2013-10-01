@@ -9,7 +9,8 @@
 #include "abstractscorepropertiesholder.h"
 
 AbstractScorePropertiesHolder::AbstractScorePropertiesHolder(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_scoreProperties(0)
 {
 }
 
