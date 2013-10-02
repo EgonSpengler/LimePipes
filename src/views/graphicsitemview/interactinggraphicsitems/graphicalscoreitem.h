@@ -9,12 +9,21 @@
 #ifndef GRAPHICALSCOREITEM_H
 #define GRAPHICALSCOREITEM_H
 
+#include <QGraphicsTextItem>
 #include "interactinggraphicsitem.h"
 
 class GraphicalScoreItem : public InteractingGraphicsItem
 {
+    friend class GraphicalScoreItemTest;
+
 public:
     explicit GraphicalScoreItem();
+
+    void setTitle(const QString& title);
+    QString title() const;
+
+private:
+    QGraphicsTextItem *m_titleItem;
 };
 
 #endif // GRAPHICALSCOREITEM_H

@@ -20,7 +20,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testCase1();
+    void testSetTitle();
 
 private:
     GraphicalScoreItem *m_scoreItem;
@@ -40,11 +40,19 @@ void GraphicalScoreItemTest::cleanup()
     delete m_scoreItem;
 }
 
-void GraphicalScoreItemTest::testCase1()
+void GraphicalScoreItemTest::testSetTitle()
 {
-    QVERIFY2(true, "Failure");
+    QString testTitle("test title");
+    QVERIFY2(m_scoreItem->m_titleItem == 0, "Title item isn't 0 per default");
+    m_scoreItem->setTitle(testTitle);
+    QVERIFY2(m_scoreItem->m_titleItem != 0, "Title item is still 0 after setting title");
+    QVERIFY2(m_scoreItem->title() == testTitle, "Title item has not the right text");
+
+    m_scoreItem->setTitle("");
+    QVERIFY2(m_scoreItem->m_titleItem == 0, "Title item isn't 0 after setting emtpy title");
+    QVERIFY2(m_scoreItem->title() == QString(), "Item doesn't return empty title");
 }
 
-QTEST_APPLESS_MAIN(GraphicalScoreItemTest)
+QTEST_MAIN(GraphicalScoreItemTest)
 
 #include "tst_graphicalscoreitemtest.moc"

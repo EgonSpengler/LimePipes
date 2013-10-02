@@ -22,6 +22,7 @@ class InteractingScore : public AbstractScorePropertiesHolder,
 {
 public:
     explicit InteractingScore(QObject *parent = 0);
+    ~InteractingScore();
 
     GraphicalScoreItem *headerItem() const { return m_headerItem; }
     GraphicalScoreItem *footerItem() const { return m_footerItem; }

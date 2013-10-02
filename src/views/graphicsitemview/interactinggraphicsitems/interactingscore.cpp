@@ -18,6 +18,12 @@ InteractingScore::InteractingScore(QObject *parent)
     m_footerItem = new GraphicalScoreItem();
 }
 
+InteractingScore::~InteractingScore()
+{
+    delete m_headerItem;
+    delete m_footerItem;
+}
+
 
 void InteractingScore::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -41,6 +47,8 @@ void InteractingScore::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void InteractingScore::setNewTitle(const QString &title)
 {
+    m_headerItem->setTitle(title);
+    m_footerItem->setTitle(title);
 }
 
 void InteractingScore::setNewComposer(const QString &composer)

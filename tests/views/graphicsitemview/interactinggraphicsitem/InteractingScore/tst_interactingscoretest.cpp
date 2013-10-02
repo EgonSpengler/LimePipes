@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest/QtTest>
 #include <graphicsitemview/interactinggraphicsitems/interactingscore.h>
+#include <graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h>
 
 class InteractingScoreTest : public QObject
 {
@@ -20,7 +21,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testCase1();
+    void testSetTitle();
 
 private:
     InteractingScore *m_interactingScore;
@@ -40,11 +41,15 @@ void InteractingScoreTest::cleanup()
     delete m_interactingScore;
 }
 
-void InteractingScoreTest::testCase1()
+void InteractingScoreTest::testSetTitle()
 {
-    QVERIFY2(true, "Failure");
+    QString newTitle("new title");
+    m_interactingScore->setNewTitle(newTitle);
+
+    QVERIFY2(m_interactingScore->headerItem()->title() == newTitle, "Title of header item wasn't set");
+    QVERIFY2(m_interactingScore->footerItem()->title() == newTitle, "Title of footer item wasn't set");
 }
 
-QTEST_APPLESS_MAIN(InteractingScoreTest)
+QTEST_MAIN(InteractingScoreTest)
 
 #include "tst_interactingscoretest.moc"
