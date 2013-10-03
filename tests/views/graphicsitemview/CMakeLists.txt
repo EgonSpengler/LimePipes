@@ -205,7 +205,17 @@ set( AbstractScorePropertiesHolder_TEST_SOURCES
         AbstractScorePropertiesHolder/scorepropertiesholderdummy.cpp
         )
 
-add_executable( AbstractScorePropertiesHolder ${GraphicsItemView_SOURCES}
+add_executable( AbstractScorePropertiesHolderTest ${GraphicsItemView_SOURCES}
     ${AbstractScorePropertiesHolder_TEST_SOURCES})
-target_link_libraries( AbstractScorePropertiesHolder ${TEST_LIBRARIES} )
-add_test( NAME AbstractScorePropertiesHolder COMMAND AbstractScorePropertiesHolder )
+target_link_libraries( AbstractScorePropertiesHolderTest ${TEST_LIBRARIES} )
+add_test( NAME AbstractScorePropertiesHolderTest COMMAND AbstractScorePropertiesHolderTest )
+
+# VisualMusicPresenter
+set( VisualMusicPresenter_TEST_SOURCES
+        VisualMusicPresenter/tst_visualmusicpresentertest.cpp
+        )
+
+add_executable( VisualMusicPresenterTest ${GraphicsItemView_SOURCES}
+    ${VisualMusicPresenter_TEST_SOURCES})
+target_link_libraries( VisualMusicPresenterTest ${TEST_LIBRARIES} )
+add_test( NAME VisualMusicPresenterTest COMMAND VisualMusicPresenterTest )
