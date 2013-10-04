@@ -213,6 +213,7 @@ add_test( NAME AbstractScorePropertiesHolderTest COMMAND AbstractScoreProperties
 # VisualMusicPresenter
 set( VisualMusicPresenter_TEST_SOURCES
         VisualMusicPresenter/tst_visualmusicpresentertest.cpp
+        VisualMusicPresenter/pageviewdummy.cpp
         )
 
 add_executable( VisualMusicPresenterTest ${GraphicsItemView_SOURCES}

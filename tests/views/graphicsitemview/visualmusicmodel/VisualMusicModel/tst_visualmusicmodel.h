@@ -17,7 +17,9 @@ public:
     explicit VisualMusicModelTest (QObject *parent=0);
 
 private Q_SLOTS:
-    void testSetModel();
+    void init();
+    void cleanup();
+    void testSetGetModel();
     void testInsertScore();
     void testInsertTune();
     void testInsertPart();
@@ -25,8 +27,6 @@ private Q_SLOTS:
     void testInsertSymbol();
     void testVisualScorePropertiesHolderFromIndex();
     void testVisualScoreFromIndex();
-    void init();
-    void cleanup();
 
 private:
     MusicModel *m_musicModel;

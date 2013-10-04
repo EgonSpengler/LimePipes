@@ -11,12 +11,19 @@
 #include <QGraphicsScene>
 #include <QAbstractItemModel>
 
+class VisualScoreInterface;
+class AbstractScorePropertiesHolder;
+
 class VisualMusicModelInterface {
 public:
     virtual ~VisualMusicModelInterface() {}
-    virtual QGraphicsScene *scene() = 0;
     virtual void setModel(QAbstractItemModel *model) = 0;
     virtual QAbstractItemModel *model() const = 0;
+
+    virtual AbstractScorePropertiesHolder *
+        scorePropertiesHolderFromIndex(const QModelIndex& scoreIndex) = 0;
+    virtual VisualScoreInterface *
+        visualScoreFromIndex(const QModelIndex& scoreIndex) = 0;
 };
 
 

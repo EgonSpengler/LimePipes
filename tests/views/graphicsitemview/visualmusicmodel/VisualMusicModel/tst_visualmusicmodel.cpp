@@ -23,7 +23,7 @@ VisualMusicModelTest::VisualMusicModelTest(QObject *parent)
     qRegisterMetaType<QModelIndex>("QModelIndex");
 }
 
-void VisualMusicModelTest::testSetModel()
+void VisualMusicModelTest::testSetGetModel()
 {
     QStandardItemModel *model = new QStandardItemModel(this);
     m_visualMusicModel->setModel(model);

@@ -12,18 +12,21 @@
 #include <musicitem.h>
 #include <datatypes/instrument.h>
 #include "graphicsview.h"
+#include "graphicsscene.h"
 #include "visualmusicmodel/visualmusicmodel.h"
 #include "graphicsitemview.h"
 
 GraphicsItemView::GraphicsItemView(QWidget *parent)
     : QAbstractItemView(parent),
+      m_graphicsScene(0),
       m_graphicsView(0),
       m_visualMusicModel(0)
 {
+    m_graphicsScene = new GraphicsScene(this);
     m_graphicsView = new GraphicsView(this);
     m_visualMusicModel = new VisualMusicModel(this);
 
-    m_graphicsView->setScene(m_visualMusicModel->scene());
+    m_graphicsView->setScene(m_graphicsScene);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_graphicsView);

@@ -12,7 +12,7 @@
 #include <QGraphicsWidget>
 #include <QList>
 #include "pagecontentrowitem.h"
-#include "pageviewinterface.h"
+#include "../pageviewinterface.h"
 #include "../itemtypes.h"
 
 class PageItem;

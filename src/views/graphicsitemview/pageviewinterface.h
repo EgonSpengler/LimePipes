@@ -6,6 +6,9 @@
  * 
  */
 
+#ifndef PAGEVIEWINTERFACE_H
+#define PAGEVIEWINTERFACE_H
+
 class QGraphicsWidget;
 
 class PageViewInterface {
@@ -23,3 +26,4 @@ public:
 
 };
 
+#endif // PAGEVIEWINTERFACE_H

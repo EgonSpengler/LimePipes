@@ -20,8 +20,6 @@ class VisualTune;
 class VisualPart;
 class VisualMeasure;
 class VisualSymbol;
-class AbstractScorePropertiesHolder;
-class VisualScoreInterface;
 
 class VisualMusicModel : public QObject,
                          public VisualMusicModelInterface
@@ -34,10 +32,9 @@ public:
     explicit VisualMusicModel(QObject *parent=0);
     virtual ~VisualMusicModel();
 
-    QGraphicsScene *scene();
+    // VisualMusicModelInterface
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
-
     AbstractScorePropertiesHolder *scorePropertiesHolderFromIndex(const QModelIndex& scoreIndex);
     VisualScoreInterface *visualScoreFromIndex(const QModelIndex& scoreIndex);
 
@@ -59,7 +56,6 @@ private:
     void insertNewMeasures(const QModelIndex& index, int start, int end);
     void insertNewSymbols(const QModelIndex& index, int start, int end);
     QAbstractItemModel *m_model;
-    GraphicsScene *m_scene;
     VisualRootItem *m_rootItem;
     QHash<QPersistentModelIndex, VisualScore*> m_visualScoreIndexes;
     QHash<QPersistentModelIndex, VisualTune*> m_visualTuneIndexes;

@@ -22,19 +22,12 @@
 VisualMusicModel::VisualMusicModel(QObject *parent)
     : QObject(parent),
       m_model(0),
-      m_scene(0),
       m_rootItem(0)
 {
-    m_scene = new GraphicsScene(this);
 }
 
 VisualMusicModel::~VisualMusicModel()
 {
-}
-
-QGraphicsScene *VisualMusicModel::scene()
-{
-    return m_scene;
 }
 
 void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int end)

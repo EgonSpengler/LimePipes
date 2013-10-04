@@ -8,6 +8,9 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <QScopedPointer>
+#include "pageviewdummy.h"
+#include <graphicsitemview/visualmusicpresenter.h>
 
 class VisualMusicPresenterTest : public QObject
 {
@@ -17,16 +20,36 @@ public:
     VisualMusicPresenterTest();
 
 private Q_SLOTS:
-    void testCase1();
+    void init();
+    void cleanup();
+    void testSetGetPageView();
+
+private:
+    PageViewDummy *m_pageView;
+    VisualMusicPresenter *m_musicPresenter;
 };
 
 VisualMusicPresenterTest::VisualMusicPresenterTest()
 {
 }
 
-void VisualMusicPresenterTest::testCase1()
+void VisualMusicPresenterTest::init()
 {
-    QVERIFY2(true, "Failure");
+    m_pageView = new PageViewDummy();
+    m_musicPresenter = new VisualMusicPresenter(this);
+    m_musicPresenter->setPageView(m_pageView);
+}
+
+void VisualMusicPresenterTest::cleanup()
+{
+    delete m_musicPresenter;
+}
+
+void VisualMusicPresenterTest::testSetGetPageView()
+{
+    QScopedPointer<PageViewInterface> pageView(new PageViewDummy());
+    m_musicPresenter->setPageView(pageView.data());
+    QVERIFY2(m_musicPresenter->pageView() == pageView.data(), "Wrong page view returned by presenter");
 }
 
 QTEST_APPLESS_MAIN(VisualMusicPresenterTest)

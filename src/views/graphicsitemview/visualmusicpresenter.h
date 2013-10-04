@@ -10,6 +10,9 @@
 #define VISUALMUSICPRESENTER_H
 
 #include <QObject>
+#include "pageviewinterface.h"
+
+class QGraphicsItem;
 
 class VisualMusicPresenter : public QObject
 {
@@ -17,6 +20,11 @@ class VisualMusicPresenter : public QObject
 public:
     explicit VisualMusicPresenter(QObject *parent = 0);
 
+    void setPageView(PageViewInterface *pageView);
+    PageViewInterface *pageView() const;
+
+private:
+    PageViewInterface *m_pageView;
 };
 
 #endif // VISUALMUSICPRESENTER_H

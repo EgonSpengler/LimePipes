@@ -6,9 +6,21 @@
  *
  */
 
+#include <QGraphicsItem>
 #include "visualmusicpresenter.h"
 
 VisualMusicPresenter::VisualMusicPresenter(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_pageView(0)
 {
+}
+
+void VisualMusicPresenter::setPageView(PageViewInterface *pageView)
+{
+    m_pageView = pageView;
+}
+
+PageViewInterface *VisualMusicPresenter::pageView() const
+{
+    return m_pageView;
 }

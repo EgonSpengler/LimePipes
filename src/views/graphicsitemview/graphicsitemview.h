@@ -13,6 +13,7 @@
 #include "visualmusicmodelinterface.h"
 
 class GraphicsView;
+class GraphicsScene;
 
 class GraphicsItemView : public QAbstractItemView
 {
@@ -35,6 +36,7 @@ public:
     VisualMusicModelInterface *visualMusicModel() const;
 
 private:
+    GraphicsScene *m_graphicsScene;
     GraphicsView *m_graphicsView;
     VisualMusicModelInterface *m_visualMusicModel;
 };
