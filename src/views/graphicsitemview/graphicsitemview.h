@@ -32,13 +32,9 @@ public:
     void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);
     QRegion visualRegionForSelection(const QItemSelection &selection) const;
 
-    void setVisualMusicModel(VisualMusicModelInterface *visualMusicModel);
-    VisualMusicModelInterface *visualMusicModel() const;
-
 private:
     GraphicsScene *m_graphicsScene;
     GraphicsView *m_graphicsView;
-    VisualMusicModelInterface *m_visualMusicModel;
 };
 
 #endif // GRAPHICSITEMVIEW_H

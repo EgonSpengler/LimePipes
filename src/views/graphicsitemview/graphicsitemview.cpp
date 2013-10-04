@@ -19,12 +19,10 @@
 GraphicsItemView::GraphicsItemView(QWidget *parent)
     : QAbstractItemView(parent),
       m_graphicsScene(0),
-      m_graphicsView(0),
-      m_visualMusicModel(0)
+      m_graphicsView(0)
 {
     m_graphicsScene = new GraphicsScene(this);
     m_graphicsView = new GraphicsView(this);
-    m_visualMusicModel = new VisualMusicModel(this);
 
     m_graphicsView->setScene(m_graphicsScene);
 
@@ -80,18 +78,4 @@ QRegion GraphicsItemView::visualRegionForSelection(const QItemSelection &selecti
 
 void GraphicsItemView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollHint hint)
 {
-}
-
-void GraphicsItemView::setVisualMusicModel(VisualMusicModelInterface *visualMusicModel)
-{
-    if (m_visualMusicModel != 0) {
-        delete m_visualMusicModel;
-    }
-
-    m_visualMusicModel = visualMusicModel;
-}
-
-VisualMusicModelInterface *GraphicsItemView::visualMusicModel() const
-{
-    return m_visualMusicModel;
 }

@@ -27,7 +27,6 @@ private Q_SLOTS:
 
 private:
     GraphicsItemView *m_graphicsItemView;
-    VisualMusicModelDummy *m_visualMusicModelDummy;
     MusicModel *m_model;
 };
 

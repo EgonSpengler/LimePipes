@@ -76,7 +76,6 @@ add_test( NAME VisualMusicModelTest COMMAND VisualMusicModelTest )
 # GraphicsItemView
 set( GraphicsItemViewTest_SOURCES
         GraphicsItemView/tst_graphicsitemviewtest.cpp
-        GraphicsItemView/visualmusicmodeldummy.h
         )
 
 add_executable( GraphicsItemViewTest
