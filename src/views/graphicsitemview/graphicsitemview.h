@@ -14,9 +14,13 @@
 
 class GraphicsView;
 class GraphicsScene;
+class VisualMusicPresenter;
+class PageViewItem;
 
 class GraphicsItemView : public QAbstractItemView
 {
+    friend class GraphicsItemViewTest;
+
     Q_OBJECT
 public:
     explicit GraphicsItemView(QWidget *parent = 0);
@@ -32,9 +36,13 @@ public:
     void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);
     QRegion visualRegionForSelection(const QItemSelection &selection) const;
 
+    void setModel(QAbstractItemModel *model);
+
 private:
     GraphicsScene *m_graphicsScene;
     GraphicsView *m_graphicsView;
+    VisualMusicPresenter *m_musicPresenter;
+    PageViewItem *m_pageView;
 };
 
 #endif // GRAPHICSITEMVIEW_H

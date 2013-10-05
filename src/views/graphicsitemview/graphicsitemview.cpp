@@ -13,18 +13,26 @@
 #include <datatypes/instrument.h>
 #include "graphicsview.h"
 #include "graphicsscene.h"
+#include "pageviewitem/pageviewitem.h"
+#include "visualmusicpresenter.h"
 #include "visualmusicmodel/visualmusicmodel.h"
 #include "graphicsitemview.h"
 
 GraphicsItemView::GraphicsItemView(QWidget *parent)
     : QAbstractItemView(parent),
       m_graphicsScene(0),
-      m_graphicsView(0)
+      m_graphicsView(0),
+      m_musicPresenter(0),
+      m_pageView(0)
 {
     m_graphicsScene = new GraphicsScene(this);
     m_graphicsView = new GraphicsView(this);
+    m_musicPresenter = new VisualMusicPresenter(this);
+    m_pageView = new PageViewItem();
 
     m_graphicsView->setScene(m_graphicsScene);
+    m_musicPresenter->setPageView(m_pageView);
+    m_graphicsScene->addItem(m_pageView);
 
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_graphicsView);
@@ -74,6 +82,14 @@ void GraphicsItemView::setSelection(const QRect &rect, QItemSelectionModel::Sele
 QRegion GraphicsItemView::visualRegionForSelection(const QItemSelection &selection) const
 {
     return QRegion();
+}
+
+void GraphicsItemView::setModel(QAbstractItemModel *model)
+{
+    if (m_musicPresenter)
+        m_musicPresenter->setModel(model);
+
+    QAbstractItemView::setModel(model);
 }
 
 void GraphicsItemView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollHint hint)

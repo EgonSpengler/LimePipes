@@ -31,6 +31,7 @@ set( limepipes_SOURCES
         views/graphicsitemview/pageviewitem/pageviewitem.cpp
         views/graphicsitemview/pageviewitem/pageitem.cpp
         views/graphicsitemview/pageviewitem/pagecontentrowitem.cpp
+        views/graphicsitemview/visualmusicpresenter.cpp
         views/graphicsitemview/musicsheetrowitems/textrowitem.cpp
         views/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
         views/graphicsitemview/visualmusicmodel/abstractvisualitem.cpp

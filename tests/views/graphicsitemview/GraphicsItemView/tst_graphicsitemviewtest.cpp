@@ -10,7 +10,9 @@
 #include <QtTest/QSignalSpy>
 #include <QCoreApplication>
 #include <model/musicmodel.h>
-#include <views/graphicsitemview/graphicsitemview.h>
+#include <QStandardItemModel>
+#include <graphicsitemview/graphicsitemview.h>
+#include <graphicsitemview/visualmusicpresenter.h>
 #include "tst_graphicsitemviewtest.h"
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
@@ -30,6 +32,20 @@ void GraphicsItemViewTest::init()
 void GraphicsItemViewTest::cleanup()
 {
     delete m_graphicsItemView;
+}
+
+void GraphicsItemViewTest::testSetModel()
+{
+    QStandardItemModel *model = new QStandardItemModel(this);
+
+    m_graphicsItemView->setModel(model);
+
+    QVERIFY2(m_graphicsItemView->m_musicPresenter->model() ==
+             model, "Music presenter model wasn't set through GraphicsItemView");
+
+    QVERIFY2(m_graphicsItemView->model() == model, "QAbstractItemView model wasn't set");
+
+    delete model;
 }
 
 QTEST_MAIN(GraphicsItemViewTest)

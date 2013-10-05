@@ -12,7 +12,8 @@
 #include <QObject>
 #include "pageviewinterface.h"
 
-class QGraphicsItem;
+class VisualMusicModel;
+class QAbstractItemModel;
 
 class VisualMusicPresenter : public QObject
 {
@@ -23,8 +24,14 @@ public:
     void setPageView(PageViewInterface *pageView);
     PageViewInterface *pageView() const;
 
+    void setModel(QAbstractItemModel* model);
+    QAbstractItemModel *model() const;
+
+
 private:
+    VisualMusicModel *visualMusicModel() const;
     PageViewInterface *m_pageView;
+    VisualMusicModel *m_visualMusicModel;
 };
 
 #endif // VISUALMUSICPRESENTER_H

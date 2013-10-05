@@ -18,9 +18,6 @@ class GraphicsScene : public QGraphicsScene
     Q_OBJECT
 public:
     explicit GraphicsScene(QObject *parent = 0);
-
-private:
-    PageViewItem *m_pageViewItem;
 };
 
 #endif // GRAPHICSSCENE_H

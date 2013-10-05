@@ -6,13 +6,15 @@
  *
  */
 
-#include <QGraphicsItem>
+#include "visualmusicmodel/visualmusicmodel.h"
 #include "visualmusicpresenter.h"
 
 VisualMusicPresenter::VisualMusicPresenter(QObject *parent)
     : QObject(parent),
-      m_pageView(0)
+      m_pageView(0),
+      m_visualMusicModel(0)
 {
+    m_visualMusicModel = new VisualMusicModel(this);
 }
 
 void VisualMusicPresenter::setPageView(PageViewInterface *pageView)
@@ -23,4 +25,22 @@ void VisualMusicPresenter::setPageView(PageViewInterface *pageView)
 PageViewInterface *VisualMusicPresenter::pageView() const
 {
     return m_pageView;
+}
+
+void VisualMusicPresenter::setModel(QAbstractItemModel *model)
+{
+    if (m_visualMusicModel->model() != model &&
+            model != 0)
+         m_visualMusicModel->setModel(model);
+
+}
+
+QAbstractItemModel *VisualMusicPresenter::model() const
+{
+    return m_visualMusicModel->model();
+}
+
+VisualMusicModel *VisualMusicPresenter::visualMusicModel() const
+{
+    return m_visualMusicModel;
 }

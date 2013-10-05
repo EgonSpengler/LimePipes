@@ -24,6 +24,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testSetModel();
 
 private:
     GraphicsItemView *m_graphicsItemView;
