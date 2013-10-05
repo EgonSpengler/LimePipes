@@ -217,5 +217,5 @@ set( VisualMusicPresenter_TEST_SOURCES
 
 add_executable( VisualMusicPresenterTest ${GraphicsItemView_SOURCES}
     ${VisualMusicPresenter_TEST_SOURCES})
-target_link_libraries( VisualMusicPresenterTest ${TEST_LIBRARIES} )
+target_link_libraries( VisualMusicPresenterTest ${TEST_LIBRARIES} lp_greathighlandbagpipe )
 add_test( NAME VisualMusicPresenterTest COMMAND VisualMusicPresenterTest )

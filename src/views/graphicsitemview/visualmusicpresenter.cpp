@@ -15,6 +15,8 @@ VisualMusicPresenter::VisualMusicPresenter(QObject *parent)
       m_visualMusicModel(0)
 {
     m_visualMusicModel = new VisualMusicModel(this);
+
+    createConnections();
 }
 
 void VisualMusicPresenter::setPageView(PageViewInterface *pageView)
@@ -32,12 +34,21 @@ void VisualMusicPresenter::setModel(QAbstractItemModel *model)
     if (m_visualMusicModel->model() != model &&
             model != 0)
          m_visualMusicModel->setModel(model);
-
 }
 
 QAbstractItemModel *VisualMusicPresenter::model() const
 {
     return m_visualMusicModel->model();
+}
+
+void VisualMusicPresenter::scoreInserted(const QModelIndex &scoreIndex)
+{
+}
+
+void VisualMusicPresenter::createConnections()
+{
+    connect(m_visualMusicModel, SIGNAL(scoreInserted(QModelIndex)),
+            this, SLOT(scoreInserted(QModelIndex)));
 }
 
 VisualMusicModel *VisualMusicPresenter::visualMusicModel() const

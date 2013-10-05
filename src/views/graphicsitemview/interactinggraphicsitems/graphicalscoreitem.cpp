@@ -8,8 +8,9 @@
 
 #include "graphicalscoreitem.h"
 
-GraphicalScoreItem::GraphicalScoreItem()
-    : m_titleItem(0)
+GraphicalScoreItem::GraphicalScoreItem(QObject *parent)
+    : AbstractScorePropertiesHolder(parent),
+      m_titleItem(0)
 {
 }
 
@@ -35,4 +36,29 @@ QString GraphicalScoreItem::title() const
         return QString();
 
     return m_titleItem->toPlainText();
+}
+
+
+void GraphicalScoreItem::setNewTitle(const QString &title)
+{
+}
+
+void GraphicalScoreItem::setNewComposer(const QString &composer)
+{
+}
+
+void GraphicalScoreItem::setNewArranger(const QString &arranger)
+{
+}
+
+void GraphicalScoreItem::setNewYear(const QString &year)
+{
+}
+
+void GraphicalScoreItem::setNewCopyright(const QString &copyright)
+{
+}
+
+void GraphicalScoreItem::setNewTimeSignature(const TimeSignature &timeSig)
+{
 }

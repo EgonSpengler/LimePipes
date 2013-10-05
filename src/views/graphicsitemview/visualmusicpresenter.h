@@ -9,15 +9,20 @@
 #ifndef VISUALMUSICPRESENTER_H
 #define VISUALMUSICPRESENTER_H
 
+#include <QList>
 #include <QObject>
 #include "pageviewinterface.h"
+#include "graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h"
 
 class VisualMusicModel;
 class QAbstractItemModel;
+class QModelIndex;
 
 class VisualMusicPresenter : public QObject
 {
     friend class VisualMusicPresenterTest;
+
+    Q_OBJECT
 public:
     explicit VisualMusicPresenter(QObject *parent = 0);
 
@@ -27,11 +32,15 @@ public:
     void setModel(QAbstractItemModel* model);
     QAbstractItemModel *model() const;
 
+private slots:
+    void scoreInserted(const QModelIndex& scoreIndex);
 
 private:
+    void createConnections();
     VisualMusicModel *visualMusicModel() const;
     PageViewInterface *m_pageView;
     VisualMusicModel *m_visualMusicModel;
+    QList<GraphicalScoreItem*> m_graphicalScores;
 };
 
 #endif // VISUALMUSICPRESENTER_H

@@ -11,8 +11,11 @@
 #include <QScopedPointer>
 #include <QStandardItemModel>
 #include "pageviewdummy.h"
+#include <model/musicmodel.h>
 #include <graphicsitemview/visualmusicpresenter.h>
 #include <graphicsitemview/visualmusicmodel/visualmusicmodel.h>
+
+Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
 class VisualMusicPresenterTest : public QObject
 {
@@ -26,10 +29,12 @@ private Q_SLOTS:
     void cleanup();
     void testSetGetPageView();
     void testSetGetModel();
+    void testScoreInserted();
 
 private:
     PageViewDummy *m_pageView;
     VisualMusicPresenter *m_musicPresenter;
+    MusicModel *m_musicModel;
 };
 
 VisualMusicPresenterTest::VisualMusicPresenterTest()
@@ -39,13 +44,18 @@ VisualMusicPresenterTest::VisualMusicPresenterTest()
 void VisualMusicPresenterTest::init()
 {
     m_pageView = new PageViewDummy();
+    m_musicModel = new MusicModel(this);
+
     m_musicPresenter = new VisualMusicPresenter(this);
     m_musicPresenter->setPageView(m_pageView);
+    m_musicPresenter->setModel(m_musicModel);
 }
 
 void VisualMusicPresenterTest::cleanup()
 {
     delete m_musicPresenter;
+    delete m_pageView;
+    delete m_musicModel;
 }
 
 void VisualMusicPresenterTest::testSetGetPageView()
@@ -64,6 +74,13 @@ void VisualMusicPresenterTest::testSetGetModel()
     delete model;
 }
 
-QTEST_APPLESS_MAIN(VisualMusicPresenterTest)
+void VisualMusicPresenterTest::testScoreInserted()
+{
+    m_musicModel->insertScore(0, "Testscore");
+
+    QVERIFY2(false, "Not implemented yet");
+}
+
+QTEST_MAIN(VisualMusicPresenterTest)
 
 #include "tst_visualmusicpresentertest.moc"

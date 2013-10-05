@@ -19,8 +19,8 @@ class QXmlStreamWriter;
 class QXmlStreamReader;
 class QUndoStack;
 
-class MusicModel :  public QAbstractItemModel,
-        public MusicModelInterface
+class MusicModel : public QAbstractItemModel,
+                   public MusicModelInterface
 {
     Q_OBJECT
 

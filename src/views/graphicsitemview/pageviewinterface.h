@@ -13,6 +13,8 @@ class QGraphicsWidget;
 
 class PageViewInterface {
 public:
+    virtual ~PageViewInterface() {}
+
     virtual int pageCount() const = 0;
     virtual int rowCount() const = 0;
     virtual int rowCountOfPage(int index) const = 0;
