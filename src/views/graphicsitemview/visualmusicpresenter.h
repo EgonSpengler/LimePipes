@@ -12,7 +12,7 @@
 #include <QList>
 #include <QObject>
 #include "pageviewinterface.h"
-#include "graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h"
+#include "graphicsitemview/interactinggraphicsitems/interactingscore.h"
 
 class VisualMusicModel;
 class QAbstractItemModel;
@@ -40,7 +40,7 @@ private:
     VisualMusicModel *visualMusicModel() const;
     PageViewInterface *m_pageView;
     VisualMusicModel *m_visualMusicModel;
-    QList<GraphicalScoreItem*> m_graphicalScores;
+    QList<InteractingScore*> m_interactingScores;
 };
 
 #endif // VISUALMUSICPRESENTER_H

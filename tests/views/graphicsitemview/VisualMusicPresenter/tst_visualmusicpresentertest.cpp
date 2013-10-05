@@ -78,7 +78,20 @@ void VisualMusicPresenterTest::testScoreInserted()
 {
     m_musicModel->insertScore(0, "Testscore");
 
-    QVERIFY2(false, "Not implemented yet");
+    QVERIFY2(m_musicPresenter->m_interactingScores.count() == 1,
+             "No graphical score was inserted");
+
+    InteractingScore *score1 = m_musicPresenter->m_interactingScores.at(0);
+
+    m_musicModel->insertScore(0, "Testscore 2");
+
+    QVERIFY2(m_musicPresenter->m_interactingScores.count() == 2,
+             "No second graphical score was inserted");
+
+    InteractingScore *score2 = m_musicPresenter->m_interactingScores.at(0);
+
+    QVERIFY2(score1 != score2,
+             "Interacting score inserted in the wrong place");
 }
 
 QTEST_MAIN(VisualMusicPresenterTest)

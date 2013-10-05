@@ -43,6 +43,8 @@ set( limepipes_SOURCES
         views/graphicsitemview/visualmusicmodel/visualsymbol.cpp
 
         views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.cpp
+        views/graphicsitemview/interactinggraphicsitems/interactingscore.cpp
+        views/graphicsitemview/interactinggraphicsitems/graphicalscoreitem.cpp
         views/graphicsitemview/scorepropertiesitem.cpp
         views/graphicsitemview/abstractscorepropertiesholder.cpp
         )
