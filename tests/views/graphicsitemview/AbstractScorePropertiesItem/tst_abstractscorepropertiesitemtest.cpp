@@ -27,6 +27,7 @@ private Q_SLOTS:
     void testYear();
     void testCopyright();
     void testTimesignature();
+    void testLinkWithItem();
 
 private:
     AbstractScorePropertiesItem *m_scorePropertiesItem;
@@ -122,6 +123,24 @@ void AbstractScorePropertiesItemTest::testTimesignature()
 
     m_scorePropertiesItem->setTimeSignature(timeSig);
     QVERIFY2(spy.count() == 1, "TimeSignature changed signal was emitted despite same TimeSignature");
+}
+
+void AbstractScorePropertiesItemTest::testLinkWithItem()
+{
+    AbstractScorePropertiesItemDummy *item1 = new AbstractScorePropertiesItemDummy(this);
+    AbstractScorePropertiesItemDummy *item2 = new AbstractScorePropertiesItemDummy(this);
+    QSignalSpy spySetTitle12(item2, SIGNAL(setNewTitleCalled()));
+    QSignalSpy spySetTitle21(item1, SIGNAL(setNewTitleCalled()));
+
+    item1->linkWithItem(item2);
+
+    // Set Title 1 -> 2
+    item1->setTitle("testtitle");
+    QVERIFY2(spySetTitle12.count() == 1, "Set new title wasn't called on item 2");
+
+    // Set Title 2 -> 1
+    item2->setTitle("testtitle");
+    QVERIFY2(spySetTitle21.count() == 1, "Set new title wasn't called on item 1");
 }
 
 QTEST_APPLESS_MAIN(AbstractScorePropertiesItemTest)

@@ -44,7 +44,6 @@ QAbstractItemModel *VisualMusicPresenter::model() const
 void VisualMusicPresenter::scoreInserted(const QModelIndex &scoreIndex)
 {
     InteractingScore *interactingScore = new InteractingScore(this);
-    int row = scoreIndex.row();
     m_interactingScores.insert(scoreIndex.row(), interactingScore);
 }
 

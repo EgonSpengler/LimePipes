@@ -23,7 +23,6 @@ void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
 {
 }
 
-
 void VisualScore::setNewTitle(const QString &title)
 {
 }

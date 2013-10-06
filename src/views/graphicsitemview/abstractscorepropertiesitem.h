@@ -21,6 +21,8 @@ public:
     explicit AbstractScorePropertiesItem(QObject *parent = 0);
     ~AbstractScorePropertiesItem() {}
 
+    void linkWithItem(AbstractScorePropertiesItem *item);
+
 signals:
     void titleChanged(const QString& newTitle);
     void composerChanged(const QString& newComposer);

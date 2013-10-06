@@ -14,6 +14,15 @@ AbstractScorePropertiesItem::AbstractScorePropertiesItem(QObject *parent)
     qRegisterMetaType<TimeSignature>("TimeSignature");
 }
 
+void AbstractScorePropertiesItem::linkWithItem(AbstractScorePropertiesItem *item)
+{
+    // Title
+    connect(this, SIGNAL(titleChanged(QString)),
+            item, SLOT(setNewTitle(QString)));
+    connect(item, SIGNAL(titleChanged(QString)),
+            this, SLOT(setNewTitle(QString)));
+}
+
 
 QString AbstractScorePropertiesItem::title() const
 {
