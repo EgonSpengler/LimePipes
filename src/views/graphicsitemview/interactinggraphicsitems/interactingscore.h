@@ -12,11 +12,11 @@
 #include <QObject>
 #include "../graphicalscoreinterface.h"
 #include "../interactingiteminterface.h"
-#include "../abstractscorepropertiesholder.h"
+#include "../abstractscorepropertiesitem.h"
 
 class GraphicalScoreItem;
 
-class InteractingScore : public AbstractScorePropertiesHolder,
+class InteractingScore :  public AbstractScorePropertiesItem,
                           public GraphicalScoreInterface,
                           public InteractingItemInterface
 {
@@ -33,7 +33,7 @@ public:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-    // AbstractScorePropertiesHolder interface
+    // AbstractScorePropertiesItem interface
 public slots:
     void setNewTitle(const QString &title);
     void setNewComposer(const QString &composer);

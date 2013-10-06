@@ -188,26 +188,16 @@ add_executable( GraphicalScoreItemTest ${GraphicsItemView_SOURCES}
 target_link_libraries( GraphicalScoreItemTest ${TEST_LIBRARIES} )
 add_test( NAME GraphicalScoreItemTest COMMAND GraphicalScoreItemTest )
 
-# ScorePropertiesItem
-set( ScorePropertiesItem_TEST_SOURCES
-        ScorePropertiesItem/tst_scorepropertiesitemtest.cpp
+# AbstractScorePropertiesItem
+set( AbstractScorePropertiesItem_TEST_SOURCES
+        AbstractScorePropertiesItem/tst_abstractscorepropertiesitemtest.cpp
+        AbstractScorePropertiesItem/abstractscorepropertiesitemdummy.cpp
         )
 
-add_executable( ScorePropertiesItemTest ${GraphicsItemView_SOURCES}
-    ${ScorePropertiesItem_TEST_SOURCES})
-target_link_libraries( ScorePropertiesItemTest ${TEST_LIBRARIES} )
-add_test( NAME ScorePropertiesItemTest COMMAND ScorePropertiesItemTest )
-
-# AbstractScorePropertiesHolder
-set( AbstractScorePropertiesHolder_TEST_SOURCES
-        AbstractScorePropertiesHolder/tst_abstractscorepropertiesholdertest.cpp
-        AbstractScorePropertiesHolder/scorepropertiesholderdummy.cpp
-        )
-
-add_executable( AbstractScorePropertiesHolderTest ${GraphicsItemView_SOURCES}
-    ${AbstractScorePropertiesHolder_TEST_SOURCES})
-target_link_libraries( AbstractScorePropertiesHolderTest ${TEST_LIBRARIES} )
-add_test( NAME AbstractScorePropertiesHolderTest COMMAND AbstractScorePropertiesHolderTest )
+add_executable( AbstractScorePropertiesItemTest ${GraphicsItemView_SOURCES}
+    ${AbstractScorePropertiesItem_TEST_SOURCES})
+target_link_libraries( AbstractScorePropertiesItemTest ${TEST_LIBRARIES} )
+add_test( NAME AbstractScorePropertiesItemTest COMMAND AbstractScorePropertiesItemTest )
 
 # VisualMusicPresenter
 set( VisualMusicPresenter_TEST_SOURCES

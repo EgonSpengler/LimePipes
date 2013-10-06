@@ -106,13 +106,13 @@ void VisualMusicModelTest::testVisualScorePropertiesHolderFromIndex()
 {
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
-    AbstractScorePropertiesHolder *scorePropertiesHolder =
-            static_cast<AbstractScorePropertiesHolder*>(visualScore);
+    AbstractScorePropertiesItem *scorePropertiesHolder =
+            static_cast<AbstractScorePropertiesItem*>(visualScore);
 
     Q_ASSERT(scorePropertiesHolder);
 
     QVERIFY2(scorePropertiesHolder ==
-             m_visualMusicModel->scorePropertiesHolderFromIndex(scoreIndex),
+             m_visualMusicModel->scorePropertiesItemFromIndex(scoreIndex),
              "score properties holder for index isn't the visual score");
 }
 

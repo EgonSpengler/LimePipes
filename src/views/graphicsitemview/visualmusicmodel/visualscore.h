@@ -9,13 +9,13 @@
 #ifndef VISUALSCORE_H
 #define VISUALSCORE_H
 
-#include "../abstractscorepropertiesholder.h"
+#include "../abstractscorepropertiesitem.h"
 #include "../visualscoreinterface.h"
 #include "abstractvisualitem.h"
 
 class VisualScore : public VisualScoreInterface,
                     public AbstractVisualItem,
-                    public AbstractScorePropertiesHolder
+                    public AbstractScorePropertiesItem
 {
 public:
     explicit VisualScore(QObject *parent = 0);
@@ -28,7 +28,7 @@ public:
     GraphicalScoreInterface *graphicalScore() const;
     void setGraphicalScore(GraphicalScoreInterface *graphicalScore);
 
-    // AbstractScorePropertiesHolder interface
+    // AbstractScorePropertiesItem interface
     void setNewTitle(const QString &title);
     void setNewComposer(const QString &composer);
     void setNewArranger(const QString &arranger);

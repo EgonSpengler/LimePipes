@@ -9,14 +9,14 @@
 #include <QString>
 #include <QtTest/QtTest>
 #include <QtTest/QSignalSpy>
-#include <graphicsitemview/scorepropertiesitem.h>
+#include "abstractscorepropertiesitemdummy.h"
 
-class ScorePropertiesItemTest : public QObject
+class AbstractScorePropertiesItemTest : public QObject
 {
     Q_OBJECT
 
 public:
-    ScorePropertiesItemTest();
+    AbstractScorePropertiesItemTest();
 
 private Q_SLOTS:
     void init();
@@ -29,24 +29,24 @@ private Q_SLOTS:
     void testTimesignature();
 
 private:
-    ScorePropertiesItem *m_scorePropertiesItem;
+    AbstractScorePropertiesItem *m_scorePropertiesItem;
 };
 
-ScorePropertiesItemTest::ScorePropertiesItemTest()
+AbstractScorePropertiesItemTest::AbstractScorePropertiesItemTest()
 {
 }
 
-void ScorePropertiesItemTest::init()
+void AbstractScorePropertiesItemTest::init()
 {
-    m_scorePropertiesItem = new ScorePropertiesItem(this);
+    m_scorePropertiesItem = new AbstractScorePropertiesItemDummy(this);
 }
 
-void ScorePropertiesItemTest::cleanup()
+void AbstractScorePropertiesItemTest::cleanup()
 {
     delete m_scorePropertiesItem;
 }
 
-void ScorePropertiesItemTest::testTitle()
+void AbstractScorePropertiesItemTest::testTitle()
 {
     QString title("title 1");
     QSignalSpy spy(m_scorePropertiesItem, SIGNAL(titleChanged(QString)));
@@ -59,7 +59,7 @@ void ScorePropertiesItemTest::testTitle()
     QVERIFY2(spy.count() == 1, "Title changed signal was emitted despite same title");
 }
 
-void ScorePropertiesItemTest::testComposer()
+void AbstractScorePropertiesItemTest::testComposer()
 {
     QString composer("composer");
     QSignalSpy spy(m_scorePropertiesItem, SIGNAL(composerChanged(QString)));
@@ -72,7 +72,7 @@ void ScorePropertiesItemTest::testComposer()
     QVERIFY2(spy.count() == 1, "Composer changed signal was emitted despite same Composer");
 }
 
-void ScorePropertiesItemTest::testArranger()
+void AbstractScorePropertiesItemTest::testArranger()
 {
     QString arranger("arranger");
     QSignalSpy spy(m_scorePropertiesItem, SIGNAL(arrangerChanged(QString)));
@@ -85,7 +85,7 @@ void ScorePropertiesItemTest::testArranger()
     QVERIFY2(spy.count() == 1, "Arranger changed signal was emitted despite same Arranger");
 }
 
-void ScorePropertiesItemTest::testYear()
+void AbstractScorePropertiesItemTest::testYear()
 {
     QString year("2013");
     QSignalSpy spy(m_scorePropertiesItem, SIGNAL(yearChanged(QString)));
@@ -98,7 +98,7 @@ void ScorePropertiesItemTest::testYear()
     QVERIFY2(spy.count() == 1, "Year changed signal was emitted despite same Year");
 }
 
-void ScorePropertiesItemTest::testCopyright()
+void AbstractScorePropertiesItemTest::testCopyright()
 {
     QString copyright("2013");
     QSignalSpy spy(m_scorePropertiesItem, SIGNAL(copyrightChanged(QString)));
@@ -111,7 +111,7 @@ void ScorePropertiesItemTest::testCopyright()
     QVERIFY2(spy.count() == 1, "Copyright changed signal was emitted despite same Copyright");
 }
 
-void ScorePropertiesItemTest::testTimesignature()
+void AbstractScorePropertiesItemTest::testTimesignature()
 {
     TimeSignature timeSig(TimeSignature::_9_8);
     QSignalSpy spy(m_scorePropertiesItem, SIGNAL(timeSignatureChanged(TimeSignature)));
@@ -124,6 +124,6 @@ void ScorePropertiesItemTest::testTimesignature()
     QVERIFY2(spy.count() == 1, "TimeSignature changed signal was emitted despite same TimeSignature");
 }
 
-QTEST_APPLESS_MAIN(ScorePropertiesItemTest)
+QTEST_APPLESS_MAIN(AbstractScorePropertiesItemTest)
 
-#include "tst_scorepropertiesitemtest.moc"
+#include "tst_abstractscorepropertiesitemtest.moc"

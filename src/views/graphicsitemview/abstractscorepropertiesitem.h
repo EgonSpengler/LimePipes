@@ -6,20 +6,20 @@
  *
  */
 
-#ifndef SCOREPROPERTIESITEM_H
-#define SCOREPROPERTIESITEM_H
+#ifndef ABSTRACTSCOREPROPERTIESITEM_H
+#define ABSTRACTSCOREPROPERTIESITEM_H
 
 #include <QObject>
 #include <QString>
 #include "scorepropertiesinterface.h"
 
-class ScorePropertiesItem : public QObject,
-                            public ScorePropertiesInterface
+class AbstractScorePropertiesItem : public QObject,
+                                    public ScorePropertiesInterface
 {
     Q_OBJECT
 public:
-    explicit ScorePropertiesItem(QObject *parent = 0);
-    ~ScorePropertiesItem() {}
+    explicit AbstractScorePropertiesItem(QObject *parent = 0);
+    ~AbstractScorePropertiesItem() {}
 
 signals:
     void titleChanged(const QString& newTitle);
@@ -28,6 +28,14 @@ signals:
     void yearChanged(const QString& newYear);
     void copyrightChanged(const QString& newCopyright);
     void timeSignatureChanged(const TimeSignature& newTimeSignature);
+
+public slots:
+    virtual void setNewTitle(const QString& title) = 0;
+    virtual void setNewComposer(const QString& composer) = 0;
+    virtual void setNewArranger(const QString& arranger) = 0;
+    virtual void setNewYear(const QString& year) = 0;
+    virtual void setNewCopyright(const QString& copyright) = 0;
+    virtual void setNewTimeSignature(const TimeSignature& timeSig) = 0;
 
     // ScorePropertiesInterface interface
 public:
@@ -53,4 +61,4 @@ private:
     TimeSignature m_timeSignature;
 };
 
-#endif // SCOREPROPERTIESITEM_H
+#endif // ABSTRACTSCOREPROPERTIESITEM_H

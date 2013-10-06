@@ -9,7 +9,7 @@
 #include "graphicalscoreitem.h"
 
 GraphicalScoreItem::GraphicalScoreItem(QObject *parent)
-    : AbstractScorePropertiesHolder(parent),
+    : AbstractScorePropertiesItem(parent),
       m_titleItem(0)
 {
 }

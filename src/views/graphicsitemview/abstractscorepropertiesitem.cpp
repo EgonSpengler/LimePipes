@@ -6,21 +6,21 @@
  *
  */
 
-#include "scorepropertiesitem.h"
+#include "abstractscorepropertiesitem.h"
 
-ScorePropertiesItem::ScorePropertiesItem(QObject *parent)
+AbstractScorePropertiesItem::AbstractScorePropertiesItem(QObject *parent)
     : QObject(parent)
 {
     qRegisterMetaType<TimeSignature>("TimeSignature");
 }
 
 
-QString ScorePropertiesItem::title() const
+QString AbstractScorePropertiesItem::title() const
 {
     return m_title;
 }
 
-void ScorePropertiesItem::setTitle(const QString &title)
+void AbstractScorePropertiesItem::setTitle(const QString &title)
 {
     if (m_title == title) return;
 
@@ -28,12 +28,12 @@ void ScorePropertiesItem::setTitle(const QString &title)
     emit titleChanged(title);
 }
 
-QString ScorePropertiesItem::composer() const
+QString AbstractScorePropertiesItem::composer() const
 {
     return m_composer;
 }
 
-void ScorePropertiesItem::setComposer(const QString &composer)
+void AbstractScorePropertiesItem::setComposer(const QString &composer)
 {
     if (m_composer == composer) return;
 
@@ -42,12 +42,12 @@ void ScorePropertiesItem::setComposer(const QString &composer)
 }
 
 
-QString ScorePropertiesItem::arranger() const
+QString AbstractScorePropertiesItem::arranger() const
 {
     return m_arranger;
 }
 
-void ScorePropertiesItem::setArranger(const QString &arranger)
+void AbstractScorePropertiesItem::setArranger(const QString &arranger)
 {
     if (m_arranger == arranger) return;
 
@@ -55,12 +55,12 @@ void ScorePropertiesItem::setArranger(const QString &arranger)
     emit arrangerChanged(arranger);
 }
 
-QString ScorePropertiesItem::year() const
+QString AbstractScorePropertiesItem::year() const
 {
     return m_year;
 }
 
-void ScorePropertiesItem::setYear(const QString &year)
+void AbstractScorePropertiesItem::setYear(const QString &year)
 {
     if (m_year == year) return;
 
@@ -68,12 +68,12 @@ void ScorePropertiesItem::setYear(const QString &year)
     emit yearChanged(year);
 }
 
-QString ScorePropertiesItem::copyright() const
+QString AbstractScorePropertiesItem::copyright() const
 {
     return m_copyright;
 }
 
-void ScorePropertiesItem::setCopyright(const QString &copyright)
+void AbstractScorePropertiesItem::setCopyright(const QString &copyright)
 {
     if (m_copyright == copyright) return;
 
@@ -81,12 +81,12 @@ void ScorePropertiesItem::setCopyright(const QString &copyright)
     emit copyrightChanged(copyright);
 }
 
-TimeSignature ScorePropertiesItem::timeSignature() const
+TimeSignature AbstractScorePropertiesItem::timeSignature() const
 {
     return m_timeSignature;
 }
 
-void ScorePropertiesItem::setTimeSignature(const TimeSignature &timeSig)
+void AbstractScorePropertiesItem::setTimeSignature(const TimeSignature &timeSig)
 {
     if (m_timeSignature == timeSig) return;
 
