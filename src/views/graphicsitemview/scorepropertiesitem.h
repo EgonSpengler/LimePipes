@@ -14,7 +14,7 @@
 #include "scorepropertiesinterface.h"
 
 class ScorePropertiesItem : public QObject,
-                                    public ScorePropertiesInterface
+                            public ScorePropertiesInterface
 {
     Q_OBJECT
 public:
@@ -55,7 +55,6 @@ private:
     QString m_year;
     QString m_copyright;
     TimeSignature m_timeSignature;
-    ScorePropertiesItem *m_linkedItem;
 };
 
 #endif // SCOREPROPERTIESITEM_H

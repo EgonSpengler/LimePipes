@@ -9,8 +9,7 @@
 #include "scorepropertiesitem.h"
 
 ScorePropertiesItem::ScorePropertiesItem(QObject *parent)
-    : QObject(parent),
-      m_linkedItem(0)
+    : QObject(parent)
 {
     qRegisterMetaType<TimeSignature>("TimeSignature");
 }
