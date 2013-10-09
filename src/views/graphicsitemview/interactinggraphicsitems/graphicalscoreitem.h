@@ -12,9 +12,9 @@
 #include <QGraphicsTextItem>
 #include "interactinggraphicsitem.h"
 #include "../graphicalscoreinterface.h"
-#include "../abstractscorepropertiesitem.h"
+#include "../scorepropertiesitem.h"
 
-class GraphicalScoreItem : public AbstractScorePropertiesItem,
+class GraphicalScoreItem : public ScorePropertiesItem,
                            public GraphicalScoreInterface,
                            public InteractingGraphicsItem
 {

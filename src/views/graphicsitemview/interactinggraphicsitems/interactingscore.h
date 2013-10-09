@@ -12,11 +12,11 @@
 #include <QObject>
 #include "../graphicalscoreinterface.h"
 #include "../interactingiteminterface.h"
-#include "../abstractscorepropertiesitem.h"
+#include "../scorepropertiesitem.h"
 
 class GraphicalScoreItem;
 
-class InteractingScore :  public AbstractScorePropertiesItem,
+class InteractingScore :  public ScorePropertiesItem,
                           public GraphicalScoreInterface,
                           public InteractingItemInterface
 {

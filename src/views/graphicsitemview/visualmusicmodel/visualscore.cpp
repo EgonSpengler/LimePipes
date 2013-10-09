@@ -9,7 +9,7 @@
 #include "visualscore.h"
 
 VisualScore::VisualScore(QObject *parent)
-    : AbstractScorePropertiesItem(parent),
+    : ScorePropertiesItem(parent),
       m_graphicalScore(0)
 {
 }

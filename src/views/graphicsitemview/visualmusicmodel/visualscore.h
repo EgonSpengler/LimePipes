@@ -9,13 +9,13 @@
 #ifndef VISUALSCORE_H
 #define VISUALSCORE_H
 
-#include "../abstractscorepropertiesitem.h"
+#include "../scorepropertiesitem.h"
 #include "../visualscoreinterface.h"
 #include "abstractvisualitem.h"
 
 class VisualScore : public VisualScoreInterface,
                     public AbstractVisualItem,
-                    public AbstractScorePropertiesItem
+                    public ScorePropertiesItem
 {
 public:
     explicit VisualScore(QObject *parent = 0);

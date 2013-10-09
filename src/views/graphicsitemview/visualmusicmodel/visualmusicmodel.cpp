@@ -13,7 +13,7 @@
 #include <views/graphicsitemview/visualmusicmodel/visualpart.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmeasure.h>
 #include <views/graphicsitemview/visualmusicmodel/visualsymbol.h>
-#include "../abstractscorepropertiesitem.h"
+#include "../scorepropertiesitem.h"
 #include "../graphicsscene.h"
 #include "visualrootitem.h"
 #include "visualmusicmodel.h"
@@ -139,12 +139,12 @@ QAbstractItemModel *VisualMusicModel::model() const
     return m_model;
 }
 
-AbstractScorePropertiesItem *VisualMusicModel::scorePropertiesItemFromIndex(const QModelIndex &scoreIndex)
+ScorePropertiesItem *VisualMusicModel::scorePropertiesItemFromIndex(const QModelIndex &scoreIndex)
 {
     if (!m_visualScoreIndexes.contains(scoreIndex))
         return 0;
 
-    return static_cast<AbstractScorePropertiesItem*>(m_visualScoreIndexes.value(scoreIndex));
+    return static_cast<ScorePropertiesItem*>(m_visualScoreIndexes.value(scoreIndex));
 }
 
 VisualScoreInterface *VisualMusicModel::visualScoreFromIndex(const QModelIndex &scoreIndex)

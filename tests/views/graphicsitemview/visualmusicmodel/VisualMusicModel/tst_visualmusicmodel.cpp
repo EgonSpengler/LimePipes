@@ -106,8 +106,8 @@ void VisualMusicModelTest::testVisualScorePropertiesHolderFromIndex()
 {
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
-    AbstractScorePropertiesItem *scorePropertiesHolder =
-            static_cast<AbstractScorePropertiesItem*>(visualScore);
+    ScorePropertiesItem *scorePropertiesHolder =
+            static_cast<ScorePropertiesItem*>(visualScore);
 
     Q_ASSERT(scorePropertiesHolder);
 

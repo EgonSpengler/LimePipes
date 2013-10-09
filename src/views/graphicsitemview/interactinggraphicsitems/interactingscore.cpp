@@ -10,7 +10,7 @@
 #include "interactingscore.h"
 
 InteractingScore::InteractingScore(QObject *parent)
-    : AbstractScorePropertiesItem(parent),
+    : ScorePropertiesItem(parent),
       m_headerItem(0),
       m_footerItem(0)
 {
