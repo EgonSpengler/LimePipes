@@ -10,11 +10,9 @@
 #define VISUALSCORE_H
 
 #include "../scorepropertiesitem.h"
-#include "../visualscoreinterface.h"
 #include "abstractvisualitem.h"
 
-class VisualScore : public VisualScoreInterface,
-                    public AbstractVisualItem,
+class VisualScore : public AbstractVisualItem,
                     public ScorePropertiesItem
 {
 public:
@@ -23,21 +21,6 @@ public:
     // AbstractVisualItem interface
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
-
-    // VisualScoreInterface interface
-    GraphicalScoreInterface *graphicalScore() const;
-    void setGraphicalScore(GraphicalScoreInterface *graphicalScore);
-
-    // AbstractScorePropertiesItem interface
-    void setNewTitle(const QString &title);
-    void setNewComposer(const QString &composer);
-    void setNewArranger(const QString &arranger);
-    void setNewYear(const QString &year);
-    void setNewCopyright(const QString &copyright);
-    void setNewTimeSignature(const TimeSignature &timeSig);
-
-private:
-    GraphicalScoreInterface *m_graphicalScore;
 };
 
 #endif // VISUALSCORE_H

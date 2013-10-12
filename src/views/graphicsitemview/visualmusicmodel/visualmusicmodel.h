@@ -37,7 +37,7 @@ public:
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
     ScorePropertiesItem *scorePropertiesItemFromIndex(const QModelIndex& scoreIndex);
-    VisualScoreInterface *visualScoreFromIndex(const QModelIndex& scoreIndex);
+    ScorePropertiesItem *visualScoreFromIndex(const QModelIndex& scoreIndex);
 
 signals:
     void scoreInserted(const QModelIndex& scoreIndex);

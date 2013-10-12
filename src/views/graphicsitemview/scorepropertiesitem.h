@@ -22,6 +22,7 @@ public:
     ~ScorePropertiesItem() {}
 
     void linkWithItem(ScorePropertiesItem *item);
+    const ScorePropertiesItem *linkedItem() const;
 
 signals:
     void titleChanged(const QString& newTitle);
@@ -55,6 +56,7 @@ private:
     QString m_year;
     QString m_copyright;
     TimeSignature m_timeSignature;
+    const ScorePropertiesItem *m_linkedItem;
 };
 
 #endif // SCOREPROPERTIESITEM_H

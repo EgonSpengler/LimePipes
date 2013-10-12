@@ -10,14 +10,12 @@
 #define INTERACTINGSCORE_H
 
 #include <QObject>
-#include "../graphicalscoreinterface.h"
 #include "../interactingiteminterface.h"
 #include "../scorepropertiesitem.h"
 
 class GraphicalScoreItem;
 
 class InteractingScore :  public ScorePropertiesItem,
-                          public GraphicalScoreInterface,
                           public InteractingItemInterface
 {
 public:

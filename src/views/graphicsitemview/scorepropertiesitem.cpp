@@ -9,13 +9,21 @@
 #include "scorepropertiesitem.h"
 
 ScorePropertiesItem::ScorePropertiesItem(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_linkedItem(0)
 {
     qRegisterMetaType<TimeSignature>("TimeSignature");
 }
 
 void ScorePropertiesItem::linkWithItem(ScorePropertiesItem *item)
 {
+    if (m_linkedItem == 0) {
+        m_linkedItem = item;
+        item->m_linkedItem = this;
+    }
+    else
+        return;
+
     // Title
     connect(this, SIGNAL(titleChanged(QString)),
             item, SLOT(setTitle(QString)));
@@ -46,6 +54,11 @@ void ScorePropertiesItem::linkWithItem(ScorePropertiesItem *item)
             item, SLOT(setTimeSignature(TimeSignature)));
     connect(item, SIGNAL(timeSignatureChanged(TimeSignature)),
             this, SLOT(setTimeSignature(TimeSignature)));
+}
+
+const ScorePropertiesItem *ScorePropertiesItem::linkedItem() const
+{
+    return m_linkedItem;
 }
 
 QString ScorePropertiesItem::title() const

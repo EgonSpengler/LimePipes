@@ -147,10 +147,10 @@ ScorePropertiesItem *VisualMusicModel::scorePropertiesItemFromIndex(const QModel
     return static_cast<ScorePropertiesItem*>(m_visualScoreIndexes.value(scoreIndex));
 }
 
-VisualScoreInterface *VisualMusicModel::visualScoreFromIndex(const QModelIndex &scoreIndex)
+ScorePropertiesItem *VisualMusicModel::visualScoreFromIndex(const QModelIndex &scoreIndex)
 {
     if (!m_visualScoreIndexes.contains(scoreIndex))
         return 0;
 
-    return static_cast<VisualScoreInterface*>(m_visualScoreIndexes.value(scoreIndex));
+    return static_cast<ScorePropertiesItem*>(m_visualScoreIndexes.value(scoreIndex));
 }

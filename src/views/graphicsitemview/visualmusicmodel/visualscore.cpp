@@ -9,8 +9,7 @@
 #include "visualscore.h"
 
 VisualScore::VisualScore(QObject *parent)
-    : ScorePropertiesItem(parent),
-      m_graphicalScore(0)
+    : ScorePropertiesItem(parent)
 {
 }
 
@@ -21,38 +20,4 @@ AbstractVisualItem::Type VisualScore::type() const
 
 void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
 {
-}
-
-void VisualScore::setNewTitle(const QString &title)
-{
-}
-
-void VisualScore::setNewComposer(const QString &composer)
-{
-}
-
-void VisualScore::setNewArranger(const QString &arranger)
-{
-}
-
-void VisualScore::setNewYear(const QString &year)
-{
-}
-
-void VisualScore::setNewCopyright(const QString &copyright)
-{
-}
-
-void VisualScore::setNewTimeSignature(const TimeSignature &timeSig)
-{
-}
-
-GraphicalScoreInterface *VisualScore::graphicalScore() const
-{
-    return m_graphicalScore;
-}
-
-void VisualScore::setGraphicalScore(GraphicalScoreInterface *graphicalScore)
-{
-    m_graphicalScore = graphicalScore;
 }

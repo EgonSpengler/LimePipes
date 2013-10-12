@@ -28,6 +28,7 @@ private Q_SLOTS:
     void testCopyright();
     void testTimesignature();
     void testLinkWithItem();
+    void testLinkedItem();
 
 private:
     ScorePropertiesItem *m_scorePropertiesItem;
@@ -191,6 +192,17 @@ void ScorePropertiesItemTest::testLinkWithItem()
     // Set TimeSignature 2 -> 1
     item2->setTimeSignature(TimeSignature(TimeSignature::_2_2));
     QVERIFY2(spySetTimesignature21.count() == 2, "Set new timesignature wasn't called on item1");
+}
+
+void ScorePropertiesItemTest::testLinkedItem()
+{
+    ScorePropertiesItem *item1 = new ScorePropertiesItem(this);
+    ScorePropertiesItem *item2 = new ScorePropertiesItem(this);
+
+    item1->linkWithItem(item2);
+
+    QVERIFY2(item1->linkedItem() == item2, "Item 1 hasn't item2 as linked item");
+    QVERIFY2(item2->linkedItem() == item1, "Item 2 hasn't item1 as linked item");
 }
 
 QTEST_APPLESS_MAIN(ScorePropertiesItemTest)

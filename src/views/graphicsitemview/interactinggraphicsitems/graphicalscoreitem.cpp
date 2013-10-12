@@ -37,28 +37,3 @@ QString GraphicalScoreItem::title() const
 
     return m_titleItem->toPlainText();
 }
-
-
-void GraphicalScoreItem::setNewTitle(const QString &title)
-{
-}
-
-void GraphicalScoreItem::setNewComposer(const QString &composer)
-{
-}
-
-void GraphicalScoreItem::setNewArranger(const QString &arranger)
-{
-}
-
-void GraphicalScoreItem::setNewYear(const QString &year)
-{
-}
-
-void GraphicalScoreItem::setNewCopyright(const QString &copyright)
-{
-}
-
-void GraphicalScoreItem::setNewTimeSignature(const TimeSignature &timeSig)
-{
-}
