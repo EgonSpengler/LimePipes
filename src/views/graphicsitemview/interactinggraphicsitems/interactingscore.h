@@ -13,17 +13,20 @@
 #include "../interactingiteminterface.h"
 #include "../scorepropertiesitem.h"
 
+class QGraphicsWidget;
 class GraphicalScoreItem;
 
 class InteractingScore :  public ScorePropertiesItem,
                           public InteractingItemInterface
 {
+    friend class InteractingScoreTest;
+
 public:
     explicit InteractingScore(QObject *parent = 0);
     ~InteractingScore();
 
-    GraphicalScoreItem *headerItem() const { return m_headerItem; }
-    GraphicalScoreItem *footerItem() const { return m_footerItem; }
+    QGraphicsWidget *headerItem() const;
+    QGraphicsWidget *footerItem() const;
 
     // InteractingItemInterface interface
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -31,14 +34,13 @@ public:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
-    // AbstractScorePropertiesItem interface
-public slots:
-    void setNewTitle(const QString &title);
-    void setNewComposer(const QString &composer);
-    void setNewArranger(const QString &arranger);
-    void setNewYear(const QString &year);
-    void setNewCopyright(const QString &copyright);
-    void setNewTimeSignature(const TimeSignature &timeSig);
+    // ScorePropertiesInterface interface
+    void setTitle(const QString &title);
+    void setComposer(const QString &composer);
+    void setArranger(const QString &arranger);
+    void setYear(const QString &year);
+    void setCopyright(const QString &copyright);
+    void setTimeSignature(const TimeSignature &timeSig);
 
 private:
     GraphicalScoreItem *m_headerItem;

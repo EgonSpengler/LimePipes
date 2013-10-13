@@ -102,18 +102,18 @@ void VisualMusicModelTest::testInsertSymbol()
     QVERIFY2(spy.count() == 1, "Symbol inserted wasn't emitted");
 }
 
-void VisualMusicModelTest::testVisualScorePropertiesHolderFromIndex()
+void VisualMusicModelTest::testVisualScorePropertiesItemFromIndex()
 {
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
-    ScorePropertiesItem *scorePropertiesHolder =
+    ScorePropertiesItem *scorePropertiesItem =
             static_cast<ScorePropertiesItem*>(visualScore);
 
-    Q_ASSERT(scorePropertiesHolder);
+    Q_ASSERT(scorePropertiesItem);
 
-    QVERIFY2(scorePropertiesHolder ==
+    QVERIFY2(scorePropertiesItem ==
              m_visualMusicModel->scorePropertiesItemFromIndex(scoreIndex),
-             "score properties holder for index isn't the visual score");
+             "score properties item for index isn't the visual score");
 }
 
 void VisualMusicModelTest::testVisualScoreFromIndex()

@@ -49,5 +49,8 @@ void PageViewDummy::removeRow(int rowIndex)
 
 QGraphicsWidget *PageViewDummy::rowAt(int index) const
 {
+    if (!m_graphicWidgets.count())
+        return 0;
+
     return m_graphicWidgets.at(index);
 }

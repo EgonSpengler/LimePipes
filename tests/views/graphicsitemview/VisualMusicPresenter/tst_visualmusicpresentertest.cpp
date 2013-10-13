@@ -30,6 +30,8 @@ private Q_SLOTS:
     void testSetGetPageView();
     void testSetGetModel();
     void testScoreInserted();
+    void testInsertScoreLinkedScorePropertiesItem();
+    void testInsertScorePageViewRows();
 
 private:
     PageViewDummy *m_pageView;
@@ -92,6 +94,27 @@ void VisualMusicPresenterTest::testScoreInserted()
 
     QVERIFY2(score1 != score2,
              "Interacting score inserted in the wrong place");
+}
+
+void VisualMusicPresenterTest::testInsertScoreLinkedScorePropertiesItem()
+{
+    m_musicModel->insertScore(0, "Testscore");
+    InteractingScore *score1 = m_musicPresenter->m_interactingScores.at(0);
+
+    QVERIFY2(score1->linkedItem() != 0, "Interacting score has no linked item");
+}
+
+void VisualMusicPresenterTest::testInsertScorePageViewRows()
+{
+    m_musicModel->insertScore(0, "Testscore");
+    InteractingScore *score1 = m_musicPresenter->m_interactingScores.at(0);
+    PageViewInterface *pageView = m_musicPresenter->m_pageView;
+
+    QVERIFY2(pageView->rowCount() == 2, "Not all (header and footer) rows were inserted");
+    QVERIFY2(score1->headerItem() == pageView->rowAt(0),
+             "Score header item wasn't inserted into pageview");
+    QVERIFY2(score1->footerItem() == pageView->rowAt(1),
+             "Score footer item wasn't inserted into pageview");
 }
 
 QTEST_MAIN(VisualMusicPresenterTest)

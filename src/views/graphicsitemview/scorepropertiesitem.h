@@ -33,12 +33,12 @@ signals:
     void timeSignatureChanged(const TimeSignature& newTimeSignature);
 
 public slots:
-    void setTitle(const QString &title);
-    void setComposer(const QString &composer);
-    void setArranger(const QString &arranger);
-    void setYear(const QString &year);
-    void setCopyright(const QString &copyright);
-    void setTimeSignature(const TimeSignature &timeSig);
+    virtual void setTitle(const QString &title);
+    virtual void setComposer(const QString &composer);
+    virtual void setArranger(const QString &arranger);
+    virtual void setYear(const QString &year);
+    virtual void setCopyright(const QString &copyright);
+    virtual void setTimeSignature(const TimeSignature &timeSig);
 
     // ScorePropertiesInterface interface
 public:

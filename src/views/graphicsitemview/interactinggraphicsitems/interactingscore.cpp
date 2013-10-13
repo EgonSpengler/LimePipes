@@ -20,10 +20,17 @@ InteractingScore::InteractingScore(QObject *parent)
 
 InteractingScore::~InteractingScore()
 {
-    delete m_headerItem;
-    delete m_footerItem;
 }
 
+QGraphicsWidget *InteractingScore::headerItem() const
+{
+    return static_cast<QGraphicsWidget*>(m_headerItem);
+}
+
+QGraphicsWidget *InteractingScore::footerItem() const
+{
+    return static_cast<QGraphicsWidget*>(m_footerItem);
+}
 
 void InteractingScore::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -45,28 +52,30 @@ void InteractingScore::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     Q_UNUSED(event);
 }
 
-void InteractingScore::setNewTitle(const QString &title)
+void InteractingScore::setTitle(const QString &title)
 {
+    ScorePropertiesItem::setTitle(title);
+
     m_headerItem->setTitle(title);
     m_footerItem->setTitle(title);
 }
 
-void InteractingScore::setNewComposer(const QString &composer)
+void InteractingScore::setComposer(const QString &composer)
 {
 }
 
-void InteractingScore::setNewArranger(const QString &arranger)
+void InteractingScore::setArranger(const QString &arranger)
 {
 }
 
-void InteractingScore::setNewYear(const QString &year)
+void InteractingScore::setYear(const QString &year)
 {
 }
 
-void InteractingScore::setNewCopyright(const QString &copyright)
+void InteractingScore::setCopyright(const QString &copyright)
 {
 }
 
-void InteractingScore::setNewTimeSignature(const TimeSignature &timeSig)
+void InteractingScore::setTimeSignature(const TimeSignature &timeSig)
 {
 }
