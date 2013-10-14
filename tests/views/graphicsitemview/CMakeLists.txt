@@ -114,7 +114,7 @@ set( VisualScore_TEST_SOURCES
 
 add_executable( VisualScoreTest ${GraphicsItemView_SOURCES}
     ${VisualScore_TEST_SOURCES})
-target_link_libraries( VisualScoreTest ${TEST_LIBRARIES} )
+target_link_libraries( VisualScoreTest ${TEST_LIBRARIES} lp_greathighlandbagpipe )
 add_test( NAME VisualScoreTest COMMAND VisualScoreTest )
 
 # VisualTuneTest

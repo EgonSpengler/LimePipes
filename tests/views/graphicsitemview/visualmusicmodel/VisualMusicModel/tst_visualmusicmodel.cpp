@@ -32,13 +32,17 @@ void VisualMusicModelTest::testSetGetModel()
 
 void VisualMusicModelTest::testInsertScore()
 {
+    QString scoreTitle("Testscore");
     QSignalSpy spy(m_visualMusicModel, SIGNAL(scoreInserted(QModelIndex)));
-    m_musicModel->insertScore(0, "Testscore");
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, scoreTitle);
 
     QVERIFY2(m_visualMusicModel->m_rootItem != 0, "Root item is still 0 after insert of score");
     QVERIFY2(m_visualMusicModel->m_visualScoreIndexes.count() == 1,
              "No visual score was inserted");
     QVERIFY2(spy.count() == 1, "Score inserted signal wasn't emitted");
+    VisualScore *score = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
+    Q_ASSERT(score);
+    QVERIFY2(!score->title().isEmpty(), "setDataFromIndex wasn't called on VisualScore");
 }
 
 void VisualMusicModelTest::testInsertTune()

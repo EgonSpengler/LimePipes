@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testTimesignature();
     void testLinkWithItem();
     void testLinkedItem();
+    void testSetDataWhenLinkItems();
 
 private:
     ScorePropertiesItem *m_scorePropertiesItem;
@@ -203,6 +204,33 @@ void ScorePropertiesItemTest::testLinkedItem()
 
     QVERIFY2(item1->linkedItem() == item2, "Item 1 hasn't item2 as linked item");
     QVERIFY2(item2->linkedItem() == item1, "Item 2 hasn't item1 as linked item");
+}
+
+void ScorePropertiesItemTest::testSetDataWhenLinkItems()
+{
+    QString title("Testtitle");
+    QString composer("Composer");
+    QString arranger("Arranger");
+    QString year("2013");
+    QString copyright("C TB");
+    TimeSignature timeSig(TimeSignature::_3_8);
+
+    ScorePropertiesItem *item1 = new ScorePropertiesItem(this);
+    ScorePropertiesItem *item2 = new ScorePropertiesItem(this);
+    item1->setTitle(title);
+    item1->setComposer(composer);
+    item1->setArranger(arranger);
+    item1->setYear(year);
+    item1->setCopyright(copyright);
+    item1->setTimeSignature(timeSig);
+
+    item2->linkWithItem(item1);
+    QVERIFY2(item2->title() == title, "Title was not set while linking items");
+    QVERIFY2(item2->composer() == composer, "Composer was not set while linking items");
+    QVERIFY2(item2->arranger() == arranger, "Arranger was not set while linking items");
+    QVERIFY2(item2->year() == year, "Year was not set while linking items");
+    QVERIFY2(item2->copyright() == copyright, "Copyright was not set while linking items");
+    QVERIFY2(item2->timeSignature() == timeSig, "Timesignature was not set while linking items");
 }
 
 QTEST_APPLESS_MAIN(ScorePropertiesItemTest)

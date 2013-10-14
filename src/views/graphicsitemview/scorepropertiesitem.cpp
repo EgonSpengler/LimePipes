@@ -29,31 +29,42 @@ void ScorePropertiesItem::linkWithItem(ScorePropertiesItem *item)
             item, SLOT(setTitle(QString)));
     connect(item, SIGNAL(titleChanged(QString)),
             this, SLOT(setTitle(QString)));
+    setTitle(item->title());
+
     // Composer
     connect(this, SIGNAL(composerChanged(QString)),
             item, SLOT(setComposer(QString)));
     connect(item, SIGNAL(composerChanged(QString)),
             this, SLOT(setComposer(QString)));
+    setComposer(item->composer());
+
     // Arranger
     connect(this, SIGNAL(arrangerChanged(QString)),
             item, SLOT(setArranger(QString)));
     connect(item, SIGNAL(arrangerChanged(QString)),
             this, SLOT(setArranger(QString)));
+    setArranger(item->arranger());
+
     // Year
     connect(this, SIGNAL(yearChanged(QString)),
             item, SLOT(setYear(QString)));
     connect(item, SIGNAL(yearChanged(QString)),
             this, SLOT(setYear(QString)));
+    setYear(item->year());
+
     // Copyright
     connect(this, SIGNAL(copyrightChanged(QString)),
             item, SLOT(setCopyright(QString)));
     connect(item, SIGNAL(copyrightChanged(QString)),
             this, SLOT(setCopyright(QString)));
+    setCopyright(item->copyright());
+
     // Time signature
     connect(this, SIGNAL(timeSignatureChanged(TimeSignature)),
             item, SLOT(setTimeSignature(TimeSignature)));
     connect(item, SIGNAL(timeSignatureChanged(TimeSignature)),
             this, SLOT(setTimeSignature(TimeSignature)));
+    setTimeSignature(item->timeSignature());
 }
 
 const ScorePropertiesItem *ScorePropertiesItem::linkedItem() const

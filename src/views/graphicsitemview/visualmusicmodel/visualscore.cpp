@@ -6,6 +6,7 @@
  *
  */
 
+#include <itemdatatypes.h>
 #include "visualscore.h"
 
 VisualScore::VisualScore(QObject *parent)
@@ -20,4 +21,21 @@ AbstractVisualItem::Type VisualScore::type() const
 
 void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
 {
+    QString title = index.data(LP::scoreTitle).toString();
+    setTitle(title);
+
+    QString composer = index.data(LP::scoreComposer).toString();
+    setComposer(composer);
+
+    QString arranger = index.data(LP::scoreArranger).toString();
+    setArranger(arranger);
+
+    QString year = index.data(LP::scoreYear).toString();
+    setYear(year);
+
+    QString copyright = index.data(LP::scoreCopyright).toString();
+    setCopyright(copyright);
+
+    QVariant timeSigVariant = index.data(LP::scoreTimeSignature);
+    setTimeSignature(timeSigVariant.value<TimeSignature>());
 }
