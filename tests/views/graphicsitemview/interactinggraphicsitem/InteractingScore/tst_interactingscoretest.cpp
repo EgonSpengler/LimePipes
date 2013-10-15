@@ -21,6 +21,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testInteractingItemSet();
     void testSetTitle();
 
 private:
@@ -39,6 +40,14 @@ void InteractingScoreTest::init()
 void InteractingScoreTest::cleanup()
 {
     delete m_interactingScore;
+}
+
+void InteractingScoreTest::testInteractingItemSet()
+{
+    QVERIFY2(m_interactingScore->m_headerItem->interactingItem() == m_interactingScore,
+             "Interacting Item of header item wasn't set");
+    QVERIFY2(m_interactingScore->m_footerItem->interactingItem() == m_interactingScore,
+             "Interacting Item of footer item wasn't set");
 }
 
 void InteractingScoreTest::testSetTitle()

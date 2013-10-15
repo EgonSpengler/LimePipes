@@ -15,7 +15,9 @@ InteractingScore::InteractingScore(QObject *parent)
       m_footerItem(0)
 {
     m_headerItem = new GraphicalScoreItem();
+    m_headerItem->setInteractingItem(this);
     m_footerItem = new GraphicalScoreItem();
+    m_footerItem->setInteractingItem(this);
 }
 
 InteractingScore::~InteractingScore()
