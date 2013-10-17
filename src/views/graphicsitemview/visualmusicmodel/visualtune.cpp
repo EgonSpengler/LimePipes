@@ -9,7 +9,7 @@
 #include "visualtune.h"
 
 VisualTune::VisualTune(QObject *parent)
-    : QObject(parent)
+    : AbstractVisualItem(parent)
 {
 }
 

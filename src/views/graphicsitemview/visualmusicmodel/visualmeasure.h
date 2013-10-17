@@ -12,8 +12,7 @@
 #include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualMeasure : public QObject,
-                      public AbstractVisualItem
+class VisualMeasure : public AbstractVisualItem
 {
 public:
     explicit VisualMeasure(QObject *parent = 0);

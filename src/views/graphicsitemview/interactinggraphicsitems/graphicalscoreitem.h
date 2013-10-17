@@ -9,23 +9,30 @@
 #ifndef GRAPHICALSCOREITEM_H
 #define GRAPHICALSCOREITEM_H
 
-#include <QGraphicsTextItem>
 #include "interactinggraphicsitem.h"
-#include "../scorepropertiesitem.h"
+#include <graphicsitemview/scorepropertiesinterface.h>
 
-class GraphicalScoreItem : public ScorePropertiesItem,
-                           public InteractingGraphicsItem
+class TextWidget;
+class QGraphicsLinearLayout;
+
+class GraphicalScoreItem : public InteractingGraphicsItem
 {
+    Q_OBJECT
+
     friend class GraphicalScoreItemTest;
 
 public:
-    explicit GraphicalScoreItem(QObject *parent = 0);
+    explicit GraphicalScoreItem(QGraphicsItem *parent = 0);
 
     void setTitle(const QString& title);
     QString title() const;
 
+signals:
+    void titleChanged(const QString& title);
+
 private:
-    QGraphicsTextItem *m_titleItem;
+    TextWidget *m_titleItem;
+    QGraphicsLinearLayout *m_rowLayout;
 };
 
 #endif // GRAPHICALSCOREITEM_H

@@ -12,8 +12,7 @@
 #include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualPart : public QObject,
-                   public AbstractVisualItem
+class VisualPart : public AbstractVisualItem
 {
 public:
     explicit VisualPart(QObject *parent = 0);

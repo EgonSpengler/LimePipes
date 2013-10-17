@@ -48,6 +48,7 @@ signals:
 
 private slots:
     void rowsInserted(const QModelIndex &parent, int start, int end);
+    void scoreDataChanged(const QVariant& value, int dataRole);
 
 private:
     void createRootItemIfNotPresent();

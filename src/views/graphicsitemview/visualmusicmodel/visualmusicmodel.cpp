@@ -54,6 +54,21 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     }
 }
 
+void VisualMusicModel::scoreDataChanged(const QVariant &value, int dataRole)
+{
+    QObject *senderObject = sender();
+    if (!senderObject) return;
+
+    VisualScore *score = dynamic_cast<VisualScore*>(senderObject);
+    if (!score) return;
+
+    if (!m_visualScoreIndexes.values().contains(score)) return;
+    QModelIndex scoreIndex = m_visualScoreIndexes.key(score);
+    if (!scoreIndex.isValid()) return;
+
+    m_model->setData(scoreIndex, value, dataRole);
+}
+
 void VisualMusicModel::insertNewScores(const QModelIndex &index, int start, int end)
 {
     if (!model()) return;
@@ -62,6 +77,9 @@ void VisualMusicModel::insertNewScores(const QModelIndex &index, int start, int 
         if (itemIndex.isValid()) {
             VisualScore *score = new VisualScore(this);
             score->setDataFromIndex(itemIndex);
+            AbstractVisualItem *visualItem = score;
+            connect(visualItem, SIGNAL(dataChanged(QVariant,int)),
+                    this, SLOT(scoreDataChanged(QVariant,int)));
             m_visualScoreIndexes.insert(itemIndex, score);
             emit scoreInserted(itemIndex);
         }

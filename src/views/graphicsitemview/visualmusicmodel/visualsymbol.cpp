@@ -9,7 +9,7 @@
 #include "visualsymbol.h"
 
 VisualSymbol::VisualSymbol(QObject *parent)
-    : QObject(parent)
+    : AbstractVisualItem(parent)
 {
 }
 

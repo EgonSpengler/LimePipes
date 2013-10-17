@@ -43,6 +43,7 @@ public:
     void setTimeSignature(const TimeSignature &timeSig);
 
 private:
+    void createConnections();
     GraphicalScoreItem *m_headerItem;
     GraphicalScoreItem *m_footerItem;
 };

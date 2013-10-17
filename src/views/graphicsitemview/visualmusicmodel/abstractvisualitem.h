@@ -9,10 +9,12 @@
 #ifndef ABSTRACTVISUALITEM_H
 #define ABSTRACTVISUALITEM_H
 
+#include <QObject>
 #include <QPersistentModelIndex>
 
-class AbstractVisualItem
+class AbstractVisualItem : public QObject
 {
+    Q_OBJECT
 public:
     enum Type {
         VisualRootItem,
@@ -23,7 +25,7 @@ public:
         VisualSymbolItem
     };
 
-    explicit AbstractVisualItem();
+    explicit AbstractVisualItem(QObject *parent = 0);
     virtual ~AbstractVisualItem() {}
 
     virtual Type type() const = 0;
@@ -34,6 +36,9 @@ public:
     int childItemCount();
     AbstractVisualItem *childItemAt(int row);
     void removeItemAt(int row);
+
+signals:
+    void dataChanged(const QVariant& value, int dataRole);
 
 private:
     bool isValidIndex(int row);

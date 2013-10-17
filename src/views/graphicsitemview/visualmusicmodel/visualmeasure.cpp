@@ -9,7 +9,7 @@
 #include "visualmeasure.h"
 
 VisualMeasure::VisualMeasure(QObject *parent)
-    : QObject(parent)
+    : AbstractVisualItem(parent)
 {
 }
 

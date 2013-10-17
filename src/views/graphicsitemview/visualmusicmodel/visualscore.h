@@ -21,6 +21,9 @@ public:
     // AbstractVisualItem interface
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
+
+public:
+    void setTitle(const QString &title);
 };
 
 #endif // VISUALSCORE_H

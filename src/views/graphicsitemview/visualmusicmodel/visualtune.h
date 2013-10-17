@@ -12,8 +12,7 @@
 #include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualTune : public QObject,
-                       public AbstractVisualItem
+class VisualTune : public AbstractVisualItem
 {
 public:
     explicit VisualTune(QObject *parent = 0);

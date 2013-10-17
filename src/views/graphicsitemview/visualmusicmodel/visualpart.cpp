@@ -9,7 +9,7 @@
 #include "visualpart.h"
 
 VisualPart::VisualPart(QObject *parent)
-    : QObject(parent)
+    : AbstractVisualItem(parent)
 {
 }
 

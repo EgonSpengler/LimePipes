@@ -8,7 +8,8 @@
 
 #include "abstractvisualitem.h"
 
-AbstractVisualItem::AbstractVisualItem()
+AbstractVisualItem::AbstractVisualItem(QObject *parent)
+    : QObject(parent)
 {
 }
 

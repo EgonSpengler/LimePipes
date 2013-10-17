@@ -39,3 +39,10 @@ void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
     QVariant timeSigVariant = index.data(LP::scoreTimeSignature);
     setTimeSignature(timeSigVariant.value<TimeSignature>());
 }
+
+void VisualScore::setTitle(const QString &title)
+{
+    ScorePropertiesItem::setTitle(title);
+
+    emit dataChanged(title, LP::scoreTitle);
+}

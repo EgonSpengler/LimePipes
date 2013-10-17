@@ -18,6 +18,16 @@ InteractingScore::InteractingScore(QObject *parent)
     m_headerItem->setInteractingItem(this);
     m_footerItem = new GraphicalScoreItem();
     m_footerItem->setInteractingItem(this);
+
+    createConnections();
+}
+
+void InteractingScore::createConnections()
+{
+    connect(m_headerItem, SIGNAL(titleChanged(QString)),
+            this, SIGNAL(titleChanged(QString)));
+    connect(m_footerItem, SIGNAL(titleChanged(QString)),
+            this, SIGNAL(titleChanged(QString)));
 }
 
 InteractingScore::~InteractingScore()

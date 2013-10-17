@@ -58,6 +58,7 @@ int PageViewItem::rowCountOfPage(int index) const
 
 void PageViewItem::appendRow(QGraphicsWidget *row)
 {
+    prepareWidgetForRow(row);
     PageItem *lastPage = getLastPage();
 
     if (lastPage->remainingVerticalSpace() < row->preferredHeight()) {
@@ -69,6 +70,7 @@ void PageViewItem::appendRow(QGraphicsWidget *row)
 
 void PageViewItem::prependRow(QGraphicsWidget *row)
 {
+    prepareWidgetForRow(row);
     insertRow(0, row);
 }
 
@@ -148,6 +150,12 @@ void PageViewItem::remainingVerticalSpaceHasChanged(int oldValue, int newValue)
             break;
         }
     }
+}
+
+void PageViewItem::prepareWidgetForRow(QGraphicsWidget *rowWidget)
+{
+    rowWidget->setSizePolicy(QSizePolicy::MinimumExpanding, // horizontal
+                             QSizePolicy::Maximum);         // vertical
 }
 
 int PageViewItem::indexOfPage(PageItem *page) const
