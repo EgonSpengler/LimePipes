@@ -9,6 +9,8 @@
 #include <QString>
 #include <QtTest/QtTest>
 #include <model/musicmodel.h>
+#include <datatypes/timesignature.h>
+#include <views/graphicsitemview/scorepropertiesitem.h>
 #include <views/graphicsitemview/visualmusicmodel/visualscore.h>
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
@@ -72,13 +74,14 @@ void VisualScoreTest::testSetDataFromIndex()
                           LP::scoreTimeSignature);
 
     m_visualScore->setDataFromIndex(scoreIndex);
+    ScorePropertiesItem *scoreProperties = m_visualScore->scorePropertiesItem();
 
-    QVERIFY2(m_visualScore->title() == scoreTitle, "Score title wasn't set");
-    QVERIFY2(m_visualScore->composer() == scoreComposer, "Score composer wasn't set");
-    QVERIFY2(m_visualScore->arranger() == scoreArranger, "Score arranger wasn't set");
-    QVERIFY2(m_visualScore->year() == scoreYear, "Score year wasn't set");
-    QVERIFY2(m_visualScore->copyright() == scoreCopyright, "Score copyright wasn't set");
-    QVERIFY2(m_visualScore->timeSignature() == scoreTimeSignature, "Score time signature wasn't set");
+    QVERIFY2(scoreProperties->title() == scoreTitle, "Score title wasn't set");
+    QVERIFY2(scoreProperties->composer() == scoreComposer, "Score composer wasn't set");
+    QVERIFY2(scoreProperties->arranger() == scoreArranger, "Score arranger wasn't set");
+    QVERIFY2(scoreProperties->year() == scoreYear, "Score year wasn't set");
+    QVERIFY2(scoreProperties->copyright() == scoreCopyright, "Score copyright wasn't set");
+    QVERIFY2(scoreProperties->timeSignature() == scoreTimeSignature, "Score time signature wasn't set");
 }
 
 QTEST_MAIN(VisualScoreTest)

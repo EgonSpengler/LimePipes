@@ -7,11 +7,20 @@
  */
 
 #include <itemdatatypes.h>
+#include "../scorepropertiesitem.h"
 #include "visualscore.h"
 
 VisualScore::VisualScore(QObject *parent)
-    : ScorePropertiesItem(parent)
+    : AbstractVisualItem(parent),
+      m_scorePropertiesItem(0)
 {
+    m_scorePropertiesItem = new ScorePropertiesItem(this);
+}
+
+void VisualScore::createConnections()
+{
+    connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
+            this, SLOT(titleChanged(QString)));
 }
 
 AbstractVisualItem::Type VisualScore::type() const
@@ -22,27 +31,30 @@ AbstractVisualItem::Type VisualScore::type() const
 void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
 {
     QString title = index.data(LP::scoreTitle).toString();
-    setTitle(title);
+    m_scorePropertiesItem->setTitle(title);
 
     QString composer = index.data(LP::scoreComposer).toString();
-    setComposer(composer);
+    m_scorePropertiesItem->setComposer(composer);
 
     QString arranger = index.data(LP::scoreArranger).toString();
-    setArranger(arranger);
+    m_scorePropertiesItem->setArranger(arranger);
 
     QString year = index.data(LP::scoreYear).toString();
-    setYear(year);
+    m_scorePropertiesItem->setYear(year);
 
     QString copyright = index.data(LP::scoreCopyright).toString();
-    setCopyright(copyright);
+    m_scorePropertiesItem->setCopyright(copyright);
 
     QVariant timeSigVariant = index.data(LP::scoreTimeSignature);
-    setTimeSignature(timeSigVariant.value<TimeSignature>());
+    m_scorePropertiesItem->setTimeSignature(timeSigVariant.value<TimeSignature>());
 }
 
-void VisualScore::setTitle(const QString &title)
+void VisualScore::titleChanged(const QString &title)
 {
-    ScorePropertiesItem::setTitle(title);
-
     emit dataChanged(title, LP::scoreTitle);
+}
+
+ScorePropertiesItem *VisualScore::scorePropertiesItem() const
+{
+    return m_scorePropertiesItem;
 }

@@ -60,7 +60,7 @@ void PageViewItemTest::testPageCount()
     fillFirstPage();
     QVERIFY2(m_pageViewItem->pageCount() == 1, "Filled more than one page");
 
-    m_pageViewItem->appendRow(new PageContentRowItem());
+    m_pageViewItem->appendRow(new QGraphicsWidget());
 
     QVERIFY2(m_pageViewItem->pageCount() == 2, "No pagebreak occured");
 }

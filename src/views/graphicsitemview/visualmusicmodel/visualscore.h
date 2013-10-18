@@ -9,12 +9,13 @@
 #ifndef VISUALSCORE_H
 #define VISUALSCORE_H
 
-#include "../scorepropertiesitem.h"
 #include "abstractvisualitem.h"
 
-class VisualScore : public AbstractVisualItem,
-                    public ScorePropertiesItem
+class ScorePropertiesItem;
+
+class VisualScore : public AbstractVisualItem
 {
+    Q_OBJECT
 public:
     explicit VisualScore(QObject *parent = 0);
 
@@ -22,8 +23,14 @@ public:
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 
-public:
-    void setTitle(const QString &title);
+    ScorePropertiesItem *scorePropertiesItem() const;
+
+private slots:
+    void titleChanged(const QString &title);
+
+private:
+    void createConnections();
+    ScorePropertiesItem *m_scorePropertiesItem;
 };
 
 #endif // VISUALSCORE_H

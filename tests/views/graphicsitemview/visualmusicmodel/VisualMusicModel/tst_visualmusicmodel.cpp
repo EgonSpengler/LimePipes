@@ -11,6 +11,7 @@
 #include <QCoreApplication>
 #include <QStandardItemModel>
 #include <model/musicmodel.h>
+#include <graphicsitemview/scorepropertiesitem.h>
 #include <graphicsitemview/visualmusicmodel/visualscore.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 #include "tst_visualmusicmodel.h"
@@ -42,7 +43,7 @@ void VisualMusicModelTest::testInsertScore()
     QVERIFY2(spy.count() == 1, "Score inserted signal wasn't emitted");
     VisualScore *score = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
     Q_ASSERT(score);
-    QVERIFY2(!score->title().isEmpty(), "setDataFromIndex wasn't called on VisualScore");
+    QVERIFY2(!score->scorePropertiesItem()->title().isEmpty(), "setDataFromIndex wasn't called on VisualScore");
 }
 
 void VisualMusicModelTest::testInsertTune()
@@ -110,8 +111,7 @@ void VisualMusicModelTest::testVisualScorePropertiesItemFromIndex()
 {
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
-    ScorePropertiesItem *scorePropertiesItem =
-            static_cast<ScorePropertiesItem*>(visualScore);
+    ScorePropertiesItem *scorePropertiesItem = visualScore->scorePropertiesItem();
 
     Q_ASSERT(scorePropertiesItem);
 
