@@ -155,7 +155,7 @@ void PageViewItem::remainingVerticalSpaceHasChanged(int oldValue, int newValue)
 void PageViewItem::prepareWidgetForRow(QGraphicsWidget *rowWidget)
 {
     rowWidget->setSizePolicy(QSizePolicy::MinimumExpanding, // horizontal
-                             QSizePolicy::Fixed);         // vertical
+                             QSizePolicy::Fixed);           // vertical
 }
 
 int PageViewItem::indexOfPage(PageItem *page) const

@@ -49,7 +49,7 @@ void VisualMusicPresenter::scoreInserted(const QModelIndex &scoreIndex)
     ScorePropertiesItem *visualScore = m_visualMusicModel->scorePropertiesItemFromIndex(scoreIndex);
     if (!visualScore)
         return;
-    interactingScore->linkWithItem(visualScore);
+    interactingScore->scorePropertiesItem()->linkWithItem(visualScore);
     m_pageView->appendRow(interactingScore->headerItem());
     m_pageView->appendRow(interactingScore->footerItem());
 }

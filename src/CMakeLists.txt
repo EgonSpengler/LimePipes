@@ -74,6 +74,7 @@ set( limepipes_MOC_HEADERS
         views/graphicsitemview/visualmusicmodel/visualmusicmodel.h
         views/graphicsitemview/visualmusicmodel/visualscore.h
 
+        views/graphicsitemview/interactinggraphicsitems/interactingscore.h
         views/graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h
         views/graphicsitemview/interactinggraphicsitems/graphicitems/textwidget.h
         views/graphicsitemview/interactinggraphicsitems/graphicitems/graphicstextitem.h

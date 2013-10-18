@@ -101,7 +101,7 @@ void VisualMusicPresenterTest::testInsertScoreLinkedScorePropertiesItem()
     m_musicModel->insertScore(0, "Testscore");
     InteractingScore *score1 = m_musicPresenter->m_interactingScores.at(0);
 
-    QVERIFY2(score1->linkedItem() != 0, "Interacting score has no linked item");
+    QVERIFY2(score1->scorePropertiesItem()->linkedItem() != 0, "Interacting score has no linked item");
 }
 
 void VisualMusicPresenterTest::testInsertScorePageViewRows()

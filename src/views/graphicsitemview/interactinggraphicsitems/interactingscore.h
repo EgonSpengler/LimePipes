@@ -16,9 +16,11 @@
 class QGraphicsWidget;
 class GraphicalScoreItem;
 
-class InteractingScore :  public ScorePropertiesItem,
-                          public InteractingItemInterface
+class InteractingScore : public QObject,
+                         public InteractingItemInterface
 {
+    Q_OBJECT
+
     friend class InteractingScoreTest;
 
 public:
@@ -34,6 +36,9 @@ public:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
 
+    ScorePropertiesItem *scorePropertiesItem() const;
+
+private slots:
     // ScorePropertiesInterface interface
     void setTitle(const QString &title);
     void setComposer(const QString &composer);
@@ -44,6 +49,7 @@ public:
 
 private:
     void createConnections();
+    ScorePropertiesItem *m_scorePropertiesItem;
     GraphicalScoreItem *m_headerItem;
     GraphicalScoreItem *m_footerItem;
 };

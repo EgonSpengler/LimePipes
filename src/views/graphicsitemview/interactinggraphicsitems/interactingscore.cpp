@@ -10,10 +10,11 @@
 #include "interactingscore.h"
 
 InteractingScore::InteractingScore(QObject *parent)
-    : ScorePropertiesItem(parent),
-      m_headerItem(0),
+    : m_headerItem(0),
       m_footerItem(0)
 {
+    m_scorePropertiesItem = new ScorePropertiesItem(this);
+
     m_headerItem = new GraphicalScoreItem();
     m_headerItem->setInteractingItem(this);
     m_footerItem = new GraphicalScoreItem();
@@ -64,9 +65,14 @@ void InteractingScore::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     Q_UNUSED(event);
 }
 
+ScorePropertiesItem *InteractingScore::scorePropertiesItem() const
+{
+    return m_scorePropertiesItem;
+}
+
 void InteractingScore::setTitle(const QString &title)
 {
-    ScorePropertiesItem::setTitle(title);
+    m_scorePropertiesItem->setTitle(title);
 
     m_headerItem->setTitle(title);
     m_footerItem->setTitle(title);

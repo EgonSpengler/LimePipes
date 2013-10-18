@@ -55,7 +55,7 @@ void InteractingScoreTest::testSetTitle()
     QString newTitle("new title");
     m_interactingScore->setTitle(newTitle);
 
-    QVERIFY2(m_interactingScore->title() == newTitle, "setTitle of ScorePropertiesItem wasn't called");
+    QVERIFY2(m_interactingScore->scorePropertiesItem()->title() == newTitle, "setTitle of ScorePropertiesItem wasn't called");
     QVERIFY2(m_interactingScore->m_headerItem->title() == newTitle, "Title of header item wasn't set");
     QVERIFY2(m_interactingScore->m_footerItem->title() == newTitle, "Title of footer item wasn't set");
 }
