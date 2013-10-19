@@ -15,6 +15,8 @@ VisualScore::VisualScore(QObject *parent)
       m_scorePropertiesItem(0)
 {
     m_scorePropertiesItem = new ScorePropertiesItem(this);
+
+    createConnections();
 }
 
 void VisualScore::createConnections()

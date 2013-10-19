@@ -98,7 +98,6 @@ void ScorePropertiesItem::setComposer(const QString &composer)
     emit composerChanged(composer);
 }
 
-
 QString ScorePropertiesItem::arranger() const
 {
     return m_arranger;

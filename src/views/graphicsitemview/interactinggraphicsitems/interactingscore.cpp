@@ -26,9 +26,12 @@ InteractingScore::InteractingScore(QObject *parent)
 void InteractingScore::createConnections()
 {
     connect(m_headerItem, SIGNAL(titleChanged(QString)),
-            this, SIGNAL(titleChanged(QString)));
+            m_scorePropertiesItem, SLOT(setTitle(QString)));
     connect(m_footerItem, SIGNAL(titleChanged(QString)),
-            this, SIGNAL(titleChanged(QString)));
+            m_scorePropertiesItem, SLOT(setTitle(QString)));
+
+    connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
+            this, SLOT(setTitle(QString)));
 }
 
 InteractingScore::~InteractingScore()

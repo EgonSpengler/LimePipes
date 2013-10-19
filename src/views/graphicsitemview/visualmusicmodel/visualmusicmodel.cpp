@@ -77,8 +77,7 @@ void VisualMusicModel::insertNewScores(const QModelIndex &index, int start, int 
         if (itemIndex.isValid()) {
             VisualScore *score = new VisualScore(this);
             score->setDataFromIndex(itemIndex);
-            AbstractVisualItem *visualItem = score;
-            connect(visualItem, SIGNAL(dataChanged(QVariant,int)),
+            connect(score, SIGNAL(dataChanged(QVariant,int)),
                     this, SLOT(scoreDataChanged(QVariant,int)));
             m_visualScoreIndexes.insert(itemIndex, score);
             emit scoreInserted(itemIndex);
