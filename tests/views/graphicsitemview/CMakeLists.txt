@@ -159,8 +159,8 @@ add_test( NAME VisualSymbolTest COMMAND VisualSymbolTest )
 
 # InteractingGraphicsItem
 set( InteractingGraphicsItem_TEST_SOURCES
-        interactinggraphicsitem/InteractingGraphicsItem/tst_interactinggraphicsitemtest.cpp
-        interactinggraphicsitem/InteractingGraphicsItem/interactingitemdummy.cpp
+        interactinggraphicsitems/InteractingGraphicsItem/tst_interactinggraphicsitemtest.cpp
+        interactinggraphicsitems/InteractingGraphicsItem/interactingitemdummy.cpp
         )
 
 add_executable( InteractingGraphicsItemTest ${GraphicsItemView_SOURCES}
@@ -170,7 +170,7 @@ add_test( NAME InteractingGraphicsItemTest COMMAND InteractingGraphicsItemTest )
 
 # InteractingScore
 set( InteractingScore_TEST_SOURCES
-        interactinggraphicsitem/InteractingScore/tst_interactingscoretest.cpp
+        interactinggraphicsitems/InteractingScore/tst_interactingscoretest.cpp
         )
 
 add_executable( InteractingScoreTest ${GraphicsItemView_SOURCES}
@@ -180,7 +180,7 @@ add_test( NAME InteractingScoreTest COMMAND InteractingScoreTest )
 
 # GraphicalScoreItem
 set( GraphicalScoreItem_TEST_SOURCES
-        interactinggraphicsitem/GraphicalScoreItem/tst_graphicalscoreitemtest.cpp
+        interactinggraphicsitems/GraphicalScoreItem/tst_graphicalscoreitemtest.cpp
         )
 
 add_executable( GraphicalScoreItemTest ${GraphicsItemView_SOURCES}
@@ -208,3 +208,21 @@ add_executable( VisualMusicPresenterTest ${GraphicsItemView_SOURCES}
     ${VisualMusicPresenter_TEST_SOURCES})
 target_link_libraries( VisualMusicPresenterTest ${TEST_LIBRARIES} lp_greathighlandbagpipe )
 add_test( NAME VisualMusicPresenterTest COMMAND VisualMusicPresenterTest )
+
+# TextWidget
+set( TextWidgetSourceDir
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/graphicitems
+)
+include_directories(
+        ${TextWidgetSourceDir}
+)
+set( TextWidgetTest_SOURCES
+    ${TextWidgetSourceDir}/textwidget.cpp
+    ${TextWidgetSourceDir}/graphicstextitem.cpp
+    interactinggraphicsitems/graphicitems/TextWidget/tst_textwidgettest.cpp
+        )
+
+add_executable( TextWidgetTest #${GraphicsItemView_SOURCES}
+    ${TextWidgetTest_SOURCES})
+target_link_libraries( TextWidgetTest ${TEST_LIBRARIES} )
+add_test( NAME TextWidgetTest COMMAND TextWidgetTest )

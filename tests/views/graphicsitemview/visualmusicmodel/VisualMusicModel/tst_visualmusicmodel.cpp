@@ -132,6 +132,21 @@ void VisualMusicModelTest::testVisualScoreFromIndex()
              "visual score for index isn't the visual score");
 }
 
+void VisualMusicModelTest::testScoreDataChanged()
+{
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
+    Q_ASSERT(visualScore);
+    ScorePropertiesItem *scoreProperties = visualScore->scorePropertiesItem();
+    Q_ASSERT(scoreProperties);
+    QString title("Testtitle");
+
+    scoreProperties->setTitle(title);
+
+    QVERIFY2(m_musicModel->data(scoreIndex, LP::scoreTitle).toString() == title,
+             "Title of model was not set with changed data");
+}
+
 void VisualMusicModelTest::cleanup()
 {
     delete m_visualMusicModel;

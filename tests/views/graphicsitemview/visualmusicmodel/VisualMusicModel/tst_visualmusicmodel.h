@@ -27,6 +27,7 @@ private Q_SLOTS:
     void testInsertSymbol();
     void testVisualScorePropertiesItemFromIndex();
     void testVisualScoreFromIndex();
+    void testScoreDataChanged();
 
 private:
     MusicModel *m_musicModel;

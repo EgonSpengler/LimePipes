@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <QtTest/QSignalSpy>
 #include <model/musicmodel.h>
 #include <datatypes/timesignature.h>
 #include <views/graphicsitemview/scorepropertiesitem.h>
@@ -27,6 +28,7 @@ private Q_SLOTS:
     void cleanup();
     void testType();
     void testSetDataFromIndex();
+    void testDataChangedSignal();
 
 private:
     VisualScore *m_visualScore;
@@ -82,6 +84,17 @@ void VisualScoreTest::testSetDataFromIndex()
     QVERIFY2(scoreProperties->year() == scoreYear, "Score year wasn't set");
     QVERIFY2(scoreProperties->copyright() == scoreCopyright, "Score copyright wasn't set");
     QVERIFY2(scoreProperties->timeSignature() == scoreTimeSignature, "Score time signature wasn't set");
+}
+
+void VisualScoreTest::testDataChangedSignal()
+{
+    ScorePropertiesItem *scoreProperties = m_visualScore->scorePropertiesItem();
+    Q_ASSERT(scoreProperties);
+    QSignalSpy spy(m_visualScore, SIGNAL(dataChanged(QVariant,int)));
+    QString title("title 1");
+
+    scoreProperties->setTitle(title);
+    QVERIFY2(spy.count() == 1, "dataChanged signal wasn't emitted after setTitle");
 }
 
 QTEST_MAIN(VisualScoreTest)
