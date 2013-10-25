@@ -8,42 +8,59 @@
 
 #include <QGraphicsLinearLayout>
 #include "graphicitems/textwidget.h"
+#include "graphicitems/textrowwidget.h"
 #include "graphicalscoreitem.h"
 
 GraphicalScoreItem::GraphicalScoreItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
-      m_titleItem(0),
       m_rowLayout(0)
 {
     m_rowLayout = new QGraphicsLinearLayout(Qt::Vertical, this);
     m_rowLayout->setContentsMargins(0, 0, 0, 0);
+
+    appendRow();
+}
+
+void GraphicalScoreItem::appendRow()
+{
+    TextRowWidget *newRow = new TextRowWidget();
+    m_textRows.append(newRow);
+    m_rowLayout->addItem(newRow);
 }
 
 void GraphicalScoreItem::setTitle(const QString &title)
 {
-    if (!title.isEmpty()) {
-        if (m_titleItem == 0) {
-            m_titleItem = new TextWidget(this);
-            m_rowLayout->addItem(m_titleItem);
-            m_titleItem->setText(title);
-            connect(m_titleItem, SIGNAL(textChanged(QString)),
-                    this, SIGNAL(titleChanged(QString)));
-        }
-        else
-            m_titleItem->setText(title);
-    }
-    else {
-        if (m_titleItem != 0) {
-            delete m_titleItem;
-            m_titleItem = 0;
-        }
+    if (!m_itemPostions.contains(Title))
+        return;
+
+    ItemPosition position = m_itemPostions.value(Title);
+    if (m_textRows.count() - 1 > position.rowIndex)
+        addRowsUntilRowIndex(position.rowIndex);
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    row->setText(position.rowPosition, title);
+}
+
+void GraphicalScoreItem::addRowsUntilRowIndex(int index)
+{
+    if (m_rowLayout->count() >= index + 1)
+        return;
+
+    while (m_rowLayout->count() < index + 1) {
+        appendRow();
     }
 }
 
 QString GraphicalScoreItem::title() const
 {
-    if (!m_titleItem)
+    if (!m_itemPostions.contains(Title))
         return QString();
 
-    return m_titleItem->text();
+    ItemPosition position = m_itemPostions.value(Title);
+    if (!m_textRows.count() > position.rowIndex)
+        return QString();
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    return row->text(position.rowPosition);
 }
+

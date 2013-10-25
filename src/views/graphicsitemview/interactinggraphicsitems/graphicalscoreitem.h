@@ -9,7 +9,10 @@
 #ifndef GRAPHICALSCOREITEM_H
 #define GRAPHICALSCOREITEM_H
 
+#include <QList>
+#include <QHash>
 #include "interactinggraphicsitem.h"
+#include "graphicitems/textrowwidget.h"
 #include <graphicsitemview/scorepropertiesinterface.h>
 
 class TextWidget;
@@ -22,6 +25,12 @@ class GraphicalScoreItem : public InteractingGraphicsItem
     friend class GraphicalScoreItemTest;
 
 public:
+    enum TextItemType {
+        Title,
+        Composer,
+        Arranger
+    };
+
     explicit GraphicalScoreItem(QGraphicsItem *parent = 0);
 
     void setTitle(const QString& title);
@@ -31,8 +40,16 @@ signals:
     void titleChanged(const QString& title);
 
 private:
-    TextWidget *m_titleItem;
+    struct ItemPosition {
+        int rowIndex;
+        TextRowWidget::TextPosition rowPosition;
+    };
+
+    void appendRow();
+    void addRowsUntilRowIndex(int index);
+    QList<TextRowWidget*> m_textRows;
     QGraphicsLinearLayout *m_rowLayout;
+    QHash<TextItemType, ItemPosition> m_itemPostions;
 };
 
 #endif // GRAPHICALSCOREITEM_H

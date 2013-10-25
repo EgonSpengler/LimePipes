@@ -43,13 +43,12 @@ void GraphicalScoreItemTest::cleanup()
 void GraphicalScoreItemTest::testSetTitle()
 {
     QString testTitle("test title");
-    QVERIFY2(m_scoreItem->m_titleItem == 0, "Title item isn't 0 per default");
     m_scoreItem->setTitle(testTitle);
-    QVERIFY2(m_scoreItem->m_titleItem != 0, "Title item is still 0 after setting title");
+    QVERIFY2(m_scoreItem->title() != 0, "Title item is still 0 after setting title");
     QVERIFY2(m_scoreItem->title() == testTitle, "Title item has not the right text");
 
     m_scoreItem->setTitle("");
-    QVERIFY2(m_scoreItem->m_titleItem == 0, "Title item isn't 0 after setting emtpy title");
+    QVERIFY2(m_scoreItem->title() == 0, "Title item isn't 0 after setting emtpy title");
     QVERIFY2(m_scoreItem->title() == QString(), "Item doesn't return empty title");
 }
 

@@ -46,6 +46,7 @@ set( limepipes_SOURCES
         views/graphicsitemview/interactinggraphicsitems/interactingscore.cpp
         views/graphicsitemview/interactinggraphicsitems/graphicalscoreitem.cpp
         views/graphicsitemview/interactinggraphicsitems/graphicitems/textwidget.cpp
+        views/graphicsitemview/interactinggraphicsitems/graphicitems/textrowwidget.cpp
         views/graphicsitemview/interactinggraphicsitems/graphicitems/graphicstextitem.cpp
         views/graphicsitemview/scorepropertiesitem.cpp
         )
