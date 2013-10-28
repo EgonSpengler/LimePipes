@@ -6,6 +6,7 @@
  *
  */
 
+#include <QTextCursor>
 #include <QSignalMapper>
 #include <QGraphicsLinearLayout>
 #include "textwidget.h"
@@ -16,22 +17,33 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
       m_layout(0),
       m_leftTextWidget(0),
       m_centerTextWidget(0),
-      m_rightTextWdget(0),
+      m_rightTextWidget(0),
       m_signalMapper(0)
 {
     m_leftTextWidget = new TextWidget();
+    m_leftTextWidget->setSizePolicy(QSizePolicy::Maximum,
+                                    m_leftTextWidget->sizePolicy().verticalPolicy());
+    m_leftTextWidget->setAlignment(Qt::AlignLeft);
 
     m_centerTextWidget = new TextWidget();
-    m_rightTextWdget = new TextWidget();
+    m_centerTextWidget->setSizePolicy(QSizePolicy::MinimumExpanding,
+                                      m_centerTextWidget->sizePolicy().verticalPolicy());
+    m_centerTextWidget->setAlignment(Qt::AlignCenter);
+
+    m_rightTextWidget = new TextWidget();
+    m_rightTextWidget->setSizePolicy(QSizePolicy::Maximum,
+                                    m_rightTextWidget->sizePolicy().verticalPolicy());
+    m_rightTextWidget->setAlignment(Qt::AlignRight);
+
     m_signalMapper = new QSignalMapper(this);
     m_signalMapper->setMapping(m_leftTextWidget, m_leftTextWidget);
     m_signalMapper->setMapping(m_centerTextWidget, m_centerTextWidget);
-    m_signalMapper->setMapping(m_rightTextWdget, m_rightTextWdget);
+    m_signalMapper->setMapping(m_rightTextWidget, m_rightTextWidget);
 
     m_layout = new QGraphicsLinearLayout(Qt::Horizontal, this);
     m_layout->addItem(m_leftTextWidget);
     m_layout->addItem(m_centerTextWidget);
-    m_layout->addItem(m_rightTextWdget);
+    m_layout->addItem(m_rightTextWidget);
 
     createConnections();
 }
@@ -42,7 +54,7 @@ void TextRowWidget::createConnections()
             m_signalMapper, SLOT(map()));
     connect(m_centerTextWidget, SIGNAL(textChanged(QString)),
             m_signalMapper, SLOT(map()));
-    connect(m_rightTextWdget, SIGNAL(textChanged(QString)),
+    connect(m_rightTextWidget, SIGNAL(textChanged(QString)),
             m_signalMapper, SLOT(map()));
     connect(m_signalMapper, SIGNAL(mapped(QObject*)),
             this, SLOT(textWidgetTextChanged(QObject*)));
@@ -75,7 +87,7 @@ TextRowWidget::TextPosition TextRowWidget::textPositionForWidget(TextWidget *wid
         return Left;
     if (widget == m_centerTextWidget)
         return Center;
-    if (widget == m_rightTextWdget)
+    if (widget == m_rightTextWidget)
         return Right;
 
     return Left;
@@ -91,7 +103,7 @@ TextWidget *TextRowWidget::textWidgetForPosition(TextRowWidget::TextPosition pos
         return m_centerTextWidget;
     }
     case Right: {
-        return m_rightTextWdget;
+        return m_rightTextWidget;
     }
     default:
         return m_leftTextWidget;
