@@ -20,6 +20,7 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
       m_signalMapper(0)
 {
     m_leftTextWidget = new TextWidget();
+
     m_centerTextWidget = new TextWidget();
     m_rightTextWdget = new TextWidget();
     m_signalMapper = new QSignalMapper(this);

@@ -22,6 +22,8 @@ public:
     void setText(const QString& text);
     QString text() const;
 
+    void setAlignment(Qt::Alignment alignment);
+
 signals:
     void textChanged(const QString& text);
 
@@ -32,9 +34,11 @@ private slots:
 
 private:
     void createConnections();
+    void setAlignmentOnText();
     void resizeEvent(QGraphicsSceneResizeEvent *event);
     GraphicsTextItem *m_textItem;
     QString m_textBeforeEdit;
+    Qt::Alignment m_alignment;
 };
 
 #endif // TEXTWIDGET_H

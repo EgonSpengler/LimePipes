@@ -8,6 +8,7 @@
 
 #include <QPainter>
 #include <QTextDocument>
+#include <QTextCursor>
 #include "graphicstextitem.h"
 #include <QGraphicsSceneResizeEvent>
 #include "textwidget.h"
@@ -30,11 +31,31 @@ void TextWidget::setText(const QString &text)
         emit textChanged(text);
 
     m_textItem->setPlainText(text);
+    setAlignmentOnText();
 }
 
 QString TextWidget::text() const
 {
     return m_textItem->toPlainText();
+}
+
+void TextWidget::setAlignment(Qt::Alignment alignment)
+{
+    m_alignment = alignment;
+    setAlignmentOnText();
+}
+
+void TextWidget::setAlignmentOnText()
+{
+    QTextBlockFormat format;
+    format.setAlignment(m_alignment);
+
+    QTextCursor cursor(m_textItem->textCursor());
+    cursor.select(QTextCursor::Document);
+    cursor.setBlockFormat(format);
+    cursor.clearSelection();
+
+    m_textItem->setTextCursor(cursor);
 }
 
 void TextWidget::textItemBlockCountChanged()
@@ -52,8 +73,10 @@ void TextWidget::textItemFocusIn()
 void TextWidget::textItemFocusOut()
 {
     QString newText = m_textItem->toPlainText();
-    if (m_textBeforeEdit != newText)
+    if (m_textBeforeEdit != newText) {
         emit textChanged(newText);
+        setAlignmentOnText();
+    }
 }
 
 void TextWidget::createConnections()

@@ -44,7 +44,7 @@ private:
     QGraphicsLinearLayout *m_layout;
     TextWidget *m_leftTextWidget;
     TextWidget *m_centerTextWidget;
-    TextWidget *m_rightTextWdget;
+    TextWidget *m_rightTextWidget;
     QSignalMapper *m_signalMapper;
 };
 
