@@ -78,6 +78,7 @@ set( limepipes_MOC_HEADERS
         views/graphicsitemview/interactinggraphicsitems/interactingscore.h
         views/graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h
         views/graphicsitemview/interactinggraphicsitems/graphicitems/textwidget.h
+        views/graphicsitemview/interactinggraphicsitems/graphicitems/textrowwidget.h
         views/graphicsitemview/interactinggraphicsitems/graphicitems/graphicstextitem.h
         )
 

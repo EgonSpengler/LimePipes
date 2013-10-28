@@ -26,6 +26,39 @@ void GraphicalScoreItem::appendRow()
     TextRowWidget *newRow = new TextRowWidget();
     m_textRows.append(newRow);
     m_rowLayout->addItem(newRow);
+
+    connect(newRow, SIGNAL(textChanged(TextRowWidget::TextPosition,QString)),
+            this, SLOT(textRowItemChanged(TextRowWidget::TextPosition,QString)));
+}
+
+void GraphicalScoreItem::textRowItemChanged(TextRowWidget::TextPosition position, const QString &newText)
+{
+    QObject *senderRow = sender();
+    TextRowWidget *rowWidget = qobject_cast<TextRowWidget*>(senderRow);
+    if (!rowWidget) return;
+
+    int rowIndex = m_textRows.indexOf(rowWidget);
+    if (rowIndex == -1) return;
+
+    ItemPosition itemPosition;
+    itemPosition.rowIndex = rowIndex;
+    itemPosition.rowPosition = position;
+
+    if (!m_itemPostions.values().contains(itemPosition))
+        return;
+
+    TextItemType itemType = m_itemPostions.key(itemPosition);
+    switch (itemType) {
+    case Title:
+        emit titleChanged(newText);
+        break;
+    case Arranger:
+        emit arrangerChanged(newText);
+        break;
+    case Composer:
+        emit composerChanged(newText);
+        break;
+    }
 }
 
 void GraphicalScoreItem::setTitle(const QString &title)
@@ -62,5 +95,21 @@ QString GraphicalScoreItem::title() const
 
     TextRowWidget *row = m_textRows.at(position.rowIndex);
     return row->text(position.rowPosition);
+}
+
+void GraphicalScoreItem::setItemPosition(GraphicalScoreItem::TextItemType itemType, int row, TextRowWidget::TextPosition position)
+{
+    ItemPosition itemPosition;
+    if (m_itemPostions.contains(itemType))
+        itemPosition = m_itemPostions.value(itemType);
+
+    if (row < 0)
+        return;
+
+    addRowsUntilRowIndex(row);
+    itemPosition.rowIndex = row;
+    itemPosition.rowPosition = position;
+
+    m_itemPostions.insert(itemType, itemPosition);
 }
 

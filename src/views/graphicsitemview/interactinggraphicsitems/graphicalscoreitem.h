@@ -36,13 +36,28 @@ public:
     void setTitle(const QString& title);
     QString title() const;
 
+    void setItemPosition(TextItemType itemType, int row, TextRowWidget::TextPosition position);
+
 signals:
     void titleChanged(const QString& title);
+    void composerChanged(const QString& composer);
+    void arrangerChanged(const QString& arranger);
+
+private slots:
+    void textRowItemChanged(TextRowWidget::TextPosition position, const QString& newText);
 
 private:
-    struct ItemPosition {
+    class ItemPosition {
+    public:
         int rowIndex;
         TextRowWidget::TextPosition rowPosition;
+        bool operator ==(const ItemPosition& other) const
+        {
+            if (rowIndex == other.rowIndex &&
+                    rowPosition == other.rowPosition)
+                return true;
+            return false;
+        }
     };
 
     void appendRow();
