@@ -18,13 +18,19 @@ class GraphicsTextItem : public QGraphicsTextItem
 public:
     explicit GraphicsTextItem(QGraphicsItem *parent = 0);
 
+    void setAlignment(Qt::Alignment alignment);
+
 signals:
     void focusOut();
     void focusIn();
 
+private slots:
+    void updateGeometry();
+
 private:
     void focusOutEvent(QFocusEvent *event);
     void focusInEvent(QFocusEvent *event);
+    Qt::Alignment m_alignment;
 };
 
 #endif // GRAPHICSTEXTITEM_H

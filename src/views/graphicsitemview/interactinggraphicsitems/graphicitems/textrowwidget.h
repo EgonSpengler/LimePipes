@@ -31,14 +31,21 @@ public:
     void setText(TextPosition position, const QString& text);
     QString text(TextPosition position) const;
 
+    void setTextPositionVisible(TextPosition position, bool active);
+
+    void setGeometry(const QRectF &rect);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
 signals:
     void textChanged(TextRowWidget::TextPosition position, const QString& newText);
 
 private slots:
     void textWidgetTextChanged(QObject *object);
+    void textWidgetSizeChanged(const QSizeF& newSize);
 
 private:
     void createConnections();
+    void repositionElementTextItems();
     TextWidget *textWidgetForPosition(TextPosition position) const;
     TextPosition textPositionForWidget(TextWidget *widget) const;
     QGraphicsLinearLayout *m_layout;

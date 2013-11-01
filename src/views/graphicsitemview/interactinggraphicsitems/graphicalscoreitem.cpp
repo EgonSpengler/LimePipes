@@ -113,3 +113,12 @@ void GraphicalScoreItem::setItemPosition(GraphicalScoreItem::TextItemType itemTy
     m_itemPostions.insert(itemType, itemPosition);
 }
 
+void GraphicalScoreItem::setItemPositionActive(int rowIndex, TextRowWidget::TextPosition position, bool active)
+{
+    if (rowIndex < 0 ||
+            rowIndex >= m_textRows.count())
+        return;
+
+    TextRowWidget *row = m_textRows.at(rowIndex);
+}
+

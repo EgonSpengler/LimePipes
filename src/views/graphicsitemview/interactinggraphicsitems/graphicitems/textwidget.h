@@ -24,21 +24,22 @@ public:
 
     void setAlignment(Qt::Alignment alignment);
 
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
 signals:
     void textChanged(const QString& text);
+    void sizeChanged(const QSizeF& newSize);
 
 private slots:
-    void textItemBlockCountChanged();
+    void textItemDocumentSizeChanged(const QSizeF& size);
     void textItemFocusIn();
     void textItemFocusOut();
 
 private:
     void createConnections();
-    void setAlignmentOnText();
-    void resizeEvent(QGraphicsSceneResizeEvent *event);
+    void setSizeFromTextItem();
     GraphicsTextItem *m_textItem;
     QString m_textBeforeEdit;
-    Qt::Alignment m_alignment;
 };
 
 #endif // TEXTWIDGET_H

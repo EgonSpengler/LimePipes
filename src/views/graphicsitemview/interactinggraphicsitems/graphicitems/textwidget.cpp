@@ -9,6 +9,7 @@
 #include <QPainter>
 #include <QTextDocument>
 #include <QTextCursor>
+#include <QAbstractTextDocumentLayout>
 #include "graphicstextitem.h"
 #include <QGraphicsSceneResizeEvent>
 #include "textwidget.h"
@@ -17,12 +18,12 @@ TextWidget::TextWidget(QGraphicsItem *parent)
     : QGraphicsWidget(parent),
       m_textItem(0)
 {
-    setAutoFillBackground(true);
+    setMinimumWidth(10);
     m_textItem = new GraphicsTextItem(this);
     m_textItem->setTextInteractionFlags(Qt::TextEditorInteraction);
 
+    setSizeFromTextItem();
     createConnections();
-    textItemBlockCountChanged();
 }
 
 void TextWidget::setText(const QString &text)
@@ -31,7 +32,6 @@ void TextWidget::setText(const QString &text)
         emit textChanged(text);
 
     m_textItem->setPlainText(text);
-    setAlignmentOnText();
 }
 
 QString TextWidget::text() const
@@ -41,28 +41,25 @@ QString TextWidget::text() const
 
 void TextWidget::setAlignment(Qt::Alignment alignment)
 {
-    m_alignment = alignment;
-    setAlignmentOnText();
+    m_textItem->setAlignment(alignment);
 }
 
-void TextWidget::setAlignmentOnText()
+void TextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QTextBlockFormat format;
-    format.setAlignment(m_alignment);
-
-    QTextCursor cursor(m_textItem->textCursor());
-    cursor.select(QTextCursor::Document);
-    cursor.setBlockFormat(format);
-    cursor.clearSelection();
-
-    m_textItem->setTextCursor(cursor);
+//    painter->setBrush(Qt::blue);
+//    painter->drawRect(boundingRect());
 }
 
-void TextWidget::textItemBlockCountChanged()
+void TextWidget::textItemDocumentSizeChanged(const QSizeF &size)
 {
-    m_textItem->adjustSize();
-    m_textItem->setTextWidth(boundingRect().width());
-    setPreferredHeight(m_textItem->document()->size().height());
+    setSizeFromTextItem();
+    emit sizeChanged(m_textItem->boundingRect().size());
+}
+
+void TextWidget::setSizeFromTextItem()
+{
+    setMinimumSize(m_textItem->boundingRect().size());
+    setMaximumSize(m_textItem->boundingRect().size());
 }
 
 void TextWidget::textItemFocusIn()
@@ -72,24 +69,20 @@ void TextWidget::textItemFocusIn()
 
 void TextWidget::textItemFocusOut()
 {
+    setPreferredSize(m_textItem->boundingRect().size());
     QString newText = m_textItem->toPlainText();
     if (m_textBeforeEdit != newText) {
         emit textChanged(newText);
-        setAlignmentOnText();
     }
 }
 
 void TextWidget::createConnections()
 {
-    connect(m_textItem->document(), SIGNAL(blockCountChanged(int)),
-            this, SLOT(textItemBlockCountChanged()));
+    connect(m_textItem->document()->documentLayout(), SIGNAL(documentSizeChanged(QSizeF)),
+            this, SLOT(textItemDocumentSizeChanged(QSizeF)));
     connect(m_textItem, SIGNAL(focusIn()),
             this, SLOT(textItemFocusIn()));
     connect(m_textItem, SIGNAL(focusOut()),
             this, SLOT(textItemFocusOut()));
 }
 
-void TextWidget::resizeEvent(QGraphicsSceneResizeEvent *event)
-{
-    m_textItem->setTextWidth(event->newSize().width());
-}
