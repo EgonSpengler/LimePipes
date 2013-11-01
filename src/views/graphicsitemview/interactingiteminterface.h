@@ -10,6 +10,7 @@
 #define INTERACTINGITEMINTERFACE_H
 
 class QGraphicsSceneMouseEvent;
+class QGraphicsSceneContextMenuEvent;
 
 class InteractingItemInterface
 {
@@ -21,6 +22,7 @@ public:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event) = 0;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event) = 0;
     virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) = 0;
+    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event) = 0;
 };
 
 #endif // INTERACTINGITEMINTERFACE_H

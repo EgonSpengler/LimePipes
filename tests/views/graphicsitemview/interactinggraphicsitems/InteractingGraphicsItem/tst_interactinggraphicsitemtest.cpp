@@ -12,6 +12,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSceneContextMenuEvent>
 #include <views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.h>
 #include "interactingitemdummy.h"
 
@@ -30,6 +31,7 @@ private Q_SLOTS:
     void testMouseMoveEvent();
     void testMouseReleseEvent();
     void testMouseDoubleClickEvent();
+    void testContextMenuEvent();
 
 private:
     InteractingGraphicsItem *m_interactingGraphicsItem;
@@ -110,6 +112,18 @@ void InteractingGraphicsItemTest::testMouseDoubleClickEvent()
     QVERIFY2(spy.count() == 1, "Mouse double click event wasn't called on VisualItemInterface");
 
     delete mouseEvent;
+}
+
+void InteractingGraphicsItemTest::testContextMenuEvent()
+{
+    QSignalSpy spy(m_interactingItemDummy, SIGNAL(contextMenuEventTriggered()));
+
+    QGraphicsSceneContextMenuEvent *contextMenuEvent = new QGraphicsSceneContextMenuEvent();
+    m_interactingGraphicsItem->contextMenuEvent(contextMenuEvent);
+
+    QVERIFY2(spy.count() == 1, "context menu event wasn't called on VisualItemInterface");
+
+    delete contextMenuEvent;
 }
 
 QTEST_MAIN(InteractingGraphicsItemTest)

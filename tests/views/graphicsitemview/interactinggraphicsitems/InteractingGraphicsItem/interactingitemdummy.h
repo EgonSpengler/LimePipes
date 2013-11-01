@@ -24,6 +24,7 @@ signals:
     void mouseMoveEventTriggered();
     void mouseReleaseEventTriggered();
     void mouseDoubleClickEventTriggered();
+    void contextMenuEventTriggered();
 
     // VisualItemInterface interface
 public:
@@ -45,6 +46,11 @@ public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
     {
         emit mouseDoubleClickEventTriggered();
+    }
+
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+    {
+        emit contextMenuEventTriggered();
     }
 };
 

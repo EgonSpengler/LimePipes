@@ -47,3 +47,9 @@ void InteractingGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
     if (m_visualItem)
         m_visualItem->mouseDoubleClickEvent(event);
 }
+
+void InteractingGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+{
+    if (m_visualItem)
+        m_visualItem->contextMenuEvent(event);
+}

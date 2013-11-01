@@ -37,7 +37,6 @@ public:
     QString title() const;
 
     void setItemPosition(TextItemType itemType, int row, TextRowWidget::TextPosition position);
-    void setItemPositionActive(int rowIndex, TextRowWidget::TextPosition position, bool active);
 
 signals:
     void titleChanged(const QString& title);
