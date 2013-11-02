@@ -39,6 +39,11 @@ QString TextWidget::text() const
     return m_textItem->toPlainText();
 }
 
+void TextWidget::setFont(const QFont &font)
+{
+    m_textItem->setFont(font);
+}
+
 void TextWidget::setAlignment(Qt::Alignment alignment)
 {
     m_textItem->setAlignment(alignment);

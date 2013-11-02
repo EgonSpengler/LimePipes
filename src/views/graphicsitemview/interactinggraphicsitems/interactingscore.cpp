@@ -7,13 +7,16 @@
  */
 
 #include "graphicalscoreitem.h"
+#include "dialogs/scorepropertiesdialog.h"
 #include "interactingscore.h"
 
 InteractingScore::InteractingScore(QObject *parent)
-    : m_headerItem(0),
+    : QObject(parent),
+      m_headerItem(0),
       m_footerItem(0)
 {
     m_scorePropertiesItem = new ScorePropertiesItem(this);
+    m_scorePropertiesDialog = new ScorePropertiesDialog();
 
     m_headerItem = new GraphicalScoreItem();
     m_headerItem->setInteractingItem(this);
@@ -25,6 +28,11 @@ InteractingScore::InteractingScore(QObject *parent)
     createConnections();
 }
 
+InteractingScore::~InteractingScore()
+{
+    delete m_scorePropertiesDialog;
+}
+
 void InteractingScore::createConnections()
 {
     connect(m_headerItem, SIGNAL(titleChanged(QString)),
@@ -34,10 +42,11 @@ void InteractingScore::createConnections()
 
     connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
             this, SLOT(setTitle(QString)));
-}
 
-InteractingScore::~InteractingScore()
-{
+    connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
+            m_scorePropertiesDialog, SLOT(setTitle(QString)));
+    connect(m_scorePropertiesDialog, SIGNAL(titleChanged(QString)),
+            this, SLOT(setTitle(QString)));
 }
 
 QGraphicsWidget *InteractingScore::headerItem() const
@@ -72,6 +81,7 @@ void InteractingScore::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 
 void InteractingScore::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+    m_scorePropertiesDialog->show();
     Q_UNUSED(event);
 }
 

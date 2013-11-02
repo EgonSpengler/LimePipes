@@ -31,6 +31,9 @@ public:
     void setText(TextPosition position, const QString& text);
     QString text(TextPosition position) const;
 
+    void setFont(TextPosition position, const QFont& font);
+    QFont font(TextPosition position) const;
+
     void setTextPositionVisible(TextPosition position, bool active);
 
     void setGeometry(const QRectF &rect);

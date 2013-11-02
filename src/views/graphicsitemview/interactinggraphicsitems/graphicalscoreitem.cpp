@@ -112,3 +112,16 @@ void GraphicalScoreItem::setItemPosition(GraphicalScoreItem::TextItemType itemTy
 
     m_itemPostions.insert(itemType, itemPosition);
 }
+
+void GraphicalScoreItem::setItemFont(GraphicalScoreItem::TextItemType itemType, const QFont &font)
+{
+    if (!m_itemPostions.contains(itemType))
+        return;
+
+    ItemPosition position = m_itemPostions.value(itemType);
+    if (m_textRows.count() - 1 > position.rowIndex)
+        addRowsUntilRowIndex(position.rowIndex);
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    row->setFont(position.rowPosition, font);
+}

@@ -15,6 +15,7 @@
 
 class QGraphicsWidget;
 class GraphicalScoreItem;
+class ScorePropertiesDialog;
 
 class InteractingScore : public QObject,
                          public InteractingItemInterface
@@ -53,6 +54,7 @@ private:
     ScorePropertiesItem *m_scorePropertiesItem;
     GraphicalScoreItem *m_headerItem;
     GraphicalScoreItem *m_footerItem;
+    ScorePropertiesDialog *m_scorePropertiesDialog;
 };
 
 #endif // INTERACTINGSCORE_H

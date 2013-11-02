@@ -77,6 +77,8 @@ void MainWindow::createModelAndView()
     QSplitter *splitter = new QSplitter(this);
     splitter->addWidget(m_treeView);
     splitter->addWidget(m_graphicsItemView);
+    splitter->setStretchFactor(0, 2);
+    splitter->setStretchFactor(1, 5);
 
     MusicModel *musicModel = new MusicModel(this);
     MusicProxyModel *proxyModel = new MusicProxyModel(this);

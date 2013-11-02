@@ -22,6 +22,8 @@ public:
     void setText(const QString& text);
     QString text() const;
 
+    void setFont(const QFont &font);
+
     void setAlignment(Qt::Alignment alignment);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

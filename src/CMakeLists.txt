@@ -49,6 +49,7 @@ set( limepipes_SOURCES
         views/graphicsitemview/interactinggraphicsitems/graphicitems/textrowwidget.cpp
         views/graphicsitemview/interactinggraphicsitems/graphicitems/graphicstextitem.cpp
         views/graphicsitemview/scorepropertiesitem.cpp
+        views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.cpp
         )
 
 set( limepipes_MOC_HEADERS
@@ -80,6 +81,7 @@ set( limepipes_MOC_HEADERS
         views/graphicsitemview/interactinggraphicsitems/graphicitems/textwidget.h
         views/graphicsitemview/interactinggraphicsitems/graphicitems/textrowwidget.h
         views/graphicsitemview/interactinggraphicsitems/graphicitems/graphicstextitem.h
+        views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.h
         )
 
 set( limepipes_UIs
@@ -87,6 +89,7 @@ set( limepipes_UIs
         app/newtunedialog.ui
         app/addsymbolsdialog.ui
         app/aboutdialog.ui
+        views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.ui
         )
 
 set( limepipes_RESOURCES

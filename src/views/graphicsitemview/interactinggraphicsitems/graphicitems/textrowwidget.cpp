@@ -99,6 +99,12 @@ QString TextRowWidget::text(TextRowWidget::TextPosition position) const
     return textWidget->text();
 }
 
+void TextRowWidget::setFont(TextRowWidget::TextPosition position, const QFont &font)
+{
+    TextWidget *textWidget = textWidgetForPosition(position);
+    textWidget->setFont(font);
+}
+
 void TextRowWidget::setTextPositionVisible(TextRowWidget::TextPosition position, bool visible)
 {
     TextWidget *widget = textWidgetForPosition(position);
