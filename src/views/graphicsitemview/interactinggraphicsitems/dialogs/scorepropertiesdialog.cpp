@@ -58,3 +58,4 @@ void ScorePropertiesDialog::setTimeSignature(const TimeSignature &timeSig)
 {
 
 }
+void ScorePropertiesDialog::titleFontChangeClicked()

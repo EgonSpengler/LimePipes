@@ -49,6 +49,8 @@ private slots:
     void setCopyright(const QString &copyright);
     void setTimeSignature(const TimeSignature &timeSig);
 
+    void titleFontChanged(const QFont& newFont);
+
 private:
     void createConnections();
     ScorePropertiesItem *m_scorePropertiesItem;

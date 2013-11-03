@@ -42,6 +42,7 @@ QString TextWidget::text() const
 void TextWidget::setFont(const QFont &font)
 {
     m_textItem->setFont(font);
+    m_textItem->adjustSize();
 }
 
 void TextWidget::setAlignment(Qt::Alignment alignment)
