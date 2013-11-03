@@ -38,6 +38,7 @@ public:
 
     void setItemPosition(TextItemType itemType, int row, TextRowWidget::TextPosition position);
     void setItemFont(TextItemType itemType, const QFont& font);
+    void setItemColor(TextItemType itemType, const QColor& color);
 
 signals:
     void titleChanged(const QString& title);

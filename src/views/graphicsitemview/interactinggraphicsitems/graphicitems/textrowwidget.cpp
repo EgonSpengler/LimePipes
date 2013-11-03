@@ -105,6 +105,18 @@ void TextRowWidget::setFont(TextRowWidget::TextPosition position, const QFont &f
     textWidget->setFont(font);
 }
 
+void TextRowWidget::setColor(TextRowWidget::TextPosition position, const QColor &color)
+{
+    TextWidget *textWidget = textWidgetForPosition(position);
+    textWidget->setColor(color);
+}
+
+void TextRowWidget::color(TextRowWidget::TextPosition position)
+{
+    TextWidget *textWidget = textWidgetForPosition(position);
+    textWidget->color();
+}
+
 void TextRowWidget::setTextPositionVisible(TextRowWidget::TextPosition position, bool visible)
 {
     TextWidget *widget = textWidgetForPosition(position);

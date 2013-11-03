@@ -35,10 +35,12 @@ private slots:
     void setTimeSignature(const TimeSignature &timeSig);
 
     void titleFontChangeClicked();
+    void titleColorChangeClicked();
 
 signals:
     void titleChanged(const QString& newTitle);
     void titleFontChanged(const QFont& font);
+    void titleColorChanged(const QColor& color);
     void composerChanged(const QString& newComposer);
     void arrangerChanged(const QString& newArranger);
     void yearChanged(const QString& newYear);

@@ -125,3 +125,16 @@ void GraphicalScoreItem::setItemFont(GraphicalScoreItem::TextItemType itemType, 
     TextRowWidget *row = m_textRows.at(position.rowIndex);
     row->setFont(position.rowPosition, font);
 }
+
+void GraphicalScoreItem::setItemColor(GraphicalScoreItem::TextItemType itemType, const QColor &color)
+{
+    if (!m_itemPostions.contains(itemType))
+        return;
+
+    ItemPosition position = m_itemPostions.value(itemType);
+    if (m_textRows.count() - 1 > position.rowIndex)
+        addRowsUntilRowIndex(position.rowIndex);
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    row->setColor(position.rowPosition, color);
+}

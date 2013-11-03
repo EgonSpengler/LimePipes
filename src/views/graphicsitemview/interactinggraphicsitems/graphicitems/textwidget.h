@@ -24,6 +24,9 @@ public:
 
     void setFont(const QFont &font);
 
+    void setColor(const QColor& color);
+    QColor color() const;
+
     void setAlignment(Qt::Alignment alignment);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

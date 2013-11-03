@@ -6,6 +6,8 @@
  *
  */
 
+#include <QFontDialog>
+#include <QColorDialog>
 #include "scorepropertiesdialog.h"
 #include "ui_scorepropertiesdialog.h"
 
@@ -22,6 +24,10 @@ void ScorePropertiesDialog::createConnections()
 {
     connect(ui->titleLineEdit, SIGNAL(textChanged(QString)),
             this, SIGNAL(titleChanged(QString)));
+    connect(ui->titleFontPushButton, SIGNAL(clicked()),
+            this, SLOT(titleFontChangeClicked()));
+    connect(ui->titleColorPushButton, SIGNAL(clicked()),
+            this, SLOT(titleColorChangeClicked()));
 }
 
 ScorePropertiesDialog::~ScorePropertiesDialog()
@@ -58,4 +64,21 @@ void ScorePropertiesDialog::setTimeSignature(const TimeSignature &timeSig)
 {
 
 }
+
 void ScorePropertiesDialog::titleFontChangeClicked()
+{
+    bool ok = false;
+    QFont newFont = QFontDialog::getFont(&ok, this);
+    if (ok) {
+        emit titleFontChanged(newFont);
+    }
+}
+
+void ScorePropertiesDialog::titleColorChangeClicked()
+{
+    QColor newColor = QColorDialog::getColor(QColor(Qt::black), this);
+    if (!newColor.isValid())
+        return;
+
+    emit titleColorChanged(newColor);
+}

@@ -50,6 +50,8 @@ void InteractingScore::createConnections()
 
     connect(m_scorePropertiesDialog, SIGNAL(titleFontChanged(QFont)),
             this, SLOT(titleFontChanged(QFont)));
+    connect(m_scorePropertiesDialog, SIGNAL(titleColorChanged(QColor)),
+            this, SLOT(titleColorChanged(QColor)));
 }
 
 QGraphicsWidget *InteractingScore::headerItem() const
@@ -121,9 +123,15 @@ void InteractingScore::setTimeSignature(const TimeSignature &timeSig)
 {
 }
 
-void InteractingScore::titleFontChanged(const QFont &newFont)
+void InteractingScore::titleFontChanged(const QFont &font)
 {
-    m_headerItem->setItemFont(GraphicalScoreItem::Title, newFont);
-    m_footerItem->setItemFont(GraphicalScoreItem::Title, newFont);
+    m_headerItem->setItemFont(GraphicalScoreItem::Title, font);
+    m_footerItem->setItemFont(GraphicalScoreItem::Title, font);
+}
+
+void InteractingScore::titleColorChanged(const QColor &color)
+{
+    m_headerItem->setItemColor(GraphicalScoreItem::Title, color);
+    m_footerItem->setItemColor(GraphicalScoreItem::Title, color);
 }
 

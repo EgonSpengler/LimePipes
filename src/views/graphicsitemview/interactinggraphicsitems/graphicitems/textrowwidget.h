@@ -34,6 +34,9 @@ public:
     void setFont(TextPosition position, const QFont& font);
     QFont font(TextPosition position) const;
 
+    void setColor(TextPosition position, const QColor& color);
+    void color(TextPosition position);
+
     void setTextPositionVisible(TextPosition position, bool active);
 
     void setGeometry(const QRectF &rect);

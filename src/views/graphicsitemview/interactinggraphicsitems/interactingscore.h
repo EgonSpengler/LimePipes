@@ -49,7 +49,8 @@ private slots:
     void setCopyright(const QString &copyright);
     void setTimeSignature(const TimeSignature &timeSig);
 
-    void titleFontChanged(const QFont& newFont);
+    void titleFontChanged(const QFont& font);
+    void titleColorChanged(const QColor& color);
 
 private:
     void createConnections();
