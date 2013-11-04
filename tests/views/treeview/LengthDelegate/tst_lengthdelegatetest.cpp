@@ -32,11 +32,11 @@ void LengthDelegateTest::initTestCase()
     m_tuneIndex = new QPersistentModelIndex(
                 m_model->insertTuneWithScore(0, "One score", m_model->instrumentNames().at(0)));
 
-    m_symbolWithLengthIndex = new QPersistentModelIndex(symbolIndex(LP::symbolLength, true));
+    m_symbolWithLengthIndex = new QPersistentModelIndex(symbolIndex(LP::SymbolLength, true));
     if (!m_symbolWithLengthIndex->isValid())
         qWarning("Instrument plugin has no symbol with length");
 
-    m_symbolWithNoLengthIndex = new QPersistentModelIndex(symbolIndex(LP::symbolLength, false));
+    m_symbolWithNoLengthIndex = new QPersistentModelIndex(symbolIndex(LP::SymbolLength, false));
     if (!m_symbolWithNoLengthIndex->isValid())
         qWarning("Instrument plugin has no symbol with no length");
 
@@ -80,7 +80,7 @@ void LengthDelegateTest::testSetModelData()
     Q_ASSERT(m_editor);
 
     // check current length with symbol data
-    Length::Value length = m_symbolWithLengthIndex->data(LP::symbolLength).value<Length::Value>();
+    Length::Value length = m_symbolWithLengthIndex->data(LP::SymbolLength).value<Length::Value>();
     QString lengthFromSymbolData = QString::number(length);
     QVERIFY2(m_editor->currentText() == lengthFromSymbolData, "current selected length doesn't match with symbol data");
 
@@ -94,12 +94,12 @@ void LengthDelegateTest::testSetModelData()
 
     // Set model data
     m_delegate->setModelData(m_editor, m_model, m_lengthIndex);
-    length = m_symbolWithLengthIndex->data(LP::symbolLength).value<Length::Value>();
+    length = m_symbolWithLengthIndex->data(LP::SymbolLength).value<Length::Value>();
     lengthFromSymbolData = QString::number(length);
     QVERIFY2(m_editor->currentText() == lengthFromSymbolData, "Failed setting length");
 }
 
-QModelIndex LengthDelegateTest::symbolIndex(LP::DataRole role, bool hasData)
+QModelIndex LengthDelegateTest::symbolIndex(LP::SymbolDataRole role, bool hasData)
 {
     QModelIndex tuneIndex = m_model->insertTuneWithScore(0, "score", m_instrumentNames.at(0));
     QModelIndex partIndex = m_model->insertPartIntoTune(0, tuneIndex, 5);

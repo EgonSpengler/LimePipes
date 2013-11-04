@@ -27,7 +27,6 @@
 #include <commands/removeitemscommand.h>
 #include <rootitem.h>
 #include <score.h>
-#include <symbols/barline.h>
 #include <tune.h>
 #include <part.h>
 #include <measure.h>
@@ -91,7 +90,7 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
         if (index.column() == 0) {
             theFlags |= Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
         }
-        QVariant symbol = data(index, LP::symbolType);
+        QVariant symbol = data(index, LP::SymbolType);
         if (symbol.isValid() &&
                 symbol.canConvert<int>() &&
                 symbol.toInt() == LP::BarLine) {
@@ -187,11 +186,6 @@ bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
 
     if (!m_rootItem)
         return false;
-
-    for (int i = row; i < row + count; i++) {
-        if (isBarLineSymbol(parent, i))
-            return false;
-    }
 
     m_undoStack->push(new RemoveItemsCommand(this, "Remove items", parent, row, count));
 
@@ -407,7 +401,7 @@ QModelIndex MusicModel::insertPartIntoTune(int row, const QModelIndex &tune, int
 {
     m_undoStack->beginMacro(tr("Insert part into tune"));
     QModelIndex part = insertItem(tr("Insert part into tune"), tune, row, new Part());
-    setData(part, QVariant::fromValue<bool>(withRepeat), LP::partRepeat);
+    setData(part, QVariant::fromValue<bool>(withRepeat), LP::PartRepeat);
     for (int i=0; i<measures; i++) {
         insertItem(tr("Insert measure"), part, 0, new Measure());
     }
@@ -440,7 +434,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     Q_ASSERT(isIndexTune(tuneIndex));
     MusicItem *tuneItem = itemForIndex(tuneIndex);
 
-    QVariant instrumentVar = tuneItem->data(LP::tuneInstrument);
+    QVariant instrumentVar = tuneItem->data(LP::TuneInstrument);
     if (!instrumentVar.isValid() &&
             !instrumentVar.canConvert<InstrumentPtr>())
         return QModelIndex();
@@ -451,7 +445,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     if (symbol &&
             symbol->symbolType() == LP::NoSymbolType)
         return QModelIndex();
-    QString insertText = tr("Insert %1").arg(symbol->data(LP::symbolName).toString());
+    QString insertText = tr("Insert %1").arg(symbol->data(LP::SymbolName).toString());
 
     return insertItem(insertText, measure, row, symbol);
 }
@@ -538,7 +532,7 @@ void MusicModel::writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *
 
 void MusicModel::writeTuneAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const
 {
-    QVariant instrumentVar = musicItem->data(LP::tuneInstrument);
+    QVariant instrumentVar = musicItem->data(LP::TuneInstrument);
     if (instrumentVar.isValid() &&
             instrumentVar.canConvert<InstrumentPtr>()) {
         InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
@@ -548,7 +542,7 @@ void MusicModel::writeTuneAttributes(QXmlStreamWriter *writer, MusicItem *musicI
 
 void MusicModel::writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const
 {
-    QVariant symbolNameVar = musicItem->data(LP::symbolName);
+    QVariant symbolNameVar = musicItem->data(LP::SymbolName);
     if (symbolNameVar.isValid() &&
             symbolNameVar.canConvert<QString>()) {
         writer->writeAttribute("NAME", symbolNameVar.toString());
@@ -630,31 +624,6 @@ bool MusicModel::isMusicItemTag(const QString &tagName)
 bool MusicModel::isMusicItemTag(const QStringRef &tagName)
 {
     return isMusicItemTag(QString().append(tagName));
-}
-
-bool MusicModel::isRowWithinPartOfTune(const QModelIndex &tune, int row)
-{
-    if (rowCount(tune) == 0)
-        return false;
-
-    QModelIndex symbol = index(row, 0, tune);
-    QVariant barLineType = data(symbol, LP::barLineType);
-    if (barLineType.isValid() &&
-            barLineType.canConvert<BarLine::Type>()) {
-        BarLine::Type barType = barLineType.value<BarLine::Type>();
-        if (barType == BarLine::StartPart)
-            return false;
-    }
-    return true;
-}
-
-bool MusicModel::isBarLineSymbol(const QModelIndex &tune, int row)
-{
-    QModelIndex symbolIndex = index(row, 0, tune);
-    QVariant barLineTypeVar = symbolIndex.data(LP::barLineType);
-    if (barLineTypeVar.isValid())
-        return true;
-    return false;
 }
 
 void MusicModel::processScoreTag(QXmlStreamReader *reader, MusicItem **item)
@@ -784,7 +753,7 @@ void MusicModel::readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem *
         QString readPitchName = reader->readElementText();
         if (pitchNames.contains(readPitchName)) {
             PitchPtr pitch = instrument->pitchContext()->pitchForName(readPitchName);
-            (*item)->setData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
+            (*item)->setData(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
         }
     }
 }
@@ -812,9 +781,8 @@ bool MusicModel::symbolNameIsSupportedByTuneItem(QXmlStreamReader *reader, Music
     QStringList symbolNames =
             m_instrumentManager->symbolNamesForInstrument(instrument->name());
 
-    if (symbolNames.contains(symbolNameFromAttribute) ||
-            BarLine::SymbolName.compare(symbolNameFromAttribute, Qt::CaseInsensitive) == 0) {
-        return true;
+    if (symbolNames.contains(symbolNameFromAttribute)) {
+            return true;
     }
     return false;
 }
@@ -823,7 +791,7 @@ InstrumentPtr MusicModel::instrumentFromItem(MusicItem *item)
 {
     Q_ASSERT(item->type() == MusicItem::TuneType);
 
-    QVariant instrumentVar = item->data(LP::tuneInstrument);
+    QVariant instrumentVar = item->data(LP::TuneInstrument);
     if (instrumentVar.isValid() &&
             instrumentVar.canConvert<InstrumentPtr>()) {
         return instrumentVar.value<InstrumentPtr>();
@@ -843,10 +811,7 @@ MusicItem *MusicModel::newSymbolForMeasureItem(QXmlStreamReader *reader, MusicIt
 
     MusicItem *parent = item;
     MusicItem *child = 0;
-    if (symbolNameFromAttribute.compare(BarLine::SymbolName, Qt::CaseInsensitive) == 0)
-        child = new BarLine();
-    else
-        child = m_instrumentManager->symbolForName(instrument->name(), symbolNameFromAttribute);
+    child = m_instrumentManager->symbolForName(instrument->name(), symbolNameFromAttribute);
 
     if (parent->okToInsertChild(child, parent->childCount()) &&
             parent->addChild(child)) {

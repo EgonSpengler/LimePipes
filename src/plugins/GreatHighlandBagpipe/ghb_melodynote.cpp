@@ -11,6 +11,6 @@
 GHB_MelodyNote::GHB_MelodyNote(PitchPtr pitch, Length::Value length)
     : MelodyNote(GHB::MelodyNote, "Melody Note")
 {
-    initData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
-    initData(QVariant::fromValue<Length::Value>(length), LP::symbolLength);
+    initData(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
+    initData(QVariant::fromValue<Length::Value>(length), LP::SymbolLength);
 }

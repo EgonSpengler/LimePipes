@@ -32,7 +32,7 @@ void PitchDelegateTest::initTestCase()
     m_tuneIndex = new QPersistentModelIndex(
                 m_model->insertTuneWithScore(0, "One score", m_model->instrumentNames().at(0)));
 
-    QVariant instrumentVar = m_tuneIndex->data(LP::tuneInstrument);
+    QVariant instrumentVar = m_tuneIndex->data(LP::TuneInstrument);
     if (!instrumentVar.isValid())
         qWarning("Tune has no instrument");
     if (instrumentVar.canConvert<InstrumentPtr>()) {
@@ -41,11 +41,11 @@ void PitchDelegateTest::initTestCase()
         qWarning("Can't convert instrument variant into instrument");
     }
 
-    m_symbolWithPitchIndex = new QPersistentModelIndex(symbolIndex(LP::symbolPitch, true));
+    m_symbolWithPitchIndex = new QPersistentModelIndex(symbolIndex(LP::SymbolPitch, true));
     if (!m_symbolWithPitchIndex->isValid())
         qWarning("Instrument plugin has no symbol with pitch");
 
-    m_symbolWithNoPitchIndex = new QPersistentModelIndex(symbolIndex(LP::symbolPitch, false));
+    m_symbolWithNoPitchIndex = new QPersistentModelIndex(symbolIndex(LP::SymbolPitch, false));
     if (!m_symbolWithNoPitchIndex->isValid())
         qWarning("Instrument plugin has no symbol with no pitch");
 
@@ -89,7 +89,7 @@ void PitchDelegateTest::setModelData()
     Q_ASSERT(m_editor);
 
     // check current pitch with symbol data
-    PitchPtr pitchFromSymbolData = m_symbolWithPitchIndex->data(LP::symbolPitch).value<PitchPtr>();
+    PitchPtr pitchFromSymbolData = m_symbolWithPitchIndex->data(LP::SymbolPitch).value<PitchPtr>();
     QVERIFY2(m_editor->currentText() == pitchFromSymbolData->name(), "current selected pitch doesn't match with symbol data");
 
     int newIndex = m_editor->currentIndex() + 1;
@@ -102,11 +102,11 @@ void PitchDelegateTest::setModelData()
 
     // Set model data
     m_delegate->setModelData(m_editor, m_model, m_pitchIndex);
-    pitchFromSymbolData = m_symbolWithPitchIndex->data(LP::symbolPitch).value<PitchPtr>();
+    pitchFromSymbolData = m_symbolWithPitchIndex->data(LP::SymbolPitch).value<PitchPtr>();
     QVERIFY2(m_editor->currentText() == pitchFromSymbolData->name(), "Failed setting pitch");
 }
 
-QModelIndex PitchDelegateTest::symbolIndex(LP::DataRole role, bool hasData)
+QModelIndex PitchDelegateTest::symbolIndex(LP::SymbolDataRole role, bool hasData)
 {
     QModelIndex tuneIndex = m_model->insertTuneWithScore(0, "score", m_instrumentNames.at(0));
     QModelIndex partIndex = m_model->insertPartIntoTune(0, tuneIndex, 5);

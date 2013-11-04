@@ -48,7 +48,7 @@ public:
     {
         setSymbolOptions(Symbol::HasPitch |
                          Symbol::HasLength);
-        initData(QVariant::fromValue<Length::Value>(Length::_16), LP::symbolLength);
+        initData(QVariant::fromValue<Length::Value>(Length::_16), LP::SymbolLength);
     }
 
     void setGraphicBuilder(SymbolGraphicBuilder *builder) { setSymbolGraphicBuilder(builder); }

@@ -1,6 +1,7 @@
 project( limepipes CXX)
 cmake_minimum_required( VERSION 2.8 )
 add_definitions( -Wall )
+add_definitions( -std=gnu++0x )
 find_package( Qt4 REQUIRED )
 include( ${QT_USE_FILE} )
 

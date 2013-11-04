@@ -28,18 +28,18 @@ Score::Score(const QString &title)
 
 void Score::setTitle(const QString &title)
 {
-    setData(title, LP::scoreTitle);
+    setData(title, LP::ScoreTitle);
 }
 
 bool Score::itemSupportsWritingOfData(int role) const
 {
     switch (role) {
-    case LP::scoreArranger:
-    case LP::scoreComposer:
-    case LP::scoreCopyright:
-    case LP::scoreTimeSignature:
-    case LP::scoreTitle:
-    case LP::scoreYear:
+    case LP::ScoreArranger:
+    case LP::ScoreComposer:
+    case LP::ScoreCopyright:
+    case LP::ScoreTimeSignature:
+    case LP::ScoreTitle:
+    case LP::ScoreYear:
         return true;
     default:
         return false;
@@ -48,18 +48,18 @@ bool Score::itemSupportsWritingOfData(int role) const
 
 void Score::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 {
-    if (!textDataForRole(LP::scoreTitle).isEmpty())
-        writer->writeTextElement("TITLE", textDataForRole(LP::scoreTitle));
-    if (!textDataForRole(LP::scoreComposer).isEmpty())
-        writer->writeTextElement("COMPOSER", textDataForRole(LP::scoreComposer));
-    if (!textDataForRole(LP::scoreArranger).isEmpty())
-        writer->writeTextElement("ARRANGER", textDataForRole(LP::scoreArranger));
-    if (!textDataForRole(LP::scoreCopyright).isEmpty())
-        writer->writeTextElement("COPYRIGHT", textDataForRole(LP::scoreCopyright));
-    if (!textDataForRole(LP::scoreYear).isEmpty())
-        writer->writeTextElement("YEAR", textDataForRole(LP::scoreYear));
+    if (!textForScoreDataRole(LP::ScoreTitle).isEmpty())
+        writer->writeTextElement("TITLE", textForScoreDataRole(LP::ScoreTitle));
+    if (!textForScoreDataRole(LP::ScoreComposer).isEmpty())
+        writer->writeTextElement("COMPOSER", textForScoreDataRole(LP::ScoreComposer));
+    if (!textForScoreDataRole(LP::ScoreArranger).isEmpty())
+        writer->writeTextElement("ARRANGER", textForScoreDataRole(LP::ScoreArranger));
+    if (!textForScoreDataRole(LP::ScoreCopyright).isEmpty())
+        writer->writeTextElement("COPYRIGHT", textForScoreDataRole(LP::ScoreCopyright));
+    if (!textForScoreDataRole(LP::ScoreYear).isEmpty())
+        writer->writeTextElement("YEAR", textForScoreDataRole(LP::ScoreYear));
 
-    QVariant timeSigVar = data(LP::scoreTimeSignature);
+    QVariant timeSigVar = data(LP::ScoreTimeSignature);
     if (timeSigVar.isValid() &&
             timeSigVar.canConvert<TimeSignature>()) {
         TimeSignature timeSig = timeSigVar.value<TimeSignature>();
@@ -73,25 +73,25 @@ void Score::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
         setTitle(reader->readElementText());
 
     if (QString("COMPOSER").compare(reader->name(), Qt::CaseInsensitive) == 0)
-        setData(reader->readElementText(), LP::scoreComposer);
+        setData(reader->readElementText(), LP::ScoreComposer);
 
     if (QString("ARRANGER").compare(reader->name(), Qt::CaseInsensitive) == 0)
-        setData(reader->readElementText(), LP::scoreArranger);
+        setData(reader->readElementText(), LP::ScoreArranger);
 
     if (QString("COPYRIGHT").compare(reader->name(), Qt::CaseInsensitive) == 0)
-        setData(reader->readElementText(), LP::scoreCopyright);
+        setData(reader->readElementText(), LP::ScoreCopyright);
 
     if (QString("YEAR").compare(reader->name(), Qt::CaseInsensitive) == 0)
-        setData(reader->readElementText(), LP::scoreYear);
+        setData(reader->readElementText(), LP::ScoreYear);
 
     if (TimeSignature::xmlTagName().compare(reader->name(), Qt::CaseInsensitive) == 0) {
         TimeSignature timeSig;
         timeSig.readFromXmlStream(reader);
-        setData(QVariant::fromValue<TimeSignature>(timeSig), LP::scoreTimeSignature);
+        setData(QVariant::fromValue<TimeSignature>(timeSig), LP::ScoreTimeSignature);
     }
 }
 
-QString Score::textDataForRole(LP::DataRole role)
+QString Score::textForScoreDataRole(LP::ScoreDataRole role)
 {
     QVariant scoreData = data(role);
     if (scoreData.isValid())

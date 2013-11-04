@@ -25,12 +25,12 @@ void SymbolTest::cleanup()
 
 void SymbolTest::testConstructor()
 {
-    QVERIFY2(m_symbol->data(LP::symbolType).toInt() == LP::NoSymbolType, "Wrong Symbol id in default constructor");
-    QVERIFY2(m_symbol->data(LP::symbolName).isValid(), "Symbol has no name in default constructor");
+    QVERIFY2(m_symbol->data(LP::SymbolType).toInt() == LP::NoSymbolType, "Wrong Symbol id in default constructor");
+    QVERIFY2(m_symbol->data(LP::SymbolName).isValid(), "Symbol has no name in default constructor");
 
     Symbol symbol(333, "Testsymbol");
-    QVERIFY2(symbol.data(LP::symbolType).toInt() == 333, "Failed setting symbol Id in constructor");
-    QVERIFY2(symbol.data(LP::symbolName) == "Testsymbol", "Failed setting symbol name in constructor");
+    QVERIFY2(symbol.data(LP::SymbolType).toInt() == 333, "Failed setting symbol Id in constructor");
+    QVERIFY2(symbol.data(LP::SymbolName) == "Testsymbol", "Failed setting symbol name in constructor");
 }
 
 void SymbolTest::testType()
@@ -85,14 +85,14 @@ void SymbolTest::testSetSymbolGraphicBuilder()
 
     TestSymbol *testSymbol = static_cast<TestSymbol*>(m_symbol);
     Q_ASSERT(testSymbol);
-    QVERIFY2(testSymbol->data(LP::symbolGraphic).isValid() == false, "Fail, symbol has already set a graphic");
+    QVERIFY2(testSymbol->data(LP::SymbolGraphic).isValid() == false, "Fail, symbol has already set a graphic");
 
     QSignalSpy spy(graphicBuilder, SIGNAL(updateSymbolGraphicCalled()));
     testSymbol->setGraphicBuilder(graphicBuilder);
     QVERIFY2(spy.count() != 0, "Fail, updateSymbolGraphic wasn't called");
 
-    QVERIFY2(testSymbol->data(LP::symbolGraphic).isValid(), "Symbol graphic wasn't set with graphic builder");
-    QVERIFY2(testSymbol->data(LP::symbolGraphic).canConvert<SymbolGraphicPtr>(), "graphic data isn't a symbol graphic");
+    QVERIFY2(testSymbol->data(LP::SymbolGraphic).isValid(), "Symbol graphic wasn't set with graphic builder");
+    QVERIFY2(testSymbol->data(LP::SymbolGraphic).canConvert<SymbolGraphicPtr>(), "graphic data isn't a symbol graphic");
 }
 
 void SymbolTest::testCreateSymbolPixmaps()
@@ -116,7 +116,7 @@ void SymbolTest::testAfterWritingDataCall()
     testSymbol->setGraphicBuilder(graphicBuilder);
 
     QSignalSpy spy(testSymbol, SIGNAL(afterWritingDataCalled()));
-    m_symbol->setData(Length::_32, LP::symbolLength);
+    m_symbol->setData(Length::_32, LP::SymbolLength);
     QVERIFY2(spy.count() != 0, "Symbol graphic wasn't updated after setting data");
 }
 
@@ -128,14 +128,14 @@ void SymbolTest::testWriteToXmlStream()
     Length::Value testLength(Length::_32);
 
     TestSymbol testSymbol;
-    Q_ASSERT(testSymbol.itemSupportsWritingOfData(LP::symbolPitch));
-    Q_ASSERT(testSymbol.itemSupportsWritingOfData(LP::symbolLength));
+    Q_ASSERT(testSymbol.itemSupportsWritingOfData(LP::SymbolPitch));
+    Q_ASSERT(testSymbol.itemSupportsWritingOfData(LP::SymbolLength));
 
-    testSymbol.setData(QVariant::fromValue<PitchPtr>(testPitch), LP::symbolPitch);
-    testSymbol.setData(QVariant::fromValue<Length::Value>(testLength), LP::symbolLength);
+    testSymbol.setData(QVariant::fromValue<PitchPtr>(testPitch), LP::SymbolPitch);
+    testSymbol.setData(QVariant::fromValue<Length::Value>(testLength), LP::SymbolLength);
 
     testSymbol.writeItemDataToXmlStream(&writer);
-    QString nameTag  = patternForTag("NAME", testSymbol.data(LP::symbolName).toString());
+    QString nameTag  = patternForTag("NAME", testSymbol.data(LP::SymbolName).toString());
     QString pitchTag = patternForTag("PITCH", testPitch->name());
     QString lengthTag = patternForTag("LENGTH", QString::number(testLength, 10));
 

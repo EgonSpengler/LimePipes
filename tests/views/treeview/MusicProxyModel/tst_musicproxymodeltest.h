@@ -24,8 +24,8 @@ public:
     {
         setSymbolOptions(Symbol::HasPitch |
                          Symbol::HasLength);
-        initData(QVariant::fromValue<PitchPtr>(PitchPtr(new Pitch(2, "testpitch"))), LP::symbolPitch);
-        initData(QVariant::fromValue<Length::Value>(Length::_32), LP::symbolLength);
+        initData(QVariant::fromValue<PitchPtr>(PitchPtr(new Pitch(2, "testpitch"))), LP::SymbolPitch);
+        initData(QVariant::fromValue<Length::Value>(Length::_32), LP::SymbolLength);
     }
 };
 
@@ -62,7 +62,7 @@ private Q_SLOTS:
     void testLengthColumn();
 
 private:
-    QModelIndex symbolIndexWithData(LP::DataRole role);
+    QModelIndex symbolIndexWithData(LP::SymbolDataRole role);
     MusicModel *m_sourceModel;
     MusicProxyModel *m_proxyModel;
     QStringList m_instrumentNames;

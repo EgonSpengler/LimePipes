@@ -20,14 +20,14 @@ public:
     explicit Score(const QString &title);
 
     void setTitle(const QString &title);
-    QString title() const { return data(LP::scoreTitle).toString(); }
+    QString title() const { return data(LP::ScoreTitle).toString(); }
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
-    QString textDataForRole(LP::DataRole role);
+    QString textForScoreDataRole(LP::ScoreDataRole role);
 };
 
 #endif // SCORE_H

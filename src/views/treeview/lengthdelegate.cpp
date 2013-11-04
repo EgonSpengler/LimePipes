@@ -25,7 +25,7 @@ bool LengthDelegate::hasSymbolDelegateData(const QModelIndex &symbolIndex) const
 {
     const MusicModelInterface *musicModel = dynamic_cast<const MusicModelInterface*>(symbolIndex.model());
     if (musicModel) {
-        return musicModel->indexSupportsWritingOfData(symbolIndex, LP::symbolLength);
+        return musicModel->indexSupportsWritingOfData(symbolIndex, LP::SymbolLength);
     }
     return false;
 }
@@ -39,13 +39,13 @@ void LengthDelegate::setSymbolDataFromSelectedText(QAbstractItemModel *model, co
 
     if (Length::lengthValues().contains(length)) {
         QVariant lengthVar = QVariant::fromValue<Length::Value>((Length::Value)length);
-        model->setData(symbolIndex, lengthVar, LP::symbolLength);
+        model->setData(symbolIndex, lengthVar, LP::SymbolLength);
     }
 }
 
 QString LengthDelegate::currentSelectedData(const QModelIndex &symbolIndex) const
 {
-    QVariant lengthVar = symbolIndex.data(LP::symbolLength);
+    QVariant lengthVar = symbolIndex.data(LP::SymbolLength);
     if (lengthVar.canConvert<Length::Value>()) {
         Length::Value length = lengthVar.value<Length::Value>();
         return QString::number(length);

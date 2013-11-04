@@ -54,7 +54,7 @@ void GHB_PluginTest::testSymbolNamesForAllSymbols()
     Symbol *symbol = 0;
     foreach (QString symbolName, allSymbols) {
         symbol = m_bagpipe->getSymbol(symbolName);
-        QVERIFY2(symbol->data(LP::symbolName) == symbolName, "Failed, Symbol's name returned by Plugin doesn't match with name parameter from getSymbol-method.");
+        QVERIFY2(symbol->data(LP::SymbolName) == symbolName, "Failed, Symbol's name returned by Plugin doesn't match with name parameter from getSymbol-method.");
         delete symbol;
     }
 }

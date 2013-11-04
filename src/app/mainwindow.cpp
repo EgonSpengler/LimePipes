@@ -132,7 +132,7 @@ QString MainWindow::instrumentFromParentOfCurrentIndex()
     }
 
     if (currentIndex.isValid()) {
-        QVariant currentInstrument = m_model->data(currentIndex, LP::tuneInstrument);
+        QVariant currentInstrument = m_model->data(currentIndex, LP::TuneInstrument);
         if (currentInstrument.isValid()) {
             return currentInstrument.value<InstrumentPtr>()->name();
         }

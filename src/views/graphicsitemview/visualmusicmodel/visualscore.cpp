@@ -32,28 +32,28 @@ AbstractVisualItem::Type VisualScore::type() const
 
 void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
 {
-    QString title = index.data(LP::scoreTitle).toString();
+    QString title = index.data(LP::ScoreTitle).toString();
     m_scorePropertiesItem->setTitle(title);
 
-    QString composer = index.data(LP::scoreComposer).toString();
+    QString composer = index.data(LP::ScoreComposer).toString();
     m_scorePropertiesItem->setComposer(composer);
 
-    QString arranger = index.data(LP::scoreArranger).toString();
+    QString arranger = index.data(LP::ScoreArranger).toString();
     m_scorePropertiesItem->setArranger(arranger);
 
-    QString year = index.data(LP::scoreYear).toString();
+    QString year = index.data(LP::ScoreYear).toString();
     m_scorePropertiesItem->setYear(year);
 
-    QString copyright = index.data(LP::scoreCopyright).toString();
+    QString copyright = index.data(LP::ScoreCopyright).toString();
     m_scorePropertiesItem->setCopyright(copyright);
 
-    QVariant timeSigVariant = index.data(LP::scoreTimeSignature);
+    QVariant timeSigVariant = index.data(LP::ScoreTimeSignature);
     m_scorePropertiesItem->setTimeSignature(timeSigVariant.value<TimeSignature>());
 }
 
 void VisualScore::titleChanged(const QString &title)
 {
-    emit dataChanged(title, LP::scoreTitle);
+    emit dataChanged(title, LP::ScoreTitle);
 }
 
 ScorePropertiesItem *VisualScore::scorePropertiesItem() const

@@ -34,30 +34,30 @@ void ScoreTest::testChildType()
 
 void ScoreTest::testSetData()
 {
-    m_score->setData("test title", LP::scoreTitle);
-    QVERIFY2(m_score->data(LP::scoreTitle) == "test title", "Failed set title");
+    m_score->setData("test title", LP::ScoreTitle);
+    QVERIFY2(m_score->data(LP::ScoreTitle) == "test title", "Failed set title");
 
-    m_score->setData("test composer", LP::scoreComposer);
-    QVERIFY2(m_score->data(LP::scoreComposer) == "test composer", "Failed set composer");
+    m_score->setData("test composer", LP::ScoreComposer);
+    QVERIFY2(m_score->data(LP::ScoreComposer) == "test composer", "Failed set composer");
 
-    m_score->setData("test arranger", LP::scoreArranger);
-    QVERIFY2(m_score->data(LP::scoreArranger) == "test arranger", "Failed set arranger");
+    m_score->setData("test arranger", LP::ScoreArranger);
+    QVERIFY2(m_score->data(LP::ScoreArranger) == "test arranger", "Failed set arranger");
 
-    m_score->setData("test year", LP::scoreYear);
-    QVERIFY2(m_score->data(LP::scoreYear) == "test year", "Failed set year");
+    m_score->setData("test year", LP::ScoreYear);
+    QVERIFY2(m_score->data(LP::ScoreYear) == "test year", "Failed set year");
 
-    m_score->setData("test copyright", LP::scoreCopyright);
-    QVERIFY2(m_score->data(LP::scoreCopyright) == "test copyright", "Failed set copyright");
+    m_score->setData("test copyright", LP::ScoreCopyright);
+    QVERIFY2(m_score->data(LP::ScoreCopyright) == "test copyright", "Failed set copyright");
 
-    m_score->setData(QVariant::fromValue(TimeSignature(TimeSignature::_3_4)), LP::scoreTimeSignature);
-    QVERIFY2(m_score->data(LP::scoreTimeSignature).value<TimeSignature>().signature() == TimeSignature::_3_4, "Failed set time signature");
+    m_score->setData(QVariant::fromValue(TimeSignature(TimeSignature::_3_4)), LP::ScoreTimeSignature);
+    QVERIFY2(m_score->data(LP::ScoreTimeSignature).value<TimeSignature>().signature() == TimeSignature::_3_4, "Failed set time signature");
 }
 
 void ScoreTest::testConstructor()
 {
     delete m_score;
     m_score = new Score(QString("The Title"));
-    QVERIFY2(m_score->data(LP::scoreTitle) == "The Title", "Failed setting the score title in the constructor");
+    QVERIFY2(m_score->data(LP::ScoreTitle) == "The Title", "Failed setting the score title in the constructor");
     QVERIFY2(m_score->type() == MusicItem::ScoreType, "Score returns the wrong type");
     QVERIFY2(m_score->childType() == MusicItem::TuneType, "The child itemtype of score is not TuneType");
 }
@@ -65,7 +65,7 @@ void ScoreTest::testConstructor()
 void ScoreTest::testSetGetTitle()
 {
     m_score->setTitle(QString("New Title"));
-    QVERIFY2(m_score->data(LP::scoreTitle) == "New Title", "Failed setting title");
+    QVERIFY2(m_score->data(LP::ScoreTitle) == "New Title", "Failed setting title");
     QVERIFY2(m_score->title() == "New Title", "Failed getting title");
 }
 
@@ -82,11 +82,11 @@ void ScoreTest::testWriteToXmlStream()
     TimeSignature scoreTimeSig(TimeSignature::_3_8);
 
     m_score->setTitle(scoreTitle);
-    m_score->setData(scoreComposer, LP::scoreComposer);
-    m_score->setData(scoreArranger, LP::scoreArranger);
-    m_score->setData(scoreYear, LP::scoreYear);
-    m_score->setData(scoreCopyright, LP::scoreCopyright);
-    m_score->setData(QVariant::fromValue<TimeSignature>(scoreTimeSig), LP::scoreTimeSignature);
+    m_score->setData(scoreComposer, LP::ScoreComposer);
+    m_score->setData(scoreArranger, LP::ScoreArranger);
+    m_score->setData(scoreYear, LP::ScoreYear);
+    m_score->setData(scoreCopyright, LP::ScoreCopyright);
+    m_score->setData(QVariant::fromValue<TimeSignature>(scoreTimeSig), LP::ScoreTimeSignature);
 
     m_score->writeItemDataToXmlStream(&writer);
 
@@ -104,21 +104,21 @@ void ScoreTest::testReadFromXmlStream()
     QVERIFY2(m_score->title() == "Testtitle", "Failed loading score title with no uppercase tag");
 
     readTextElement("CoMPOsER", "Test composer");
-    QVERIFY2(m_score->data(LP::scoreComposer) == "Test composer", "Failed loading score composer with no uppercase tag");
+    QVERIFY2(m_score->data(LP::ScoreComposer) == "Test composer", "Failed loading score composer with no uppercase tag");
 
     readTextElement("ARrANgER", "Test arranger");
-    QVERIFY2(m_score->data(LP::scoreArranger) == "Test arranger", "Failed loading score arranger with no uppercase tag");
+    QVERIFY2(m_score->data(LP::ScoreArranger) == "Test arranger", "Failed loading score arranger with no uppercase tag");
 
     readTextElement("YeAr", "Test year");
-    QVERIFY2(m_score->data(LP::scoreYear) == "Test year", "Failed loading score year with no uppercase tag");
+    QVERIFY2(m_score->data(LP::ScoreYear) == "Test year", "Failed loading score year with no uppercase tag");
 
     readTextElement("CopYRIgHT", "Test copyright");
-    QVERIFY2(m_score->data(LP::scoreCopyright) == "Test copyright", "Failed loading score copyright with no uppercase tag");
+    QVERIFY2(m_score->data(LP::ScoreCopyright) == "Test copyright", "Failed loading score copyright with no uppercase tag");
 
     TimeSignature::Type timeSig = TimeSignature::_12_8;
     readTimeSignatureElement(timeSig);
 
-    QVERIFY2(m_score->data(LP::scoreTimeSignature).isValid(), "No valid time signature after loading");
+    QVERIFY2(m_score->data(LP::ScoreTimeSignature).isValid(), "No valid time signature after loading");
 }
 
 void ScoreTest::readTextElement(const QString &tagName, const QString &elementText)

@@ -35,12 +35,12 @@ void MusicItemTest::testNullItemCopyConstructor()
 {
     QString testTitle = "Test title";
     MusicItem *scoreItem = musicItemFactory(MusicItem::ScoreType);
-    scoreItem->setData(QVariant(testTitle), LP::scoreTitle);
+    scoreItem->setData(QVariant(testTitle), LP::ScoreTitle);
 
     NullMusicItem copyItem(*scoreItem);
     QVERIFY2(scoreItem->type() == copyItem.type(), "Items have not the same type");
     QVERIFY2(scoreItem->childType() == copyItem.childType(), "Items have not the same child type");
-    QVERIFY2(scoreItem->data(LP::scoreTitle).toString() == copyItem.data(LP::scoreTitle).toString(),
+    QVERIFY2(scoreItem->data(LP::ScoreTitle).toString() == copyItem.data(LP::ScoreTitle).toString(),
              "Data wasn't copied");
 }
 
@@ -54,7 +54,7 @@ void MusicItemTest::testInitData()
 void MusicItemTest::testItemSupportsWritingOfData()
 {
     MusicItem *item = new TestMusicItem();
-    QVERIFY2(item->setData(QVariant(), LP::symbolName) == true, "Fail, TestMusicItem supports writing of symbol name role");
+    QVERIFY2(item->setData(QVariant(), LP::SymbolName) == true, "Fail, TestMusicItem supports writing of symbol name role");
     QVERIFY2(item->setData(QVariant(), TestMusicItem::notWritableRole) == false, "Fail, role was writable.");
 }
 
@@ -102,9 +102,9 @@ void MusicItemTest::testInsertChild()
 {
     MusicItem *newChild = musicItemFactory(m_parent->childType());
     Q_ASSERT(newChild->type() == MusicItem::ScoreType);
-    newChild->setData("newChild", LP::scoreTitle);
+    newChild->setData("newChild", LP::ScoreTitle);
     QVERIFY2(m_parent->insertChild(1, newChild), "insertChild returnded false");
-    QVERIFY2(m_parent->childAt(1)->data(LP::scoreTitle) == "newChild", "Failed to insert child");
+    QVERIFY2(m_parent->childAt(1)->data(LP::ScoreTitle) == "newChild", "Failed to insert child");
 
     // Insert Item thats not the correct child item
     int childCountBefore = m_parent->childCount();
@@ -120,9 +120,9 @@ void MusicItemTest::testAddChild()
     int childCountBefore = m_parent->childCount();
     MusicItem *newChild = musicItemFactory(m_parent->childType());
     Q_ASSERT(newChild->type() == MusicItem::ScoreType);
-    newChild->setData("newChild", LP::scoreTitle);
+    newChild->setData("newChild", LP::ScoreTitle);
     QVERIFY2(m_parent->addChild(newChild), "addChild returned false");
-    QVERIFY2(m_parent->childAt(childCountBefore)->data(LP::scoreTitle) == "newChild", "Failed to add child");
+    QVERIFY2(m_parent->childAt(childCountBefore)->data(LP::ScoreTitle) == "newChild", "Failed to add child");
 
     // Add Item thats not the correct child item
     childCountBefore = m_parent->childCount();
@@ -166,11 +166,11 @@ void MusicItemTest::testInsertNoItemTypeChild()
 void MusicItemTest::testSwapChildren()
 {
     Q_ASSERT(m_child1->type() == MusicItem::ScoreType);
-    m_child1->setData("child1", LP::scoreTitle);
-    m_child2->setData("child2", LP::scoreTitle);
+    m_child1->setData("child1", LP::ScoreTitle);
+    m_child2->setData("child2", LP::ScoreTitle);
     m_parent->swapChildren(0, 1);
-    QVERIFY2(m_parent->childAt(0)->data(LP::scoreTitle) == "child2", "Failed to swap children");
-    QVERIFY2(m_parent->childAt(1)->data(LP::scoreTitle) == "child1", "Failed to swap children");
+    QVERIFY2(m_parent->childAt(0)->data(LP::ScoreTitle) == "child2", "Failed to swap children");
+    QVERIFY2(m_parent->childAt(1)->data(LP::ScoreTitle) == "child1", "Failed to swap children");
 }
 
 void MusicItemTest::testType()

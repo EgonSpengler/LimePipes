@@ -52,7 +52,7 @@ void TreeView::handleAddDots()
 {
     // Add dots to possible melody note under current index
     QModelIndex index = currentIndex();
-    QVariant dotsVariant = index.data(LP::melodyNoteDots);
+    QVariant dotsVariant = index.data(LP::MelodyNoteDots);
     if (!dotsVariant.isValid())
         return;
 
@@ -64,7 +64,7 @@ void TreeView::handleAddDots()
         if (dots > MelodyNote::MaxDots)
             dots = 0;
 
-        model()->setData(index, QVariant(dots), LP::melodyNoteDots);
+        model()->setData(index, QVariant(dots), LP::MelodyNoteDots);
         update(index);
     }
 }

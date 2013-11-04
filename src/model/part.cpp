@@ -12,12 +12,12 @@
 Part::Part(MusicItem *parent)
     : MusicItem(MusicItem::PartType, MusicItem::MeasureType, parent)
 {
-    initData(QVariant::fromValue<bool>(false), LP::partRepeat);
+    initData(QVariant::fromValue<bool>(false), LP::PartRepeat);
 }
 
 bool Part::itemSupportsWritingOfData(int role) const
 {
-    if (role == LP::partRepeat)
+    if (role == LP::PartRepeat)
         return true;
     return false;
 }

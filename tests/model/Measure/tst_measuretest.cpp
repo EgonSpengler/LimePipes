@@ -61,7 +61,7 @@ void MeasureTest::testOkToInsertChildRedefinition()
     QVERIFY(m_measure->parent() == part);
     QVERIFY(part->parent() == tune);
 
-    QVERIFY2(tune->data(LP::tuneInstrument).isValid() == true, "The next tests requires a Tune with instrument");
+    QVERIFY2(tune->data(LP::TuneInstrument).isValid() == true, "The next tests requires a Tune with instrument");
     QVERIFY2(m_instrument->supportsSymbolType(LP::MelodyNote) == m_measure->okToInsertChild(melodyNoteSymbol, 0),
              "Measure doesn't return the same as the instrument for a valid symbol");
     QVERIFY2(m_instrument->supportsSymbolType(LP::NoSymbolType) == m_measure->okToInsertChild(invalidSymbol, 0),

@@ -32,7 +32,7 @@ public:
     explicit Symbol(int type, const QString &name, MusicItem *parent=0);
     virtual ~Symbol();
 
-    int symbolType() const { return data(LP::symbolType).toInt(); }
+    int symbolType() const { return data(LP::SymbolType).toInt(); }
 
     bool hasPitch() const;
     PitchPtr pitch() const;

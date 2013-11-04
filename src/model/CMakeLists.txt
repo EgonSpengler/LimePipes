@@ -26,7 +26,6 @@ set( lp_model_HEADERS
 
         symbols/melodynote.h
         symbols/melodynotegraphicbuilder.h
-        symbols/barline.h
         )
 
 set( lp_model_SOURCES
@@ -51,7 +50,6 @@ set( lp_model_SOURCES
         musicfont/emmentalermusicfont.cpp
         musicfont/musicfont.cpp
 
-        symbols/barline.cpp
         symbols/melodynote.cpp
         symbols/melodynotegraphicbuilder.cpp
         )

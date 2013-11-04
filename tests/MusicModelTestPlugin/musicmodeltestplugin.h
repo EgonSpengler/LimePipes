@@ -27,8 +27,8 @@ public:
     {
         setSymbolOptions(Symbol::HasPitch | Symbol::HasLength);
 
-        initData(QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
-        initData(QVariant::fromValue<Length::Value>(Length::_16), LP::symbolLength);
+        initData(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
+        initData(QVariant::fromValue<Length::Value>(Length::_16), LP::SymbolLength);
     }
 };
 

@@ -18,7 +18,7 @@ QStringList PitchDelegate::comboBoxItems(const QModelIndex &symbolIndex) const
     QModelIndex tune = symbolIndex.parent().parent().parent();
     if (!tune.isValid()) return QStringList();
 
-    QVariant instrumentVar = tune.data(LP::tuneInstrument);
+    QVariant instrumentVar = tune.data(LP::TuneInstrument);
 
     if (instrumentVar.canConvert<InstrumentPtr>()) {
         InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
@@ -31,14 +31,14 @@ bool PitchDelegate::hasSymbolDelegateData(const QModelIndex &symbolIndex) const
 {
     const MusicModelInterface *musicModel = dynamic_cast<const MusicModelInterface*>(symbolIndex.model());
     if (musicModel) {
-        return musicModel->indexSupportsWritingOfData(symbolIndex, LP::symbolPitch);
+        return musicModel->indexSupportsWritingOfData(symbolIndex, LP::SymbolPitch);
     }
     return false;
 }
 
 QString PitchDelegate::currentSelectedData(const QModelIndex &symbolIndex) const
 {
-    QVariant pitchVar = symbolIndex.data(LP::symbolPitch);
+    QVariant pitchVar = symbolIndex.data(LP::SymbolPitch);
     if (pitchVar.canConvert<PitchPtr>()) {
         PitchPtr pitch = pitchVar.value<PitchPtr>();
         return pitch->name();
@@ -51,12 +51,12 @@ void PitchDelegate::setSymbolDataFromSelectedText(QAbstractItemModel *model, con
     QModelIndex tune = symbolIndex.parent().parent().parent();
     if (!tune.isValid()) return;
 
-    QVariant instrumentVar = tune.data(LP::tuneInstrument);
+    QVariant instrumentVar = tune.data(LP::TuneInstrument);
 
     if (instrumentVar.canConvert<InstrumentPtr>()) {
         InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
         PitchContextPtr pitchContext = instrument->pitchContext();
         PitchPtr pitch = pitchContext->pitchForName(text);
-        model->setData(symbolIndex, QVariant::fromValue<PitchPtr>(pitch), LP::symbolPitch);
+        model->setData(symbolIndex, QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
     }
 }

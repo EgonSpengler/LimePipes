@@ -23,7 +23,7 @@ void GHB_DoublingTest::cleanup()
 void GHB_DoublingTest::testDefaultConstructor()
 {
     QVERIFY2(m_doubling->symbolType() == GHB::Doubling, "Doubling has wrong type");
-    QVERIFY2(m_doubling->data(LP::symbolName) == "Doubling", "Doubling has wrong name");
+    QVERIFY2(m_doubling->data(LP::SymbolName) == "Doubling", "Doubling has wrong name");
 }
 
 QTEST_APPLESS_MAIN(GHB_DoublingTest)

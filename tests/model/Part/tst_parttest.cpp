@@ -34,7 +34,7 @@ void PartTest::testType()
 
 void PartTest::testItemSupportsWritingOfData()
 {
-    QVERIFY2(m_part->itemSupportsWritingOfData(LP::partRepeat), "Part doesn't support writing of part repeat data");
+    QVERIFY2(m_part->itemSupportsWritingOfData(LP::PartRepeat), "Part doesn't support writing of part repeat data");
 }
 
 QTEST_MAIN(PartTest)

@@ -95,7 +95,7 @@ void InstrumentManagerTest::testGetSymbolByName()
     QList<QString>::iterator i;
     for (i = symbolNames.begin(); i != symbolNames.end(); ++i) {
         symbol = m_manager->symbolForName(instrumentName, *i);
-        QVERIFY2(symbol->data(LP::symbolName) == *i, "Got the wrong symbol");
+        QVERIFY2(symbol->data(LP::SymbolName) == *i, "Got the wrong symbol");
     }
 }
 

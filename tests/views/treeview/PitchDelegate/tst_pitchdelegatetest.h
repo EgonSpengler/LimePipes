@@ -37,7 +37,7 @@ private Q_SLOTS:
     void setModelData();
 
 private:
-    QModelIndex symbolIndex(LP::DataRole role, bool hasData);
+    QModelIndex symbolIndex(LP::SymbolDataRole role, bool hasData);
     MusicModel *m_model;
     PitchDelegate *m_delegate;
     InstrumentPtr m_instrument;

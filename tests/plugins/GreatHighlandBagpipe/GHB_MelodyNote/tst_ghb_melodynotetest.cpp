@@ -22,10 +22,10 @@ void GHB_MelodyNoteTest::cleanup()
 
 void GHB_MelodyNoteTest::testDefaultConstructor()
 {
-    QVERIFY2(m_melody->data(LP::symbolType) == GHB::MelodyNote, "Melody Note has wrong type");
-    QVERIFY2(m_melody->data(LP::symbolName) == "Melody Note", "Melody note has wrong name");
-    QVERIFY2(m_melody->data(LP::symbolPitch).value<PitchPtr>()->name() == "Low A", "Failed setting pitch in constructor");
-    QVERIFY2(m_melody->data(LP::symbolLength).value<Length::Value>() == Length::_4, "Failed setting length in constructor");
+    QVERIFY2(m_melody->data(LP::SymbolType) == GHB::MelodyNote, "Melody Note has wrong type");
+    QVERIFY2(m_melody->data(LP::SymbolName) == "Melody Note", "Melody note has wrong name");
+    QVERIFY2(m_melody->data(LP::SymbolPitch).value<PitchPtr>()->name() == "Low A", "Failed setting pitch in constructor");
+    QVERIFY2(m_melody->data(LP::SymbolLength).value<Length::Value>() == Length::_4, "Failed setting length in constructor");
 }
 
 QTEST_MAIN(GHB_MelodyNoteTest)

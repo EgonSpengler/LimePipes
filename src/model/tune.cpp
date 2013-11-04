@@ -13,11 +13,10 @@
 
 #include "tune.h"
 #include <QXmlStreamWriter>
-#include <symbols/barline.h>
 
 void Tune::setInstrument(InstrumentPtr instrument)
 {
-    m_data.insert(LP::tuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
+    m_data.insert(LP::TuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
 }
 
 Tune::Tune(MusicItem *parent)

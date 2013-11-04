@@ -36,7 +36,7 @@ private Q_SLOTS:
     void testSetModelData();
 
 private:
-    QModelIndex symbolIndex(LP::DataRole role, bool hasData);
+    QModelIndex symbolIndex(LP::SymbolDataRole role, bool hasData);
     MusicModel *m_model;
     LengthDelegate *m_delegate;
     QPersistentModelIndex *m_tuneIndex;

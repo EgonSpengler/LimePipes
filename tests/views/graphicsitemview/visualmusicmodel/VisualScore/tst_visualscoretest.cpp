@@ -68,12 +68,12 @@ void VisualScoreTest::testSetDataFromIndex()
     QString scoreCopyright("TB");
     TimeSignature scoreTimeSignature(TimeSignature::_9_8);
 
-    m_musicModel->setData(scoreIndex, scoreComposer, LP::scoreComposer);
-    m_musicModel->setData(scoreIndex, scoreArranger, LP::scoreArranger);
-    m_musicModel->setData(scoreIndex, scoreYear, LP::scoreYear);
-    m_musicModel->setData(scoreIndex, scoreCopyright, LP::scoreCopyright);
+    m_musicModel->setData(scoreIndex, scoreComposer, LP::ScoreComposer);
+    m_musicModel->setData(scoreIndex, scoreArranger, LP::ScoreArranger);
+    m_musicModel->setData(scoreIndex, scoreYear, LP::ScoreYear);
+    m_musicModel->setData(scoreIndex, scoreCopyright, LP::ScoreCopyright);
     m_musicModel->setData(scoreIndex, QVariant::fromValue<TimeSignature>(scoreTimeSignature),
-                          LP::scoreTimeSignature);
+                          LP::ScoreTimeSignature);
 
     m_visualScore->setDataFromIndex(scoreIndex);
     ScorePropertiesItem *scoreProperties = m_visualScore->scorePropertiesItem();

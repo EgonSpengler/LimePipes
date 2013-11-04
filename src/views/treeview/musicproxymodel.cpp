@@ -52,10 +52,10 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
     if (role == Qt::DisplayRole) {
 
         if (model->isIndexScore(srcIndex))
-            return index.data(LP::scoreTitle);
+            return index.data(LP::ScoreTitle);
 
         if (model->isIndexTune(srcIndex)) {
-            QVariant instrumentVar = srcIndex.data(LP::tuneInstrument);
+            QVariant instrumentVar = srcIndex.data(LP::TuneInstrument);
             if (instrumentVar.canConvert<InstrumentPtr>()) {
                 InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
                 return instrument->name() + " tune";
@@ -63,7 +63,7 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
         }
 
         if (model->isIndexSymbol(srcIndex))
-            return index.data(LP::symbolName);
+            return index.data(LP::SymbolName);
         if (model->isIndexPart(srcIndex))
             return QString("Part");
         if (model->isIndexMeasure(srcIndex))
@@ -72,7 +72,7 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
 
     if (role == Qt::DecorationRole) {
         if (model->isIndexSymbol(srcIndex)) {
-            QVariant symbolGraphicVar = srcIndex.data(LP::symbolGraphic);
+            QVariant symbolGraphicVar = srcIndex.data(LP::SymbolGraphic);
             if (symbolGraphicVar.canConvert<SymbolGraphicPtr>()) {
                 SymbolGraphicPtr symbolGraphic = symbolGraphicVar.value<SymbolGraphicPtr>();
                 return symbolGraphic->pixmap();
@@ -92,7 +92,7 @@ QVariant MusicProxyModel::pitchColumnData(const QModelIndex &index, int role) co
 
     if (role == Qt::DisplayRole) {
         if (model->isIndexSymbol(srcIndex)) {
-            QVariant pitchVar = srcIndex.data(LP::symbolPitch);
+            QVariant pitchVar = srcIndex.data(LP::SymbolPitch);
             if (pitchVar.canConvert<PitchPtr>()) {
                 PitchPtr pitch = pitchVar.value<PitchPtr>();
                 return pitch->name();
@@ -112,7 +112,7 @@ QVariant MusicProxyModel::lengthColumnData(const QModelIndex &index, int role) c
 
     if (role == Qt::DisplayRole) {
         if (model->isIndexSymbol(srcIndex)) {
-            QVariant lengthVar = srcIndex.data(LP::symbolLength);
+            QVariant lengthVar = srcIndex.data(LP::SymbolLength);
             if (lengthVar.canConvert<Length::Value>()) {
                 Length::Value length = lengthVar.value<Length::Value>();
                 return length;

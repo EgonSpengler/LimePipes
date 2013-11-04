@@ -19,7 +19,6 @@
 #include <QXmlStreamReader>
 #include <utilities/error.h>
 #include "qt_modeltest/modeltest.h"
-#include <symbols/barline.h>
 #include <utilities/error.h>
 #include <itemdatatypes.h>
 #include <datatypes/instrument.h>
@@ -82,12 +81,12 @@ void MusicModelTest::testInsertScore()
     QVERIFY2(firstScore.isValid(), "No valid Modelindex was returned while inserting score");
     QVERIFY2(firstScore.row() == 0, "Score was inserted in wrong row");
     QVERIFY2(firstScore.column() == 0, "Score was inserted in wrong column");
-    QVERIFY2(m_model->data(firstScore, LP::scoreTitle) == "First Title", "Failed score title");
+    QVERIFY2(m_model->data(firstScore, LP::ScoreTitle) == "First Title", "Failed score title");
 
-    m_model->setData(firstScore, "Score 1", LP::scoreTitle);
+    m_model->setData(firstScore, "Score 1", LP::ScoreTitle);
     QModelIndex secondScore = m_model->insertScore(m_model->rowCount(QModelIndex()), "Second Title");
-    m_model->setData(secondScore, "Score 2", LP::scoreTitle);
-    QVERIFY2(secondScore.data(LP::scoreTitle) == "Score 2", "Score 2's title isn't there");
+    m_model->setData(secondScore, "Score 2", LP::ScoreTitle);
+    QVERIFY2(secondScore.data(LP::ScoreTitle) == "Score 2", "Score 2's title isn't there");
     QVERIFY2(secondScore.row() == m_model->rowCount(QModelIndex()) - 1, "Score 2 was inserted in wrong row");
     QVERIFY2(secondScore.column() == 0, "Score 2 was inserted in wrong column");
 
@@ -104,7 +103,7 @@ void MusicModelTest::testAppendScore()
 {
     QModelIndex firstScore = m_model->appendScore("First title");
     QVERIFY2(firstScore.isValid(), "Failed appending score");
-    QVERIFY2(m_model->data(firstScore, LP::scoreTitle) == "First title", "Failed getting title from appended score");
+    QVERIFY2(m_model->data(firstScore, LP::ScoreTitle) == "First title", "Failed getting title from appended score");
 }
 
 void MusicModelTest::testInsertTuneIntoScore()
@@ -112,7 +111,7 @@ void MusicModelTest::testInsertTuneIntoScore()
     QModelIndex score = m_model->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
     QModelIndex tune = m_model->insertTuneIntoScore(0, score, m_instrumentNames.at(0));
-    InstrumentPtr instrument = m_model->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
+    InstrumentPtr instrument = m_model->data(tune, LP::TuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
     QVERIFY2(instrument->name() == m_instrumentNames.at(0), "Failed getting instrument back");
@@ -131,7 +130,7 @@ void MusicModelTest::testAppendTuneToScore()
     QModelIndex score = m_model->insertScore(0, "First Score");
     QVERIFY2(score.isValid(), "Failed inserting score");
     QModelIndex tune = m_model->appendTuneToScore(score, m_instrumentNames.at(0));
-    InstrumentPtr instrument = m_model->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
+    InstrumentPtr instrument = m_model->data(tune, LP::TuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
     QVERIFY2(instrument->name() == m_instrumentNames.at(0), "Failed getting instrument back");
@@ -140,7 +139,7 @@ void MusicModelTest::testAppendTuneToScore()
 void MusicModelTest::testInsertTuneWithScore()
 {
     QModelIndex tune = m_model->insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
-    InstrumentPtr instrument = m_model->data(tune, LP::tuneInstrument).value<InstrumentPtr>();
+    InstrumentPtr instrument = m_model->data(tune, LP::TuneInstrument).value<InstrumentPtr>();
 
     QVERIFY2(tune.isValid(), "Failed inserting Tune");
     QVERIFY2(instrument->name() == m_instrumentNames.at(0), "Failed getting score title from index");
@@ -158,7 +157,7 @@ void MusicModelTest::testInsertPartIntoTune()
     QVERIFY2(part.isValid(), "Failed inserting Part into Tune");
     QVERIFY2(m_model->rowCount(part) != 0, "No measures were inserted");
     QVERIFY2(m_model->rowCount(part) == measureCount, "Not the correct count of measures were inserted");
-    QVERIFY2(part.data(LP::partRepeat).toBool() == true, "Wrong part repeat value returned");
+    QVERIFY2(part.data(LP::PartRepeat).toBool() == true, "Wrong part repeat value returned");
 }
 
 void MusicModelTest::testAppendPartIntoTune()
@@ -170,7 +169,7 @@ void MusicModelTest::testAppendPartIntoTune()
     QVERIFY2(part.isValid(), "Failed appending Part to Tune");
     QVERIFY2(m_model->rowCount(part) != 0, "No measures were inserted");
     QVERIFY2(m_model->rowCount(part) == 12, "Not the correct count of measures were inserted");
-    QVERIFY2(part.data(LP::partRepeat).toBool() == true, "Wrong part repeat value returned");
+    QVERIFY2(part.data(LP::PartRepeat).toBool() == true, "Wrong part repeat value returned");
 }
 
 void MusicModelTest::testInsertMeasureIntoPart()
@@ -209,7 +208,7 @@ void MusicModelTest::testInsertSymbolIntoMeasure()
 
     QVERIFY2(symbol.isValid(), "Failed inserting symbol into measure");
     QVERIFY2(m_model->rowCount(measure) == 1, "Failed inserting symbol into right measure");
-    QVERIFY2(symbol.data(LP::symbolName) == m_symbolNames.at(0), "Failed inserting right symbol with name");
+    QVERIFY2(symbol.data(LP::SymbolName) == m_symbolNames.at(0), "Failed inserting right symbol with name");
 }
 
 void MusicModelTest::testAppendSymbolToMeasure()
@@ -223,7 +222,7 @@ void MusicModelTest::testAppendSymbolToMeasure()
 
     QVERIFY2(symbol.isValid(), "Failed inserting symbol into measure");
     QVERIFY2(m_model->rowCount(measure) == 1, "Failed inserting symbol into right measure");
-    QVERIFY2(symbol.data(LP::symbolName) == m_symbolNames.at(0), "Failed inserting right symbol with name");
+    QVERIFY2(symbol.data(LP::SymbolName) == m_symbolNames.at(0), "Failed inserting right symbol with name");
 }
 
 void MusicModelTest::testFlags()
@@ -320,7 +319,7 @@ void MusicModelTest::testItemForIndex()
 {
     QModelIndex scoreIndex = m_model->insertScore(0, "Random Title");
     MusicItem *score = m_model->itemForIndex(scoreIndex);
-    QVERIFY2(score->data(LP::scoreTitle) == "Random Title", "Failed to get the correct item for an index");
+    QVERIFY2(score->data(LP::ScoreTitle) == "Random Title", "Failed to get the correct item for an index");
 }
 
 void MusicModelTest::testIndexForItem()
@@ -452,16 +451,16 @@ void MusicModelTest::testRemoveRows()
     QModelIndex measure = part.child(measureNr, 0);
 
     QModelIndex symbol1 = m_model->appendSymbolToMeasure(measure, symbolNameWithLength);
-    m_model->setData(symbol1, Length::_1, LP::symbolLength);
+    m_model->setData(symbol1, Length::_1, LP::SymbolLength);
     QModelIndex symbol2 = m_model->appendSymbolToMeasure(measure, symbolNameWithLength);
-    m_model->setData(symbol2, Length::_2, LP::symbolLength);
+    m_model->setData(symbol2, Length::_2, LP::SymbolLength);
     QModelIndex symbol3 = m_model->appendSymbolToMeasure(measure, symbolNameWithLength);
-    m_model->setData(symbol3, Length::_4, LP::symbolLength);
+    m_model->setData(symbol3, Length::_4, LP::SymbolLength);
 
     // Removing Symbols
     QModelIndex thirdSymbol = m_model->index(2, 0, measure);
     Q_ASSERT(thirdSymbol.isValid());
-    Length::Value lengthOfThirdSymbol = m_model->data(thirdSymbol, LP::symbolLength).value<Length::Value>();
+    Length::Value lengthOfThirdSymbol = m_model->data(thirdSymbol, LP::SymbolLength).value<Length::Value>();
 
     QVERIFY2(m_model->removeRows(0, 2, measure), "Remove rows returned false");
 
@@ -470,7 +469,7 @@ void MusicModelTest::testRemoveRows()
     QModelIndex lastRemainingSymbol = m_model->index(0, 0, measure);
     Q_ASSERT(thirdSymbol.isValid());
 
-    Length::Value lengthOfLastRemaining = m_model->data(lastRemainingSymbol, LP::symbolLength).value<Length::Value>();
+    Length::Value lengthOfLastRemaining = m_model->data(lastRemainingSymbol, LP::SymbolLength).value<Length::Value>();
 
     QVERIFY2(lengthOfThirdSymbol == lengthOfLastRemaining, "Length value of last remaining symbol is wrong");
 
@@ -485,15 +484,15 @@ void MusicModelTest::testRemoveRows()
     m_model->insertScore(1, "Second Score");
     m_model->insertScore(2, "Third score");
     m_model->insertScore(3, "Fourth score");
-    QString titleOfScoreInRow0 = m_model->data(m_model->index(0, 0, QModelIndex()), LP::scoreTitle).toString();
+    QString titleOfScoreInRow0 = m_model->data(m_model->index(0, 0, QModelIndex()), LP::ScoreTitle).toString();
     Q_ASSERT(!titleOfScoreInRow0.isEmpty());
-    QString titleOfScoreInRow3 = m_model->data(m_model->index(3, 0, QModelIndex()), LP::scoreTitle).toString();
+    QString titleOfScoreInRow3 = m_model->data(m_model->index(3, 0, QModelIndex()), LP::ScoreTitle).toString();
     Q_ASSERT(!titleOfScoreInRow3.isEmpty());
 
     m_model->removeRows(1, 2, QModelIndex());
     QVERIFY2(m_model->rowCount(QModelIndex()) == 2, "Failed removing scores");
-    QString newTitleOfScoreInRow0 = m_model->data(m_model->index(0, 0, QModelIndex()), LP::scoreTitle).toString();
-    QString newTitleOfScoreInRow1 = m_model->data(m_model->index(1, 0, QModelIndex()), LP::scoreTitle).toString();
+    QString newTitleOfScoreInRow0 = m_model->data(m_model->index(0, 0, QModelIndex()), LP::ScoreTitle).toString();
+    QString newTitleOfScoreInRow1 = m_model->data(m_model->index(1, 0, QModelIndex()), LP::ScoreTitle).toString();
     QVERIFY2(newTitleOfScoreInRow0 == titleOfScoreInRow0, "Title of score in row 0 is wrong");
     QVERIFY2(newTitleOfScoreInRow1 == titleOfScoreInRow3, "Title of score in row 1 is wrong");
 }
@@ -779,7 +778,7 @@ void MusicModelTest::testLoadedInstrument()
 
         QVERIFY2(scoreIndex.isValid() && tuneIndex.isValid(), "No valid indexes");
 
-        QVariant instrumentVar = tuneIndex.data(LP::tuneInstrument);
+        QVariant instrumentVar = tuneIndex.data(LP::TuneInstrument);
         QVERIFY2(instrumentVar.isValid(), "No valid instrument");
         QVERIFY2(instrumentVar.canConvert<InstrumentPtr>(), "Can't convert into instrument");
 
@@ -808,7 +807,7 @@ void MusicModelTest::testLoadedSymbolName()
                  measureIndex.isValid() &&
                  symbolIndex.isValid(), "No valid indexes");
 
-        QVariant symbolNameVar = symbolIndex.data(LP::symbolName);
+        QVariant symbolNameVar = symbolIndex.data(LP::SymbolName);
         QVERIFY2(symbolNameVar.isValid(), "No valid symbol name");
         QVERIFY2(!symbolNameVar.toString().isEmpty(), "Symbol name is empty or invalid");
 
@@ -837,7 +836,7 @@ void MusicModelTest::testLoadedSymbolPitch()
                  measureIndex.isValid() &&
                  symbolIndex.isValid(), "No valid indexes");
 
-        QVariant symbolPitchVar = symbolIndex.data(LP::symbolPitch);
+        QVariant symbolPitchVar = symbolIndex.data(LP::SymbolPitch);
         Q_ASSERT(symbolPitchVar.isValid());
         Q_ASSERT(symbolPitchVar.canConvert<PitchPtr>());
 
@@ -925,9 +924,9 @@ void MusicModelTest::testDropMimeDataScores()
     Q_ASSERT(scoreIndex2.isValid());
     QMimeData *data = m_model->mimeData(QModelIndexList() << scoreIndex << scoreIndex2);
 
-    QString scoreTitleRow0 = m_model->data(scoreIndex, LP::scoreTitle).toString();
+    QString scoreTitleRow0 = m_model->data(scoreIndex, LP::ScoreTitle).toString();
     Q_ASSERT(!scoreTitleRow0.isEmpty());
-    QString scoreTitleRow1 = m_model->data(scoreIndex2, LP::scoreTitle).toString();
+    QString scoreTitleRow1 = m_model->data(scoreIndex2, LP::ScoreTitle).toString();
     Q_ASSERT(!scoreTitleRow1.isEmpty());
 
     MusicModel model2;
@@ -935,11 +934,11 @@ void MusicModelTest::testDropMimeDataScores()
     QVERIFY2(model2.rowCount(QModelIndex()) == 2, "Failed dropping scores into model");
 
     QModelIndex droppedScore1 = model2.index(0, 0, QModelIndex());
-    QString droppedScoreTitleRow0 = model2.data(droppedScore1, LP::scoreTitle).toString();
+    QString droppedScoreTitleRow0 = model2.data(droppedScore1, LP::ScoreTitle).toString();
     Q_ASSERT(!droppedScoreTitleRow0.isEmpty());
 
     QModelIndex droppedScore2 = model2.index(1, 0, QModelIndex());
-    QString droppedScoreTitleRow1 = model2.data(droppedScore2, LP::scoreTitle).toString();
+    QString droppedScoreTitleRow1 = model2.data(droppedScore2, LP::ScoreTitle).toString();
     Q_ASSERT(!droppedScoreTitleRow1.isEmpty());
 
     QVERIFY2(scoreTitleRow0 == droppedScoreTitleRow0, "Dropped score in row 0 is on wrong place");
@@ -1035,11 +1034,11 @@ void MusicModelTest::testDropMimeDataSymbols()
         m_model->insertSymbolIntoMeasure(0, measureIndex, symbolNameWithLength);
 
     QModelIndex symbol1 = m_model->index(0, 0, measureIndex);
-    m_model->setData(symbol1, QVariant::fromValue<Length::Value>(Length::_1), LP::symbolLength);
+    m_model->setData(symbol1, QVariant::fromValue<Length::Value>(Length::_1), LP::SymbolLength);
     QModelIndex symbol2 = m_model->index(1, 0, measureIndex);
-    m_model->setData(symbol2, QVariant::fromValue<Length::Value>(Length::_2), LP::symbolLength);
+    m_model->setData(symbol2, QVariant::fromValue<Length::Value>(Length::_2), LP::SymbolLength);
 
-    Q_ASSERT(m_model->data(symbol1, LP::symbolLength).isValid());
+    Q_ASSERT(m_model->data(symbol1, LP::SymbolLength).isValid());
 
     QMimeData *data = m_model->mimeData(QModelIndexList() << symbol1 << symbol2);
     MusicModel model2;
@@ -1051,8 +1050,8 @@ void MusicModelTest::testDropMimeDataSymbols()
 
     QVERIFY2(model2.rowCount(measureIndex2) == 2, "Failed inserting symbols");
     QModelIndex model2Symbol = model2.index(0, 0, measureIndex2);
-    QVERIFY2(model2.data(model2Symbol, LP::symbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol");
-    QVERIFY2(model2.data(model2Symbol, LP::symbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
+    QVERIFY2(model2.data(model2Symbol, LP::SymbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol");
+    QVERIFY2(model2.data(model2Symbol, LP::SymbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");
 
     model2.clear();
 
@@ -1077,7 +1076,7 @@ void MusicModelTest::testUndoStackInsertScore()
 
     m_model->undoStack()->redo();
     scoreIndex = m_model->index(0, 0, QModelIndex());
-    QVERIFY2(m_model->data(scoreIndex, LP::scoreTitle).toString() == "First Score", "Redo doesn't insert the same score");
+    QVERIFY2(m_model->data(scoreIndex, LP::ScoreTitle).toString() == "First Score", "Redo doesn't insert the same score");
 }
 
 void MusicModelTest::testUndoStackAppendScore()

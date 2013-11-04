@@ -39,7 +39,7 @@ bool Measure::okToInsertChild(const MusicItem *item, int row)
     MusicItem *tune = part->parent();
     if (!tune) return false;
 
-    QVariant instrumentVar = tune->data(LP::tuneInstrument);
+    QVariant instrumentVar = tune->data(LP::TuneInstrument);
     if (!instrumentVar.isValid() || !instrumentVar.canConvert<InstrumentPtr>())
         return false;
 

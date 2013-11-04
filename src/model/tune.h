@@ -20,7 +20,7 @@ public:
     explicit Tune(MusicItem *parent=0);
     explicit Tune(InstrumentPtr instrument);
 
-    InstrumentPtr instrument() const { return data(LP::tuneInstrument).value<InstrumentPtr>(); }
+    InstrumentPtr instrument() const { return data(LP::TuneInstrument).value<InstrumentPtr>(); }
     void setInstrument(InstrumentPtr instrument);
 
     int startRowOfPart(int partNumber);

@@ -63,7 +63,7 @@ QRectF MelodyNoteGraphicBuilder::rectForActualItemData()
 {
     QRectF rect = musicFont()->boundingRectForGlyph(MusicFont::Noteheads_s1);
 
-    int dotCount = itemData(LP::melodyNoteDots).value<int>();
+    int dotCount = itemData(LP::MelodyNoteDots).value<int>();
     qreal dotWidth = musicFont()->boundingRectForGlyph(MusicFont::Dot).width();
     qreal dotsTotalWidth = dotCount * dotWidth + (dotCount - 1) * SpaceBetweenDots;
 
@@ -102,7 +102,7 @@ void MelodyNoteGraphicBuilder::addNotehead(QPainter *painter)
 
 MusicFont::Glyph MelodyNoteGraphicBuilder::actualNoteheadGlyph()
 {
-    Length::Value length = itemData(LP::symbolLength).value<Length::Value>();
+    Length::Value length = itemData(LP::SymbolLength).value<Length::Value>();
     if (length < Length::_4)
         return MusicFont::Noteheads_s1;
     return MusicFont::Noteheads_s2;
@@ -112,7 +112,7 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
 {
     qreal dotWidth = musicFont()->boundingRectForGlyph(MusicFont::Dot).width();
     painter->save();
-    QVariant dotCountVariant = itemData(LP::melodyNoteDots);
+    QVariant dotCountVariant = itemData(LP::MelodyNoteDots);
     if (dotCountVariant.isValid() &&
             dotCountVariant.canConvert<int>()) {
 
@@ -129,16 +129,16 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
 
 bool MelodyNoteGraphicBuilder::isSymbolGraphicAffectedByDataRole(int role)
 {
-    if (role == LP::symbolPitch ||
-            role == LP::symbolLength ||
-            role == LP::melodyNoteDots)
+    if (role == LP::SymbolPitch ||
+            role == LP::SymbolLength ||
+            role == LP::MelodyNoteDots)
         return true;
     return false;
 }
 
 bool MelodyNoteGraphicBuilder::isPitchOnLine()
 {
-    QVariant pitchVar = itemData(LP::symbolPitch);
+    QVariant pitchVar = itemData(LP::SymbolPitch);
     if (pitchVar.isValid() && pitchVar.canConvert<PitchPtr>()) {
         PitchPtr pitch = pitchVar.value<PitchPtr>();
         if (pitch->staffPos() % 2) {
@@ -151,9 +151,9 @@ bool MelodyNoteGraphicBuilder::isPitchOnLine()
 
 bool MelodyNoteGraphicBuilder::itemHasRequiredDataForGraphic()
 {
-    if (itemData(LP::symbolPitch).isValid() &&
-            itemData(LP::symbolLength).isValid() &&
-            itemData(LP::melodyNoteDots).isValid()) {
+    if (itemData(LP::SymbolPitch).isValid() &&
+            itemData(LP::SymbolLength).isValid() &&
+            itemData(LP::MelodyNoteDots).isValid()) {
         return true;
     }
     return false;

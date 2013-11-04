@@ -23,11 +23,11 @@ void MelodyNoteTest::cleanup()
 void MelodyNoteTest::testDefaultConstructor()
 {
     QVERIFY2(m_melody->symbolType() == LP::MelodyNote, "Melody Note doesn't return right symbol type in default constructor");
-    QVERIFY2(m_melody->data(LP::symbolName) == "Melody Note", "MelodyNote doesn't return symbol name data in default constructor");
+    QVERIFY2(m_melody->data(LP::SymbolName) == "Melody Note", "MelodyNote doesn't return symbol name data in default constructor");
     QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
     QVERIFY2(m_melody->hasLength(), "Melody note has no length");
     QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
-    QVERIFY2(m_melody->data(LP::melodyNoteDots).isValid(), "No default value for dots");
+    QVERIFY2(m_melody->data(LP::MelodyNoteDots).isValid(), "No default value for dots");
 }
 
 void MelodyNoteTest::testTypeAndNameConstructor()
@@ -36,7 +36,7 @@ void MelodyNoteTest::testTypeAndNameConstructor()
     m_melody = new MelodyNote(LP::BarLine, "testtest");
 
     QVERIFY2(m_melody->symbolType() == LP::BarLine, "Melody Note doesn't return right symbol type if set through constructor");
-    QVERIFY2(m_melody->data(LP::symbolName) == "testtest", "MelodyNote doesn't return symbol name data if set through constructor");
+    QVERIFY2(m_melody->data(LP::SymbolName) == "testtest", "MelodyNote doesn't return symbol name data if set through constructor");
     QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
     QVERIFY2(m_melody->hasLength(), "Melody note has no length");
     QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
@@ -44,19 +44,19 @@ void MelodyNoteTest::testTypeAndNameConstructor()
 
 void MelodyNoteTest::testDots()
 {
-    QVERIFY2(m_melody->itemSupportsWritingOfData(LP::melodyNoteDots), "Melody note doesn't support writing of Dots data");
+    QVERIFY2(m_melody->itemSupportsWritingOfData(LP::MelodyNoteDots), "Melody note doesn't support writing of Dots data");
 
-    m_melody->setData(1, LP::melodyNoteDots);
-    QVERIFY2(m_melody->data(LP::melodyNoteDots) == 1, "Failed setting dots");
+    m_melody->setData(1, LP::MelodyNoteDots);
+    QVERIFY2(m_melody->data(LP::MelodyNoteDots) == 1, "Failed setting dots");
 
-    m_melody->setData(MelodyNote::MaxDots, LP::melodyNoteDots);
-    QVERIFY2(m_melody->data(LP::melodyNoteDots) == MelodyNote::MaxDots, "Failed setting maximum dots");
+    m_melody->setData(MelodyNote::MaxDots, LP::MelodyNoteDots);
+    QVERIFY2(m_melody->data(LP::MelodyNoteDots) == MelodyNote::MaxDots, "Failed setting maximum dots");
 
-    m_melody->setData(-1, LP::melodyNoteDots);
-    QVERIFY2(m_melody->data(LP::melodyNoteDots) == 0, "Setting less than zero dots should result in zero dots");
+    m_melody->setData(-1, LP::MelodyNoteDots);
+    QVERIFY2(m_melody->data(LP::MelodyNoteDots) == 0, "Setting less than zero dots should result in zero dots");
 
-    m_melody->setData(MelodyNote::MaxDots + 1, LP::melodyNoteDots);
-    QVERIFY2(m_melody->data(LP::melodyNoteDots) == MelodyNote::MaxDots, "Setting more than maximum of dots doesn't result in maximum");
+    m_melody->setData(MelodyNote::MaxDots + 1, LP::MelodyNoteDots);
+    QVERIFY2(m_melody->data(LP::MelodyNoteDots) == MelodyNote::MaxDots, "Setting more than maximum of dots doesn't result in maximum");
 }
 
 void MelodyNoteTest::testWriteItemDataToStream()
@@ -66,8 +66,8 @@ void MelodyNoteTest::testWriteItemDataToStream()
     PitchPtr testPitch(new Pitch(2, "test pitch name"));
     int dotCnt = 3;
 
-    m_melody->setData(QVariant::fromValue<PitchPtr>(testPitch), LP::symbolPitch);
-    m_melody->setData(dotCnt, LP::melodyNoteDots);
+    m_melody->setData(QVariant::fromValue<PitchPtr>(testPitch), LP::SymbolPitch);
+    m_melody->setData(dotCnt, LP::MelodyNoteDots);
 
     m_melody->writeItemDataToXmlStream(&writer);
 
@@ -81,10 +81,10 @@ void MelodyNoteTest::testWriteItemDataToStream()
 void MelodyNoteTest::testReadFromXmlStream()
 {
     int dots = 2;
-    Q_ASSERT(dots != m_melody->data(LP::melodyNoteDots).toInt());
+    Q_ASSERT(dots != m_melody->data(LP::MelodyNoteDots).toInt());
 
     readTextElement("DOTS", QString::number(dots));
-    QVERIFY2(m_melody->data(LP::melodyNoteDots).toInt() == dots, "Failed reading dots");
+    QVERIFY2(m_melody->data(LP::MelodyNoteDots).toInt() == dots, "Failed reading dots");
 
     Length::Value length = Length::_64;
     Q_ASSERT(length != m_melody->length());

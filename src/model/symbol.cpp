@@ -20,8 +20,8 @@ Symbol::Symbol(MusicItem *parent)
       m_graphicBuilder(0)
 {
     setDefaultSymbolOptions();
-    initData(LP::NoSymbolType, LP::symbolType);
-    initData( tr("No name symbol"), LP::symbolName);
+    initData(LP::NoSymbolType, LP::SymbolType);
+    initData( tr("No name symbol"), LP::SymbolName);
 }
 
 Symbol::Symbol(int type, const QString &name, MusicItem *parent)
@@ -30,8 +30,8 @@ Symbol::Symbol(int type, const QString &name, MusicItem *parent)
 {
     Q_UNUSED(parent)
     setDefaultSymbolOptions();
-    initData(type, LP::symbolType);
-    initData(name, LP::symbolName);
+    initData(type, LP::SymbolType);
+    initData(name, LP::SymbolName);
 }
 
 Symbol::~Symbol()
@@ -53,8 +53,8 @@ bool Symbol::hasPitch() const
 
 PitchPtr Symbol::pitch() const
 {
-    if (data(LP::symbolPitch).canConvert<PitchPtr>()) {
-        return data(LP::symbolPitch).value<PitchPtr>();
+    if (data(LP::SymbolPitch).canConvert<PitchPtr>()) {
+        return data(LP::SymbolPitch).value<PitchPtr>();
     }
     return PitchPtr(new Pitch());
 }
@@ -66,8 +66,8 @@ bool Symbol::hasLength() const
 
 Length::Value Symbol::length() const
 {
-    if (data(LP::symbolLength).canConvert<Length::Value>()) {
-        return data(LP::symbolLength).value<Length::Value>();
+    if (data(LP::SymbolLength).canConvert<Length::Value>()) {
+        return data(LP::SymbolLength).value<Length::Value>();
     }
     return Length::_4;
 }
@@ -89,7 +89,7 @@ void Symbol::setSymbolGraphicBuilder(SymbolGraphicBuilder *builder)
 
     if (m_graphicBuilder != 0) {
         SymbolGraphicPtr symbolGraphic = m_graphicBuilder->symbolGraphic();
-        initData(QVariant::fromValue<SymbolGraphicPtr>(symbolGraphic), LP::symbolGraphic);
+        initData(QVariant::fromValue<SymbolGraphicPtr>(symbolGraphic), LP::SymbolGraphic);
         m_graphicBuilder->updateSymbolGraphic();
     }
 }
@@ -114,10 +114,10 @@ void Symbol::createSymbolPixmaps(int lineHeight)
 bool Symbol::itemSupportsWritingOfData(int role) const
 {
     switch (role) {
-    case LP::symbolPitch:
+    case LP::SymbolPitch:
         if (this->hasPitch())
             return true;
-    case LP::symbolLength:
+    case LP::SymbolLength:
         if (this->hasLength())
             return true;
     default:
@@ -138,14 +138,14 @@ void Symbol::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
     if (QString("LENGTH").compare(reader->name(), Qt::CaseInsensitive) == 0) {
         int length = reader->readElementText().toInt();
         if (Length::lengthValues().contains(length)) {
-            setData(QVariant::fromValue<Length::Value>((Length::Value)length), LP::symbolLength);
+            setData(QVariant::fromValue<Length::Value>((Length::Value)length), LP::SymbolLength);
         }
     }
 }
 
 void Symbol::writePitch(QXmlStreamWriter *writer)
 {
-    QVariant pitchVar = data(LP::symbolPitch);
+    QVariant pitchVar = data(LP::SymbolPitch);
     if (pitchVar.isValid() &&
             pitchVar.canConvert<PitchPtr>()) {
         PitchPtr pitch = pitchVar.value<PitchPtr>();
@@ -155,7 +155,7 @@ void Symbol::writePitch(QXmlStreamWriter *writer)
 
 void Symbol::writeLength(QXmlStreamWriter *writer)
 {
-    QVariant lengthVar = data(LP::symbolLength);
+    QVariant lengthVar = data(LP::SymbolLength);
     if (lengthVar.isValid() &&
             lengthVar.canConvert<Length::Value>()) {
         Length::Value length = lengthVar.value<Length::Value>();

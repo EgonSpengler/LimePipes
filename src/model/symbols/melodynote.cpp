@@ -32,7 +32,7 @@ MelodyNote::MelodyNote(int type, const QString &name)
 
 bool MelodyNote::itemSupportsWritingOfData(int role) const
 {
-    if (role == LP::melodyNoteDots)
+    if (role == LP::MelodyNoteDots)
         return true;
     return Symbol::itemSupportsWritingOfData(role);
 }
@@ -42,7 +42,7 @@ void MelodyNote::beforeWritingData(QVariant &value, int role)
     if (!value.isValid())
         return;
 
-    if (role == LP::melodyNoteDots &&
+    if (role == LP::MelodyNoteDots &&
             value.canConvert<int>()) {
         if (value.value<int>() < 0)
             value.setValue(0);
@@ -53,7 +53,7 @@ void MelodyNote::beforeWritingData(QVariant &value, int role)
 
 void MelodyNote::initSymbol()
 {
-    initData(0, LP::melodyNoteDots);
+    initData(0, LP::MelodyNoteDots);
     setSymbolOptions(Symbol::HasPitch |
                      Symbol::HasLength);
     setSymbolGraphicBuilder(new MelodyNoteGraphicBuilder(this));
@@ -63,7 +63,7 @@ void MelodyNote::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 {
     Symbol::writeItemDataToXmlStream(writer);
 
-    QVariant dotsVar = data(LP::melodyNoteDots);
+    QVariant dotsVar = data(LP::MelodyNoteDots);
     if (dotsVar.isValid() &&
             dotsVar.canConvert<int>()) {
         int dots = dotsVar.value<int>();
@@ -76,7 +76,7 @@ void MelodyNote::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
 {
     if (QString("DOTS").compare(reader->name(), Qt::CaseInsensitive) == 0) {
         int dots = reader->readElementText().toInt();
-        setData(dots, LP::melodyNoteDots);
+        setData(dots, LP::MelodyNoteDots);
     }
     Symbol::readCurrentElementFromXmlStream(reader);
 }

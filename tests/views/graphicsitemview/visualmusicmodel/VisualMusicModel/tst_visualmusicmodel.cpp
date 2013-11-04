@@ -143,7 +143,7 @@ void VisualMusicModelTest::testScoreDataChanged()
 
     scoreProperties->setTitle(title);
 
-    QVERIFY2(m_musicModel->data(scoreIndex, LP::scoreTitle).toString() == title,
+    QVERIFY2(m_musicModel->data(scoreIndex, LP::ScoreTitle).toString() == title,
              "Title of model was not set with changed data");
 }
 
