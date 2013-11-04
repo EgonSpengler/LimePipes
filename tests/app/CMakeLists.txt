@@ -46,12 +46,6 @@ target_link_libraries( NewTuneDialogTest ${TEST_LIBRARIES} )
 add_test( NAME NewTuneDialogTest COMMAND NewTuneDialogTest )
 
 set(CMAKE_AUTOMOC ON)
-# MainWindow
-#set( MainwindowTest_HEADERS
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pagecontentrowitem.h
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/musicsheetrowitems/textrowitem.h
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/visualmusicmodel/visualmusicmodel.h
-#        )
 
 file(GLOB_RECURSE GraphicsItemView_SOURCES ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp)
 set( MainwindowTest_SOURCES
@@ -68,34 +62,14 @@ set( MainwindowTest_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.cpp
         )
 
-#set( MainwindowTest_MOC_HEADERS
-#        MainWindow/tst_mainwindowtest.h
-#        ${CMAKE_SOURCE_DIR}/src/app/mainwindow.h
-#        ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.h
-#        ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.h
-#        ${CMAKE_SOURCE_DIR}/src/app/aboutdialog.h
-
-#        ${CMAKE_SOURCE_DIR}/src/views/treeview/lengthdelegate.h
-#        ${CMAKE_SOURCE_DIR}/src/views/treeview/musicproxymodel.h
-#        ${CMAKE_SOURCE_DIR}/src/views/treeview/musicsymboldatadelegate.h
-#        ${CMAKE_SOURCE_DIR}/src/views/treeview/pitchdelegate.h
-#        ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.h
-
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsitemview.h
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsview.h
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/graphicsscene.h
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageitem.h
-#        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/pageviewitem/pageviewitem.h
-#        )
 
 set( MainwindowTest_UIs
         ${CMAKE_SOURCE_DIR}/src/app/mainwindow.ui
         ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.ui
         ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.ui
         ${CMAKE_SOURCE_DIR}/src/app/aboutdialog.ui
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.ui
         )
-
-#qt4_wrap_cpp( MainwindowTest_SOURCES ${MainwindowTest_MOC_HEADERS} )
 
 qt4_wrap_ui( MainwindowTest_SOURCES ${MainwindowTest_UIs} )
 

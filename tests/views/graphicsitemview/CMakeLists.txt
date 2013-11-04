@@ -60,6 +60,12 @@ add_test( NAME PageViewItemTest COMMAND PageViewItemTest )
 set(CMAKE_AUTOMOC ON)
 file(GLOB_RECURSE GraphicsItemView_SOURCES "${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp")
 
+set( GraphicsItemView_UIs
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.ui
+        )
+
+qt4_wrap_ui( GraphicsItemView_SOURCES ${GraphicsItemView_UIs} )
+
 # VisualMusicModel
 set( VisualMusicModelTest_SOURCES
         visualmusicmodel/VisualMusicModel/tst_visualmusicmodel.cpp
