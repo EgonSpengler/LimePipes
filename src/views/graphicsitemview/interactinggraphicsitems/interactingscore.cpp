@@ -20,8 +20,8 @@ InteractingScore::InteractingScore(QObject *parent)
 
     m_headerItem = new GraphicalScoreItem();
     m_headerItem->setInteractingItem(this);
-    m_headerItem->setItemPosition(GraphicalScoreItem::Title, 0, TextRowWidget::Center);
-    m_headerItem->setItemPosition(GraphicalScoreItem::Composer, 0, TextRowWidget::Right);
+    m_headerItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+    m_headerItem->setItemPosition(LP::ScoreComposer, 0, TextRowWidget::Right);
     m_footerItem = new GraphicalScoreItem();
     m_footerItem->setInteractingItem(this);
 
@@ -125,13 +125,13 @@ void InteractingScore::setTimeSignature(const TimeSignature &timeSig)
 
 void InteractingScore::titleFontChanged(const QFont &font)
 {
-    m_headerItem->setItemFont(GraphicalScoreItem::Title, font);
-    m_footerItem->setItemFont(GraphicalScoreItem::Title, font);
+    m_headerItem->setItemFont(LP::ScoreTitle, font);
+    m_footerItem->setItemFont(LP::ScoreTitle, font);
 }
 
 void InteractingScore::titleColorChanged(const QColor &color)
 {
-    m_headerItem->setItemColor(GraphicalScoreItem::Title, color);
-    m_footerItem->setItemColor(GraphicalScoreItem::Title, color);
+    m_headerItem->setItemColor(LP::ScoreTitle, color);
+    m_footerItem->setItemColor(LP::ScoreTitle, color);
 }
 

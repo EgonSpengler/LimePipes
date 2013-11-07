@@ -47,15 +47,21 @@ void GraphicalScoreItem::textRowItemChanged(TextRowWidget::TextPosition position
     if (!m_itemPostions.values().contains(itemPosition))
         return;
 
-    TextItemType itemType = m_itemPostions.key(itemPosition);
+    LP::ScoreDataRole itemType = m_itemPostions.key(itemPosition);
     switch (itemType) {
-    case Title:
+    case LP::ScoreYear:
+        break;
+    case LP::ScoreCopyright:
+        break;
+    case LP::ScoreTimeSignature:
+        break;
+    case LP::ScoreTitle:
         emit titleChanged(newText);
         break;
-    case Arranger:
+    case LP::ScoreArranger:
         emit arrangerChanged(newText);
         break;
-    case Composer:
+    case LP::ScoreComposer:
         emit composerChanged(newText);
         break;
     }
@@ -63,10 +69,10 @@ void GraphicalScoreItem::textRowItemChanged(TextRowWidget::TextPosition position
 
 void GraphicalScoreItem::setTitle(const QString &title)
 {
-    if (!m_itemPostions.contains(Title))
+    if (!m_itemPostions.contains(LP::ScoreTitle))
         return;
 
-    ItemPosition position = m_itemPostions.value(Title);
+    ItemPosition position = m_itemPostions.value(LP::ScoreTitle);
     if (m_textRows.count() - 1 > position.rowIndex)
         addRowsUntilRowIndex(position.rowIndex);
 
@@ -86,10 +92,10 @@ void GraphicalScoreItem::addRowsUntilRowIndex(int index)
 
 QString GraphicalScoreItem::title() const
 {
-    if (!m_itemPostions.contains(Title))
+    if (!m_itemPostions.contains(LP::ScoreTitle))
         return QString();
 
-    ItemPosition position = m_itemPostions.value(Title);
+    ItemPosition position = m_itemPostions.value(LP::ScoreTitle);
     if (!m_textRows.count() > position.rowIndex)
         return QString();
 
@@ -97,7 +103,7 @@ QString GraphicalScoreItem::title() const
     return row->text(position.rowPosition);
 }
 
-void GraphicalScoreItem::setItemPosition(GraphicalScoreItem::TextItemType itemType, int row, TextRowWidget::TextPosition position)
+void GraphicalScoreItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::TextPosition position)
 {
     ItemPosition itemPosition;
     if (m_itemPostions.contains(itemType))
@@ -113,7 +119,7 @@ void GraphicalScoreItem::setItemPosition(GraphicalScoreItem::TextItemType itemTy
     m_itemPostions.insert(itemType, itemPosition);
 }
 
-void GraphicalScoreItem::setItemFont(GraphicalScoreItem::TextItemType itemType, const QFont &font)
+void GraphicalScoreItem::setItemFont(LP::ScoreDataRole itemType, const QFont &font)
 {
     if (!m_itemPostions.contains(itemType))
         return;
@@ -126,7 +132,7 @@ void GraphicalScoreItem::setItemFont(GraphicalScoreItem::TextItemType itemType, 
     row->setFont(position.rowPosition, font);
 }
 
-void GraphicalScoreItem::setItemColor(GraphicalScoreItem::TextItemType itemType, const QColor &color)
+void GraphicalScoreItem::setItemColor(LP::ScoreDataRole itemType, const QColor &color)
 {
     if (!m_itemPostions.contains(itemType))
         return;
