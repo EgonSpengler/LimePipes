@@ -12,6 +12,7 @@
   */
 
 #include "timesignature.h"
+#include <QStringList>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 
@@ -146,6 +147,20 @@ void TimeSignature::readFromXmlStream(QXmlStreamReader *reader)
             beatUnit != 0) {
         setSignature(beatCount, beatUnit);
     }
+}
+
+QString TimeSignature::toString()
+{
+    return QString::number(beatCount()) + "/" + QString::number(beatUnit());
+}
+
+void TimeSignature::fromString(const QString &string)
+{
+    QStringList numberParts(string.split("/"));
+    if (numberParts.count() != 2) return;
+    int beatCount = numberParts.at(0).toInt();
+    int beatUnit = numberParts.at(1).toInt();
+    setSignature(beatCount, beatUnit);
 }
 
 bool TimeSignature::operator ==(const TimeSignature &other)

@@ -39,6 +39,9 @@ signals:
     void titleChanged(const QString& title);
     void composerChanged(const QString& composer);
     void arrangerChanged(const QString& arranger);
+    void yearChanged(const QString& newYear);
+    void copyrightChanged(const QString& newCopyright);
+    void timeSignatureChanged(const TimeSignature& newTimeSignature);
 
 private slots:
     void textRowItemChanged(TextRowWidget::TextPosition position, const QString& newText);

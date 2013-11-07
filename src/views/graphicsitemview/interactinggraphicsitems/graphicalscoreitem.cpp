@@ -49,21 +49,32 @@ void GraphicalScoreItem::textRowItemChanged(TextRowWidget::TextPosition position
 
     LP::ScoreDataRole itemType = m_itemPostions.key(itemPosition);
     switch (itemType) {
-    case LP::ScoreYear:
+    case LP::ScoreYear: {
+        emit yearChanged(newText);
         break;
-    case LP::ScoreCopyright:
+    }
+    case LP::ScoreCopyright: {
+        emit copyrightChanged(newText);
         break;
-    case LP::ScoreTimeSignature:
+    }
+    case LP::ScoreTimeSignature: {
+        TimeSignature timeSignature;
+        timeSignature.fromString(newText);
+        emit timeSignatureChanged(timeSignature);
         break;
-    case LP::ScoreTitle:
+    }
+    case LP::ScoreTitle: {
         emit titleChanged(newText);
         break;
-    case LP::ScoreArranger:
+    }
+    case LP::ScoreArranger: {
         emit arrangerChanged(newText);
         break;
-    case LP::ScoreComposer:
+    }
+    case LP::ScoreComposer: {
         emit composerChanged(newText);
         break;
+    }
     }
 }
 

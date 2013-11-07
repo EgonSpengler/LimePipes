@@ -28,6 +28,7 @@ private Q_SLOTS:
     void testSetSignature();
     void testWriteToXmlStream();
     void testReadFromXmlStream();
+    void testToAndFromString();
 };
 
 #endif

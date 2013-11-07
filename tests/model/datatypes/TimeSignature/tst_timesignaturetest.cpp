@@ -128,6 +128,22 @@ void TimeSignatureTest::testReadFromXmlStream()
     QVERIFY2(timeSig.beatUnit() == beatUnit, "Beat unit wasn't loaded");
 }
 
+void TimeSignatureTest::testToAndFromString()
+{
+    TimeSignature::Type timeSigType = TimeSignature::_12_8;
+    QString timeSigString = "12/8";
+
+    TimeSignature::Type timeSigType2 = TimeSignature::_4_4;
+    QString timeSigString2 = "4/4";
+
+    TimeSignature timeSig(timeSigType);
+    Q_ASSERT(timeSig.signature() == timeSigType);
+
+    QVERIFY2(timeSig.toString() == timeSigString, "Failed converting time signature to string");
+    timeSig.fromString(timeSigString2);
+    QVERIFY2(timeSig.signature() == timeSigType2, "Failed converting time signature from string");
+}
+
 QTEST_APPLESS_MAIN(TimeSignatureTest)
 
 #include "tst_timesignaturetest.moc"

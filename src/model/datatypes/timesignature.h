@@ -48,6 +48,9 @@ public:
     void readFromXmlStream(QXmlStreamReader *reader);
     static QString xmlTagName() { return s_xmlTagName; }
 
+    QString toString();
+    void fromString(const QString& string);
+
     bool operator ==(const TimeSignature& other);
 
 private:
