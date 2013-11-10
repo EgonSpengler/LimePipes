@@ -28,10 +28,9 @@ class GraphicalScoreItem : public InteractingGraphicsItem
 public:
     explicit GraphicalScoreItem(QGraphicsItem *parent = 0);
 
-    void setTitle(const QString& title);
-    QString title() const;
-
     void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::TextPosition position);
+    void setItemText(LP::ScoreDataRole itemType, const QString& text);
+    QString itemText(LP::ScoreDataRole itemType);
     void setItemFont(LP::ScoreDataRole itemType, const QFont& font);
     void setItemColor(LP::ScoreDataRole itemType, const QColor& color);
 

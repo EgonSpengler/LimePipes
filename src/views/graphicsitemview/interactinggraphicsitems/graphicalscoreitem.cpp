@@ -78,19 +78,6 @@ void GraphicalScoreItem::textRowItemChanged(TextRowWidget::TextPosition position
     }
 }
 
-void GraphicalScoreItem::setTitle(const QString &title)
-{
-    if (!m_itemPostions.contains(LP::ScoreTitle))
-        return;
-
-    ItemPosition position = m_itemPostions.value(LP::ScoreTitle);
-    if (m_textRows.count() - 1 > position.rowIndex)
-        addRowsUntilRowIndex(position.rowIndex);
-
-    TextRowWidget *row = m_textRows.at(position.rowIndex);
-    row->setText(position.rowPosition, title);
-}
-
 void GraphicalScoreItem::addRowsUntilRowIndex(int index)
 {
     if (m_rowLayout->count() >= index + 1)
@@ -99,19 +86,6 @@ void GraphicalScoreItem::addRowsUntilRowIndex(int index)
     while (m_rowLayout->count() < index + 1) {
         appendRow();
     }
-}
-
-QString GraphicalScoreItem::title() const
-{
-    if (!m_itemPostions.contains(LP::ScoreTitle))
-        return QString();
-
-    ItemPosition position = m_itemPostions.value(LP::ScoreTitle);
-    if (!m_textRows.count() > position.rowIndex)
-        return QString();
-
-    TextRowWidget *row = m_textRows.at(position.rowIndex);
-    return row->text(position.rowPosition);
 }
 
 void GraphicalScoreItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::TextPosition position)
@@ -128,6 +102,32 @@ void GraphicalScoreItem::setItemPosition(LP::ScoreDataRole itemType, int row, Te
     itemPosition.rowPosition = position;
 
     m_itemPostions.insert(itemType, itemPosition);
+}
+
+void GraphicalScoreItem::setItemText(LP::ScoreDataRole itemType, const QString &text)
+{
+    if (!m_itemPostions.contains(itemType))
+        return;
+
+    ItemPosition position = m_itemPostions.value(itemType);
+    if (m_textRows.count() - 1 > position.rowIndex)
+        addRowsUntilRowIndex(position.rowIndex);
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    row->setText(position.rowPosition, text);
+}
+
+QString GraphicalScoreItem::itemText(LP::ScoreDataRole itemType)
+{
+    if (!m_itemPostions.contains(itemType))
+        return QString();
+
+    ItemPosition position = m_itemPostions.value(itemType);
+    if (!m_textRows.count() > position.rowIndex)
+        return QString();
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    return row->text(position.rowPosition);
 }
 
 void GraphicalScoreItem::setItemFont(LP::ScoreDataRole itemType, const QFont &font)

@@ -99,8 +99,8 @@ void InteractingScore::setTitle(const QString &title)
 {
     m_scorePropertiesItem->setTitle(title);
 
-    m_headerItem->setTitle(title);
-    m_footerItem->setTitle(title);
+    m_headerItem->setItemText(LP::ScoreTitle, title);
+    m_footerItem->setItemText(LP::ScoreTitle, title);
 }
 
 void InteractingScore::setComposer(const QString &composer)
