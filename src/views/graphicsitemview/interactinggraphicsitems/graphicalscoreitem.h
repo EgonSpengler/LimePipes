@@ -28,7 +28,8 @@ class GraphicalScoreItem : public InteractingGraphicsItem
 public:
     explicit GraphicalScoreItem(QGraphicsItem *parent = 0);
 
-    void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::TextPosition position);
+    void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position);
+    bool hasItemPositionForDataRole(LP::ScoreDataRole itemType);
 
     void setItemText(LP::ScoreDataRole itemType, const QString& text);
     QString itemText(LP::ScoreDataRole itemType);
@@ -40,14 +41,14 @@ signals:
     void itemTextChanged(LP::ScoreDataRole dataRole, const QString& text);
 
 private slots:
-    void textRowItemChanged(TextRowWidget::TextPosition position, const QString& newText);
+    void textRowItemChanged(TextRowWidget::RowAlignment position, const QString& newText);
 
 private:
-    class ItemPosition {
+    class TextItemPosition {
     public:
         int rowIndex;
-        TextRowWidget::TextPosition rowPosition;
-        bool operator ==(const ItemPosition& other) const
+        TextRowWidget::RowAlignment rowPosition;
+        bool operator ==(const TextItemPosition& other) const
         {
             if (rowIndex == other.rowIndex &&
                     rowPosition == other.rowPosition)
@@ -60,7 +61,7 @@ private:
     void addRowsUntilRowIndex(int index);
     QList<TextRowWidget*> m_textRows;
     QGraphicsLinearLayout *m_rowLayout;
-    QHash<LP::ScoreDataRole, ItemPosition> m_itemPostions;
+    QHash<LP::ScoreDataRole, TextItemPosition> m_itemPositions;
 };
 
 #endif // GRAPHICALSCOREITEM_H

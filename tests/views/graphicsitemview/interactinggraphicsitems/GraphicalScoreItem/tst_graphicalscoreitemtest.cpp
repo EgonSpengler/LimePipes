@@ -43,6 +43,7 @@ void GraphicalScoreItemTest::cleanup()
 void GraphicalScoreItemTest::testSetTitle()
 {
     QString testTitle("test title");
+    m_scoreItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
     m_scoreItem->setItemText(LP::ScoreTitle, testTitle);
     QVERIFY2(m_scoreItem->itemText(LP::ScoreTitle) != 0, "Title item is still 0 after setting title");
     QVERIFY2(m_scoreItem->itemText(LP::ScoreTitle) == testTitle, "Title item has not the right text");

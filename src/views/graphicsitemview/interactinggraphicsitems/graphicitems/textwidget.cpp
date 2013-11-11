@@ -28,8 +28,8 @@ TextWidget::TextWidget(QGraphicsItem *parent)
 
 void TextWidget::setText(const QString &text)
 {
-    if (text != m_textItem->toPlainText())
-        emit textChanged(text);
+    if (text == m_textItem->toPlainText())
+        return;
 
     m_textItem->setPlainText(text);
 }

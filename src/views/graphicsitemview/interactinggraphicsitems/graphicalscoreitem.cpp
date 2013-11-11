@@ -27,11 +27,11 @@ void GraphicalScoreItem::appendRow()
     m_textRows.append(newRow);
     m_rowLayout->addItem(newRow);
 
-    connect(newRow, SIGNAL(textChanged(TextRowWidget::TextPosition,QString)),
-            this, SLOT(textRowItemChanged(TextRowWidget::TextPosition,QString)));
+    connect(newRow, SIGNAL(textChanged(TextRowWidget::RowAlignment,QString)),
+            this, SLOT(textRowItemChanged(TextRowWidget::RowAlignment,QString)));
 }
 
-void GraphicalScoreItem::textRowItemChanged(TextRowWidget::TextPosition position, const QString &newText)
+void GraphicalScoreItem::textRowItemChanged(TextRowWidget::RowAlignment position, const QString &newText)
 {
     QObject *senderRow = sender();
     TextRowWidget *rowWidget = qobject_cast<TextRowWidget*>(senderRow);
@@ -40,14 +40,14 @@ void GraphicalScoreItem::textRowItemChanged(TextRowWidget::TextPosition position
     int rowIndex = m_textRows.indexOf(rowWidget);
     if (rowIndex == -1) return;
 
-    ItemPosition itemPosition;
+    TextItemPosition itemPosition;
     itemPosition.rowIndex = rowIndex;
     itemPosition.rowPosition = position;
 
-    if (!m_itemPostions.values().contains(itemPosition))
+    if (!m_itemPositions.values().contains(itemPosition))
         return;
 
-    LP::ScoreDataRole itemType = m_itemPostions.key(itemPosition);
+    LP::ScoreDataRole itemType = m_itemPositions.key(itemPosition);
     emit itemTextChanged(itemType, newText);
 }
 
@@ -61,41 +61,51 @@ void GraphicalScoreItem::addRowsUntilRowIndex(int index)
     }
 }
 
-void GraphicalScoreItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::TextPosition position)
+void GraphicalScoreItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position)
 {
-    ItemPosition itemPosition;
-    if (m_itemPostions.contains(itemType))
-        itemPosition = m_itemPostions.value(itemType);
-
     if (row < 0)
         return;
+
+    TextItemPosition itemPosition;
+    if (hasItemPositionForDataRole(itemType))
+        itemPosition = m_itemPositions.value(itemType);
 
     addRowsUntilRowIndex(row);
     itemPosition.rowIndex = row;
     itemPosition.rowPosition = position;
 
-    m_itemPostions.insert(itemType, itemPosition);
+    m_itemPositions.insert(itemType, itemPosition);
+}
+
+bool GraphicalScoreItem::hasItemPositionForDataRole(LP::ScoreDataRole itemType)
+{
+    if (m_itemPositions.contains(itemType))
+        return true;
+    return false;
 }
 
 void GraphicalScoreItem::setItemText(LP::ScoreDataRole itemType, const QString &text)
 {
-    if (!m_itemPostions.contains(itemType))
+    if (!hasItemPositionForDataRole(itemType)) {
+        qWarning("No item position set for data role");
         return;
+    }
 
-    ItemPosition position = m_itemPostions.value(itemType);
+    TextItemPosition position = m_itemPositions.value(itemType);
     if (m_textRows.count() - 1 > position.rowIndex)
         addRowsUntilRowIndex(position.rowIndex);
 
     TextRowWidget *row = m_textRows.at(position.rowIndex);
-    row->setText(position.rowPosition, text);
+    if (row->text(position.rowPosition) != text)
+        row->setText(position.rowPosition, text);
 }
 
 QString GraphicalScoreItem::itemText(LP::ScoreDataRole itemType)
 {
-    if (!m_itemPostions.contains(itemType))
+    if (!hasItemPositionForDataRole(itemType))
         return QString();
 
-    ItemPosition position = m_itemPostions.value(itemType);
+    TextItemPosition position = m_itemPositions.value(itemType);
     if (!m_textRows.count() > position.rowIndex)
         return QString();
 
@@ -105,10 +115,10 @@ QString GraphicalScoreItem::itemText(LP::ScoreDataRole itemType)
 
 void GraphicalScoreItem::setItemFont(LP::ScoreDataRole itemType, const QFont &font)
 {
-    if (!m_itemPostions.contains(itemType))
+    if (!hasItemPositionForDataRole(itemType))
         return;
 
-    ItemPosition position = m_itemPostions.value(itemType);
+    TextItemPosition position = m_itemPositions.value(itemType);
     if (m_textRows.count() - 1 > position.rowIndex)
         addRowsUntilRowIndex(position.rowIndex);
 
@@ -118,10 +128,10 @@ void GraphicalScoreItem::setItemFont(LP::ScoreDataRole itemType, const QFont &fo
 
 void GraphicalScoreItem::setItemColor(LP::ScoreDataRole itemType, const QColor &color)
 {
-    if (!m_itemPostions.contains(itemType))
+    if (!hasItemPositionForDataRole(itemType))
         return;
 
-    ItemPosition position = m_itemPostions.value(itemType);
+    TextItemPosition position = m_itemPositions.value(itemType);
     if (m_textRows.count() - 1 > position.rowIndex)
         addRowsUntilRowIndex(position.rowIndex);
 

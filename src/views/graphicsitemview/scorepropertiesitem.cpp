@@ -31,6 +31,13 @@ void ScorePropertiesItem::linkWithItem(ScorePropertiesItem *item)
             this, SLOT(setTitle(QString)));
     setTitle(item->title());
 
+    // Type
+    connect(this, SIGNAL(typeChanged(QString)),
+            item, SLOT(setType(QString)));
+    connect(item, SIGNAL(typeChanged(QString)),
+            this, SLOT(setType(QString)));
+    setType(item->type());
+
     // Composer
     connect(this, SIGNAL(composerChanged(QString)),
             item, SLOT(setComposer(QString)));

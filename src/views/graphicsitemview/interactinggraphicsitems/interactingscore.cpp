@@ -42,13 +42,13 @@ void InteractingScore::createConnections()
             this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
     connect(m_footerItem, SIGNAL(itemTextChanged(LP::ScoreDataRole,QString)),
             this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
+
     connect(m_scorePropertiesDialog, SIGNAL(propertyTextChanged(LP::ScoreDataRole,QString)),
             this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
-
-    connect(m_scorePropertiesDialog, SIGNAL(titleFontChanged(QFont)),
-            this, SLOT(titleFontChanged(QFont)));
-    connect(m_scorePropertiesDialog, SIGNAL(titleColorChanged(QColor)),
-            this, SLOT(titleColorChanged(QColor)));
+    connect(m_scorePropertiesDialog, SIGNAL(propertyFontChanged(LP::ScoreDataRole,QFont)),
+            this, SLOT(propertyFontChanged(LP::ScoreDataRole,QFont)));
+    connect(m_scorePropertiesDialog, SIGNAL(propertyColorChanged(LP::ScoreDataRole,QColor)),
+            this, SLOT(propertyColorChanged(LP::ScoreDataRole,QColor)));
 }
 
 QGraphicsWidget *InteractingScore::headerItem() const

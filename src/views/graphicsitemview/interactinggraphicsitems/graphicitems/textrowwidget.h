@@ -20,7 +20,7 @@ class TextRowWidget : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    enum TextPosition {
+    enum RowAlignment {
         Left,
         Center,
         Right
@@ -28,22 +28,22 @@ public:
 
     explicit TextRowWidget(QGraphicsItem *parent = 0);
 
-    void setText(TextPosition position, const QString& text);
-    QString text(TextPosition position) const;
+    void setText(RowAlignment position, const QString& text);
+    QString text(RowAlignment position) const;
 
-    void setFont(TextPosition position, const QFont& font);
-    QFont font(TextPosition position) const;
+    void setFont(RowAlignment position, const QFont& font);
+    QFont font(RowAlignment position) const;
 
-    void setColor(TextPosition position, const QColor& color);
-    void color(TextPosition position);
+    void setColor(RowAlignment position, const QColor& color);
+    void color(RowAlignment position);
 
-    void setTextPositionVisible(TextPosition position, bool active);
+    void setTextPositionVisible(RowAlignment position, bool active);
 
     void setGeometry(const QRectF &rect);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 signals:
-    void textChanged(TextRowWidget::TextPosition position, const QString& newText);
+    void textChanged(TextRowWidget::RowAlignment position, const QString& newText);
 
 private slots:
     void textWidgetTextChanged(QObject *object);
@@ -52,8 +52,8 @@ private slots:
 private:
     void createConnections();
     void repositionElementTextItems();
-    TextWidget *textWidgetForPosition(TextPosition position) const;
-    TextPosition textPositionForWidget(TextWidget *widget) const;
+    TextWidget *textWidgetForPosition(RowAlignment position) const;
+    RowAlignment textPositionForWidget(TextWidget *widget) const;
     QGraphicsLinearLayout *m_layout;
     TextWidget *m_leftTextWidget;
     TextWidget *m_centerTextWidget;

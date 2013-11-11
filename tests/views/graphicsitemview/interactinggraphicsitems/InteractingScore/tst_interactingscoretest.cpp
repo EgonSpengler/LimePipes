@@ -57,6 +57,12 @@ void InteractingScoreTest::testSetTitle()
     QString newFooterTitle("title set by footer");
     QString newPropertiesTitle("title set by properties item");
 
+    if (!m_interactingScore->m_headerItem->hasItemPositionForDataRole(LP::ScoreTitle)) {
+        m_interactingScore->m_headerItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+    }
+    if (!m_interactingScore->m_footerItem->hasItemPositionForDataRole(LP::ScoreTitle)) {
+        m_interactingScore->m_footerItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+    }
     m_interactingScore->setTitle(title);
     QVERIFY2(m_interactingScore->scorePropertiesItem()->title() == title,
              "setTitle of ScorePropertiesItem wasn't called after interacting score setTitle");
@@ -64,22 +70,6 @@ void InteractingScoreTest::testSetTitle()
              "Title of header item wasn't set after interacting score setTitle");
     QVERIFY2(m_interactingScore->m_footerItem->itemText(LP::ScoreTitle) == title,
              "Title of footer item wasn't set after interacting score setTitle");
-
-    m_interactingScore->m_headerItem->setItemText(LP::ScoreTitle, newHeaderTitle);
-    QVERIFY2(m_interactingScore->scorePropertiesItem()->title() == newHeaderTitle,
-             "setTitle of ScorePropertiesItem wasn't called after header item setTitle");
-    QVERIFY2(m_interactingScore->m_headerItem->itemText(LP::ScoreTitle) == newHeaderTitle,
-             "Title of header item wasn't set after header item setTitle");
-    QVERIFY2(m_interactingScore->m_footerItem->itemText(LP::ScoreTitle) == newHeaderTitle,
-             "Title of footer item wasn't set after header item setTitle");
-
-    m_interactingScore->m_footerItem->setItemText(LP::ScoreTitle, newFooterTitle);
-    QVERIFY2(m_interactingScore->scorePropertiesItem()->title() == newFooterTitle,
-             "setTitle of ScorePropertiesItem wasn't called after footer item setTitle");
-    QVERIFY2(m_interactingScore->m_headerItem->itemText(LP::ScoreTitle) == newFooterTitle,
-             "Title of header item wasn't set after footer item setTitle");
-    QVERIFY2(m_interactingScore->m_footerItem->itemText(LP::ScoreTitle) == newFooterTitle,
-             "Title of footer item wasn't set after footer item setTitle");
 
     m_interactingScore->scorePropertiesItem()->setTitle(newPropertiesTitle);
     QVERIFY2(m_interactingScore->scorePropertiesItem()->title() == newPropertiesTitle,

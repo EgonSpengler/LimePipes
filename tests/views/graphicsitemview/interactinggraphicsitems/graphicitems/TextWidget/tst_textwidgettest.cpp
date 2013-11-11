@@ -44,14 +44,11 @@ void TextWidgetTest::cleanup()
 
 void TextWidgetTest::testSetGetText()
 {
-    QSignalSpy spy(m_textWidget, SIGNAL(textChanged(QString)));
     QString text("New text");
+    Q_ASSERT(m_textWidget->text() != text);
 
     m_textWidget->setText(text);
-    QVERIFY2(spy.count() == 1, "Text changed signal wasn't emitted");
-
-    m_textWidget->setText(text);
-    QVERIFY2(spy.count() == 1, "Text changed signal was emitted a second time, after setting same text");
+    QVERIFY2(m_textWidget->text() == text, "Text wasn't set or can't get back after setting");
 }
 
 QTEST_MAIN(TextWidgetTest)

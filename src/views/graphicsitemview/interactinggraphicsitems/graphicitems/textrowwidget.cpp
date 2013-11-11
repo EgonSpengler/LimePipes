@@ -85,7 +85,7 @@ void TextRowWidget::repositionElementTextItems()
     setPreferredHeight(maxHeight);
 }
 
-void TextRowWidget::setText(TextRowWidget::TextPosition position, const QString &text)
+void TextRowWidget::setText(TextRowWidget::RowAlignment position, const QString &text)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setText(text);
@@ -93,31 +93,31 @@ void TextRowWidget::setText(TextRowWidget::TextPosition position, const QString 
     setTextPositionVisible(position, !text.isEmpty());
 }
 
-QString TextRowWidget::text(TextRowWidget::TextPosition position) const
+QString TextRowWidget::text(TextRowWidget::RowAlignment position) const
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     return textWidget->text();
 }
 
-void TextRowWidget::setFont(TextRowWidget::TextPosition position, const QFont &font)
+void TextRowWidget::setFont(TextRowWidget::RowAlignment position, const QFont &font)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setFont(font);
 }
 
-void TextRowWidget::setColor(TextRowWidget::TextPosition position, const QColor &color)
+void TextRowWidget::setColor(TextRowWidget::RowAlignment position, const QColor &color)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setColor(color);
 }
 
-void TextRowWidget::color(TextRowWidget::TextPosition position)
+void TextRowWidget::color(TextRowWidget::RowAlignment position)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->color();
 }
 
-void TextRowWidget::setTextPositionVisible(TextRowWidget::TextPosition position, bool visible)
+void TextRowWidget::setTextPositionVisible(TextRowWidget::RowAlignment position, bool visible)
 {
     TextWidget *widget = textWidgetForPosition(position);
     widget->setVisible(visible);
@@ -140,7 +140,7 @@ void TextRowWidget::textWidgetTextChanged(QObject *object)
     TextWidget *widget = qobject_cast<TextWidget*>(object);
     if (!widget) return;
 
-    TextRowWidget::TextPosition position = textPositionForWidget(widget);
+    TextRowWidget::RowAlignment position = textPositionForWidget(widget);
     emit textChanged(position, widget->text());
 
     repositionElementTextItems();
@@ -152,7 +152,7 @@ void TextRowWidget::textWidgetSizeChanged(const QSizeF &newSize)
     repositionElementTextItems();
 }
 
-TextRowWidget::TextPosition TextRowWidget::textPositionForWidget(TextWidget *widget) const
+TextRowWidget::RowAlignment TextRowWidget::textPositionForWidget(TextWidget *widget) const
 {
     if (widget == m_leftTextWidget)
         return Left;
@@ -164,7 +164,7 @@ TextRowWidget::TextPosition TextRowWidget::textPositionForWidget(TextWidget *wid
     return Left;
 }
 
-TextWidget *TextRowWidget::textWidgetForPosition(TextRowWidget::TextPosition position) const
+TextWidget *TextRowWidget::textWidgetForPosition(TextRowWidget::RowAlignment position) const
 {
     switch (position) {
     case Left: {

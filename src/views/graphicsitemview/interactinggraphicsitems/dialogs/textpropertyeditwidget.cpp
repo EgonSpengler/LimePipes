@@ -42,7 +42,8 @@ QColor TextPropertyEditWidget::color() const
 
 void TextPropertyEditWidget::setText(const QString &text)
 {
-    ui->lineEdit->setText(text);
+    if (ui->lineEdit->text() != text)
+        ui->lineEdit->setText(text);
 }
 
 void TextPropertyEditWidget::fontChangeClicked()

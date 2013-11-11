@@ -159,7 +159,7 @@ void ScorePropertiesItemTest::testLinkWithItem()
     QVERIFY2(spySetType12.count() == 1, "Set new type wasn't called on item 2");
 
     // Set Type 2 -> 1
-    item2->setType("testtype");
+    item2->setType("testtype2");
     QVERIFY2(spySetType21.count() == 2, "Set new type wasn't called on item 1");
 
     // Set Composer 1 -> 2
