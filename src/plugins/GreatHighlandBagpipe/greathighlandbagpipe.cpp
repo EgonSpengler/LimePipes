@@ -12,8 +12,8 @@
   */
 
 #include "greathighlandbagpipe.h"
-#include <ghb_melodynote.h>
-#include <ghb_doubling.h>
+#include "ghb_melodynote.h"
+#include "ghb_doubling.h"
 
 GreatHighlandBagpipe::GreatHighlandBagpipe()
     : m_bagpipe(InstrumentPtr(new GHB_Instrument()))

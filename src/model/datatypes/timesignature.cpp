@@ -154,13 +154,17 @@ QString TimeSignature::toString()
     return QString::number(beatCount()) + "/" + QString::number(beatUnit());
 }
 
-void TimeSignature::fromString(const QString &string)
+TimeSignature TimeSignature::fromString(const QString &string)
 {
+    TimeSignature timeSig;
     QStringList numberParts(string.split("/"));
-    if (numberParts.count() != 2) return;
+    if (numberParts.count() != 2) return timeSig;
+
     int beatCount = numberParts.at(0).toInt();
     int beatUnit = numberParts.at(1).toInt();
-    setSignature(beatCount, beatUnit);
+    timeSig.setSignature(beatCount, beatUnit);
+
+    return timeSig;
 }
 
 bool TimeSignature::operator ==(const TimeSignature &other)

@@ -140,8 +140,8 @@ void TimeSignatureTest::testToAndFromString()
     Q_ASSERT(timeSig.signature() == timeSigType);
 
     QVERIFY2(timeSig.toString() == timeSigString, "Failed converting time signature to string");
-    timeSig.fromString(timeSigString2);
-    QVERIFY2(timeSig.signature() == timeSigType2, "Failed converting time signature from string");
+    TimeSignature timeSigFromString = TimeSignature::fromString(timeSigString2);
+    QVERIFY2(timeSigFromString.signature() == timeSigType2, "Failed converting time signature from string");
 }
 
 QTEST_APPLESS_MAIN(TimeSignatureTest)

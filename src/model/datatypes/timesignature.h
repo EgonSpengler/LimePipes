@@ -49,7 +49,7 @@ public:
     static QString xmlTagName() { return s_xmlTagName; }
 
     QString toString();
-    void fromString(const QString& string);
+    static TimeSignature fromString(const QString& string);
 
     bool operator ==(const TimeSignature& other);
 

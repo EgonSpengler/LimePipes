@@ -9,13 +9,17 @@
 #ifndef SCOREPROPERTIESDIALOG_H
 #define SCOREPROPERTIESDIALOG_H
 
+#include <QHash>
 #include <QDialog>
+#include <itemdatatypes.h>
 
 namespace Ui {
 class ScorePropertiesDialog;
 }
 
+class QSignalMapper;
 class TimeSignature;
+class TextPropertyEditWidget;
 
 class ScorePropertiesDialog : public QDialog
 {
@@ -24,32 +28,24 @@ class ScorePropertiesDialog : public QDialog
 public:
     explicit ScorePropertiesDialog(QWidget *parent = 0);
     ~ScorePropertiesDialog();
-    
-private slots:
-    // ScorePropertiesInterface interface
-    void setTitle(const QString &title);
-    void setComposer(const QString &composer);
-    void setArranger(const QString &arranger);
-    void setYear(const QString &year);
-    void setCopyright(const QString &copyright);
-    void setTimeSignature(const TimeSignature &timeSig);
 
-    void titleFontChangeClicked();
-    void titleColorChangeClicked();
+    void setPropertyText(LP::ScoreDataRole dataRole, const QString& text);
+
+private slots:
+    void textChanged(int dataRole);
+    void fontChanged(int dataRole);
+    void colorChanged(int dataRole);
 
 signals:
-    void titleChanged(const QString& newTitle);
-    void titleFontChanged(const QFont& font);
-    void titleColorChanged(const QColor& color);
-    void composerChanged(const QString& newComposer);
-    void arrangerChanged(const QString& newArranger);
-    void yearChanged(const QString& newYear);
-    void copyrightChanged(const QString& newCopyright);
-    void timeSignatureChanged(const TimeSignature& newTimeSignature);
+    void propertyTextChanged(LP::ScoreDataRole, const QString& text);
+    void propertyFontChanged(LP::ScoreDataRole, const QFont& font);
+    void propertyColorChanged(LP::ScoreDataRole, const QColor& font);
 
 private:
-    void createConnections();
+    void addTextEditWidget(int layoutRow, LP::ScoreDataRole dataRole, const QString& text);
+    QHash<LP::ScoreDataRole, TextPropertyEditWidget*> m_textEditWidgets;
     Ui::ScorePropertiesDialog *ui;
+    QSignalMapper *m_textChangedMapper;
 };
 
 #endif // SCOREPROPERTIESDIALOG_H

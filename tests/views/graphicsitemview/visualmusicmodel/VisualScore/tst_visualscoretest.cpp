@@ -61,29 +61,28 @@ void VisualScoreTest::testSetDataFromIndex()
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QString scoreTitle("Testscore");
+    QString scoreType("3/4 March");
     QModelIndex scoreIndex = m_musicModel->insertScore(0, scoreTitle);
     QString scoreComposer("Composer");
     QString scoreArranger("Arranger");
     QString scoreYear("2013");
     QString scoreCopyright("TB");
-    TimeSignature scoreTimeSignature(TimeSignature::_9_8);
 
     m_musicModel->setData(scoreIndex, scoreComposer, LP::ScoreComposer);
+    m_musicModel->setData(scoreIndex, scoreType, LP::ScoreType);
     m_musicModel->setData(scoreIndex, scoreArranger, LP::ScoreArranger);
     m_musicModel->setData(scoreIndex, scoreYear, LP::ScoreYear);
     m_musicModel->setData(scoreIndex, scoreCopyright, LP::ScoreCopyright);
-    m_musicModel->setData(scoreIndex, QVariant::fromValue<TimeSignature>(scoreTimeSignature),
-                          LP::ScoreTimeSignature);
 
     m_visualScore->setDataFromIndex(scoreIndex);
     ScorePropertiesItem *scoreProperties = m_visualScore->scorePropertiesItem();
 
     QVERIFY2(scoreProperties->title() == scoreTitle, "Score title wasn't set");
+    QVERIFY2(scoreProperties->type() == scoreType, "Score type wasn't set");
     QVERIFY2(scoreProperties->composer() == scoreComposer, "Score composer wasn't set");
     QVERIFY2(scoreProperties->arranger() == scoreArranger, "Score arranger wasn't set");
     QVERIFY2(scoreProperties->year() == scoreYear, "Score year wasn't set");
     QVERIFY2(scoreProperties->copyright() == scoreCopyright, "Score copyright wasn't set");
-    QVERIFY2(scoreProperties->timeSignature() == scoreTimeSignature, "Score time signature wasn't set");
 }
 
 void VisualScoreTest::testDataChangedSignal()

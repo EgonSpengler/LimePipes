@@ -37,8 +37,8 @@ bool Score::itemSupportsWritingOfData(int role) const
     case LP::ScoreArranger:
     case LP::ScoreComposer:
     case LP::ScoreCopyright:
-    case LP::ScoreTimeSignature:
     case LP::ScoreTitle:
+    case LP::ScoreType:
     case LP::ScoreYear:
         return true;
     default:
@@ -50,6 +50,8 @@ void Score::writeItemDataToXmlStream(QXmlStreamWriter *writer)
 {
     if (!textForScoreDataRole(LP::ScoreTitle).isEmpty())
         writer->writeTextElement("TITLE", textForScoreDataRole(LP::ScoreTitle));
+    if (!textForScoreDataRole(LP::ScoreTitle).isEmpty())
+        writer->writeTextElement("TYPE", textForScoreDataRole(LP::ScoreType));
     if (!textForScoreDataRole(LP::ScoreComposer).isEmpty())
         writer->writeTextElement("COMPOSER", textForScoreDataRole(LP::ScoreComposer));
     if (!textForScoreDataRole(LP::ScoreArranger).isEmpty())
@@ -58,19 +60,15 @@ void Score::writeItemDataToXmlStream(QXmlStreamWriter *writer)
         writer->writeTextElement("COPYRIGHT", textForScoreDataRole(LP::ScoreCopyright));
     if (!textForScoreDataRole(LP::ScoreYear).isEmpty())
         writer->writeTextElement("YEAR", textForScoreDataRole(LP::ScoreYear));
-
-    QVariant timeSigVar = data(LP::ScoreTimeSignature);
-    if (timeSigVar.isValid() &&
-            timeSigVar.canConvert<TimeSignature>()) {
-        TimeSignature timeSig = timeSigVar.value<TimeSignature>();
-        timeSig.writeToXmlStream(writer);
-    }
 }
 
 void Score::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
 {
     if (QString("TITLE").compare(reader->name(), Qt::CaseInsensitive) == 0)
         setTitle(reader->readElementText());
+
+    if (QString("TYPE").compare(reader->name(), Qt::CaseInsensitive) == 0)
+        setData(reader->readElementText(), LP::ScoreType);
 
     if (QString("COMPOSER").compare(reader->name(), Qt::CaseInsensitive) == 0)
         setData(reader->readElementText(), LP::ScoreComposer);
@@ -83,12 +81,6 @@ void Score::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
 
     if (QString("YEAR").compare(reader->name(), Qt::CaseInsensitive) == 0)
         setData(reader->readElementText(), LP::ScoreYear);
-
-    if (TimeSignature::xmlTagName().compare(reader->name(), Qt::CaseInsensitive) == 0) {
-        TimeSignature timeSig;
-        timeSig.readFromXmlStream(reader);
-        setData(QVariant::fromValue<TimeSignature>(timeSig), LP::ScoreTimeSignature);
-    }
 }
 
 QString Score::textForScoreDataRole(LP::ScoreDataRole role)

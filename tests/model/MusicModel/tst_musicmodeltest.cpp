@@ -613,7 +613,7 @@ void MusicModelTest::testXsdFile()
 
 void MusicModelTest::checkTestfilesAgainstXsd()
 {
-    //QSKIP("Checks require long time", SkipSingle);
+//    QSKIP("Checks require long time", SkipSingle);
 
     QUrl xsdUrl = QUrl::fromLocalFile(LIMEPIPES_XSD_FILE);
     QXmlSchema schema;
@@ -1045,10 +1045,12 @@ void MusicModelTest::testDropMimeDataSymbols()
     QModelIndex tuneModel2 = model2.insertTuneWithScore(0, "test score", m_instrumentNames.at(0));
     QModelIndex partIndex2 = m_model->insertPartIntoTune(0, tuneModel2, 10);
     QModelIndex measureIndex2 = m_model->index(0, 0, partIndex2);
+    Q_ASSERT(measureIndex2.isValid());
 
     model2.dropMimeData(data, Qt::MoveAction, 0, 0, measureIndex2);
 
-    QVERIFY2(model2.rowCount(measureIndex2) == 2, "Failed inserting symbols");
+    int symbolCount = model2.rowCount(measureIndex2);
+    QVERIFY2(symbolCount == 2, "Failed inserting symbols");
     QModelIndex model2Symbol = model2.index(0, 0, measureIndex2);
     QVERIFY2(model2.data(model2Symbol, LP::SymbolLength).canConvert<Length::Value>(), "Failed getting data from inserted symbol");
     QVERIFY2(model2.data(model2Symbol, LP::SymbolLength).value<Length::Value>() == Length::_1, "Symbol was inserted in wrong place");

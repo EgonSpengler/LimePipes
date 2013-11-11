@@ -40,36 +40,37 @@ enum ScoreDataRole {
     ScoreArranger       = Qt::UserRole + 2,
     ScoreYear           = Qt::UserRole + 3,
     ScoreCopyright      = Qt::UserRole + 4,
-    ScoreTimeSignature  = Qt::UserRole + 5
+    ScoreTimeSignature  = Qt::UserRole + 5,
+    ScoreType           = Qt::UserRole + 6
 };
 
 // Tune
 enum TuneDataRole {
-    TuneInstrument      = Qt::UserRole + 6
+    TuneInstrument      = Qt::UserRole + 7
 };
 
 // Part
 enum PartDataRole {
-    PartRepeat          = Qt::UserRole + 7
+    PartRepeat          = Qt::UserRole + 8
 };
 
 // Measure
 enum MeasureDataRole {
-    MeasureIsUpbeat     = Qt::UserRole + 8
+    MeasureIsUpbeat     = Qt::UserRole + 9
 };
 
 // Symbol
 enum SymbolDataRole {
-    SymbolType          = Qt::UserRole + 9,
-    SymbolName          = Qt::UserRole + 10,
-    SymbolLength        = Qt::UserRole + 11,
-    SymbolPitch         = Qt::UserRole + 12,
-    SymbolGraphic       = Qt::UserRole + 13
+    SymbolType          = Qt::UserRole + 10,
+    SymbolName          = Qt::UserRole + 11,
+    SymbolLength        = Qt::UserRole + 12,
+    SymbolPitch         = Qt::UserRole + 13,
+    SymbolGraphic       = Qt::UserRole + 14
 };
 
 // MelodyNote
 enum MelodyNoteDataRole {
-    MelodyNoteDots      = Qt::UserRole + 14
+    MelodyNoteDots      = Qt::UserRole + 15
 };
 
 }

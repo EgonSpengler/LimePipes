@@ -69,6 +69,7 @@ set( MainwindowTest_UIs
         ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.ui
         ${CMAKE_SOURCE_DIR}/src/app/aboutdialog.ui
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.ui
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/textpropertyeditwidget.ui
         )
 
 qt4_wrap_ui( MainwindowTest_SOURCES ${MainwindowTest_UIs} )

@@ -26,31 +26,31 @@ public:
 
 signals:
     void titleChanged(const QString& newTitle);
+    void typeChanged(const QString & newType);
     void composerChanged(const QString& newComposer);
     void arrangerChanged(const QString& newArranger);
     void yearChanged(const QString& newYear);
     void copyrightChanged(const QString& newCopyright);
-    void timeSignatureChanged(const TimeSignature& newTimeSignature);
 
 public slots:
-    virtual void setTitle(const QString &title);
-    virtual void setComposer(const QString &composer);
-    virtual void setArranger(const QString &arranger);
-    virtual void setYear(const QString &year);
-    virtual void setCopyright(const QString &copyright);
-    virtual void setTimeSignature(const TimeSignature &timeSig);
+    void setTitle(const QString &title);
+    void setType(const QString &type);
+    void setComposer(const QString &composer);
+    void setArranger(const QString &arranger);
+    void setYear(const QString &year);
+    void setCopyright(const QString &copyright);
 
-    // ScorePropertiesInterface interface
 public:
     QString title() const;
+    QString type() const;
     QString composer() const;
     QString arranger() const;
     QString year() const;
     QString copyright() const;
-    TimeSignature timeSignature() const;
 
 private:
     QString m_title;
+    QString m_type;
     QString m_composer;
     QString m_arranger;
     QString m_year;

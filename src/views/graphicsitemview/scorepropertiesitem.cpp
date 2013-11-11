@@ -58,13 +58,6 @@ void ScorePropertiesItem::linkWithItem(ScorePropertiesItem *item)
     connect(item, SIGNAL(copyrightChanged(QString)),
             this, SLOT(setCopyright(QString)));
     setCopyright(item->copyright());
-
-    // Time signature
-    connect(this, SIGNAL(timeSignatureChanged(TimeSignature)),
-            item, SLOT(setTimeSignature(TimeSignature)));
-    connect(item, SIGNAL(timeSignatureChanged(TimeSignature)),
-            this, SLOT(setTimeSignature(TimeSignature)));
-    setTimeSignature(item->timeSignature());
 }
 
 const ScorePropertiesItem *ScorePropertiesItem::linkedItem() const
@@ -77,12 +70,25 @@ QString ScorePropertiesItem::title() const
     return m_title;
 }
 
+QString ScorePropertiesItem::type() const
+{
+    return m_type;
+}
+
 void ScorePropertiesItem::setTitle(const QString &title)
 {
     if (m_title == title) return;
 
     m_title = title;
     emit titleChanged(title);
+}
+
+void ScorePropertiesItem::setType(const QString &type)
+{
+    if (m_type == type) return;
+
+    m_type = type;
+    emit typeChanged(type);
 }
 
 QString ScorePropertiesItem::composer() const
@@ -135,17 +141,4 @@ void ScorePropertiesItem::setCopyright(const QString &copyright)
 
     m_copyright = copyright;
     emit copyrightChanged(copyright);
-}
-
-TimeSignature ScorePropertiesItem::timeSignature() const
-{
-    return m_timeSignature;
-}
-
-void ScorePropertiesItem::setTimeSignature(const TimeSignature &timeSig)
-{
-    if (m_timeSignature == timeSig) return;
-
-    m_timeSignature = timeSig;
-    emit timeSignatureChanged(timeSig);
 }

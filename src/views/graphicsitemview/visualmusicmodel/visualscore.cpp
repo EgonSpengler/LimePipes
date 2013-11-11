@@ -35,6 +35,9 @@ void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
     QString title = index.data(LP::ScoreTitle).toString();
     m_scorePropertiesItem->setTitle(title);
 
+    QString type = index.data(LP::ScoreType).toString();
+    m_scorePropertiesItem->setType(type);
+
     QString composer = index.data(LP::ScoreComposer).toString();
     m_scorePropertiesItem->setComposer(composer);
 
@@ -46,9 +49,6 @@ void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
 
     QString copyright = index.data(LP::ScoreCopyright).toString();
     m_scorePropertiesItem->setCopyright(copyright);
-
-    QVariant timeSigVariant = index.data(LP::ScoreTimeSignature);
-    m_scorePropertiesItem->setTimeSignature(timeSigVariant.value<TimeSignature>());
 }
 
 void VisualScore::titleChanged(const QString &title)

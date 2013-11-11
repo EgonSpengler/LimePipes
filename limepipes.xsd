@@ -53,7 +53,7 @@
 <xs:complexType name="scoredata">
   <xs:all>
     <xs:element name="TITLE" type="xs:string" minOccurs="1"/>
-    <xs:element name="TIMESIGNATURE" type="timesignature" minOccurs="0" />
+    <xs:element name="TYPE" type="xs:string" minOccurs="0"/>
     <xs:element name="COMPOSER" type="xs:string" minOccurs="0"/>
     <xs:element name="ARRANGER" type="xs:string" minOccurs="0"/>
     <xs:element name="COPYRIGHT" type="xs:string" minOccurs="0"/>

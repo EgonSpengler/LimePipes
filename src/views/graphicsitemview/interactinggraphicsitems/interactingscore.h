@@ -10,6 +10,7 @@
 #define INTERACTINGSCORE_H
 
 #include <QObject>
+#include <itemdatatypes.h>
 #include "../interactingiteminterface.h"
 #include "../scorepropertiesitem.h"
 
@@ -41,16 +42,18 @@ public:
     ScorePropertiesItem *scorePropertiesItem() const;
 
 private slots:
-    // ScorePropertiesInterface interface
+    void propertyTextChanged(LP::ScoreDataRole dataRole, const QString& text);
+    void propertyFontChanged(LP::ScoreDataRole dataRole, const QFont& font);
+    void propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color);
+
+    // Slots for ScorePropertiesItem signals
     void setTitle(const QString &title);
+    void setType(const QString& type);
     void setComposer(const QString &composer);
     void setArranger(const QString &arranger);
     void setYear(const QString &year);
     void setCopyright(const QString &copyright);
     void setTimeSignature(const TimeSignature &timeSig);
-
-    void titleFontChanged(const QFont& font);
-    void titleColorChanged(const QColor& color);
 
 private:
     void createConnections();

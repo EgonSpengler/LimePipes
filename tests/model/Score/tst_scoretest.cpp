@@ -37,6 +37,9 @@ void ScoreTest::testSetData()
     m_score->setData("test title", LP::ScoreTitle);
     QVERIFY2(m_score->data(LP::ScoreTitle) == "test title", "Failed set title");
 
+    m_score->setData("test type", LP::ScoreType);
+    QVERIFY2(m_score->data(LP::ScoreType) == "test type", "Failed set type");
+
     m_score->setData("test composer", LP::ScoreComposer);
     QVERIFY2(m_score->data(LP::ScoreComposer) == "test composer", "Failed set composer");
 
@@ -48,9 +51,6 @@ void ScoreTest::testSetData()
 
     m_score->setData("test copyright", LP::ScoreCopyright);
     QVERIFY2(m_score->data(LP::ScoreCopyright) == "test copyright", "Failed set copyright");
-
-    m_score->setData(QVariant::fromValue(TimeSignature(TimeSignature::_3_4)), LP::ScoreTimeSignature);
-    QVERIFY2(m_score->data(LP::ScoreTimeSignature).value<TimeSignature>().signature() == TimeSignature::_3_4, "Failed set time signature");
 }
 
 void ScoreTest::testConstructor()
@@ -75,33 +75,36 @@ void ScoreTest::testWriteToXmlStream()
     QXmlStreamWriter writer(&data);
 
     QString scoreTitle("test title");
+    QString scoreType("test type");
     QString scoreComposer("test composer");
     QString scoreArranger("test arranger");
     QString scoreYear("test year");
     QString scoreCopyright("test copyright");
-    TimeSignature scoreTimeSig(TimeSignature::_3_8);
 
     m_score->setTitle(scoreTitle);
+    m_score->setData(scoreType, LP::ScoreType);
     m_score->setData(scoreComposer, LP::ScoreComposer);
     m_score->setData(scoreArranger, LP::ScoreArranger);
     m_score->setData(scoreYear, LP::ScoreYear);
     m_score->setData(scoreCopyright, LP::ScoreCopyright);
-    m_score->setData(QVariant::fromValue<TimeSignature>(scoreTimeSig), LP::ScoreTimeSignature);
 
     m_score->writeItemDataToXmlStream(&writer);
 
     QVERIFY2(data.contains(patternForTag("TITLE", scoreTitle), Qt::CaseInsensitive), "No title tag found");
+    QVERIFY2(data.contains(patternForTag("TYPE", scoreType), Qt::CaseInsensitive), "No type tag found");
     QVERIFY2(data.contains(patternForTag("COMPOSER", scoreComposer), Qt::CaseInsensitive), "No composer tag found");
     QVERIFY2(data.contains(patternForTag("ARRANGER", scoreArranger), Qt::CaseInsensitive), "No arranger tag found");
     QVERIFY2(data.contains(patternForTag("YEAR", scoreYear), Qt::CaseInsensitive), "No year tag found");
     QVERIFY2(data.contains(patternForTag("COPYRIGHT", scoreCopyright), Qt::CaseInsensitive), "No copyright tag found");
-    QVERIFY2(data.contains(TimeSignature::xmlTagName(), Qt::CaseInsensitive), "Time signature wasn't written to xml stream");
 }
 
 void ScoreTest::testReadFromXmlStream()
 {
     readTextElement("TiTlE", "Testtitle");
     QVERIFY2(m_score->title() == "Testtitle", "Failed loading score title with no uppercase tag");
+
+    readTextElement("TyPE", "Testtype");
+    QVERIFY2(m_score->data(LP::ScoreType) == "Testtype", "Failed loading score type with no uppercase tag");
 
     readTextElement("CoMPOsER", "Test composer");
     QVERIFY2(m_score->data(LP::ScoreComposer) == "Test composer", "Failed loading score composer with no uppercase tag");
@@ -114,11 +117,6 @@ void ScoreTest::testReadFromXmlStream()
 
     readTextElement("CopYRIgHT", "Test copyright");
     QVERIFY2(m_score->data(LP::ScoreCopyright) == "Test copyright", "Failed loading score copyright with no uppercase tag");
-
-    TimeSignature::Type timeSig = TimeSignature::_12_8;
-    readTimeSignatureElement(timeSig);
-
-    QVERIFY2(m_score->data(LP::ScoreTimeSignature).isValid(), "No valid time signature after loading");
 }
 
 void ScoreTest::readTextElement(const QString &tagName, const QString &elementText)
@@ -145,16 +143,6 @@ void ScoreTest::readString(const QString &string)
     m_score->readCurrentElementFromXmlStream(&reader);
 
     QVERIFY2(!reader.hasError(), "Reader has error after loading");
-}
-
-void ScoreTest::readTimeSignatureElement(TimeSignature::Type type)
-{
-    TimeSignature timeSig(type);
-    QString data;
-    QXmlStreamWriter writer(&data);
-    timeSig.writeToXmlStream(&writer);
-
-    readString(data);
 }
 
 QString ScoreTest::patternForTag(const QString &tagname, const QString &data)

@@ -29,18 +29,15 @@ public:
     explicit GraphicalScoreItem(QGraphicsItem *parent = 0);
 
     void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::TextPosition position);
+
     void setItemText(LP::ScoreDataRole itemType, const QString& text);
     QString itemText(LP::ScoreDataRole itemType);
+
     void setItemFont(LP::ScoreDataRole itemType, const QFont& font);
     void setItemColor(LP::ScoreDataRole itemType, const QColor& color);
 
 signals:
-    void titleChanged(const QString& title);
-    void composerChanged(const QString& composer);
-    void arrangerChanged(const QString& arranger);
-    void yearChanged(const QString& newYear);
-    void copyrightChanged(const QString& newCopyright);
-    void timeSignatureChanged(const TimeSignature& newTimeSignature);
+    void itemTextChanged(LP::ScoreDataRole dataRole, const QString& text);
 
 private slots:
     void textRowItemChanged(TextRowWidget::TextPosition position, const QString& newText);

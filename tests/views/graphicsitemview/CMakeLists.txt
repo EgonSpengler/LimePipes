@@ -62,6 +62,7 @@ file(GLOB_RECURSE GraphicsItemView_SOURCES "${CMAKE_SOURCE_DIR}/src/views/graphi
 
 set( GraphicsItemView_UIs
         ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.ui
+        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/textpropertyeditwidget.ui
         )
 
 qt4_wrap_ui( GraphicsItemView_SOURCES ${GraphicsItemView_UIs} )

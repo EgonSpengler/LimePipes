@@ -35,18 +35,15 @@ InteractingScore::~InteractingScore()
 
 void InteractingScore::createConnections()
 {
-    connect(m_headerItem, SIGNAL(titleChanged(QString)),
-            m_scorePropertiesItem, SLOT(setTitle(QString)));
-    connect(m_footerItem, SIGNAL(titleChanged(QString)),
-            m_scorePropertiesItem, SLOT(setTitle(QString)));
-
     connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
             this, SLOT(setTitle(QString)));
 
-    connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
-            m_scorePropertiesDialog, SLOT(setTitle(QString)));
-    connect(m_scorePropertiesDialog, SIGNAL(titleChanged(QString)),
-            this, SLOT(setTitle(QString)));
+    connect(m_headerItem, SIGNAL(itemTextChanged(LP::ScoreDataRole,QString)),
+            this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
+    connect(m_footerItem, SIGNAL(itemTextChanged(LP::ScoreDataRole,QString)),
+            this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
+    connect(m_scorePropertiesDialog, SIGNAL(propertyTextChanged(LP::ScoreDataRole,QString)),
+            this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
 
     connect(m_scorePropertiesDialog, SIGNAL(titleFontChanged(QFont)),
             this, SLOT(titleFontChanged(QFont)));
@@ -95,12 +92,55 @@ ScorePropertiesItem *InteractingScore::scorePropertiesItem() const
     return m_scorePropertiesItem;
 }
 
+void InteractingScore::propertyTextChanged(LP::ScoreDataRole dataRole, const QString &text)
+{
+    m_headerItem->setItemText(dataRole, text);
+    m_footerItem->setItemText(dataRole, text);
+
+    m_scorePropertiesDialog->setPropertyText(dataRole, text);
+
+    // ScorePropertiesItem
+    switch (dataRole) {
+    case LP::ScoreType:
+        m_scorePropertiesItem->setType(text);
+        break;
+    case LP::ScoreTitle:
+        m_scorePropertiesItem->setTitle(text);
+        break;
+    case LP::ScoreComposer:
+        m_scorePropertiesItem->setComposer(text);
+        break;
+    case LP::ScoreArranger:
+        m_scorePropertiesItem->setArranger(text);
+        break;
+    case LP::ScoreYear:
+        m_scorePropertiesItem->setYear(text);
+        break;
+    case LP::ScoreCopyright:
+        m_scorePropertiesItem->setCopyright(text);
+        break;
+    }
+}
+
+void InteractingScore::propertyFontChanged(LP::ScoreDataRole dataRole, const QFont &font)
+{
+    m_headerItem->setItemFont(LP::ScoreTitle, font);
+    m_footerItem->setItemFont(LP::ScoreTitle, font);
+}
+
+void InteractingScore::propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color)
+{
+    m_headerItem->setItemColor(LP::ScoreTitle, color);
+    m_footerItem->setItemColor(LP::ScoreTitle, color);
+}
+
 void InteractingScore::setTitle(const QString &title)
 {
-    m_scorePropertiesItem->setTitle(title);
+    propertyTextChanged(LP::ScoreTitle, title);
+}
 
-    m_headerItem->setItemText(LP::ScoreTitle, title);
-    m_footerItem->setItemText(LP::ScoreTitle, title);
+void InteractingScore::setType(const QString &type)
+{
 }
 
 void InteractingScore::setComposer(const QString &composer)
@@ -122,16 +162,3 @@ void InteractingScore::setCopyright(const QString &copyright)
 void InteractingScore::setTimeSignature(const TimeSignature &timeSig)
 {
 }
-
-void InteractingScore::titleFontChanged(const QFont &font)
-{
-    m_headerItem->setItemFont(LP::ScoreTitle, font);
-    m_footerItem->setItemFont(LP::ScoreTitle, font);
-}
-
-void InteractingScore::titleColorChanged(const QColor &color)
-{
-    m_headerItem->setItemColor(LP::ScoreTitle, color);
-    m_footerItem->setItemColor(LP::ScoreTitle, color);
-}
-

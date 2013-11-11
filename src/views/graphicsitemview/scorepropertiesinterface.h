@@ -22,6 +22,9 @@ public:
     virtual QString title() const = 0;
     virtual void setTitle(const QString& title) = 0;
 
+    virtual QString type() const = 0;
+    virtual void setType(const QString& type) = 0;
+
     virtual QString composer() const = 0;
     virtual void setComposer(const QString& composer) = 0;
 
@@ -33,9 +36,6 @@ public:
 
     virtual QString copyright() const = 0;
     virtual void setCopyright(const QString& copyright) = 0;
-
-    virtual TimeSignature timeSignature() const = 0;
-    virtual void setTimeSignature(const TimeSignature& timeSig) = 0;
 };
 
 #endif // SCOREPROPERTIESINTERFACE_H

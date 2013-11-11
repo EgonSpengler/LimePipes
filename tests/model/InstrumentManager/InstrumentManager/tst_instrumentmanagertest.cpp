@@ -19,8 +19,14 @@
 
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
+#include <QDebug>
+
 void InstrumentManagerTest::initTestCase()
 {
+    qDebug() << "Score title" << LP::ScoreTitle;
+    qDebug() << "Symbol type" << LP::SymbolType;
+    qDebug() << "Symbol name" << LP::SymbolName;
+
     loadStaticPlugins();
     loadDynamicPlugins();
 
@@ -90,12 +96,14 @@ void InstrumentManagerTest::testSymbolNamesForInstrument()
 void InstrumentManagerTest::testGetSymbolByName()
 {
     QString instrumentName = "Great Highland Bagpipe";
-    QList<QString> symbolNames = getSymbolNamesFromInstrumentName(instrumentName);
+    QList<QString> allSymbolNamesForInstrument = getSymbolNamesFromInstrumentName(instrumentName);
     Symbol *symbol;
     QList<QString>::iterator i;
-    for (i = symbolNames.begin(); i != symbolNames.end(); ++i) {
-        symbol = m_manager->symbolForName(instrumentName, *i);
-        QVERIFY2(symbol->data(LP::SymbolName) == *i, "Got the wrong symbol");
+    for (i = allSymbolNamesForInstrument.begin(); i != allSymbolNamesForInstrument.end(); ++i) {
+        QString symbolName(*i);
+        symbol = m_manager->symbolForName(instrumentName, symbolName);
+        QString symbolNameFromData(symbol->data(LP::SymbolName).toString());
+        QVERIFY2(symbolName == symbolNameFromData, "Got the wrong symbol");
     }
 }
 

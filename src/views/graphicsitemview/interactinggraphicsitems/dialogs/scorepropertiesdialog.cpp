@@ -8,6 +8,9 @@
 
 #include <QFontDialog>
 #include <QColorDialog>
+#include <QLabel>
+#include <QSignalMapper>
+#include "textpropertyeditwidget.h"
 #include "scorepropertiesdialog.h"
 #include "ui_scorepropertiesdialog.h"
 
@@ -17,17 +20,16 @@ ScorePropertiesDialog::ScorePropertiesDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    createConnections();
-}
+    m_textChangedMapper = new QSignalMapper(this);
+    connect(m_textChangedMapper, SIGNAL(mapped(int)),
+            this, SLOT(textChanged(int)));
 
-void ScorePropertiesDialog::createConnections()
-{
-    connect(ui->titleLineEdit, SIGNAL(textChanged(QString)),
-            this, SIGNAL(titleChanged(QString)));
-    connect(ui->titleFontPushButton, SIGNAL(clicked()),
-            this, SLOT(titleFontChangeClicked()));
-    connect(ui->titleColorPushButton, SIGNAL(clicked()),
-            this, SLOT(titleColorChangeClicked()));
+    addTextEditWidget(0, LP::ScoreTitle, tr("Title"));
+    addTextEditWidget(1, LP::ScoreType, tr("Type"));
+    addTextEditWidget(2, LP::ScoreComposer, tr("Composer"));
+    addTextEditWidget(3, LP::ScoreArranger, tr("Arranger"));
+    addTextEditWidget(4, LP::ScoreYear, tr("Year"));
+    addTextEditWidget(5, LP::ScoreCopyright, tr("Copyright"));
 }
 
 ScorePropertiesDialog::~ScorePropertiesDialog()
@@ -35,50 +37,49 @@ ScorePropertiesDialog::~ScorePropertiesDialog()
     delete ui;
 }
 
-void ScorePropertiesDialog::setTitle(const QString &title)
+void ScorePropertiesDialog::setPropertyText(LP::ScoreDataRole dataRole, const QString &text)
 {
-    ui->titleLineEdit->setText(title);
+    if (!m_textEditWidgets.contains(dataRole)) return;
+    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(dataRole);
+
+    if (editWidget->text() != text)
+        editWidget->setText(text);
 }
 
-void ScorePropertiesDialog::setComposer(const QString &composer)
+void ScorePropertiesDialog::textChanged(int dataRole)
 {
+    LP::ScoreDataRole scoreRole = static_cast<LP::ScoreDataRole>(dataRole);
+    if (!m_textEditWidgets.contains(scoreRole)) return;
+    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(scoreRole);
 
+    emit propertyTextChanged(scoreRole, editWidget->text());
 }
 
-void ScorePropertiesDialog::setArranger(const QString &arranger)
+void ScorePropertiesDialog::fontChanged(int dataRole)
 {
+    LP::ScoreDataRole scoreRole = static_cast<LP::ScoreDataRole>(dataRole);
+    if (!m_textEditWidgets.contains(scoreRole)) return;
+    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(scoreRole);
 
+    emit propertyFontChanged(scoreRole, editWidget->font());
 }
 
-void ScorePropertiesDialog::setYear(const QString &year)
+void ScorePropertiesDialog::colorChanged(int dataRole)
 {
+    LP::ScoreDataRole scoreRole = static_cast<LP::ScoreDataRole>(dataRole);
+    if (!m_textEditWidgets.contains(scoreRole)) return;
+    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(scoreRole);
 
+    emit propertyColorChanged(scoreRole, editWidget->color());
 }
 
-void ScorePropertiesDialog::setCopyright(const QString &copyright)
+void ScorePropertiesDialog::addTextEditWidget(int layoutRow, LP::ScoreDataRole dataRole, const QString &text)
 {
-
-}
-
-void ScorePropertiesDialog::setTimeSignature(const TimeSignature &timeSig)
-{
-
-}
-
-void ScorePropertiesDialog::titleFontChangeClicked()
-{
-    bool ok = false;
-    QFont newFont = QFontDialog::getFont(&ok, this);
-    if (ok) {
-        emit titleFontChanged(newFont);
-    }
-}
-
-void ScorePropertiesDialog::titleColorChangeClicked()
-{
-    QColor newColor = QColorDialog::getColor(QColor(Qt::black), this);
-    if (!newColor.isValid())
-        return;
-
-    emit titleColorChanged(newColor);
+    TextPropertyEditWidget *textEditWidget = new TextPropertyEditWidget();
+    m_textEditWidgets.insert(dataRole, textEditWidget);
+    ui->gridLayout->addWidget(new QLabel(text), layoutRow, 0);
+    ui->gridLayout->addWidget(textEditWidget, layoutRow, 1);
+    connect(textEditWidget, SIGNAL(textChanged(QString)),
+            m_textChangedMapper, SLOT(map()));
+    m_textChangedMapper->setMapping(textEditWidget, static_cast<int>(dataRole));
 }
