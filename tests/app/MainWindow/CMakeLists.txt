@@ -1,6 +1,6 @@
 set( testname MainWindowTest )
 set( testmodules Test Widgets PrintSupport )
-set( testlibraries lp_greathighlandbagpipe lp_model )
+set( testlibraries lp_greathighlandbagpipe lp_model lp_graphicsitemview )
 
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
@@ -20,21 +20,17 @@ set( Test_SOURCES
         ${CMAKE_SOURCE_DIR}/src/views/treeview/treeview.cpp
         )
 
-file(GLOB_RECURSE GraphicsItemViewSources ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/*.cpp)
-
 set( Test_UIs
         ${CMAKE_SOURCE_DIR}/src/app/mainwindow.ui
         ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.ui
         ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.ui
         ${CMAKE_SOURCE_DIR}/src/app/aboutdialog.ui
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.ui
-        ${CMAKE_SOURCE_DIR}/src/views/graphicsitemview/interactinggraphicsitems/dialogs/textpropertyeditwidget.ui
         )
 
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )
 
-add_executable( ${testname} ${Test_SOURCES} ${GraphicsItemViewSources} )
+add_executable( ${testname} ${Test_SOURCES} )
 qt5_use_modules( ${testname} ${testmodules} )
-
 target_link_libraries( ${testname} ${testlibraries} )
+
 add_test( NAME ${testname} COMMAND ${testname} )
