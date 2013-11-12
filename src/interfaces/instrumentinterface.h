@@ -27,7 +27,7 @@ public:
     virtual QString name() const = 0;
 };
 
-Q_DECLARE_INTERFACE(InstrumentInterface,
-                    "org.limepipes.LimePipes.InstrumentInterface/0.2")
+#define InstrumentInterfaceIID "org.limepipes.LimePipes.InstrumentInterface/0.2"
+Q_DECLARE_INTERFACE(InstrumentInterface, InstrumentInterfaceIID)
 
 #endif // INSTRUMENT_INTERFACE_H

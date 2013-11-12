@@ -12,7 +12,6 @@ endif(UNIX)
 set( CMAKE_INCLUDE_CURRENT_DIR ON )
 set( CMAKE_AUTOMOC ON )
 
-set( STATIC_PLUGINS_FOLDER ${CMAKE_BINARY_DIR}/plugins_static )
 set( OUTPUT_BIN_FOLDER ${CMAKE_BINARY_DIR}/bin )
 
 set( Project_VERSION "${Project_VERSION_MAJOR}.${Project_VERSION_MINOR}.${Project_VERSION_PATCH}")
@@ -36,4 +35,4 @@ include_directories(
 enable_testing()
 
 add_subdirectory( src )
-#add_subdirectory( tests )
+add_subdirectory( tests )

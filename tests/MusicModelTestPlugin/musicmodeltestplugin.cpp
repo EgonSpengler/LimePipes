@@ -20,5 +20,3 @@ Symbol *MusicModelTestPlugin::getSymbol(const QString &symbol)
     }
     return new Symbol();
 }
-
-Q_EXPORT_PLUGIN2(lp_musicmodeltestplugin, MusicModelTestPlugin)

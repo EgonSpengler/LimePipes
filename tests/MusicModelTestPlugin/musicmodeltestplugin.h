@@ -39,6 +39,7 @@ class MusicModelTestPlugin :    public QObject,
                                 public SymbolInterface
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID InstrumentInterfaceIID)
     Q_INTERFACES(InstrumentInterface SymbolInterface)
 
 public:

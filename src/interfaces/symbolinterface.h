@@ -28,7 +28,7 @@ public:
     virtual Symbol *getSymbol( const QString &symbol ) = 0;
 };
 
-Q_DECLARE_INTERFACE(SymbolInterface,
-                    "org.limepipes.LimePipes.SymbolInterface/0.2")
+#define SymbolInterfaceIID "org.limepipes.LimePipes.SymbolInterface/0.2"
+Q_DECLARE_INTERFACE(SymbolInterface, SymbolInterfaceIID)
 
 #endif // SYMBOLINTERFACE_H

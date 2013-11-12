@@ -52,9 +52,6 @@ set( limepipes_RESOURCES
         app/app_resources.qrc
         )
 
-add_subdirectory( model )
-add_subdirectory( plugins )
-
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5PrintSupport REQUIRED )
 
@@ -67,6 +64,11 @@ set( EXECUTABLE_OUTPUT_PATH ${OUTPUT_BIN_FOLDER} )
 add_executable( limepipes ${limepipes_SOURCES} )
 qt5_use_modules( limepipes Widgets PrintSupport )
 
-target_link_libraries( limepipes lp_greathighlandbagpipe lp_model )
+target_link_libraries( limepipes lp_model
+                                 lp_greathighlandbagpipe
+)
+
+add_subdirectory( model )
+add_subdirectory( plugins )
 
 install( TARGETS limepipes DESTINATION bin )
