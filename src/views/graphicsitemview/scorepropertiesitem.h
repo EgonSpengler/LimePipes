@@ -55,7 +55,6 @@ private:
     QString m_arranger;
     QString m_year;
     QString m_copyright;
-    TimeSignature m_timeSignature;
     const ScorePropertiesItem *m_linkedItem;
 };
 
