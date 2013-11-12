@@ -36,5 +36,3 @@ Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
     }
     return new Symbol();
 }
-
-Q_EXPORT_PLUGIN2(lp_greathighlandbagpipe, GreatHighlandBagpipe)

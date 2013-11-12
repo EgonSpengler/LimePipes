@@ -9,6 +9,7 @@
 #ifndef TIMESIGNATURE_H
 #define TIMESIGNATURE_H
 
+#include <QString>
 #include <QMetaType>
 
 class QXmlStreamWriter;

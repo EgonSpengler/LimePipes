@@ -20,7 +20,7 @@
 #include <QDebug>
 #include <QMimeData>
 #include <QPair>
-#include <QUndoStack>
+#include <QtWidgets/QUndoStack>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
 #include <commands/insertitemscommand.h>
@@ -483,9 +483,10 @@ QModelIndex MusicModel::indexForItem(MusicItem *item) const
 
 void MusicModel::clear()
 {
+    beginResetModel();
     delete m_rootItem;
     m_rootItem = 0;
-    reset();
+    endResetModel();
 }
 
 void MusicModel::save(const QString &filename)
@@ -573,8 +574,6 @@ void MusicModel::load(const QString &filename)
     readMusicItems(&reader, m_rootItem);
     if (reader.hasError())
         throw LP::Error(reader.errorString());
-
-    reset();
 }
 
 void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)

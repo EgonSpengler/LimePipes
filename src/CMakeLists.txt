@@ -1,17 +1,3 @@
-set( limepipes_HEADERS
-        interfaces/instrumentinterface.h
-        interfaces/interfaceglobals.h
-        interfaces/symbolinterface.h
-
-        utilities/error.h
-
-        views/graphicsitemview/pageviewitem/pagecontentrowitem.h
-        views/graphicsitemview/musicsheetrowitems/textrowitem.h
-        views/graphicsitemview/visualmusicmodel/visualmusicmodel.h
-        views/graphicsitemview/visualmusicmodel/visualiteminterface.h
-        views/graphicsitemview/visualmusicmodel/abstractvisualitem.h
-        )
-
 set( limepipes_SOURCES
         app/main.cpp
         app/mainwindow.cpp
@@ -53,39 +39,6 @@ set( limepipes_SOURCES
         views/graphicsitemview/interactinggraphicsitems/dialogs/textpropertyeditwidget.cpp
         )
 
-set( limepipes_MOC_HEADERS
-        app/mainwindow.h
-        app/newtunedialog.h
-        app/addsymbolsdialog.h
-        app/aboutdialog.h
-
-        views/treeview/lengthdelegate.h
-        views/treeview/musicproxymodel.h
-        views/treeview/musicsymboldatadelegate.h
-        views/treeview/pitchdelegate.h
-        views/treeview/treeview.h
-
-        views/graphicsitemview/graphicsview.h
-        views/graphicsitemview/graphicsscene.h
-        views/graphicsitemview/graphicsitemview.h
-        views/graphicsitemview/scorepropertiesitem.h
-        views/graphicsitemview/visualmusicpresenter.h
-        views/graphicsitemview/pageviewitem/pageitem.h
-        views/graphicsitemview/pageviewitem/pageviewitem.h
-
-        views/graphicsitemview/visualmusicmodel/abstractvisualitem.h
-        views/graphicsitemview/visualmusicmodel/visualmusicmodel.h
-        views/graphicsitemview/visualmusicmodel/visualscore.h
-
-        views/graphicsitemview/interactinggraphicsitems/interactingscore.h
-        views/graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h
-        views/graphicsitemview/interactinggraphicsitems/graphicitems/textwidget.h
-        views/graphicsitemview/interactinggraphicsitems/graphicitems/textrowwidget.h
-        views/graphicsitemview/interactinggraphicsitems/graphicitems/graphicstextitem.h
-        views/graphicsitemview/interactinggraphicsitems/dialogs/scorepropertiesdialog.h
-        views/graphicsitemview/interactinggraphicsitems/dialogs/textpropertyeditwidget.h
-        )
-
 set( limepipes_UIs
         app/mainwindow.ui
         app/newtunedialog.ui
@@ -99,33 +52,21 @@ set( limepipes_RESOURCES
         app/app_resources.qrc
         )
 
-include( ${QT_USE_FILE} )
-
-include_directories(
-        ${PROJECT_BINARY_DIR}
-        ${CMAKE_SOURCE_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        "${CMAKE_CURRENT_SOURCE_DIR}/model"
-        "${CMAKE_CURRENT_SOURCE_DIR}/interfaces"
-        "${CMAKE_CURRENT_SOURCE_DIR}/views"
-        "${CMAKE_CURRENT_SOURCE_DIR}/app"
-        ${QT_QTCORE_INCLUDE_DIR}
-        ${QT_QTGUI_INCLUDE_DIR}
-        )
-
 add_subdirectory( model )
 add_subdirectory( plugins )
 
-QT4_WRAP_UI( limepipes_SOURCES ${limepipes_UIs} )
+find_package( Qt5Widgets REQUIRED )
+find_package( Qt5PrintSupport REQUIRED )
 
-QT4_WRAP_CPP( limepipes_SOURCES ${limepipes_MOC_HEADERS} )
+QT5_WRAP_UI( limepipes_SOURCES ${limepipes_UIs} )
 
-QT4_ADD_RESOURCES( limepipes_SOURCES ${limepipes_RESOURCES} )
+QT5_ADD_RESOURCES( limepipes_SOURCES ${limepipes_RESOURCES} )
 
 set( EXECUTABLE_OUTPUT_PATH ${OUTPUT_BIN_FOLDER} )
-add_executable( limepipes ${limepipes_SOURCES} )
 
-target_link_libraries( limepipes  ${QT_LIBRARIES} lp_greathighlandbagpipe lp_model)
+add_executable( limepipes ${limepipes_SOURCES} )
+qt5_use_modules( limepipes Widgets PrintSupport )
+
+target_link_libraries( limepipes lp_greathighlandbagpipe lp_model )
 
 install( TARGETS limepipes DESTINATION bin )

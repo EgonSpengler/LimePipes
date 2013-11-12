@@ -40,8 +40,7 @@ enum ScoreDataRole {
     ScoreArranger       = Qt::UserRole + 2,
     ScoreYear           = Qt::UserRole + 3,
     ScoreCopyright      = Qt::UserRole + 4,
-    ScoreTimeSignature  = Qt::UserRole + 5,
-    ScoreType           = Qt::UserRole + 6
+    ScoreType           = Qt::UserRole + 5
 };
 
 // Tune

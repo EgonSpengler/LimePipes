@@ -35,7 +35,6 @@
 #include "addsymbolsdialog.h"
 #include "aboutdialog.h"
 
-
 Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
 
 namespace {

@@ -12,6 +12,7 @@
 #include <QGraphicsWidget>
 #include "../itemtypes.h"
 
+class QPrinter;
 class QGraphicsLinearLayout;
 
 class PageItem : public QGraphicsWidget

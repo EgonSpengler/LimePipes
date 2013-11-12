@@ -6,7 +6,7 @@
  *
  */
 
-#include <QtGui/QApplication>
+#include <QApplication>
 #include <QIcon>
 #include "mainwindow.h"
 

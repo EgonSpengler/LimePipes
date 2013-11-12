@@ -20,6 +20,7 @@ class GreatHighlandBagpipe :    public QObject,
                                 public SymbolInterface
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID "org.limepipes.LimePipes.InstrumentInterface/0.2" FILE "greathighlandbagpipe.json")
     Q_INTERFACES(InstrumentInterface SymbolInterface)
 
 public:
