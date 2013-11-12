@@ -16,6 +16,6 @@
 add_subdirectory( MusicModelTestPlugin )
 
 add_subdirectory( app )
-#add_subdirectory( model )
+add_subdirectory( model )
 #add_subdirectory( plugins )
 #add_subdirectory( views )

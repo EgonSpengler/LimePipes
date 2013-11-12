@@ -8,6 +8,7 @@
 #ifndef SCORETEST_H
 #define SCORETEST_H
 
+#include <model/datatypes/timesignature.h>
 #include <QObject>
 #include <score.h>
 

@@ -11,4 +11,4 @@ set( lp_greathighlandbagpipe_SOURCES
 
 add_library( lp_greathighlandbagpipe STATIC ${lp_greathighlandbagpipe_SOURCES} )
 qt5_use_modules( lp_greathighlandbagpipe Widgets )
-target_link_libraries( lp_greathighlandbagpipe ${Qt5Widgets_LIBRARIES} )
+target_link_libraries( lp_greathighlandbagpipe lp_model )
