@@ -20,9 +20,16 @@ InteractingScore::InteractingScore(QObject *parent)
 
     m_headerItem = new GraphicalScoreItem();
     m_headerItem->setInteractingItem(this);
+    m_headerItem->setItemPosition(LP::ScoreType, 0, TextRowWidget::Left);
     m_headerItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+    QFont font;
+    font.setPointSize(16);
+    m_headerItem->setItemFont(LP::ScoreTitle, font);
     m_headerItem->setItemPosition(LP::ScoreComposer, 0, TextRowWidget::Right);
+    m_headerItem->setItemPosition(LP::ScoreArranger, 1, TextRowWidget::Right);
     m_footerItem = new GraphicalScoreItem();
+    m_footerItem->setItemPosition(LP::ScoreYear, 0, TextRowWidget::Left);
+    m_footerItem->setItemPosition(LP::ScoreCopyright, 0, TextRowWidget::Right);
     m_footerItem->setInteractingItem(this);
 
     createConnections();
