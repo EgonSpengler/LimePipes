@@ -15,7 +15,7 @@
 #include <tune.h>
 #include "tst_musicproxymodeltest.h"
 
-Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
+Q_IMPORT_PLUGIN(MusicModelTestPlugin)
 
 void MusicProxyModelTest::initTestcase()
 {

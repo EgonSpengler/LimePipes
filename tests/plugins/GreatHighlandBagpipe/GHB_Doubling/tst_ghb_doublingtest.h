@@ -9,7 +9,7 @@
 #ifndef GHB_DOUBLINGTEST_H
 #define GHB_DOUBLINGTEST_H
 
-#include <plugins/GreatHighlandBagpipe/ghb_doubling.h>
+#include <GreatHighlandBagpipe/ghb_doubling.h>
 
 class GHB_DoublingTest : public QObject
 {

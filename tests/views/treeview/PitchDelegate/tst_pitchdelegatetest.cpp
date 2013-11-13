@@ -11,7 +11,7 @@
 #include <datatypes/pitch.h>
 #include "tst_pitchdelegatetest.h"
 
-Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
+Q_IMPORT_PLUGIN(MusicModelTestPlugin)
 
 void PitchDelegateTest::initTestCase()
 {

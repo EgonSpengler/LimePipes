@@ -11,7 +11,7 @@
 #include <datatypes/length.h>
 #include "tst_lengthdelegatetest.h"
 
-Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
+Q_IMPORT_PLUGIN(MusicModelTestPlugin)
 
 void LengthDelegateTest::initTestCase()
 {
