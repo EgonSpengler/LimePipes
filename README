@@ -12,7 +12,8 @@ It runs on Linux, Windows, MacOSX.
 
 Build dependencies
 ********************
-- Qt4 SDK including QtCreator >= 4.7 (http://qt-project.org/downloads)
+- CMake >= 2.8.9 (http://www.cmake.org)
+- Qt5 SDK >= 5.0 (http://qt-project.org/downloads)
 
 
 Runtime dependencies
@@ -22,8 +23,7 @@ Runtime dependencies
 
 Compilation
 *************
-Open the LimePipes.pro file in the root directory with QtCreator.
+Open the CMakeLists.txt file in the root directory with QtCreator.
 Press Ctrl + R to run the application.
-
-
-
+For further information see the wiki article:
+http://dev.limepipes.org/projects/limepipes/wiki/Building
