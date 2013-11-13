@@ -1,17 +1,10 @@
-#set( TEST_LIBRARIES lp_model ${QT_QTTEST_LIBRARY} ${QT_LIBRARIES} )
+set( MODEL_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/model )
+set( DATATYPES_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/model/datatypes )
 
-#include_directories(
-#        ${PROJECT_BINARY_DIR}
-#        ${CMAKE_SOURCE_DIR}
-#        ${CMAKE_CURRENT_BINARY_DIR}
-#        ${CMAKE_CURRENT_SOURCE_DIR}
-#        ${limepipes_SOURCE_DIR}
-#        "${limepipes_SOURCE_DIR}/src"
-#        "${limepipes_SOURCE_DIR}/src/model"
-#        "${limepipes_SOURCE_DIR}/src/interfaces"
-#        "${limepipes_SOURCE_DIR}/src/views"
-#        "${limepipes_SOURCE_DIR}/src/app"
-#        )
+include_directories(
+        ${DATATYPES_SOURCE_DIR}
+        ${MODEL_SOURCE_DIR}
+)
 
 add_subdirectory( MusicModelTestPlugin )
 

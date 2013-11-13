@@ -10,6 +10,9 @@
 
 #include <QObject>
 
+class InstrumentManager;
+class QDir;
+
 class InstrumentManagerTest : public QObject
 {
     Q_OBJECT

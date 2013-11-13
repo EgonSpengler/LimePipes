@@ -23,7 +23,9 @@ class TestInstrumentGHB  :  public QObject,
                             public InstrumentInterface
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID InstrumentInterfaceIID)
     Q_INTERFACES(InstrumentInterface)
+
 public:
     TestInstrumentGHB()
         : m_instrument(InstrumentPtr(new TestInstrument())) {}

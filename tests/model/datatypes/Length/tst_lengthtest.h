@@ -9,7 +9,7 @@
 #define __LENGTHTEST_H__
 
 #include <QVariant>
-#include <src/model/datatypes/length.h>
+#include <length.h>
 
 class LengthTest : public QObject
 {

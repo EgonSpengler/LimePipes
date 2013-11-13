@@ -27,7 +27,7 @@
 #include <tune.h>
 #include "tst_musicmodeltest.h"
 
-Q_IMPORT_PLUGIN(lp_musicmodeltestplugin)
+Q_IMPORT_PLUGIN(MusicModelTestPlugin)
 
 namespace {
 

@@ -10,7 +10,7 @@
 #define __INSTRUMENTTEST_H__
 
 #include <QObject>
-#include <src/model/datatypes/instrument.h>
+#include <instrument.h>
 
 class InstrumentTest : public QObject
 {

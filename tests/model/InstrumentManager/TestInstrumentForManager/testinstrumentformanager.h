@@ -11,13 +11,15 @@
 
 #include <instrumentinterface.h>
 #include <QString>
-#include <datatypes/instrument.h>
+#include <instrument.h>
 
 class TestInstrumentForManager :  public QObject,
                                   public InstrumentInterface
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID InstrumentInterfaceIID)
     Q_INTERFACES(InstrumentInterface)
+
 public:
     TestInstrumentForManager()
         : m_instrument(InstrumentPtr(new TestInstrument())) {}

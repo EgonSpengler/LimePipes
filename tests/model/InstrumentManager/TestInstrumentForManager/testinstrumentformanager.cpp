@@ -8,4 +8,3 @@
 
 #include "testinstrumentformanager.h"
 
-Q_EXPORT_PLUGIN2(lp_TestInstrumentForManager, TestInstrumentForManager)
