@@ -53,7 +53,6 @@ private slots:
     void setArranger(const QString &arranger);
     void setYear(const QString &year);
     void setCopyright(const QString &copyright);
-    void setTimeSignature(const TimeSignature &timeSig);
 
 private:
     void createConnections();

@@ -1,13 +1,14 @@
-set( testname MusicItemTest )
-set( testmodules Test Gui )
-set( testlibraries lp_model )
+set( testname PageItemTest )
+set( testmodules Test Gui PrintSupport )
+set( testlibraries )
 
+find_package( Qt5PrintSupport REQUIRED )
 find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_musicitemtest.cpp
-        testmusicitem.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/pageviewitem/pageitem.cpp
+        tst_pageitemtest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

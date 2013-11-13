@@ -45,6 +45,7 @@ signals:
     void lastRowExceedsContentBounds();
 
 private:
+    void prepareWidgetForRow(QGraphicsWidget *rowWidget);
     bool isValidRowIndex(int rowIndex);
     int m_shortEdgeWidth;
     QRectF m_pageRect;

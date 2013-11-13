@@ -7,7 +7,6 @@
  */
 
 #include "pageitem.h"
-#include "pagecontentrowitem.h"
 #include <QGraphicsLayout>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsDropShadowEffect>
@@ -125,6 +124,12 @@ void PageItem::removeRow(QGraphicsWidget *row)
     emit remainingVerticalSpaceChanged(verticalSpaceBefore, remainingVerticalSpace());
 }
 
+void PageItem::prepareWidgetForRow(QGraphicsWidget *rowWidget)
+{
+    rowWidget->setSizePolicy(QSizePolicy::MinimumExpanding, // horizontal
+                             QSizePolicy::Fixed);           // vertical
+}
+
 void PageItem::appendRow(QGraphicsWidget *row)
 {
     insertRow(m_layout->count(), row);
@@ -137,6 +142,7 @@ void PageItem::prependRow(QGraphicsWidget *row)
 
 void PageItem::insertRow(int index, QGraphicsWidget *row)
 {
+    prepareWidgetForRow(row);
     int spaceBefore = remainingVerticalSpace();
     m_layout->insertItem(index, row);
     m_layout->activate();

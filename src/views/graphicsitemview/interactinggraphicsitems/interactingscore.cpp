@@ -165,7 +165,3 @@ void InteractingScore::setYear(const QString &year)
 void InteractingScore::setCopyright(const QString &copyright)
 {
 }
-
-void InteractingScore::setTimeSignature(const TimeSignature &timeSig)
-{
-}

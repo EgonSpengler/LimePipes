@@ -8,9 +8,9 @@
 #ifndef __INSTRUMENTMANAGERTEST_H__
 #define __INSTRUMENTMANAGERTEST_H__
 
+#include <instrumentmanager.h>
 #include <QObject>
 
-class InstrumentManager;
 class QDir;
 
 class InstrumentManagerTest : public QObject
@@ -25,8 +25,8 @@ public:
           m_pluginsPath(0),
           m_manager(0)
     {}
-    ~InstrumentManagerTest()
-    { delete m_manager, delete m_pluginsPath; }
+
+    ~InstrumentManagerTest() { }
 
 private Q_SLOTS:
     void initTestCase();
@@ -51,7 +51,7 @@ private:
     int m_staticInstrumentPlugins;
     int m_dynamicInstrumentPlugins;
     int m_pluginsWithDoubleName;
-    QDir *m_pluginsPath;
+    QDir m_pluginsPath;
     QList<QString> m_instrumentPluginNames;
     InstrumentManager *m_manager;
     QList<QString> m_managerInstrumentNames;

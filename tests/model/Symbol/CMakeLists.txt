@@ -1,9 +1,9 @@
 set( testname SymbolTest )
-set( testmodules Test Widgets )
+set( testmodules Test Gui )
 set( testlibraries lp_model )
 
-find_package( Qt5Widgets REQUIRED )
-find_package( Qt5Test    REQUIRED )
+find_package( Qt5Gui   REQUIRED )
+find_package( Qt5Test  REQUIRED )
 
 set( Test_SOURCES
         tst_symboltest.cpp

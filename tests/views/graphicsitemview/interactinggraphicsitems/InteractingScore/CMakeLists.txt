@@ -1,13 +1,12 @@
-set( testname MusicItemTest )
-set( testmodules Test Gui )
-set( testlibraries lp_model )
+set( testname InteractingScoreTest )
+set( testmodules Test Widgets )
+set( testlibraries lp_graphicsitemview )
 
-find_package( Qt5Gui REQUIRED )
+find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_musicitemtest.cpp
-        testmusicitem.cpp
+        tst_interactingscoretest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

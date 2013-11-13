@@ -1,4 +1,4 @@
-set( testname InstrumentManagerTest )
+set( testname VisualScoreTest )
 set( testmodules Test Gui )
 set( testlibraries lp_model lp_greathighlandbagpipe )
 
@@ -6,7 +6,10 @@ find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_instrumentmanagertest.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/scorepropertiesitem.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualscore.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/abstractvisualitem.cpp
+        tst_visualscoretest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

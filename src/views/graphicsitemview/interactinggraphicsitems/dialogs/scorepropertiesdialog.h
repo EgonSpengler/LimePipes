@@ -18,7 +18,6 @@ class ScorePropertiesDialog;
 }
 
 class QSignalMapper;
-class TimeSignature;
 class TextPropertyEditWidget;
 
 class ScorePropertiesDialog : public QDialog

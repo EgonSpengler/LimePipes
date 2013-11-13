@@ -6,4 +6,4 @@ set( plugin_SOURCES
 	)
 
 add_library( lp_testinstrumentformanager SHARED ${plugin_SOURCES} )
-qt5_use_modules( lp_testinstrumentformanager Widgets )
+qt5_use_modules( lp_testinstrumentformanager Gui )

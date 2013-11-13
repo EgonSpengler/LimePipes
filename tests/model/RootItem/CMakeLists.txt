@@ -1,8 +1,8 @@
 set( testname RootItemTest )
-set( testmodules Test Widgets )
+set( testmodules Test Core )
 set( testlibraries lp_model )
 
-find_package( Qt5Widgets REQUIRED )
+find_package( Qt5Core REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES

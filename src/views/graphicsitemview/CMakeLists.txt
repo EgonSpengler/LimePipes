@@ -2,15 +2,15 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5PrintSupport REQUIRED )
 
 set( lp_graphicsitemview_SOURCES
-        ${CMAKE_SOURCE_DIR}/src/model/datatypes/timesignature.cpp
         graphicsview.cpp
         graphicsscene.cpp
         graphicsitemview.cpp
+        visualmusicpresenter.cpp
+        scorepropertiesitem.cpp
+
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp
-        pageviewitem/pagecontentrowitem.cpp
-        visualmusicpresenter.cpp
-        musicsheetrowitems/textrowitem.cpp
+
         visualmusicmodel/visualmusicmodel.cpp
         visualmusicmodel/abstractvisualitem.cpp
         visualmusicmodel/visualrootitem.cpp
@@ -26,7 +26,6 @@ set( lp_graphicsitemview_SOURCES
         interactinggraphicsitems/graphicitems/textwidget.cpp
         interactinggraphicsitems/graphicitems/textrowwidget.cpp
         interactinggraphicsitems/graphicitems/graphicstextitem.cpp
-        scorepropertiesitem.cpp
         interactinggraphicsitems/dialogs/scorepropertiesdialog.cpp
         interactinggraphicsitems/dialogs/textpropertyeditwidget.cpp
         )

@@ -15,7 +15,7 @@
 #include <graphicsitemview/visualmusicpresenter.h>
 #include <graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 
-Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
+Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
 
 class VisualMusicPresenterTest : public QObject
 {

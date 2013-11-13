@@ -15,7 +15,7 @@
 #include <graphicsitemview/visualmusicpresenter.h>
 #include "tst_graphicsitemviewtest.h"
 
-Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
+Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
 
 GraphicsItemViewTest::GraphicsItemViewTest()
 {

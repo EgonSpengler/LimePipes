@@ -14,7 +14,6 @@
 #include <QPluginLoader>
 #include <instrumentinterface.h>
 #include <symbolinterface.h>
-#include <instrumentmanager.h>
 #include "tst_instrumentmanagertest.h"
 
 Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
@@ -30,12 +29,13 @@ void InstrumentManagerTest::initTestCase()
     loadStaticPlugins();
     loadDynamicPlugins();
 
-    m_manager = new InstrumentManager(*m_pluginsPath);
+    m_manager = new InstrumentManager(m_pluginsPath);
     m_managerInstrumentNames = m_manager->instrumentNames();
 }
 
 void InstrumentManagerTest::cleanupTestCase()
 {
+        delete m_manager;
 }
 
 void InstrumentManagerTest::testPreconditions()
@@ -57,7 +57,7 @@ void InstrumentManagerTest::testLoadedStaticPlugins()
 
 void InstrumentManagerTest::testPluginsPath()
 {
-    QVERIFY2(m_manager->pluginsPath() == m_pluginsPath->absolutePath(), "The plugins path does not match");
+    QVERIFY2(m_manager->pluginsPath() == m_pluginsPath.absolutePath(), "The plugins path does not match");
 }
 
 void InstrumentManagerTest::testLoadedDynamicPlugins()
@@ -117,8 +117,8 @@ void InstrumentManagerTest::loadStaticPlugins()
 void InstrumentManagerTest::loadDynamicPlugins()
 {
     setPluginsPath();
-    foreach (QString fileName, m_pluginsPath->entryList(QDir::Files)) {
-        QPluginLoader loader(m_pluginsPath->absoluteFilePath(fileName));
+    foreach (QString fileName, m_pluginsPath.entryList(QDir::Files)) {
+        QPluginLoader loader(m_pluginsPath.absoluteFilePath(fileName));
         QObject *plugin = loader.instance();
         if (plugin) {
             insertPluginIfInstrument(plugin, false);
@@ -128,11 +128,8 @@ void InstrumentManagerTest::loadDynamicPlugins()
 
 void InstrumentManagerTest::setPluginsPath()
 {
-    if (m_pluginsPath) {
-        delete m_pluginsPath;
-    }
-    m_pluginsPath = new QDir(qApp->applicationDirPath());
-    m_pluginsPath->cd("plugins");
+    m_pluginsPath = QDir(qApp->applicationDirPath());
+    m_pluginsPath.cd("plugins");
 }
 
 void InstrumentManagerTest::insertPluginIfInstrument(QObject *plugin, bool isStaticPlugin)

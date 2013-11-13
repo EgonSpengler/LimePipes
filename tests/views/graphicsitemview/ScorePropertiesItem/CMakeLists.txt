@@ -1,13 +1,13 @@
-set( testname MusicItemTest )
-set( testmodules Test Gui )
-set( testlibraries lp_model )
+set( testname ScorePropertiesItemTest )
+set( testmodules Test Core )
+set( testlibraries )
 
-find_package( Qt5Gui REQUIRED )
+find_package( Qt5Core REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_musicitemtest.cpp
-        testmusicitem.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/scorepropertiesitem.cpp
+        tst_scorepropertiesitemtest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

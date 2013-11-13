@@ -14,7 +14,7 @@
 #include <views/graphicsitemview/scorepropertiesitem.h>
 #include <views/graphicsitemview/visualmusicmodel/visualscore.h>
 
-Q_IMPORT_PLUGIN(lp_greathighlandbagpipe)
+Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
 
 class VisualScoreTest : public QObject
 {

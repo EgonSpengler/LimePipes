@@ -1,13 +1,14 @@
-set( testname MusicItemTest )
+set( testname VisualRootItemTest )
 set( testmodules Test Gui )
-set( testlibraries lp_model )
+set( testlibraries )
 
 find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_musicitemtest.cpp
-        testmusicitem.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualrootitem.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/abstractvisualitem.cpp
+        tst_visualrootitemtest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

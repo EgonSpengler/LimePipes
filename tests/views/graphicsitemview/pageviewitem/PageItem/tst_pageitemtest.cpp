@@ -12,7 +12,6 @@
 #include <QtTest/QSignalSpy>
 #include <QVariant>
 #include <QCoreApplication>
-#include <views/graphicsitemview/pageviewitem/pagecontentrowitem.h>
 #include "tst_pageitemtest.h"
 
 PageItemTest::PageItemTest()
@@ -32,31 +31,31 @@ void PageItemTest::cleanup()
 
 void PageItemTest::testAppendRow()
 {
-    PageContentRowItem *row = new PageContentRowItem();
+    QGraphicsWidget *row = new QGraphicsWidget();
     m_pageItem->appendRow(row);
     QVERIFY2(m_pageItem->rowCount() == 1, "Failed append row");
 
-    PageContentRowItem *row2 = new PageContentRowItem();
+    QGraphicsWidget *row2 = new QGraphicsWidget();
     m_pageItem->appendRow(row2);
     QVERIFY2(m_pageItem->rowAt(1) == row2, "Failed append second row");
 }
 
 void PageItemTest::testPrependRow()
 {
-    PageContentRowItem *row = new PageContentRowItem();
+    QGraphicsWidget *row = new QGraphicsWidget();
     m_pageItem->prependRow(row);
     QVERIFY2(m_pageItem->rowCount() == 1, "Failed prepend row");
 
-    PageContentRowItem *row2 = new PageContentRowItem();
+    QGraphicsWidget *row2 = new QGraphicsWidget();
     m_pageItem->prependRow(row2);
     QVERIFY2(m_pageItem->rowAt(0) == row2, "Failed prepend second row");
 }
 
 void PageItemTest::testInsertRow()
 {
-    PageContentRowItem *row1 = new PageContentRowItem();
-    PageContentRowItem *row2 = new PageContentRowItem();
-    PageContentRowItem *row12 = new PageContentRowItem();
+    QGraphicsWidget *row1 = new QGraphicsWidget();
+    QGraphicsWidget *row2 = new QGraphicsWidget();
+    QGraphicsWidget *row12 = new QGraphicsWidget();
 
     m_pageItem->appendRow(row1);
     m_pageItem->appendRow(row2);
@@ -69,9 +68,9 @@ void PageItemTest::testInsertRow()
 
 void PageItemTest::testRemoveRowIndex()
 {
-    PageContentRowItem *row1 = new PageContentRowItem();
-    PageContentRowItem *row2 = new PageContentRowItem();
-    PageContentRowItem *row3 = new PageContentRowItem();
+    QGraphicsWidget *row1 = new QGraphicsWidget();
+    QGraphicsWidget *row2 = new QGraphicsWidget();
+    QGraphicsWidget *row3 = new QGraphicsWidget();
 
     m_pageItem->appendRow(row1);
     m_pageItem->appendRow(row2);
@@ -86,9 +85,9 @@ void PageItemTest::testRemoveRowIndex()
 
 void PageItemTest::testRemoveRowItem()
 {
-    PageContentRowItem *row1 = new PageContentRowItem();
-    PageContentRowItem *row2 = new PageContentRowItem();
-    PageContentRowItem *row3 = new PageContentRowItem();
+    QGraphicsWidget *row1 = new QGraphicsWidget();
+    QGraphicsWidget *row2 = new QGraphicsWidget();
+    QGraphicsWidget *row3 = new QGraphicsWidget();
 
     m_pageItem->appendRow(row1);
     m_pageItem->appendRow(row2);
@@ -106,17 +105,17 @@ void PageItemTest::testRemainingVerticalSpace()
     QVERIFY2(m_pageItem->remainingVerticalSpace() > 0, "No remaining space on blank page");
 
     qreal spaceBefore = m_pageItem->remainingVerticalSpace();
-    PageContentRowItem *row = new PageContentRowItem();
+    QGraphicsWidget *row = new QGraphicsWidget();
     m_pageItem->appendRow(row);
     QVERIFY2(spaceBefore - row->preferredHeight() == m_pageItem->remainingVerticalSpace(), "Remaining space after appending row doesn't fit");
 
     spaceBefore = m_pageItem->remainingVerticalSpace();
-    row = new PageContentRowItem();
+    row = new QGraphicsWidget();
     m_pageItem->prependRow(row);
     QVERIFY2(spaceBefore - row->preferredHeight() == m_pageItem->remainingVerticalSpace(), "Remaining space after prepending row doesn't fit");
 
     spaceBefore = m_pageItem->remainingVerticalSpace();
-    row = new PageContentRowItem();
+    row = new QGraphicsWidget();
     m_pageItem->insertRow(1, row);
     QVERIFY2(spaceBefore - row->preferredHeight() == m_pageItem->remainingVerticalSpace(), "Remaining space after inserting row doesn't fit");
 
@@ -131,7 +130,7 @@ void PageItemTest::testRemainingVerticalSpaceChangedSignal()
     QSignalSpy spy(m_pageItem, SIGNAL(remainingVerticalSpaceChanged(int,int)));
     qreal remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
 
-    m_pageItem->appendRow(new PageContentRowItem());
+    m_pageItem->appendRow(new QGraphicsWidget());
     QVERIFY2(spy.count() == 1, "append: Signal wasn't emitted");
 
     QList<QVariant> arguments = spy.takeFirst();
@@ -141,7 +140,7 @@ void PageItemTest::testRemainingVerticalSpaceChangedSignal()
     // prependRow
     remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
 
-    m_pageItem->prependRow(new PageContentRowItem());
+    m_pageItem->prependRow(new QGraphicsWidget());
     QVERIFY2(spy.count() == 1, "prepend: Signal wasn't emitted");
 
     arguments = spy.takeFirst();
@@ -151,7 +150,7 @@ void PageItemTest::testRemainingVerticalSpaceChangedSignal()
     // insertRow
     remainingSpaceBefore = m_pageItem->remainingVerticalSpace();
 
-    m_pageItem->insertRow(1, new PageContentRowItem());
+    m_pageItem->insertRow(1, new QGraphicsWidget());
     QVERIFY2(spy.count() == 1, "insert: Signal wasn't emitted");
 
     arguments = spy.takeFirst();
@@ -171,7 +170,7 @@ void PageItemTest::testRemainingVerticalSpaceChangedSignal()
 
     // removeRow with Item
     Q_ASSERT(m_pageItem->rowCount() >= 2);
-    PageContentRowItem *testRow = new PageContentRowItem();
+    QGraphicsWidget *testRow = new QGraphicsWidget();
     m_pageItem->insertRow(1, testRow);
     spy.takeFirst();
 
@@ -189,28 +188,28 @@ void PageItemTest::testRowExceedsContentBoundsSignal()
 {
      // appendRow
     QSignalSpy spy(m_pageItem, SIGNAL(lastRowExceedsContentBounds()));
-    PageContentRowItem *row = new PageContentRowItem();
+    QGraphicsWidget *row = new QGraphicsWidget();
     m_pageItem->appendRow(row);
     qreal defaultRowHeight = row->preferredHeight();
 
     while (m_pageItem->remainingVerticalSpace() > defaultRowHeight) {
-        m_pageItem->appendRow(new PageContentRowItem());
+        m_pageItem->appendRow(new QGraphicsWidget());
     }
-    m_pageItem->appendRow(new PageContentRowItem());
+    m_pageItem->appendRow(new QGraphicsWidget());
 
     QVERIFY2( m_pageItem->remainingVerticalSpace() < 0, "Vertical space should be less than 0");
     QVERIFY2(spy.count() == 1, "Signal wasn't emitted by append row");
 
     m_pageItem->removeRow(m_pageItem->rowCount() - 1);
     Q_ASSERT(m_pageItem->remainingVerticalSpace() > 0 && m_pageItem->remainingVerticalSpace() < defaultRowHeight);
-    m_pageItem->insertRow(3, new PageContentRowItem());
+    m_pageItem->insertRow(3, new QGraphicsWidget());
     Q_ASSERT(m_pageItem->remainingVerticalSpace() < 0);
 
     QVERIFY2(spy.count() == 2, "Signal wasn't emitted by insert row");
 
     m_pageItem->removeRow(m_pageItem->rowCount() - 1);
     Q_ASSERT(m_pageItem->remainingVerticalSpace() > 0 && m_pageItem->remainingVerticalSpace() < defaultRowHeight);
-    m_pageItem->prependRow(new PageContentRowItem());
+    m_pageItem->prependRow(new QGraphicsWidget());
     Q_ASSERT(m_pageItem->remainingVerticalSpace() < 0);
 
     QVERIFY2(spy.count() == 3, "Signal wasn't emitted by prepend row");

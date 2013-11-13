@@ -6,4 +6,4 @@ set( MusicModelTestplugin_SOURCES
 
 find_package( Qt5Widgets REQUIRED )
 add_library( lp_musicmodeltestplugin STATIC ${MusicModelTestplugin_SOURCES} )
-qt5_use_modules( lp_musicmodeltestplugin Widgets )
+qt5_use_modules( lp_musicmodeltestplugin Gui )

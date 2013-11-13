@@ -11,7 +11,6 @@
 
 #include <QGraphicsWidget>
 #include <QList>
-#include "pagecontentrowitem.h"
 #include "../pageviewinterface.h"
 #include "../itemtypes.h"
 
@@ -46,7 +45,6 @@ private slots:
     void remainingVerticalSpaceHasChanged(int oldValue, int newValue);
 
 private:
-    void prepareWidgetForRow(QGraphicsWidget *rowWidget);
     void addPage();
     void removePage(PageItem *page);
     bool isPageItemLastPage(PageItem *page) const;

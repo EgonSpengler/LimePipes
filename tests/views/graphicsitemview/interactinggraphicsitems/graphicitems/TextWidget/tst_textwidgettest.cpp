@@ -7,7 +7,7 @@
  */
 
 #include <QString>
-#include <textwidget.h>
+#include <graphicsitemview/interactinggraphicsitems/graphicitems/textwidget.h>
 #include <QGraphicsScene>
 #include <QtTest/QSignalSpy>
 #include <QtTest/QtTest>

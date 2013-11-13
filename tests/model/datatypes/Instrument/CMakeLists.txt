@@ -1,8 +1,8 @@
 set( testname InstrumentTest )
-set( testmodules Test Widgets )
+set( testmodules Test Gui )
 set( testlibraries )
 
-find_package( Qt5Widgets REQUIRED )
+find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES

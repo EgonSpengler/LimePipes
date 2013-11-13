@@ -6,4 +6,4 @@ set( plugin_SOURCES
 	)
 
 add_library( lp_testinstrumentghb SHARED ${plugin_SOURCES} )
-qt5_use_modules( lp_testinstrumentghb Widgets )
+qt5_use_modules( lp_testinstrumentghb Gui )

@@ -1,8 +1,8 @@
 set( testname TimeSignatureTest )
-set( testmodules Test Widgets )
+set( testmodules Test Core )
 set( testlibraries )
 
-find_package( Qt5Widgets REQUIRED )
+find_package( Qt5Core REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES

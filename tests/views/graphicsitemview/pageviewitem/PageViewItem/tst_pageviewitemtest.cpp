@@ -10,9 +10,8 @@
 #include <QtTest/QtTest>
 #include <QCoreApplication>
 #include "tst_pageviewitemtest.h"
-#include <views/graphicsitemview/pageviewitem/pageviewitem.h>
-#include <views/graphicsitemview/pageviewitem/pageitem.h>
-#include <views/graphicsitemview/pageviewitem/pagecontentrowitem.h>
+#include <graphicsitemview/pageviewitem/pageviewitem.h>
+#include <graphicsitemview/pageviewitem/pageitem.h>
 
 PageViewItemTest::PageViewItemTest(QObject *parent)
     : QObject(parent),
@@ -25,7 +24,7 @@ PageViewItemTest::PageViewItemTest(QObject *parent)
 void PageViewItemTest::initTestCase()
 {
     PageItem *pageItem = new PageItem();
-    PageContentRowItem *rowItem = new PageContentRowItem();
+    QGraphicsWidget *rowItem = new QGraphicsWidget();
 
     m_defaultVerticalSpacePerPage = pageItem->remainingVerticalSpace();
     m_defaultRowItemHeight = rowItem->preferredHeight();
@@ -51,7 +50,7 @@ void PageViewItemTest::testInitialPageCount()
 
 void PageViewItemTest::testRowCount()
 {
-    m_pageViewItem->appendRow(new PageContentRowItem());
+    m_pageViewItem->appendRow(new QGraphicsWidget());
     QVERIFY2(m_pageViewItem->rowCount() == 1, "Failed appending and counting row");
 }
 
@@ -69,16 +68,16 @@ void PageViewItemTest::testRowCountMultipage()
 {
     fillFirstPage();
     int rowCountBefore = m_pageViewItem->rowCount();
-    m_pageViewItem->appendRow(new PageContentRowItem());
+    m_pageViewItem->appendRow(new QGraphicsWidget());
 
     QVERIFY2(m_pageViewItem->rowCount() == rowCountBefore + 1, "Failed row count with multipage");
 }
 
 void PageViewItemTest::testRowAt()
 {
-    PageContentRowItem *row1 = new PageContentRowItem();
-    PageContentRowItem *row2 = new PageContentRowItem();
-    PageContentRowItem *row3 = new PageContentRowItem();
+    QGraphicsWidget *row1 = new QGraphicsWidget();
+    QGraphicsWidget *row2 = new QGraphicsWidget();
+    QGraphicsWidget *row3 = new QGraphicsWidget();
 
     m_pageViewItem->appendRow(row1);
     m_pageViewItem->appendRow(row2);
@@ -107,9 +106,9 @@ void PageViewItemTest::testRowAtMultipage()
     int rowCountFirstPage = m_pageViewItem->rowCountOfPage(0);
     Q_ASSERT(rowCountFirstPage);
 
-    PageContentRowItem *row1 = new PageContentRowItem();
-    PageContentRowItem *row2 = new PageContentRowItem();
-    PageContentRowItem *row3 = new PageContentRowItem();
+    QGraphicsWidget *row1 = new QGraphicsWidget();
+    QGraphicsWidget *row2 = new QGraphicsWidget();
+    QGraphicsWidget *row3 = new QGraphicsWidget();
 
     m_pageViewItem->appendRow(row1);
     m_pageViewItem->appendRow(row2);
@@ -130,7 +129,7 @@ void PageViewItemTest::testInsertRow()
     int rowCountBeforeInsert = m_pageViewItem->rowCount();
     Q_ASSERT(rowCountBeforeInsert > 5);
 
-    PageContentRowItem *insertRow = new PageContentRowItem();
+    QGraphicsWidget *insertRow = new QGraphicsWidget();
 
     m_pageViewItem->insertRow(5, insertRow);
 
@@ -144,7 +143,7 @@ void PageViewItemTest::testInsertRowMultipage()
     int rowCountOfFirstPage = m_pageViewItem->rowCountOfPage(0);
     Q_ASSERT(rowCountOfFirstPage > 5);
 
-    PageContentRowItem *insertRow = new PageContentRowItem();
+    QGraphicsWidget *insertRow = new QGraphicsWidget();
     QGraphicsWidget *lastRow = m_pageViewItem->rowAt(m_pageViewItem->rowCount() - 1);
     m_pageViewItem->insertRow(5, insertRow);
 
@@ -157,7 +156,7 @@ void PageViewItemTest::testInsertRowMultipageHighRow()
 {
     fillFirstPage();
 
-    PageContentRowItem *highRow = new PageContentRowItem();
+    QGraphicsWidget *highRow = new QGraphicsWidget();
     highRow->setPreferredHeight(3 * m_defaultRowItemHeight);
     Q_ASSERT(m_pageViewItem->rowCountOfPage(0) > 5);
 
@@ -169,7 +168,7 @@ void PageViewItemTest::testInsertRowMultipageHighRow()
 void PageViewItemTest::testPrependRow()
 {
     fillFirstPage();
-    PageContentRowItem *prependRow = new PageContentRowItem();
+    QGraphicsWidget *prependRow = new QGraphicsWidget();
 
     m_pageViewItem->prependRow(prependRow);
 
@@ -195,7 +194,7 @@ void PageViewItemTest::testRemoveRowMultipage()
     fillFirstPage();
     Q_ASSERT(m_pageViewItem->rowCount() > removeRowIndex + 1);
 
-    m_pageViewItem->appendRow(new PageContentRowItem());
+    m_pageViewItem->appendRow(new QGraphicsWidget());
     Q_ASSERT(m_pageViewItem->pageCount() == 2);
 
     int rowCountOfFirstPageBefore = m_pageViewItem->rowCountOfPage(0);
@@ -216,14 +215,14 @@ void PageViewItemTest::testRemoveRowMultipageHighRow()
     }
 
     // Filled first page with one high row
-    PageContentRowItem *highRow = new PageContentRowItem();
+    QGraphicsWidget *highRow = new QGraphicsWidget();
     highRow->setPreferredHeight(highRowHeight);
     m_pageViewItem->insertRow(removeRowIndex, highRow);
     Q_ASSERT(m_pageViewItem->pageCount() == 1);
 
     // Page 2 with three normal high rows
     for (int i=0; i<3; i++) {
-        m_pageViewItem->appendRow(new PageContentRowItem());
+        m_pageViewItem->appendRow(new QGraphicsWidget());
     }
     Q_ASSERT(m_pageViewItem->pageCount() == 2);
     Q_ASSERT(m_pageViewItem->rowCountOfPage(1) == 3);
@@ -239,7 +238,7 @@ void PageViewItemTest::testRemoveRowMultipageHighRow()
 void PageViewItemTest::testRemoveLastEmptyPage()
 {
     fillFirstPage();
-    m_pageViewItem->appendRow(new PageContentRowItem());
+    m_pageViewItem->appendRow(new QGraphicsWidget());
     Q_ASSERT(m_pageViewItem->pageCount() == 2);
 
     m_pageViewItem->removeRow(4);
@@ -251,10 +250,10 @@ void PageViewItemTest::testRemoveLastEmptyPage()
 void PageViewItemTest::fillFirstPage()
 {
     int verticalSpaceOfFirstPage = m_defaultVerticalSpacePerPage;
-    PageContentRowItem *row = 0;
+    QGraphicsWidget *row = 0;
 
     do {
-        row = new PageContentRowItem();
+        row = new QGraphicsWidget();
         verticalSpaceOfFirstPage -= row->preferredHeight();
         m_pageViewItem->appendRow(row);
     } while (verticalSpaceOfFirstPage > row->preferredHeight());

@@ -12,7 +12,6 @@ ScorePropertiesItem::ScorePropertiesItem(QObject *parent)
     : QObject(parent),
       m_linkedItem(0)
 {
-    qRegisterMetaType<TimeSignature>("TimeSignature");
 }
 
 void ScorePropertiesItem::linkWithItem(ScorePropertiesItem *item)

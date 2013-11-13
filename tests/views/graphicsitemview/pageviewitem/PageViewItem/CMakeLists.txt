@@ -1,13 +1,15 @@
-set( testname SymbolGraphicTest )
-set( testmodules Test Gui )
+set( testname PageViewItemTest )
+set( testmodules Test Gui PrintSupport )
 set( testlibraries )
 
+find_package( Qt5PrintSupport REQUIRED )
 find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        ${DATATYPES_SOURCE_DIR}/symbolgraphic.cpp
-        tst_symbolgraphictest.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/pageviewitem/pageitem.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/pageviewitem/pageviewitem.cpp
+        tst_pageviewitemtest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

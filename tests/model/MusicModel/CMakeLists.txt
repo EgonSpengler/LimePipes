@@ -7,8 +7,9 @@ set(LIMEPIPES_XSD_FILE "${limepipes_SOURCE_DIR}/limepipes.xsd")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.in
         ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-find_package( Qt5Widgets REQUIRED )
-find_package( Qt5Test    REQUIRED )
+find_package( Qt5Test         REQUIRED )
+find_package( Qt5Widgets      REQUIRED )
+find_package( Qt5XmlPatterns  REQUIRED )
 
 set( Test_SOURCES
         tst_musicmodeltest.cpp
