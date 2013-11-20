@@ -10,14 +10,13 @@
 #define INTERACTINGITEMDUMMY_H
 
 #include <QObject>
-#include <views/graphicsitemview/interactingiteminterface.h>
+#include <views/graphicsitemview/iteminteraction.h>
 
-class InteractingItemDummy : public QObject,
-                             public InteractingItemInterface
+class ItemInteractionDummy : public ItemInteraction
 {
     Q_OBJECT
 public:
-    explicit InteractingItemDummy(QObject *parent = 0);
+    explicit ItemInteractionDummy(QObject *parent = 0);
 
 signals:
     void mousePressEventTriggered();

@@ -11,15 +11,14 @@
 #include "interactingscore.h"
 
 InteractingScore::InteractingScore(QObject *parent)
-    : QObject(parent),
+    : ItemInteraction(parent),
       m_headerItem(0),
       m_footerItem(0)
 {
-    m_scorePropertiesItem = new ScorePropertiesItem(this);
     m_scorePropertiesDialog = new ScorePropertiesDialog();
 
     m_headerItem = new GraphicalScoreItem();
-    m_headerItem->setInteractingItem(this);
+    m_headerItem->setItemInteraction(this);
     m_headerItem->setItemPosition(LP::ScoreType, 0, TextRowWidget::Left);
     m_headerItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
     QFont font;
@@ -30,7 +29,7 @@ InteractingScore::InteractingScore(QObject *parent)
     m_footerItem = new GraphicalScoreItem();
     m_footerItem->setItemPosition(LP::ScoreYear, 0, TextRowWidget::Left);
     m_footerItem->setItemPosition(LP::ScoreCopyright, 0, TextRowWidget::Right);
-    m_footerItem->setInteractingItem(this);
+    m_footerItem->setItemInteraction(this);
 
     createConnections();
 }

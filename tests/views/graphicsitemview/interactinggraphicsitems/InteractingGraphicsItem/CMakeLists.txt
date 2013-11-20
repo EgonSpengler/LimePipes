@@ -1,6 +1,6 @@
 set( testname InteractingGraphicsItemTest )
 set( testmodules Test Widgets )
-set( testlibraries )
+set( testlibraries lp_graphicsitemview )
 
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )

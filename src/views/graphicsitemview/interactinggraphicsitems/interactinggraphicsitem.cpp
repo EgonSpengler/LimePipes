@@ -10,46 +10,50 @@
 
 InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)
     : QGraphicsWidget(parent),
-      m_visualItem(0)
+      m_itemInteraction(0)
 {
 }
 
-InteractingItemInterface *InteractingGraphicsItem::interactingItem() const
+ItemInteraction *InteractingGraphicsItem::itemInteraction() const
 {
-    return m_visualItem;
+    return m_itemInteraction;
 }
 
-void InteractingGraphicsItem::setInteractingItem(InteractingItemInterface *visualItem)
+void InteractingGraphicsItem::setItemInteraction(ItemInteraction *itemInteraction)
 {
-    m_visualItem = visualItem;
+    if (m_itemInteraction)
+        delete m_itemInteraction;
+
+    itemInteraction->setParent(this);
+    m_itemInteraction = itemInteraction;
 }
 
 void InteractingGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_visualItem)
-        m_visualItem->mousePressEvent(event);
+    if (m_itemInteraction)
+        m_itemInteraction->mousePressEvent(event);
 }
 
 void InteractingGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_visualItem)
-        m_visualItem->mouseMoveEvent(event);
+    if (m_itemInteraction)
+        m_itemInteraction->mouseMoveEvent(event);
 }
 
 void InteractingGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_visualItem)
-        m_visualItem->mouseReleaseEvent(event);
+    if (m_itemInteraction)
+        m_itemInteraction->mouseReleaseEvent(event);
 }
 
 void InteractingGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_visualItem)
-        m_visualItem->mouseDoubleClickEvent(event);
+    if (m_itemInteraction)
+        m_itemInteraction->mouseDoubleClickEvent(event);
 }
 
 void InteractingGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-    if (m_visualItem)
-        m_visualItem->contextMenuEvent(event);
+    if (m_itemInteraction)
+        m_itemInteraction->contextMenuEvent(event);
 }

@@ -7,6 +7,7 @@ set( lp_graphicsitemview_SOURCES
         graphicsitemview.cpp
         visualmusicpresenter.cpp
         scorepropertiesitem.cpp
+        iteminteraction.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp

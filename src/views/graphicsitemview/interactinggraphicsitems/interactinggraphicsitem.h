@@ -10,7 +10,7 @@
 #define INTERACTINGGRAPHICSITEM_H
 
 #include <QGraphicsWidget>
-#include "../interactingiteminterface.h"
+#include "../iteminteraction.h"
 
 class InteractingGraphicsItem : public QGraphicsWidget
 {
@@ -20,8 +20,14 @@ public:
     explicit InteractingGraphicsItem(QGraphicsItem *parent = 0);
     virtual ~InteractingGraphicsItem() {}
 
-    InteractingItemInterface *interactingItem() const;
-    void setInteractingItem(InteractingItemInterface *interactingItem);
+    ItemInteraction *itemInteraction() const;
+
+    /*!
+     * \brief setItemInteraction
+     * \param itemInteraction The interaction object for this item.
+     *        This item takes ownership of the interaction object.
+     */
+    void setItemInteraction(ItemInteraction *itemInteraction);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -31,7 +37,7 @@ protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
 private:
-    InteractingItemInterface *m_visualItem;
+    ItemInteraction *m_itemInteraction;
 };
 
 #endif // INTERACTINGGRAPHICSITEM_H

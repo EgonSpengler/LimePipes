@@ -8,7 +8,7 @@
 
 #include "interactingitemdummy.h"
 
-InteractingItemDummy::InteractingItemDummy(QObject *parent) :
-    QObject(parent)
+ItemInteractionDummy::ItemInteractionDummy(QObject *parent) :
+    ItemInteraction(parent)
 {
 }

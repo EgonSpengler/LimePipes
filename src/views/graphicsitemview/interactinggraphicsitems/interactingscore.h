@@ -11,18 +11,15 @@
 
 #include <QObject>
 #include <itemdatatypes.h>
-#include "../interactingiteminterface.h"
+#include "../iteminteraction.h"
 #include "../scorepropertiesitem.h"
 
 class QGraphicsWidget;
 class GraphicalScoreItem;
 class ScorePropertiesDialog;
 
-class InteractingScore : public QObject,
-                         public InteractingItemInterface
+class InteractingScore : public ItemInteraction
 {
-    Q_OBJECT
-
     friend class InteractingScoreTest;
 
 public:

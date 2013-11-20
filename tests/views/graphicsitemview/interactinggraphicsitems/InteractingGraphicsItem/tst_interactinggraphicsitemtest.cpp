@@ -35,7 +35,7 @@ private Q_SLOTS:
 
 private:
     InteractingGraphicsItem *m_interactingGraphicsItem;
-    InteractingItemDummy *m_interactingItemDummy;
+    ItemInteractionDummy *m_interactingItemDummy;
 };
 
 InteractingGraphicsItemTest::InteractingGraphicsItemTest()
@@ -46,9 +46,9 @@ InteractingGraphicsItemTest::InteractingGraphicsItemTest()
 
 void InteractingGraphicsItemTest::init()
 {
-    m_interactingItemDummy = new InteractingItemDummy();
+    m_interactingItemDummy = new ItemInteractionDummy();
     m_interactingGraphicsItem = new InteractingGraphicsItem();
-    m_interactingGraphicsItem->setInteractingItem(m_interactingItemDummy);
+    m_interactingGraphicsItem->setItemInteraction(m_interactingItemDummy);
 }
 
 void InteractingGraphicsItemTest::cleanup()
@@ -59,10 +59,10 @@ void InteractingGraphicsItemTest::cleanup()
 
 void InteractingGraphicsItemTest::testSetGetInteractingItemInterface()
 {
-    InteractingItemInterface *visualItem = new InteractingItemDummy();
-    m_interactingGraphicsItem->setInteractingItem(visualItem);
+    ItemInteraction *visualItem = new ItemInteractionDummy();
+    m_interactingGraphicsItem->setItemInteraction(visualItem);
 
-    QVERIFY2(m_interactingGraphicsItem->interactingItem() == visualItem,
+    QVERIFY2(m_interactingGraphicsItem->itemInteraction() == visualItem,
              "Can't get visual item back from interacting item");
 }
 

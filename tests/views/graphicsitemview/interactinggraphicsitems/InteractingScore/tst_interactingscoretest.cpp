@@ -44,9 +44,9 @@ void InteractingScoreTest::cleanup()
 
 void InteractingScoreTest::testInteractingItemSet()
 {
-    QVERIFY2(m_interactingScore->m_headerItem->interactingItem() == m_interactingScore,
+    QVERIFY2(m_interactingScore->m_headerItem->itemInteraction() == m_interactingScore,
              "Interacting Item of header item wasn't set");
-    QVERIFY2(m_interactingScore->m_footerItem->interactingItem() == m_interactingScore,
+    QVERIFY2(m_interactingScore->m_footerItem->itemInteraction() == m_interactingScore,
              "Interacting Item of footer item wasn't set");
 }
 
