@@ -46,12 +46,12 @@ void ScoreInteraction::createConnections()
     connect(m_footerItem, SIGNAL(itemTextChanged(LP::ScoreDataRole,QString)),
             this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
 
-    connect(m_scorePropertiesDialog, SIGNAL(propertyTextChanged(LP::ScoreDataRole,QString)),
-            this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
-    connect(m_scorePropertiesDialog, SIGNAL(propertyFontChanged(LP::ScoreDataRole,QFont)),
-            this, SLOT(propertyFontChanged(LP::ScoreDataRole,QFont)));
-    connect(m_scorePropertiesDialog, SIGNAL(propertyColorChanged(LP::ScoreDataRole,QColor)),
-            this, SLOT(propertyColorChanged(LP::ScoreDataRole,QColor)));
+    connect(m_scorePropertiesDialog, &ScorePropertiesDialog::propertyTextChanged,
+            this, &ScoreInteraction::propertyTextChanged);
+    connect(m_scorePropertiesDialog, &ScorePropertiesDialog::propertyFontChanged,
+            this, &ScoreInteraction::propertyFontChanged);
+    connect(m_scorePropertiesDialog, &ScorePropertiesDialog::propertyColorChanged,
+            this, &ScoreInteraction::propertyColorChanged);
 }
 
 QGraphicsWidget *ScoreInteraction::headerItem() const
