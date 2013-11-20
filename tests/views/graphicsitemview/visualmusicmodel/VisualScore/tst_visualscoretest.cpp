@@ -52,7 +52,7 @@ void VisualScoreTest::cleanup()
 
 void VisualScoreTest::testType()
 {
-    QVERIFY2(m_visualScore->type() == AbstractVisualItem::VisualScoreItem, "Visual score returned wrong type");
+    QVERIFY2(m_visualScore->itemType() == VisualItem::VisualScoreItem, "Visual score returned wrong type");
 }
 
 void VisualScoreTest::testSetDataFromIndex()

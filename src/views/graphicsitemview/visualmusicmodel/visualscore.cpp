@@ -10,7 +10,7 @@
 #include "visualscore.h"
 
 VisualScore::VisualScore(QObject *parent)
-    : AbstractVisualItem(parent)
+    : VisualItem(parent)
 {
     createConnections();
 }
@@ -19,9 +19,9 @@ void VisualScore::createConnections()
 {
 }
 
-AbstractVisualItem::Type VisualScore::type() const
+VisualItem::ItemType VisualScore::itemType() const
 {
-    return AbstractVisualItem::VisualScoreItem;
+    return VisualItem::VisualScoreItem;
 }
 
 void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)

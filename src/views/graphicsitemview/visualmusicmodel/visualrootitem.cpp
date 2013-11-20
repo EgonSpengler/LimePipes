@@ -13,9 +13,9 @@ VisualRootItem::VisualRootItem()
 }
 
 
-AbstractVisualItem::Type VisualRootItem::type() const
+VisualItem::ItemType VisualRootItem::itemType() const
 {
-    return AbstractVisualItem::VisualRootItem;
+    return VisualItem::VisualRootItem;
 }
 
 void VisualRootItem::setDataFromIndex(const QPersistentModelIndex &index)

@@ -43,7 +43,7 @@ void VisualMeasureTest::cleanup()
 
 void VisualMeasureTest::testType()
 {
-    QVERIFY2(m_visualMeasure->type() == AbstractVisualItem::VisualMeasureItem,
+    QVERIFY2(m_visualMeasure->itemType() == VisualItem::VisualMeasureItem,
              "Visual measure returned wrong type");
 }
 

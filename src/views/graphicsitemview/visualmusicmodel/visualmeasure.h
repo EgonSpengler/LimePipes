@@ -12,12 +12,12 @@
 #include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualMeasure : public AbstractVisualItem
+class VisualMeasure : public VisualItem
 {
 public:
     explicit VisualMeasure(QObject *parent = 0);
 
-    Type type() const;
+    ItemType itemType() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 };
 

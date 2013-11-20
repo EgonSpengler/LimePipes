@@ -44,7 +44,7 @@ void VisualRootItemTest::cleanup()
 
 void VisualRootItemTest::testType()
 {
-    QVERIFY2(m_rootItem->type() == AbstractVisualItem::VisualRootItem, "Visual root item returned wrong type");
+    QVERIFY2(m_rootItem->itemType() == VisualItem::VisualRootItem, "Visual root item returned wrong type");
 }
 
 QTEST_MAIN(VisualRootItemTest)

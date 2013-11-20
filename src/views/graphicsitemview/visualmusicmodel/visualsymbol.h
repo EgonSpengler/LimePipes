@@ -12,12 +12,12 @@
 #include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualSymbol : public AbstractVisualItem
+class VisualSymbol : public VisualItem
 {
 public:
     explicit VisualSymbol(QObject *parent = 0);
 
-    Type type() const;
+    ItemType itemType() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 };
 

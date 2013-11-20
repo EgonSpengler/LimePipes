@@ -11,13 +11,13 @@
 
 #include <views/graphicsitemview/visualmusicmodel/abstractvisualitem.h>
 
-class TestAbstractVisualItem : public AbstractVisualItem
+class TestAbstractVisualItem : public VisualItem
 {
 public:
     explicit TestAbstractVisualItem();
     virtual ~TestAbstractVisualItem() {}
 
-    Type type() const;
+    ItemType itemType() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 };
 

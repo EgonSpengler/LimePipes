@@ -12,11 +12,22 @@
 #include <QObject>
 #include <QPersistentModelIndex>
 
-class AbstractVisualItem : public QObject
+class InteractingGraphicsItem;
+
+class VisualItem : public QObject
 {
     Q_OBJECT
 public:
-    enum Type {
+    enum GraphicalType {
+        NoGraphicalType,        //!< The item has no graphical item
+        GraphicalRowType,       //!< The item has one or more graphical items, visible as rows.
+                                //!  e.g. score header/footer, stave
+        GraphicalInlineType     //!< The item has only one graphical item, it is displayed in a
+                                //!< row item parent e.g. measure, symbol
+    };
+
+    enum ItemType {
+        NoVisualItem,
         VisualRootItem,
         VisualScoreItem,
         VisualTuneItem,
@@ -25,24 +36,26 @@ public:
         VisualSymbolItem
     };
 
-    explicit AbstractVisualItem(QObject *parent = 0);
-    virtual ~AbstractVisualItem() {}
+    explicit VisualItem(QObject *parent = 0);
+    virtual ~VisualItem() {}
 
-    virtual Type type() const = 0;
+    virtual ItemType itemType() const { return NoVisualItem; }
+    virtual GraphicalType graphicalType() const { return NoGraphicalType; }
 
     virtual void setDataFromIndex(const QPersistentModelIndex& index) = 0;
 
-    void insertItem(int row, AbstractVisualItem *item);
-    int childItemCount();
-    AbstractVisualItem *childItemAt(int row);
-    void removeItemAt(int row);
+    virtual InteractingGraphicsItem *inlineGraphic() const
+    {
+        return 0;
+    }
+
+    virtual QList<InteractingGraphicsItem*> rowGraphics() const
+    {
+        return QList<InteractingGraphicsItem*>();
+    }
 
 signals:
     void dataChanged(const QVariant& value, int dataRole);
-
-private:
-    bool isValidIndex(int row);
-    QList<AbstractVisualItem*> m_childItems;
 };
 
 #endif // ABSTRACTVISUALITEM_H

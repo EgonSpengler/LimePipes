@@ -12,12 +12,12 @@
 #include <QObject>
 #include "abstractvisualitem.h"
 
-class VisualTune : public AbstractVisualItem
+class VisualTune : public VisualItem
 {
 public:
     explicit VisualTune(QObject *parent = 0);
 
-    Type type() const;
+    ItemType itemType() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 };
 

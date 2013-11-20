@@ -43,7 +43,7 @@ void VisualTuneTest::cleanup()
 
 void VisualTuneTest::testType()
 {
-    QVERIFY2(m_visualTune->type() == AbstractVisualItem::VisualTuneItem,
+    QVERIFY2(m_visualTune->itemType() == VisualItem::VisualTuneItem,
              "Visual tune returned wrong type");
 }
 

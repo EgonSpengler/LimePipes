@@ -9,13 +9,13 @@
 #include "visualsymbol.h"
 
 VisualSymbol::VisualSymbol(QObject *parent)
-    : AbstractVisualItem(parent)
+    : VisualItem(parent)
 {
 }
 
-AbstractVisualItem::Type VisualSymbol::type() const
+VisualItem::ItemType VisualSymbol::itemType() const
 {
-    return AbstractVisualItem::VisualSymbolItem;
+    return VisualItem::VisualSymbolItem;
 }
 
 void VisualSymbol::setDataFromIndex(const QPersistentModelIndex &index)

@@ -9,13 +9,13 @@
 #include "visualpart.h"
 
 VisualPart::VisualPart(QObject *parent)
-    : AbstractVisualItem(parent)
+    : VisualItem(parent)
 {
 }
 
-AbstractVisualItem::Type VisualPart::type() const
+VisualItem::ItemType VisualPart::itemType() const
 {
-    return AbstractVisualItem::VisualPartItem;
+    return VisualItem::VisualPartItem;
 }
 
 void VisualPart::setDataFromIndex(const QPersistentModelIndex &index)

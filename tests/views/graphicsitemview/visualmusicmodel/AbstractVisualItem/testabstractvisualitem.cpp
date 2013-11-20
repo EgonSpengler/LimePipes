@@ -12,9 +12,9 @@ TestAbstractVisualItem::TestAbstractVisualItem()
 {
 }
 
-AbstractVisualItem::Type TestAbstractVisualItem::type() const
+VisualItem::ItemType TestAbstractVisualItem::itemType() const
 {
-    return AbstractVisualItem::VisualRootItem;
+    return VisualItem::VisualRootItem;
 }
 
 void TestAbstractVisualItem::setDataFromIndex(const QPersistentModelIndex &index)

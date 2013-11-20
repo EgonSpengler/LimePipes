@@ -11,14 +11,14 @@
 
 #include "abstractvisualitem.h"
 
-class VisualScore : public AbstractVisualItem
+class VisualScore : public VisualItem
 {
     Q_OBJECT
 public:
     explicit VisualScore(QObject *parent = 0);
 
     // AbstractVisualItem interface
-    Type type() const;
+    ItemType itemType() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 
 private slots:

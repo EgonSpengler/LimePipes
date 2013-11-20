@@ -43,7 +43,7 @@ void VisualPartTest::cleanup()
 
 void VisualPartTest::testType()
 {
-    QVERIFY2(m_visualPart->type() == AbstractVisualItem::VisualPartItem,
+    QVERIFY2(m_visualPart->itemType() == VisualItem::VisualPartItem,
              "Visual part returned wrong type");
 }
 

@@ -11,12 +11,12 @@
 
 #include "abstractvisualitem.h"
 
-class VisualRootItem : public AbstractVisualItem
+class VisualRootItem : public VisualItem
 {
 public:
     explicit VisualRootItem();
 
-    Type type() const;
+    ItemType itemType() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 };
 

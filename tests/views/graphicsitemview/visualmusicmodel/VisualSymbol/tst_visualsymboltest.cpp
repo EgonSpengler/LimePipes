@@ -43,7 +43,7 @@ void VisualSymbolTest::cleanup()
 
 void VisualSymbolTest::testType()
 {
-    QVERIFY2(m_visualSymbol->type() == AbstractVisualItem::VisualSymbolItem,
+    QVERIFY2(m_visualSymbol->itemType() == VisualItem::VisualSymbolItem,
              "Visual symbol returned wrong type");
 }
 

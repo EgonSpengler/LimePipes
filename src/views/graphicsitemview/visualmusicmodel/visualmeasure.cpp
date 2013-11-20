@@ -9,13 +9,13 @@
 #include "visualmeasure.h"
 
 VisualMeasure::VisualMeasure(QObject *parent)
-    : AbstractVisualItem(parent)
+    : VisualItem(parent)
 {
 }
 
-AbstractVisualItem::Type VisualMeasure::type() const
+VisualItem::ItemType VisualMeasure::itemType() const
 {
-    return AbstractVisualItem::VisualMeasureItem;
+    return VisualItem::VisualMeasureItem;
 }
 
 void VisualMeasure::setDataFromIndex(const QPersistentModelIndex &index)
