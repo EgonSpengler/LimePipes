@@ -22,7 +22,7 @@ set( lp_graphicsitemview_SOURCES
         visualmusicmodel/visualsymbol.cpp
 
         interactinggraphicsitems/interactinggraphicsitem.cpp
-        interactinggraphicsitems/interactingscore.cpp
+        interactinggraphicsitems/scoreinteraction.cpp
         interactinggraphicsitems/graphicalscoreitem.cpp
         interactinggraphicsitems/graphicitems/textwidget.cpp
         interactinggraphicsitems/graphicitems/textrowwidget.cpp

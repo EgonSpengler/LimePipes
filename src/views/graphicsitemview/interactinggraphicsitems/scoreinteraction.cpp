@@ -8,9 +8,9 @@
 
 #include "graphicalscoreitem.h"
 #include "dialogs/scorepropertiesdialog.h"
-#include "interactingscore.h"
+#include "scoreinteraction.h"
 
-InteractingScore::InteractingScore(QObject *parent)
+ScoreInteraction::ScoreInteraction(QObject *parent)
     : ItemInteraction(parent),
       m_headerItem(0),
       m_footerItem(0)
@@ -34,12 +34,12 @@ InteractingScore::InteractingScore(QObject *parent)
     createConnections();
 }
 
-InteractingScore::~InteractingScore()
+ScoreInteraction::~ScoreInteraction()
 {
     delete m_scorePropertiesDialog;
 }
 
-void InteractingScore::createConnections()
+void ScoreInteraction::createConnections()
 {
     connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
             this, SLOT(setTitle(QString)));
@@ -57,48 +57,48 @@ void InteractingScore::createConnections()
             this, SLOT(propertyColorChanged(LP::ScoreDataRole,QColor)));
 }
 
-QGraphicsWidget *InteractingScore::headerItem() const
+QGraphicsWidget *ScoreInteraction::headerItem() const
 {
     return static_cast<QGraphicsWidget*>(m_headerItem);
 }
 
-QGraphicsWidget *InteractingScore::footerItem() const
+QGraphicsWidget *ScoreInteraction::footerItem() const
 {
     return static_cast<QGraphicsWidget*>(m_footerItem);
 }
 
-void InteractingScore::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void InteractingScore::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void InteractingScore::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void InteractingScore::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void InteractingScore::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void ScoreInteraction::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     m_scorePropertiesDialog->show();
     Q_UNUSED(event);
 }
 
-ScorePropertiesItem *InteractingScore::scorePropertiesItem() const
+ScorePropertiesItem *ScoreInteraction::scorePropertiesItem() const
 {
     return m_scorePropertiesItem;
 }
 
-void InteractingScore::propertyTextChanged(LP::ScoreDataRole dataRole, const QString &text)
+void ScoreInteraction::propertyTextChanged(LP::ScoreDataRole dataRole, const QString &text)
 {
     m_headerItem->setItemText(dataRole, text);
     m_footerItem->setItemText(dataRole, text);
@@ -128,39 +128,39 @@ void InteractingScore::propertyTextChanged(LP::ScoreDataRole dataRole, const QSt
     }
 }
 
-void InteractingScore::propertyFontChanged(LP::ScoreDataRole dataRole, const QFont &font)
+void ScoreInteraction::propertyFontChanged(LP::ScoreDataRole dataRole, const QFont &font)
 {
     m_headerItem->setItemFont(LP::ScoreTitle, font);
     m_footerItem->setItemFont(LP::ScoreTitle, font);
 }
 
-void InteractingScore::propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color)
+void ScoreInteraction::propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color)
 {
     m_headerItem->setItemColor(LP::ScoreTitle, color);
     m_footerItem->setItemColor(LP::ScoreTitle, color);
 }
 
-void InteractingScore::setTitle(const QString &title)
+void ScoreInteraction::setTitle(const QString &title)
 {
     propertyTextChanged(LP::ScoreTitle, title);
 }
 
-void InteractingScore::setType(const QString &type)
+void ScoreInteraction::setType(const QString &type)
 {
 }
 
-void InteractingScore::setComposer(const QString &composer)
+void ScoreInteraction::setComposer(const QString &composer)
 {
 }
 
-void InteractingScore::setArranger(const QString &arranger)
+void ScoreInteraction::setArranger(const QString &arranger)
 {
 }
 
-void InteractingScore::setYear(const QString &year)
+void ScoreInteraction::setYear(const QString &year)
 {
 }
 
-void InteractingScore::setCopyright(const QString &copyright)
+void ScoreInteraction::setCopyright(const QString &copyright)
 {
 }

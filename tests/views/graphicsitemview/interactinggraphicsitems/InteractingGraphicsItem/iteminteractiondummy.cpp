@@ -6,7 +6,7 @@
  *
  */
 
-#include "interactingitemdummy.h"
+#include "iteminteractiondummy.h"
 
 ItemInteractionDummy::ItemInteractionDummy(QObject *parent) :
     ItemInteraction(parent)

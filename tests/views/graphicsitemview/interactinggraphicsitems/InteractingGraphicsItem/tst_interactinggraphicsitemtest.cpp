@@ -14,7 +14,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
 #include <views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.h>
-#include "interactingitemdummy.h"
+#include "iteminteractiondummy.h"
 
 class InteractingGraphicsItemTest : public QObject
 {

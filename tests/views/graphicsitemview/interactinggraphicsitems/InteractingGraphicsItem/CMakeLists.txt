@@ -7,7 +7,7 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         ${VIEWS_SOURCE_DIR}/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.cpp
-        interactingitemdummy.cpp
+        iteminteractiondummy.cpp
         tst_interactinggraphicsitemtest.cpp
         )
 

@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef INTERACTINGSCORE_H
-#define INTERACTINGSCORE_H
+#ifndef SCOREINTERACTION_H
+#define SCOREINTERACTION_H
 
 #include <QObject>
 #include <itemdatatypes.h>
@@ -18,13 +18,13 @@ class QGraphicsWidget;
 class GraphicalScoreItem;
 class ScorePropertiesDialog;
 
-class InteractingScore : public ItemInteraction
+class ScoreInteraction : public ItemInteraction
 {
-    friend class InteractingScoreTest;
+    friend class ScoreInteractionTest;
 
 public:
-    explicit InteractingScore(QObject *parent = 0);
-    ~InteractingScore();
+    explicit ScoreInteraction(QObject *parent = 0);
+    ~ScoreInteraction();
 
     QGraphicsWidget *headerItem() const;
     QGraphicsWidget *footerItem() const;
@@ -59,4 +59,4 @@ private:
     ScorePropertiesDialog *m_scorePropertiesDialog;
 };
 
-#endif // INTERACTINGSCORE_H
+#endif // SCOREINTERACTION_H

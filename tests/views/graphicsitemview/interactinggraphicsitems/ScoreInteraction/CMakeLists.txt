@@ -1,4 +1,4 @@
-set( testname InteractingScoreTest )
+set( testname ScoreInteractionTest )
 set( testmodules Test Widgets )
 set( testlibraries lp_graphicsitemview )
 
@@ -6,7 +6,7 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_interactingscoretest.cpp
+        tst_scoreinteractiontest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

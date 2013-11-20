@@ -83,14 +83,14 @@ void VisualMusicPresenterTest::testScoreInserted()
     QVERIFY2(m_musicPresenter->m_interactingScores.count() == 1,
              "No graphical score was inserted");
 
-    InteractingScore *score1 = m_musicPresenter->m_interactingScores.at(0);
+    ScoreInteraction *score1 = m_musicPresenter->m_interactingScores.at(0);
 
     m_musicModel->insertScore(0, "Testscore 2");
 
     QVERIFY2(m_musicPresenter->m_interactingScores.count() == 2,
              "No second graphical score was inserted");
 
-    InteractingScore *score2 = m_musicPresenter->m_interactingScores.at(0);
+    ScoreInteraction *score2 = m_musicPresenter->m_interactingScores.at(0);
 
     QVERIFY2(score1 != score2,
              "Interacting score inserted in the wrong place");
@@ -99,7 +99,7 @@ void VisualMusicPresenterTest::testScoreInserted()
 void VisualMusicPresenterTest::testInsertScoreLinkedScorePropertiesItem()
 {
     m_musicModel->insertScore(0, "Testscore");
-    InteractingScore *score1 = m_musicPresenter->m_interactingScores.at(0);
+    ScoreInteraction *score1 = m_musicPresenter->m_interactingScores.at(0);
 
     QVERIFY2(score1->scorePropertiesItem()->linkedItem() != 0, "Interacting score has no linked item");
 }
@@ -107,7 +107,7 @@ void VisualMusicPresenterTest::testInsertScoreLinkedScorePropertiesItem()
 void VisualMusicPresenterTest::testInsertScorePageViewRows()
 {
     m_musicModel->insertScore(0, "Testscore");
-    InteractingScore *score1 = m_musicPresenter->m_interactingScores.at(0);
+    ScoreInteraction *score1 = m_musicPresenter->m_interactingScores.at(0);
     PageViewInterface *pageView = m_musicPresenter->m_pageView;
 
     QVERIFY2(pageView->rowCount() == 2, "Not all (header and footer) rows were inserted");
