@@ -10,7 +10,7 @@
 #define VISUALSYMBOL_H
 
 #include <QObject>
-#include "abstractvisualitem.h"
+#include "visualitem.h"
 
 class VisualSymbol : public VisualItem
 {

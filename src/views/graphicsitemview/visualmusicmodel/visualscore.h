@@ -9,7 +9,7 @@
 #ifndef VISUALSCORE_H
 #define VISUALSCORE_H
 
-#include "abstractvisualitem.h"
+#include "visualitem.h"
 
 class VisualScore : public VisualItem
 {

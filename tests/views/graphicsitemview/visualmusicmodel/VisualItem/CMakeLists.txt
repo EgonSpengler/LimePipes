@@ -7,9 +7,8 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualrootitem.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/abstractvisualitem.cpp
-        testabstractvisualitem.cpp
-        tst_abstractvisualitemtest.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualitem.cpp
+        tst_visualitemtest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

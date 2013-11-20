@@ -12,7 +12,7 @@ set( lp_graphicsitemview_SOURCES
         pageviewitem/pageitem.cpp
 
         visualmusicmodel/visualmusicmodel.cpp
-        visualmusicmodel/abstractvisualitem.cpp
+        visualmusicmodel/visualitem.cpp
         visualmusicmodel/visualrootitem.cpp
         visualmusicmodel/visualscore.cpp
         visualmusicmodel/visualtune.cpp

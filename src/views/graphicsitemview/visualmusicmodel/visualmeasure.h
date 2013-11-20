@@ -10,7 +10,7 @@
 #define VISUALMEASURE_H
 
 #include <QObject>
-#include "abstractvisualitem.h"
+#include "visualitem.h"
 
 class VisualMeasure : public VisualItem
 {

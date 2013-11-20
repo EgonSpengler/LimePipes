@@ -10,7 +10,7 @@
 #define VISUALTUNE_H
 
 #include <QObject>
-#include "abstractvisualitem.h"
+#include "visualitem.h"
 
 class VisualTune : public VisualItem
 {

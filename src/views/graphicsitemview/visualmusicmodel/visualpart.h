@@ -10,7 +10,7 @@
 #define VISUALPART_H
 
 #include <QObject>
-#include "abstractvisualitem.h"
+#include "visualitem.h"
 
 class VisualPart : public VisualItem
 {

@@ -1,5 +1,5 @@
 add_subdirectory( VisualMusicModel )
-add_subdirectory( AbstractVisualItem )
+add_subdirectory( VisualItem )
 add_subdirectory( VisualRootItem )
 add_subdirectory( VisualScore )
 add_subdirectory( VisualTune )

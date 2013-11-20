@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef ABSTRACTVISUALITEM_H
-#define ABSTRACTVISUALITEM_H
+#ifndef VISUALITEM_H
+#define VISUALITEM_H
 
 #include <QObject>
 #include <QPersistentModelIndex>
@@ -42,7 +42,10 @@ public:
     virtual ItemType itemType() const { return NoVisualItem; }
     virtual GraphicalType graphicalType() const { return NoGraphicalType; }
 
-    virtual void setDataFromIndex(const QPersistentModelIndex& index) = 0;
+    virtual void setDataFromIndex(const QPersistentModelIndex& index)
+    {
+        Q_UNUSED(index);
+    }
 
     virtual InteractingGraphicsItem *inlineGraphic() const
     {
@@ -58,4 +61,4 @@ signals:
     void dataChanged(const QVariant& value, int dataRole);
 };
 
-#endif // ABSTRACTVISUALITEM_H
+#endif // VISUALITEM_H

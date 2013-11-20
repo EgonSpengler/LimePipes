@@ -9,7 +9,7 @@
 #ifndef VISUALROOTITEM_H
 #define VISUALROOTITEM_H
 
-#include "abstractvisualitem.h"
+#include "visualitem.h"
 
 class VisualRootItem : public VisualItem
 {

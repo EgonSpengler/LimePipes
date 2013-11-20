@@ -10,7 +10,7 @@
 
 #include <QObject>
 #include <QHash>
-#include "abstractvisualitem.h"
+#include "visualitem.h"
 #include "../visualmusicmodelinterface.h"
 
 class GraphicsScene;
