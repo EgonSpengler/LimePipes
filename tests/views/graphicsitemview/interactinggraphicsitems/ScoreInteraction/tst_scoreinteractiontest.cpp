@@ -9,7 +9,7 @@
 #include <QString>
 #include <QtTest/QtTest>
 #include <graphicsitemview/interactinggraphicsitems/scoreinteraction.h>
-#include <graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h>
+#include <graphicsitemview/interactinggraphicsitems/scoregraphicsitem.h>
 
 class ScoreInteractionTest : public QObject
 {

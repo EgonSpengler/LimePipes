@@ -6,7 +6,7 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_graphicalscoreitemtest.cpp
+        tst_scoregraphicsitemtest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

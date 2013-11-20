@@ -6,7 +6,7 @@
  *
  */
 
-#include "graphicalscoreitem.h"
+#include "scoregraphicsitem.h"
 #include "dialogs/scorepropertiesdialog.h"
 #include "scoreinteraction.h"
 
@@ -17,7 +17,7 @@ ScoreInteraction::ScoreInteraction(QObject *parent)
 {
     m_scorePropertiesDialog = new ScorePropertiesDialog();
 
-    m_headerItem = new GraphicalScoreItem();
+    m_headerItem = new ScoreGraphicsItem();
     m_headerItem->setItemInteraction(this);
     m_headerItem->setItemPosition(LP::ScoreType, 0, TextRowWidget::Left);
     m_headerItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
@@ -26,7 +26,7 @@ ScoreInteraction::ScoreInteraction(QObject *parent)
     m_headerItem->setItemFont(LP::ScoreTitle, font);
     m_headerItem->setItemPosition(LP::ScoreComposer, 0, TextRowWidget::Right);
     m_headerItem->setItemPosition(LP::ScoreArranger, 1, TextRowWidget::Right);
-    m_footerItem = new GraphicalScoreItem();
+    m_footerItem = new ScoreGraphicsItem();
     m_footerItem->setItemPosition(LP::ScoreYear, 0, TextRowWidget::Left);
     m_footerItem->setItemPosition(LP::ScoreCopyright, 0, TextRowWidget::Right);
     m_footerItem->setItemInteraction(this);

@@ -8,14 +8,14 @@
 
 #include <QString>
 #include <QtTest/QtTest>
-#include <graphicsitemview/interactinggraphicsitems/graphicalscoreitem.h>
+#include <graphicsitemview/interactinggraphicsitems/scoregraphicsitem.h>
 
-class GraphicalScoreItemTest : public QObject
+class ScoreGraphicsItemTest : public QObject
 {
     Q_OBJECT
 
 public:
-    GraphicalScoreItemTest();
+    ScoreGraphicsItemTest();
 
 private Q_SLOTS:
     void init();
@@ -23,24 +23,24 @@ private Q_SLOTS:
     void testSetTitle();
 
 private:
-    GraphicalScoreItem *m_scoreItem;
+    ScoreGraphicsItem *m_scoreItem;
 };
 
-GraphicalScoreItemTest::GraphicalScoreItemTest()
+ScoreGraphicsItemTest::ScoreGraphicsItemTest()
 {
 }
 
-void GraphicalScoreItemTest::init()
+void ScoreGraphicsItemTest::init()
 {
-    m_scoreItem = new GraphicalScoreItem();
+    m_scoreItem = new ScoreGraphicsItem();
 }
 
-void GraphicalScoreItemTest::cleanup()
+void ScoreGraphicsItemTest::cleanup()
 {
     delete m_scoreItem;
 }
 
-void GraphicalScoreItemTest::testSetTitle()
+void ScoreGraphicsItemTest::testSetTitle()
 {
     QString testTitle("test title");
     m_scoreItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
@@ -53,6 +53,6 @@ void GraphicalScoreItemTest::testSetTitle()
     QVERIFY2(m_scoreItem->itemText(LP::ScoreTitle) == QString(), "Item doesn't return empty title");
 }
 
-QTEST_MAIN(GraphicalScoreItemTest)
+QTEST_MAIN(ScoreGraphicsItem)
 
-#include "tst_graphicalscoreitemtest.moc"
+#include "tst_scoregraphicsitemtest.moc"

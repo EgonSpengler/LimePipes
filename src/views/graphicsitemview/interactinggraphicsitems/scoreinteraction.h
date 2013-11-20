@@ -15,7 +15,7 @@
 #include "../scorepropertiesitem.h"
 
 class QGraphicsWidget;
-class GraphicalScoreItem;
+class ScoreGraphicsItem;
 class ScorePropertiesDialog;
 
 class ScoreInteraction : public ItemInteraction
@@ -54,8 +54,8 @@ private slots:
 private:
     void createConnections();
     ScorePropertiesItem *m_scorePropertiesItem;
-    GraphicalScoreItem *m_headerItem;
-    GraphicalScoreItem *m_footerItem;
+    ScoreGraphicsItem *m_headerItem;
+    ScoreGraphicsItem *m_footerItem;
     ScorePropertiesDialog *m_scorePropertiesDialog;
 };
 

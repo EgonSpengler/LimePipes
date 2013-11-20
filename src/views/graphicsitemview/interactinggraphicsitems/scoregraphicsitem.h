@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef GRAPHICALSCOREITEM_H
-#define GRAPHICALSCOREITEM_H
+#ifndef SCOREGRAPHICSITEM_H
+#define SCOREGRAPHICSITEM_H
 
 #include <QList>
 #include <QHash>
@@ -19,14 +19,14 @@
 class TextWidget;
 class QGraphicsLinearLayout;
 
-class GraphicalScoreItem : public InteractingGraphicsItem
+class ScoreGraphicsItem : public InteractingGraphicsItem
 {
     Q_OBJECT
 
     friend class GraphicalScoreItemTest;
 
 public:
-    explicit GraphicalScoreItem(QGraphicsItem *parent = 0);
+    explicit ScoreGraphicsItem(QGraphicsItem *parent = 0);
 
     void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position);
     bool hasItemPositionForDataRole(LP::ScoreDataRole itemType);
@@ -64,4 +64,4 @@ private:
     QHash<LP::ScoreDataRole, TextItemPosition> m_itemPositions;
 };
 
-#endif // GRAPHICALSCOREITEM_H
+#endif // SCOREGRAPHICSITEM_H

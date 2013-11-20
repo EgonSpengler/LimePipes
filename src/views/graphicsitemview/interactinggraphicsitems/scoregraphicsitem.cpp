@@ -9,9 +9,9 @@
 #include <QGraphicsLinearLayout>
 #include "graphicitems/textwidget.h"
 #include "graphicitems/textrowwidget.h"
-#include "graphicalscoreitem.h"
+#include "scoregraphicsitem.h"
 
-GraphicalScoreItem::GraphicalScoreItem(QGraphicsItem *parent)
+ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_rowLayout(0)
 {
@@ -21,7 +21,7 @@ GraphicalScoreItem::GraphicalScoreItem(QGraphicsItem *parent)
     appendRow();
 }
 
-void GraphicalScoreItem::appendRow()
+void ScoreGraphicsItem::appendRow()
 {
     TextRowWidget *newRow = new TextRowWidget();
     m_textRows.append(newRow);
@@ -31,7 +31,7 @@ void GraphicalScoreItem::appendRow()
             this, SLOT(textRowItemChanged(TextRowWidget::RowAlignment,QString)));
 }
 
-void GraphicalScoreItem::textRowItemChanged(TextRowWidget::RowAlignment position, const QString &newText)
+void ScoreGraphicsItem::textRowItemChanged(TextRowWidget::RowAlignment position, const QString &newText)
 {
     QObject *senderRow = sender();
     TextRowWidget *rowWidget = qobject_cast<TextRowWidget*>(senderRow);
@@ -51,7 +51,7 @@ void GraphicalScoreItem::textRowItemChanged(TextRowWidget::RowAlignment position
     emit itemTextChanged(itemType, newText);
 }
 
-void GraphicalScoreItem::addRowsUntilRowIndex(int index)
+void ScoreGraphicsItem::addRowsUntilRowIndex(int index)
 {
     if (m_rowLayout->count() >= index + 1)
         return;
@@ -61,7 +61,7 @@ void GraphicalScoreItem::addRowsUntilRowIndex(int index)
     }
 }
 
-void GraphicalScoreItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position)
+void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position)
 {
     if (row < 0)
         return;
@@ -77,14 +77,14 @@ void GraphicalScoreItem::setItemPosition(LP::ScoreDataRole itemType, int row, Te
     m_itemPositions.insert(itemType, itemPosition);
 }
 
-bool GraphicalScoreItem::hasItemPositionForDataRole(LP::ScoreDataRole itemType)
+bool ScoreGraphicsItem::hasItemPositionForDataRole(LP::ScoreDataRole itemType)
 {
     if (m_itemPositions.contains(itemType))
         return true;
     return false;
 }
 
-void GraphicalScoreItem::setItemText(LP::ScoreDataRole itemType, const QString &text)
+void ScoreGraphicsItem::setItemText(LP::ScoreDataRole itemType, const QString &text)
 {
     if (!hasItemPositionForDataRole(itemType)) {
         qWarning("No item position set for data role");
@@ -100,7 +100,7 @@ void GraphicalScoreItem::setItemText(LP::ScoreDataRole itemType, const QString &
         row->setText(position.rowPosition, text);
 }
 
-QString GraphicalScoreItem::itemText(LP::ScoreDataRole itemType)
+QString ScoreGraphicsItem::itemText(LP::ScoreDataRole itemType)
 {
     if (!hasItemPositionForDataRole(itemType))
         return QString();
@@ -113,7 +113,7 @@ QString GraphicalScoreItem::itemText(LP::ScoreDataRole itemType)
     return row->text(position.rowPosition);
 }
 
-void GraphicalScoreItem::setItemFont(LP::ScoreDataRole itemType, const QFont &font)
+void ScoreGraphicsItem::setItemFont(LP::ScoreDataRole itemType, const QFont &font)
 {
     if (!hasItemPositionForDataRole(itemType))
         return;
@@ -126,7 +126,7 @@ void GraphicalScoreItem::setItemFont(LP::ScoreDataRole itemType, const QFont &fo
     row->setFont(position.rowPosition, font);
 }
 
-void GraphicalScoreItem::setItemColor(LP::ScoreDataRole itemType, const QColor &color)
+void ScoreGraphicsItem::setItemColor(LP::ScoreDataRole itemType, const QColor &color)
 {
     if (!hasItemPositionForDataRole(itemType))
         return;

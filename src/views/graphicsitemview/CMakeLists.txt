@@ -23,7 +23,7 @@ set( lp_graphicsitemview_SOURCES
 
         interactinggraphicsitems/interactinggraphicsitem.cpp
         interactinggraphicsitems/scoreinteraction.cpp
-        interactinggraphicsitems/graphicalscoreitem.cpp
+        interactinggraphicsitems/scoregraphicsitem.cpp
         interactinggraphicsitems/graphicitems/textwidget.cpp
         interactinggraphicsitems/graphicitems/textrowwidget.cpp
         interactinggraphicsitems/graphicitems/graphicstextitem.cpp
