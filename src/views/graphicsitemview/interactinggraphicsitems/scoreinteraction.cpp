@@ -41,9 +41,6 @@ ScoreInteraction::~ScoreInteraction()
 
 void ScoreInteraction::createConnections()
 {
-    connect(m_scorePropertiesItem, SIGNAL(titleChanged(QString)),
-            this, SLOT(setTitle(QString)));
-
     connect(m_headerItem, SIGNAL(itemTextChanged(LP::ScoreDataRole,QString)),
             this, SLOT(propertyTextChanged(LP::ScoreDataRole,QString)));
     connect(m_footerItem, SIGNAL(itemTextChanged(LP::ScoreDataRole,QString)),
@@ -93,39 +90,12 @@ void ScoreInteraction::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     Q_UNUSED(event);
 }
 
-ScorePropertiesItem *ScoreInteraction::scorePropertiesItem() const
-{
-    return m_scorePropertiesItem;
-}
-
 void ScoreInteraction::propertyTextChanged(LP::ScoreDataRole dataRole, const QString &text)
 {
     m_headerItem->setItemText(dataRole, text);
     m_footerItem->setItemText(dataRole, text);
 
     m_scorePropertiesDialog->setPropertyText(dataRole, text);
-
-    // ScorePropertiesItem
-    switch (dataRole) {
-    case LP::ScoreType:
-        m_scorePropertiesItem->setType(text);
-        break;
-    case LP::ScoreTitle:
-        m_scorePropertiesItem->setTitle(text);
-        break;
-    case LP::ScoreComposer:
-        m_scorePropertiesItem->setComposer(text);
-        break;
-    case LP::ScoreArranger:
-        m_scorePropertiesItem->setArranger(text);
-        break;
-    case LP::ScoreYear:
-        m_scorePropertiesItem->setYear(text);
-        break;
-    case LP::ScoreCopyright:
-        m_scorePropertiesItem->setCopyright(text);
-        break;
-    }
 }
 
 void ScoreInteraction::propertyFontChanged(LP::ScoreDataRole dataRole, const QFont &font)

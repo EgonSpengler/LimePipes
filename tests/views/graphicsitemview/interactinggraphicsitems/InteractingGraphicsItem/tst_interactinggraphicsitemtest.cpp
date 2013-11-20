@@ -54,7 +54,6 @@ void InteractingGraphicsItemTest::init()
 void InteractingGraphicsItemTest::cleanup()
 {
     delete m_interactingGraphicsItem;
-    delete m_interactingItemDummy;
 }
 
 void InteractingGraphicsItemTest::testSetGetInteractingItemInterface()

@@ -12,7 +12,6 @@
 #include <QObject>
 #include <itemdatatypes.h>
 #include "../iteminteraction.h"
-#include "../scorepropertiesitem.h"
 
 class QGraphicsWidget;
 class ScoreGraphicsItem;
@@ -36,8 +35,6 @@ public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-    ScorePropertiesItem *scorePropertiesItem() const;
-
 private slots:
     void propertyTextChanged(LP::ScoreDataRole dataRole, const QString& text);
     void propertyFontChanged(LP::ScoreDataRole dataRole, const QFont& font);
@@ -53,7 +50,6 @@ private slots:
 
 private:
     void createConnections();
-    ScorePropertiesItem *m_scorePropertiesItem;
     ScoreGraphicsItem *m_headerItem;
     ScoreGraphicsItem *m_footerItem;
     ScorePropertiesDialog *m_scorePropertiesDialog;

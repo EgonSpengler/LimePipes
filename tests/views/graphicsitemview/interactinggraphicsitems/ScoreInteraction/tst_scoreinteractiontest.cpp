@@ -64,20 +64,10 @@ void ScoreInteractionTest::testSetTitle()
         m_scoreInteraction->m_footerItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
     }
     m_scoreInteraction->setTitle(title);
-    QVERIFY2(m_scoreInteraction->scorePropertiesItem()->title() == title,
-             "setTitle of ScorePropertiesItem wasn't called after interacting score setTitle");
     QVERIFY2(m_scoreInteraction->m_headerItem->itemText(LP::ScoreTitle) == title,
              "Title of header item wasn't set after interacting score setTitle");
     QVERIFY2(m_scoreInteraction->m_footerItem->itemText(LP::ScoreTitle) == title,
              "Title of footer item wasn't set after interacting score setTitle");
-
-    m_scoreInteraction->scorePropertiesItem()->setTitle(newPropertiesTitle);
-    QVERIFY2(m_scoreInteraction->scorePropertiesItem()->title() == newPropertiesTitle,
-             "setTitle of ScorePropertiesItem wasn't called after score properties item setTitle");
-    QVERIFY2(m_scoreInteraction->m_headerItem->itemText(LP::ScoreTitle) == newPropertiesTitle,
-             "Title of header item wasn't set after score properties item setTitle");
-    QVERIFY2(m_scoreInteraction->m_footerItem->itemText(LP::ScoreTitle) == newPropertiesTitle,
-             "Title of footer item wasn't set after score properties item setTitle");
 }
 
 QTEST_MAIN(ScoreInteractionTest)
