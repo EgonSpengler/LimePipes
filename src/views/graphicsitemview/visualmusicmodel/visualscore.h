@@ -11,8 +11,6 @@
 
 #include "abstractvisualitem.h"
 
-class ScorePropertiesItem;
-
 class VisualScore : public AbstractVisualItem
 {
     Q_OBJECT
@@ -23,14 +21,11 @@ public:
     Type type() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 
-    ScorePropertiesItem *scorePropertiesItem() const;
-
 private slots:
     void titleChanged(const QString &title);
 
 private:
     void createConnections();
-    ScorePropertiesItem *m_scorePropertiesItem;
 };
 
 #endif // VISUALSCORE_H

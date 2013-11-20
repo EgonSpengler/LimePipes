@@ -6,7 +6,6 @@ find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/scorepropertiesitem.cpp
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualscore.cpp
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/abstractvisualitem.cpp
         tst_visualscoretest.cpp

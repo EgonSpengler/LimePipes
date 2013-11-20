@@ -46,9 +46,6 @@ void VisualMusicPresenter::scoreInserted(const QModelIndex &scoreIndex)
     ScoreInteraction *interactingScore = new ScoreInteraction(this);
     m_interactingScores.insert(scoreIndex.row(), interactingScore);
 
-    ScorePropertiesItem *visualScore = m_visualMusicModel->scorePropertiesItemFromIndex(scoreIndex);
-    if (!visualScore)
-        return;
     m_pageView->appendRow(interactingScore->headerItem());
     m_pageView->appendRow(interactingScore->footerItem());
 }

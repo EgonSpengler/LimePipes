@@ -11,7 +11,6 @@
 #include <QtTest/QSignalSpy>
 #include <model/musicmodel.h>
 #include <datatypes/timesignature.h>
-#include <views/graphicsitemview/scorepropertiesitem.h>
 #include <views/graphicsitemview/visualmusicmodel/visualscore.h>
 
 Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
@@ -75,25 +74,12 @@ void VisualScoreTest::testSetDataFromIndex()
     m_musicModel->setData(scoreIndex, scoreCopyright, LP::ScoreCopyright);
 
     m_visualScore->setDataFromIndex(scoreIndex);
-    ScorePropertiesItem *scoreProperties = m_visualScore->scorePropertiesItem();
-
-    QVERIFY2(scoreProperties->title() == scoreTitle, "Score title wasn't set");
-    QVERIFY2(scoreProperties->type() == scoreType, "Score type wasn't set");
-    QVERIFY2(scoreProperties->composer() == scoreComposer, "Score composer wasn't set");
-    QVERIFY2(scoreProperties->arranger() == scoreArranger, "Score arranger wasn't set");
-    QVERIFY2(scoreProperties->year() == scoreYear, "Score year wasn't set");
-    QVERIFY2(scoreProperties->copyright() == scoreCopyright, "Score copyright wasn't set");
 }
 
 void VisualScoreTest::testDataChangedSignal()
 {
-    ScorePropertiesItem *scoreProperties = m_visualScore->scorePropertiesItem();
-    Q_ASSERT(scoreProperties);
     QSignalSpy spy(m_visualScore, SIGNAL(dataChanged(QVariant,int)));
     QString title("title 1");
-
-    scoreProperties->setTitle(title);
-    QVERIFY2(spy.count() == 1, "dataChanged signal wasn't emitted after setTitle");
 }
 
 QTEST_MAIN(VisualScoreTest)

@@ -40,7 +40,6 @@ private slots:
     void propertyFontChanged(LP::ScoreDataRole dataRole, const QFont& font);
     void propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color);
 
-    // Slots for ScorePropertiesItem signals
     void setTitle(const QString &title);
     void setType(const QString& type);
     void setComposer(const QString &composer);

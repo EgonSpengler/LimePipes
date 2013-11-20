@@ -14,7 +14,6 @@
 #include <itemdatatypes.h>
 #include "interactinggraphicsitem.h"
 #include "graphicitems/textrowwidget.h"
-#include <graphicsitemview/scorepropertiesinterface.h>
 
 class TextWidget;
 class QGraphicsLinearLayout;

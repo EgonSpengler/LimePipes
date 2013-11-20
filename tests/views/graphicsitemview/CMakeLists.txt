@@ -1,6 +1,5 @@
 add_subdirectory( pageviewitem )
 add_subdirectory( visualmusicmodel )
 add_subdirectory( GraphicsItemView )
-add_subdirectory( ScorePropertiesItem )
 add_subdirectory( VisualMusicPresenter )
 add_subdirectory( interactinggraphicsitems )

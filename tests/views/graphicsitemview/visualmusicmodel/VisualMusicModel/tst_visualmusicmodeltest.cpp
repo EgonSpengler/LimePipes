@@ -11,7 +11,6 @@
 #include <QCoreApplication>
 #include <QStandardItemModel>
 #include <model/musicmodel.h>
-#include <graphicsitemview/scorepropertiesitem.h>
 #include <graphicsitemview/visualmusicmodel/visualscore.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 #include "tst_visualmusicmodeltest.h"
@@ -22,6 +21,19 @@ VisualMusicModelTest::VisualMusicModelTest(QObject *parent)
     : QObject(parent)
 {
     qRegisterMetaType<QModelIndex>("QModelIndex");
+}
+
+void VisualMusicModelTest::init()
+{
+    m_musicModel = new MusicModel(this);
+    m_visualMusicModel = new VisualMusicModel();
+    m_visualMusicModel->setModel(m_musicModel);
+}
+
+void VisualMusicModelTest::cleanup()
+{
+    delete m_visualMusicModel;
+    delete m_musicModel;
 }
 
 void VisualMusicModelTest::testSetGetModel()
@@ -35,15 +47,13 @@ void VisualMusicModelTest::testInsertScore()
 {
     QString scoreTitle("Testscore");
     QSignalSpy spy(m_visualMusicModel, SIGNAL(scoreInserted(QModelIndex)));
-    QModelIndex scoreIndex = m_musicModel->insertScore(0, scoreTitle);
+
+    m_musicModel->appendScore(scoreTitle);
 
     QVERIFY2(m_visualMusicModel->m_rootItem != 0, "Root item is still 0 after insert of score");
     QVERIFY2(m_visualMusicModel->m_visualScoreIndexes.count() == 1,
              "No visual score was inserted");
     QVERIFY2(spy.count() == 1, "Score inserted signal wasn't emitted");
-    VisualScore *score = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
-    Q_ASSERT(score);
-    QVERIFY2(!score->scorePropertiesItem()->title().isEmpty(), "setDataFromIndex wasn't called on VisualScore");
 }
 
 void VisualMusicModelTest::testInsertTune()
@@ -107,19 +117,6 @@ void VisualMusicModelTest::testInsertSymbol()
     QVERIFY2(spy.count() == 1, "Symbol inserted wasn't emitted");
 }
 
-void VisualMusicModelTest::testVisualScorePropertiesItemFromIndex()
-{
-    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
-    ScorePropertiesItem *scorePropertiesItem = visualScore->scorePropertiesItem();
-
-    Q_ASSERT(scorePropertiesItem);
-
-    QVERIFY2(scorePropertiesItem ==
-             m_visualMusicModel->scorePropertiesItemFromIndex(scoreIndex),
-             "score properties item for index isn't the visual score");
-}
-
 void VisualMusicModelTest::testVisualScoreFromIndex()
 {
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
@@ -137,27 +134,6 @@ void VisualMusicModelTest::testScoreDataChanged()
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
     Q_ASSERT(visualScore);
-    ScorePropertiesItem *scoreProperties = visualScore->scorePropertiesItem();
-    Q_ASSERT(scoreProperties);
-    QString title("Testtitle");
-
-    scoreProperties->setTitle(title);
-
-    QVERIFY2(m_musicModel->data(scoreIndex, LP::ScoreTitle).toString() == title,
-             "Title of model was not set with changed data");
-}
-
-void VisualMusicModelTest::cleanup()
-{
-    delete m_visualMusicModel;
-    delete m_musicModel;
-}
-
-void VisualMusicModelTest::init()
-{
-    m_musicModel = new MusicModel(this);
-    m_visualMusicModel = new VisualMusicModel();
-    m_visualMusicModel->setModel(m_musicModel);
 }
 
 QTEST_MAIN(VisualMusicModelTest)
