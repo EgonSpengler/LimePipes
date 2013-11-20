@@ -8,7 +8,6 @@ find_package( Qt5Test    REQUIRED )
 set( Test_SOURCES
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualitem.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualrootitem.cpp
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualscore.cpp
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualtune.cpp
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualpart.cpp

@@ -14,7 +14,6 @@
 #include "../visualmusicmodelinterface.h"
 
 class GraphicsScene;
-class VisualRootItem;
 class VisualScore;
 class VisualTune;
 class VisualPart;
@@ -49,14 +48,12 @@ private slots:
     void scoreDataChanged(const QVariant& value, int dataRole);
 
 private:
-    void createRootItemIfNotPresent();
     void insertNewScores(const QModelIndex& index, int start, int end);
     void insertNewTunes(const QModelIndex& index, int start, int end);
     void insertNewParts(const QModelIndex& index, int start, int end);
     void insertNewMeasures(const QModelIndex& index, int start, int end);
     void insertNewSymbols(const QModelIndex& index, int start, int end);
     QAbstractItemModel *m_model;
-    VisualRootItem *m_rootItem;
     QHash<QPersistentModelIndex, VisualScore*> m_visualScoreIndexes;
     QHash<QPersistentModelIndex, VisualTune*> m_visualTuneIndexes;
     QHash<QPersistentModelIndex, VisualPart*> m_visualPartIndexes;

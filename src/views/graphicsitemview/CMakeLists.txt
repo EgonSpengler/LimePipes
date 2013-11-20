@@ -13,7 +13,6 @@ set( lp_graphicsitemview_SOURCES
 
         visualmusicmodel/visualmusicmodel.cpp
         visualmusicmodel/visualitem.cpp
-        visualmusicmodel/visualrootitem.cpp
         visualmusicmodel/visualscore.cpp
         visualmusicmodel/visualtune.cpp
         visualmusicmodel/visualpart.cpp

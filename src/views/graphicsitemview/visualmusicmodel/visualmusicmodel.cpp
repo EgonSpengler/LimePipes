@@ -14,14 +14,11 @@
 #include <views/graphicsitemview/visualmusicmodel/visualmeasure.h>
 #include <views/graphicsitemview/visualmusicmodel/visualsymbol.h>
 #include "../graphicsscene.h"
-#include "visualrootitem.h"
 #include "visualmusicmodel.h"
-
 
 VisualMusicModel::VisualMusicModel(QObject *parent)
     : QObject(parent),
-      m_model(0),
-      m_rootItem(0)
+      m_model(0)
 {
 }
 
@@ -31,8 +28,6 @@ VisualMusicModel::~VisualMusicModel()
 
 void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int end)
 {
-    createRootItemIfNotPresent();
-
     if (!parent.isValid()) {
         insertNewScores(parent, start, end);
     }
@@ -134,12 +129,6 @@ void VisualMusicModel::insertNewSymbols(const QModelIndex &index, int start, int
             emit symbolInserted(itemIndex);
         }
     }
-}
-
-void VisualMusicModel::createRootItemIfNotPresent()
-{
-    if (m_rootItem == 0)
-        m_rootItem = new VisualRootItem();
 }
 
 void VisualMusicModel::setModel(QAbstractItemModel *model)

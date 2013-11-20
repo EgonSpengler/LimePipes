@@ -50,7 +50,6 @@ void VisualMusicModelTest::testInsertScore()
 
     m_musicModel->appendScore(scoreTitle);
 
-    QVERIFY2(m_visualMusicModel->m_rootItem != 0, "Root item is still 0 after insert of score");
     QVERIFY2(m_visualMusicModel->m_visualScoreIndexes.count() == 1,
              "No visual score was inserted");
     QVERIFY2(spy.count() == 1, "Score inserted signal wasn't emitted");
