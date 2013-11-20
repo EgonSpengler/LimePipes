@@ -8,7 +8,7 @@
 
 #include <QString>
 #include <QtTest/QtTest>
-#include <graphicsitemview/interactinggraphicsitems/scoregraphicsitem.h>
+#include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.h>
 
 class ScoreGraphicsItemTest : public QObject
 {

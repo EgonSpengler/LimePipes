@@ -10,6 +10,7 @@
 #define ITEMINTERACTION_H
 
 #include <QObject>
+#include <itemdatatypes.h>
 
 class QVariant;
 class QGraphicsScene;
@@ -48,7 +49,7 @@ public:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void setData(const QVariant& value, int role)
+    virtual void setData(const QVariant& value, LP::ScoreDataRole role)
     { Q_UNUSED(value); Q_UNUSED(role); }
 
 signals:

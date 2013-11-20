@@ -12,7 +12,7 @@
 #include <QList>
 #include <QObject>
 #include "pageviewinterface.h"
-#include "graphicsitemview/interactinggraphicsitems/scoreinteraction.h"
+#include "graphicsitemview/visualmusicmodel/iteminteractions/scoreinteraction.h"
 
 class VisualMusicModel;
 class QAbstractItemModel;
@@ -32,15 +32,11 @@ public:
     void setModel(QAbstractItemModel* model);
     QAbstractItemModel *model() const;
 
-private slots:
-    void scoreInserted(const QModelIndex& scoreIndex);
-
 private:
     void createConnections();
     VisualMusicModel *visualMusicModel() const;
     PageViewInterface *m_pageView;
     VisualMusicModel *m_visualMusicModel;
-    QList<ScoreInteraction*> m_interactingScores;
 };
 
 #endif // VISUALMUSICPRESENTER_H

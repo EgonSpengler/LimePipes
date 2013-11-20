@@ -9,7 +9,10 @@
 #ifndef VISUALSCORE_H
 #define VISUALSCORE_H
 
+#include <itemdatatypes.h>
 #include "visualitem.h"
+
+class ScoreGraphicsItem;
 
 class VisualScore : public VisualItem
 {
@@ -21,11 +24,19 @@ public:
     ItemType itemType() const;
     void setDataFromIndex(const QPersistentModelIndex &index);
 
+    GraphicalType graphicalType() const;
+    QList<InteractingGraphicsItem *> rowGraphics() const;
+
+    ScoreGraphicsItem *headerItem() const;
+    ScoreGraphicsItem *footerItem() const;
+
 private slots:
-    void titleChanged(const QString &title);
+    void scoreGraphicsTextChanged(LP::ScoreDataRole data, const QString &text);
 
 private:
     void createConnections();
+    ScoreGraphicsItem *m_headerItem;
+    ScoreGraphicsItem *m_footerItem;
 };
 
 #endif // VISUALSCORE_H

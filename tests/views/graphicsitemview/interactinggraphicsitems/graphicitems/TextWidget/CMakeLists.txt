@@ -5,7 +5,7 @@ set( testlibraries )
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
-set( GRAPHICITEMS_SOURCE_DIR ${VIEWS_SOURCE_DIR}/graphicsitemview/interactinggraphicsitems/graphicitems )
+set( GRAPHICITEMS_SOURCE_DIR ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/interactinggraphicsitems/graphicitems )
 set( Test_SOURCES
         ${GRAPHICITEMS_SOURCE_DIR}/graphicstextitem.cpp
         ${GRAPHICITEMS_SOURCE_DIR}/textwidget.cpp

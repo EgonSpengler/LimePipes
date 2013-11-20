@@ -6,7 +6,6 @@ set( lp_graphicsitemview_SOURCES
         graphicsscene.cpp
         graphicsitemview.cpp
         visualmusicpresenter.cpp
-        iteminteraction.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp
@@ -18,20 +17,22 @@ set( lp_graphicsitemview_SOURCES
         visualmusicmodel/visualpart.cpp
         visualmusicmodel/visualmeasure.cpp
         visualmusicmodel/visualsymbol.cpp
+        visualmusicmodel/iteminteraction.cpp
 
-        interactinggraphicsitems/interactinggraphicsitem.cpp
-        interactinggraphicsitems/scoreinteraction.cpp
-        interactinggraphicsitems/scoregraphicsitem.cpp
-        interactinggraphicsitems/graphicitems/textwidget.cpp
-        interactinggraphicsitems/graphicitems/textrowwidget.cpp
-        interactinggraphicsitems/graphicitems/graphicstextitem.cpp
-        interactinggraphicsitems/dialogs/scorepropertiesdialog.cpp
-        interactinggraphicsitems/dialogs/textpropertyeditwidget.cpp
+        visualmusicmodel/iteminteractions/scoreinteraction.cpp
+        visualmusicmodel/iteminteractions/dialogs/scorepropertiesdialog.cpp
+        visualmusicmodel/iteminteractions/dialogs/textpropertyeditwidget.cpp
+
+        visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.cpp
+        visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.cpp
+        visualmusicmodel/interactinggraphicsitems/graphicitems/textwidget.cpp
+        visualmusicmodel/interactinggraphicsitems/graphicitems/textrowwidget.cpp
+        visualmusicmodel/interactinggraphicsitems/graphicitems/graphicstextitem.cpp
         )
 
 set( lp_graphicsitemview_UIs
-        interactinggraphicsitems/dialogs/scorepropertiesdialog.ui
-        interactinggraphicsitems/dialogs/textpropertyeditwidget.ui
+        visualmusicmodel/iteminteractions/dialogs/scorepropertiesdialog.ui
+        visualmusicmodel/iteminteractions/dialogs/textpropertyeditwidget.ui
         )
 qt5_wrap_ui( lp_graphicsitemview_SOURCES ${lp_graphicsitemview_UIs} )
 

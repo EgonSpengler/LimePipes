@@ -13,7 +13,7 @@
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
-#include <views/graphicsitemview/interactinggraphicsitems/interactinggraphicsitem.h>
+#include <views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.h>
 #include "iteminteractiondummy.h"
 
 class InteractingGraphicsItemTest : public QObject

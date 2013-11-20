@@ -20,4 +20,6 @@ add_executable( ${testname} ${Test_SOURCES} )
 qt5_use_modules( ${testname} ${testmodules} )
 target_link_libraries( ${testname} ${testlibraries} )
 
-add_test( NAME ${testname} COMMAND ${testname} )
+#if(NOT ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+   add_test( NAME ${testname} COMMAND ${testname} )
+#endif()

@@ -41,19 +41,8 @@ QAbstractItemModel *VisualMusicPresenter::model() const
     return m_visualMusicModel->model();
 }
 
-void VisualMusicPresenter::scoreInserted(const QModelIndex &scoreIndex)
-{
-    ScoreInteraction *interactingScore = new ScoreInteraction(this);
-    m_interactingScores.insert(scoreIndex.row(), interactingScore);
-
-    m_pageView->appendRow(interactingScore->headerItem());
-    m_pageView->appendRow(interactingScore->footerItem());
-}
-
 void VisualMusicPresenter::createConnections()
 {
-    connect(m_visualMusicModel, SIGNAL(scoreInserted(QModelIndex)),
-            this, SLOT(scoreInserted(QModelIndex)));
 }
 
 VisualMusicModel *VisualMusicPresenter::visualMusicModel() const

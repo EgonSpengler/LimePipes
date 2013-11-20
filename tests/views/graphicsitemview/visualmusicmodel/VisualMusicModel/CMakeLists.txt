@@ -1,18 +1,11 @@
 set( testname VisualMusicModelTest )
 set( testmodules Test Widgets )
-set( testlibraries lp_model lp_greathighlandbagpipe )
+set( testlibraries lp_model lp_graphicsitemview lp_greathighlandbagpipe )
 
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualmusicmodel.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualitem.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualscore.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualtune.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualpart.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualmeasure.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualsymbol.cpp
         tst_visualmusicmodeltest.cpp
         )
 

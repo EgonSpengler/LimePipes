@@ -1,13 +1,11 @@
 set( testname VisualScoreTest )
-set( testmodules Test Gui )
-set( testlibraries lp_model lp_greathighlandbagpipe )
+set( testmodules Test Widgets )
+set( testlibraries lp_model lp_graphicsitemview lp_greathighlandbagpipe )
 
-find_package( Qt5Gui REQUIRED )
+find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualscore.cpp
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualitem.cpp
         tst_visualscoretest.cpp
         )
 

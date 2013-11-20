@@ -10,7 +10,7 @@
 #define INTERACTINGITEMDUMMY_H
 
 #include <QObject>
-#include <views/graphicsitemview/iteminteraction.h>
+#include <views/graphicsitemview/visualmusicmodel/iteminteraction.h>
 
 class ItemInteractionDummy : public ItemInteraction
 {
