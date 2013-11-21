@@ -15,7 +15,6 @@
 #include "interactinggraphicsitem.h"
 #include "graphicitems/textrowwidget.h"
 
-class TextWidget;
 class QGraphicsLinearLayout;
 
 class ScoreGraphicsItem : public InteractingGraphicsItem
@@ -47,13 +46,7 @@ private:
     public:
         int rowIndex;
         TextRowWidget::RowAlignment rowPosition;
-        bool operator ==(const TextItemPosition& other) const
-        {
-            if (rowIndex == other.rowIndex &&
-                    rowPosition == other.rowPosition)
-                return true;
-            return false;
-        }
+        bool operator ==(const TextItemPosition& other) const;
     };
 
     void appendRow();

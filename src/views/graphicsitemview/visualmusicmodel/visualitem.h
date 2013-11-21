@@ -28,7 +28,6 @@ public:
 
     enum ItemType {
         NoVisualItem,
-        VisualRootItem,
         VisualScoreItem,
         VisualTuneItem,
         VisualPartItem,
@@ -39,8 +38,15 @@ public:
     explicit VisualItem(QObject *parent = 0);
     virtual ~VisualItem() {}
 
-    virtual ItemType itemType() const { return NoVisualItem; }
-    virtual GraphicalType graphicalType() const { return NoGraphicalType; }
+    virtual ItemType itemType() const
+    {
+        return NoVisualItem;
+    }
+
+    virtual GraphicalType graphicalType() const
+    {
+        return NoGraphicalType;
+    }
 
     virtual void setDataFromIndex(const QPersistentModelIndex& index)
     {

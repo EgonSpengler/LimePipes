@@ -10,7 +10,8 @@
 #define INTERACTINGGRAPHICSITEM_H
 
 #include <QGraphicsWidget>
-#include "../iteminteraction.h"
+
+class ItemInteraction;
 
 class InteractingGraphicsItem : public QGraphicsWidget
 {

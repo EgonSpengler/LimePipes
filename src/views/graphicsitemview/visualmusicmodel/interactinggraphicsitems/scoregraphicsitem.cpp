@@ -138,3 +138,12 @@ void ScoreGraphicsItem::setItemColor(LP::ScoreDataRole itemType, const QColor &c
     TextRowWidget *row = m_textRows.at(position.rowIndex);
     row->setColor(position.rowPosition, color);
 }
+
+
+bool ScoreGraphicsItem::TextItemPosition::operator ==(const ScoreGraphicsItem::TextItemPosition &other) const
+{
+    if (rowIndex == other.rowIndex &&
+            rowPosition == other.rowPosition)
+        return true;
+    return false;
+}

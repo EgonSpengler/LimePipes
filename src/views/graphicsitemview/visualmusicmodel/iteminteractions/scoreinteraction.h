@@ -9,7 +9,6 @@
 #ifndef SCOREINTERACTION_H
 #define SCOREINTERACTION_H
 
-#include <QObject>
 #include <itemdatatypes.h>
 #include "../iteminteraction.h"
 

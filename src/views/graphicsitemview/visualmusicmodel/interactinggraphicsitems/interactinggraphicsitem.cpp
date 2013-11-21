@@ -6,6 +6,7 @@
  *
  */
 
+#include "../iteminteraction.h"
 #include "interactinggraphicsitem.h"
 
 InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)

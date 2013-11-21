@@ -57,7 +57,6 @@ signals:
 
 private:
     QGraphicsScene *m_graphicsScene;
-
 };
 
 #endif // ITEMINTERACTION_H

@@ -6,8 +6,8 @@
  *
  */
 
-#include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.h>
-#include <graphicsitemview/visualmusicmodel/iteminteractions/scoreinteraction.h>
+#include "interactinggraphicsitems/scoregraphicsitem.h"
+#include "iteminteractions/scoreinteraction.h"
 #include "visualscore.h"
 
 VisualScore::VisualScore(QObject *parent)
