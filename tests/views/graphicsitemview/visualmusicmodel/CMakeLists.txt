@@ -1,5 +1,6 @@
 add_subdirectory( interactinggraphicsitems )
 add_subdirectory( iteminteractions )
+add_subdirectory( ItemInteraction )
 add_subdirectory( VisualMusicModel )
 add_subdirectory( VisualItem )
 add_subdirectory( VisualScore )
