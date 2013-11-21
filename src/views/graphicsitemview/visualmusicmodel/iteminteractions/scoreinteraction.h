@@ -29,7 +29,7 @@ public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
-    void setData(const QVariant &value, LP::ScoreDataRole role);
+    void setData(const QVariant &value, int role);
 
 private slots:
     void propertyTextChanged(LP::ScoreDataRole dataRole, const QString& text);

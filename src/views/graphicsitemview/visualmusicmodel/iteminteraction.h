@@ -49,7 +49,7 @@ public:
     virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void setData(const QVariant& value, LP::ScoreDataRole role)
+    virtual void setData(const QVariant& value, int role)
     { Q_UNUSED(value); Q_UNUSED(role); }
 
 signals:

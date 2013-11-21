@@ -30,6 +30,12 @@ public:
      */
     void setItemInteraction(ItemInteraction *itemInteraction);
 
+    virtual void insertChildItem(int index, InteractingGraphicsItem *childItem)
+    {
+        Q_UNUSED(index);
+        Q_UNUSED(childItem);
+    }
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

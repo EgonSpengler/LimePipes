@@ -59,7 +59,7 @@ void ScoreInteraction::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     Q_UNUSED(event);
 }
 
-void ScoreInteraction::setData(const QVariant &value, LP::ScoreDataRole role)
+void ScoreInteraction::setData(const QVariant &value, int role)
 {
     m_scorePropertiesDialog->setPropertyText(role, value.toString());
 }

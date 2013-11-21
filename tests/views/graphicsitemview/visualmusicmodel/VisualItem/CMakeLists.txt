@@ -1,4 +1,4 @@
-set( testname AbstractVisualItemTest )
+set( testname VisualItemTest )
 set( testmodules Test Gui )
 set( testlibraries )
 

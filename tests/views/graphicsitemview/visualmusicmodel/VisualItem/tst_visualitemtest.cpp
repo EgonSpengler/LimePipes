@@ -20,6 +20,10 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testInitialItemType();
+    void testInitialGraphicalType();
+    void testDefaultInlineGraphic();
+    void testDefaultRowGraphics();
 
 private:
     VisualItem *visualItem;
@@ -38,6 +42,26 @@ void VisualItemTest::init()
 void VisualItemTest::cleanup()
 {
     delete visualItem;
+}
+
+void VisualItemTest::testInitialItemType()
+{
+    QVERIFY2(visualItem->itemType() == VisualItem::NoVisualItem, "Wrong initial itemtype");
+}
+
+void VisualItemTest::testInitialGraphicalType()
+{
+    QVERIFY2(visualItem->graphicalType() == VisualItem::NoGraphicalType, "Wrong initial graphical type");
+}
+
+void VisualItemTest::testDefaultInlineGraphic()
+{
+    QVERIFY2(visualItem->inlineGraphic() == 0, "Default inline graphic is not 0");
+}
+
+void VisualItemTest::testDefaultRowGraphics()
+{
+    QVERIFY2(visualItem->rowGraphics().isEmpty(), "Default row graphics is not empty");
 }
 
 QTEST_APPLESS_MAIN(VisualItemTest)

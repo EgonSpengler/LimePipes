@@ -37,7 +37,7 @@ ScorePropertiesDialog::~ScorePropertiesDialog()
     delete ui;
 }
 
-void ScorePropertiesDialog::setPropertyText(LP::ScoreDataRole dataRole, const QString &text)
+void ScorePropertiesDialog::setPropertyText(int dataRole, const QString &text)
 {
     if (!m_textEditWidgets.contains(dataRole)) return;
     TextPropertyEditWidget *editWidget = m_textEditWidgets.value(dataRole);

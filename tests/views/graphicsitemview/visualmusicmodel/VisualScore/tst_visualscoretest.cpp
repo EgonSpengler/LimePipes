@@ -25,7 +25,8 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testType();
+    void testItemType();
+    void testGraphicalType();
     void testSetDataFromIndex();
     void testDataChangedSignal();
 
@@ -50,9 +51,16 @@ void VisualScoreTest::cleanup()
     delete m_musicModel;
 }
 
-void VisualScoreTest::testType()
+void VisualScoreTest::testItemType()
 {
-    QVERIFY2(m_visualScore->itemType() == VisualItem::VisualScoreItem, "Visual score returned wrong type");
+    QVERIFY2(m_visualScore->itemType() == VisualItem::VisualScoreItem,
+             "Visual score returned wrong type");
+}
+
+void VisualScoreTest::testGraphicalType()
+{
+    QVERIFY2(m_visualScore->graphicalType() == VisualItem::GraphicalRowType,
+             "Visual score is no graphical row type");
 }
 
 void VisualScoreTest::testSetDataFromIndex()

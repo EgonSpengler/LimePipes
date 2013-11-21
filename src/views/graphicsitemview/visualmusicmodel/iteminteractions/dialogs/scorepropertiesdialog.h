@@ -28,7 +28,7 @@ public:
     explicit ScorePropertiesDialog(QWidget *parent = 0);
     ~ScorePropertiesDialog();
 
-    void setPropertyText(LP::ScoreDataRole dataRole, const QString& text);
+    void setPropertyText(int dataRole, const QString& text);
 
 private slots:
     void textChanged(int dataRole);
@@ -42,7 +42,7 @@ signals:
 
 private:
     void addTextEditWidget(int layoutRow, LP::ScoreDataRole dataRole, const QString& text);
-    QHash<LP::ScoreDataRole, TextPropertyEditWidget*> m_textEditWidgets;
+    QHash<int, TextPropertyEditWidget*> m_textEditWidgets;
     Ui::ScorePropertiesDialog *ui;
     QSignalMapper *m_textChangedMapper;
 };
