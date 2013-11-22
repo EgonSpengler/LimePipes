@@ -25,7 +25,7 @@ private Q_SLOTS:
     void testInsertPart();
     void testInsertMeasure();
     void testInsertSymbol();
-    void testVisualScoreFromIndex();
+    void testVisualItemFromIndex();
     void testScoreDataChanged();
 
 private:

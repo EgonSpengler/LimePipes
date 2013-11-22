@@ -91,8 +91,6 @@ void VisualScoreTest::testSetDataFromIndex()
     m_musicModel->setData(scoreIndex, scoreArranger, LP::ScoreArranger);
     m_musicModel->setData(scoreIndex, scoreYear, LP::ScoreYear);
     m_musicModel->setData(scoreIndex, scoreCopyright, LP::ScoreCopyright);
-
-    m_visualScore->setDataFromIndex(scoreIndex);
 }
 
 void VisualScoreTest::testDataChangedSignal()

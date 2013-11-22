@@ -10,6 +10,7 @@
 
 #include <QObject>
 #include <QHash>
+#include <QPersistentModelIndex>
 #include "visualitem.h"
 #include "../visualmusicmodelinterface.h"
 
@@ -34,18 +35,15 @@ public:
     // VisualMusicModelInterface
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
-    VisualScore *visualScoreFromIndex(const QModelIndex& scoreIndex);
+    VisualItem *visualItemFromIndex(const QModelIndex& scoreIndex);
 
 signals:
-    void scoreInserted(const QModelIndex& scoreIndex);
-    void tuneInserted(const QModelIndex& tuneIndex);
-    void partInserted(const QModelIndex& partIndex);
-    void measureInserted(const QModelIndex& measureIndex);
-    void symbolInserted(const QModelIndex& symbolIndex);
+    void scoreRowSequenceChanged(int scoreIndex);
 
 private slots:
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void scoreDataChanged(const QVariant& value, int dataRole);
+    void itemRowSequenceChanged();
 
 private:
     void insertNewScores(const QModelIndex& index, int start, int end);
@@ -53,12 +51,9 @@ private:
     void insertNewParts(const QModelIndex& index, int start, int end);
     void insertNewMeasures(const QModelIndex& index, int start, int end);
     void insertNewSymbols(const QModelIndex& index, int start, int end);
+    void insertVisualItem(QPersistentModelIndex itemIndex, VisualItem *item);
     QAbstractItemModel *m_model;
-    QHash<QPersistentModelIndex, VisualScore*> m_visualScoreIndexes;
-    QHash<QPersistentModelIndex, VisualTune*> m_visualTuneIndexes;
-    QHash<QPersistentModelIndex, VisualPart*> m_visualPartIndexes;
-    QHash<QPersistentModelIndex, VisualMeasure*> m_visualMeasureIndexes;
-    QHash<QPersistentModelIndex, VisualSymbol*> m_visualSymbolIndexes;
+    QHash<QPersistentModelIndex, VisualItem*> m_visualItemIndexes;
 };
 
 #endif // VISUALMUSICMODEL_H_7R3SY07L

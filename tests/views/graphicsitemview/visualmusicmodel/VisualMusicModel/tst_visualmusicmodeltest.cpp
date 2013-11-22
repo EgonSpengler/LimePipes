@@ -50,51 +50,35 @@ void VisualMusicModelTest::testInsertScore()
 
     m_musicModel->appendScore(scoreTitle);
 
-    QVERIFY2(m_visualMusicModel->m_visualScoreIndexes.count() == 1,
+    QVERIFY2(m_visualMusicModel->m_visualItemIndexes.count() == 1,
              "No visual score was inserted");
-    QVERIFY2(spy.count() == 1, "Score inserted signal wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertTune()
 {
-    QSignalSpy spy(m_visualMusicModel, SIGNAL(tuneInserted(QModelIndex)));
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
-
-    QVERIFY2(m_visualMusicModel->m_visualTuneIndexes.count() == 1,
-             "No visual tune was inserted");
-    QVERIFY2(spy.count() == 1, "Tune inserted signal wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertPart()
 {
-    QSignalSpy spy(m_visualMusicModel, SIGNAL(partInserted(QModelIndex)));
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
     m_musicModel->insertPartIntoTune(0, tuneIndex, 8);
-
-    QVERIFY2(m_visualMusicModel->m_visualPartIndexes.count() == 1,
-             "No visual part was inserted");
-    QVERIFY2(spy.count() == 1, "Part inserted signal wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertMeasure()
 {
-    QSignalSpy spy(m_visualMusicModel, SIGNAL(measureInserted(QModelIndex)));
     int measureCount = 8;
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
     m_musicModel->insertPartIntoTune(0, tuneIndex, measureCount);
-
-    QVERIFY2(m_visualMusicModel->m_visualMeasureIndexes.count() == measureCount,
-             "Not the correct visual measure count was inserted");
-    QVERIFY2(spy.count() == measureCount, "Measure inserted wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertSymbol()
@@ -110,29 +94,25 @@ void VisualMusicModelTest::testInsertSymbol()
     QModelIndex partIndex  = m_musicModel->insertPartIntoTune(0, tuneIndex, 8);
     QModelIndex measureIndex = m_musicModel->index(0, 0, partIndex);
     m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
-
-    QVERIFY2(m_visualMusicModel->m_visualSymbolIndexes.count() == 1,
-             "No visual symbol was inserted");
-    QVERIFY2(spy.count() == 1, "Symbol inserted wasn't emitted");
 }
 
-void VisualMusicModelTest::testVisualScoreFromIndex()
+void VisualMusicModelTest::testVisualItemFromIndex()
 {
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
+    VisualItem *visualItem = m_visualMusicModel->m_visualItemIndexes.value(scoreIndex);
 
-    Q_ASSERT(visualScore);
+    Q_ASSERT(visualItem);
 
-    QVERIFY2(visualScore ==
-             m_visualMusicModel->visualScoreFromIndex(scoreIndex),
-             "visual score for index isn't the visual score");
+    QVERIFY2(visualItem ==
+             m_visualMusicModel->visualItemFromIndex(scoreIndex),
+             "visual item for index isn't the right visual item");
 }
 
 void VisualMusicModelTest::testScoreDataChanged()
 {
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    VisualScore *visualScore = m_visualMusicModel->m_visualScoreIndexes.value(scoreIndex);
-    Q_ASSERT(visualScore);
+    VisualItem *visualItem = m_visualMusicModel->visualItemFromIndex(scoreIndex);
+    Q_ASSERT(visualItem);
 }
 
 QTEST_MAIN(VisualMusicModelTest)

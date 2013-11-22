@@ -48,11 +48,6 @@ public:
         return NoGraphicalType;
     }
 
-    virtual void setDataFromIndex(const QPersistentModelIndex& index)
-    {
-        Q_UNUSED(index);
-    }
-
     virtual InteractingGraphicsItem *inlineGraphic() const
     {
         return 0;
@@ -65,6 +60,7 @@ public:
 
 signals:
     void dataChanged(const QVariant& value, int dataRole);
+    void rowSequenceChanged();
 };
 
 #endif // VISUALITEM_H

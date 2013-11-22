@@ -20,10 +20,6 @@ VisualItem::ItemType VisualScore::itemType() const
     return VisualItem::VisualScoreItem;
 }
 
-void VisualScore::setDataFromIndex(const QPersistentModelIndex &index)
-{
-}
-
 InteractingGraphicsItem *VisualScore::headerItem() const
 {
     return m_headerItem;

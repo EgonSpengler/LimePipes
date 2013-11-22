@@ -22,7 +22,6 @@ public:
 
     // AbstractVisualItem interface
     ItemType itemType() const;
-    void setDataFromIndex(const QPersistentModelIndex &index);
 
     GraphicalType graphicalType() const;
     QList<InteractingGraphicsItem *> rowGraphics() const;
