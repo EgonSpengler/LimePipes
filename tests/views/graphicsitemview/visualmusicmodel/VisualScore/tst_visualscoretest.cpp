@@ -27,6 +27,7 @@ private Q_SLOTS:
     void cleanup();
     void testItemType();
     void testGraphicalType();
+    void testRowGraphics();
     void testSetDataFromIndex();
     void testDataChangedSignal();
 
@@ -61,6 +62,16 @@ void VisualScoreTest::testGraphicalType()
 {
     QVERIFY2(m_visualScore->graphicalType() == VisualItem::GraphicalRowType,
              "Visual score is no graphical row type");
+}
+
+void VisualScoreTest::testRowGraphics()
+{
+    QList<InteractingGraphicsItem*> scoreRows(m_visualScore->rowGraphics());
+    QVERIFY2(scoreRows.count() == 2, "Score has not correct row count");
+
+    Q_ASSERT(scoreRows.count() == 2);
+    QVERIFY2(scoreRows.at(0) == m_visualScore->headerItem(), "First row graphic is not header item");
+    QVERIFY2(scoreRows.at(1) == m_visualScore->footerItem(), "Second row graphic is not footer item");
 }
 
 void VisualScoreTest::testSetDataFromIndex()

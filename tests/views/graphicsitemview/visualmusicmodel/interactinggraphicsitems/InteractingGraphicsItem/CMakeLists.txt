@@ -6,7 +6,6 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.cpp
         iteminteractiondummy.cpp
         tst_interactinggraphicsitemtest.cpp
         )

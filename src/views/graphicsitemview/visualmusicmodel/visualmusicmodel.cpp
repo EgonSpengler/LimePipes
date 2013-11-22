@@ -9,6 +9,8 @@
 #include <QAbstractItemModel>
 #include <musicitem.h>
 #include <views/graphicsitemview/visualmusicmodel/visualscore.h>
+#include "interactinggraphicsitems/scoregraphicsitem.h"
+#include "iteminteractions/scoreinteraction.h"
 #include <views/graphicsitemview/visualmusicmodel/visualtune.h>
 #include <views/graphicsitemview/visualmusicmodel/visualpart.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmeasure.h>
@@ -70,6 +72,23 @@ void VisualMusicModel::insertNewScores(const QModelIndex &index, int start, int 
         QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
         if (itemIndex.isValid()) {
             VisualScore *score = new VisualScore(this);
+
+            ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem();
+            scoreHeaderItem->setItemInteraction(new ScoreInteraction);
+            scoreHeaderItem->setItemPosition(LP::ScoreType, 0, TextRowWidget::Left);
+            scoreHeaderItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+            QFont font;
+            font.setPointSize(16);
+            scoreHeaderItem->setItemFont(LP::ScoreTitle, font);
+            scoreHeaderItem->setItemPosition(LP::ScoreComposer, 0, TextRowWidget::Right);
+            scoreHeaderItem->setItemPosition(LP::ScoreArranger, 1, TextRowWidget::Right);
+            score->setHeaderItem(scoreHeaderItem);
+
+            ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem();
+            scoreFooterItem->setItemPosition(LP::ScoreYear, 0, TextRowWidget::Left);
+            scoreFooterItem->setItemPosition(LP::ScoreCopyright, 0, TextRowWidget::Right);
+            scoreFooterItem->setItemInteraction(new ScoreInteraction);
+
             score->setDataFromIndex(itemIndex);
             connect(score, SIGNAL(dataChanged(QVariant,int)),
                     this, SLOT(scoreDataChanged(QVariant,int)));

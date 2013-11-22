@@ -27,16 +27,18 @@ public:
     GraphicalType graphicalType() const;
     QList<InteractingGraphicsItem *> rowGraphics() const;
 
-    ScoreGraphicsItem *headerItem() const;
-    ScoreGraphicsItem *footerItem() const;
+    void setHeaderItem(InteractingGraphicsItem *item);
+    InteractingGraphicsItem *headerItem() const;
+
+    void setFooterItem(InteractingGraphicsItem *item);
+    InteractingGraphicsItem *footerItem() const;
 
 private slots:
     void scoreGraphicsTextChanged(LP::ScoreDataRole data, const QString &text);
 
 private:
-    void createConnections();
-    ScoreGraphicsItem *m_headerItem;
-    ScoreGraphicsItem *m_footerItem;
+    InteractingGraphicsItem *m_headerItem;
+    InteractingGraphicsItem *m_footerItem;
 };
 
 #endif // VISUALSCORE_H

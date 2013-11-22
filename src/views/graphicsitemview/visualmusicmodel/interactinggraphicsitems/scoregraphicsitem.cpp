@@ -9,6 +9,7 @@
 #include <QGraphicsLinearLayout>
 #include "graphicitems/textwidget.h"
 #include "graphicitems/textrowwidget.h"
+#include "../iteminteraction.h"
 #include "scoregraphicsitem.h"
 
 ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
@@ -19,6 +20,8 @@ ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
     m_rowLayout->setContentsMargins(0, 0, 0, 0);
 
     appendRow();
+
+    createConnections();
 }
 
 void ScoreGraphicsItem::appendRow()
@@ -29,6 +32,22 @@ void ScoreGraphicsItem::appendRow()
 
     connect(newRow, SIGNAL(textChanged(TextRowWidget::RowAlignment,QString)),
             this, SLOT(textRowItemChanged(TextRowWidget::RowAlignment,QString)));
+}
+
+void ScoreGraphicsItem::createConnections()
+{
+    connect(this, &InteractingGraphicsItem::itemInteractionChanged,
+            this, &ScoreGraphicsItem::itemInteractionChanged);
+}
+
+void ScoreGraphicsItem::itemInteractionChanged()
+{
+    // Connect to new item interaction object
+    ItemInteraction *interaction = itemInteraction();
+    if (interaction == 0) return;
+
+    connect(this, &ScoreGraphicsItem::itemTextChanged,
+            interaction, &ItemInteraction::dataChanged);
 }
 
 void ScoreGraphicsItem::textRowItemChanged(TextRowWidget::RowAlignment position, const QString &newText)
@@ -48,7 +67,7 @@ void ScoreGraphicsItem::textRowItemChanged(TextRowWidget::RowAlignment position,
         return;
 
     LP::ScoreDataRole itemType = m_itemPositions.key(itemPosition);
-    emit itemTextChanged(itemType, newText);
+    emit itemTextChanged(newText, itemType);
 }
 
 void ScoreGraphicsItem::addRowsUntilRowIndex(int index)
@@ -138,7 +157,6 @@ void ScoreGraphicsItem::setItemColor(LP::ScoreDataRole itemType, const QColor &c
     TextRowWidget *row = m_textRows.at(position.rowIndex);
     row->setColor(position.rowPosition, color);
 }
-
 
 bool ScoreGraphicsItem::TextItemPosition::operator ==(const ScoreGraphicsItem::TextItemPosition &other) const
 {

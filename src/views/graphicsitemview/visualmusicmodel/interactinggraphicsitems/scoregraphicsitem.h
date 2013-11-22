@@ -36,9 +36,10 @@ public:
     void setItemColor(LP::ScoreDataRole itemType, const QColor& color);
 
 signals:
-    void itemTextChanged(LP::ScoreDataRole dataRole, const QString& text);
+    void itemTextChanged(const QVariant& text, int dataRole);
 
 private slots:
+    void itemInteractionChanged();
     void textRowItemChanged(TextRowWidget::RowAlignment position, const QString& newText);
 
 private:
@@ -49,6 +50,7 @@ private:
         bool operator ==(const TextItemPosition& other) const;
     };
 
+    void createConnections();
     void appendRow();
     void addRowsUntilRowIndex(int index);
     QList<TextRowWidget*> m_textRows;

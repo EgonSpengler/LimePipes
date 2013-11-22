@@ -22,11 +22,16 @@ ItemInteraction *InteractingGraphicsItem::itemInteraction() const
 
 void InteractingGraphicsItem::setItemInteraction(ItemInteraction *itemInteraction)
 {
+    if (itemInteraction == m_itemInteraction)
+        return;
+
     if (m_itemInteraction)
         delete m_itemInteraction;
 
     itemInteraction->setParent(this);
     m_itemInteraction = itemInteraction;
+
+    emit itemInteractionChanged();
 }
 
 void InteractingGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
