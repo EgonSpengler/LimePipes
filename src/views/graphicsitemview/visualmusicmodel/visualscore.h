@@ -32,9 +32,6 @@ public:
     void setFooterItem(InteractingGraphicsItem *item);
     InteractingGraphicsItem *footerItem() const;
 
-private slots:
-    void scoreGraphicsTextChanged(LP::ScoreDataRole data, const QString &text);
-
 private:
     InteractingGraphicsItem *m_headerItem;
     InteractingGraphicsItem *m_footerItem;

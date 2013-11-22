@@ -40,11 +40,6 @@ InteractingGraphicsItem *VisualScore::footerItem() const
     return m_footerItem;
 }
 
-void VisualScore::scoreGraphicsTextChanged(LP::ScoreDataRole data, const QString &text)
-{
-    emit dataChanged(text, data);
-}
-
 VisualItem::GraphicalType VisualScore::graphicalType() const
 {
     return VisualItem::GraphicalRowType;
