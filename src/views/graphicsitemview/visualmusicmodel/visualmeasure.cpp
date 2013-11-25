@@ -9,15 +9,7 @@
 #include "visualmeasure.h"
 
 VisualMeasure::VisualMeasure(QObject *parent)
-    : VisualItem(parent)
-{
-}
-
-VisualItem::ItemType VisualMeasure::itemType() const
-{
-    return VisualItem::VisualMeasureItem;
-}
-
-void VisualMeasure::setDataFromIndex(const QPersistentModelIndex &index)
+    : VisualItem(VisualItem::VisualMeasureItem,
+                 VisualItem::GraphicalInlineType, parent)
 {
 }

@@ -16,9 +16,6 @@ class VisualTune : public VisualItem
 {
 public:
     explicit VisualTune(QObject *parent = 0);
-
-    ItemType itemType() const;
-    void setDataFromIndex(const QPersistentModelIndex &index);
 };
 
 #endif // VISUALTUNE_H

@@ -16,9 +16,6 @@ class VisualMeasure : public VisualItem
 {
 public:
     explicit VisualMeasure(QObject *parent = 0);
-
-    ItemType itemType() const;
-    void setDataFromIndex(const QPersistentModelIndex &index);
 };
 
 #endif // VISUALMEASURE_H

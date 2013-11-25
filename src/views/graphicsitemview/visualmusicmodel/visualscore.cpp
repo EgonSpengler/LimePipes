@@ -9,15 +9,11 @@
 #include "visualscore.h"
 
 VisualScore::VisualScore(QObject *parent)
-    : VisualItem(parent),
+    : VisualItem(VisualItem::VisualScoreItem,
+                 VisualItem::GraphicalRowType, parent),
       m_headerItem(0),
       m_footerItem(0)
 {
-}
-
-VisualItem::ItemType VisualScore::itemType() const
-{
-    return VisualItem::VisualScoreItem;
 }
 
 InteractingGraphicsItem *VisualScore::headerItem() const
@@ -38,11 +34,6 @@ void VisualScore::setHeaderItem(InteractingGraphicsItem *item)
 InteractingGraphicsItem *VisualScore::footerItem() const
 {
     return m_footerItem;
-}
-
-VisualItem::GraphicalType VisualScore::graphicalType() const
-{
-    return VisualItem::GraphicalRowType;
 }
 
 QList<InteractingGraphicsItem *> VisualScore::rowGraphics() const

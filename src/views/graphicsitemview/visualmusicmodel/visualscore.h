@@ -20,10 +20,6 @@ class VisualScore : public VisualItem
 public:
     explicit VisualScore(QObject *parent = 0);
 
-    // AbstractVisualItem interface
-    ItemType itemType() const;
-
-    GraphicalType graphicalType() const;
     QList<InteractingGraphicsItem *> rowGraphics() const;
 
     void setHeaderItem(InteractingGraphicsItem *item);

@@ -21,6 +21,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
+    void testGraphicalType();
 
 private:
     VisualMeasure *m_visualMeasure;
@@ -45,6 +46,12 @@ void VisualMeasureTest::testType()
 {
     QVERIFY2(m_visualMeasure->itemType() == VisualItem::VisualMeasureItem,
              "Visual measure returned wrong type");
+}
+
+void VisualMeasureTest::testGraphicalType()
+{
+    QVERIFY2(m_visualMeasure->graphicalType() == VisualItem::GraphicalInlineType,
+             "Returned wrong graphical type");
 }
 
 QTEST_APPLESS_MAIN(VisualMeasureTest)

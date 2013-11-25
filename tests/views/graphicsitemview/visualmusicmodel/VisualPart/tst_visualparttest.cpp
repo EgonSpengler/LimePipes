@@ -21,6 +21,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
+    void testGraphicalType();
 
 private:
     VisualPart *m_visualPart;
@@ -45,6 +46,12 @@ void VisualPartTest::testType()
 {
     QVERIFY2(m_visualPart->itemType() == VisualItem::VisualPartItem,
              "Visual part returned wrong type");
+}
+
+void VisualPartTest::testGraphicalType()
+{
+    QVERIFY2(m_visualPart->graphicalType() == VisualItem::GraphicalRowType,
+             "Returned wrong graphical type");
 }
 
 QTEST_APPLESS_MAIN(VisualPartTest)

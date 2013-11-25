@@ -105,6 +105,8 @@ void VisualMusicModel::itemRowSequenceChanged()
         break;
     }
     }
+
+    emit scoreRowSequenceChanged(scoreRow);
 }
 
 void VisualMusicModel::insertVisualItem(QPersistentModelIndex itemIndex, VisualItem *item)

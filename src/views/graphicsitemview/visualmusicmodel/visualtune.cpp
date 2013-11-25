@@ -9,15 +9,6 @@
 #include "visualtune.h"
 
 VisualTune::VisualTune(QObject *parent)
-    : VisualItem(parent)
-{
-}
-
-VisualItem::ItemType VisualTune::itemType() const
-{
-    return VisualItem::VisualTuneItem;
-}
-
-void VisualTune::setDataFromIndex(const QPersistentModelIndex &index)
+    : VisualItem(VisualItem::VisualTuneItem, parent)
 {
 }

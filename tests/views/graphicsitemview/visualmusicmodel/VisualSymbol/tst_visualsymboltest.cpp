@@ -21,6 +21,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
+    void testGraphicalType();
 
 private:
     VisualSymbol *m_visualSymbol;
@@ -45,6 +46,12 @@ void VisualSymbolTest::testType()
 {
     QVERIFY2(m_visualSymbol->itemType() == VisualItem::VisualSymbolItem,
              "Visual symbol returned wrong type");
+}
+
+void VisualSymbolTest::testGraphicalType()
+{
+    QVERIFY2(m_visualSymbol->graphicalType() == VisualItem::GraphicalInlineType,
+             "Returned wrong graphical type");
 }
 
 QTEST_APPLESS_MAIN(VisualSymbolTest)

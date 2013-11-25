@@ -1,12 +1,13 @@
 set( testname VisualItemTest )
-set( testmodules Test Gui )
+set( testmodules Test Widgets )
 set( testlibraries )
 
-find_package( Qt5Gui REQUIRED )
+find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/visualitem.cpp
+        ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.cpp
         tst_visualitemtest.cpp
         )
 

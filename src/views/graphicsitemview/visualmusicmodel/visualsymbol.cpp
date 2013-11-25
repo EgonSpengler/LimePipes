@@ -9,15 +9,7 @@
 #include "visualsymbol.h"
 
 VisualSymbol::VisualSymbol(QObject *parent)
-    : VisualItem(parent)
-{
-}
-
-VisualItem::ItemType VisualSymbol::itemType() const
-{
-    return VisualItem::VisualSymbolItem;
-}
-
-void VisualSymbol::setDataFromIndex(const QPersistentModelIndex &index)
+    : VisualItem(VisualItem::VisualSymbolItem,
+                 VisualItem::GraphicalInlineType, parent)
 {
 }

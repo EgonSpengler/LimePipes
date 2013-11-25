@@ -10,6 +10,7 @@
 #define VISUALITEM_H
 
 #include <QObject>
+#include <QList>
 #include <QPersistentModelIndex>
 
 class InteractingGraphicsItem;
@@ -36,22 +37,18 @@ public:
     };
 
     explicit VisualItem(QObject *parent = 0);
+    explicit VisualItem(ItemType type, QObject *parent = 0);
+    explicit VisualItem(ItemType type, GraphicalType graphicalType, QObject *parent = 0);
     virtual ~VisualItem() {}
 
-    virtual ItemType itemType() const
-    {
-        return NoVisualItem;
-    }
+    void setItemType(ItemType type) { m_itemType = type; }
+    ItemType itemType() const { return m_itemType; }
 
-    virtual GraphicalType graphicalType() const
-    {
-        return NoGraphicalType;
-    }
+    void setGraphicalType(GraphicalType graphicalType) { m_graphicalItemType = graphicalType; }
+    GraphicalType graphicalType() const { return m_graphicalItemType; }
 
-    virtual InteractingGraphicsItem *inlineGraphic() const
-    {
-        return 0;
-    }
+    void setInlineGraphic(InteractingGraphicsItem *inlineGraphic);
+    InteractingGraphicsItem *inlineGraphic() const;
 
     virtual QList<InteractingGraphicsItem*> rowGraphics() const
     {
@@ -61,6 +58,11 @@ public:
 signals:
     void dataChanged(const QVariant& value, int dataRole);
     void rowSequenceChanged();
+
+private:
+    ItemType m_itemType;
+    GraphicalType m_graphicalItemType;
+    QList<InteractingGraphicsItem*> m_graphicsItems;
 };
 
 #endif // VISUALITEM_H

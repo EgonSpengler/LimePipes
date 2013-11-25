@@ -16,9 +16,6 @@ class VisualPart : public VisualItem
 {
 public:
     explicit VisualPart(QObject *parent = 0);
-
-    ItemType itemType() const;
-    void setDataFromIndex(const QPersistentModelIndex &index);
 };
 
 #endif // VISUALPART_H

@@ -16,9 +16,6 @@ class VisualSymbol : public VisualItem
 {
 public:
     explicit VisualSymbol(QObject *parent = 0);
-
-    ItemType itemType() const;
-    void setDataFromIndex(const QPersistentModelIndex &index);
 };
 
 #endif // VISUALSYMBOL_H

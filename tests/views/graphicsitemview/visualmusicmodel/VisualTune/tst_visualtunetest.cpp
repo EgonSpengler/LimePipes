@@ -21,6 +21,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testType();
+    void testGraphicalType();
 
 private:
     VisualTune *m_visualTune;
@@ -45,6 +46,12 @@ void VisualTuneTest::testType()
 {
     QVERIFY2(m_visualTune->itemType() == VisualItem::VisualTuneItem,
              "Visual tune returned wrong type");
+}
+
+void VisualTuneTest::testGraphicalType()
+{
+    QVERIFY2(m_visualTune->graphicalType() == VisualItem::NoGraphicalType,
+             "Returned wrong graphical type");
 }
 
 QTEST_APPLESS_MAIN(VisualTuneTest)
