@@ -54,4 +54,5 @@ VisualItem *VisualItemFactory::newVisualScore()
     newItem->appendRow(scoreHeaderItem);
     newItem->appendRow(scoreFooterItem);
 
+    return newItem;
 }

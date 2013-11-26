@@ -7,11 +7,9 @@
  */
 
 #include <QtTest/QtTest>
-#include <QtTest/QSignalSpy>
 #include <QCoreApplication>
 #include <QStandardItemModel>
 #include <model/musicmodel.h>
-#include <graphicsitemview/visualmusicmodel/visualscore.h>
 #include <graphicsitemview/visualmusicmodel/visualitemfactory.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 #include "tst_visualmusicmodeltest.h"
@@ -51,7 +49,6 @@ void VisualMusicModelTest::testSetGetModel()
 void VisualMusicModelTest::testInsertScore()
 {
     QString scoreTitle("Testscore");
-    QSignalSpy spy(m_visualMusicModel, SIGNAL(scoreInserted(QModelIndex)));
 
     m_musicModel->appendScore(scoreTitle);
 
@@ -88,7 +85,6 @@ void VisualMusicModelTest::testInsertMeasure()
 
 void VisualMusicModelTest::testInsertSymbol()
 {
-    QSignalSpy spy(m_visualMusicModel, SIGNAL(symbolInserted(QModelIndex)));
     Q_ASSERT(m_musicModel->instrumentNames().count());
     QString instrumentName = m_musicModel->instrumentNames().at(0);
     Q_ASSERT(m_musicModel->symbolNamesForInstrument(instrumentName).count());
