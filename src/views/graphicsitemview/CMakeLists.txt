@@ -10,6 +10,7 @@ set( lp_graphicsitemview_SOURCES
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp
 
+        visualmusicmodel/visualitemfactory.cpp
         visualmusicmodel/visualmusicmodel.cpp
         visualmusicmodel/visualitem.cpp
         visualmusicmodel/visualscore.cpp

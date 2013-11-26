@@ -10,7 +10,6 @@
 #include <QResizeEvent>
 #include <itemdatatypes.h>
 #include <musicitem.h>
-#include <datatypes/instrument.h>
 #include "graphicsview.h"
 #include "graphicsscene.h"
 #include "pageviewitem/pageviewitem.h"

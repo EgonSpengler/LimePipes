@@ -7,16 +7,24 @@
  */
 
 #include "visualmusicmodel/visualmusicmodel.h"
+#include "visualmusicmodel/visualitemfactory.h"
 #include "visualmusicpresenter.h"
 
 VisualMusicPresenter::VisualMusicPresenter(QObject *parent)
     : QObject(parent),
       m_pageView(0),
-      m_visualMusicModel(0)
+      m_visualMusicModel(0),
+      m_itemFactory(0)
 {
-    m_visualMusicModel = new VisualMusicModel(this);
+    m_itemFactory = new VisualItemFactory();
+    m_visualMusicModel = new VisualMusicModel(m_itemFactory, this);
 
     createConnections();
+}
+
+VisualMusicPresenter::~VisualMusicPresenter()
+{
+    delete m_itemFactory;
 }
 
 void VisualMusicPresenter::setPageView(PageViewInterface *pageView)

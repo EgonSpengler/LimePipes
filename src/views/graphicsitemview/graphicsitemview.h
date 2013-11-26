@@ -10,7 +10,6 @@
 #define GRAPHICSITEMVIEW_H
 
 #include <QAbstractItemView>
-#include "visualmusicmodelinterface.h"
 
 class GraphicsView;
 class GraphicsScene;

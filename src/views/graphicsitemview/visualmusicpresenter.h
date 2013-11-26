@@ -14,6 +14,7 @@
 #include "pageviewinterface.h"
 #include "graphicsitemview/visualmusicmodel/iteminteractions/scoreinteraction.h"
 
+class AbstractVisualItemFactory;
 class VisualMusicModel;
 class QAbstractItemModel;
 class QModelIndex;
@@ -25,6 +26,7 @@ class VisualMusicPresenter : public QObject
     Q_OBJECT
 public:
     explicit VisualMusicPresenter(QObject *parent = 0);
+    ~VisualMusicPresenter();
 
     void setPageView(PageViewInterface *pageView);
     PageViewInterface *pageView() const;
@@ -37,6 +39,7 @@ private:
     VisualMusicModel *visualMusicModel() const;
     PageViewInterface *m_pageView;
     VisualMusicModel *m_visualMusicModel;
+    AbstractVisualItemFactory *m_itemFactory;
 };
 
 #endif // VISUALMUSICPRESENTER_H

@@ -12,13 +12,17 @@
 #include <QStandardItemModel>
 #include <model/musicmodel.h>
 #include <graphicsitemview/visualmusicmodel/visualscore.h>
+#include <graphicsitemview/visualmusicmodel/visualitemfactory.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 #include "tst_visualmusicmodeltest.h"
 
 Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
 
 VisualMusicModelTest::VisualMusicModelTest(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+      m_musicModel(0),
+      m_visualMusicModel(0),
+      m_itemFactory(0)
 {
     qRegisterMetaType<QModelIndex>("QModelIndex");
 }
@@ -26,7 +30,8 @@ VisualMusicModelTest::VisualMusicModelTest(QObject *parent)
 void VisualMusicModelTest::init()
 {
     m_musicModel = new MusicModel(this);
-    m_visualMusicModel = new VisualMusicModel();
+    m_itemFactory = new VisualItemFactory();
+    m_visualMusicModel = new VisualMusicModel(m_itemFactory);
     m_visualMusicModel->setModel(m_musicModel);
 }
 

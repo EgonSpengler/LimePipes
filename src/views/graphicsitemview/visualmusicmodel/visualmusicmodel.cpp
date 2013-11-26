@@ -8,19 +8,12 @@
 
 #include <QAbstractItemModel>
 #include <musicitem.h>
-#include <views/graphicsitemview/visualmusicmodel/visualscore.h>
-#include "interactinggraphicsitems/scoregraphicsitem.h"
-#include "iteminteractions/scoreinteraction.h"
-#include <views/graphicsitemview/visualmusicmodel/visualtune.h>
-#include <views/graphicsitemview/visualmusicmodel/visualpart.h>
-#include <views/graphicsitemview/visualmusicmodel/visualmeasure.h>
-#include <views/graphicsitemview/visualmusicmodel/visualsymbol.h>
-#include "../graphicsscene.h"
 #include "visualmusicmodel.h"
 
-VisualMusicModel::VisualMusicModel(QObject *parent)
+VisualMusicModel::VisualMusicModel(AbstractVisualItemFactory *itemFactory, QObject *parent)
     : QObject(parent),
-      m_model(0)
+      m_model(0),
+      m_itemFactory(itemFactory)
 {
 }
 
@@ -31,38 +24,38 @@ VisualMusicModel::~VisualMusicModel()
 void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int end)
 {
     if (!parent.isValid()) {
-        insertNewScores(parent, start, end);
+        insertNewVisualItems(parent, start, end, VisualItem::VisualScoreItem);
     }
     MusicItem *item = static_cast<MusicItem*>(parent.internalPointer());
     if (!item) return;
 
     if (item->type() == MusicItem::ScoreType) {
-        insertNewTunes(parent, start, end);
+        insertNewVisualItems(parent, start, end, VisualItem::VisualTuneItem);
     }
     if (item->type() == MusicItem::TuneType) {
-        insertNewParts(parent, start, end);
+        insertNewVisualItems(parent, start, end, VisualItem::VisualPartItem);
     }
     if (item->type() == MusicItem::PartType) {
-        insertNewMeasures(parent, start, end);
+        insertNewVisualItems(parent, start, end, VisualItem::VisualMeasureItem);
     }
     if (item->type() == MusicItem::MeasureType) {
-        insertNewSymbols(parent, start, end);
+        insertNewVisualItems(parent, start, end, VisualItem::VisualSymbolItem);
     }
 }
 
-void VisualMusicModel::scoreDataChanged(const QVariant &value, int dataRole)
+void VisualMusicModel::visualItemDataChanged(const QVariant &value, int dataRole)
 {
     QObject *senderObject = sender();
     if (!senderObject) return;
 
-    VisualScore *score = dynamic_cast<VisualScore*>(senderObject);
-    if (!score) return;
+    VisualItem *visualItem = dynamic_cast<VisualItem*>(senderObject);
+    if (!visualItem) return;
 
-    if (!m_visualItemIndexes.values().contains(score)) return;
-    QModelIndex scoreIndex = m_visualItemIndexes.key(score);
-    if (!scoreIndex.isValid()) return;
+    if (!m_visualItemIndexes.values().contains(visualItem)) return;
+    QModelIndex itemIndex = m_visualItemIndexes.key(visualItem);
+    if (!itemIndex.isValid()) return;
 
-    m_model->setData(scoreIndex, value, dataRole);
+    m_model->setData(itemIndex, value, dataRole);
 }
 
 void VisualMusicModel::itemRowSequenceChanged()
@@ -109,90 +102,30 @@ void VisualMusicModel::itemRowSequenceChanged()
     emit scoreRowSequenceChanged(scoreRow);
 }
 
+void VisualMusicModel::insertNewVisualItems(const QModelIndex &index, int start, int end,
+                                            VisualItem::ItemType itemType)
+{
+    if (!model()) return;
+    for (int i=start; i<=end; i++) {
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        if (itemIndex.isValid()) {
+            VisualItem *visualItem = m_itemFactory->createVisualItem(itemType);
+            if (visualItem == 0) continue;
+
+            visualItem->setParent(this);
+
+            connect(visualItem, &VisualItem::dataChanged,
+                    this, &VisualMusicModel::visualItemDataChanged);
+            insertVisualItem(itemIndex, visualItem);
+        }
+    }
+}
+
 void VisualMusicModel::insertVisualItem(QPersistentModelIndex itemIndex, VisualItem *item)
 {
     connect(item, &VisualItem::rowSequenceChanged,
             this, &VisualMusicModel::itemRowSequenceChanged);
     m_visualItemIndexes.insert(itemIndex, item);
-}
-
-void VisualMusicModel::insertNewScores(const QModelIndex &index, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
-        if (itemIndex.isValid()) {
-            VisualScore *score = new VisualScore(this);
-
-            ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem();
-            scoreHeaderItem->setItemInteraction(new ScoreInteraction);
-            scoreHeaderItem->setItemPosition(LP::ScoreType, 0, TextRowWidget::Left);
-            scoreHeaderItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
-            QFont font;
-            font.setPointSize(16);
-            scoreHeaderItem->setItemFont(LP::ScoreTitle, font);
-            scoreHeaderItem->setItemPosition(LP::ScoreComposer, 0, TextRowWidget::Right);
-            scoreHeaderItem->setItemPosition(LP::ScoreArranger, 1, TextRowWidget::Right);
-            score->setHeaderItem(scoreHeaderItem);
-
-            ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem();
-            scoreFooterItem->setItemPosition(LP::ScoreYear, 0, TextRowWidget::Left);
-            scoreFooterItem->setItemPosition(LP::ScoreCopyright, 0, TextRowWidget::Right);
-            scoreFooterItem->setItemInteraction(new ScoreInteraction);
-
-            connect(score, SIGNAL(dataChanged(QVariant,int)),
-                    this, SLOT(scoreDataChanged(QVariant,int)));
-            insertVisualItem(itemIndex, score);
-        }
-    }
-}
-
-void VisualMusicModel::insertNewTunes(const QModelIndex &index, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
-        if (itemIndex.isValid()) {
-            VisualTune *tune = new VisualTune(this);
-            insertVisualItem(itemIndex, tune);
-        }
-    }
-}
-
-void VisualMusicModel::insertNewParts(const QModelIndex &index, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
-        if (itemIndex.isValid()) {
-            VisualPart *part = new VisualPart(this);
-            insertVisualItem(itemIndex, part);
-        }
-    }
-}
-
-void VisualMusicModel::insertNewMeasures(const QModelIndex &index, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
-        if (itemIndex.isValid()) {
-            VisualMeasure *measure = new VisualMeasure(this);
-            insertVisualItem(itemIndex, measure);
-        }
-    }
-}
-
-void VisualMusicModel::insertNewSymbols(const QModelIndex &index, int start, int end)
-{
-    if (!model()) return;
-    for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
-        if (itemIndex.isValid()) {
-            VisualSymbol *symbol = new VisualSymbol(this);
-            insertVisualItem(itemIndex, symbol);
-        }
-    }
 }
 
 void VisualMusicModel::setModel(QAbstractItemModel *model)
@@ -208,10 +141,10 @@ QAbstractItemModel *VisualMusicModel::model() const
     return m_model;
 }
 
-VisualItem *VisualMusicModel::visualItemFromIndex(const QModelIndex &scoreIndex)
+VisualItem *VisualMusicModel::visualItemFromIndex(const QModelIndex &itemIndex)
 {
-    if (!m_visualItemIndexes.contains(scoreIndex))
+    if (!m_visualItemIndexes.contains(itemIndex))
         return 0;
 
-    return m_visualItemIndexes.value(scoreIndex);
+    return m_visualItemIndexes.value(itemIndex);
 }

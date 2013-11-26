@@ -10,6 +10,7 @@
 
 class MusicModel;
 class VisualMusicModel;
+class AbstractVisualItemFactory;
 
 class VisualMusicModelTest : public QObject {
     Q_OBJECT
@@ -31,4 +32,5 @@ private Q_SLOTS:
 private:
     MusicModel *m_musicModel;
     VisualMusicModel *m_visualMusicModel;
+    AbstractVisualItemFactory *m_itemFactory;
 };

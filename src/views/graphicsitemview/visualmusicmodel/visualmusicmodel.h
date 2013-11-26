@@ -12,48 +12,37 @@
 #include <QHash>
 #include <QPersistentModelIndex>
 #include "visualitem.h"
-#include "../visualmusicmodelinterface.h"
+#include "abstractvisualitemfactory.h"
 
-class GraphicsScene;
-class VisualScore;
-class VisualTune;
-class VisualPart;
-class VisualMeasure;
-class VisualSymbol;
-
-class VisualMusicModel : public QObject,
-                         public VisualMusicModelInterface
+class VisualMusicModel : public QObject
 {
     Q_OBJECT
 
     friend class VisualMusicModelTest;
 
 public:
-    explicit VisualMusicModel(QObject *parent=0);
+    explicit VisualMusicModel(AbstractVisualItemFactory *itemFactory, QObject *parent=0);
     virtual ~VisualMusicModel();
 
     // VisualMusicModelInterface
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
-    VisualItem *visualItemFromIndex(const QModelIndex& scoreIndex);
+    VisualItem *visualItemFromIndex(const QModelIndex& itemIndex);
 
 signals:
     void scoreRowSequenceChanged(int scoreIndex);
 
 private slots:
     void rowsInserted(const QModelIndex &parent, int start, int end);
-    void scoreDataChanged(const QVariant& value, int dataRole);
+    void visualItemDataChanged(const QVariant& value, int dataRole);
     void itemRowSequenceChanged();
 
 private:
-    void insertNewScores(const QModelIndex& index, int start, int end);
-    void insertNewTunes(const QModelIndex& index, int start, int end);
-    void insertNewParts(const QModelIndex& index, int start, int end);
-    void insertNewMeasures(const QModelIndex& index, int start, int end);
-    void insertNewSymbols(const QModelIndex& index, int start, int end);
+    void insertNewVisualItems(const QModelIndex& index, int start, int end, VisualItem::ItemType itemType);
     void insertVisualItem(QPersistentModelIndex itemIndex, VisualItem *item);
     QAbstractItemModel *m_model;
     QHash<QPersistentModelIndex, VisualItem*> m_visualItemIndexes;
+    AbstractVisualItemFactory *m_itemFactory;
 };
 
 #endif // VISUALMUSICMODEL_H_7R3SY07L
