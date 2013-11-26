@@ -20,8 +20,6 @@ class VisualScore : public VisualItem
 public:
     explicit VisualScore(QObject *parent = 0);
 
-    QList<InteractingGraphicsItem *> rowGraphics() const;
-
     void setHeaderItem(InteractingGraphicsItem *item);
     InteractingGraphicsItem *headerItem() const;
 

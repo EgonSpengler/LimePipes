@@ -50,10 +50,8 @@ public:
     void setInlineGraphic(InteractingGraphicsItem *inlineGraphic);
     InteractingGraphicsItem *inlineGraphic() const;
 
-    virtual QList<InteractingGraphicsItem*> rowGraphics() const
-    {
-        return QList<InteractingGraphicsItem*>();
-    }
+    void appendRow(InteractingGraphicsItem *graphicsItem);
+    QList<InteractingGraphicsItem*> rowGraphics() const;
 
 signals:
     void dataChanged(const QVariant& value, int dataRole);

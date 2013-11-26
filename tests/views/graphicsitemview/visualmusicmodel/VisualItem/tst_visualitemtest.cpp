@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testSetGetItemType();
     void testSetGetGraphicalType();
     void testInlineGraphic();
+    void testRowGraphics();
 
 private:
     VisualItem *m_visualItem;
@@ -133,7 +134,43 @@ void VisualItemTest::testInlineGraphic()
     Q_ASSERT(m_visualItem->inlineGraphic() == 0);
     m_visualItem->setInlineGraphic(graphicsItem);
     QVERIFY2(m_visualItem->inlineGraphic() == 0, "Failure, setting inline graphic in no graphical item type was successful");
+}
 
+void VisualItemTest::testRowGraphics()
+{
+    InteractingGraphicsItem *graphicsItem  = new InteractingGraphicsItem();
+    InteractingGraphicsItem *graphicsItem2 = new InteractingGraphicsItem();
+    m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+
+    QVERIFY2(m_visualItem->rowGraphics().count() == 0, "There is already at least one row item");
+
+    // Set item
+    m_visualItem->appendRow(graphicsItem);
+    QVERIFY2(m_visualItem->rowGraphics().count() == 1, "Failed appending row graphic");
+
+    // Append second item => order must fit
+    m_visualItem->appendRow(graphicsItem2);
+    QVERIFY2(m_visualItem->rowGraphics().count() == 2, "Failed appending second row graphic");
+    QVERIFY2(m_visualItem->rowGraphics().at(0) == graphicsItem, "Second row graphics was prepended");
+
+    // Append 0 item
+    m_visualItem->appendRow(0);
+    QVERIFY2(m_visualItem->rowGraphics().count() == 2, "Failure, appending 0 pointer was successful");
+
+    // Test on inline graphic, should always return empty row graphics list
+    delete m_visualItem;
+    m_visualItem = new VisualItem();
+    m_visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+
+    Q_ASSERT(m_visualItem->rowGraphics().count() == 0);
+    m_visualItem->appendRow(graphicsItem);
+    QVERIFY2(m_visualItem->rowGraphics().count() == 0, "Failure, appending row graphic on inline item was successful");
+
+    // Test on no graphical type should also return empty list
+    m_visualItem->setGraphicalType(VisualItem::NoGraphicalType);
+    Q_ASSERT(m_visualItem->rowGraphics().count() == 0);
+    m_visualItem->appendRow(graphicsItem);
+    QVERIFY2(m_visualItem->rowGraphics().count() == 0, "Failure, appending row graphic on no graphical item was successful");
 }
 
 QTEST_APPLESS_MAIN(VisualItemTest)

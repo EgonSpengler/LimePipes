@@ -35,11 +35,3 @@ InteractingGraphicsItem *VisualScore::footerItem() const
 {
     return m_footerItem;
 }
-
-QList<InteractingGraphicsItem *> VisualScore::rowGraphics() const
-{
-    QList<InteractingGraphicsItem *> items;
-    items << m_headerItem;
-    items << m_footerItem;
-    return items;
-}

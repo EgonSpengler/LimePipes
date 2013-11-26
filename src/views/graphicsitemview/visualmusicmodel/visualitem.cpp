@@ -49,3 +49,18 @@ InteractingGraphicsItem *VisualItem::inlineGraphic() const
 
     return m_graphicsItems.at(0);
 }
+
+void VisualItem::appendRow(InteractingGraphicsItem *graphicsItem)
+{
+    if (graphicalType() != GraphicalRowType)
+        return;
+
+    if (graphicsItem == 0) return;
+
+    m_graphicsItems.append(graphicsItem);
+}
+
+QList<InteractingGraphicsItem *> VisualItem::rowGraphics() const
+{
+    return m_graphicsItems;
+}
