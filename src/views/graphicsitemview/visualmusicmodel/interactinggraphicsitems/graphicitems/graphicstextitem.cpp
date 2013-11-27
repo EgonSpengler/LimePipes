@@ -42,6 +42,11 @@ void GraphicsTextItem::setAlignment(Qt::Alignment alignment)
     setTextCursor(cursor);
 }
 
+Qt::Alignment GraphicsTextItem::alignment() const
+{
+    return m_alignment;
+}
+
 void GraphicsTextItem::updateGeometry()
 {
     setTextWidth(-1);

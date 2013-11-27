@@ -16,6 +16,9 @@ class GraphicsTextItem;
 class TextWidget : public QGraphicsWidget
 {
     Q_OBJECT
+
+    friend class TextWidgetTest;
+
 public:
     explicit TextWidget(QGraphicsItem *parent = 0);
 
@@ -23,11 +26,13 @@ public:
     QString text() const;
 
     void setFont(const QFont &font);
+    QFont font() const;
 
     void setColor(const QColor& color);
     QColor color() const;
 
     void setAlignment(Qt::Alignment alignment);
+    Qt::Alignment alignment() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 

@@ -15,10 +15,14 @@ class GraphicsTextItem : public QGraphicsTextItem
 {
     Q_OBJECT
 
+    friend class GraphicsTextItemTest;
+    friend class TextWidgetTest;
+
 public:
     explicit GraphicsTextItem(QGraphicsItem *parent = 0);
 
     void setAlignment(Qt::Alignment alignment);
+    Qt::Alignment alignment() const;
 
 signals:
     void focusOut();

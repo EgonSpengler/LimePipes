@@ -45,6 +45,11 @@ void TextWidget::setFont(const QFont &font)
     m_textItem->adjustSize();
 }
 
+QFont TextWidget::font() const
+{
+    return m_textItem->font();
+}
+
 void TextWidget::setColor(const QColor &color)
 {
     m_textItem->setDefaultTextColor(color);
@@ -58,6 +63,11 @@ QColor TextWidget::color() const
 void TextWidget::setAlignment(Qt::Alignment alignment)
 {
     m_textItem->setAlignment(alignment);
+}
+
+Qt::Alignment TextWidget::alignment() const
+{
+    return m_textItem->alignment();
 }
 
 void TextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
