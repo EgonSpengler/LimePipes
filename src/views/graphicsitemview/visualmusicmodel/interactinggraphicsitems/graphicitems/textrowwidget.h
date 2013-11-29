@@ -35,9 +35,12 @@ public:
     QFont font(RowAlignment position) const;
 
     void setColor(RowAlignment position, const QColor& color);
-    void color(RowAlignment position);
+    QColor color(RowAlignment position);
 
-    void setTextPositionVisible(RowAlignment position, bool active);
+    void setTextVisible(RowAlignment position, bool visible);
+    bool isTextVisible(RowAlignment position) const;
+
+    TextWidget *textWidget(RowAlignment position);
 
     void setGeometry(const QRectF &rect);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -46,8 +49,8 @@ signals:
     void textChanged(TextRowWidget::RowAlignment position, const QString& newText);
 
 private slots:
-    void textWidgetTextChanged(QObject *object);
-    void textWidgetSizeChanged(const QSizeF& newSize);
+    void textWidgetTextChanged(TextWidget *textWidget);
+    void textWidgetSizeChanged();
 
 private:
     void createConnections();
@@ -58,7 +61,6 @@ private:
     TextWidget *m_leftTextWidget;
     TextWidget *m_centerTextWidget;
     TextWidget *m_rightTextWidget;
-    QSignalMapper *m_signalMapper;
 };
 
 #endif // TEXTROWWIDGET_H

@@ -12,6 +12,7 @@
 #include <QGraphicsWidget>
 
 class GraphicsTextItem;
+class QGraphicsTextItem;
 
 class TextWidget : public QGraphicsWidget
 {

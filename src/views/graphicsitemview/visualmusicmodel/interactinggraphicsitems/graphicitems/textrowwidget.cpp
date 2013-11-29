@@ -18,8 +18,7 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
       m_layout(0),
       m_leftTextWidget(0),
       m_centerTextWidget(0),
-      m_rightTextWidget(0),
-      m_signalMapper(0)
+      m_rightTextWidget(0)
 {
     m_leftTextWidget = new TextWidget(this);
     m_leftTextWidget->setAlignment(Qt::AlignLeft);
@@ -30,34 +29,29 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
     m_rightTextWidget = new TextWidget(this);
     m_rightTextWidget->setAlignment(Qt::AlignRight);
 
-    m_signalMapper = new QSignalMapper(this);
-    m_signalMapper->setMapping(m_leftTextWidget, m_leftTextWidget);
-    m_signalMapper->setMapping(m_centerTextWidget, m_centerTextWidget);
-    m_signalMapper->setMapping(m_rightTextWidget, m_rightTextWidget);
-
-    setTextPositionVisible(Left, false);
-    setTextPositionVisible(Center, false);
-    setTextPositionVisible(Right, false);
+    setTextVisible(Left, false);
+    setTextVisible(Center, false);
+    setTextVisible(Right, false);
 
     createConnections();
 }
 
 void TextRowWidget::createConnections()
 {
-    connect(m_leftTextWidget, SIGNAL(sizeChanged(QSizeF)),
-            this, SLOT(textWidgetSizeChanged(QSizeF)));
-    connect(m_centerTextWidget, SIGNAL(sizeChanged(QSizeF)),
-            this, SLOT(textWidgetSizeChanged(QSizeF)));
-    connect(m_rightTextWidget, SIGNAL(sizeChanged(QSizeF)),
-            this, SLOT(textWidgetSizeChanged(QSizeF)));
-    connect(m_leftTextWidget, SIGNAL(textChanged(QString)),
-            m_signalMapper, SLOT(map()));
-    connect(m_centerTextWidget, SIGNAL(textChanged(QString)),
-            m_signalMapper, SLOT(map()));
-    connect(m_rightTextWidget, SIGNAL(textChanged(QString)),
-            m_signalMapper, SLOT(map()));
-    connect(m_signalMapper, SIGNAL(mapped(QObject*)),
-            this, SLOT(textWidgetTextChanged(QObject*)));
+    connect(m_leftTextWidget, &TextWidget::textChanged,
+            [this, m_leftTextWidget] { textWidgetTextChanged(m_leftTextWidget); });
+    connect(m_leftTextWidget, &TextWidget::sizeChanged,
+            this, &TextRowWidget::textWidgetSizeChanged);
+
+    connect(m_centerTextWidget, &TextWidget::textChanged,
+            [this, m_centerTextWidget] { textWidgetTextChanged(m_centerTextWidget); });
+    connect(m_centerTextWidget, &TextWidget::sizeChanged,
+            this, &TextRowWidget::textWidgetSizeChanged);
+
+    connect(m_rightTextWidget, &TextWidget::textChanged,
+            [this, m_rightTextWidget] { textWidgetTextChanged(m_rightTextWidget); });
+    connect(m_rightTextWidget, &TextWidget::sizeChanged,
+            this, &TextRowWidget::textWidgetSizeChanged);
 }
 
 void TextRowWidget::repositionElementTextItems()
@@ -90,7 +84,7 @@ void TextRowWidget::setText(TextRowWidget::RowAlignment position, const QString 
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setText(text);
 
-    setTextPositionVisible(position, !text.isEmpty());
+    setTextVisible(position, !text.isEmpty());
 }
 
 QString TextRowWidget::text(TextRowWidget::RowAlignment position) const
@@ -105,22 +99,51 @@ void TextRowWidget::setFont(TextRowWidget::RowAlignment position, const QFont &f
     textWidget->setFont(font);
 }
 
+QFont TextRowWidget::font(TextRowWidget::RowAlignment position) const
+{
+    TextWidget *textWidget = textWidgetForPosition(position);
+    return textWidget->font();
+}
+
 void TextRowWidget::setColor(TextRowWidget::RowAlignment position, const QColor &color)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setColor(color);
 }
 
-void TextRowWidget::color(TextRowWidget::RowAlignment position)
+QColor TextRowWidget::color(TextRowWidget::RowAlignment position)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
-    textWidget->color();
+    return textWidget->color();
 }
 
-void TextRowWidget::setTextPositionVisible(TextRowWidget::RowAlignment position, bool visible)
+void TextRowWidget::setTextVisible(TextRowWidget::RowAlignment position, bool visible)
 {
     TextWidget *widget = textWidgetForPosition(position);
     widget->setVisible(visible);
+}
+
+bool TextRowWidget::isTextVisible(TextRowWidget::RowAlignment position) const
+{
+    TextWidget *widget = textWidgetForPosition(position);
+    return widget->isVisible();
+}
+
+TextWidget *TextRowWidget::textWidget(TextRowWidget::RowAlignment position)
+{
+    switch (position) {
+    case TextRowWidget::Left:
+        return m_leftTextWidget;
+        break;
+    case TextRowWidget::Center:
+        return m_centerTextWidget;
+        break;
+    case TextRowWidget::Right:
+        return m_rightTextWidget;
+        break;
+    }
+
+    return 0;
 }
 
 void TextRowWidget::setGeometry(const QRectF &rect)
@@ -135,20 +158,18 @@ void TextRowWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *opt
 //    painter->drawRect(boundingRect());
 }
 
-void TextRowWidget::textWidgetTextChanged(QObject *object)
+void TextRowWidget::textWidgetTextChanged(TextWidget *textWidget)
 {
-    TextWidget *widget = qobject_cast<TextWidget*>(object);
-    if (!widget) return;
+    if (!textWidget) return;
 
-    TextRowWidget::RowAlignment position = textPositionForWidget(widget);
-    emit textChanged(position, widget->text());
+    TextRowWidget::RowAlignment position = textPositionForWidget(textWidget);
+    emit textChanged(position, textWidget->text());
 
     repositionElementTextItems();
 }
 
-void TextRowWidget::textWidgetSizeChanged(const QSizeF &newSize)
+void TextRowWidget::textWidgetSizeChanged()
 {
-    Q_UNUSED(newSize);
     repositionElementTextItems();
 }
 
