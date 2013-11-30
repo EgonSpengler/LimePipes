@@ -39,17 +39,17 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
 void TextRowWidget::createConnections()
 {
     connect(m_leftTextWidget, &TextWidget::textChanged,
-            [this, m_leftTextWidget] { textWidgetTextChanged(m_leftTextWidget); });
+            [this] { textWidgetTextChanged(m_leftTextWidget); });
     connect(m_leftTextWidget, &TextWidget::sizeChanged,
             this, &TextRowWidget::textWidgetSizeChanged);
 
     connect(m_centerTextWidget, &TextWidget::textChanged,
-            [this, m_centerTextWidget] { textWidgetTextChanged(m_centerTextWidget); });
+            [this] { textWidgetTextChanged(m_centerTextWidget); });
     connect(m_centerTextWidget, &TextWidget::sizeChanged,
             this, &TextRowWidget::textWidgetSizeChanged);
 
     connect(m_rightTextWidget, &TextWidget::textChanged,
-            [this, m_rightTextWidget] { textWidgetTextChanged(m_rightTextWidget); });
+            [this] { textWidgetTextChanged(m_rightTextWidget); });
     connect(m_rightTextWidget, &TextWidget::sizeChanged,
             this, &TextRowWidget::textWidgetSizeChanged);
 }
