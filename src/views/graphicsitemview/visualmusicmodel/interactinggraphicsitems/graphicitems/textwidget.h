@@ -19,6 +19,7 @@ class TextWidget : public QGraphicsWidget
     Q_OBJECT
 
     friend class TextWidgetTest;
+    friend class TextRowWidgetTest;
 
 public:
     explicit TextWidget(QGraphicsItem *parent = 0);

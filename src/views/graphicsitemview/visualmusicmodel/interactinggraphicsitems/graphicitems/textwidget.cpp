@@ -114,4 +114,3 @@ void TextWidget::createConnections()
     connect(m_textItem, SIGNAL(focusOut()),
             this, SLOT(textItemFocusOut()));
 }
-

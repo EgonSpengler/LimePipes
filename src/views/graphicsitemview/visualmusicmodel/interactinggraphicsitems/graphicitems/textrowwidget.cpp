@@ -20,6 +20,8 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
       m_centerTextWidget(0),
       m_rightTextWidget(0)
 {
+    qRegisterMetaType<TextRowWidget::RowAlignment>("TextRowWidget::RowAlignment");
+
     m_leftTextWidget = new TextWidget(this);
     m_leftTextWidget->setAlignment(Qt::AlignLeft);
 

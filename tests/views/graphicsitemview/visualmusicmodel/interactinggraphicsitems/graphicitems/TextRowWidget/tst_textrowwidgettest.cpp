@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest>
 #include <QSignalSpy>
+#include <QFocusEvent>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/graphicitems/textrowwidget.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/graphicitems/textwidget.h>
 
@@ -27,6 +28,7 @@ private Q_SLOTS:
     void testSetGetColor();
     void testSetGetTextVisible();
     void testTextWidget();
+    void testTextChanged();
 
 private:
     TextRowWidget *m_textRowWidget;
@@ -133,6 +135,62 @@ void TextRowWidgetTest::testTextWidget()
     QVERIFY2(textWidget, "0 pointer returned for text widget");
     m_textRowWidget->setText(TextRowWidget::Right, text);
     QVERIFY2(textWidget->text() == text, "Wrong text widget was returned");
+}
+
+void TextRowWidgetTest::testTextChanged()
+{
+    QSignalSpy spy(m_textRowWidget, SIGNAL(textChanged(TextRowWidget::RowAlignment,QString)));
+
+    QString testText("Test text left");
+    TextWidget *textWidget = m_textRowWidget->textWidget(TextRowWidget::Left);
+    Q_ASSERT(textWidget);
+    textWidget->setText(testText);
+    QVERIFY2(spy.count() == 0, "Text changed signal must not be emitted when setting text");
+
+    textWidget->textItemFocusOut();
+    QVERIFY2(spy.count() == 1, "Text changed signal wasn't emitted");
+    QList<QVariant> arguments = spy.takeFirst();
+    QVERIFY2(arguments.count() == 2, "Signal has not correct arguments count");
+
+    // Getting row alignment parameter
+    TextRowWidget::RowAlignment rowAlignment = arguments.at(0).value<TextRowWidget::RowAlignment>();
+    QVERIFY2(rowAlignment == TextRowWidget::Left, "Signal emitted with wrong row alignment");
+    // Getting new text parameter
+    QVERIFY2(arguments.at(1).toString() == testText, "Signal emitted wrong text");
+
+    testText = "Test text center";
+    textWidget = m_textRowWidget->textWidget(TextRowWidget::Center);
+    Q_ASSERT(textWidget);
+    textWidget->setText(testText);
+    QVERIFY2(spy.count() == 0, "Text changed signal must not be emitted when setting text");
+
+    textWidget->textItemFocusOut();
+    QVERIFY2(spy.count() == 1, "Text changed signal wasn't emitted");
+    arguments = spy.takeFirst();
+    QVERIFY2(arguments.count() == 2, "Signal has not correct arguments count");
+
+    // Getting row alignment parameter
+    rowAlignment = arguments.at(0).value<TextRowWidget::RowAlignment>();
+    QVERIFY2(rowAlignment == TextRowWidget::Center, "Signal emitted with wrong row alignment");
+    // Getting new text parameter
+    QVERIFY2(arguments.at(1).toString() == testText, "Signal emitted wrong text");
+
+    testText = "Test text right";
+    textWidget = m_textRowWidget->textWidget(TextRowWidget::Right);
+    Q_ASSERT(textWidget);
+    textWidget->setText(testText);
+    QVERIFY2(spy.count() == 0, "Text changed signal must not be emitted when setting text");
+
+    textWidget->textItemFocusOut();
+    QVERIFY2(spy.count() == 1, "Text changed signal wasn't emitted");
+    arguments = spy.takeFirst();
+    QVERIFY2(arguments.count() == 2, "Signal has not correct arguments count");
+
+    // Getting row alignment parameter
+    rowAlignment = arguments.at(0).value<TextRowWidget::RowAlignment>();
+    QVERIFY2(rowAlignment == TextRowWidget::Right, "Signal emitted with wrong row alignment");
+    // Getting new text parameter
+    QVERIFY2(arguments.at(1).toString() == testText, "Signal emitted wrong text");
 }
 
 QTEST_MAIN(TextRowWidgetTest)

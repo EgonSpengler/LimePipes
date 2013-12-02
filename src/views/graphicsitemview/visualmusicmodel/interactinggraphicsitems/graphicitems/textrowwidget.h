@@ -9,6 +9,7 @@
 #ifndef TEXTROWWIDGET_H
 #define TEXTROWWIDGET_H
 
+#include <QMetaType>
 #include <QGraphicsWidget>
 
 class QSignalMapper;
@@ -62,5 +63,7 @@ private:
     TextWidget *m_centerTextWidget;
     TextWidget *m_rightTextWidget;
 };
+
+Q_DECLARE_METATYPE(TextRowWidget::RowAlignment)
 
 #endif // TEXTROWWIDGET_H
