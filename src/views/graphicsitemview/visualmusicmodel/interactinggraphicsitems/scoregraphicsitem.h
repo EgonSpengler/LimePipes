@@ -21,21 +21,28 @@ class ScoreGraphicsItem : public InteractingGraphicsItem
 {
     Q_OBJECT
 
-    friend class GraphicalScoreItemTest;
+    friend class ScoreGraphicsItemTest;
 
 public:
     explicit ScoreGraphicsItem(QGraphicsItem *parent = 0);
 
     void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position);
+    void removeItemPosition(LP::ScoreDataRole itemType);
+
     int rowOfDataRole(LP::ScoreDataRole dataRole);
     TextRowWidget::RowAlignment rowAlignmentOfDataRole(LP::ScoreDataRole dataRole);
-    bool hasItemPositionForDataRole(LP::ScoreDataRole itemType);
+    bool hasItemPositionForDataRole(LP::ScoreDataRole itemType) const;
 
     void setItemText(LP::ScoreDataRole itemType, const QString& text);
-    QString itemText(LP::ScoreDataRole itemType);
+    QString itemText(LP::ScoreDataRole itemType) const;
 
     void setItemFont(LP::ScoreDataRole itemType, const QFont& font);
+    QFont itemFont(LP::ScoreDataRole itemType) const;
+
     void setItemColor(LP::ScoreDataRole itemType, const QColor& color);
+    QColor itemColor(LP::ScoreDataRole itemType) const;
+
+    int rowCount() const;
 
 signals:
     void itemTextChanged(const QVariant& text, int dataRole);
@@ -54,7 +61,9 @@ private:
 
     void createConnections();
     void appendRow();
+    void removeLastRow();
     void addRowsUntilRowIndex(int index);
+    void deleteLastEmptyRows();
     QList<TextRowWidget*> m_textRows;
     QGraphicsLinearLayout *m_rowLayout;
     QHash<LP::ScoreDataRole, TextItemPosition> m_itemPositions;

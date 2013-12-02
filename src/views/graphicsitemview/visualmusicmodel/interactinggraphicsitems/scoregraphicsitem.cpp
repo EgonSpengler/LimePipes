@@ -34,6 +34,16 @@ void ScoreGraphicsItem::appendRow()
             this, SLOT(textRowItemChanged(TextRowWidget::RowAlignment,QString)));
 }
 
+void ScoreGraphicsItem::removeLastRow()
+{
+    if (m_textRows.isEmpty())
+        return;
+
+    TextRowWidget *rowWidget = m_textRows.takeLast();
+    m_rowLayout->removeItem(rowWidget);
+    delete rowWidget;
+}
+
 void ScoreGraphicsItem::createConnections()
 {
     connect(this, &InteractingGraphicsItem::itemInteractionChanged,
@@ -80,6 +90,25 @@ void ScoreGraphicsItem::addRowsUntilRowIndex(int index)
     }
 }
 
+void ScoreGraphicsItem::deleteLastEmptyRows()
+{
+    int lastRowWithContent = 0;
+    auto iterator = m_itemPositions.constBegin();
+    while (iterator != m_itemPositions.constEnd()) {
+        if (iterator.value().rowIndex > lastRowWithContent) {
+            lastRowWithContent = iterator.value().rowIndex;
+        }
+        ++iterator;
+    }
+
+    if (!m_rowLayout->count() > lastRowWithContent + 1)
+        return;
+
+    while (m_rowLayout->count() > lastRowWithContent + 1) {
+        removeLastRow();
+    }
+}
+
 void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position)
 {
     if (row < 0)
@@ -94,6 +123,15 @@ void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int row, Tex
     itemPosition.rowPosition = position;
 
     m_itemPositions.insert(itemType, itemPosition);
+
+    deleteLastEmptyRows();
+}
+
+void ScoreGraphicsItem::removeItemPosition(LP::ScoreDataRole itemType)
+{
+    setItemText(itemType, "");
+    m_itemPositions.remove(itemType);
+    deleteLastEmptyRows();
 }
 
 int ScoreGraphicsItem::rowOfDataRole(LP::ScoreDataRole dataRole)
@@ -114,7 +152,7 @@ TextRowWidget::RowAlignment ScoreGraphicsItem::rowAlignmentOfDataRole(LP::ScoreD
     return itemPosition.rowPosition;
 }
 
-bool ScoreGraphicsItem::hasItemPositionForDataRole(LP::ScoreDataRole itemType)
+bool ScoreGraphicsItem::hasItemPositionForDataRole(LP::ScoreDataRole itemType) const
 {
     if (m_itemPositions.contains(itemType))
         return true;
@@ -137,7 +175,7 @@ void ScoreGraphicsItem::setItemText(LP::ScoreDataRole itemType, const QString &t
         row->setText(position.rowPosition, text);
 }
 
-QString ScoreGraphicsItem::itemText(LP::ScoreDataRole itemType)
+QString ScoreGraphicsItem::itemText(LP::ScoreDataRole itemType) const
 {
     if (!hasItemPositionForDataRole(itemType))
         return QString();
@@ -163,6 +201,19 @@ void ScoreGraphicsItem::setItemFont(LP::ScoreDataRole itemType, const QFont &fon
     row->setFont(position.rowPosition, font);
 }
 
+QFont ScoreGraphicsItem::itemFont(LP::ScoreDataRole itemType) const
+{
+    if (!hasItemPositionForDataRole(itemType))
+        return QFont();
+
+    TextItemPosition position = m_itemPositions.value(itemType);
+    if (!m_textRows.count() > position.rowIndex)
+        return QFont();
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    return row->font(position.rowPosition);
+}
+
 void ScoreGraphicsItem::setItemColor(LP::ScoreDataRole itemType, const QColor &color)
 {
     if (!hasItemPositionForDataRole(itemType))
@@ -174,6 +225,24 @@ void ScoreGraphicsItem::setItemColor(LP::ScoreDataRole itemType, const QColor &c
 
     TextRowWidget *row = m_textRows.at(position.rowIndex);
     row->setColor(position.rowPosition, color);
+}
+
+QColor ScoreGraphicsItem::itemColor(LP::ScoreDataRole itemType) const
+{
+    if (!hasItemPositionForDataRole(itemType))
+        return QColor();
+
+    TextItemPosition position = m_itemPositions.value(itemType);
+    if (!m_textRows.count() > position.rowIndex)
+        return QColor();
+
+    TextRowWidget *row = m_textRows.at(position.rowIndex);
+    return row->color(position.rowPosition);
+}
+
+int ScoreGraphicsItem::rowCount() const
+{
+    return m_rowLayout->count();
 }
 
 bool ScoreGraphicsItem::TextItemPosition::operator ==(const ScoreGraphicsItem::TextItemPosition &other) const
