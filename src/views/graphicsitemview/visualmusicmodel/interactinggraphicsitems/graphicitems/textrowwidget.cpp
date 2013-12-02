@@ -143,6 +143,8 @@ TextWidget *TextRowWidget::textWidget(TextRowWidget::RowAlignment position)
     case TextRowWidget::Right:
         return m_rightTextWidget;
         break;
+    case TextRowWidget::NoAlignment:
+        break;
     }
 
     return 0;

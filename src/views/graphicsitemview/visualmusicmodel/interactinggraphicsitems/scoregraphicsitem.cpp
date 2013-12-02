@@ -96,6 +96,24 @@ void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int row, Tex
     m_itemPositions.insert(itemType, itemPosition);
 }
 
+int ScoreGraphicsItem::rowOfDataRole(LP::ScoreDataRole dataRole)
+{
+    if (!m_itemPositions.contains(dataRole))
+        return -1;
+
+    TextItemPosition itemPosition = m_itemPositions.value(dataRole);
+    return itemPosition.rowIndex;
+}
+
+TextRowWidget::RowAlignment ScoreGraphicsItem::rowAlignmentOfDataRole(LP::ScoreDataRole dataRole)
+{
+    if (!m_itemPositions.contains(dataRole))
+        return TextRowWidget::NoAlignment;
+
+    TextItemPosition itemPosition = m_itemPositions.value(dataRole);
+    return itemPosition.rowPosition;
+}
+
 bool ScoreGraphicsItem::hasItemPositionForDataRole(LP::ScoreDataRole itemType)
 {
     if (m_itemPositions.contains(itemType))

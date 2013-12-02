@@ -27,6 +27,8 @@ public:
     explicit ScoreGraphicsItem(QGraphicsItem *parent = 0);
 
     void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position);
+    int rowOfDataRole(LP::ScoreDataRole dataRole);
+    TextRowWidget::RowAlignment rowAlignmentOfDataRole(LP::ScoreDataRole dataRole);
     bool hasItemPositionForDataRole(LP::ScoreDataRole itemType);
 
     void setItemText(LP::ScoreDataRole itemType, const QString& text);

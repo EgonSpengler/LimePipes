@@ -1,4 +1,4 @@
-set( testname GraphicalScoreItemTest )
+set( testname ScoreGraphicsItemTest )
 set( testmodules Test Widgets )
 set( testlibraries lp_graphicsitemview )
 

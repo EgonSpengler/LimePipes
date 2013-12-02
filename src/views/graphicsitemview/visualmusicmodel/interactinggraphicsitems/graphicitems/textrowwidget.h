@@ -22,6 +22,7 @@ class TextRowWidget : public QGraphicsWidget
 
 public:
     enum RowAlignment {
+        NoAlignment,
         Left,
         Center,
         Right
