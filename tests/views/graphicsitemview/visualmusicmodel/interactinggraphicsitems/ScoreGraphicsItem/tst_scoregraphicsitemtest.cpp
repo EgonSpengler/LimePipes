@@ -8,7 +8,11 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <QGraphicsScene>
+#include <QFocusEvent>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.h>
+#include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/graphicitems/textwidget.h>
+#include <graphicsitemview/visualmusicmodel/iteminteraction.h>
 
 class ScoreGraphicsItemTest : public QObject
 {
@@ -28,6 +32,7 @@ private Q_SLOTS:
     void testSetGetItemFont();
     void testSetGetItemColor();
     void testRowCount();
+    void testItemTextChanged();
 
 private:
     ScoreGraphicsItem *m_scoreItem;
@@ -145,6 +150,53 @@ void ScoreGraphicsItemTest::testRowCount()
     m_scoreItem->removeItemPosition(LP::ScoreArranger);
     QVERIFY2(m_scoreItem->rowCount() == 1,
              "Wrong row count after removing last item in row > 0");
+}
+
+void ScoreGraphicsItemTest::testItemTextChanged()
+{
+    m_scoreItem->setItemInteraction(new ItemInteraction);
+
+    // Testdata
+    TextRowWidget::RowAlignment testRowAlignment = TextRowWidget::Left;
+    QString testText("test text for simulating edit");
+    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
+
+    QGraphicsScene scene;
+    scene.addItem(m_scoreItem);
+    QFocusEvent focusOutEvent(QEvent::FocusOut);
+    QFocusEvent focusInEvent(QEvent::FocusIn);
+    QSignalSpy textChangedSpy(m_scoreItem, SIGNAL(itemTextChanged(QVariant,int)));
+    QSignalSpy dataChangedSpy(m_scoreItem->itemInteraction(), SIGNAL(dataChanged(QVariant,int)));
+    m_scoreItem->setItemPosition(testDataRole, 0, testRowAlignment);
+
+    Q_ASSERT(m_scoreItem->m_textRows.count() == 1);
+    TextRowWidget *textRow = m_scoreItem->m_textRows.at(0);
+    TextWidget * textWidget = textRow->textWidget(testRowAlignment);
+
+    // Simulate edit
+    scene.sendEvent(textWidget->textItem(), &focusInEvent);
+    textWidget->setText(testText);
+    scene.sendEvent(textWidget->textItem(), &focusOutEvent);
+
+    // remove from scene to not delete in cleanup() a second time
+    scene.removeItem(m_scoreItem);
+
+    QVERIFY2(textChangedSpy.count() == 1, "Text changed signal wasn't emitted");
+    QList<QVariant> arguments = textChangedSpy.takeFirst();
+    QVERIFY2(arguments.count() == 2, "Signal has not correct parameter count");
+    QString signalText = arguments.at(0).toString();
+    QVERIFY2(signalText == testText, "Signal returned not correct text");
+    int dataRole = arguments.at(1).toInt();
+    QVERIFY2(dataRole == testDataRole, "Signal returned wrong data role argument");
+
+    QVERIFY2(dataChangedSpy.count() == 1, "Item interaction hasn't emitted data changed");
+    arguments = dataChangedSpy.takeFirst();
+    QVERIFY2(arguments.count() == 2, "Signal has not correct parameter count");
+    signalText = arguments.at(0).toString();
+    QVERIFY2(signalText == testText, "Signal returned not correct text");
+    dataRole = arguments.at(1).toInt();
+    QVERIFY2(dataRole == testDataRole, "Signal returned wrong data role argument");
+
 }
 
 QTEST_MAIN(ScoreGraphicsItemTest)

@@ -59,7 +59,6 @@ private:
     void repositionElementTextItems();
     TextWidget *textWidgetForPosition(RowAlignment position) const;
     RowAlignment textPositionForWidget(TextWidget *widget) const;
-    QGraphicsLinearLayout *m_layout;
     TextWidget *m_leftTextWidget;
     TextWidget *m_centerTextWidget;
     TextWidget *m_rightTextWidget;

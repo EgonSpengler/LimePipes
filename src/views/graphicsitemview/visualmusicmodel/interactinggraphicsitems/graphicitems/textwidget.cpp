@@ -70,6 +70,11 @@ Qt::Alignment TextWidget::alignment() const
     return m_textItem->alignment();
 }
 
+QGraphicsItem *TextWidget::textItem() const
+{
+    return m_textItem;
+}
+
 void TextWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED(painter);

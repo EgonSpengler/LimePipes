@@ -36,6 +36,8 @@ public:
     void setAlignment(Qt::Alignment alignment);
     Qt::Alignment alignment() const;
 
+    QGraphicsItem *textItem() const;
+
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 signals:

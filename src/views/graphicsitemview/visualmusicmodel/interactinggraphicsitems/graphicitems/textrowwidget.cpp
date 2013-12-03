@@ -15,7 +15,6 @@
 
 TextRowWidget::TextRowWidget(QGraphicsItem *parent)
     : QGraphicsWidget(parent),
-      m_layout(0),
       m_leftTextWidget(0),
       m_centerTextWidget(0),
       m_rightTextWidget(0)

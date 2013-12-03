@@ -6,6 +6,7 @@
  *
  */
 
+#include <QGraphicsScene>
 #include <QtTest/QtTest>
 #include <QtTest/QSignalSpy>
 #include <QString>
