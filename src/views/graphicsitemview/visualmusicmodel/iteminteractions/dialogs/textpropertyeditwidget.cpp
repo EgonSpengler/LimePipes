@@ -20,14 +20,36 @@ TextPropertyEditWidget::TextPropertyEditWidget(QWidget *parent) :
     createConnections();
 }
 
+void TextPropertyEditWidget::createConnections()
+{
+    connect(ui->lineEdit, &QLineEdit::textChanged,
+            this, &TextPropertyEditWidget::changeText);
+    connect(ui->fontPushButton, &QPushButton::clicked,
+            this, &TextPropertyEditWidget::fontChangeClicked);
+    connect(ui->colorPushButton, &QPushButton::clicked,
+            this, &TextPropertyEditWidget::colorChangeClicked);
+}
+
 TextPropertyEditWidget::~TextPropertyEditWidget()
 {
     delete ui;
 }
 
+void TextPropertyEditWidget::setText(const QString &text)
+{
+    if (m_text != text)
+        m_text = text;
+}
+
 QString TextPropertyEditWidget::text() const
 {
-    return ui->lineEdit->text();
+    return m_text;
+}
+
+void TextPropertyEditWidget::setFont(const QFont &font)
+{
+    if (m_font != font)
+        m_font = font;
 }
 
 QFont TextPropertyEditWidget::font() const
@@ -35,15 +57,23 @@ QFont TextPropertyEditWidget::font() const
     return m_font;
 }
 
+void TextPropertyEditWidget::setColor(const QColor &color)
+{
+    if (m_color != color)
+        m_color = color;
+}
+
 QColor TextPropertyEditWidget::color() const
 {
     return m_color;
 }
 
-void TextPropertyEditWidget::setText(const QString &text)
+void TextPropertyEditWidget::changeText(const QString &text)
 {
-    if (ui->lineEdit->text() != text)
-        ui->lineEdit->setText(text);
+    if (text != m_text) {
+        emit textChanged(text);
+    }
+    setText(text);
 }
 
 void TextPropertyEditWidget::fontChangeClicked()
@@ -51,9 +81,16 @@ void TextPropertyEditWidget::fontChangeClicked()
     bool ok = false;
     QFont newFont = QFontDialog::getFont(&ok, m_font, this);
     if (ok) {
-        m_font = newFont;
-        emit fontChanged(newFont);
+        changeFont(newFont);
     }
+}
+
+void TextPropertyEditWidget::changeFont(const QFont &font)
+{
+    if (font != m_font) {
+        emit fontChanged(font);
+    }
+    setFont(font);
 }
 
 void TextPropertyEditWidget::colorChangeClicked()
@@ -62,16 +99,13 @@ void TextPropertyEditWidget::colorChangeClicked()
     if (!newColor.isValid())
         return;
 
-    m_color = newColor;
-    emit colorChanged(newColor);
+    changeColor(newColor);
 }
 
-void TextPropertyEditWidget::createConnections()
+void TextPropertyEditWidget::changeColor(const QColor &color)
 {
-    connect(ui->lineEdit, SIGNAL(textChanged(QString)),
-            this, SIGNAL(textChanged(QString)));
-    connect(ui->fontPushButton, SIGNAL(clicked()),
-            this, SLOT(fontChangeClicked()));
-    connect(ui->colorPushButton, SIGNAL(clicked()),
-            this, SLOT(colorChangeClicked()));
+    if (color != m_color)
+        emit colorChanged(color);
+
+    setColor(color);
 }

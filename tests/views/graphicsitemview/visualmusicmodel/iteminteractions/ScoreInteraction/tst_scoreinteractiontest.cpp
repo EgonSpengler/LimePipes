@@ -14,7 +14,6 @@
 class ScoreInteractionTest : public QObject
 {
     Q_OBJECT
-
 public:
     ScoreInteractionTest();
 

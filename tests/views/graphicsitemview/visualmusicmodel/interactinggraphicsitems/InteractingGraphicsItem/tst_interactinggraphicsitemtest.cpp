@@ -58,11 +58,14 @@ void InteractingGraphicsItemTest::cleanup()
 
 void InteractingGraphicsItemTest::testSetGetInteractingItemInterface()
 {
-    ItemInteraction *visualItem = new ItemInteractionDummy();
-    m_interactingGraphicsItem->setItemInteraction(visualItem);
+    QSignalSpy spy(m_interactingGraphicsItem, SIGNAL(itemInteractionChanged()));
+    ItemInteraction *itemInteraction = new ItemInteractionDummy();
+    Q_ASSERT(m_interactingGraphicsItem->itemInteraction() != itemInteraction);
+    m_interactingGraphicsItem->setItemInteraction(itemInteraction);
 
-    QVERIFY2(m_interactingGraphicsItem->itemInteraction() == visualItem,
+    QVERIFY2(m_interactingGraphicsItem->itemInteraction() == itemInteraction,
              "Can't get visual item back from interacting item");
+    QVERIFY2(spy.count() == 1, "item interaction changed signal wasn't emitted");
 }
 
 void InteractingGraphicsItemTest::testMousePressEvent()

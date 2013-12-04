@@ -17,6 +17,8 @@ namespace Ui {
 class ScorePropertiesDialog;
 }
 
+class QFont;
+class QColor;
 class QSignalMapper;
 class TextPropertyEditWidget;
 
@@ -24,16 +26,22 @@ class ScorePropertiesDialog : public QDialog
 {
     Q_OBJECT
     
+    friend class ScorePropertiesDialogTest;
+
 public:
     explicit ScorePropertiesDialog(QWidget *parent = 0);
     ~ScorePropertiesDialog();
 
     void setPropertyText(int dataRole, const QString& text);
+    QString propertyText(int dataRole) const;
 
-private slots:
-    void textChanged(int dataRole);
-    void fontChanged(int dataRole);
-    void colorChanged(int dataRole);
+    void setPropertyFont(int dataRole, const QFont& font);
+    QFont propertyFont(int dataRole) const;
+
+    void setPropertyColor(int dataRole, const QColor& color);
+    QColor propertyColor(int dataRole) const;
+
+    TextPropertyEditWidget *textEditWidgetForRole(int dataRole) const;
 
 signals:
     void propertyTextChanged(LP::ScoreDataRole, const QString& text);
@@ -44,7 +52,6 @@ private:
     void addTextEditWidget(int layoutRow, LP::ScoreDataRole dataRole, const QString& text);
     QHash<int, TextPropertyEditWidget*> m_textEditWidgets;
     Ui::ScorePropertiesDialog *ui;
-    QSignalMapper *m_textChangedMapper;
 };
 
 #endif // SCOREPROPERTIESDIALOG_H

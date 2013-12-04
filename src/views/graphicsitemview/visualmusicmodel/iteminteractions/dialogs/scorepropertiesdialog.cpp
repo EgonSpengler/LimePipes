@@ -9,7 +9,6 @@
 #include <QFontDialog>
 #include <QColorDialog>
 #include <QLabel>
-#include <QSignalMapper>
 #include "textpropertyeditwidget.h"
 #include "scorepropertiesdialog.h"
 #include "ui_scorepropertiesdialog.h"
@@ -18,11 +17,9 @@ ScorePropertiesDialog::ScorePropertiesDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ScorePropertiesDialog)
 {
-    ui->setupUi(this);
+    qRegisterMetaType<LP::ScoreDataRole>("LP::ScoreDataRole");
 
-    m_textChangedMapper = new QSignalMapper(this);
-    connect(m_textChangedMapper, SIGNAL(mapped(int)),
-            this, SLOT(textChanged(int)));
+    ui->setupUi(this);
 
     addTextEditWidget(0, LP::ScoreTitle, tr("Title"));
     addTextEditWidget(1, LP::ScoreType, tr("Type"));
@@ -39,38 +36,64 @@ ScorePropertiesDialog::~ScorePropertiesDialog()
 
 void ScorePropertiesDialog::setPropertyText(int dataRole, const QString &text)
 {
-    if (!m_textEditWidgets.contains(dataRole)) return;
-    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(dataRole);
+    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
+    if (!editWidget)
+        return;
 
-    if (editWidget->text() != text)
-        editWidget->setText(text);
+    editWidget->setText(text);
 }
 
-void ScorePropertiesDialog::textChanged(int dataRole)
+QString ScorePropertiesDialog::propertyText(int dataRole) const
 {
-    LP::ScoreDataRole scoreRole = static_cast<LP::ScoreDataRole>(dataRole);
-    if (!m_textEditWidgets.contains(scoreRole)) return;
-    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(scoreRole);
+    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
+    if (!editWidget)
+        return QString();
 
-    emit propertyTextChanged(scoreRole, editWidget->text());
+    return editWidget->text();
 }
 
-void ScorePropertiesDialog::fontChanged(int dataRole)
+void ScorePropertiesDialog::setPropertyFont(int dataRole, const QFont &font)
 {
-    LP::ScoreDataRole scoreRole = static_cast<LP::ScoreDataRole>(dataRole);
-    if (!m_textEditWidgets.contains(scoreRole)) return;
-    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(scoreRole);
+    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
+    if (!editWidget)
+        return;
 
-    emit propertyFontChanged(scoreRole, editWidget->font());
+    editWidget->setFont(font);
 }
 
-void ScorePropertiesDialog::colorChanged(int dataRole)
+QFont ScorePropertiesDialog::propertyFont(int dataRole) const
 {
-    LP::ScoreDataRole scoreRole = static_cast<LP::ScoreDataRole>(dataRole);
-    if (!m_textEditWidgets.contains(scoreRole)) return;
-    TextPropertyEditWidget *editWidget = m_textEditWidgets.value(scoreRole);
+    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
+    if (!editWidget)
+        return QFont();
 
-    emit propertyColorChanged(scoreRole, editWidget->color());
+    return editWidget->font();
+}
+
+void ScorePropertiesDialog::setPropertyColor(int dataRole, const QColor &color)
+{
+    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
+    if (!editWidget)
+        return;
+
+    editWidget->setColor(color);
+}
+
+QColor ScorePropertiesDialog::propertyColor(int dataRole) const
+{
+    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
+    if (!editWidget)
+        return QColor();
+
+    return editWidget->color();
+}
+
+TextPropertyEditWidget *ScorePropertiesDialog::textEditWidgetForRole(int dataRole) const
+{
+    if (!m_textEditWidgets.contains(dataRole))
+        return 0;
+
+    return m_textEditWidgets.value(dataRole);
 }
 
 void ScorePropertiesDialog::addTextEditWidget(int layoutRow, LP::ScoreDataRole dataRole, const QString &text)
@@ -79,7 +102,16 @@ void ScorePropertiesDialog::addTextEditWidget(int layoutRow, LP::ScoreDataRole d
     m_textEditWidgets.insert(dataRole, textEditWidget);
     ui->gridLayout->addWidget(new QLabel(text), layoutRow, 0);
     ui->gridLayout->addWidget(textEditWidget, layoutRow, 1);
-    connect(textEditWidget, SIGNAL(textChanged(QString)),
-            m_textChangedMapper, SLOT(map()));
-    m_textChangedMapper->setMapping(textEditWidget, static_cast<int>(dataRole));
+    connect(textEditWidget, &TextPropertyEditWidget::textChanged,
+            [this, dataRole, textEditWidget] {
+        emit propertyTextChanged(dataRole, textEditWidget->text());
+    } );
+    connect(textEditWidget, &TextPropertyEditWidget::fontChanged,
+            [this, dataRole, textEditWidget] {
+        emit propertyFontChanged(dataRole, textEditWidget->font());
+    } );
+    connect(textEditWidget, &TextPropertyEditWidget::colorChanged,
+            [this, dataRole, textEditWidget] {
+        emit propertyColorChanged(dataRole, textEditWidget->color());
+    } );
 }

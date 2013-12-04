@@ -11,6 +11,10 @@
 
 #include <QWidget>
 
+class QFont;
+class QColor;
+class QString;
+
 namespace Ui {
 class TextPropertyEditWidget;
 }
@@ -26,8 +30,16 @@ public:
     void setText(const QString& text);
     QString text() const;
 
+    void setFont(const QFont& font);
     QFont font() const;
+
+    void setColor(const QColor& color);
     QColor color() const;
+
+public slots:
+    void changeText(const QString& text);
+    void changeFont(const QFont& font);
+    void changeColor(const QColor& color);
 
 signals:
     void textChanged(const QString& newText);
@@ -41,6 +53,7 @@ private slots:
 private:
     void createConnections();
     Ui::TextPropertyEditWidget *ui;
+    QString m_text;
     QFont m_font;
     QColor m_color;
 };
