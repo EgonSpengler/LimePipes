@@ -8,8 +8,12 @@
 
 #include <QString>
 #include <QtTest/QtTest>
+#include <QSignalSpy>
+#include <QGraphicsSceneContextMenuEvent>
 #include <graphicsitemview/visualmusicmodel/iteminteractions/scoreinteraction.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.h>
+#include <graphicsitemview/visualmusicmodel/iteminteractions/dialogs/scorepropertiesdialog.h>
+#include <graphicsitemview/visualmusicmodel/iteminteractions/dialogs/textpropertyeditwidget.h>
 
 class ScoreInteractionTest : public QObject
 {
@@ -20,6 +24,10 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testContextMenuEvent();
+    void testSetData();
+    void testDataChangedSignalDirect();
+    void testDataChangedSignalDialog();
 
 private:
     ScoreInteraction *m_scoreInteraction;
@@ -37,6 +45,52 @@ void ScoreInteractionTest::init()
 void ScoreInteractionTest::cleanup()
 {
     delete m_scoreInteraction;
+}
+
+void ScoreInteractionTest::testContextMenuEvent()
+{
+    QGraphicsSceneContextMenuEvent contextEvent;
+    QVERIFY2(m_scoreInteraction->m_scorePropertiesDialog->isVisible() == false,
+             "Failed, dialog should be hidden");
+    m_scoreInteraction->contextMenuEvent(&contextEvent);
+    QVERIFY2(m_scoreInteraction->m_scorePropertiesDialog->isVisible() == true,
+             "Dialog is not visible after context menu event");
+}
+
+void ScoreInteractionTest::testSetData()
+{
+    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
+    QString testString("arranger");
+
+    m_scoreInteraction->setData(testString, testDataRole);
+
+    QVERIFY2(m_scoreInteraction->m_scorePropertiesDialog->propertyText(testDataRole) == testString,
+             "Data wasn't set on dialog");
+}
+
+void ScoreInteractionTest::testDataChangedSignalDirect()
+{
+    QSignalSpy spy(m_scoreInteraction, SIGNAL(dataChanged(QVariant,int)));
+    LP::ScoreDataRole dataRole = LP::ScoreArranger;
+    QString testString("test string");
+
+    // text changed
+    m_scoreInteraction->propertyTextChanged(dataRole, testString);
+    QVERIFY2(spy.count() == 1, "dataChanged signal wasn't emitted for text");
+}
+
+void ScoreInteractionTest::testDataChangedSignalDialog()
+{
+    QSignalSpy spy(m_scoreInteraction, SIGNAL(dataChanged(QVariant,int)));
+    LP::ScoreDataRole dataRole = LP::ScoreArranger;
+    QString testString("test string");
+
+    ScorePropertiesDialog *dialog = m_scoreInteraction->m_scorePropertiesDialog;
+    TextPropertyEditWidget *editWidget = dialog->textEditWidgetForRole(dataRole);
+
+    // Change text through dialog
+    editWidget->changeText(testString);
+    QVERIFY2(spy.count() == 1, "dataChanged signal wasn't emitted when changing text through dialog");
 }
 
 QTEST_MAIN(ScoreInteractionTest)

@@ -66,6 +66,8 @@ void ScoreInteraction::setData(const QVariant &value, int role)
 
 void ScoreInteraction::propertyTextChanged(LP::ScoreDataRole dataRole, const QString &text)
 {
+    int role = static_cast<int>(dataRole);
+    emit dataChanged(text, role);
 }
 
 void ScoreInteraction::propertyFontChanged(LP::ScoreDataRole dataRole, const QFont &font)
