@@ -10,7 +10,7 @@
 
 class MusicModel;
 class VisualMusicModel;
-class AbstractVisualItemFactory;
+class TestVisualItemFactory;
 
 class VisualMusicModelTest : public QObject {
     Q_OBJECT
@@ -21,16 +21,16 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testSetGetModel();
+    void testVisualItemFromIndex();
     void testInsertScore();
     void testInsertTune();
     void testInsertPart();
     void testInsertMeasure();
     void testInsertSymbol();
-    void testVisualItemFromIndex();
     void testScoreDataChanged();
 
 private:
     MusicModel *m_musicModel;
     VisualMusicModel *m_visualMusicModel;
-    AbstractVisualItemFactory *m_itemFactory;
+    TestVisualItemFactory *m_itemFactory;
 };

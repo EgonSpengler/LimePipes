@@ -7,6 +7,8 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         tst_visualmusicmodeltest.cpp
+        testvisualitem.cpp
+        testvisualitemfactory.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

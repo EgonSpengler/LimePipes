@@ -27,6 +27,7 @@ public:
     // VisualMusicModelInterface
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
+
     VisualItem *visualItemFromIndex(const QModelIndex& itemIndex);
 
 signals:
