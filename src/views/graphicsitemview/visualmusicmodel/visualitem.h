@@ -14,6 +14,7 @@
 #include <QPersistentModelIndex>
 
 class InteractingGraphicsItem;
+class ItemInteraction;
 
 class VisualItem : public QObject
 {
@@ -58,6 +59,7 @@ signals:
     void rowSequenceChanged();
 
 private:
+    void connectItemInteraction(ItemInteraction *itemInteraction);
     ItemType m_itemType;
     GraphicalType m_graphicalItemType;
     QList<InteractingGraphicsItem*> m_graphicsItems;

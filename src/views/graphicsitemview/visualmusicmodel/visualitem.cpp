@@ -6,6 +6,8 @@
  *
  */
 
+#include "interactinggraphicsitems/interactinggraphicsitem.h"
+#include "iteminteraction.h"
 #include "visualitem.h"
 
 VisualItem::VisualItem(QObject *parent)
@@ -39,7 +41,17 @@ void VisualItem::setInlineGraphic(InteractingGraphicsItem *inlineGraphic)
     if (m_graphicsItems.count())
         m_graphicsItems.clear();
 
+    connectItemInteraction(inlineGraphic->itemInteraction());
     m_graphicsItems.append(inlineGraphic);
+}
+
+void VisualItem::connectItemInteraction(ItemInteraction *itemInteraction)
+{
+    if (itemInteraction == 0)
+        return;
+
+    connect(itemInteraction, &ItemInteraction::dataChanged,
+            this, &VisualItem::dataChanged);
 }
 
 InteractingGraphicsItem *VisualItem::inlineGraphic() const
@@ -57,6 +69,7 @@ void VisualItem::appendRow(InteractingGraphicsItem *graphicsItem)
 
     if (graphicsItem == 0) return;
 
+    connectItemInteraction(graphicsItem->itemInteraction());
     m_graphicsItems.append(graphicsItem);
 }
 

@@ -7,6 +7,7 @@
  */
 
 #include <QString>
+#include "testinteraction.h"
 #include <views/graphicsitemview/visualmusicmodel/visualitem.h>
 #include <views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.h>
 #include <QtTest/QtTest>
@@ -30,6 +31,8 @@ private Q_SLOTS:
     void testSetGetGraphicalType();
     void testInlineGraphic();
     void testRowGraphics();
+    void testSetInlineGraphicDataChangedSignal();
+    void testAppendRowDataChangedSignal();
 
 private:
     VisualItem *m_visualItem;
@@ -171,6 +174,33 @@ void VisualItemTest::testRowGraphics()
     Q_ASSERT(m_visualItem->rowGraphics().count() == 0);
     m_visualItem->appendRow(graphicsItem);
     QVERIFY2(m_visualItem->rowGraphics().count() == 0, "Failure, appending row graphic on no graphical item was successful");
+}
+
+void VisualItemTest::testSetInlineGraphicDataChangedSignal()
+{
+    QSignalSpy spy(m_visualItem, SIGNAL(dataChanged(QVariant,int)));
+    m_visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+    InteractingGraphicsItem interactingItem;
+    TestInteraction *interaction = new TestInteraction();
+    interactingItem.setItemInteraction(interaction);
+
+    m_visualItem->setInlineGraphic(&interactingItem);
+    interaction->emitDataChanged(QVariant(), LP::ScoreArranger);
+    QVERIFY2(spy.count() == 1, "Data changed signal wasn't emitted");
+}
+
+void VisualItemTest::testAppendRowDataChangedSignal()
+{
+    QSignalSpy spy(m_visualItem, SIGNAL(dataChanged(QVariant,int)));
+    m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+    InteractingGraphicsItem interactingRow;
+    TestInteraction *rowInteraction = new TestInteraction();
+    interactingRow.setItemInteraction(rowInteraction);
+
+    m_visualItem->appendRow(&interactingRow);
+
+    rowInteraction->emitDataChanged(QVariant(), LP::ScoreComposer);
+    QVERIFY2(spy.count() == 1, "Data changed signal wasn't emitted for first row");
 }
 
 QTEST_APPLESS_MAIN(VisualItemTest)

@@ -26,7 +26,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testSetGetInteractingItemInterface();
+    void testSetGetItemInteraction();
     void testMousePressEvent();
     void testMouseMoveEvent();
     void testMouseReleseEvent();
@@ -56,7 +56,7 @@ void InteractingGraphicsItemTest::cleanup()
     delete m_interactingGraphicsItem;
 }
 
-void InteractingGraphicsItemTest::testSetGetInteractingItemInterface()
+void InteractingGraphicsItemTest::testSetGetItemInteraction()
 {
     QSignalSpy spy(m_interactingGraphicsItem, SIGNAL(itemInteractionChanged()));
     ItemInteraction *itemInteraction = new ItemInteractionDummy();
