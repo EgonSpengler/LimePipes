@@ -77,3 +77,10 @@ QList<InteractingGraphicsItem *> VisualItem::rowGraphics() const
 {
     return m_graphicsItems;
 }
+
+void VisualItem::setData(const QVariant &value, int key)
+{
+    foreach (InteractingGraphicsItem *graphicsItem, m_graphicsItems) {
+        graphicsItem->setData(value, key);
+    }
+}

@@ -43,16 +43,7 @@ public:
         Q_UNUSED(childItem);
     }
 
-    /*!
-     * \brief setData Can be reimplemented by subclasses to set the data in its own specific way.
-     * \param value The new value
-     * \param key The data role as int
-     */
-    virtual void setData(const QVariant& value, int key)
-    {
-        Q_UNUSED(key);
-        Q_UNUSED(value);
-    }
+    virtual void setData(const QVariant& value, int key);
 
 signals:
     void itemInteractionChanged();

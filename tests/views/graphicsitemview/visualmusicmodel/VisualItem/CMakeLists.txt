@@ -11,6 +11,7 @@ set( Test_SOURCES
         ${VIEWS_SOURCE_DIR}/graphicsitemview/visualmusicmodel/iteminteraction.cpp
         tst_visualitemtest.cpp
         testinteraction.cpp
+        testinteractingitem.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

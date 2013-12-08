@@ -44,6 +44,11 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     }
 }
 
+void VisualMusicModel::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+{
+
+}
+
 void VisualMusicModel::visualItemDataChanged(const QVariant &value, int dataRole)
 {
     QObject *senderObject = sender();
@@ -142,8 +147,8 @@ void VisualMusicModel::setModel(QAbstractItemModel *model)
 {
     m_model = model;
 
-    connect(m_model, SIGNAL(rowsInserted(QModelIndex, int, int)),
-            this, SLOT(rowsInserted(QModelIndex,int,int)));
+    connect(m_model, &QAbstractItemModel::rowsInserted,
+            this, &VisualMusicModel::rowsInserted);
 }
 
 QAbstractItemModel *VisualMusicModel::model() const

@@ -27,6 +27,7 @@ private Q_SLOTS:
     void init();
     void cleanup();
     void testSetGetItemInteraction();
+    void testSetData();
     void testMousePressEvent();
     void testMouseMoveEvent();
     void testMouseReleseEvent();
@@ -66,6 +67,22 @@ void InteractingGraphicsItemTest::testSetGetItemInteraction()
     QVERIFY2(m_interactingGraphicsItem->itemInteraction() == itemInteraction,
              "Can't get visual item back from interacting item");
     QVERIFY2(spy.count() == 1, "item interaction changed signal wasn't emitted");
+}
+
+void InteractingGraphicsItemTest::testSetData()
+{
+    QString testData("Test data");
+    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
+    ItemInteractionDummy *interactionDummy = new ItemInteractionDummy();
+    QSignalSpy spy(interactionDummy, SIGNAL(setDataCalled()));
+
+    m_interactingGraphicsItem->setData(testData, testDataRole);
+    QVERIFY2(spy.count() == 0, "setData was called on item interaction");
+
+    m_interactingGraphicsItem->setItemInteraction(interactionDummy);
+
+    m_interactingGraphicsItem->setData(testData, testDataRole);
+    QVERIFY2(spy.count() == 1, "setData wasn't called on item interaction");
 }
 
 void InteractingGraphicsItemTest::testMousePressEvent()

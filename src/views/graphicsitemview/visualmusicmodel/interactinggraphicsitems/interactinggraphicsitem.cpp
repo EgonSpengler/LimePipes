@@ -20,6 +20,13 @@ ItemInteraction *InteractingGraphicsItem::itemInteraction() const
     return m_itemInteraction;
 }
 
+void InteractingGraphicsItem::setData(const QVariant &value, int key)
+{
+    if (m_itemInteraction != 0) {
+        m_itemInteraction->setData(value, key);
+    }
+}
+
 void InteractingGraphicsItem::setItemInteraction(ItemInteraction *itemInteraction)
 {
     if (itemInteraction == m_itemInteraction)

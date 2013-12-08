@@ -8,6 +8,7 @@
 
 #include <QString>
 #include "testinteraction.h"
+#include "testinteractingitem.h"
 #include <views/graphicsitemview/visualmusicmodel/visualitem.h>
 #include <views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.h>
 #include <QtTest/QtTest>
@@ -33,6 +34,8 @@ private Q_SLOTS:
     void testRowGraphics();
     void testSetInlineGraphicDataChangedSignal();
     void testAppendRowDataChangedSignal();
+    void testSetDataInlineGraphic();
+    void testSetDataRowGraphics();
 
 private:
     VisualItem *m_visualItem;
@@ -201,6 +204,38 @@ void VisualItemTest::testAppendRowDataChangedSignal()
 
     rowInteraction->emitDataChanged(QVariant(), LP::ScoreComposer);
     QVERIFY2(spy.count() == 1, "Data changed signal wasn't emitted for first row");
+}
+
+void VisualItemTest::testSetDataInlineGraphic()
+{
+    QString testData("test data");
+    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
+    TestInteractingItem *interactingItem = new TestInteractingItem();
+    QSignalSpy spy(interactingItem, SIGNAL(setDataCalled()));
+
+    m_visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+    m_visualItem->setInlineGraphic(interactingItem);
+    m_visualItem->setData(testData, testDataRole);
+
+    QVERIFY2(spy.count() == 1, "set data wasn't called on interacting graphics item");
+}
+
+void VisualItemTest::testSetDataRowGraphics()
+{
+    QString testData("test data");
+    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
+    TestInteractingItem *interactingItem1 = new TestInteractingItem();
+    QSignalSpy spyItem1(interactingItem1, SIGNAL(setDataCalled()));
+    TestInteractingItem *interactingItem2 = new TestInteractingItem();
+    QSignalSpy spyItem2(interactingItem2, SIGNAL(setDataCalled()));
+
+    m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+    m_visualItem->appendRow(interactingItem1);
+    m_visualItem->appendRow(interactingItem2);
+    m_visualItem->setData(testData, testDataRole);
+
+    QVERIFY2(spyItem1.count() == 1, "set data wasn't called on first interacting row graphics item");
+    QVERIFY2(spyItem2.count() == 1, "set data wasn't called on second interacting row graphics item");
 }
 
 QTEST_APPLESS_MAIN(VisualItemTest)
