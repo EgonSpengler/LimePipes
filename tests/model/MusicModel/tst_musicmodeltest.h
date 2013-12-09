@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testColumnCount();
     void testInsertScore();
     void testAppendScore();
+    void testSetData();
     void testInsertTuneIntoScore();
     void testAppendTuneToScore();
     void testInsertTuneWithScore();

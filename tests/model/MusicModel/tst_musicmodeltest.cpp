@@ -106,6 +106,26 @@ void MusicModelTest::testAppendScore()
     QVERIFY2(m_model->data(firstScore, LP::ScoreTitle) == "First title", "Failed getting title from appended score");
 }
 
+void MusicModelTest::testSetData()
+{
+    QString testTitle("Test title");
+    QString testTitleSetData("Test title new");
+    LP::ScoreDataRole testDataRole = LP::ScoreTitle;
+    QModelIndex scoreIndex = m_model->appendScore(testTitle);
+    QSignalSpy dataChangedSpy(m_model, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
+
+    m_model->setData(scoreIndex, testTitleSetData, testDataRole);
+    QVERIFY2(dataChangedSpy.count() == 1, "Data changed signal wasn't emitted");
+
+    // Setting the same data, signal must not be emitted
+    m_model->setData(scoreIndex, testTitleSetData, testDataRole);
+    QVERIFY2(dataChangedSpy.count() == 1, "Data changed signal was emitted despite non changing data");
+
+    // Setting wrong data role, signal must also not be emitted
+    m_model->setData(scoreIndex, testTitleSetData, LP::TuneInstrument);
+    QVERIFY2(dataChangedSpy.count() == 1, "Data changed signal was emitted with wrong data role");
+}
+
 void MusicModelTest::testInsertTuneIntoScore()
 {
     QModelIndex score = m_model->insertScore(0, "First Score");

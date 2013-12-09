@@ -159,8 +159,16 @@ bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int ro
     if (!index.isValid() || index.column() != 0)
         return false;
     if (MusicItem *item = itemForIndex(index)) {
-        item->setData(value, role);
-        return true;
+        if (item->data(role) == value)
+            return false;
+
+        if (item->setData(value, role)) {
+            QVector<int> dataRoles;
+            dataRoles << role;
+            emit dataChanged(index, index, dataRoles);
+
+            return true;
+        }
     }
     return false;
 }

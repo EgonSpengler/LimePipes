@@ -13,6 +13,7 @@
 #include <model/musicmodel.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 #include "testvisualitem.h"
+#include "testinteractingitem.h"
 #include "testvisualitemfactory.h"
 #include "tst_visualmusicmodeltest.h"
 
@@ -89,6 +90,21 @@ void VisualMusicModelTest::testInsertScore()
     QVERIFY2(rowSequenceSpy.count() == 1, "Score row sequence changed signal wasn't emitted");
 }
 
+void VisualMusicModelTest::testScoreDataChanged()
+{
+    QString testData("Test title");
+    TestInteractingItem testInteractingItem;
+    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
+    VisualItem *visualItem = m_visualMusicModel->visualItemFromIndex(scoreIndex);
+    Q_ASSERT(visualItem);
+    visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+    visualItem->setInlineGraphic(&testInteractingItem);
+    QSignalSpy spy(&testInteractingItem, SIGNAL(setDataCalled()));
+    m_musicModel->setData(scoreIndex, testData, LP::ScoreTitle);
+
+    QVERIFY2(spy.count() == 1, "data changed wasn't called on visual item");
+}
+
 void VisualMusicModelTest::testInsertTune()
 {
     Q_ASSERT(m_musicModel->instrumentNames().count());
@@ -128,13 +144,6 @@ void VisualMusicModelTest::testInsertSymbol()
     QModelIndex partIndex  = m_musicModel->insertPartIntoTune(0, tuneIndex, 8);
     QModelIndex measureIndex = m_musicModel->index(0, 0, partIndex);
     m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
-}
-
-void VisualMusicModelTest::testScoreDataChanged()
-{
-    QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    VisualItem *visualItem = m_visualMusicModel->visualItemFromIndex(scoreIndex);
-    Q_ASSERT(visualItem);
 }
 
 QTEST_MAIN(VisualMusicModelTest)

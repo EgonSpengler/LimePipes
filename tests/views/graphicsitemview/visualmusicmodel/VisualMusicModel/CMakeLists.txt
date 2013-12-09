@@ -9,6 +9,7 @@ set( Test_SOURCES
         tst_visualmusicmodeltest.cpp
         testvisualitem.cpp
         testvisualitemfactory.cpp
+        testinteractingitem.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

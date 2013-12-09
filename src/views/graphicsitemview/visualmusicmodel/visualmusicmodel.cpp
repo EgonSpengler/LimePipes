@@ -46,7 +46,16 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
 
 void VisualMusicModel::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
+    for (int i = topLeft.row(); i <= bottomRight.row(); i++) {
+        QModelIndex index = topLeft.sibling(i, 0);
+        VisualItem *item = visualItemFromIndex(index);
+        if (!item)
+            return;
 
+        foreach (int role, roles) {
+            item->setData(m_model->data(topLeft, role), role);
+        }
+    }
 }
 
 void VisualMusicModel::visualItemDataChanged(const QVariant &value, int dataRole)
@@ -149,6 +158,8 @@ void VisualMusicModel::setModel(QAbstractItemModel *model)
 
     connect(m_model, &QAbstractItemModel::rowsInserted,
             this, &VisualMusicModel::rowsInserted);
+    connect(m_model, &QAbstractItemModel::dataChanged,
+            this, &VisualMusicModel::dataChanged);
 }
 
 QAbstractItemModel *VisualMusicModel::model() const

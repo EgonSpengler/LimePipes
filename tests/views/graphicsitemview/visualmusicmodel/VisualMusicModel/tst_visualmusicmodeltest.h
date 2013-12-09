@@ -23,11 +23,11 @@ private Q_SLOTS:
     void testSetGetModel();
     void testVisualItemFromIndex();
     void testInsertScore();
+    void testScoreDataChanged();
     void testInsertTune();
     void testInsertPart();
     void testInsertMeasure();
     void testInsertSymbol();
-    void testScoreDataChanged();
 
 private:
     MusicModel *m_musicModel;

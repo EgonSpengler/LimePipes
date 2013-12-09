@@ -54,7 +54,7 @@ void MusicItemTest::testInitData()
 void MusicItemTest::testItemSupportsWritingOfData()
 {
     MusicItem *item = new TestMusicItem();
-    QVERIFY2(item->setData(QVariant(), LP::SymbolName) == true, "Fail, TestMusicItem supports writing of symbol name role");
+    QVERIFY2(item->setData("testname", LP::SymbolName) == true, "Fail, TestMusicItem supports writing of symbol name role");
     QVERIFY2(item->setData(QVariant(), TestMusicItem::notWritableRole) == false, "Fail, role was writable.");
 }
 
