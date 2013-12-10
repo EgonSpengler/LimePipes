@@ -12,6 +12,7 @@
 #include <QHash>
 #include <QPersistentModelIndex>
 #include "visualitem.h"
+#include "rowiterator.h"
 #include "abstractvisualitemfactory.h"
 
 class VisualMusicModel : public QObject
@@ -19,16 +20,16 @@ class VisualMusicModel : public QObject
     Q_OBJECT
 
     friend class VisualMusicModelTest;
+    friend class RowIterator;
 
 public:
     explicit VisualMusicModel(AbstractVisualItemFactory *itemFactory, QObject *parent=0);
     virtual ~VisualMusicModel();
 
-    // VisualMusicModelInterface
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
 
-    VisualItem *visualItemFromIndex(const QModelIndex& itemIndex);
+    RowIterator rowIteratorForScore(int index);
 
 signals:
     void scoreRowSequenceChanged(int scoreIndex);
@@ -41,6 +42,7 @@ private slots:
     void itemRowSequenceChanged();
 
 private:
+    VisualItem *visualItemFromIndex(const QModelIndex& itemIndex) const;
     void insertNewVisualItems(const QModelIndex& index, int start, int end, VisualItem::ItemType itemType);
     void insertVisualItem(QPersistentModelIndex itemIndex, VisualItem *item);
     QAbstractItemModel *m_model;

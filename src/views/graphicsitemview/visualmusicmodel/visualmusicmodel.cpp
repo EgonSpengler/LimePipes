@@ -9,6 +9,7 @@
 #include <QAbstractItemModel>
 #include <musicitem.h>
 #include "visualmusicmodel.h"
+#include "sequentialtunesrowiterator.h"
 
 VisualMusicModel::VisualMusicModel(AbstractVisualItemFactory *itemFactory, QObject *parent)
     : QObject(parent),
@@ -167,10 +168,23 @@ QAbstractItemModel *VisualMusicModel::model() const
     return m_model;
 }
 
-VisualItem *VisualMusicModel::visualItemFromIndex(const QModelIndex &itemIndex)
+VisualItem *VisualMusicModel::visualItemFromIndex(const QModelIndex &itemIndex) const
 {
     if (!m_visualItemIndexes.contains(itemIndex))
         return 0;
 
     return m_visualItemIndexes.value(itemIndex);
+}
+
+RowIterator VisualMusicModel::rowIteratorForScore(int index)
+{
+    if (m_model == 0)
+        return RowIterator();
+
+    QModelIndex scoreIndex = m_model->index(index, 0);
+    if (!scoreIndex.isValid())
+        return RowIterator();
+
+    SequentialTunesRowIterator iterator(this, scoreIndex);
+    return iterator;
 }

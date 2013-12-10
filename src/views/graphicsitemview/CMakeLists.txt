@@ -14,6 +14,8 @@ set( lp_graphicsitemview_SOURCES
         visualmusicmodel/visualmusicmodel.cpp
         visualmusicmodel/visualitem.cpp
         visualmusicmodel/iteminteraction.cpp
+        visualmusicmodel/rowiterator.cpp
+        visualmusicmodel/sequentialtunesrowiterator.cpp
 
         visualmusicmodel/iteminteractions/scoreinteraction.cpp
         visualmusicmodel/iteminteractions/dialogs/scorepropertiesdialog.cpp
