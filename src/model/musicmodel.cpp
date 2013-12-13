@@ -163,9 +163,7 @@ bool MusicModel::setData(const QModelIndex &index, const QVariant &value, int ro
             return false;
 
         if (item->setData(value, role)) {
-            QVector<int> dataRoles;
-            dataRoles << role;
-            emit dataChanged(index, index, dataRoles);
+            emit dataChanged(index, index);
 
             return true;
         }
@@ -373,7 +371,12 @@ QModelIndex MusicModel::insertScore(int row, const QString &title)
     createRootItemIfNotPresent();
     Q_ASSERT(m_rootItem->childType() == MusicItem::ScoreType);
 
-    return insertItem("Insert score", QModelIndex(), row, new Score(title));
+    QModelIndex scoreIndex = insertItem("Insert score", QModelIndex(), row, new Score(title));
+    if (scoreIndex.isValid()) {
+        emit dataChanged(scoreIndex, scoreIndex);
+    }
+
+    return scoreIndex;
 }
 
 QModelIndex MusicModel::appendScore(const QString &title)

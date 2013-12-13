@@ -13,6 +13,7 @@
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/graphicitems/textwidget.h>
 #include <graphicsitemview/visualmusicmodel/iteminteraction.h>
+#include <iteminteractiondummy.h>
 
 class ScoreGraphicsItemTest : public QObject
 {
@@ -33,6 +34,7 @@ private Q_SLOTS:
     void testSetGetItemColor();
     void testRowCount();
     void testItemTextChanged();
+    void testSetData();
 
 private:
     ScoreGraphicsItem *m_scoreItem;
@@ -197,6 +199,23 @@ void ScoreGraphicsItemTest::testItemTextChanged()
     dataRole = arguments.at(1).toInt();
     QVERIFY2(dataRole == testDataRole, "Signal returned wrong data role argument");
 
+}
+
+void ScoreGraphicsItemTest::testSetData()
+{
+    QString testData("test data");
+    LP::ScoreDataRole testDataRole = LP::ScoreTitle;
+    ItemInteractionDummy *interactionDummy = new ItemInteractionDummy();
+    QSignalSpy spy(interactionDummy, SIGNAL(setDataCalled()));
+
+    m_scoreItem->setItemPosition(testDataRole, 0, TextRowWidget::Left);
+    m_scoreItem->setItemInteraction(interactionDummy);
+
+    m_scoreItem->setData(testData, testDataRole);
+
+    QVERIFY2(spy.count() == 1, "Data changed wasn't called on item interaction (missing parent class call)");
+    QVERIFY2(m_scoreItem->itemText(testDataRole) == testData,
+             "Item text wasn't set in setData");
 }
 
 QTEST_MAIN(ScoreGraphicsItemTest)

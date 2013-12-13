@@ -6,8 +6,13 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
+        ../common/iteminteractiondummy.cpp
         tst_scoregraphicsitemtest.cpp
         )
+
+include_directories(
+    ../common
+)
 
 add_executable( ${testname} ${Test_SOURCES} )
 qt5_use_modules( ${testname} ${testmodules} )

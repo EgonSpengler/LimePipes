@@ -53,7 +53,7 @@ private Q_SLOTS:
     void testRemoveRows();
     void testSave();
     void testXsdFile();
-    void checkTestfilesAgainstXsd();
+    void checkTestfilesAgainstXsd(); // long lasting
     void testInvalidDocuments();
     void testValidMinimalDocuments();
     void testValidDocumentThreeScores();

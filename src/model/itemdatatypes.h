@@ -29,6 +29,7 @@
 #ifndef ITEMDATATYPES_H
 #define ITEMDATATYPES_H
 
+#include <QVector>
 #include <Qt>
 
 namespace LP {
@@ -42,6 +43,14 @@ enum ScoreDataRole {
     ScoreCopyright      = Qt::UserRole + 4,
     ScoreType           = Qt::UserRole + 5
 };
+
+static QVector<int> scoreDataRoles { ScoreTitle,
+                                     ScoreComposer,
+                                     ScoreArranger,
+                                     ScoreYear,
+                                     ScoreCopyright,
+                                     ScoreType
+                                   };
 
 // Tune
 enum TuneDataRole {

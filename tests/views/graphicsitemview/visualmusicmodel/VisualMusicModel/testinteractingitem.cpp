@@ -20,5 +20,6 @@ void TestInteractingItem::insertChildItem(int index, InteractingGraphicsItem *ch
 
 void TestInteractingItem::setData(const QVariant &value, int key)
 {
+    InteractingGraphicsItem::setData(value, key);
     emit setDataCalled();
 }

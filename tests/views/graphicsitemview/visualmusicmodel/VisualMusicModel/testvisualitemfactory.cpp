@@ -16,6 +16,7 @@ TestVisualItemFactory::TestVisualItemFactory()
 VisualItem *TestVisualItemFactory::createVisualItem(VisualItem::ItemType type)
 {
     TestVisualItem *visualItem = new TestVisualItem();
+    visualItem->setItemType(type);
     m_visualTestItems.append(visualItem);
     return visualItem;
 }

@@ -9,6 +9,7 @@
 #include "testvisualitem.h"
 
 TestVisualItem::TestVisualItem(QObject *parent)
+    : VisualItem(parent)
 {
 }
 

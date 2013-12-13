@@ -36,8 +36,7 @@ signals:
 
 private slots:
     void rowsInserted(const QModelIndex &parent, int start, int end);
-    void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight,
-                     const QVector<int>& roles=QVector<int>());
+    void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
     void visualItemDataChanged(const QVariant& value, int dataRole);
     void itemRowSequenceChanged();
 

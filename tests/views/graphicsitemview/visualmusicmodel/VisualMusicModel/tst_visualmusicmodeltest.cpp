@@ -99,10 +99,11 @@ void VisualMusicModelTest::testScoreDataChanged()
     Q_ASSERT(visualItem);
     visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
     visualItem->setInlineGraphic(&testInteractingItem);
-    QSignalSpy spy(&testInteractingItem, SIGNAL(setDataCalled()));
+    QSignalSpy interactingItemSpy(&testInteractingItem, SIGNAL(setDataCalled()));
     m_musicModel->setData(scoreIndex, testData, LP::ScoreTitle);
 
-    QVERIFY2(spy.count() == 1, "data changed wasn't called on visual item");
+    QVERIFY2(interactingItemSpy.count() == LP::scoreDataRoles.count(),
+             "data changed wasn't called on visual item");
 }
 
 void VisualMusicModelTest::testInsertTune()

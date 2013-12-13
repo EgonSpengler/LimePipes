@@ -76,12 +76,14 @@ void MusicModelTest::testColumnCount()
 
 void MusicModelTest::testInsertScore()
 {
+    QSignalSpy dataChangedSpy(m_model, SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)));
     QModelIndex firstScore = m_model->insertScore(0, "First Title");
     QVERIFY2(m_model->rowCount(QModelIndex()) == 1, "Score was not inserted");
     QVERIFY2(firstScore.isValid(), "No valid Modelindex was returned while inserting score");
     QVERIFY2(firstScore.row() == 0, "Score was inserted in wrong row");
     QVERIFY2(firstScore.column() == 0, "Score was inserted in wrong column");
     QVERIFY2(m_model->data(firstScore, LP::ScoreTitle) == "First Title", "Failed score title");
+    QVERIFY2(dataChangedSpy.count() == 1, "Data changed signal wasn't emitted once for inserting score");
 
     m_model->setData(firstScore, "Score 1", LP::ScoreTitle);
     QModelIndex secondScore = m_model->insertScore(m_model->rowCount(QModelIndex()), "Second Title");
@@ -91,12 +93,12 @@ void MusicModelTest::testInsertScore()
     QVERIFY2(secondScore.column() == 0, "Score 2 was inserted in wrong column");
 
     // Now, the rowsInserted signal should not be called when inserting rows
-    QSignalSpy spy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
+    QSignalSpy rowsInsertedSpy(m_model, SIGNAL(rowsInserted(const QModelIndex, int, int)));
 
     m_model->insertScore(-1, "Failed Score1");
     m_model->insertScore(5, "Failed Score2");
 
-    QVERIFY2(spy.count() == 0, "rowsInserted Signal was emitted" );
+    QVERIFY2(rowsInsertedSpy.count() == 0, "rowsInserted Signal was emitted" );
 }
 
 void MusicModelTest::testAppendScore()

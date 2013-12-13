@@ -34,6 +34,9 @@ public:
     void setModel(QAbstractItemModel* model);
     QAbstractItemModel *model() const;
 
+private slots:
+    void scoreRowSequenceChanged(int scoreIndex);
+
 private:
     void createConnections();
     VisualMusicModel *visualMusicModel() const;

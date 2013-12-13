@@ -44,6 +44,8 @@ public:
 
     int rowCount() const;
 
+    void setData(const QVariant &value, int key);
+
 signals:
     void itemTextChanged(const QVariant& text, int dataRole);
 

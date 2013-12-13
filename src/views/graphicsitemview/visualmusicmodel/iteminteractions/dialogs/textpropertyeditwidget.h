@@ -21,6 +21,8 @@ class TextPropertyEditWidget;
 
 class TextPropertyEditWidget : public QWidget
 {
+    friend class TextPropertyEditWidgetTest;
+
     Q_OBJECT
 
 public:

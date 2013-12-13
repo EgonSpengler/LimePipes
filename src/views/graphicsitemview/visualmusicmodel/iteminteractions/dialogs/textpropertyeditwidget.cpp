@@ -37,8 +37,10 @@ TextPropertyEditWidget::~TextPropertyEditWidget()
 
 void TextPropertyEditWidget::setText(const QString &text)
 {
-    if (m_text != text)
+    if (m_text != text) {
         m_text = text;
+        ui->lineEdit->setText(text);
+    }
 }
 
 QString TextPropertyEditWidget::text() const

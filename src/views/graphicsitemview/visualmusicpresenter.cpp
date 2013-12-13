@@ -22,6 +22,12 @@ VisualMusicPresenter::VisualMusicPresenter(QObject *parent)
     createConnections();
 }
 
+void VisualMusicPresenter::createConnections()
+{
+    connect(m_visualMusicModel, &VisualMusicModel::scoreRowSequenceChanged,
+            this, &VisualMusicPresenter::scoreRowSequenceChanged);
+}
+
 VisualMusicPresenter::~VisualMusicPresenter()
 {
     delete m_itemFactory;
@@ -49,8 +55,12 @@ QAbstractItemModel *VisualMusicPresenter::model() const
     return m_visualMusicModel->model();
 }
 
-void VisualMusicPresenter::createConnections()
+void VisualMusicPresenter::scoreRowSequenceChanged(int scoreIndex)
 {
+    RowIterator iterator = m_visualMusicModel->rowIteratorForScore(scoreIndex);
+    for (int i=0; i<iterator.rowCount(); i++) {
+        m_pageView->appendRow(iterator.rowAt(i));
+    }
 }
 
 VisualMusicModel *VisualMusicPresenter::visualMusicModel() const

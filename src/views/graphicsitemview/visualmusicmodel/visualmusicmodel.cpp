@@ -8,6 +8,7 @@
 
 #include <QAbstractItemModel>
 #include <musicitem.h>
+#include <itemdatatypes.h>
 #include "visualmusicmodel.h"
 #include "sequentialtunesrowiterator.h"
 
@@ -20,43 +21,6 @@ VisualMusicModel::VisualMusicModel(AbstractVisualItemFactory *itemFactory, QObje
 
 VisualMusicModel::~VisualMusicModel()
 {
-}
-
-void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int end)
-{
-    if (!parent.isValid()) {
-        insertNewVisualItems(parent, start, end, VisualItem::VisualScoreItem);
-    }
-    MusicItem *item = static_cast<MusicItem*>(parent.internalPointer());
-    if (!item)
-        return;
-
-    if (item->type() == MusicItem::ScoreType) {
-        insertNewVisualItems(parent, start, end, VisualItem::VisualTuneItem);
-    }
-    if (item->type() == MusicItem::TuneType) {
-        insertNewVisualItems(parent, start, end, VisualItem::VisualPartItem);
-    }
-    if (item->type() == MusicItem::PartType) {
-        insertNewVisualItems(parent, start, end, VisualItem::VisualMeasureItem);
-    }
-    if (item->type() == MusicItem::MeasureType) {
-        insertNewVisualItems(parent, start, end, VisualItem::VisualSymbolItem);
-    }
-}
-
-void VisualMusicModel::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
-{
-    for (int i = topLeft.row(); i <= bottomRight.row(); i++) {
-        QModelIndex index = topLeft.sibling(i, 0);
-        VisualItem *item = visualItemFromIndex(index);
-        if (!item)
-            return;
-
-        foreach (int role, roles) {
-            item->setData(m_model->data(topLeft, role), role);
-        }
-    }
 }
 
 void VisualMusicModel::visualItemDataChanged(const QVariant &value, int dataRole)
@@ -161,6 +125,48 @@ void VisualMusicModel::setModel(QAbstractItemModel *model)
             this, &VisualMusicModel::rowsInserted);
     connect(m_model, &QAbstractItemModel::dataChanged,
             this, &VisualMusicModel::dataChanged);
+}
+
+void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int end)
+{
+    if (!parent.isValid()) {
+        insertNewVisualItems(parent, start, end, VisualItem::VisualScoreItem);
+        emit scoreRowSequenceChanged(start);
+    }
+    MusicItem *item = static_cast<MusicItem*>(parent.internalPointer());
+    if (!item)
+        return;
+
+    if (item->type() == MusicItem::ScoreType) {
+        insertNewVisualItems(parent, start, end, VisualItem::VisualTuneItem);
+    }
+    if (item->type() == MusicItem::TuneType) {
+        insertNewVisualItems(parent, start, end, VisualItem::VisualPartItem);
+    }
+    if (item->type() == MusicItem::PartType) {
+        insertNewVisualItems(parent, start, end, VisualItem::VisualMeasureItem);
+    }
+    if (item->type() == MusicItem::MeasureType) {
+        insertNewVisualItems(parent, start, end, VisualItem::VisualSymbolItem);
+    }
+}
+
+void VisualMusicModel::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+{
+    for (int i = topLeft.row(); i <= bottomRight.row(); i++) {
+        QModelIndex index = topLeft.sibling(i, 0);
+        VisualItem *item = visualItemFromIndex(index);
+        if (!item)
+            return;
+
+        QVector<int> dataRoles;
+        if (item->itemType() == VisualItem::VisualScoreItem)
+            dataRoles = LP::scoreDataRoles;
+
+        foreach (int role, dataRoles) {
+            item->setData(m_model->data(topLeft, role), role);
+        }
+    }
 }
 
 QAbstractItemModel *VisualMusicModel::model() const

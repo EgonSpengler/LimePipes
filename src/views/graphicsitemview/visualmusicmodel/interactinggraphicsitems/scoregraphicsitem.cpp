@@ -12,6 +12,8 @@
 #include "../iteminteraction.h"
 #include "scoregraphicsitem.h"
 
+#include <QPainter>
+
 ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_rowLayout(0)
@@ -243,6 +245,12 @@ QColor ScoreGraphicsItem::itemColor(LP::ScoreDataRole itemType) const
 int ScoreGraphicsItem::rowCount() const
 {
     return m_rowLayout->count();
+}
+
+void ScoreGraphicsItem::setData(const QVariant &value, int key)
+{
+    InteractingGraphicsItem::setData(value, key);
+    setItemText(static_cast<LP::ScoreDataRole>(key), value.toString());
 }
 
 bool ScoreGraphicsItem::TextItemPosition::operator ==(const ScoreGraphicsItem::TextItemPosition &other) const

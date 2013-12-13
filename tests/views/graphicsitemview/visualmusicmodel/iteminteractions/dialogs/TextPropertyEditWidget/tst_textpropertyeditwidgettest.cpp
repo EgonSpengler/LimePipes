@@ -10,6 +10,7 @@
 #include <QtTest>
 #include <QtTest/QSignalSpy>
 #include <graphicsitemview/visualmusicmodel/iteminteractions/dialogs/textpropertyeditwidget.h>
+#include "ui_textpropertyeditwidget.h"
 
 class TextPropertyEditWidgetTest : public QObject
 {
@@ -53,6 +54,8 @@ void TextPropertyEditWidgetTest::testSetGetText()
 
     editWidget->setText(testText);
     QVERIFY2(editWidget->text() == testText, "Can't get text from widget");
+    QVERIFY2(editWidget->ui->lineEdit->text() == testText,
+             "Text wasn't set on line edit");
     QVERIFY2(spy.count() == 0, "Signal must not be sent by setting text");
 }
 
