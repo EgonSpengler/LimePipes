@@ -102,8 +102,8 @@ void VisualMusicModelTest::testScoreDataChanged()
     QSignalSpy interactingItemSpy(&testInteractingItem, SIGNAL(setDataCalled()));
     m_musicModel->setData(scoreIndex, testData, LP::ScoreTitle);
 
-    QVERIFY2(interactingItemSpy.count() == LP::scoreDataRoles.count(),
-             "data changed wasn't called on visual item");
+    QVERIFY2(interactingItemSpy.count() == 1,
+             "Data changed wasn't called on visual item");
 }
 
 void VisualMusicModelTest::testInsertTune()

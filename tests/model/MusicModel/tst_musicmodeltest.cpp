@@ -118,14 +118,22 @@ void MusicModelTest::testSetData()
 
     m_model->setData(scoreIndex, testTitleSetData, testDataRole);
     QVERIFY2(dataChangedSpy.count() == 1, "Data changed signal wasn't emitted");
+    QList<QVariant> parameter = dataChangedSpy.takeFirst();
+    Q_ASSERT(parameter.count() == 3);
+    QVariant rolesVariant = parameter.at(2);
+    Q_ASSERT(rolesVariant.canConvert<QVector<int>>());
+    QVector<int> roles = rolesVariant.value<QVector<int>>();
+    QVERIFY2(roles.count() == 1, "Empty roles list was emitted");
+    QVERIFY2(roles.at(0) == static_cast<int>(testDataRole),
+             "Wrong role was emitted");
 
     // Setting the same data, signal must not be emitted
     m_model->setData(scoreIndex, testTitleSetData, testDataRole);
-    QVERIFY2(dataChangedSpy.count() == 1, "Data changed signal was emitted despite non changing data");
+    QVERIFY2(dataChangedSpy.count() == 0, "Data changed signal was emitted despite non changing data");
 
     // Setting wrong data role, signal must also not be emitted
     m_model->setData(scoreIndex, testTitleSetData, LP::TuneInstrument);
-    QVERIFY2(dataChangedSpy.count() == 1, "Data changed signal was emitted with wrong data role");
+    QVERIFY2(dataChangedSpy.count() == 0, "Data changed signal was emitted with wrong data role");
 }
 
 void MusicModelTest::testInsertTuneIntoScore()
@@ -635,7 +643,7 @@ void MusicModelTest::testXsdFile()
 
 void MusicModelTest::checkTestfilesAgainstXsd()
 {
-//    QSKIP("Checks require long time", SkipSingle);
+    QSKIP("Checks require long time", SkipSingle);
 
     QUrl xsdUrl = QUrl::fromLocalFile(LIMEPIPES_XSD_FILE);
     QXmlSchema schema;

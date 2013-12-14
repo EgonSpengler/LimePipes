@@ -44,14 +44,6 @@ enum ScoreDataRole {
     ScoreType           = Qt::UserRole + 5
 };
 
-static QVector<int> scoreDataRoles { ScoreTitle,
-                                     ScoreComposer,
-                                     ScoreArranger,
-                                     ScoreYear,
-                                     ScoreCopyright,
-                                     ScoreType
-                                   };
-
 // Tune
 enum TuneDataRole {
     TuneInstrument      = Qt::UserRole + 7

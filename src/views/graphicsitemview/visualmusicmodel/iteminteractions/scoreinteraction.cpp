@@ -72,6 +72,7 @@ void ScoreInteraction::propertyTextChanged(LP::ScoreDataRole dataRole, const QSt
 
 void ScoreInteraction::propertyFontChanged(LP::ScoreDataRole dataRole, const QFont &font)
 {
+    emit dataChanged(font, Qt::FontRole);
 }
 
 void ScoreInteraction::propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color)

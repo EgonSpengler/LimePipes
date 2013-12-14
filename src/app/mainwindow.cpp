@@ -82,9 +82,9 @@ void MainWindow::createModelAndView()
     MusicModel *musicModel = new MusicModel(this);
     MusicProxyModel *proxyModel = new MusicProxyModel(this);
     proxyModel->setSourceModel(musicModel);
-    m_model = proxyModel;
+    m_model = musicModel;
 
-    m_treeView->setModel(m_model);
+    m_treeView->setModel(proxyModel);
     m_graphicsItemView->setModel(m_model);
     setCentralWidget(splitter);
 }

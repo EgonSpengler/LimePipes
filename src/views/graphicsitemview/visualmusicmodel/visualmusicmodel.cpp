@@ -151,17 +151,13 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     }
 }
 
-void VisualMusicModel::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+void VisualMusicModel::dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &dataRoles)
 {
     for (int i = topLeft.row(); i <= bottomRight.row(); i++) {
         QModelIndex index = topLeft.sibling(i, 0);
         VisualItem *item = visualItemFromIndex(index);
         if (!item)
             return;
-
-        QVector<int> dataRoles;
-        if (item->itemType() == VisualItem::VisualScoreItem)
-            dataRoles = LP::scoreDataRoles;
 
         foreach (int role, dataRoles) {
             item->setData(m_model->data(topLeft, role), role);
