@@ -10,6 +10,7 @@
 #define TEXTROWWIDGET_H
 
 #include <QMetaType>
+#include <common/settingdefines.h>
 #include <QGraphicsWidget>
 
 class QSignalMapper;
@@ -21,34 +22,27 @@ class TextRowWidget : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    enum RowAlignment {
-        NoAlignment,
-        Left,
-        Center,
-        Right
-    };
-
     explicit TextRowWidget(QGraphicsItem *parent = 0);
 
-    void setText(RowAlignment position, const QString& text);
-    QString text(RowAlignment position) const;
+    void setText(Settings::TextAlignment position, const QString& text);
+    QString text(Settings::TextAlignment position) const;
 
-    void setFont(RowAlignment position, const QFont& font);
-    QFont font(RowAlignment position) const;
+    void setFont(Settings::TextAlignment position, const QFont& font);
+    QFont font(Settings::TextAlignment position) const;
 
-    void setColor(RowAlignment position, const QColor& color);
-    QColor color(RowAlignment position);
+    void setColor(Settings::TextAlignment position, const QColor& color);
+    QColor color(Settings::TextAlignment position);
 
-    void setTextVisible(RowAlignment position, bool visible);
-    bool isTextVisible(RowAlignment position) const;
+    void setTextVisible(Settings::TextAlignment position, bool visible);
+    bool isTextVisible(Settings::TextAlignment position) const;
 
-    TextWidget *textWidget(RowAlignment position);
+    TextWidget *textWidget(Settings::TextAlignment position);
 
     void setGeometry(const QRectF &rect);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 signals:
-    void textChanged(TextRowWidget::RowAlignment position, const QString& newText);
+    void textChanged(Settings::TextAlignment position, const QString& newText);
 
 private slots:
     void textWidgetTextChanged(TextWidget *textWidget);
@@ -57,13 +51,13 @@ private slots:
 private:
     void createConnections();
     void repositionElementTextItems();
-    TextWidget *textWidgetForPosition(RowAlignment position) const;
-    RowAlignment textPositionForWidget(TextWidget *widget) const;
+    TextWidget *textWidgetForPosition(Settings::TextAlignment position) const;
+    Settings::TextAlignment textPositionForWidget(TextWidget *widget) const;
     TextWidget *m_leftTextWidget;
     TextWidget *m_centerTextWidget;
     TextWidget *m_rightTextWidget;
 };
 
-Q_DECLARE_METATYPE(TextRowWidget::RowAlignment)
+Q_DECLARE_METATYPE(Settings::TextAlignment)
 
 #endif // TEXTROWWIDGET_H

@@ -32,8 +32,8 @@ void ScoreGraphicsItem::appendRow()
     m_textRows.append(newRow);
     m_rowLayout->addItem(newRow);
 
-    connect(newRow, SIGNAL(textChanged(TextRowWidget::RowAlignment,QString)),
-            this, SLOT(textRowItemChanged(TextRowWidget::RowAlignment,QString)));
+    connect(newRow, &TextRowWidget::textChanged,
+            this, &ScoreGraphicsItem::textRowItemChanged);
 }
 
 void ScoreGraphicsItem::removeLastRow()
@@ -62,7 +62,7 @@ void ScoreGraphicsItem::itemInteractionChanged()
             interaction, &ItemInteraction::dataChanged);
 }
 
-void ScoreGraphicsItem::textRowItemChanged(TextRowWidget::RowAlignment position, const QString &newText)
+void ScoreGraphicsItem::textRowItemChanged(Settings::TextAlignment position, const QString &newText)
 {
     QObject *senderRow = sender();
     TextRowWidget *rowWidget = qobject_cast<TextRowWidget*>(senderRow);
@@ -111,7 +111,7 @@ void ScoreGraphicsItem::deleteLastEmptyRows()
     }
 }
 
-void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position)
+void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int row, Settings::TextAlignment position)
 {
     if (row < 0)
         return;
@@ -145,10 +145,10 @@ int ScoreGraphicsItem::rowOfDataRole(LP::ScoreDataRole dataRole)
     return itemPosition.rowIndex;
 }
 
-TextRowWidget::RowAlignment ScoreGraphicsItem::rowAlignmentOfDataRole(LP::ScoreDataRole dataRole)
+Settings::TextAlignment ScoreGraphicsItem::rowAlignmentOfDataRole(LP::ScoreDataRole dataRole)
 {
     if (!m_itemPositions.contains(dataRole))
-        return TextRowWidget::NoAlignment;
+        return Settings::TextAlignment::NoAlignment;
 
     TextItemPosition itemPosition = m_itemPositions.value(dataRole);
     return itemPosition.rowPosition;

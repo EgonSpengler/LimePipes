@@ -19,7 +19,9 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
       m_centerTextWidget(0),
       m_rightTextWidget(0)
 {
-    qRegisterMetaType<TextRowWidget::RowAlignment>("TextRowWidget::RowAlignment");
+    using namespace Settings;
+
+    qRegisterMetaType<Settings::TextAlignment>("Settings::TextAlignment");
 
     m_leftTextWidget = new TextWidget(this);
     m_leftTextWidget->setAlignment(Qt::AlignLeft);
@@ -30,9 +32,9 @@ TextRowWidget::TextRowWidget(QGraphicsItem *parent)
     m_rightTextWidget = new TextWidget(this);
     m_rightTextWidget->setAlignment(Qt::AlignRight);
 
-    setTextVisible(Left, false);
-    setTextVisible(Center, false);
-    setTextVisible(Right, false);
+    setTextVisible(TextAlignment::Left, false);
+    setTextVisible(TextAlignment::Center, false);
+    setTextVisible(TextAlignment::Right, false);
 
     createConnections();
 }
@@ -80,7 +82,7 @@ void TextRowWidget::repositionElementTextItems()
     setPreferredHeight(maxHeight);
 }
 
-void TextRowWidget::setText(TextRowWidget::RowAlignment position, const QString &text)
+void TextRowWidget::setText(Settings::TextAlignment position, const QString &text)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setText(text);
@@ -88,62 +90,59 @@ void TextRowWidget::setText(TextRowWidget::RowAlignment position, const QString 
     setTextVisible(position, !text.isEmpty());
 }
 
-QString TextRowWidget::text(TextRowWidget::RowAlignment position) const
+QString TextRowWidget::text(Settings::TextAlignment position) const
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     return textWidget->text();
 }
 
-void TextRowWidget::setFont(TextRowWidget::RowAlignment position, const QFont &font)
+void TextRowWidget::setFont(Settings::TextAlignment position, const QFont &font)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setFont(font);
 }
 
-QFont TextRowWidget::font(TextRowWidget::RowAlignment position) const
+QFont TextRowWidget::font(Settings::TextAlignment position) const
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     return textWidget->font();
 }
 
-void TextRowWidget::setColor(TextRowWidget::RowAlignment position, const QColor &color)
+void TextRowWidget::setColor(Settings::TextAlignment position, const QColor &color)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     textWidget->setColor(color);
 }
 
-QColor TextRowWidget::color(TextRowWidget::RowAlignment position)
+QColor TextRowWidget::color(Settings::TextAlignment position)
 {
     TextWidget *textWidget = textWidgetForPosition(position);
     return textWidget->color();
 }
 
-void TextRowWidget::setTextVisible(TextRowWidget::RowAlignment position, bool visible)
+void TextRowWidget::setTextVisible(Settings::TextAlignment position, bool visible)
 {
     TextWidget *widget = textWidgetForPosition(position);
     widget->setVisible(visible);
 }
 
-bool TextRowWidget::isTextVisible(TextRowWidget::RowAlignment position) const
+bool TextRowWidget::isTextVisible(Settings::TextAlignment position) const
 {
     TextWidget *widget = textWidgetForPosition(position);
     return widget->isVisible();
 }
 
-TextWidget *TextRowWidget::textWidget(TextRowWidget::RowAlignment position)
+TextWidget *TextRowWidget::textWidget(Settings::TextAlignment position)
 {
     switch (position) {
-    case TextRowWidget::Left:
+    case Settings::TextAlignment::Left:
         return m_leftTextWidget;
-        break;
-    case TextRowWidget::Center:
+    case Settings::TextAlignment::Center:
         return m_centerTextWidget;
-        break;
-    case TextRowWidget::Right:
+    case Settings::TextAlignment::Right:
         return m_rightTextWidget;
-        break;
-    case TextRowWidget::NoAlignment:
-        break;
+    case Settings::TextAlignment::NoAlignment:
+        return 0;
     }
 
     return 0;
@@ -165,7 +164,7 @@ void TextRowWidget::textWidgetTextChanged(TextWidget *textWidget)
 {
     if (!textWidget) return;
 
-    TextRowWidget::RowAlignment position = textPositionForWidget(textWidget);
+    Settings::TextAlignment position = textPositionForWidget(textWidget);
     emit textChanged(position, textWidget->text());
 
     repositionElementTextItems();
@@ -176,28 +175,28 @@ void TextRowWidget::textWidgetSizeChanged()
     repositionElementTextItems();
 }
 
-TextRowWidget::RowAlignment TextRowWidget::textPositionForWidget(TextWidget *widget) const
+Settings::TextAlignment TextRowWidget::textPositionForWidget(TextWidget *widget) const
 {
     if (widget == m_leftTextWidget)
-        return Left;
+        return Settings::TextAlignment::Left;
     if (widget == m_centerTextWidget)
-        return Center;
+        return Settings::TextAlignment::Center;
     if (widget == m_rightTextWidget)
-        return Right;
+        return Settings::TextAlignment::Right;
 
-    return Left;
+    return Settings::TextAlignment::Left;
 }
 
-TextWidget *TextRowWidget::textWidgetForPosition(TextRowWidget::RowAlignment position) const
+TextWidget *TextRowWidget::textWidgetForPosition(Settings::TextAlignment position) const
 {
     switch (position) {
-    case Left: {
+    case Settings::TextAlignment::Left: {
         return m_leftTextWidget;
     }
-    case Center: {
+    case Settings::TextAlignment::Center: {
         return m_centerTextWidget;
     }
-    case Right: {
+    case Settings::TextAlignment::Right: {
         return m_rightTextWidget;
     }
     default:

@@ -643,7 +643,7 @@ void MusicModelTest::testXsdFile()
 
 void MusicModelTest::checkTestfilesAgainstXsd()
 {
-    QSKIP("Checks require long time", SkipSingle);
+//    QSKIP("Checks require long time", SkipSingle);
 
     QUrl xsdUrl = QUrl::fromLocalFile(LIMEPIPES_XSD_FILE);
     QXmlSchema schema;

@@ -26,11 +26,11 @@ class ScoreGraphicsItem : public InteractingGraphicsItem
 public:
     explicit ScoreGraphicsItem(QGraphicsItem *parent = 0);
 
-    void setItemPosition(LP::ScoreDataRole itemType, int row, TextRowWidget::RowAlignment position);
+    void setItemPosition(LP::ScoreDataRole itemType, int row, Settings::TextAlignment position);
     void removeItemPosition(LP::ScoreDataRole itemType);
 
     int rowOfDataRole(LP::ScoreDataRole dataRole);
-    TextRowWidget::RowAlignment rowAlignmentOfDataRole(LP::ScoreDataRole dataRole);
+    Settings::TextAlignment rowAlignmentOfDataRole(LP::ScoreDataRole dataRole);
     bool hasItemPositionForDataRole(LP::ScoreDataRole itemType) const;
 
     void setItemText(LP::ScoreDataRole itemType, const QString& text);
@@ -51,13 +51,13 @@ signals:
 
 private slots:
     void itemInteractionChanged();
-    void textRowItemChanged(TextRowWidget::RowAlignment position, const QString& newText);
+    void textRowItemChanged(Settings::TextAlignment position, const QString& newText);
 
 private:
     class TextItemPosition {
     public:
         int rowIndex;
-        TextRowWidget::RowAlignment rowPosition;
+        Settings::TextAlignment rowPosition;
         bool operator ==(const TextItemPosition& other) const;
     };
 

@@ -59,18 +59,18 @@ void ScoreGraphicsItemTest::testRowOfDataRole()
     QVERIFY2(m_scoreItem->rowOfDataRole(LP::ScoreType) == -1,
              "Wrong default row of non existing data role is wrong");
 
-    m_scoreItem->setItemPosition(LP::ScoreTitle, 1, TextRowWidget::Left);
+    m_scoreItem->setItemPosition(LP::ScoreTitle, 1, Settings::TextAlignment::Left);
     QVERIFY2(m_scoreItem->rowOfDataRole(LP::ScoreTitle) == 1,
              "Failed getting right row of data role");
 }
 
 void ScoreGraphicsItemTest::testRowAlignmentOfDatarole()
 {
-    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(LP::ScoreCopyright) == TextRowWidget::NoAlignment,
+    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(LP::ScoreCopyright) == Settings::TextAlignment::NoAlignment,
              "Wrong default row alignment of non existend data role");
 
-    m_scoreItem->setItemPosition(LP::ScoreArranger, 0, TextRowWidget::Center);
-    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(LP::ScoreArranger) == TextRowWidget::Center,
+    m_scoreItem->setItemPosition(LP::ScoreArranger, 0, Settings::TextAlignment::Center);
+    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(LP::ScoreArranger) == Settings::TextAlignment::Center,
              "Failed getting right row alignment of data role");
 }
 
@@ -78,7 +78,7 @@ void ScoreGraphicsItemTest::testHasItemPositionForDataRole()
 {
     QVERIFY2(m_scoreItem->hasItemPositionForDataRole(LP::ScoreArranger) == false,
              "Score item returned true for data role that was not set before");
-    m_scoreItem->setItemPosition(LP::ScoreArranger, 0, TextRowWidget::Center);
+    m_scoreItem->setItemPosition(LP::ScoreArranger, 0, Settings::TextAlignment::Center);
     QVERIFY2(m_scoreItem->hasItemPositionForDataRole(LP::ScoreArranger),
              "Score item returned false for data role with position");
 }
@@ -86,7 +86,7 @@ void ScoreGraphicsItemTest::testHasItemPositionForDataRole()
 void ScoreGraphicsItemTest::testRemoveItemPosition()
 {
     LP::ScoreDataRole testDataRole = LP::ScoreArranger;
-    TextRowWidget::RowAlignment testRowAlignment = TextRowWidget::Center;
+    Settings::TextAlignment testRowAlignment = Settings::TextAlignment::Center;
 
     QVERIFY2(m_scoreItem->hasItemPositionForDataRole(testDataRole) == false,
              "Score item returned true for data role that was not set before");
@@ -111,7 +111,7 @@ void ScoreGraphicsItemTest::testRemoveItemPosition()
 void ScoreGraphicsItemTest::testSetGetItemText()
 {
     QString testTitle("test title");
-    m_scoreItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+    m_scoreItem->setItemPosition(LP::ScoreTitle, 0, Settings::TextAlignment::Center);
     m_scoreItem->setItemText(LP::ScoreTitle, testTitle);
 
     QVERIFY2(m_scoreItem->itemText(LP::ScoreTitle) == testTitle,
@@ -121,7 +121,7 @@ void ScoreGraphicsItemTest::testSetGetItemText()
 void ScoreGraphicsItemTest::testSetGetItemFont()
 {
     QFont testFont("Arial", 33);
-    m_scoreItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+    m_scoreItem->setItemPosition(LP::ScoreTitle, 0, Settings::TextAlignment::Center);
     m_scoreItem->setItemFont(LP::ScoreTitle, testFont);
 
     QVERIFY2(m_scoreItem->itemFont(LP::ScoreTitle) == testFont,
@@ -131,7 +131,7 @@ void ScoreGraphicsItemTest::testSetGetItemFont()
 void ScoreGraphicsItemTest::testSetGetItemColor()
 {
     QColor testColor(Qt::lightGray);
-    m_scoreItem->setItemPosition(LP::ScoreTitle, 0, TextRowWidget::Center);
+    m_scoreItem->setItemPosition(LP::ScoreTitle, 0, Settings::TextAlignment::Center);
     m_scoreItem->setItemColor(LP::ScoreTitle, testColor);
 
     QVERIFY2(m_scoreItem->itemColor(LP::ScoreTitle) == testColor,
@@ -142,10 +142,10 @@ void ScoreGraphicsItemTest::testRowCount()
 {
     QVERIFY2(m_scoreItem->rowCount() == 1, "Wrong initial row count");
 
-    m_scoreItem->setItemPosition(LP::ScoreArranger, 2, TextRowWidget::Center);
+    m_scoreItem->setItemPosition(LP::ScoreArranger, 2, Settings::TextAlignment::Center);
     QVERIFY2(m_scoreItem->rowCount() == 3, "Wrong row count after setting item into row > 0");
 
-    m_scoreItem->setItemPosition(LP::ScoreArranger, 1, TextRowWidget::Center);
+    m_scoreItem->setItemPosition(LP::ScoreArranger, 1, Settings::TextAlignment::Center);
     QVERIFY2(m_scoreItem->rowCount() == 2,
              "Wrong row count after setting item into lower row index. Empty row wasn't removed");
 
@@ -159,7 +159,7 @@ void ScoreGraphicsItemTest::testItemTextChanged()
     m_scoreItem->setItemInteraction(new ItemInteraction);
 
     // Testdata
-    TextRowWidget::RowAlignment testRowAlignment = TextRowWidget::Left;
+    Settings::TextAlignment testRowAlignment = Settings::TextAlignment::Left;
     QString testText("test text for simulating edit");
     LP::ScoreDataRole testDataRole = LP::ScoreArranger;
 
@@ -208,7 +208,7 @@ void ScoreGraphicsItemTest::testSetData()
     ItemInteractionDummy *interactionDummy = new ItemInteractionDummy();
     QSignalSpy spy(interactionDummy, SIGNAL(setDataCalled()));
 
-    m_scoreItem->setItemPosition(testDataRole, 0, TextRowWidget::Left);
+    m_scoreItem->setItemPosition(testDataRole, 0, Settings::TextAlignment::Left);
     m_scoreItem->setItemInteraction(interactionDummy);
 
     m_scoreItem->setData(testData, testDataRole);
