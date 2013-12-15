@@ -15,7 +15,7 @@
 #include <QDialogButtonBox>
 
 #include <QObject>
-#include <app/newtunedialog.h>
+#include <app/dialogs/newtunedialog.h>
 
 class NewTuneDialogTest : public QObject
 {

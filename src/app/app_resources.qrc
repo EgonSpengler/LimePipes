@@ -11,5 +11,6 @@
         <file alias="edit-redo">resources/img/edit-redo.svg</file>
         <file alias="tune-add-part">resources/img/tune-add-part.svg</file>
         <file alias="limepipes-logo">resources/img/limepipes-logo.svg</file>
+        <file alias="document-properties">resources/img/document-properties.svg</file>
     </qresource>
 </RCC>

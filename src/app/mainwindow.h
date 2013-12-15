@@ -24,6 +24,7 @@ class QAbstractItemModel;
 class MusicModelInterface;
 class GraphicsItemView;
 class GraphicsScene;
+class SettingsDialog;
 
 namespace Ui {
 class MainWindow;
@@ -48,6 +49,7 @@ private slots:
     void on_editUndoAction_triggered();
     void on_editRedoAction_triggered();
     void on_helpAboutAction_triggered();
+    void on_editSettingsAction_triggered();
     void insertSymbol(const QString &symbolName);
     void setWindowModifiedForUndoStackCleanState(bool clean);
 
@@ -71,6 +73,7 @@ private:
     QAbstractItemModel *m_model;
     AddSymbolsDialog *m_addSymbolsDialog;
     AboutDialog *m_aboutDialog;
+    SettingsDialog *m_settingsDialog;
 };
 
 #endif // MAINWINDOW_H

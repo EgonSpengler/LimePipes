@@ -10,7 +10,7 @@
 #include <QtTest/QtTest>
 #include <QtTest/QSignalSpy>
 #include "model/musicmodel.h"
-#include "app/newtunedialog.h"
+#include "app/dialogs/newtunedialog.h"
 #include "tst_mainwindowtest.h"
 
 void MainWindowTest::initTestCase()

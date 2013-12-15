@@ -21,7 +21,7 @@
      <x>0</x>
      <y>0</y>
      <width>1503</width>
-     <height>25</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -40,6 +40,7 @@
     </property>
     <addaction name="editAddTuneAction"/>
     <addaction name="editAddSymbolsAction"/>
+    <addaction name="editSettingsAction"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -215,6 +216,18 @@
   <action name="helpAboutAction">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="editSettingsAction">
+   <property name="icon">
+    <iconset resource="app_resources.qrc">
+     <normaloff>:/application/document-properties</normaloff>:/application/document-properties</iconset>
+   </property>
+   <property name="text">
+    <string>Settings</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
    </property>
   </action>
  </widget>

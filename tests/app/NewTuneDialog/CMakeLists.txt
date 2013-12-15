@@ -7,11 +7,11 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         tst_newtunedialogtest.cpp
-        ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.cpp
+        ${CMAKE_SOURCE_DIR}/src/app/dialogs/newtunedialog.cpp
         )
 
 set( Test_UIs
-        ${CMAKE_SOURCE_DIR}/src/app/newtunedialog.ui
+        ${CMAKE_SOURCE_DIR}/src/app/dialogs/newtunedialog.ui
         )
 
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )

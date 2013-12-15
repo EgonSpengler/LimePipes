@@ -7,11 +7,11 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         tst_addsymbolsdialogtest.cpp
-        ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.cpp
+        ${CMAKE_SOURCE_DIR}/src/app/dialogs/addsymbolsdialog.cpp
         )
 
 set( Test_UIs
-        ${CMAKE_SOURCE_DIR}/src/app/addsymbolsdialog.ui
+        ${CMAKE_SOURCE_DIR}/src/app/dialogs/addsymbolsdialog.ui
         )
 
 qt5_wrap_ui( Test_SOURCES ${Test_UIs} )

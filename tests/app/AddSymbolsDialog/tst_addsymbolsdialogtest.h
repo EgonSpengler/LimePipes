@@ -11,7 +11,7 @@
 
 #include <QObject>
 #include <QListWidget>
-#include <app/addsymbolsdialog.h>
+#include <app/dialogs/addsymbolsdialog.h>
 
 class AddSymbolsDialogTest : public QObject
 {

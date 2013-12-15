@@ -1,9 +1,10 @@
 set( limepipes_SOURCES
         app/main.cpp
         app/mainwindow.cpp
-        app/newtunedialog.cpp
-        app/addsymbolsdialog.cpp
-        app/aboutdialog.cpp
+        app/dialogs/newtunedialog.cpp
+        app/dialogs/addsymbolsdialog.cpp
+        app/dialogs/aboutdialog.cpp
+        app/dialogs/settingsdialog.cpp
 
         views/treeview/lengthdelegate.cpp
         views/treeview/musicproxymodel.cpp
@@ -14,9 +15,10 @@ set( limepipes_SOURCES
 
 set( limepipes_UIs
         app/mainwindow.ui
-        app/newtunedialog.ui
-        app/addsymbolsdialog.ui
-        app/aboutdialog.ui
+        app/dialogs/newtunedialog.ui
+        app/dialogs/addsymbolsdialog.ui
+        app/dialogs/aboutdialog.ui
+        app/dialogs/settingsdialog.ui
         )
 
 set( limepipes_RESOURCES
