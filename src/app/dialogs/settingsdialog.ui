@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>838</width>
-    <height>554</height>
+    <width>998</width>
+    <height>771</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,6 +24,24 @@
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="gridSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="viewMode">
+        <enum>QListView::ListMode</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>Music Sheet</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../app_resources.qrc">
+          <normaloff>:/application/score_settings</normaloff>:/application/score_settings</iconset>
+        </property>
+       </item>
       </widget>
      </item>
      <item>
@@ -40,8 +58,46 @@
          <height>500</height>
         </size>
        </property>
-       <widget class="QWidget" name="page"/>
-       <widget class="QWidget" name="page_2"/>
+       <widget class="QWidget" name="musicSheetSettings">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QTabWidget" name="tabWidget">
+           <property name="tabShape">
+            <enum>QTabWidget::Rounded</enum>
+           </property>
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
+           <widget class="ScorePropertiesSettingsPage" name="scoreHeaderTab">
+            <attribute name="title">
+             <string>Score Header</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_3"/>
+           </widget>
+           <widget class="ScorePropertiesSettingsPage" name="scoreFooterTab">
+            <attribute name="title">
+             <string>Score Footer</string>
+            </attribute>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </widget>
      </item>
     </layout>
@@ -58,7 +114,17 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <customwidgets>
+  <customwidget>
+   <class>ScorePropertiesSettingsPage</class>
+   <extends>QWidget</extends>
+   <header location="global">dialogs/settingspages/scorepropertiessettingspage.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../app_resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

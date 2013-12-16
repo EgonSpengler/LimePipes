@@ -5,6 +5,8 @@ set( limepipes_SOURCES
         app/dialogs/addsymbolsdialog.cpp
         app/dialogs/aboutdialog.cpp
         app/dialogs/settingsdialog.cpp
+        app/dialogs/settingspages/scorepropertiessettingspage.cpp
+        app/dialogs/settingspages/scorepropertieswidget.cpp
 
         views/treeview/lengthdelegate.cpp
         views/treeview/musicproxymodel.cpp
@@ -19,6 +21,8 @@ set( limepipes_UIs
         app/dialogs/addsymbolsdialog.ui
         app/dialogs/aboutdialog.ui
         app/dialogs/settingsdialog.ui
+        app/dialogs/settingspages/scorepropertiessettingspage.ui
+        app/dialogs/settingspages/scorepropertieswidget.ui
         )
 
 set( limepipes_RESOURCES
