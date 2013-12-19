@@ -17,20 +17,6 @@
    <item>
     <widget class="QLineEdit" name="lineEdit"/>
    </item>
-   <item>
-    <widget class="QPushButton" name="fontPushButton">
-     <property name="text">
-      <string>Font</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QPushButton" name="colorPushButton">
-     <property name="text">
-      <string>Color</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <resources/>

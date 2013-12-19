@@ -6,7 +6,9 @@
  *
  */
 
+#include <QVariant>
 #include <QGraphicsLinearLayout>
+#include <common/scoresettings.h>
 #include "graphicitems/textwidget.h"
 #include "graphicitems/textrowwidget.h"
 #include "../iteminteraction.h"
@@ -14,14 +16,15 @@
 
 #include <QPainter>
 
-ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
+ScoreGraphicsItem::ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
-      m_rowLayout(0)
+      m_rowLayout(0),
+      m_scoreArea(area)
 {
     m_rowLayout = new QGraphicsLinearLayout(Qt::Vertical, this);
     m_rowLayout->setContentsMargins(0, 0, 0, 0);
 
-    appendRow();
+    initFromSettings();
 
     createConnections();
 }
@@ -108,6 +111,37 @@ void ScoreGraphicsItem::deleteLastEmptyRows()
 
     while (m_rowLayout->count() > lastRowWithContent + 1) {
         removeLastRow();
+    }
+}
+
+void ScoreGraphicsItem::initFromSettings()
+{
+    readItemDataFromSettings(LP::ScoreTitle);
+    readItemDataFromSettings(LP::ScoreComposer);
+    readItemDataFromSettings(LP::ScoreArranger);
+    readItemDataFromSettings(LP::ScoreType);
+    readItemDataFromSettings(LP::ScoreYear);
+    readItemDataFromSettings(LP::ScoreCopyright);
+}
+
+void ScoreGraphicsItem::readItemDataFromSettings(LP::ScoreDataRole dataRole)
+{
+    using namespace Settings;
+    using namespace Settings::Score;
+
+    ScoreSettings settings(m_scoreArea, dataRole);
+    bool itemEnabled =  settings.value(Enabled).toBool();
+    if (itemEnabled) {
+        TextItemPosition position;
+        position.rowIndex = settings.value(Row).toInt();
+        if (position.rowIndex > 0)
+            position.rowIndex -= 1;
+        position.rowPosition = settings.value(Alignment).value<TextAlignment>();
+
+        setItemPosition(dataRole, position.rowIndex, position.rowPosition);
+
+        setItemFont(dataRole, settings.value(Font).value<QFont>());
+        setItemColor(dataRole, settings.value(Color).value<QColor>());
     }
 }
 

@@ -12,6 +12,7 @@
 #include <QList>
 #include <QHash>
 #include <itemdatatypes.h>
+#include <common/settingdefines.h>
 #include "interactinggraphicsitem.h"
 #include "graphicitems/textrowwidget.h"
 
@@ -24,7 +25,24 @@ class ScoreGraphicsItem : public InteractingGraphicsItem
     friend class ScoreGraphicsItemTest;
 
 public:
-    explicit ScoreGraphicsItem(QGraphicsItem *parent = 0);
+    explicit ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *parent = 0);
+
+    void setData(const QVariant &value, int key);
+
+signals:
+    void itemTextChanged(const QVariant& text, int dataRole);
+
+private slots:
+    void itemInteractionChanged();
+    void textRowItemChanged(Settings::TextAlignment position, const QString& newText);
+
+private:
+    class TextItemPosition {
+    public:
+        int rowIndex;
+        Settings::TextAlignment rowPosition;
+        bool operator ==(const TextItemPosition& other) const;
+    };
 
     void setItemPosition(LP::ScoreDataRole itemType, int row, Settings::TextAlignment position);
     void removeItemPosition(LP::ScoreDataRole itemType);
@@ -44,31 +62,17 @@ public:
 
     int rowCount() const;
 
-    void setData(const QVariant &value, int key);
-
-signals:
-    void itemTextChanged(const QVariant& text, int dataRole);
-
-private slots:
-    void itemInteractionChanged();
-    void textRowItemChanged(Settings::TextAlignment position, const QString& newText);
-
-private:
-    class TextItemPosition {
-    public:
-        int rowIndex;
-        Settings::TextAlignment rowPosition;
-        bool operator ==(const TextItemPosition& other) const;
-    };
-
     void createConnections();
     void appendRow();
     void removeLastRow();
     void addRowsUntilRowIndex(int index);
     void deleteLastEmptyRows();
+    void initFromSettings();
+    void readItemDataFromSettings(LP::ScoreDataRole dataRole);
     QList<TextRowWidget*> m_textRows;
     QGraphicsLinearLayout *m_rowLayout;
     QHash<LP::ScoreDataRole, TextItemPosition> m_itemPositions;
+    Settings::Score::Area m_scoreArea;
 };
 
 #endif // SCOREGRAPHICSITEM_H

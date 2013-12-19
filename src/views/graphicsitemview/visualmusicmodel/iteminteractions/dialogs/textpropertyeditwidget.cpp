@@ -24,10 +24,6 @@ void TextPropertyEditWidget::createConnections()
 {
     connect(ui->lineEdit, &QLineEdit::textChanged,
             this, &TextPropertyEditWidget::changeText);
-    connect(ui->fontPushButton, &QPushButton::clicked,
-            this, &TextPropertyEditWidget::fontChangeClicked);
-    connect(ui->colorPushButton, &QPushButton::clicked,
-            this, &TextPropertyEditWidget::colorChangeClicked);
 }
 
 TextPropertyEditWidget::~TextPropertyEditWidget()

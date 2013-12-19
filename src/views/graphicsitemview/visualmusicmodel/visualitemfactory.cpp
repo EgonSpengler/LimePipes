@@ -7,6 +7,7 @@
  */
 
 #include "visualitemfactory.h"
+#include <common/settingdefines.h>
 #include "iteminteractions/scoreinteraction.h"
 #include "interactinggraphicsitems/scoregraphicsitem.h"
 
@@ -36,19 +37,10 @@ VisualItem *VisualItemFactory::newVisualScore()
     VisualItem *newItem = new VisualItem(VisualItem::VisualScoreItem,
                                          VisualItem::GraphicalRowType);
 
-    ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem();
+    ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem(Settings::Score::Header);
     scoreHeaderItem->setItemInteraction(new ScoreInteraction);
-    scoreHeaderItem->setItemPosition(LP::ScoreType, 0, Settings::TextAlignment::Left);
-    scoreHeaderItem->setItemPosition(LP::ScoreTitle, 0, Settings::TextAlignment::Center);
-    QFont font;
-    font.setPointSize(16);
-    scoreHeaderItem->setItemFont(LP::ScoreTitle, font);
-    scoreHeaderItem->setItemPosition(LP::ScoreComposer, 0, Settings::TextAlignment::Right);
-    scoreHeaderItem->setItemPosition(LP::ScoreArranger, 1, Settings::TextAlignment::Right);
 
-    ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem();
-    scoreFooterItem->setItemPosition(LP::ScoreYear, 0, Settings::TextAlignment::Left);
-    scoreFooterItem->setItemPosition(LP::ScoreCopyright, 0, Settings::TextAlignment::Right);
+    ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem(Settings::Score::Footer);
     scoreFooterItem->setItemInteraction(new ScoreInteraction);
 
     newItem->appendRow(scoreHeaderItem);

@@ -23,6 +23,7 @@ ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(Area area, QWidget *par
     ui->setupUi(this);
 
     m_scoreSettings = new ScoreSettings(this);
+    m_scoreSettings->setScoreArea(area);
 
     initUi();
     initPropertiesWidgetsSettings();
@@ -68,11 +69,14 @@ void ScorePropertiesSettingsPage::initPropertiesWidgetsSettings()
 
 void ScorePropertiesSettingsPage::initPropertiesWidgetWithSettings(LP::ScoreDataRole dataRole, ScorePropertiesWidget *widget)
 {
-    widget->setWidgetEnabled(m_scoreSettings->value(m_scoreArea, dataRole, Enabled).toBool());
-    widget->setFont(m_scoreSettings->value(m_scoreArea, dataRole, Font).value<QFont>());
-    widget->setColor(m_scoreSettings->value(m_scoreArea, dataRole, Color).value<QColor>());
-    widget->setAlignment(m_scoreSettings->value(m_scoreArea, dataRole, Alignment).value<Settings::TextAlignment>());
-    widget->setRow(m_scoreSettings->value(m_scoreArea, dataRole, Row).toInt());
+    m_scoreSettings->setScoreArea(m_scoreArea);
+    m_scoreSettings->setDataRole(dataRole);
+
+    widget->setWidgetEnabled(m_scoreSettings->value(Enabled).toBool());
+    widget->setFont(m_scoreSettings->value(Font).value<QFont>());
+    widget->setColor(m_scoreSettings->value(Color).value<QColor>());
+    widget->setAlignment(m_scoreSettings->value(Alignment).value<Settings::TextAlignment>());
+    widget->setRow(m_scoreSettings->value(Row).toInt());
 }
 
 ScorePropertiesSettingsPage::~ScorePropertiesSettingsPage()
@@ -83,6 +87,7 @@ ScorePropertiesSettingsPage::~ScorePropertiesSettingsPage()
 void ScorePropertiesSettingsPage::setScoreArea(Area area)
 {
     m_scoreArea = area;
+    m_scoreSettings->setScoreArea(area);
     initPropertiesWidgetsSettings();
 }
 
