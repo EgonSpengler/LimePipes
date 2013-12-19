@@ -43,6 +43,8 @@ void ScorePropertiesWidget::createConnections()
             this, SIGNAL(rowChanged(int)));
     connect(ui->alignmentComboBox, SIGNAL(currentIndexChanged(int)),
             this, SLOT(newAlignmentSelected(int)));
+    connect(ui->enabledCheckBox, &QCheckBox::toggled,
+            this, &ScorePropertiesWidget::enabledChanged);
 }
 
 ScorePropertiesWidget::~ScorePropertiesWidget()
@@ -115,6 +117,7 @@ bool ScorePropertiesWidget::isWidgetEnabled() const
 
 void ScorePropertiesWidget::setWidgetEnabled(bool enabled)
 {
+    ui->enabledCheckBox->setChecked(enabled);
     ui->textLabel->setEnabled(enabled);
     ui->rowLabel->setEnabled(enabled);
     ui->rowSpinBox->setEnabled(enabled);

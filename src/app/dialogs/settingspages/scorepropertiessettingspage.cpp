@@ -6,16 +6,43 @@
  *
  */
 
+#include <QFont>
 #include "scorepropertiessettingspage.h"
 #include "scorepropertieswidget.h"
+#include <common/scoresettings.h>
 #include "ui_scorepropertiessettingspage.h"
 
-ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(QWidget *parent)
+using namespace Settings::Score;
+
+ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(Area area, QWidget *parent)
     : QWidget(parent),
+      m_scoreArea(area),
+      m_scoreSettings(0),
       ui(new Ui::ScorePropertiesSettingsPage)
 {
     ui->setupUi(this);
 
+    m_scoreSettings = new ScoreSettings(this);
+
+    initUi();
+    initPropertiesWidgetsSettings();
+}
+
+ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(QWidget *parent)
+    : QWidget(parent),
+      m_scoreArea(Header),
+      ui(new Ui::ScorePropertiesSettingsPage)
+{
+    ui->setupUi(this);
+
+    m_scoreSettings = new ScoreSettings(this);
+
+    initUi();
+    initPropertiesWidgetsSettings();
+}
+
+void ScorePropertiesSettingsPage::initUi()
+{
     appendPropertiesWidget(LP::ScoreTitle, tr("Title"));
     appendPropertiesWidget(LP::ScoreType, tr("Type"));
     appendPropertiesWidget(LP::ScoreComposer, tr("Composer"));
@@ -28,11 +55,38 @@ void ScorePropertiesSettingsPage::appendPropertiesWidget(LP::ScoreDataRole dataR
 {
     ScorePropertiesWidget *propertyWidget = new ScorePropertiesWidget();
     propertyWidget->setText(text);
-    propertiesWidgets.insert(dataRole, propertyWidget);
+    m_propertiesWidgets.insert(dataRole, propertyWidget);
     ui->verticalLayout->addWidget(propertyWidget);
+}
+
+void ScorePropertiesSettingsPage::initPropertiesWidgetsSettings()
+{
+    foreach (LP::ScoreDataRole dataRole, m_propertiesWidgets.keys()) {
+        initPropertiesWidgetWithSettings(dataRole, m_propertiesWidgets.value(dataRole));
+    }
+}
+
+void ScorePropertiesSettingsPage::initPropertiesWidgetWithSettings(LP::ScoreDataRole dataRole, ScorePropertiesWidget *widget)
+{
+    widget->setWidgetEnabled(m_scoreSettings->value(m_scoreArea, dataRole, Enabled).toBool());
+    widget->setFont(m_scoreSettings->value(m_scoreArea, dataRole, Font).value<QFont>());
+    widget->setColor(m_scoreSettings->value(m_scoreArea, dataRole, Color).value<QColor>());
+    widget->setAlignment(m_scoreSettings->value(m_scoreArea, dataRole, Alignment).value<Settings::TextAlignment>());
+    widget->setRow(m_scoreSettings->value(m_scoreArea, dataRole, Row).toInt());
 }
 
 ScorePropertiesSettingsPage::~ScorePropertiesSettingsPage()
 {
     delete ui;
+}
+
+void ScorePropertiesSettingsPage::setScoreArea(Area area)
+{
+    m_scoreArea = area;
+    initPropertiesWidgetsSettings();
+}
+
+Area ScorePropertiesSettingsPage::scoreArea() const
+{
+    return m_scoreArea;
 }

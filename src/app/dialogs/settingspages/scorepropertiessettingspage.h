@@ -12,24 +12,35 @@
 #include <QHash>
 #include <QWidget>
 #include <itemdatatypes.h>
+#include <common/settingdefines.h>
 
 namespace Ui {
 class ScorePropertiesSettingsPage;
 }
 
 class ScorePropertiesWidget;
+class ScoreSettings;
 
 class ScorePropertiesSettingsPage : public QWidget
 {
     Q_OBJECT
 
 public:
+    explicit ScorePropertiesSettingsPage(Settings::Score::Area area, QWidget *parent = 0);
     explicit ScorePropertiesSettingsPage(QWidget *parent = 0);
     ~ScorePropertiesSettingsPage();
 
+    void setScoreArea(Settings::Score::Area area);
+    Settings::Score::Area scoreArea() const;
+
 private:
+    void initUi();
     void appendPropertiesWidget(LP::ScoreDataRole dataRole, const QString &text);
-    QHash<LP::ScoreDataRole, ScorePropertiesWidget*> propertiesWidgets;
+    void initPropertiesWidgetsSettings();
+    void initPropertiesWidgetWithSettings(LP::ScoreDataRole dataRole, ScorePropertiesWidget *widget);
+    QHash<LP::ScoreDataRole, ScorePropertiesWidget*> m_propertiesWidgets;
+    Settings::Score::Area m_scoreArea;
+    ScoreSettings *m_scoreSettings;
     Ui::ScorePropertiesSettingsPage *ui;
 };
 

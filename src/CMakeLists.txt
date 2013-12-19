@@ -7,6 +7,7 @@ set( limepipes_SOURCES
         app/dialogs/settingsdialog.cpp
         app/dialogs/settingspages/scorepropertiessettingspage.cpp
         app/dialogs/settingspages/scorepropertieswidget.cpp
+        common/scoresettings.cpp
 
         views/treeview/lengthdelegate.cpp
         views/treeview/musicproxymodel.cpp

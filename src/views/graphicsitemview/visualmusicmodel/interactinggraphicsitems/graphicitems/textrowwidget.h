@@ -58,6 +58,4 @@ private:
     TextWidget *m_rightTextWidget;
 };
 
-Q_DECLARE_METATYPE(Settings::TextAlignment)
-
 #endif // TEXTROWWIDGET_H

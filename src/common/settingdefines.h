@@ -9,8 +9,8 @@
 #ifndef SETTINGDEFINES_H
 #define SETTINGDEFINES_H
 
-#include <QFont>
-#include <QColor>
+#include <QVariant>
+#include <itemdatatypes.h>
 
 namespace Settings
 {
@@ -25,10 +25,24 @@ enum class TextAlignment
 
 // Score
 namespace Score {
-static QString TitleFontKey("score title font");
-static QFont   TitleFontDefault("Arial", 18);
-}
 
-}
+enum Area {
+    Header,
+    Footer
+};
+
+enum Appearance {
+    Enabled,
+    Font,
+    Color,
+    Row,
+    Alignment
+};
+
+} // namespace Score
+
+} // namespace Settings
+
+Q_DECLARE_METATYPE(Settings::TextAlignment)
 
 #endif // SETTINGDEFINES_H

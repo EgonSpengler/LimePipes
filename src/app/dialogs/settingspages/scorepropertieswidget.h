@@ -48,6 +48,7 @@ signals:
     void colorChanged(const QColor& color);
     void rowChanged(int index);
     void alignmentChanged(Settings::TextAlignment alignment);
+    void enabledChanged(bool enabled);
 
 private slots:
     void fontChangeClicked();
@@ -58,7 +59,5 @@ private:
     void createConnections();
     Ui::ScorePropertiesWidget *ui;
 };
-
-Q_DECLARE_METATYPE(Settings::TextAlignment)
 
 #endif // SCOREPROPERTIESWIDGET_H
