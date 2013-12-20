@@ -29,6 +29,7 @@ ScorePropertiesWidget::ScorePropertiesWidget(QWidget *parent) :
     createConnections();
 
     setWidgetEnabled(ui->enabledCheckBox->isChecked());
+    setPositionIsInUseMessage(false);
 }
 
 void ScorePropertiesWidget::createConnections()
@@ -125,6 +126,26 @@ void ScorePropertiesWidget::setWidgetEnabled(bool enabled)
     ui->alignmentComboBox->setEnabled(enabled);
     ui->fontPushButton->setEnabled(enabled);
     ui->colorPushButton->setEnabled(enabled);
+    ui->positionIsInUseLabel->setEnabled(enabled);
+}
+
+void ScorePropertiesWidget::setPositionIsInUseMessage(bool on)
+{
+    QString message(tr("Position is already in use"));
+    QString style;
+    if (on) {
+        style = "color: rgb(255, 11, 22);";
+    } else {
+        message.clear();
+    }
+
+    ui->rowLabel->setStyleSheet(style);
+    ui->rowSpinBox->setStyleSheet(style);
+    ui->alignmentLabel->setStyleSheet(style);
+    ui->alignmentComboBox->setStyleSheet(style);
+    ui->positionIsInUseLabel->setStyleSheet(style);
+
+    ui->positionIsInUseLabel->setText(message);
 }
 
 void ScorePropertiesWidget::fontChangeClicked()

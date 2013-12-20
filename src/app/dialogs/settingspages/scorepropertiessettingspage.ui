@@ -14,6 +14,9 @@
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="mainLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
     <number>0</number>
    </property>
@@ -28,6 +31,9 @@
    </property>
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -36,8 +42,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>839</width>
-        <height>669</height>
+        <width>841</width>
+        <height>671</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout"/>

@@ -26,6 +26,12 @@ public:
     QVariant value(Settings::Score::Appearance appearance);
     QVariant value(Settings::Score::Area area, LP::ScoreDataRole dataRole, Settings::Score::Appearance appearance);
 
+    void setValue(Settings::Score::Appearance appearance, const QVariant& value);
+    void setValue(Settings::Score::Area area, LP::ScoreDataRole dataRole, Settings::Score::Appearance appearance, const QVariant& value);
+
+    void remove(Settings::Score::Appearance appearance);
+    void remove(Settings::Score::Area area, LP::ScoreDataRole dataRole, Settings::Score::Appearance appearance);
+
     Settings::Score::Area scoreArea() const;
     void setScoreArea(Settings::Score::Area scoreArea);
 
@@ -37,6 +43,8 @@ private:
     static QVariant defaultValue(const QString& key);
     static QHash <QString, QVariant> m_defaultValues;
     static QHash<QString, QVariant> initDefaultValues();
+    static QString alignmentToString(Settings::TextAlignment alignment);
+    static Settings::TextAlignment alignmentFromString(const QString& alignment);
 
     Settings::Score::Area m_scoreArea;
     LP::ScoreDataRole m_dataRole;

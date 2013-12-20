@@ -33,11 +33,19 @@ public:
     void setScoreArea(Settings::Score::Area area);
     Settings::Score::Area scoreArea() const;
 
+    void connectPropertyWidgets();
+private slots:
+    void propertyWidgetEnabledChanged(ScorePropertiesWidget *propertyWidget);
+    void propertyWidgetColorChanged(ScorePropertiesWidget *propertyWidget);
+    void propertyWidgetFontChanged(ScorePropertiesWidget *propertyWidget);
+
 private:
     void initUi();
     void appendPropertiesWidget(LP::ScoreDataRole dataRole, const QString &text);
-    void initPropertiesWidgetsSettings();
+    void initPropertiesWidgetsWithSettings();
     void initPropertiesWidgetWithSettings(LP::ScoreDataRole dataRole, ScorePropertiesWidget *widget);
+    int propertyWidgetsWithPosition(int row, Settings::TextAlignment alignment);
+    void checkAllPropertyWidgetPositionValues();
     QHash<LP::ScoreDataRole, ScorePropertiesWidget*> m_propertiesWidgets;
     Settings::Score::Area m_scoreArea;
     ScoreSettings *m_scoreSettings;

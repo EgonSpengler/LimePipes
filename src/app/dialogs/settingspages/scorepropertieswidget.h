@@ -43,6 +43,8 @@ public:
     bool isWidgetEnabled() const;
     void setWidgetEnabled(bool enabled);
 
+    void setPositionIsInUseMessage(bool on);
+
 signals:
     void fontChanged(const QFont& font);
     void colorChanged(const QColor& color);

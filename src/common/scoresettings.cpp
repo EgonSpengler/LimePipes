@@ -19,8 +19,8 @@ namespace
 ///////////
 
 // Header and Footer
-QString HeaderSettingsKey("score header");
-QString FooterSettingsKey("score footer");
+QString HeaderSettingsKey("score_header");
+QString FooterSettingsKey("score_footer");
 
 // Data type
 QString TitleKey("title");
@@ -71,7 +71,49 @@ QHash<QString, QVariant> ScoreSettings::initDefaultValues()
     defaultValues.insert(getKey(Header, LP::ScoreArranger, Alignment),
                          QVariant::fromValue<TextAlignment>(TextAlignment::Right));
 
+    defaultValues.insert(getKey(Footer, LP::ScoreYear, Enabled), true);
+    defaultValues.insert(getKey(Footer, LP::ScoreYear, Row), 1);
+    defaultValues.insert(getKey(Footer, LP::ScoreYear, Alignment),
+                         QVariant::fromValue<TextAlignment>(TextAlignment::Left));
+
+    defaultValues.insert(getKey(Footer, LP::ScoreCopyright, Enabled), true);
+    defaultValues.insert(getKey(Footer, LP::ScoreCopyright, Row), 1);
+    defaultValues.insert(getKey(Footer, LP::ScoreCopyright, Alignment),
+                         QVariant::fromValue<TextAlignment>(TextAlignment::Right));
+
     return defaultValues;
+}
+
+QString ScoreSettings::alignmentToString(Settings::TextAlignment alignment)
+{
+    using namespace Settings;
+
+    switch (alignment) {
+    case TextAlignment::Left:
+        return "left";
+    case TextAlignment::Center:
+        return "center";
+    case TextAlignment::Right:
+        return "right";
+    case TextAlignment::NoAlignment:
+        break;
+    }
+
+    return "";
+}
+
+Settings::TextAlignment ScoreSettings::alignmentFromString(const QString &alignment)
+{
+    using namespace Settings;
+
+    if (alignment == "left")
+        return TextAlignment::Left;
+    if (alignment == "center")
+        return TextAlignment::Center;
+    if (alignment == "right")
+        return TextAlignment::Right;
+
+    return TextAlignment::NoAlignment;
 }
 
 ScoreSettings::ScoreSettings(Area scoreArea, LP::ScoreDataRole dataRole, QObject *parent)
@@ -96,7 +138,40 @@ QVariant ScoreSettings::value(Appearance appearance)
 QVariant ScoreSettings::value(Area area, LP::ScoreDataRole dataRole, Appearance appearance)
 {
     QString valueKey(getKey(area, dataRole, appearance));
-    return m_settings->value(valueKey, defaultValue(valueKey));
+    QVariant value = m_settings->value(valueKey, defaultValue(valueKey));
+    if (appearance == Alignment) {
+        Settings::TextAlignment alignment = alignmentFromString(value.toString());
+        value = QVariant::fromValue<Settings::TextAlignment>(alignment);
+    }
+
+    return value;
+}
+
+void ScoreSettings::setValue(Appearance appearance, const QVariant &value)
+{
+    setValue(m_scoreArea, m_dataRole, appearance, value);
+}
+
+void ScoreSettings::setValue(Area area, LP::ScoreDataRole dataRole, Appearance appearance, const QVariant &value)
+{
+    QString valueKey(getKey(area, dataRole, appearance));
+    QVariant writeValue(value);
+
+    if (appearance == Alignment)
+        writeValue = alignmentToString(value.value<Settings::TextAlignment>());
+
+    m_settings->setValue(valueKey, writeValue);
+}
+
+void ScoreSettings::remove(Appearance appearance)
+{
+    remove(m_scoreArea, m_dataRole, appearance);
+}
+
+void ScoreSettings::remove(Area area, LP::ScoreDataRole dataRole, Appearance appearance)
+{
+    QString valueKey(getKey(area, dataRole, appearance));
+    m_settings->remove(valueKey);
 }
 
 Area ScoreSettings::scoreArea() const
