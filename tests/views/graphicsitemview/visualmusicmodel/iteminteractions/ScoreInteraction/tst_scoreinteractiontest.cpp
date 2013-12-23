@@ -86,7 +86,7 @@ void ScoreInteractionTest::testDataChangedSignalDialog()
     QString testString("test string");
 
     ScorePropertiesDialog *dialog = m_scoreInteraction->m_scorePropertiesDialog;
-    TextPropertyEditWidget *editWidget = dialog->lineEditForRole(dataRole);
+    TextPropertyEditWidget *editWidget = dialog->textEditWidgetForRole(dataRole);
 
     // Change text through dialog
     editWidget->changeText(testString);

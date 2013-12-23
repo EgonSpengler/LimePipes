@@ -46,7 +46,7 @@ ScoreGraphicsItemTest::ScoreGraphicsItemTest()
 
 void ScoreGraphicsItemTest::init()
 {
-    m_scoreItem = new ScoreGraphicsItem();
+    m_scoreItem = new ScoreGraphicsItem(Settings::Score::Header);
 }
 
 void ScoreGraphicsItemTest::cleanup()
@@ -56,36 +56,45 @@ void ScoreGraphicsItemTest::cleanup()
 
 void ScoreGraphicsItemTest::testRowOfDataRole()
 {
-    QVERIFY2(m_scoreItem->rowOfDataRole(LP::ScoreType) == -1,
+    int testRow = 1;
+    LP::ScoreDataRole testDataRole = LP::ScoreCopyright;
+
+    QVERIFY2(m_scoreItem->rowOfDataRole(testDataRole) == -1,
              "Wrong default row of non existing data role is wrong");
 
-    m_scoreItem->setItemPosition(LP::ScoreTitle, 1, Settings::TextAlignment::Left);
-    QVERIFY2(m_scoreItem->rowOfDataRole(LP::ScoreTitle) == 1,
+    m_scoreItem->setItemPosition(testDataRole, testRow, Settings::TextAlignment::Left);
+    QVERIFY2(m_scoreItem->rowOfDataRole(testDataRole) == testRow,
              "Failed getting right row of data role");
 }
 
 void ScoreGraphicsItemTest::testRowAlignmentOfDatarole()
 {
-    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(LP::ScoreCopyright) == Settings::TextAlignment::NoAlignment,
+    int testRow = 1;
+    LP::ScoreDataRole testDataRole = LP::ScoreCopyright;
+
+    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(testDataRole) == Settings::TextAlignment::NoAlignment,
              "Wrong default row alignment of non existend data role");
 
-    m_scoreItem->setItemPosition(LP::ScoreArranger, 0, Settings::TextAlignment::Center);
-    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(LP::ScoreArranger) == Settings::TextAlignment::Center,
+    m_scoreItem->setItemPosition(testDataRole, testRow, Settings::TextAlignment::Center);
+    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(testDataRole) == Settings::TextAlignment::Center,
              "Failed getting right row alignment of data role");
 }
 
 void ScoreGraphicsItemTest::testHasItemPositionForDataRole()
 {
-    QVERIFY2(m_scoreItem->hasItemPositionForDataRole(LP::ScoreArranger) == false,
+    int testRow = 1;
+    LP::ScoreDataRole testDataRole = LP::ScoreCopyright;
+
+    QVERIFY2(m_scoreItem->hasItemPositionForDataRole(testDataRole) == false,
              "Score item returned true for data role that was not set before");
-    m_scoreItem->setItemPosition(LP::ScoreArranger, 0, Settings::TextAlignment::Center);
-    QVERIFY2(m_scoreItem->hasItemPositionForDataRole(LP::ScoreArranger),
+    m_scoreItem->setItemPosition(testDataRole, testRow, Settings::TextAlignment::Center);
+    QVERIFY2(m_scoreItem->hasItemPositionForDataRole(testDataRole),
              "Score item returned false for data role with position");
 }
 
 void ScoreGraphicsItemTest::testRemoveItemPosition()
 {
-    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
+    LP::ScoreDataRole testDataRole = LP::ScoreCopyright;
     Settings::TextAlignment testRowAlignment = Settings::TextAlignment::Center;
 
     QVERIFY2(m_scoreItem->hasItemPositionForDataRole(testDataRole) == false,
@@ -140,8 +149,6 @@ void ScoreGraphicsItemTest::testSetGetItemColor()
 
 void ScoreGraphicsItemTest::testRowCount()
 {
-    QVERIFY2(m_scoreItem->rowCount() == 1, "Wrong initial row count");
-
     m_scoreItem->setItemPosition(LP::ScoreArranger, 2, Settings::TextAlignment::Center);
     QVERIFY2(m_scoreItem->rowCount() == 3, "Wrong row count after setting item into row > 0");
 

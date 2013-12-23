@@ -47,17 +47,17 @@ void ScorePropertiesDialogTest::cleanup()
 
 void ScorePropertiesDialogTest::testTextEditWidgetForRole()
 {
-    QVERIFY2(dialog->lineEditForRole(LP::ScoreArranger),
+    QVERIFY2(dialog->textEditWidgetForRole(LP::ScoreArranger),
              "No text edit widget for role");
-    QVERIFY2(dialog->lineEditForRole(LP::ScoreComposer),
+    QVERIFY2(dialog->textEditWidgetForRole(LP::ScoreComposer),
              "No text edit widget for role");
-    QVERIFY2(dialog->lineEditForRole(LP::ScoreCopyright),
+    QVERIFY2(dialog->textEditWidgetForRole(LP::ScoreCopyright),
              "No text edit widget for role");
-    QVERIFY2(dialog->lineEditForRole(LP::ScoreTitle),
+    QVERIFY2(dialog->textEditWidgetForRole(LP::ScoreTitle),
              "No text edit widget for role");
-    QVERIFY2(dialog->lineEditForRole(LP::ScoreType),
+    QVERIFY2(dialog->textEditWidgetForRole(LP::ScoreType),
              "No text edit widget for role");
-    QVERIFY2(dialog->lineEditForRole(LP::ScoreYear),
+    QVERIFY2(dialog->textEditWidgetForRole(LP::ScoreYear),
              "No text edit widget for role");
 }
 
@@ -71,7 +71,7 @@ void ScorePropertiesDialogTest::testSetGetPropertyText()
     QVERIFY2(dialog->propertyText(testDataRole) == testText,
              "Can't get right property text");
     QVERIFY2(spy.count() == 0, "Signal was emitted when setting text");
-    dialog->lineEditForRole(testDataRole)->changeText(testText + "bla");
+    dialog->textEditWidgetForRole(testDataRole)->changeText(testText + "bla");
     QVERIFY2(spy.count() == 1, "Signal wasn't emitted when changing text");
 }
 
@@ -88,7 +88,7 @@ void ScorePropertiesDialogTest::testSetGetPropertyFont()
     QVERIFY2(spy.count() == 0, "Signal was emitted when setting font");
 
     testFont = QFont("Helvetica", 43);
-    dialog->lineEditForRole(testDataRole)->changeFont(testFont);
+    dialog->textEditWidgetForRole(testDataRole)->changeFont(testFont);
     QVERIFY2(spy.count() == 1, "Signal wasn't emitted when changing font");
 }
 
@@ -105,7 +105,7 @@ void ScorePropertiesDialogTest::testSetGetPropertyColor()
     QVERIFY2(spy.count() == 0, "Signal was emitted when setting color");
 
     testColor = QColor(Qt::darkRed);
-    dialog->lineEditForRole(testDataRole)->changeColor(testColor);
+    dialog->textEditWidgetForRole(testDataRole)->changeColor(testColor);
     QVERIFY2(spy.count() == 1, "Signal wasn't emitted when changing color");
 }
 

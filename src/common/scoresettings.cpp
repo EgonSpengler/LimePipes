@@ -52,34 +52,34 @@ QHash<QString, QVariant> ScoreSettings::initDefaultValues()
     defaultValues.insert(getKey(Header, LP::ScoreType, Enabled), true);
     defaultValues.insert(getKey(Header, LP::ScoreType, Row), 1);
     defaultValues.insert(getKey(Header, LP::ScoreType, Alignment),
-                    QVariant::fromValue<TextAlignment>(TextAlignment::Left));
+                         alignmentToString(TextAlignment::Left));
 
     defaultValues.insert(getKey(Header, LP::ScoreTitle, Enabled), true);
     defaultValues.insert(getKey(Header, LP::ScoreTitle, Row), 1);
     defaultValues.insert(getKey(Header, LP::ScoreTitle, Alignment),
-                    QVariant::fromValue<TextAlignment>(TextAlignment::Center));
+                         alignmentToString(TextAlignment::Center));
     defaultValues.insert(getKey(Header, LP::ScoreTitle, Font), QFont("Arial", 18, QFont::Bold));
 
 
     defaultValues.insert(getKey(Header, LP::ScoreComposer, Enabled), true);
     defaultValues.insert(getKey(Header, LP::ScoreComposer, Row), 1);
     defaultValues.insert(getKey(Header, LP::ScoreComposer, Alignment),
-                         QVariant::fromValue<TextAlignment>(TextAlignment::Right));
+                         alignmentToString(TextAlignment::Right));
 
     defaultValues.insert(getKey(Header, LP::ScoreArranger, Enabled), true);
     defaultValues.insert(getKey(Header, LP::ScoreArranger, Row), 2);
     defaultValues.insert(getKey(Header, LP::ScoreArranger, Alignment),
-                         QVariant::fromValue<TextAlignment>(TextAlignment::Right));
+                         alignmentToString(TextAlignment::Right));
 
     defaultValues.insert(getKey(Footer, LP::ScoreYear, Enabled), true);
     defaultValues.insert(getKey(Footer, LP::ScoreYear, Row), 1);
     defaultValues.insert(getKey(Footer, LP::ScoreYear, Alignment),
-                         QVariant::fromValue<TextAlignment>(TextAlignment::Left));
+                         alignmentToString(TextAlignment::Left));
 
     defaultValues.insert(getKey(Footer, LP::ScoreCopyright, Enabled), true);
     defaultValues.insert(getKey(Footer, LP::ScoreCopyright, Row), 1);
     defaultValues.insert(getKey(Footer, LP::ScoreCopyright, Alignment),
-                         QVariant::fromValue<TextAlignment>(TextAlignment::Right));
+                         alignmentToString(TextAlignment::Right));
 
     return defaultValues;
 }
@@ -139,7 +139,8 @@ QVariant ScoreSettings::value(Area area, LP::ScoreDataRole dataRole, Appearance 
 {
     QString valueKey(getKey(area, dataRole, appearance));
     QVariant value = m_settings->value(valueKey, defaultValue(valueKey));
-    if (appearance == Alignment) {
+    if (appearance == Alignment &&
+            value.isValid()) {
         Settings::TextAlignment alignment = alignmentFromString(value.toString());
         value = QVariant::fromValue<Settings::TextAlignment>(alignment);
     }
