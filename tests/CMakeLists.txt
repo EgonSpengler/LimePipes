@@ -12,6 +12,7 @@ include_directories(
 
 add_subdirectory( MusicModelTestPlugin )
 
+add_subdirectory( common )
 add_subdirectory( app )
 add_subdirectory( model )
 add_subdirectory( plugins )
