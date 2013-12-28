@@ -60,7 +60,6 @@ QHash<QString, QVariant> ScoreSettings::initDefaultValues()
                          alignmentToString(TextAlignment::Center));
     defaultValues.insert(getKey(Header, LP::ScoreTitle, Font), QFont("Arial", 18, QFont::Bold));
 
-
     defaultValues.insert(getKey(Header, LP::ScoreComposer, Enabled), true);
     defaultValues.insert(getKey(Header, LP::ScoreComposer, Row), 1);
     defaultValues.insert(getKey(Header, LP::ScoreComposer, Alignment),

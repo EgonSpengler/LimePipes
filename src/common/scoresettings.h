@@ -19,6 +19,8 @@ class QSettings;
 
 class ScoreSettings : public QObject
 {
+    friend class ScoreSettingsTest;
+
 public:
     explicit ScoreSettings(Settings::Score::Area scoreArea, LP::ScoreDataRole dataRole, QObject *parent = 0);
     explicit ScoreSettings(QObject *parent = 0);
