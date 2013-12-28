@@ -33,7 +33,6 @@ public:
     void setScoreArea(Settings::Score::Area area);
     Settings::Score::Area scoreArea() const;
 
-    void connectPropertyWidgets();
 private slots:
     void propertyWidgetEnabledChanged(ScorePropertiesWidget *propertyWidget);
     void propertyWidgetColorChanged(ScorePropertiesWidget *propertyWidget);
@@ -41,6 +40,7 @@ private slots:
 
 private:
     void initUi();
+    void createConnections();
     void appendPropertiesWidget(LP::ScoreDataRole dataRole, const QString &text);
     void initPropertiesWidgetsWithSettings();
     void initPropertiesWidgetWithSettings(LP::ScoreDataRole dataRole, ScorePropertiesWidget *widget);

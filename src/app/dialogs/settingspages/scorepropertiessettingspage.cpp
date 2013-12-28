@@ -27,8 +27,6 @@ ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(Area area, QWidget *par
     m_scoreSettings->setScoreArea(area);
 
     initUi();
-    initPropertiesWidgetsWithSettings();
-    connectPropertyWidgets();
 }
 
 ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(QWidget *parent)
@@ -41,8 +39,6 @@ ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(QWidget *parent)
     m_scoreSettings = new ScoreSettings(this);
 
     initUi();
-    initPropertiesWidgetsWithSettings();
-    connectPropertyWidgets();
 }
 
 void ScorePropertiesSettingsPage::initUi()
@@ -64,7 +60,7 @@ void ScorePropertiesSettingsPage::appendPropertiesWidget(LP::ScoreDataRole dataR
     ui->verticalLayout->addWidget(propertyWidget);
 }
 
-void ScorePropertiesSettingsPage::connectPropertyWidgets()
+void ScorePropertiesSettingsPage::createConnections()
 {
     foreach (ScorePropertiesWidget *propertyWidget, m_propertiesWidgets) {
         connect(propertyWidget, &ScorePropertiesWidget::rowChanged,
@@ -102,12 +98,27 @@ void ScorePropertiesSettingsPage::checkAllPropertyWidgetPositionValues()
     }
 }
 
+int ScorePropertiesSettingsPage::propertyWidgetsWithPosition(int row, TextAlignment alignment)
+{
+    int count = 0;
+    foreach (ScorePropertiesWidget *widget, m_propertiesWidgets.values()) {
+        if (!widget->isWidgetEnabled())
+            continue;
+
+        if (widget->row() == row && widget->alignment() == alignment)
+            count++;
+    }
+
+    return count;
+}
+
 void ScorePropertiesSettingsPage::propertyWidgetEnabledChanged(ScorePropertiesWidget *propertyWidget)
 {
     bool enabled = propertyWidget->isWidgetEnabled();
 
+    checkAllPropertyWidgetPositionValues();
+
     if (enabled) {
-        checkAllPropertyWidgetPositionValues();
         propertyWidgetColorChanged(propertyWidget);
         propertyWidgetFontChanged(propertyWidget);
     }
@@ -125,6 +136,15 @@ void ScorePropertiesSettingsPage::propertyWidgetFontChanged(ScorePropertiesWidge
     m_scoreSettings->setValue(m_scoreArea, dataRole, Font, propertyWidget->font());
 }
 
+void ScorePropertiesSettingsPage::setScoreArea(Area area)
+{
+    m_scoreArea = area;
+    m_scoreSettings->setScoreArea(area);
+    initPropertiesWidgetsWithSettings();
+
+    createConnections();
+}
+
 void ScorePropertiesSettingsPage::initPropertiesWidgetsWithSettings()
 {
     foreach (LP::ScoreDataRole dataRole, m_propertiesWidgets.keys()) {
@@ -140,37 +160,14 @@ void ScorePropertiesSettingsPage::initPropertiesWidgetWithSettings(LP::ScoreData
     widget->setWidgetEnabled(m_scoreSettings->value(Enabled).toBool());
     widget->setFont(m_scoreSettings->value(Font).value<QFont>());
     widget->setColor(m_scoreSettings->value(Color).value<QColor>());
-    widget->setAlignment(m_scoreSettings->value(Alignment).value<Settings::TextAlignment>());
+    Settings::TextAlignment alignment = m_scoreSettings->value(Alignment).value<Settings::TextAlignment>();
+    widget->setAlignment(alignment);
     widget->setRow(m_scoreSettings->value(Row).toInt());
-}
-
-int ScorePropertiesSettingsPage::propertyWidgetsWithPosition(int row, TextAlignment alignment)
-{
-    int count = 0;
-    foreach (ScorePropertiesWidget *widget, m_propertiesWidgets.values()) {
-        if (!widget->isWidgetEnabled())
-            continue;
-
-        if (widget->row() == row && widget->alignment() == alignment)
-            count++;
-    }
-
-    return count;
 }
 
 ScorePropertiesSettingsPage::~ScorePropertiesSettingsPage()
 {
     delete ui;
-}
-
-void ScorePropertiesSettingsPage::setScoreArea(Area area)
-{
-    if (m_scoreArea == area)
-        return;
-
-    m_scoreArea = area;
-    m_scoreSettings->setScoreArea(area);
-    initPropertiesWidgetsWithSettings();
 }
 
 Area ScorePropertiesSettingsPage::scoreArea() const

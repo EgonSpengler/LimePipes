@@ -39,10 +39,10 @@ QT5_ADD_RESOURCES( limepipes_SOURCES ${limepipes_RESOURCES} )
 
 set( EXECUTABLE_OUTPUT_PATH ${OUTPUT_BIN_FOLDER} )
 
-add_executable( limepipes ${limepipes_SOURCES} )
-qt5_use_modules( limepipes Widgets PrintSupport )
+add_executable( LimePipes ${limepipes_SOURCES} )
+qt5_use_modules( LimePipes Widgets PrintSupport )
 
-target_link_libraries( limepipes
+target_link_libraries( LimePipes
                             lp_model
                             lp_greathighlandbagpipe
                             lp_graphicsitemview
@@ -52,4 +52,4 @@ add_subdirectory( model )
 add_subdirectory( plugins )
 add_subdirectory( views/graphicsitemview )
 
-install( TARGETS limepipes DESTINATION bin )
+install( TARGETS LimePipes DESTINATION bin )
