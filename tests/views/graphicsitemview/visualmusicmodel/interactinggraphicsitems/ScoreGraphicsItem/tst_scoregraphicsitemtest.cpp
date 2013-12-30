@@ -46,7 +46,7 @@ ScoreGraphicsItemTest::ScoreGraphicsItemTest()
 
 void ScoreGraphicsItemTest::init()
 {
-    m_scoreItem = new ScoreGraphicsItem(Settings::Score::Header);
+    m_scoreItem = new ScoreGraphicsItem();
 }
 
 void ScoreGraphicsItemTest::cleanup()
@@ -205,7 +205,6 @@ void ScoreGraphicsItemTest::testItemTextChanged()
     QVERIFY2(signalText == testText, "Signal returned not correct text");
     dataRole = arguments.at(1).toInt();
     QVERIFY2(dataRole == testDataRole, "Signal returned wrong data role argument");
-
 }
 
 void ScoreGraphicsItemTest::testSetData()

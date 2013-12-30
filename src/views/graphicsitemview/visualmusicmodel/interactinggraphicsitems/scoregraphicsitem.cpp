@@ -6,6 +6,7 @@
  *
  */
 
+#include <QDebug>
 #include <QVariant>
 #include <QGraphicsLinearLayout>
 #include <common/scoresettings.h>
@@ -15,6 +16,17 @@
 #include "scoregraphicsitem.h"
 
 #include <QPainter>
+
+ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
+    : InteractingGraphicsItem(parent),
+      m_rowLayout(0),
+      m_scoreArea(Settings::Score::NoArea)
+{
+    m_rowLayout = new QGraphicsLinearLayout(Qt::Vertical, this);
+    m_rowLayout->setContentsMargins(0, 0, 0, 0);
+
+    createConnections();
+}
 
 ScoreGraphicsItem::ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
@@ -27,6 +39,20 @@ ScoreGraphicsItem::ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *
     initFromSettings();
 
     createConnections();
+}
+
+void ScoreGraphicsItem::setScoreArea(Settings::Score::Area area)
+{
+    if (m_scoreArea == area)
+        return;
+
+    m_scoreArea = area;
+    initFromSettings();
+}
+
+Settings::Score::Area ScoreGraphicsItem::scoreArea() const
+{
+    return m_scoreArea;
 }
 
 void ScoreGraphicsItem::appendRow()
@@ -129,6 +155,9 @@ void ScoreGraphicsItem::readItemDataFromSettings(LP::ScoreDataRole dataRole)
     using namespace Settings;
     using namespace Settings::Score;
 
+    if (m_scoreArea == NoArea)
+        return;
+
     ScoreSettings settings(m_scoreArea, dataRole);
     bool itemEnabled =  settings.value(Enabled).toBool();
     if (itemEnabled) {
@@ -138,6 +167,12 @@ void ScoreGraphicsItem::readItemDataFromSettings(LP::ScoreDataRole dataRole)
             position.rowIndex -= 1;
         position.rowPosition = settings.value(Alignment).value<TextAlignment>();
 
+        if (itemPositionIsInUse(position.rowIndex, position.rowPosition)) {
+            qWarning() << QString("Text item position (row: %1, alignment: %2) is already in use and can't be initialized with setting.")
+                          .arg(position.rowIndex + 1)
+                          .arg(static_cast<int>(position.rowPosition));
+            return;
+        }
         setItemPosition(dataRole, position.rowIndex, position.rowPosition);
 
         setItemFont(dataRole, settings.value(Font).value<QFont>());
@@ -145,17 +180,20 @@ void ScoreGraphicsItem::readItemDataFromSettings(LP::ScoreDataRole dataRole)
     }
 }
 
-void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int row, Settings::TextAlignment position)
+void ScoreGraphicsItem::setItemPosition(LP::ScoreDataRole itemType, int rowIndex, Settings::TextAlignment position)
 {
-    if (row < 0)
+    if (rowIndex < 0)
+        return;
+
+    if (itemPositionIsInUse(rowIndex, position))
         return;
 
     TextItemPosition itemPosition;
     if (hasItemPositionForDataRole(itemType))
         itemPosition = m_itemPositions.value(itemType);
 
-    addRowsUntilRowIndex(row);
-    itemPosition.rowIndex = row;
+    addRowsUntilRowIndex(rowIndex);
+    itemPosition.rowIndex = rowIndex;
     itemPosition.rowPosition = position;
 
     m_itemPositions.insert(itemType, itemPosition);
@@ -168,6 +206,18 @@ void ScoreGraphicsItem::removeItemPosition(LP::ScoreDataRole itemType)
     setItemText(itemType, "");
     m_itemPositions.remove(itemType);
     deleteLastEmptyRows();
+}
+
+bool ScoreGraphicsItem::itemPositionIsInUse(int rowIndex, Settings::TextAlignment position)
+{
+    TextItemPosition itemPosition;
+    itemPosition.rowIndex = rowIndex;
+    itemPosition.rowPosition = position;
+
+    if (m_itemPositions.values().contains(itemPosition))
+        return true;
+
+    return false;
 }
 
 int ScoreGraphicsItem::rowOfDataRole(LP::ScoreDataRole dataRole)

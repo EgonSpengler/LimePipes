@@ -51,6 +51,7 @@ void ScoreSettingsTest::init()
 
 void ScoreSettingsTest::cleanup()
 {
+    clearSettings();
     delete m_scoreSettings;
 }
 

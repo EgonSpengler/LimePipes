@@ -27,6 +27,7 @@ enum class TextAlignment
 namespace Score {
 
 enum Area {
+    NoArea,
     Header,
     Footer
 };

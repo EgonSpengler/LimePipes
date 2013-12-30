@@ -24,6 +24,7 @@ class ScoreSettings;
 class ScorePropertiesSettingsPage : public QWidget
 {
     Q_OBJECT
+    friend class ScorePropertiesSettingsPageTest;
 
 public:
     explicit ScorePropertiesSettingsPage(Settings::Score::Area area, QWidget *parent = 0);

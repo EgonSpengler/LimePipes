@@ -21,12 +21,16 @@ class ScorePropertiesWidget;
 class ScorePropertiesWidget : public QWidget
 {
     Q_OBJECT
+    friend class ScorePropertiesWidgetTest;
 
 public:
     explicit ScorePropertiesWidget(QWidget *parent = 0);
     ~ScorePropertiesWidget();
 
     void setText(const QString& text);
+
+    bool isWidgetEnabled() const;
+    void setWidgetEnabled(bool enabled);
 
     void setAlignment(Settings::TextAlignment alignment);
     Settings::TextAlignment alignment() const;
@@ -39,9 +43,6 @@ public:
 
     void setColor(const QColor& color);
     QColor color() const;
-
-    bool isWidgetEnabled() const;
-    void setWidgetEnabled(bool enabled);
 
     void setPositionIsInUseMessage(bool on);
 
@@ -56,10 +57,14 @@ private slots:
     void fontChangeClicked();
     void colorChangeClicked();
     void newAlignmentSelected(int index);
+    void newRowSelected(int row);
 
 private:
     void createConnections();
     Ui::ScorePropertiesWidget *ui;
+    bool m_widgetIsEnabled;
+    Settings::TextAlignment m_textAlignment;
+    int m_row;
 };
 
 #endif // SCOREPROPERTIESWIDGET_H

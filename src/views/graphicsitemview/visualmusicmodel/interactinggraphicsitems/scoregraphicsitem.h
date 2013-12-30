@@ -25,7 +25,11 @@ class ScoreGraphicsItem : public InteractingGraphicsItem
     friend class ScoreGraphicsItemTest;
 
 public:
+    explicit ScoreGraphicsItem(QGraphicsItem *parent = 0);
     explicit ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *parent = 0);
+
+    void setScoreArea(Settings::Score::Area area);
+    Settings::Score::Area scoreArea() const;
 
     void setData(const QVariant &value, int key);
 
@@ -44,8 +48,9 @@ private:
         bool operator ==(const TextItemPosition& other) const;
     };
 
-    void setItemPosition(LP::ScoreDataRole itemType, int row, Settings::TextAlignment position);
+    void setItemPosition(LP::ScoreDataRole itemType, int rowIndex, Settings::TextAlignment position);
     void removeItemPosition(LP::ScoreDataRole itemType);
+    bool itemPositionIsInUse(int rowIndex, Settings::TextAlignment position);
 
     int rowOfDataRole(LP::ScoreDataRole dataRole);
     Settings::TextAlignment rowAlignmentOfDataRole(LP::ScoreDataRole dataRole);

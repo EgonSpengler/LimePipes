@@ -8,6 +8,7 @@
 
 #include <QFont>
 #include <QSettings>
+#include <QDebug>
 #include "scoresettings.h"
 
 using namespace Settings::Score;
@@ -197,12 +198,20 @@ void ScoreSettings::setDataRole(LP::ScoreDataRole dataRole)
 QString ScoreSettings::getKey(Area area, LP::ScoreDataRole dataRole, Appearance appearance)
 {
     QString key;
+
+    if (area == NoArea) {
+        qWarning() << "Can't get settings key for NoArea";
+        return key;
+    }
+
     switch (area) {
-        case Header:
-            key += HeaderSettingsKey;
-            break;
-        case Footer:
-            key += FooterSettingsKey;
+    case NoArea:
+        break;
+    case Header:
+        key += HeaderSettingsKey;
+        break;
+    case Footer:
+        key += FooterSettingsKey;
     }
 
     key += "/";

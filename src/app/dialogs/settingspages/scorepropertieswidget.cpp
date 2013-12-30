@@ -12,9 +12,12 @@
 #include "scorepropertieswidget.h"
 #include "ui_scorepropertieswidget.h"
 
-ScorePropertiesWidget::ScorePropertiesWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::ScorePropertiesWidget)
+ScorePropertiesWidget::ScorePropertiesWidget(QWidget *parent)
+    : QWidget(parent),
+      ui(new Ui::ScorePropertiesWidget),
+      m_widgetIsEnabled(false),
+      m_textAlignment(Settings::TextAlignment::NoAlignment),
+      m_row(0)
 {
     ui->setupUi(this);
 
@@ -28,24 +31,27 @@ ScorePropertiesWidget::ScorePropertiesWidget(QWidget *parent) :
 
     createConnections();
 
-    setWidgetEnabled(ui->enabledCheckBox->isChecked());
     setPositionIsInUseMessage(false);
 }
 
 void ScorePropertiesWidget::createConnections()
 {
-    connect(ui->enabledCheckBox, &QCheckBox::toggled,
-            this, &ScorePropertiesWidget::setWidgetEnabled);
     connect(ui->fontPushButton, &QPushButton::clicked,
             this, &ScorePropertiesWidget::fontChangeClicked);
     connect(ui->colorPushButton, &QPushButton::clicked,
             this, &ScorePropertiesWidget::colorChangeClicked);
     connect(ui->rowSpinBox, SIGNAL(valueChanged(int)),
-            this, SIGNAL(rowChanged(int)));
+            this, SLOT(newRowSelected(int)));
     connect(ui->alignmentComboBox, SIGNAL(currentIndexChanged(int)),
             this, SLOT(newAlignmentSelected(int)));
     connect(ui->enabledCheckBox, &QCheckBox::toggled,
-            this, &ScorePropertiesWidget::enabledChanged);
+            [this] {
+        bool checkBoxIsChecked = ui->enabledCheckBox->isChecked();
+        if (checkBoxIsChecked != m_widgetIsEnabled) {
+            emit enabledChanged(checkBoxIsChecked);
+            setWidgetEnabled(checkBoxIsChecked);
+        }
+    });
 }
 
 ScorePropertiesWidget::~ScorePropertiesWidget()
@@ -60,6 +66,10 @@ void ScorePropertiesWidget::setText(const QString &text)
 
 void ScorePropertiesWidget::setAlignment(Settings::TextAlignment alignment)
 {
+    if (m_textAlignment == alignment)
+        return;
+    m_textAlignment = alignment;
+
     QVariant value = QVariant::fromValue<Settings::TextAlignment>(alignment);
     int alignmentIndex = ui->alignmentComboBox->findData(value);
     if (alignmentIndex == -1)
@@ -70,22 +80,22 @@ void ScorePropertiesWidget::setAlignment(Settings::TextAlignment alignment)
 
 Settings::TextAlignment ScorePropertiesWidget::alignment() const
 {
-    return ui->alignmentComboBox->currentData().value<Settings::TextAlignment>();
+    return m_textAlignment;
 }
 
 void ScorePropertiesWidget::setRow(int row)
 {
-    if (row < ui->rowSpinBox->minimum())
-        row = ui->rowSpinBox->minimum();
-    if (row > ui->rowSpinBox->maximum())
-        row = ui->rowSpinBox->maximum();
+    if (m_row == row)
+        return;
+
+    m_row = row;
 
     ui->rowSpinBox->setValue(row);
 }
 
 int ScorePropertiesWidget::row() const
 {
-    return ui->rowSpinBox->value();
+    return m_row;
 }
 
 void ScorePropertiesWidget::setFont(const QFont &font)
@@ -118,6 +128,10 @@ bool ScorePropertiesWidget::isWidgetEnabled() const
 
 void ScorePropertiesWidget::setWidgetEnabled(bool enabled)
 {
+    if (m_widgetIsEnabled == enabled)
+        return;
+    m_widgetIsEnabled = enabled;
+
     ui->enabledCheckBox->setChecked(enabled);
     ui->textLabel->setEnabled(enabled);
     ui->rowLabel->setEnabled(enabled);
@@ -176,8 +190,23 @@ void ScorePropertiesWidget::colorChangeClicked()
 
 void ScorePropertiesWidget::newAlignmentSelected(int index)
 {
+    Q_UNUSED(index);
+
     Settings::TextAlignment alignment;
     alignment = ui->alignmentComboBox->currentData().value<Settings::TextAlignment>();
 
-    emit alignmentChanged(alignment);
+    if (alignment != m_textAlignment) {
+        setAlignment(alignment);
+        emit alignmentChanged(alignment);
+    }
 }
+
+void ScorePropertiesWidget::newRowSelected(int row)
+{
+    if (m_row == row)
+        return;
+
+    setRow(row);
+    emit rowChanged(row);
+}
+
