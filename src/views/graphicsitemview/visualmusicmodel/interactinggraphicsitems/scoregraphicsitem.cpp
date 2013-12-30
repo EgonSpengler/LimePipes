@@ -15,8 +15,6 @@
 #include "../iteminteraction.h"
 #include "scoregraphicsitem.h"
 
-#include <QPainter>
-
 ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_rowLayout(0),
@@ -248,7 +246,6 @@ bool ScoreGraphicsItem::hasItemPositionForDataRole(LP::ScoreDataRole itemType) c
 void ScoreGraphicsItem::setItemText(LP::ScoreDataRole itemType, const QString &text)
 {
     if (!hasItemPositionForDataRole(itemType)) {
-        qWarning("No item position set for data role");
         return;
     }
 

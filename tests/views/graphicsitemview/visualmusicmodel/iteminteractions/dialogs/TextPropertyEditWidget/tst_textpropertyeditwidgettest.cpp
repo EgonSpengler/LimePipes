@@ -24,13 +24,9 @@ private Q_SLOTS:
     void cleanup();
     void testSetGetText();
     void testChangeText();
-    void testSetGetFont();
-    void testChangeFont();
-    void testSetGetColor();
-    void testChangeColor();
 
 private:
-    TextPropertyEditWidget *editWidget;
+    TextPropertyEditWidget *m_editWidget;
 };
 
 TextPropertyEditWidgetTest::TextPropertyEditWidgetTest()
@@ -39,71 +35,45 @@ TextPropertyEditWidgetTest::TextPropertyEditWidgetTest()
 
 void TextPropertyEditWidgetTest::init()
 {
-    editWidget = new TextPropertyEditWidget();
+    m_editWidget = new TextPropertyEditWidget();
 }
 
 void TextPropertyEditWidgetTest::cleanup()
 {
-    delete editWidget;
+    delete m_editWidget;
 }
 
 void TextPropertyEditWidgetTest::testSetGetText()
 {
-    QSignalSpy spy(editWidget, SIGNAL(textChanged(QString)));
+    QSignalSpy spy(m_editWidget, SIGNAL(textChanged(QString)));
     QString testText("Test text");
 
-    editWidget->setText(testText);
-    QVERIFY2(editWidget->text() == testText, "Can't get text from widget");
-    QVERIFY2(editWidget->ui->lineEdit->text() == testText,
+    m_editWidget->setText(testText);
+    QVERIFY2(m_editWidget->text() == testText, "Can't get text from widget");
+    QVERIFY2(m_editWidget->ui->lineEdit->text() == testText,
              "Text wasn't set on line edit");
     QVERIFY2(spy.count() == 0, "Signal must not be sent by setting text");
 }
 
 void TextPropertyEditWidgetTest::testChangeText()
 {
-    QSignalSpy spy(editWidget, SIGNAL(textChanged(QString)));
+    QSignalSpy spy(m_editWidget, SIGNAL(textChanged(QString)));
     QString testText("Test text");
+    QString testTextUi("kdkdidkdifdjosf f");
 
-    editWidget->changeText(testText);
+    m_editWidget->changeText(testText);
     QVERIFY2(spy.count() == 1, "Signal must be sent when changing text");
-}
 
-void TextPropertyEditWidgetTest::testSetGetFont()
-{
-    QSignalSpy spy(editWidget, SIGNAL(fontChanged(QFont)));
-    QFont testFont("Comic Sans", 23);
+    QList<QVariant> arguments = spy.takeFirst();
+    QVERIFY2(arguments.count() == 1, "Wrong argument count");
+    QVERIFY2(arguments.at(0).toString() == testText,
+             "New text wasn't emitted");
 
-    editWidget->setFont(testFont);
-    QVERIFY2(editWidget->font() == testFont, "Can't get font from widget");
-    QVERIFY2(spy.count() == 0, "Signal must not be sent by setting font");
-}
-
-void TextPropertyEditWidgetTest::testChangeFont()
-{
-    QSignalSpy spy(editWidget, SIGNAL(fontChanged(QFont)));
-    QFont testFont("Comic Sans", 23);
-
-    editWidget->changeFont(testFont);
-    QVERIFY2(spy.count() == 1, "Signal must be sent when changing font");
-}
-
-void TextPropertyEditWidgetTest::testSetGetColor()
-{
-    QSignalSpy spy(editWidget, SIGNAL(colorChanged(QColor)));
-    QColor testColor(Qt::darkCyan);
-
-    editWidget->setColor(testColor);
-    QVERIFY2(editWidget->color() == testColor, "Can't get color from widget");
-    QVERIFY2(spy.count() == 0, "Signal must not be sent by setting color");
-}
-
-void TextPropertyEditWidgetTest::testChangeColor()
-{
-    QSignalSpy spy(editWidget, SIGNAL(colorChanged(QColor)));
-    QColor testColor(Qt::darkCyan);
-
-    editWidget->changeColor(testColor);
-    QVERIFY2(spy.count() == 1, "Signal must be sent when changing color");
+    m_editWidget->ui->lineEdit->setText(testTextUi);
+    arguments = spy.takeFirst();
+    QVERIFY2(arguments.count() == 1, "Wrong argument count");
+    QVERIFY2(arguments.at(0).toString() == testTextUi,
+             "New text wasn't emitted");
 }
 
 QTEST_MAIN(TextPropertyEditWidgetTest)

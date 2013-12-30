@@ -32,25 +32,11 @@ public:
     void setText(const QString& text);
     QString text() const;
 
-    void setFont(const QFont& font);
-    QFont font() const;
-
-    void setColor(const QColor& color);
-    QColor color() const;
-
 public slots:
     void changeText(const QString& text);
-    void changeFont(const QFont& font);
-    void changeColor(const QColor& color);
 
 signals:
     void textChanged(const QString& newText);
-    void fontChanged(const QFont& newFont);
-    void colorChanged(const QColor& newColor);
-
-private slots:
-    void fontChangeClicked();
-    void colorChangeClicked();
 
 private:
     void createConnections();

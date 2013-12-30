@@ -27,10 +27,6 @@ void ScoreInteraction::createConnections()
 {
     connect(m_scorePropertiesDialog, &ScorePropertiesDialog::propertyTextChanged,
             this, &ScoreInteraction::propertyTextChanged);
-    connect(m_scorePropertiesDialog, &ScorePropertiesDialog::propertyFontChanged,
-            this, &ScoreInteraction::propertyFontChanged);
-    connect(m_scorePropertiesDialog, &ScorePropertiesDialog::propertyColorChanged,
-            this, &ScoreInteraction::propertyColorChanged);
 }
 
 void ScoreInteraction::mousePressEvent(QGraphicsSceneMouseEvent *event)
@@ -68,13 +64,4 @@ void ScoreInteraction::propertyTextChanged(LP::ScoreDataRole dataRole, const QSt
 {
     int role = static_cast<int>(dataRole);
     emit dataChanged(text, role);
-}
-
-void ScoreInteraction::propertyFontChanged(LP::ScoreDataRole dataRole, const QFont &font)
-{
-    emit dataChanged(font, Qt::FontRole);
-}
-
-void ScoreInteraction::propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color)
-{
 }

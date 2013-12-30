@@ -52,42 +52,6 @@ QString ScorePropertiesDialog::propertyText(int dataRole) const
     return editWidget->text();
 }
 
-void ScorePropertiesDialog::setPropertyFont(int dataRole, const QFont &font)
-{
-    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
-    if (!editWidget)
-        return;
-
-    editWidget->setFont(font);
-}
-
-QFont ScorePropertiesDialog::propertyFont(int dataRole) const
-{
-    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
-    if (!editWidget)
-        return QFont();
-
-    return editWidget->font();
-}
-
-void ScorePropertiesDialog::setPropertyColor(int dataRole, const QColor &color)
-{
-    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
-    if (!editWidget)
-        return;
-
-    editWidget->setColor(color);
-}
-
-QColor ScorePropertiesDialog::propertyColor(int dataRole) const
-{
-    TextPropertyEditWidget *editWidget = textEditWidgetForRole(dataRole);
-    if (!editWidget)
-        return QColor();
-
-    return editWidget->color();
-}
-
 TextPropertyEditWidget *ScorePropertiesDialog::textEditWidgetForRole(int dataRole) const
 {
     if (!m_textEditWidgets.contains(dataRole))
@@ -105,13 +69,5 @@ void ScorePropertiesDialog::addTextEditWidget(int layoutRow, LP::ScoreDataRole d
     connect(textEditWidget, &TextPropertyEditWidget::textChanged,
             [this, dataRole, textEditWidget] {
         emit propertyTextChanged(dataRole, textEditWidget->text());
-    } );
-    connect(textEditWidget, &TextPropertyEditWidget::fontChanged,
-            [this, dataRole, textEditWidget] {
-        emit propertyFontChanged(dataRole, textEditWidget->font());
-    } );
-    connect(textEditWidget, &TextPropertyEditWidget::colorChanged,
-            [this, dataRole, textEditWidget] {
-        emit propertyColorChanged(dataRole, textEditWidget->color());
     } );
 }

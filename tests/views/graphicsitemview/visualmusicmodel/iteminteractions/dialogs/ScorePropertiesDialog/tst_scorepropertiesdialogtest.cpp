@@ -12,6 +12,8 @@
 #include <graphicsitemview/visualmusicmodel/iteminteractions/dialogs/scorepropertiesdialog.h>
 #include <graphicsitemview/visualmusicmodel/iteminteractions/dialogs/textpropertyeditwidget.h>
 
+Q_DECLARE_METATYPE(LP::ScoreDataRole)
+
 class ScorePropertiesDialogTest : public QObject
 {
     Q_OBJECT
@@ -24,8 +26,6 @@ private Q_SLOTS:
     void cleanup();
     void testTextEditWidgetForRole();
     void testSetGetPropertyText();
-    void testSetGetPropertyFont();
-    void testSetGetPropertyColor();
 
 private:
     ScorePropertiesDialog *dialog;
@@ -65,48 +65,21 @@ void ScorePropertiesDialogTest::testSetGetPropertyText()
 {
     QSignalSpy spy(dialog, SIGNAL(propertyTextChanged(LP::ScoreDataRole,QString)));
     QString testText("test text");
+    QString testTextChange("test test blablabla");
     LP::ScoreDataRole testDataRole = LP::ScoreArranger;
 
     dialog->setPropertyText(testDataRole, testText);
     QVERIFY2(dialog->propertyText(testDataRole) == testText,
              "Can't get right property text");
     QVERIFY2(spy.count() == 0, "Signal was emitted when setting text");
-    dialog->textEditWidgetForRole(testDataRole)->changeText(testText + "bla");
+    dialog->textEditWidgetForRole(testDataRole)->changeText(testTextChange);
     QVERIFY2(spy.count() == 1, "Signal wasn't emitted when changing text");
-}
-
-void ScorePropertiesDialogTest::testSetGetPropertyFont()
-{
-    QSignalSpy spy(dialog, SIGNAL(propertyFontChanged(LP::ScoreDataRole,QFont)));
-    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
-    QFont testFont("Arial", 33);
-
-    dialog->setPropertyFont(testDataRole, testFont);
-
-    QVERIFY2(dialog->propertyFont(testDataRole) == testFont,
-             "Can't get right property font");
-    QVERIFY2(spy.count() == 0, "Signal was emitted when setting font");
-
-    testFont = QFont("Helvetica", 43);
-    dialog->textEditWidgetForRole(testDataRole)->changeFont(testFont);
-    QVERIFY2(spy.count() == 1, "Signal wasn't emitted when changing font");
-}
-
-void ScorePropertiesDialogTest::testSetGetPropertyColor()
-{
-    QSignalSpy spy(dialog, SIGNAL(propertyColorChanged(LP::ScoreDataRole,QColor)));
-    LP::ScoreDataRole testDataRole = LP::ScoreArranger;
-    QColor testColor(Qt::darkBlue);
-
-    dialog->setPropertyColor(testDataRole, testColor);
-
-    QVERIFY2(dialog->propertyColor(testDataRole) == testColor,
-             "Can't get right property color");
-    QVERIFY2(spy.count() == 0, "Signal was emitted when setting color");
-
-    testColor = QColor(Qt::darkRed);
-    dialog->textEditWidgetForRole(testDataRole)->changeColor(testColor);
-    QVERIFY2(spy.count() == 1, "Signal wasn't emitted when changing color");
+    QList<QVariant> arguments = spy.takeFirst();
+    QVERIFY2(arguments.count() == 2, "Wrong count of arguments emitted");
+    QVERIFY2(arguments.at(0).value<LP::ScoreDataRole>() == testDataRole,
+             "Wrong data role emitted");
+    QVERIFY2(arguments.at(1).toString() == testTextChange,
+             "Wrong text emitted for text change");
 }
 
 QTEST_MAIN(ScorePropertiesDialogTest)

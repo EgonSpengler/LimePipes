@@ -33,8 +33,6 @@ public:
 
 private slots:
     void propertyTextChanged(LP::ScoreDataRole dataRole, const QString& text);
-    void propertyFontChanged(LP::ScoreDataRole dataRole, const QFont& font);
-    void propertyColorChanged(LP::ScoreDataRole dataRole, const QColor &color);
 
 private:
     void createConnections();

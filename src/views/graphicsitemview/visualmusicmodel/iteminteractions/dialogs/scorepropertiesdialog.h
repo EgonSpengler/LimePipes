@@ -25,7 +25,7 @@ class TextPropertyEditWidget;
 class ScorePropertiesDialog : public QDialog
 {
     Q_OBJECT
-    
+
     friend class ScorePropertiesDialogTest;
 
 public:
@@ -35,18 +35,10 @@ public:
     void setPropertyText(int dataRole, const QString& text);
     QString propertyText(int dataRole) const;
 
-    void setPropertyFont(int dataRole, const QFont& font);
-    QFont propertyFont(int dataRole) const;
-
-    void setPropertyColor(int dataRole, const QColor& color);
-    QColor propertyColor(int dataRole) const;
-
     TextPropertyEditWidget *textEditWidgetForRole(int dataRole) const;
 
 signals:
-    void propertyTextChanged(LP::ScoreDataRole, const QString& text);
-    void propertyFontChanged(LP::ScoreDataRole, const QFont& font);
-    void propertyColorChanged(LP::ScoreDataRole, const QColor& font);
+    void propertyTextChanged(LP::ScoreDataRole dataRole, const QString& text);
 
 private:
     void addTextEditWidget(int layoutRow, LP::ScoreDataRole dataRole, const QString& text);
