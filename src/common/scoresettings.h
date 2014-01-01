@@ -40,6 +40,10 @@ public:
     LP::ScoreDataRole dataRole() const;
     void setDataRole(LP::ScoreDataRole dataRole);
 
+    void clear();
+    void sync();
+    QString fileName();
+
 private:
     static QString getKey(Settings::Score::Area area, LP::ScoreDataRole dataRole, Settings::Score::Appearance appearance);
     static QVariant defaultValue(const QString& key);

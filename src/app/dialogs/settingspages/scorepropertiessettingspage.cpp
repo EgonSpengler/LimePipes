@@ -15,23 +15,9 @@
 using namespace Settings;
 using namespace Settings::Score;
 
-ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(Area area, QWidget *parent)
-    : QWidget(parent),
-      m_scoreArea(area),
-      m_scoreSettings(0),
-      ui(new Ui::ScorePropertiesSettingsPage)
-{
-    ui->setupUi(this);
-
-    m_scoreSettings = new ScoreSettings(this);
-    m_scoreSettings->setScoreArea(area);
-
-    initUi();
-}
-
 ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(QWidget *parent)
     : QWidget(parent),
-      m_scoreArea(Header),
+      m_scoreArea(NoArea),
       ui(new Ui::ScorePropertiesSettingsPage)
 {
     ui->setupUi(this);
@@ -39,6 +25,7 @@ ScorePropertiesSettingsPage::ScorePropertiesSettingsPage(QWidget *parent)
     m_scoreSettings = new ScoreSettings(this);
 
     initUi();
+    createConnections();
 }
 
 void ScorePropertiesSettingsPage::initUi()
@@ -116,6 +103,9 @@ void ScorePropertiesSettingsPage::propertyWidgetEnabledChanged(ScorePropertiesWi
 {
     bool enabled = propertyWidget->isWidgetEnabled();
 
+    LP::ScoreDataRole dataRole = m_propertiesWidgets.key(propertyWidget);
+    m_scoreSettings->setValue(m_scoreArea, dataRole, Enabled, enabled);
+
     checkAllPropertyWidgetPositionValues();
 
     if (enabled) {
@@ -140,15 +130,19 @@ void ScorePropertiesSettingsPage::setScoreArea(Area area)
 {
     m_scoreArea = area;
     m_scoreSettings->setScoreArea(area);
-    initPropertiesWidgetsWithSettings();
-
-    createConnections();
+    if (area != NoArea) {
+        initPropertiesWidgetsWithSettings();
+    }
 }
 
 void ScorePropertiesSettingsPage::initPropertiesWidgetsWithSettings()
 {
     foreach (LP::ScoreDataRole dataRole, m_propertiesWidgets.keys()) {
-        initPropertiesWidgetWithSettings(dataRole, m_propertiesWidgets.value(dataRole));
+        ScorePropertiesWidget *propertiesWidget = m_propertiesWidgets.value(dataRole);
+        if (!propertiesWidget)
+            return;
+
+        initPropertiesWidgetWithSettings(dataRole, propertiesWidget);
     }
 }
 

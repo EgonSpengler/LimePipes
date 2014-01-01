@@ -195,6 +195,21 @@ void ScoreSettings::setDataRole(LP::ScoreDataRole dataRole)
     m_dataRole = dataRole;
 }
 
+void ScoreSettings::clear()
+{
+    m_settings->clear();
+}
+
+void ScoreSettings::sync()
+{
+    m_settings->sync();
+}
+
+QString ScoreSettings::fileName()
+{
+    return m_settings->fileName();
+}
+
 QString ScoreSettings::getKey(Area area, LP::ScoreDataRole dataRole, Appearance appearance)
 {
     QString key;
