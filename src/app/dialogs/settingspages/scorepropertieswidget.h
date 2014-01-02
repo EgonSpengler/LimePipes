@@ -45,6 +45,7 @@ public:
     QColor color() const;
 
     void setPositionIsInUseMessage(bool on);
+    bool isPositionInUseMessageActive() const;
 
 signals:
     void fontChanged(const QFont& font);

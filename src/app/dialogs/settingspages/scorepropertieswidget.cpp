@@ -162,6 +162,11 @@ void ScorePropertiesWidget::setPositionIsInUseMessage(bool on)
     ui->positionIsInUseLabel->setText(message);
 }
 
+bool ScorePropertiesWidget::isPositionInUseMessageActive() const
+{
+    return !(ui->positionIsInUseLabel->text().isEmpty());
+}
+
 void ScorePropertiesWidget::fontChangeClicked()
 {
     QFont currentFont(font());

@@ -172,6 +172,8 @@ void ScorePropertiesWidgetTest::testSetPositionIsInUseMessage()
 
     QVERIFY2(m_widgetUi->positionIsInUseLabel->text().isEmpty() == true,
              "Position is in use message wasn't cleared");
+    QVERIFY2(m_scorePropertiesWidget->isPositionInUseMessageActive() == false,
+             "Position is in use message isn't set to false");
 }
 
 void ScorePropertiesWidgetTest::checkWidgetEnabled(bool enabled)

@@ -73,19 +73,25 @@ void ScorePropertiesSettingsPage::checkAllPropertyWidgetPositionValues()
 
         int row = propertyWidget->row();
         TextAlignment alignment = propertyWidget->alignment();
-        if (propertyWidgetsWithPosition(row, alignment) > 1) {
+        if (enabledPropertyWidgetsWithPosition(row, alignment) > 1) {
             propertyWidget->setPositionIsInUseMessage(true);
         } else {
+            propertyWidget->setPositionIsInUseMessage(false);
+
+            if (m_scoreArea == NoArea) {
+                qWarning("Can't set property widget position with score area set to NoArea");
+                continue;
+            }
+
             LP::ScoreDataRole dataRole = m_propertiesWidgets.key(propertyWidget);
             m_scoreSettings->setValue(m_scoreArea, dataRole, Row, propertyWidget->row());
             m_scoreSettings->setValue(m_scoreArea, dataRole, Alignment,
                                       QVariant::fromValue<TextAlignment>(propertyWidget->alignment()));
-            propertyWidget->setPositionIsInUseMessage(false);
         }
     }
 }
 
-int ScorePropertiesSettingsPage::propertyWidgetsWithPosition(int row, TextAlignment alignment)
+int ScorePropertiesSettingsPage::enabledPropertyWidgetsWithPosition(int row, TextAlignment alignment)
 {
     int count = 0;
     foreach (ScorePropertiesWidget *widget, m_propertiesWidgets.values()) {
@@ -101,6 +107,11 @@ int ScorePropertiesSettingsPage::propertyWidgetsWithPosition(int row, TextAlignm
 
 void ScorePropertiesSettingsPage::propertyWidgetEnabledChanged(ScorePropertiesWidget *propertyWidget)
 {
+    if (m_scoreArea == NoArea) {
+        qWarning("Can't set property widget enabled with score area set to NoArea");
+        return;
+    }
+
     bool enabled = propertyWidget->isWidgetEnabled();
 
     LP::ScoreDataRole dataRole = m_propertiesWidgets.key(propertyWidget);
@@ -116,12 +127,22 @@ void ScorePropertiesSettingsPage::propertyWidgetEnabledChanged(ScorePropertiesWi
 
 void ScorePropertiesSettingsPage::propertyWidgetColorChanged(ScorePropertiesWidget *propertyWidget)
 {
+    if (m_scoreArea == NoArea) {
+        qWarning("Can't set property widget color with score area set to NoArea");
+        return;
+    }
+
     LP::ScoreDataRole dataRole = m_propertiesWidgets.key(propertyWidget);
     m_scoreSettings->setValue(m_scoreArea, dataRole, Color, propertyWidget->color());
 }
 
 void ScorePropertiesSettingsPage::propertyWidgetFontChanged(ScorePropertiesWidget *propertyWidget)
 {
+    if (m_scoreArea == NoArea) {
+        qWarning("Can't set property widget color with score area set to NoArea");
+        return;
+    }
+
     LP::ScoreDataRole dataRole = m_propertiesWidgets.key(propertyWidget);
     m_scoreSettings->setValue(m_scoreArea, dataRole, Font, propertyWidget->font());
 }

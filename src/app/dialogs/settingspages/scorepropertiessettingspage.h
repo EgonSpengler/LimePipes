@@ -44,7 +44,7 @@ private:
     void appendPropertiesWidget(LP::ScoreDataRole dataRole, const QString &text);
     void initPropertiesWidgetsWithSettings();
     void initPropertiesWidgetWithSettings(LP::ScoreDataRole dataRole, ScorePropertiesWidget *widget);
-    int propertyWidgetsWithPosition(int row, Settings::TextAlignment alignment);
+    int enabledPropertyWidgetsWithPosition(int row, Settings::TextAlignment alignment);
     void checkAllPropertyWidgetPositionValues();
     QHash<LP::ScoreDataRole, ScorePropertiesWidget*> m_propertiesWidgets;
     Settings::Score::Area m_scoreArea;
