@@ -117,7 +117,7 @@ Settings::TextAlignment ScoreSettings::alignmentFromString(const QString &alignm
 }
 
 ScoreSettings::ScoreSettings(Area scoreArea, LP::ScoreDataRole dataRole, QObject *parent)
-    : QObject(parent),
+    : ObservableSettings(parent),
       m_scoreArea(scoreArea),
       m_dataRole(dataRole)
 {
@@ -125,7 +125,7 @@ ScoreSettings::ScoreSettings(Area scoreArea, LP::ScoreDataRole dataRole, QObject
 }
 
 ScoreSettings::ScoreSettings(QObject *parent)
-    : QObject(parent)
+    : ObservableSettings(parent)
 {
     m_settings = new QSettings(this);
 }

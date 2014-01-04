@@ -17,9 +17,6 @@ namespace Ui {
 class ScorePropertiesDialog;
 }
 
-class QFont;
-class QColor;
-class QSignalMapper;
 class TextPropertyEditWidget;
 
 class ScorePropertiesDialog : public QDialog

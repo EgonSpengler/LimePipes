@@ -15,6 +15,16 @@
 namespace Settings
 {
 
+enum class Category
+{
+    NoCategory,
+    Score,
+    Tune,
+    Part,
+    Measure,
+    Symbol
+};
+
 enum class TextAlignment
 {
     NoAlignment,

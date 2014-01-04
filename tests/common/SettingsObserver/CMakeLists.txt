@@ -1,4 +1,4 @@
-set( testname ScoreSettingsTest )
+set( testname SettingsObserver )
 set( testmodules Test Widgets )
 set( testlibraries )
 
@@ -6,9 +6,8 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_scoresettingstest.cpp
-        ${CMAKE_SOURCE_DIR}/src/common/scoresettings.cpp
-        ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
+        tst_settingsobservertest.cpp
+        ../common/testsettingsobserver.cpp
         ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
         )
 

@@ -9,6 +9,8 @@ set( Test_SOURCES
         tst_settingsdialogtest.cpp
         ${CMAKE_SOURCE_DIR}/src/app/dialogs/settingsdialog.cpp
         ${CMAKE_SOURCE_DIR}/src/common/scoresettings.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
         ${CMAKE_SOURCE_DIR}/src/app/dialogs/settingspages/scorepropertiessettingspage.cpp
         ${CMAKE_SOURCE_DIR}/src/app/dialogs/settingspages/scorepropertieswidget.cpp
         )

@@ -10,6 +10,8 @@ set( Test_SOURCES
         ${CMAKE_SOURCE_DIR}/src/app/dialogs/settingspages/scorepropertiessettingspage.cpp
         ${CMAKE_SOURCE_DIR}/src/app/dialogs/settingspages/scorepropertieswidget.cpp
         ${CMAKE_SOURCE_DIR}/src/common/scoresettings.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
         )
 
 set( Test_UIs

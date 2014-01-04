@@ -8,6 +8,8 @@ set( lp_graphicsitemview_SOURCES
         visualmusicpresenter.cpp
 
         ${CMAKE_SOURCE_DIR}/src/common/scoresettings.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp

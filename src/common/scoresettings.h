@@ -13,11 +13,11 @@
 #include <QHash>
 #include <QString>
 #include <QVariant>
-#include "settingdefines.h"
+#include "observablesettings.h"
 
 class QSettings;
 
-class ScoreSettings : public QObject
+class ScoreSettings : public ObservableSettings
 {
     friend class ScoreSettingsTest;
 
