@@ -30,31 +30,24 @@ private Q_SLOTS:
     void testUnregisterObserver();
     void testNotifyCategory();
     void testNotifyOnAlreadyDeletedObserver();
-
-private:
-    ObservableSettings *m_observableSettings;
 };
 
 ObservableSettingsTest::ObservableSettingsTest()
-    : m_observableSettings(0)
 {
 }
 
 void ObservableSettingsTest::init()
 {
-    m_observableSettings = new ObservableSettings();
-
-    m_observableSettings->m_settingsObserver.clear();
+    ObservableSettings::m_settingsObserver.clear();
 }
 
 void ObservableSettingsTest::cleanup()
 {
-    delete m_observableSettings;
 }
 
 void ObservableSettingsTest::testRegisterObserver()
 {
-    Q_ASSERT(m_observableSettings->m_settingsObserver.count() == 0);
+    Q_ASSERT(ObservableSettings::m_settingsObserver.count() == 0);
 
     TestSettingsObserver *testObserver = new TestSettingsObserver(this);
     testObserver->setSettingsCategory(Category::NoCategory);
@@ -70,18 +63,18 @@ void ObservableSettingsTest::testRegisterObserver()
 
 void ObservableSettingsTest::testUnregisterObserver()
 {
-    Q_ASSERT(m_observableSettings->m_settingsObserver.count() == 0);
+    Q_ASSERT(ObservableSettings::m_settingsObserver.count() == 0);
 
-    m_observableSettings->m_settingsObserver.clear();
-    Q_ASSERT(m_observableSettings->m_settingsObserver.count() == 0);
+    ObservableSettings::m_settingsObserver.clear();
+    Q_ASSERT(ObservableSettings::m_settingsObserver.count() == 0);
 
     TestSettingsObserver *testObserver = new TestSettingsObserver(this);
     testObserver->setSettingsCategory(Category::Score);
     ObservableSettings::registerObserver(testObserver);
-    Q_ASSERT(m_observableSettings->m_settingsObserver.count());
+    Q_ASSERT(ObservableSettings::m_settingsObserver.count());
 
-    m_observableSettings->unregisterObserver(testObserver);
-    QVERIFY2(m_observableSettings->m_settingsObserver.count() == 0,
+    ObservableSettings::unregisterObserver(testObserver);
+    QVERIFY2(ObservableSettings::m_settingsObserver.count() == 0,
              "Observer wasn't unregistered");
 
     delete testObserver;
@@ -89,7 +82,7 @@ void ObservableSettingsTest::testUnregisterObserver()
 
 void ObservableSettingsTest::testNotifyCategory()
 {
-    Q_ASSERT(m_observableSettings->m_settingsObserver.count() == 0);
+    Q_ASSERT(ObservableSettings::m_settingsObserver.count() == 0);
 
     TestSettingsObserver *testObserverScoreSettings = new TestSettingsObserver();
     testObserverScoreSettings->setSettingsCategory(Category::Score);
@@ -117,7 +110,7 @@ void ObservableSettingsTest::testNotifyCategory()
 
 void ObservableSettingsTest::testNotifyOnAlreadyDeletedObserver()
 {
-    Q_ASSERT(m_observableSettings->m_settingsObserver.count() == 0);
+    Q_ASSERT(ObservableSettings::m_settingsObserver.count() == 0);
 
     TestSettingsObserver *testObserverScoreSettings = new TestSettingsObserver();
     testObserverScoreSettings->setSettingsCategory(Category::Score);
