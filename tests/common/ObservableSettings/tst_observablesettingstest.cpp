@@ -29,7 +29,7 @@ private Q_SLOTS:
     void testRegisterObserver();
     void testUnregisterObserver();
     void testNotifyCategory();
-    void testNotifyOnAlreadyDeletedObserver();
+    void testIsObserverRegistered();
 };
 
 ObservableSettingsTest::ObservableSettingsTest()
@@ -108,22 +108,14 @@ void ObservableSettingsTest::testNotifyCategory()
     delete testObserverTuneSettings;
 }
 
-void ObservableSettingsTest::testNotifyOnAlreadyDeletedObserver()
+void ObservableSettingsTest::testIsObserverRegistered()
 {
-    Q_ASSERT(ObservableSettings::m_settingsObserver.count() == 0);
+    TestSettingsObserver *testObserver = new TestSettingsObserver();
+    testObserver->setSettingsCategory(Category::Score);
 
-    TestSettingsObserver *testObserverScoreSettings = new TestSettingsObserver();
-    testObserverScoreSettings->setSettingsCategory(Category::Score);
-    ObservableSettings::registerObserver(testObserverScoreSettings);
-
-    delete testObserverScoreSettings;
-
-    Q_ASSERT(ObservableSettings::m_settingsObserver.count() == 1);
-
-    ObservableSettings::notify(Category::Score);
-
-    QVERIFY2(ObservableSettings::m_settingsObserver.count() == 0,
-             "Already deleted observer wasn't removed");
+    ObservableSettings::registerObserver(testObserver);
+    QVERIFY2(ObservableSettings::isObserverRegistered(testObserver) == true,
+             "Observer wasn't registered");
 }
 
 QTEST_APPLESS_MAIN(ObservableSettingsTest)

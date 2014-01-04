@@ -13,12 +13,14 @@
 #include <QHash>
 #include <itemdatatypes.h>
 #include <common/settingdefines.h>
+#include <common/settingsobserver.h>
 #include "interactinggraphicsitem.h"
 #include "graphicitems/textrowwidget.h"
 
 class QGraphicsLinearLayout;
 
-class ScoreGraphicsItem : public InteractingGraphicsItem
+class ScoreGraphicsItem : public InteractingGraphicsItem,
+                          public SettingsObserver
 {
     Q_OBJECT
 
@@ -27,11 +29,17 @@ class ScoreGraphicsItem : public InteractingGraphicsItem
 public:
     explicit ScoreGraphicsItem(QGraphicsItem *parent = 0);
     explicit ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *parent = 0);
+    ~ScoreGraphicsItem();
 
     void setScoreArea(Settings::Score::Area area);
     Settings::Score::Area scoreArea() const;
 
     void setData(const QVariant &value, int key);
+
+    void initialize();
+
+    // SettingsObserver
+    void notify();
 
 signals:
     void itemTextChanged(const QVariant& text, int dataRole);
@@ -73,7 +81,9 @@ private:
     void addRowsUntilRowIndex(int index);
     void deleteLastEmptyRows();
     void initFromSettings();
-    void readItemDataFromSettings(LP::ScoreDataRole dataRole);
+    void initItemDataFromSettings(LP::ScoreDataRole dataRole);
+    void updateDataFromSettings();
+    void updateItemDataFromSettings(LP::ScoreDataRole dataRole);
     QList<TextRowWidget*> m_textRows;
     QGraphicsLinearLayout *m_rowLayout;
     QHash<LP::ScoreDataRole, TextItemPosition> m_itemPositions;

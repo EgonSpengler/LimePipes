@@ -10,7 +10,9 @@
 #include <QtTest>
 #include <QSettings>
 #include <QFont>
+#include <QSignalSpy>
 #include <common/scoresettings.h>
+#include <testsettingsobserver.h>
 
 using namespace Settings;
 using namespace Settings::Score;
@@ -33,6 +35,7 @@ private Q_SLOTS:
     void testSetColor();
     void testSetRow();
     void testSetAlignment();
+    void testNotifyObservers();
 
 private:
     void clearSettings();
@@ -211,6 +214,22 @@ void ScoreSettingsTest::testSetAlignment()
     QVERIFY2(m_scoreSettings->value(Alignment).value<TextAlignment>() == testAlignment,
              "Can't get alignment from settings");
 
+}
+
+void ScoreSettingsTest::testNotifyObservers()
+{
+    TestSettingsObserver *testObserver = new TestSettingsObserver();
+    testObserver->setSettingsCategory(Category::Score);
+    ObservableSettings::registerObserver(testObserver);
+
+    QSignalSpy notifySpy(testObserver, SIGNAL(notifyCalled()));
+
+    m_scoreSettings->setScoreArea(Header);
+    m_scoreSettings->setDataRole(LP::ScoreTitle);
+    m_scoreSettings->setValue(Row, 3);
+
+    QVERIFY2(notifySpy.count() == 1, "Notify wasn't called on score observers");
+    delete testObserver;
 }
 
 void ScoreSettingsTest::clearSettings()

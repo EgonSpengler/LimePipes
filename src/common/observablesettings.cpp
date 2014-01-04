@@ -9,7 +9,7 @@
 #include "settingsobserver.h"
 #include "observablesettings.h"
 
-QList<QPointer<SettingsObserver>> ObservableSettings::m_settingsObserver;
+QList<SettingsObserver*> ObservableSettings::m_settingsObserver;
 
 using namespace Settings;
 
@@ -35,13 +35,14 @@ void ObservableSettings::unregisterObserver(SettingsObserver *settingsObserver)
 
 void ObservableSettings::notify(Settings::Category category)
 {
-    foreach (QPointer<SettingsObserver> settingsObserver, m_settingsObserver) {
-        if (settingsObserver.isNull()) {
-            unregisterObserver(settingsObserver);
-        } else {
-            if (settingsObserver->settingCategory() == category) {
-                settingsObserver->notify();
-            }
+    foreach (SettingsObserver *settingsObserver, m_settingsObserver) {
+        if (settingsObserver->settingCategory() == category) {
+            settingsObserver->notify();
         }
     }
+}
+
+bool ObservableSettings::isObserverRegistered(SettingsObserver *settingsObserver)
+{
+    return m_settingsObserver.contains(settingsObserver);
 }

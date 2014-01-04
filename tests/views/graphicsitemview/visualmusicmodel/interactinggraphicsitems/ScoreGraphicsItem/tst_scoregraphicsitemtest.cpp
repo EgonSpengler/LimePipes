@@ -10,6 +10,7 @@
 #include <QtTest/QtTest>
 #include <QGraphicsScene>
 #include <QFocusEvent>
+#include <common/observablesettings.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/graphicitems/textwidget.h>
 #include <graphicsitemview/visualmusicmodel/iteminteraction.h>
@@ -25,6 +26,8 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testSettingsCategory();
+    void testRegisterUnregisterObserver();
     void testRowOfDataRole();
     void testRowAlignmentOfDatarole();
     void testHasItemPositionForDataRole();
@@ -35,6 +38,7 @@ private Q_SLOTS:
     void testRowCount();
     void testItemTextChanged();
     void testSetData();
+    void testNotifyImplementation();
 
 private:
     ScoreGraphicsItem *m_scoreItem;
@@ -52,6 +56,31 @@ void ScoreGraphicsItemTest::init()
 void ScoreGraphicsItemTest::cleanup()
 {
     delete m_scoreItem;
+}
+
+void ScoreGraphicsItemTest::testSettingsCategory()
+{
+    QVERIFY2(m_scoreItem->settingCategory() == Settings::Category::Score,
+             "Item has wrong settings category as settings observer");
+}
+
+void ScoreGraphicsItemTest::testRegisterUnregisterObserver()
+{
+    ScoreGraphicsItem *testItem = new ScoreGraphicsItem();
+
+    QVERIFY2(ObservableSettings::isObserverRegistered(testItem),
+             "Score item hasn't registered to observable settings with default constructor");
+
+    delete testItem;
+
+    QVERIFY2(ObservableSettings::isObserverRegistered(testItem) == false,
+             "Score item hasn't unregistered in destructor");
+
+    testItem = new ScoreGraphicsItem(Settings::Score::Header);
+    QVERIFY2(ObservableSettings::isObserverRegistered(testItem),
+             "Score item hasn't registered to observable settings with second constructor");
+
+    delete testItem;
 }
 
 void ScoreGraphicsItemTest::testRowOfDataRole()
@@ -222,6 +251,10 @@ void ScoreGraphicsItemTest::testSetData()
     QVERIFY2(spy.count() == 1, "Data changed wasn't called on item interaction (missing parent class call)");
     QVERIFY2(m_scoreItem->itemText(testDataRole) == testData,
              "Item text wasn't set in setData");
+}
+
+void ScoreGraphicsItemTest::testNotifyImplementation()
+{
 }
 
 QTEST_MAIN(ScoreGraphicsItemTest)

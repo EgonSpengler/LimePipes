@@ -12,10 +12,8 @@
 #include <QObject>
 #include "settingdefines.h"
 
-class SettingsObserver : public QObject
+class SettingsObserver
 {
-    Q_OBJECT
-
 public:
     explicit SettingsObserver(QObject *parent = 0);
     explicit SettingsObserver(Settings::Category settingCategory, QObject *parent = 0);

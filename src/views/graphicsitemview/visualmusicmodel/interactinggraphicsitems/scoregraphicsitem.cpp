@@ -20,10 +20,7 @@ ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)
       m_rowLayout(0),
       m_scoreArea(Settings::Score::NoArea)
 {
-    m_rowLayout = new QGraphicsLinearLayout(Qt::Vertical, this);
-    m_rowLayout->setContentsMargins(0, 0, 0, 0);
-
-    createConnections();
+    initialize();
 }
 
 ScoreGraphicsItem::ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *parent)
@@ -31,12 +28,25 @@ ScoreGraphicsItem::ScoreGraphicsItem(Settings::Score::Area area, QGraphicsItem *
       m_rowLayout(0),
       m_scoreArea(area)
 {
+    initialize();
+
+    initFromSettings();
+}
+
+void ScoreGraphicsItem::initialize()
+{
     m_rowLayout = new QGraphicsLinearLayout(Qt::Vertical, this);
     m_rowLayout->setContentsMargins(0, 0, 0, 0);
 
-    initFromSettings();
+    setSettingsCategory(Settings::Category::Score);
+    ScoreSettings::registerObserver(this);
 
     createConnections();
+}
+
+ScoreGraphicsItem::~ScoreGraphicsItem()
+{
+    ScoreSettings::unregisterObserver(this);
 }
 
 void ScoreGraphicsItem::setScoreArea(Settings::Score::Area area)
@@ -140,15 +150,15 @@ void ScoreGraphicsItem::deleteLastEmptyRows()
 
 void ScoreGraphicsItem::initFromSettings()
 {
-    readItemDataFromSettings(LP::ScoreTitle);
-    readItemDataFromSettings(LP::ScoreComposer);
-    readItemDataFromSettings(LP::ScoreArranger);
-    readItemDataFromSettings(LP::ScoreType);
-    readItemDataFromSettings(LP::ScoreYear);
-    readItemDataFromSettings(LP::ScoreCopyright);
+    initItemDataFromSettings(LP::ScoreTitle);
+    initItemDataFromSettings(LP::ScoreComposer);
+    initItemDataFromSettings(LP::ScoreArranger);
+    initItemDataFromSettings(LP::ScoreType);
+    initItemDataFromSettings(LP::ScoreYear);
+    initItemDataFromSettings(LP::ScoreCopyright);
 }
 
-void ScoreGraphicsItem::readItemDataFromSettings(LP::ScoreDataRole dataRole)
+void ScoreGraphicsItem::initItemDataFromSettings(LP::ScoreDataRole dataRole)
 {
     using namespace Settings;
     using namespace Settings::Score;
@@ -171,10 +181,8 @@ void ScoreGraphicsItem::readItemDataFromSettings(LP::ScoreDataRole dataRole)
                           .arg(static_cast<int>(position.rowPosition));
             return;
         }
-        setItemPosition(dataRole, position.rowIndex, position.rowPosition);
 
-        setItemFont(dataRole, settings.value(Font).value<QFont>());
-        setItemColor(dataRole, settings.value(Color).value<QColor>());
+        updateItemDataFromSettings(dataRole);
     }
 }
 
@@ -340,4 +348,44 @@ bool ScoreGraphicsItem::TextItemPosition::operator ==(const ScoreGraphicsItem::T
             rowPosition == other.rowPosition)
         return true;
     return false;
+}
+
+
+void ScoreGraphicsItem::notify()
+{
+    updateDataFromSettings();
+}
+
+void ScoreGraphicsItem::updateDataFromSettings()
+{
+    updateItemDataFromSettings(LP::ScoreTitle);
+    updateItemDataFromSettings(LP::ScoreComposer);
+    updateItemDataFromSettings(LP::ScoreArranger);
+    updateItemDataFromSettings(LP::ScoreType);
+    updateItemDataFromSettings(LP::ScoreYear);
+    updateItemDataFromSettings(LP::ScoreCopyright);
+}
+
+void ScoreGraphicsItem::updateItemDataFromSettings(LP::ScoreDataRole dataRole)
+{
+    using namespace Settings;
+    using namespace Settings::Score;
+
+    if (m_scoreArea == NoArea)
+        return;
+
+    ScoreSettings settings(m_scoreArea, dataRole);
+    bool itemEnabled =  settings.value(Enabled).toBool();
+    if (itemEnabled) {
+        TextItemPosition position;
+        position.rowIndex = settings.value(Row).toInt();
+        if (position.rowIndex > 0)
+            position.rowIndex -= 1;
+        position.rowPosition = settings.value(Alignment).value<TextAlignment>();
+
+        setItemPosition(dataRole, position.rowIndex, position.rowPosition);
+
+        setItemFont(dataRole, settings.value(Font).value<QFont>());
+        setItemColor(dataRole, settings.value(Color).value<QColor>());
+    }
 }

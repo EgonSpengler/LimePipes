@@ -28,9 +28,10 @@ public:
     static void registerObserver(SettingsObserver *settingsObserver);
     static void unregisterObserver(SettingsObserver *settingsObserver);
     static void notify(Settings::Category category);
+    static bool isObserverRegistered(SettingsObserver *settingsObserver);
 
 private:
-    static QList<QPointer<SettingsObserver>> m_settingsObserver;
+    static QList<SettingsObserver*> m_settingsObserver;
 };
 
 #endif // OBSERVABLESETTINGS_H

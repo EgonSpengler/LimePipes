@@ -9,9 +9,11 @@
 #ifndef TESTSETTINGSOBSERVER_H
 #define TESTSETTINGSOBSERVER_H
 
+#include <QObject>
 #include <common/settingsobserver.h>
 
-class TestSettingsObserver : public SettingsObserver
+class TestSettingsObserver : public QObject,
+                             public SettingsObserver
 {
     Q_OBJECT
 
