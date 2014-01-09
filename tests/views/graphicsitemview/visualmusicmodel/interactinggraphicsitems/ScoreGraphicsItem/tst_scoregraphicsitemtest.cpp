@@ -10,11 +10,15 @@
 #include <QtTest/QtTest>
 #include <QGraphicsScene>
 #include <QFocusEvent>
-#include <common/observablesettings.h>
+#include <QFont>
+#include <QVariant>
+#include <common/scoresettings.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/scoregraphicsitem.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/graphicitems/textwidget.h>
 #include <graphicsitemview/visualmusicmodel/iteminteraction.h>
 #include <iteminteractiondummy.h>
+
+using namespace Settings::Score;
 
 class ScoreGraphicsItemTest : public QObject
 {
@@ -23,6 +27,7 @@ class ScoreGraphicsItemTest : public QObject
 public:
     ScoreGraphicsItemTest();
 
+    void testNotifyForDataRole(LP::ScoreDataRole testDataRole, Area testScoreArea);
 private Q_SLOTS:
     void init();
     void cleanup();
@@ -38,7 +43,12 @@ private Q_SLOTS:
     void testRowCount();
     void testItemTextChanged();
     void testSetData();
-    void testNotifyImplementation();
+    void testNotifyImplementationForTitle();
+    void testNotifyImplementationForType();
+    void testNotifyImplementationForComposer();
+    void testNotifyImplementationForArranger();
+    void testNotifyImplementationForCopyright();
+    void testNotifyImplementationForYear();
 
 private:
     ScoreGraphicsItem *m_scoreItem;
@@ -50,6 +60,10 @@ ScoreGraphicsItemTest::ScoreGraphicsItemTest()
 
 void ScoreGraphicsItemTest::init()
 {
+    ScoreSettings settings;
+    settings.clear();
+    settings.sync();
+
     m_scoreItem = new ScoreGraphicsItem();
 }
 
@@ -88,11 +102,11 @@ void ScoreGraphicsItemTest::testRowOfDataRole()
     int testRow = 1;
     LP::ScoreDataRole testDataRole = LP::ScoreCopyright;
 
-    QVERIFY2(m_scoreItem->rowOfDataRole(testDataRole) == -1,
+    QVERIFY2(m_scoreItem->rowIndexOfDataRole(testDataRole) == -1,
              "Wrong default row of non existing data role is wrong");
 
     m_scoreItem->setItemPosition(testDataRole, testRow, Settings::TextAlignment::Left);
-    QVERIFY2(m_scoreItem->rowOfDataRole(testDataRole) == testRow,
+    QVERIFY2(m_scoreItem->rowIndexOfDataRole(testDataRole) == testRow,
              "Failed getting right row of data role");
 }
 
@@ -135,7 +149,7 @@ void ScoreGraphicsItemTest::testRemoveItemPosition()
 
     QString testText("test test");
     m_scoreItem->setItemText(testDataRole, testText);
-    int textRowIndex = m_scoreItem->rowOfDataRole(testDataRole);
+    int textRowIndex = m_scoreItem->rowIndexOfDataRole(testDataRole);
     TextRowWidget *textRowWidget = m_scoreItem->m_textRows.at(textRowIndex);
     Q_ASSERT(textRowWidget->text(testRowAlignment) == testText);
 
@@ -253,8 +267,96 @@ void ScoreGraphicsItemTest::testSetData()
              "Item text wasn't set in setData");
 }
 
-void ScoreGraphicsItemTest::testNotifyImplementation()
+void ScoreGraphicsItemTest::testNotifyImplementationForTitle()
 {
+    Area testScoreArea = Area::Header;
+    m_scoreItem->setScoreArea(testScoreArea);
+    testNotifyForDataRole(LP::ScoreTitle, testScoreArea);
+}
+
+void ScoreGraphicsItemTest::testNotifyImplementationForType()
+{
+    Area testScoreArea = Area::Header;
+    m_scoreItem->setScoreArea(testScoreArea);
+    testNotifyForDataRole(LP::ScoreType, testScoreArea);
+}
+
+void ScoreGraphicsItemTest::testNotifyImplementationForComposer()
+{
+    Area testScoreArea = Area::Header;
+    m_scoreItem->setScoreArea(testScoreArea);
+    testNotifyForDataRole(LP::ScoreComposer, testScoreArea);
+}
+
+void ScoreGraphicsItemTest::testNotifyImplementationForArranger()
+{
+    Area testScoreArea = Area::Header;
+    m_scoreItem->setScoreArea(testScoreArea);
+    testNotifyForDataRole(LP::ScoreArranger, testScoreArea);
+}
+
+void ScoreGraphicsItemTest::testNotifyImplementationForCopyright()
+{
+    Area testScoreArea = Area::Header;
+    m_scoreItem->setScoreArea(testScoreArea);
+    testNotifyForDataRole(LP::ScoreCopyright, testScoreArea);
+}
+
+void ScoreGraphicsItemTest::testNotifyImplementationForYear()
+{
+    Area testScoreArea = Area::Header;
+    m_scoreItem->setScoreArea(testScoreArea);
+    testNotifyForDataRole(LP::ScoreYear, testScoreArea);
+}
+
+void ScoreGraphicsItemTest::testNotifyForDataRole(LP::ScoreDataRole testDataRole, Area testScoreArea)
+{
+    ScoreSettings settings(testScoreArea, testDataRole);
+
+    settings.setValue(Enabled, true);
+    QVERIFY2(settings.value(Enabled).toBool() == true,
+             "Failed set enabled value to settings");
+
+    int testRow = 4;
+    if(settings.value(Row).toInt() == testRow)
+        testRow++;
+    settings.setValue(Row, testRow);
+    QVERIFY2(settings.value(Row).toInt() == testRow,
+             "Failed set row value in settings");
+
+    Settings::TextAlignment testAlignment = Settings::TextAlignment::Right;
+    if (settings.value(Alignment).value<Settings::TextAlignment>() == testAlignment)
+        testAlignment = Settings::TextAlignment::Left;
+    settings.setValue(Alignment, QVariant::fromValue<Settings::TextAlignment>(testAlignment));
+    QVERIFY2(settings.value(Alignment).value<Settings::TextAlignment>() == testAlignment,
+             "Failed set alignment value to settings");
+    QVERIFY2(m_scoreItem->rowAlignmentOfDataRole(testDataRole) == testAlignment,
+             "Test alignment wasn't updated from settings");
+
+    QFont testFont("Arial", 45, QFont::Light);
+    if (settings.value(Font).value<QFont>() == testFont)
+        testFont = QFont("Times New Roman", 33, QFont::Bold);
+    settings.setValue(Font, QVariant::fromValue<QFont>(testFont));
+    QVERIFY2(settings.value(Font).value<QFont>() == testFont,
+             "Failed set font value to settings");
+
+    QColor testColor("#483673");
+    if (settings.value(Color).value<QColor>() == testColor)
+        testColor = QColor("#863485");
+    settings.setValue(Color, QVariant::fromValue<QColor>(testColor));
+    QVERIFY2(settings.value(Color).value<QColor>() == testColor,
+             "Failed set color value to settings");
+
+    settings.sync();
+
+    QVERIFY2(m_scoreItem->hasItemPositionForDataRole(testDataRole),
+             "Item wasn't set position or it isn't enabled");
+    QVERIFY2(m_scoreItem->itemFont(testDataRole) == testFont,
+             "Font wasn't updated from settings");
+    QVERIFY2(m_scoreItem->itemColor(testDataRole) == testColor,
+             "Color wasn't updated from settings");
+    QVERIFY2(m_scoreItem->rowIndexOfDataRole(testDataRole) + 1 == testRow,
+             "Row wasn't updated from settings");
 }
 
 QTEST_MAIN(ScoreGraphicsItemTest)

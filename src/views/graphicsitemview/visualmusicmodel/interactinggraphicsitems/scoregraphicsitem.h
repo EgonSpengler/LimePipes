@@ -60,7 +60,7 @@ private:
     void removeItemPosition(LP::ScoreDataRole itemType);
     bool itemPositionIsInUse(int rowIndex, Settings::TextAlignment position);
 
-    int rowOfDataRole(LP::ScoreDataRole dataRole);
+    int rowIndexOfDataRole(LP::ScoreDataRole dataRole);
     Settings::TextAlignment rowAlignmentOfDataRole(LP::ScoreDataRole dataRole);
     bool hasItemPositionForDataRole(LP::ScoreDataRole itemType) const;
 

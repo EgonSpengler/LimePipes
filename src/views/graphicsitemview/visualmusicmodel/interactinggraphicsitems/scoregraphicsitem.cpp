@@ -226,7 +226,7 @@ bool ScoreGraphicsItem::itemPositionIsInUse(int rowIndex, Settings::TextAlignmen
     return false;
 }
 
-int ScoreGraphicsItem::rowOfDataRole(LP::ScoreDataRole dataRole)
+int ScoreGraphicsItem::rowIndexOfDataRole(LP::ScoreDataRole dataRole)
 {
     if (!m_itemPositions.contains(dataRole))
         return -1;
