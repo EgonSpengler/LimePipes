@@ -18,6 +18,7 @@ VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
         return newVisualScore();
         break;
     case VisualItem::VisualTuneItem:
+        return newVisualTune();
         break;
     case VisualItem::VisualPartItem:
         break;
@@ -46,5 +47,12 @@ VisualItem *VisualItemFactory::newVisualScore()
     newItem->appendRow(scoreHeaderItem);
     newItem->appendRow(scoreFooterItem);
 
+    return newItem;
+}
+
+VisualItem *VisualItemFactory::newVisualTune()
+{
+    VisualItem *newItem = new VisualItem(VisualItem::VisualTuneItem,
+                                         VisualItem::GraphicalRowType);
     return newItem;
 }

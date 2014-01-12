@@ -22,6 +22,7 @@ private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
     void testCreateScore();
+    void testCreateTune();
 
 private:
     VisualItemFactory *m_itemFactory;
@@ -52,6 +53,15 @@ void VisualItemFactoryTest::testCreateScore()
     QVERIFY2(headerItem->itemInteraction() != 0, "Factory hasn't set an item interaction on header graphics item");
     InteractingGraphicsItem *footerItem = score->rowGraphics().at(1);
     QVERIFY2(footerItem->itemInteraction() != 0, "Factory hasn't set an item interaction on footer graphics item");
+}
+
+void VisualItemFactoryTest::testCreateTune()
+{
+    VisualItem *tune = m_itemFactory->createVisualItem(VisualItem::VisualTuneItem);
+    QVERIFY2(tune != 0, "Factory returned no item");
+    QVERIFY2(tune->itemType() == VisualItem::VisualTuneItem, "Factory returned wrong item type");
+    QVERIFY2(tune->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
+    QVERIFY2(tune->rowGraphics().count() == 0, "Score item hasn't correct row items count");
 }
 
 QTEST_MAIN(VisualItemFactoryTest)

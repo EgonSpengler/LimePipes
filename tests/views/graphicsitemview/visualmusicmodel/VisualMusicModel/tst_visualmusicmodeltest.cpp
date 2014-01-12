@@ -66,7 +66,13 @@ void VisualMusicModelTest::testInsertScore()
     QString scoreTitle("Testscore");
     QString dataChangeTitle("New title");
     LP::ScoreDataRole testDataRole = LP::ScoreTitle;
+    QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
+
     QModelIndex scoreIndex = m_musicModel->appendScore(scoreTitle);
+
+    QVERIFY2(rowSequenceSpy.count() == 1,
+             "Row sequence changed signal wasn't emitted after inserting score");
+    rowSequenceSpy.clear();
 
     QVERIFY2(m_visualMusicModel->m_visualItemIndexes.count() == 1,
              "No visual item was inserted");
@@ -84,7 +90,6 @@ void VisualMusicModelTest::testInsertScore()
              "Data wasn't changed in AbstractItemModel");
 
     // Test row sequence change signal
-    QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
     testItem->setGraphicalType(VisualItem::GraphicalRowType);
     testItem->emitRowSequenceChanged();
     QVERIFY2(rowSequenceSpy.count() == 1, "Score row sequence changed signal wasn't emitted");
@@ -111,7 +116,28 @@ void VisualMusicModelTest::testInsertTune()
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+
+    QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
+
+    QModelIndex tuneIndex = m_musicModel->insertTuneIntoScore(0, scoreIndex,
+                                                              m_musicModel->instrumentNames().at(0));
+    QVERIFY2(rowSequenceSpy.count() == 0,
+             "Row sequence changed signal was emitted after inserting tune");
+
+    QVERIFY2(m_visualMusicModel->m_visualItemIndexes.keys().contains(tuneIndex),
+             "No visual item was inserted");
+
+    VisualItem *scoreItem = m_visualMusicModel->visualItemFromIndex(scoreIndex);
+    QVERIFY2(scoreItem->parent() == m_visualMusicModel,
+             "Score item has not visual music model as parent");
+
+    TestVisualItem *testItem = static_cast<TestVisualItem*>(scoreItem);
+    QVERIFY2(testItem, "Can't get testitem from item");
+
+    // Test row sequence change signal
+    testItem->setGraphicalType(VisualItem::GraphicalRowType);
+    testItem->emitRowSequenceChanged();
+    QVERIFY2(rowSequenceSpy.count() == 1, "Score row sequence changed signal wasn't emitted");
 }
 
 void VisualMusicModelTest::testInsertPart()
