@@ -23,6 +23,7 @@ private Q_SLOTS:
     void cleanupTestCase();
     void testCreateScore();
     void testCreateTune();
+    void testCreatePart();
 
 private:
     VisualItemFactory *m_itemFactory;
@@ -61,7 +62,16 @@ void VisualItemFactoryTest::testCreateTune()
     QVERIFY2(tune != 0, "Factory returned no item");
     QVERIFY2(tune->itemType() == VisualItem::VisualTuneItem, "Factory returned wrong item type");
     QVERIFY2(tune->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
-    QVERIFY2(tune->rowGraphics().count() == 0, "Score item hasn't correct row items count");
+    QVERIFY2(tune->rowGraphics().count() == 0, "Item hasn't correct row items count");
+}
+
+void VisualItemFactoryTest::testCreatePart()
+{
+    VisualItem *part = m_itemFactory->createVisualItem(VisualItem::VisualPartItem);
+    QVERIFY2(part != 0, "Factory returned no item");
+    QVERIFY2(part->itemType() == VisualItem::VisualPartItem, "Factory returned wrong item type");
+    QVERIFY2(part->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
+    QVERIFY2(part->rowGraphics().count() == 2, "Item hasn't correct row items count");
 }
 
 QTEST_MAIN(VisualItemFactoryTest)

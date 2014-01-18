@@ -17,6 +17,7 @@ set( lp_graphicsitemview_SOURCES
         visualmusicmodel/visualitemfactory.cpp
         visualmusicmodel/visualmusicmodel.cpp
         visualmusicmodel/visualitem.cpp
+        visualmusicmodel/visualpart.cpp
         visualmusicmodel/iteminteraction.cpp
         visualmusicmodel/rowiterator.cpp
         visualmusicmodel/sequentialtunesrowiterator.cpp
@@ -30,6 +31,7 @@ set( lp_graphicsitemview_SOURCES
         visualmusicmodel/interactinggraphicsitems/graphicitems/textwidget.cpp
         visualmusicmodel/interactinggraphicsitems/graphicitems/textrowwidget.cpp
         visualmusicmodel/interactinggraphicsitems/graphicitems/graphicstextitem.cpp
+        visualmusicmodel/interactinggraphicsitems/staffgraphicsitem.cpp
         )
 
 set( lp_graphicsitemview_UIs

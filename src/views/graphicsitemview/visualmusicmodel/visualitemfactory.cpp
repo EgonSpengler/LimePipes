@@ -10,18 +10,17 @@
 #include <common/settingdefines.h>
 #include "iteminteractions/scoreinteraction.h"
 #include "interactinggraphicsitems/scoregraphicsitem.h"
+#include "interactinggraphicsitems/staffgraphicsitem.h"
 
 VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
 {
     switch (type) {
     case VisualItem::VisualScoreItem:
         return newVisualScore();
-        break;
     case VisualItem::VisualTuneItem:
         return newVisualTune();
-        break;
     case VisualItem::VisualPartItem:
-        break;
+        return newVisualPart();
     case VisualItem::VisualMeasureItem:
         break;
     case VisualItem::VisualSymbolItem:
@@ -54,5 +53,18 @@ VisualItem *VisualItemFactory::newVisualTune()
 {
     VisualItem *newItem = new VisualItem(VisualItem::VisualTuneItem,
                                          VisualItem::GraphicalRowType);
+    return newItem;
+}
+
+VisualItem *VisualItemFactory::newVisualPart()
+{
+    VisualItem *newItem = new VisualItem(VisualItem::VisualPartItem,
+                                         VisualItem::GraphicalRowType);
+
+    StaffGraphicsItem *staff = new StaffGraphicsItem();
+    newItem->appendRow(staff);
+    staff = new StaffGraphicsItem();
+    newItem->appendRow(staff);
+
     return newItem;
 }

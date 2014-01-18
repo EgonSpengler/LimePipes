@@ -18,6 +18,27 @@ VisualItem *TestVisualItemFactory::createVisualItem(VisualItem::ItemType type)
     TestVisualItem *visualItem = new TestVisualItem();
     visualItem->setItemType(type);
     m_visualTestItems.append(visualItem);
+    switch (type) {
+    case VisualItem::VisualScoreItem:
+        visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+        break;
+    case VisualItem::VisualTuneItem:
+        visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+        break;
+    case VisualItem::VisualPartItem:
+        visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+        break;
+    case VisualItem::VisualMeasureItem:
+        visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+        break;
+    case VisualItem::VisualSymbolItem:
+        visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+        break;
+    case VisualItem::NoVisualItem:
+        visualItem->setGraphicalType(VisualItem::NoGraphicalType);
+        break;
+    }
+
     return visualItem;
 }
 

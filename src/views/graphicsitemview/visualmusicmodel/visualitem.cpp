@@ -84,3 +84,9 @@ void VisualItem::setData(const QVariant &value, int key)
         graphicsItem->setData(value, key);
     }
 }
+
+void VisualItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(childItem);
+}
