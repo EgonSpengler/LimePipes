@@ -19,6 +19,17 @@ public:
 
     void emitDataChanged(const QVariant& data, int dataRole);
     void emitRowSequenceChanged();
+
+    void insertChildItem(int index, VisualItem *childItem);
+
+    bool insertChildItemCalled() const { return m_insertChildItemCalled; }
+    VisualItem *childItemToInsert() const { return m_childItemToInsert; }
+    int rowOfChildToInsert() const { return m_rowOfChildToInsert; }
+
+private:
+    bool m_insertChildItemCalled;
+    VisualItem *m_childItemToInsert;
+    int m_rowOfChildToInsert;
 };
 
 #endif // TESTVISUALITEM_H

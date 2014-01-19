@@ -28,6 +28,7 @@ private Q_SLOTS:
     void testInsertPart();
     void testInsertMeasure();
     void testInsertSymbol();
+    void testInsertChildItemCallOnVisualItem();
 
 private:
     MusicModel *m_musicModel;

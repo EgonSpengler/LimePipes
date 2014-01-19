@@ -194,4 +194,28 @@ void VisualMusicModelTest::testInsertSymbol()
     m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
 }
 
+void VisualMusicModelTest::testInsertChildItemCallOnVisualItem()
+{
+    Q_ASSERT(m_musicModel->instrumentNames().count());
+    QString instrumentName = m_musicModel->instrumentNames().at(0);
+    QString scoreTitle("Testscore");
+    QModelIndex scoreIndex = m_musicModel->appendScore(scoreTitle);
+    // Append two tunes for row > 0
+    m_musicModel->appendTuneToScore(scoreIndex, instrumentName);
+    QModelIndex tuneIndex = m_musicModel->appendTuneToScore(scoreIndex, instrumentName);
+    Q_ASSERT(tuneIndex.isValid());
+
+    VisualItem *scoreItem = m_visualMusicModel->visualItemFromIndex(scoreIndex);
+    VisualItem *tuneItem = m_visualMusicModel->visualItemFromIndex(tuneIndex);
+    TestVisualItem *testScoreItem = static_cast<TestVisualItem*>(scoreItem);
+    QVERIFY2(testScoreItem, "Can't get testitem from score item");
+
+    QVERIFY2(testScoreItem->insertChildItemCalled() == true,
+             "Insert child item wasn't called");
+    QVERIFY2(testScoreItem->rowOfChildToInsert() == tuneIndex.row(),
+             "Insert child item was called with wrong row");
+    QVERIFY2(testScoreItem->childItemToInsert() == tuneItem,
+             "Insert child item was called with wrong child item");
+}
+
 QTEST_MAIN(VisualMusicModelTest)

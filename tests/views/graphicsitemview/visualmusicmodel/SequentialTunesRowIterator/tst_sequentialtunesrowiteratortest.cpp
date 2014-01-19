@@ -26,7 +26,7 @@ private Q_SLOTS:
     void testRowSequence();
 
 private:
-    SequentialTunesRowIterator *rowIterator;
+    SequentialTunesRowIterator *m_rowIterator;
 };
 
 SequentialTunesRowIteratorTest::SequentialTunesRowIteratorTest()
@@ -35,6 +35,7 @@ SequentialTunesRowIteratorTest::SequentialTunesRowIteratorTest()
 
 void SequentialTunesRowIteratorTest::init()
 {
+    Q_UNUSED(m_rowIterator)
 }
 
 void SequentialTunesRowIteratorTest::cleanup()

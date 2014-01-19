@@ -42,7 +42,7 @@ private slots:
 
 private:
     VisualItem *visualItemFromIndex(const QModelIndex& itemIndex) const;
-    void insertNewVisualItems(const QModelIndex& index, int start, int end, VisualItem::ItemType itemType);
+    void insertNewVisualItems(const QModelIndex& parent, int start, int end, VisualItem::ItemType itemType);
     void insertVisualItem(QPersistentModelIndex itemIndex, VisualItem *item);
     QAbstractItemModel *m_model;
     QHash<QPersistentModelIndex, VisualItem*> m_visualItemIndexes;

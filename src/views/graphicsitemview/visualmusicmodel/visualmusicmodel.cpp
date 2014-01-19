@@ -113,14 +113,14 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     }
 }
 
-void VisualMusicModel::insertNewVisualItems(const QModelIndex &index, int start, int end,
+void VisualMusicModel::insertNewVisualItems(const QModelIndex &parent, int start, int end,
                                             VisualItem::ItemType itemType)
 {
     if (!model())
         return;
 
     for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, index));
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, parent));
         if (itemIndex.isValid()) {
             VisualItem *visualItem = m_itemFactory->createVisualItem(itemType);
             if (visualItem == 0)
@@ -130,6 +130,15 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &index, int start,
             if (visualItem->graphicalType() == VisualItem::GraphicalRowType) {
                 itemRowSequenceChanged(visualItem);
             }
+
+            if (!parent.isValid())
+                continue;
+
+            VisualItem *parentItem = visualItemFromIndex(parent);
+            if (parentItem == 0)
+                continue;
+
+            parentItem->insertChildItem(i, visualItem);
         }
     }
 }
@@ -151,7 +160,7 @@ void VisualMusicModel::dataChanged(const QModelIndex &topLeft, const QModelIndex
         QModelIndex index = topLeft.sibling(i, 0);
         VisualItem *item = visualItemFromIndex(index);
         if (!item)
-            return;
+            continue;
 
         foreach (int role, dataRoles) {
             item->setData(m_model->data(topLeft, role), role);

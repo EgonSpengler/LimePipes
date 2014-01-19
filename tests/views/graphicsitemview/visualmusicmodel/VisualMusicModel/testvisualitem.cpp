@@ -9,7 +9,10 @@
 #include "testvisualitem.h"
 
 TestVisualItem::TestVisualItem(QObject *parent)
-    : VisualItem(parent)
+    : VisualItem(parent),
+      m_insertChildItemCalled(false),
+      m_rowOfChildToInsert(-1),
+      m_childItemToInsert(0)
 {
 }
 
@@ -21,4 +24,11 @@ void TestVisualItem::emitDataChanged(const QVariant &data, int dataRole)
 void TestVisualItem::emitRowSequenceChanged()
 {
     emit rowSequenceChanged();
+}
+
+void TestVisualItem::insertChildItem(int index, VisualItem *childItem)
+{
+    m_insertChildItemCalled = true;
+    m_rowOfChildToInsert = index;
+    m_childItemToInsert = childItem;
 }

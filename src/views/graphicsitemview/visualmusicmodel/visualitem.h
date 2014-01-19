@@ -55,7 +55,7 @@ public:
     QList<InteractingGraphicsItem*> rowGraphics() const;
 
     virtual void setData(const QVariant& value, int key);
-    virtual void insertChildItem(int index, InteractingGraphicsItem *childItem);
+    virtual void insertChildItem(int index, VisualItem *childItem);
 
 signals:
     void dataChanged(const QVariant& value, int dataRole);
