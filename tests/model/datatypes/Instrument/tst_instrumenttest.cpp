@@ -32,6 +32,7 @@ void InstrumentTest::testDefaultValues()
     QVERIFY2(m_instrument->name() == "No Instrument", "Empty instrument doesn't return No Instrument as name");
     QVERIFY2(m_instrument->pitchContext()->highestStaffPos() == 0, "Failed, default pitch context highest staff pos");
     QVERIFY2(m_instrument->pitchContext()->lowestStaffPos() == 0, "Failed, default pitch context lowest staff pos");
+    QVERIFY2(m_instrument->staffType() == StaffType::None, "Returned wrong default staff type");
 }
 
 void InstrumentTest::testQVariant()
@@ -65,6 +66,14 @@ void InstrumentTest::testPitchContext()
     m_instrument = InstrumentPtr(new TestInstrument(LP::BassDrum, "Bass drum", pitchContext));
     QVERIFY2(m_instrument->pitchContext()->pitchNames().count() == pitchContext->pitchNames().count(),
              "Failed setting pitch context in constructor");
+}
+
+void InstrumentTest::testSetGetStaffType()
+{
+    StaffType testStaffType = StaffType::Standard;
+    m_instrument->setStaffType(testStaffType);
+    QVERIFY2(m_instrument->staffType() == testStaffType,
+             "Failed setting/getting staff type");
 }
 
 QTEST_APPLESS_MAIN(InstrumentTest)

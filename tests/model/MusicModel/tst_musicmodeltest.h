@@ -20,7 +20,7 @@ public:
     MusicModelTest()
         : m_model(0)
     { qRegisterMetaType<QModelIndex>("QModelIndex"); }
-    
+
 private Q_SLOTS:
     void initTestcase();
     void cleanupTestcase();

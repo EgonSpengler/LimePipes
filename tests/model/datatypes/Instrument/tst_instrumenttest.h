@@ -15,11 +15,11 @@
 class InstrumentTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     InstrumentTest()
         : m_instrument(0) {}
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();
@@ -28,6 +28,7 @@ private Q_SLOTS:
     void testQVariant();
     void testCopyConstructor();
     void testPitchContext();
+    void testSetGetStaffType();
 
 private:
     class TestInstrument : public Instrument

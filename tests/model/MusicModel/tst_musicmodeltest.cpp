@@ -529,6 +529,9 @@ void MusicModelTest::testRemoveRows()
 
 void MusicModelTest::testSave()
 {
+#ifdef Q_OS_MAC
+    QSKIP("Test hangs up on QXmlSchema::load() und OS X");
+#endif
     QTemporaryFile tempFile;
     tempFile.open();
     QStack<QStringRef> musicItemTagStack;
@@ -634,6 +637,9 @@ QFileInfoList MusicModelTest::fileInfosForPatternList(const QStringList &pattern
 
 void MusicModelTest::testXsdFile()
 {
+#ifdef Q_OS_MAC
+    QSKIP("Test hangs up on QXmlSchema::load() und OS X");
+#endif
     QVERIFY2(QFile::exists(LIMEPIPES_XSD_FILE), "XSD file doesn't exist");
     QUrl xsdUrl = QUrl::fromLocalFile(LIMEPIPES_XSD_FILE);
     QXmlSchema schema;
@@ -643,6 +649,9 @@ void MusicModelTest::testXsdFile()
 
 void MusicModelTest::checkTestfilesAgainstXsd()
 {
+#ifdef Q_OS_MAC
+    QSKIP("Test hangs up on QXmlSchema::load() und OS X");
+#endif
 //    QSKIP("Checks require long time", SkipSingle);
 
     QUrl xsdUrl = QUrl::fromLocalFile(LIMEPIPES_XSD_FILE);

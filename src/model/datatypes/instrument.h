@@ -13,6 +13,7 @@
 #include <QString>
 #include <QSharedPointer>
 #include "pitchcontext.h"
+#include <common/defines.h>
 #include "../../interfaces/interfaceglobals.h"
 
 class Instrument
@@ -32,10 +33,14 @@ public:
     QStringList pitchNames() const { return m_pitchContext->pitchNames(); }
     virtual bool supportsSymbolType(int type) const = 0;
 
+    StaffType staffType() const;
+    void setStaffType(StaffType staffType);
+
 private:
     LP::InstrumentType m_type;
     QString m_name;
     PitchContextPtr m_pitchContext;
+    StaffType m_staffType;
 };
 
 class NullInstrument : public Instrument
