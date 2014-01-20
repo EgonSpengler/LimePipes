@@ -9,11 +9,14 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+#include <QMetaType>
+
 enum class StaffType
 {
     None,     //!< No lines, e.g. for vocals
     Standard, //!< The standard 5 line staff
-
 };
+
+Q_DECLARE_METATYPE(StaffType)
 
 #endif // DEFINES_H

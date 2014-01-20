@@ -10,11 +10,14 @@
 #define PART_H
 
 #include <musicitem.h>
+#include <common/defines.h>
 
 class Part : public MusicItem
 {
 public:
     explicit Part(MusicItem *parent=0);
+
+    void setStaffType(StaffType staffType);
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);

@@ -52,7 +52,7 @@ enum TuneDataRole {
 // Part
 enum PartDataRole {
     PartRepeat          = Qt::UserRole + 8,
-    StaffType           = Qt::UserRole + 9
+    PartStaffType       = Qt::UserRole + 9
 };
 
 // Measure

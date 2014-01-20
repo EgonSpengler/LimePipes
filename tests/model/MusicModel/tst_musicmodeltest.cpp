@@ -188,6 +188,11 @@ void MusicModelTest::testInsertPartIntoTune()
     QVERIFY2(m_model->rowCount(part) != 0, "No measures were inserted");
     QVERIFY2(m_model->rowCount(part) == measureCount, "Not the correct count of measures were inserted");
     QVERIFY2(part.data(LP::PartRepeat).toBool() == true, "Wrong part repeat value returned");
+
+    // Check if staff type was taken from tune's instrument and saved into part
+    InstrumentPtr instrument = tune.data(LP::TuneInstrument).value<InstrumentPtr>();
+    StaffType staffType = part.data(LP::PartStaffType).value<StaffType>();
+    QVERIFY2(instrument->staffType() == staffType, "Part has no staff type set");
 }
 
 void MusicModelTest::testAppendPartIntoTune()
@@ -200,6 +205,11 @@ void MusicModelTest::testAppendPartIntoTune()
     QVERIFY2(m_model->rowCount(part) != 0, "No measures were inserted");
     QVERIFY2(m_model->rowCount(part) == 12, "Not the correct count of measures were inserted");
     QVERIFY2(part.data(LP::PartRepeat).toBool() == true, "Wrong part repeat value returned");
+
+    // Check if staff type was taken from tune's instrument and saved into part
+    InstrumentPtr instrument = tune.data(LP::TuneInstrument).value<InstrumentPtr>();
+    StaffType staffType = part.data(LP::PartStaffType).value<StaffType>();
+    QVERIFY2(instrument->staffType() == staffType, "Part has no staff type set");
 }
 
 void MusicModelTest::testInsertMeasureIntoPart()

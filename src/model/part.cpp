@@ -15,6 +15,11 @@ Part::Part(MusicItem *parent)
     initData(QVariant::fromValue<bool>(false), LP::PartRepeat);
 }
 
+void Part::setStaffType(StaffType staffType)
+{
+    initData(QVariant::fromValue<StaffType>(staffType), LP::PartStaffType);
+}
+
 bool Part::itemSupportsWritingOfData(int role) const
 {
     if (role == LP::PartRepeat)

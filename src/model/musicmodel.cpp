@@ -414,7 +414,13 @@ QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &score
 QModelIndex MusicModel::insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat)
 {
     m_undoStack->beginMacro(tr("Insert part into tune"));
-    QModelIndex part = insertItem(tr("Insert part into tune"), tune, row, new Part());
+    InstrumentPtr instrument = data(tune, LP::TuneInstrument).value<InstrumentPtr>();
+    if (instrument->type() == LP::NoInstrument)
+        return QModelIndex();
+
+    Part *newPart = new Part();
+    newPart->setStaffType(instrument->staffType());
+    QModelIndex part = insertItem(tr("Insert part into tune"), tune, row, newPart);
     setData(part, QVariant::fromValue<bool>(withRepeat), LP::PartRepeat);
     for (int i=0; i<measures; i++) {
         insertItem(tr("Insert measure"), part, 0, new Measure());
