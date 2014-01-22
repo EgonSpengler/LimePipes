@@ -44,6 +44,8 @@ private:
     VisualItem *visualItemFromIndex(const QModelIndex& itemIndex) const;
     void insertNewVisualItems(const QModelIndex& parent, int start, int end, VisualItem::ItemType itemType);
     void insertVisualItem(QPersistentModelIndex itemIndex, VisualItem *item);
+    void initVisualItemData(VisualItem *visualItem, const QPersistentModelIndex &itemIndex);
+    void setVisualItemDataFromModel(VisualItem *visualItem, const QPersistentModelIndex &itemIndex, int role);
     QAbstractItemModel *m_model;
     QHash<QPersistentModelIndex, VisualItem*> m_visualItemIndexes;
     AbstractVisualItemFactory *m_itemFactory;

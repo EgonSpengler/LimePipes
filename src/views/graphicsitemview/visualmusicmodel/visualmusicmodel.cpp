@@ -131,6 +131,9 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parent, int start
                 itemRowSequenceChanged(visualItem);
             }
 
+            initVisualItemData(visualItem, itemIndex);
+
+            // Insert into parent Item
             if (!parent.isValid())
                 continue;
 
@@ -140,6 +143,38 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parent, int start
 
             parentItem->insertChildItem(i, visualItem);
         }
+    }
+}
+
+void VisualMusicModel::initVisualItemData(VisualItem *visualItem, const QPersistentModelIndex& itemIndex)
+{
+    switch (visualItem->itemType()) {
+    case VisualItem::VisualScoreItem:
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreTitle);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreType);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreComposer);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreArranger);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreCopyright);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreYear);
+        break;
+    case VisualItem::VisualTuneItem:
+        break;
+    case VisualItem::VisualPartItem:
+        break;
+    case VisualItem::VisualMeasureItem:
+        break;
+    case VisualItem::VisualSymbolItem:
+        break;
+    case VisualItem::NoVisualItem:
+        break;
+    }
+}
+
+void VisualMusicModel::setVisualItemDataFromModel(VisualItem *visualItem, const QPersistentModelIndex& itemIndex, int role)
+{
+    QVariant data = m_model->data(itemIndex, role);
+    if (data.isValid()) {
+        visualItem->setData(data, role);
     }
 }
 

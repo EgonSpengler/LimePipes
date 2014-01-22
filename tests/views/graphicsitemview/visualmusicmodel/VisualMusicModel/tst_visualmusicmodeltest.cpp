@@ -86,6 +86,12 @@ void VisualMusicModelTest::testInsertScore()
     TestVisualItem *testItem = static_cast<TestVisualItem*>(scoreItem);
     QVERIFY2(testItem, "Can't get testitem from item");
 
+    // Test title was set
+    QVERIFY2(testItem->hasData(LP::ScoreTitle),
+             "Title of score item wasn't set on creation");
+    QVERIFY2(testItem->data(LP::ScoreTitle).toString() == scoreTitle,
+             "Wrong title was set");
+
     // Test data change signal -> abstract item model
     testItem->emitDataChanged(dataChangeTitle, testDataRole);
     QVERIFY2(m_musicModel->data(scoreIndex, testDataRole).toString() == dataChangeTitle,
@@ -110,7 +116,7 @@ void VisualMusicModelTest::testScoreDataChanged()
     m_musicModel->setData(scoreIndex, testData, LP::ScoreTitle);
 
     QVERIFY2(interactingItemSpy.count() == 1,
-             "Data changed wasn't called on visual item");
+             "Data changed wasn't called on interacting graphics item");
 }
 
 void VisualMusicModelTest::testInsertTune()

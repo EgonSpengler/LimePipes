@@ -11,8 +11,8 @@
 TestVisualItem::TestVisualItem(QObject *parent)
     : VisualItem(parent),
       m_insertChildItemCalled(false),
-      m_rowOfChildToInsert(-1),
-      m_childItemToInsert(0)
+      m_childItemToInsert(0),
+      m_rowOfChildToInsert(-1)
 {
 }
 
@@ -26,8 +26,26 @@ void TestVisualItem::emitRowSequenceChanged()
     emit rowSequenceChanged();
 }
 
+void TestVisualItem::setData(const QVariant &value, int key)
+{
+    VisualItem::setData(value, key);
+    m_data.insert(key, value);
+}
+
+bool TestVisualItem::hasData(int key)
+{
+    return m_data.contains(key);
+}
+
+QVariant TestVisualItem::data(int key)
+{
+    return m_data.value(key);
+}
+
 void TestVisualItem::insertChildItem(int index, VisualItem *childItem)
 {
+    VisualItem::insertChildItem(index, childItem);
+
     m_insertChildItemCalled = true;
     m_rowOfChildToInsert = index;
     m_childItemToInsert = childItem;
