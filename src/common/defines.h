@@ -13,8 +13,9 @@
 
 enum class StaffType
 {
-    None,     //!< No lines, e.g. for vocals
-    Standard, //!< The standard 5 line staff
+    None,       //!< No lines, e.g. for vocals
+    Standard,   //!< The standard 5 line staff
+    Unpitched   //!< A one-line-staff for unpitched instruments
 };
 
 Q_DECLARE_METATYPE(StaffType)

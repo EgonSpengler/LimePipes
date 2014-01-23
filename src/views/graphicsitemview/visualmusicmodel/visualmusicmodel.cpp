@@ -160,6 +160,8 @@ void VisualMusicModel::initVisualItemData(VisualItem *visualItem, const QPersist
     case VisualItem::VisualTuneItem:
         break;
     case VisualItem::VisualPartItem:
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::PartStaffType);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::PartRepeat);
         break;
     case VisualItem::VisualMeasureItem:
         break;

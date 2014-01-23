@@ -660,7 +660,7 @@ void MusicModelTest::checkTestfilesAgainstXsd()
 #ifdef Q_OS_MAC
     QSKIP("Test hangs up on QXmlSchema::load() und OS X");
 #endif
-    QSKIP("Checks require long time", SkipSingle);
+//    QSKIP("Checks require long time", SkipSingle);
 
     QUrl xsdUrl = QUrl::fromLocalFile(LIMEPIPES_XSD_FILE);
     QXmlSchema schema;

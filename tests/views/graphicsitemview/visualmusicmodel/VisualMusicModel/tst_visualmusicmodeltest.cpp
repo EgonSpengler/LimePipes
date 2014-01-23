@@ -151,12 +151,18 @@ void VisualMusicModelTest::testInsertTune()
 void VisualMusicModelTest::testInsertPart()
 {
     Q_ASSERT(m_musicModel->instrumentNames().count());
+    QString testInstrumentName(m_musicModel->instrumentNames().at(0));
+
+    bool partRepeatData = true;
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, testInstrumentName);
+
+    InstrumentPtr instrument = m_musicModel->data(tuneIndex, LP::TuneInstrument).value<InstrumentPtr>();
+    Q_ASSERT(instrument->type() != LP::NoInstrument);
 
     QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
-    QModelIndex partIndex = m_musicModel->insertPartIntoTune(0, tuneIndex, 0);
+    QModelIndex partIndex = m_musicModel->insertPartIntoTune(0, tuneIndex, 0, partRepeatData);
     QVERIFY2(rowSequenceSpy.count() == 1,
              "Row sequence changed wasn't emitted after inserting part");
     rowSequenceSpy.clear();
@@ -170,6 +176,15 @@ void VisualMusicModelTest::testInsertPart()
 
     TestVisualItem *testItem = static_cast<TestVisualItem*>(partItem);
     QVERIFY2(testItem, "Can't get testitem from item");
+
+    QVERIFY2(testItem->hasData(LP::PartStaffType),
+             "Staff type wasn't set in VisualItem");
+    QVERIFY2(testItem->data(LP::PartStaffType).value<StaffType>() == instrument->staffType(),
+             "VisualItem has wrong staff type");
+    QVERIFY2(testItem->hasData(LP::PartRepeat),
+             "Repeat data wasn't set");
+    QVERIFY2(testItem->data(LP::PartRepeat).toBool() == partRepeatData,
+             "Repeat wasn't set in new VisualPart");
 
     // Test row sequence change signal
     testItem->emitRowSequenceChanged();
