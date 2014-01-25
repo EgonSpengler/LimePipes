@@ -50,8 +50,9 @@ int VisualPart::staffCount() const
 
 void VisualPart::appendStaff()
 {
-    m_staffItems.append(new StaffGraphicsItem());
-    emit rowSequenceChanged();
+    StaffGraphicsItem *staffItem = new StaffGraphicsItem;
+    m_staffItems.append(staffItem);
+    appendRow(staffItem);
 }
 
 void VisualPart::removeLastStaff()
@@ -60,9 +61,8 @@ void VisualPart::removeLastStaff()
         return;
 
     StaffGraphicsItem *staff = m_staffItems.takeLast();
+    removeLastRow();
     delete staff;
-
-    emit rowSequenceChanged();
 }
 
 void VisualPart::setData(const QVariant &value, int key)

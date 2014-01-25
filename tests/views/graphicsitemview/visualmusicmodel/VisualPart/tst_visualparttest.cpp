@@ -94,8 +94,11 @@ void VisualPartTest::testSetDataStaffType()
 
 void VisualPartTest::testDefaultStaffCount()
 {
-    QVERIFY2(m_visualPart->staffCount() == 1,
+    int defaultCount = 1;
+    QVERIFY2(m_visualPart->staffCount() == defaultCount,
              "Wrong default staff count");
+    QVERIFY2(m_visualPart->rowGraphics().count() == defaultCount,
+             "Wrong default row graphics count");
 }
 
 void VisualPartTest::testAppendStaffItem()
@@ -116,6 +119,7 @@ void VisualPartTest::testRemoveLastStaffItem()
     QSignalSpy spy(m_visualPart, SIGNAL(rowSequenceChanged()));
     m_visualPart->removeLastStaff();
     QVERIFY2(m_visualPart->staffCount() == 1, "Last staff wasn't removed");
+    QVERIFY2(m_visualPart->rowGraphics().count() == 1, "Last row graphics item wasn't removed");
     QVERIFY2(spy.count() == 1, "Row sequence changed signal wasn't emitted");
 }
 

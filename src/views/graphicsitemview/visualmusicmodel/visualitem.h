@@ -52,6 +52,7 @@ public:
     InteractingGraphicsItem *inlineGraphic() const;
 
     void appendRow(InteractingGraphicsItem *graphicsItem);
+    void removeLastRow();
     QList<InteractingGraphicsItem*> rowGraphics() const;
 
     virtual void setData(const QVariant& value, int key);
@@ -63,6 +64,7 @@ signals:
 
 private:
     void connectItemInteraction(ItemInteraction *itemInteraction);
+    void disconnectItemInteraction(ItemInteraction *itemInteraction);
     ItemType m_itemType;
     GraphicalType m_graphicalItemType;
     QList<InteractingGraphicsItem*> m_graphicsItems;

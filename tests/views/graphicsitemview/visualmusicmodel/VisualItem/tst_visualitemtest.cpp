@@ -16,10 +16,10 @@
 class VisualItemTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     VisualItemTest();
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();
@@ -31,7 +31,10 @@ private Q_SLOTS:
     void testSetGetItemType();
     void testSetGetGraphicalType();
     void testInlineGraphic();
-    void testRowGraphics();
+    void testAppendRowGraphics();
+    void testAppendRowSequenceChangedSignal();
+    void testRemoveLastRowGraphics();
+    void testRemoveLastRowSequenceChangedSignal();
     void testSetInlineGraphicDataChangedSignal();
     void testAppendRowDataChangedSignal();
     void testSetDataInlineGraphic();
@@ -140,9 +143,12 @@ void VisualItemTest::testInlineGraphic()
     Q_ASSERT(m_visualItem->inlineGraphic() == 0);
     m_visualItem->setInlineGraphic(graphicsItem);
     QVERIFY2(m_visualItem->inlineGraphic() == 0, "Failure, setting inline graphic in no graphical item type was successful");
+
+    delete graphicsItem;
+    delete graphicsItem2;
 }
 
-void VisualItemTest::testRowGraphics()
+void VisualItemTest::testAppendRowGraphics()
 {
     InteractingGraphicsItem *graphicsItem  = new InteractingGraphicsItem();
     InteractingGraphicsItem *graphicsItem2 = new InteractingGraphicsItem();
@@ -177,6 +183,59 @@ void VisualItemTest::testRowGraphics()
     Q_ASSERT(m_visualItem->rowGraphics().count() == 0);
     m_visualItem->appendRow(graphicsItem);
     QVERIFY2(m_visualItem->rowGraphics().count() == 0, "Failure, appending row graphic on no graphical item was successful");
+
+    delete graphicsItem;
+    delete graphicsItem2;
+}
+
+void VisualItemTest::testAppendRowSequenceChangedSignal()
+{
+    QSignalSpy spy(m_visualItem, SIGNAL(rowSequenceChanged()));
+    m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+    InteractingGraphicsItem *graphicsItem = new InteractingGraphicsItem;
+    m_visualItem->appendRow(graphicsItem);
+    Q_ASSERT(m_visualItem->rowGraphics().count() == 1);
+
+    QVERIFY2(spy.count() == 1, "Row sequence changed wasn't emitted");
+}
+
+void VisualItemTest::testRemoveLastRowGraphics()
+{
+    TestInteractingItem *graphicsItem  = new TestInteractingItem();
+    TestInteraction *interaction = new TestInteraction;
+    graphicsItem->setItemInteraction(interaction);
+    TestInteractingItem *graphicsItem2 = new TestInteractingItem();
+    TestInteraction *interaction2 = new TestInteraction;
+    graphicsItem2->setItemInteraction(interaction2);
+    m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+
+    // Should not crash when no row item added
+    m_visualItem->removeLastRow();
+
+    // Append items
+    m_visualItem->appendRow(graphicsItem);
+    m_visualItem->appendRow(graphicsItem2);
+    Q_ASSERT(m_visualItem->rowGraphics().count() == 2);
+
+    m_visualItem->removeLastRow();
+    QSignalSpy dataChangedSpy(m_visualItem, SIGNAL(dataChanged(QVariant,int)));
+    interaction2->emitDataChanged("test data", Qt::DisplayRole);
+    QVERIFY2(dataChangedSpy.count() == 0, "ItemInteraction wasn't disconnected from data changed");
+
+    delete graphicsItem;
+    delete graphicsItem2;
+}
+
+void VisualItemTest::testRemoveLastRowSequenceChangedSignal()
+{
+    m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+    InteractingGraphicsItem *graphicsItem = new InteractingGraphicsItem;
+    m_visualItem->appendRow(graphicsItem);
+    Q_ASSERT(m_visualItem->rowGraphics().count() == 1);
+
+    QSignalSpy spy(m_visualItem, SIGNAL(rowSequenceChanged()));
+    m_visualItem->removeLastRow();
+    QVERIFY2(spy.count() == 1, "Row sequence changed wasn't emitted");
 }
 
 void VisualItemTest::testSetInlineGraphicDataChangedSignal()

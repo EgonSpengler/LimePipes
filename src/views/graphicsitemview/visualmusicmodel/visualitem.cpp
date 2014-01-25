@@ -54,6 +54,15 @@ void VisualItem::connectItemInteraction(ItemInteraction *itemInteraction)
             this, &VisualItem::dataChanged);
 }
 
+void VisualItem::disconnectItemInteraction(ItemInteraction *itemInteraction)
+{
+    if (itemInteraction == 0)
+        return;
+
+    disconnect(itemInteraction, &ItemInteraction::dataChanged,
+               this, &VisualItem::dataChanged);
+}
+
 InteractingGraphicsItem *VisualItem::inlineGraphic() const
 {
     if (!m_graphicsItems.count() == 1)
@@ -71,6 +80,22 @@ void VisualItem::appendRow(InteractingGraphicsItem *graphicsItem)
 
     connectItemInteraction(graphicsItem->itemInteraction());
     m_graphicsItems.append(graphicsItem);
+
+    emit rowSequenceChanged();
+}
+
+void VisualItem::removeLastRow()
+{
+    if (graphicalType() != GraphicalRowType)
+        return;
+
+    if (m_graphicsItems.isEmpty())
+        return;
+
+    InteractingGraphicsItem *graphicsItem = m_graphicsItems.takeLast();
+    disconnectItemInteraction(graphicsItem->itemInteraction());
+
+    emit rowSequenceChanged();
 }
 
 QList<InteractingGraphicsItem *> VisualItem::rowGraphics() const
