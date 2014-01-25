@@ -33,6 +33,7 @@ private Q_SLOTS:
     void testInlineGraphic();
     void testAppendRowGraphics();
     void testAppendRowSequenceChangedSignal();
+    void testRowCount();
     void testRemoveLastRowGraphics();
     void testRemoveLastRowSequenceChangedSignal();
     void testSetInlineGraphicDataChangedSignal();
@@ -92,7 +93,7 @@ void VisualItemTest::testDefaultInlineGraphic()
 
 void VisualItemTest::testDefaultRowGraphics()
 {
-    QVERIFY2(m_visualItem->rowGraphics().isEmpty(), "Default row graphics is not empty");
+    QVERIFY2(m_visualItem->rowCount() == 0, "Default row graphics is not empty");
 }
 
 void VisualItemTest::testSetGetItemType()
@@ -154,35 +155,35 @@ void VisualItemTest::testAppendRowGraphics()
     InteractingGraphicsItem *graphicsItem2 = new InteractingGraphicsItem();
     m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
 
-    QVERIFY2(m_visualItem->rowGraphics().count() == 0, "There is already at least one row item");
+    QVERIFY2(m_visualItem->rowCount() == 0, "There is already at least one row item");
 
     // Set item
     m_visualItem->appendRow(graphicsItem);
-    QVERIFY2(m_visualItem->rowGraphics().count() == 1, "Failed appending row graphic");
+    QVERIFY2(m_visualItem->rowCount() == 1, "Failed appending row graphic");
 
     // Append second item => order must fit
     m_visualItem->appendRow(graphicsItem2);
-    QVERIFY2(m_visualItem->rowGraphics().count() == 2, "Failed appending second row graphic");
+    QVERIFY2(m_visualItem->rowCount() == 2, "Failed appending second row graphic");
     QVERIFY2(m_visualItem->rowGraphics().at(0) == graphicsItem, "Second row graphics was prepended");
 
     // Append 0 item
     m_visualItem->appendRow(0);
-    QVERIFY2(m_visualItem->rowGraphics().count() == 2, "Failure, appending 0 pointer was successful");
+    QVERIFY2(m_visualItem->rowCount() == 2, "Failure, appending 0 pointer was successful");
 
     // Test on inline graphic, should always return empty row graphics list
     delete m_visualItem;
     m_visualItem = new VisualItem();
     m_visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
 
-    Q_ASSERT(m_visualItem->rowGraphics().count() == 0);
+    Q_ASSERT(m_visualItem->rowCount() == 0);
     m_visualItem->appendRow(graphicsItem);
-    QVERIFY2(m_visualItem->rowGraphics().count() == 0, "Failure, appending row graphic on inline item was successful");
+    QVERIFY2(m_visualItem->rowCount() == 0, "Failure, appending row graphic on inline item was successful");
 
     // Test on no graphical type should also return empty list
     m_visualItem->setGraphicalType(VisualItem::NoGraphicalType);
-    Q_ASSERT(m_visualItem->rowGraphics().count() == 0);
+    Q_ASSERT(m_visualItem->rowCount() == 0);
     m_visualItem->appendRow(graphicsItem);
-    QVERIFY2(m_visualItem->rowGraphics().count() == 0, "Failure, appending row graphic on no graphical item was successful");
+    QVERIFY2(m_visualItem->rowCount() == 0, "Failure, appending row graphic on no graphical item was successful");
 
     delete graphicsItem;
     delete graphicsItem2;
@@ -194,9 +195,30 @@ void VisualItemTest::testAppendRowSequenceChangedSignal()
     m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
     InteractingGraphicsItem *graphicsItem = new InteractingGraphicsItem;
     m_visualItem->appendRow(graphicsItem);
-    Q_ASSERT(m_visualItem->rowGraphics().count() == 1);
+    Q_ASSERT(m_visualItem->rowCount() == 1);
 
     QVERIFY2(spy.count() == 1, "Row sequence changed wasn't emitted");
+
+    delete graphicsItem;
+}
+
+void VisualItemTest::testRowCount()
+{
+    m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
+    QVERIFY2(m_visualItem->rowCount() == 0, "Wrong default row count");
+    InteractingGraphicsItem *graphicsItem = new InteractingGraphicsItem;
+    m_visualItem->appendRow(graphicsItem);
+
+    QVERIFY2(m_visualItem->rowCount() == 1, "Wrong row count");
+
+    delete m_visualItem;
+    m_visualItem = new VisualItem;
+    m_visualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+    m_visualItem->setInlineGraphic(graphicsItem);
+
+    QVERIFY2(m_visualItem->rowCount() == 0,
+             "Row count for inline items must be always 0");
+    delete graphicsItem;
 }
 
 void VisualItemTest::testRemoveLastRowGraphics()
@@ -215,7 +237,7 @@ void VisualItemTest::testRemoveLastRowGraphics()
     // Append items
     m_visualItem->appendRow(graphicsItem);
     m_visualItem->appendRow(graphicsItem2);
-    Q_ASSERT(m_visualItem->rowGraphics().count() == 2);
+    Q_ASSERT(m_visualItem->rowCount() == 2);
 
     m_visualItem->removeLastRow();
     QSignalSpy dataChangedSpy(m_visualItem, SIGNAL(dataChanged(QVariant,int)));
@@ -231,7 +253,7 @@ void VisualItemTest::testRemoveLastRowSequenceChangedSignal()
     m_visualItem->setGraphicalType(VisualItem::GraphicalRowType);
     InteractingGraphicsItem *graphicsItem = new InteractingGraphicsItem;
     m_visualItem->appendRow(graphicsItem);
-    Q_ASSERT(m_visualItem->rowGraphics().count() == 1);
+    Q_ASSERT(m_visualItem->rowCount() == 1);
 
     QSignalSpy spy(m_visualItem, SIGNAL(rowSequenceChanged()));
     m_visualItem->removeLastRow();

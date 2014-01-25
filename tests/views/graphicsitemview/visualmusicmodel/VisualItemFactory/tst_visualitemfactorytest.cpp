@@ -49,7 +49,7 @@ void VisualItemFactoryTest::testCreateScore()
     QVERIFY2(score != 0, "Factory returned no score");
     QVERIFY2(score->itemType() == VisualItem::VisualScoreItem, "Factory returned wrong item type");
     QVERIFY2(score->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
-    QVERIFY2(score->rowGraphics().count() == 2, "Score item hasn't 2 row items");
+    QVERIFY2(score->rowCount() == 2, "Score item hasn't 2 row items");
     InteractingGraphicsItem *headerItem = score->rowGraphics().at(0);
     QVERIFY2(headerItem->itemInteraction() != 0, "Factory hasn't set an item interaction on header graphics item");
     InteractingGraphicsItem *footerItem = score->rowGraphics().at(1);
@@ -62,7 +62,7 @@ void VisualItemFactoryTest::testCreateTune()
     QVERIFY2(tune != 0, "Factory returned no item");
     QVERIFY2(tune->itemType() == VisualItem::VisualTuneItem, "Factory returned wrong item type");
     QVERIFY2(tune->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
-    QVERIFY2(tune->rowGraphics().count() == 0, "Item hasn't correct row items count");
+    QVERIFY2(tune->rowCount() == 0, "Item hasn't correct row items count");
 }
 
 void VisualItemFactoryTest::testCreatePart()
@@ -71,7 +71,7 @@ void VisualItemFactoryTest::testCreatePart()
     QVERIFY2(part != 0, "Factory returned no item");
     QVERIFY2(part->itemType() == VisualItem::VisualPartItem, "Factory returned wrong item type");
     QVERIFY2(part->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
-    QVERIFY2(part->rowGraphics().count() == 2, "Item hasn't correct row items count");
+    QVERIFY2(part->rowCount() == 2, "Item hasn't correct row items count");
 }
 
 QTEST_MAIN(VisualItemFactoryTest)

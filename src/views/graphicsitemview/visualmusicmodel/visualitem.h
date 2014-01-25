@@ -54,6 +54,7 @@ public:
     void appendRow(InteractingGraphicsItem *graphicsItem);
     void removeLastRow();
     QList<InteractingGraphicsItem*> rowGraphics() const;
+    int rowCount() const;
 
     virtual void setData(const QVariant& value, int key);
     virtual void insertChildItem(int index, VisualItem *childItem);

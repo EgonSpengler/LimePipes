@@ -103,6 +103,14 @@ QList<InteractingGraphicsItem *> VisualItem::rowGraphics() const
     return m_graphicsItems;
 }
 
+int VisualItem::rowCount() const
+{
+    if (graphicalType() == GraphicalInlineType)
+        return 0;
+
+    return m_graphicsItems.count();
+}
+
 void VisualItem::setData(const QVariant &value, int key)
 {
     foreach (InteractingGraphicsItem *graphicsItem, m_graphicsItems) {
