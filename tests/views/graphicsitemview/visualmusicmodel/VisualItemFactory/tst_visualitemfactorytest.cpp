@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest>
 #include <graphicsitemview/visualmusicmodel/visualitemfactory.h>
+#include <graphicsitemview/visualmusicmodel/visualpart.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.h>
 
 class VisualItemFactoryTest : public QObject
@@ -71,7 +72,6 @@ void VisualItemFactoryTest::testCreatePart()
     QVERIFY2(part != 0, "Factory returned no item");
     QVERIFY2(part->itemType() == VisualItem::VisualPartItem, "Factory returned wrong item type");
     QVERIFY2(part->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
-    QVERIFY2(part->rowCount() == 2, "Item hasn't correct row items count");
 }
 
 QTEST_MAIN(VisualItemFactoryTest)

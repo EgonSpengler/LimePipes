@@ -23,6 +23,8 @@ private Q_SLOTS:
     void cleanup();
     void testDefaultStaffType();
     void testSetGetStaffType();
+    void testSetGetLineHeight();
+    void testSetGetLineWidth();
 
 private:
     StaffGraphicsItem *m_graphicsItem;
@@ -56,6 +58,43 @@ void StaffGraphicsItemTest::testSetGetStaffType()
 
     QVERIFY2(m_graphicsItem->staffType() == testType,
              "Failed setting/getting staff type");
+}
+
+void StaffGraphicsItemTest::testSetGetLineHeight()
+{
+    int testLineHeight = 20;
+    QVERIFY2(m_graphicsItem->lineHeight() == 0,
+             "Default line height is not 0");
+    m_graphicsItem->setLineHeight(testLineHeight);
+    QVERIFY2(m_graphicsItem->lineHeight() == testLineHeight,
+             "Failed getting line height");
+
+    m_graphicsItem->setLineHeight(0);
+    QVERIFY2(m_graphicsItem->lineHeight() != 0,
+             "Line height can't be 0");
+
+    m_graphicsItem->setLineHeight(-12);
+    QVERIFY2(m_graphicsItem->lineHeight() != -12,
+             "Line height can't be less than 0");
+}
+
+void StaffGraphicsItemTest::testSetGetLineWidth()
+{
+    int testLineWidth = 2;
+    QVERIFY2(m_graphicsItem->lineWidth() == 1,
+             "Wrong default line width");
+
+    m_graphicsItem->setLineWidth(testLineWidth);
+    QVERIFY2(m_graphicsItem->lineWidth() == testLineWidth,
+             "Failed setting line width");
+
+    m_graphicsItem->setLineWidth(0);
+    QVERIFY2(m_graphicsItem->lineWidth() != 0,
+             "Line height can't be 0");
+
+    m_graphicsItem->setLineWidth(-12);
+    QVERIFY2(m_graphicsItem->lineWidth() != -12,
+             "Line height can't be less than 0");
 }
 
 QTEST_MAIN(StaffGraphicsItemTest)

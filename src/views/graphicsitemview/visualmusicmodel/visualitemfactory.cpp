@@ -11,6 +11,7 @@
 #include "iteminteractions/scoreinteraction.h"
 #include "interactinggraphicsitems/scoregraphicsitem.h"
 #include "interactinggraphicsitems/staffgraphicsitem.h"
+#include "visualpart.h"
 
 VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
 {
@@ -58,13 +59,7 @@ VisualItem *VisualItemFactory::newVisualTune()
 
 VisualItem *VisualItemFactory::newVisualPart()
 {
-    VisualItem *newItem = new VisualItem(VisualItem::VisualPartItem,
-                                         VisualItem::GraphicalRowType);
-
-    StaffGraphicsItem *staff = new StaffGraphicsItem();
-    newItem->appendRow(staff);
-    staff = new StaffGraphicsItem();
-    newItem->appendRow(staff);
+    VisualItem *newItem = new VisualPart();
 
     return newItem;
 }

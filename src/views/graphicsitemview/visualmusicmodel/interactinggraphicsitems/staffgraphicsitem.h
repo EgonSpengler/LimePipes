@@ -22,8 +22,16 @@ public:
     StaffType staffType() const;
     void setStaffType(StaffType type);
 
+    int lineHeight() const;
+    void setLineHeight(int lineHeight);
+
+    int lineWidth() const;
+    void setLineWidth(int width);
+
 private:
     StaffType m_staffType;
+    int m_lineHeight;
+    int m_lineWidth;
 };
 
 #endif // STAFFGRAPHICSITEM_H

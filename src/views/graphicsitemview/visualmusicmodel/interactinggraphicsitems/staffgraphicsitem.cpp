@@ -10,7 +10,9 @@
 
 StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
-      m_staffType(StaffType::None)
+      m_staffType(StaffType::None),
+      m_lineHeight(0),
+      m_lineWidth(1)
 {
 }
 
@@ -22,4 +24,30 @@ StaffType StaffGraphicsItem::staffType() const
 void StaffGraphicsItem::setStaffType(StaffType type)
 {
     m_staffType = type;
+}
+
+int StaffGraphicsItem::lineHeight() const
+{
+    return m_lineHeight;
+}
+
+void StaffGraphicsItem::setLineHeight(int lineHeight)
+{
+    if (lineHeight < 1)
+        return;
+
+    m_lineHeight = lineHeight;
+}
+
+int StaffGraphicsItem::lineWidth() const
+{
+    return m_lineWidth;
+}
+
+void StaffGraphicsItem::setLineWidth(int width)
+{
+    if (width < 1)
+        return;
+
+    m_lineWidth = width;
 }
