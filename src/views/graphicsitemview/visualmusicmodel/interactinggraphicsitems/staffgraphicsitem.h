@@ -23,15 +23,17 @@ public:
     void setStaffType(StaffType type);
 
     int lineHeight() const;
-    void setLineHeight(int lineHeight);
+    void setLineHeight(qreal lineHeight);
 
     int lineWidth() const;
-    void setLineWidth(int width);
+    void setLineWidth(qreal width);
 
 private:
+    void setSizeHintsForStaffType(StaffType type);
+    void setWindowFrameRectForLineWidth(qreal width);
     StaffType m_staffType;
-    int m_lineHeight;
-    int m_lineWidth;
+    qreal m_lineHeight;
+    qreal m_lineWidth;
 };
 
 #endif // STAFFGRAPHICSITEM_H

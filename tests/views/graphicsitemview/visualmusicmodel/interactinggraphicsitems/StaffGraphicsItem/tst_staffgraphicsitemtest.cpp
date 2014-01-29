@@ -25,6 +25,9 @@ private Q_SLOTS:
     void testSetGetStaffType();
     void testSetGetLineHeight();
     void testSetGetLineWidth();
+    void testSizePolicy();
+    void testStandardStaffSize();
+    void testStandardStaffBoundingRect();
 
 private:
     StaffGraphicsItem *m_graphicsItem;
@@ -95,6 +98,58 @@ void StaffGraphicsItemTest::testSetGetLineWidth()
     m_graphicsItem->setLineWidth(-12);
     QVERIFY2(m_graphicsItem->lineWidth() != -12,
              "Line height can't be less than 0");
+}
+
+void StaffGraphicsItemTest::testSizePolicy()
+{
+    QVERIFY2(m_graphicsItem->sizePolicy().verticalPolicy() == QSizePolicy::Fixed,
+             "Wrong vertical size policy");
+    QVERIFY2(m_graphicsItem->sizePolicy().horizontalPolicy() == QSizePolicy::MinimumExpanding,
+             "Wrong horizontal size policy");
+}
+
+void StaffGraphicsItemTest::testStandardStaffSize()
+{
+    int testLineHeight = 16;
+    m_graphicsItem->setLineHeight(testLineHeight);
+    m_graphicsItem->setStaffType(StaffType::Standard);
+
+    qreal maximumHeight = m_graphicsItem->maximumHeight();
+    qreal minimumHeight = m_graphicsItem->minimumHeight();
+    QVERIFY2(maximumHeight == minimumHeight, "No fixed size set");
+    QVERIFY2(maximumHeight == 5 * testLineHeight,
+             "Wrong height returned");
+
+    // Test size changing after setting line height
+    testLineHeight += 2;
+    m_graphicsItem->setLineHeight(testLineHeight);
+    maximumHeight = m_graphicsItem->maximumHeight();
+    minimumHeight = m_graphicsItem->minimumHeight();
+    QVERIFY2(maximumHeight == 5 * testLineHeight,
+             "size hint was not modified after setting line height");
+}
+
+void StaffGraphicsItemTest::testStandardStaffBoundingRect()
+{
+    qreal testLineHeight = 26;
+    qreal testLineWidth = 4;
+    int testItemWidth = 50;
+    m_graphicsItem->setLineHeight(testLineHeight);
+    m_graphicsItem->setLineWidth(testLineWidth);
+    m_graphicsItem->setStaffType(StaffType::Standard);
+    m_graphicsItem->setGeometry(0, 0, testItemWidth, m_graphicsItem->maximumHeight());
+    qreal testItemHeight = m_graphicsItem->maximumHeight();
+
+    QRectF boundingRect = m_graphicsItem->boundingRect();
+    qreal halfLineWidth = testLineWidth/2;
+    QVERIFY2(boundingRect.left() == -(halfLineWidth),
+             "Wrong left side of bounding rect");
+    QVERIFY2(boundingRect.top() == -(halfLineWidth),
+             "Wrong top side of bounding rect");
+    QVERIFY2(boundingRect.right() == testItemWidth + halfLineWidth,
+             "Wrong right side of bounding rect");
+    QVERIFY2(boundingRect.bottom() == testItemHeight + halfLineWidth,
+             "Wrong bottom side of bounding rect");
 }
 
 QTEST_MAIN(StaffGraphicsItemTest)
