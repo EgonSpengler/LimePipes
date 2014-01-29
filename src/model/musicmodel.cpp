@@ -373,11 +373,6 @@ QModelIndex MusicModel::insertScore(int row, const QString &title)
     Q_ASSERT(m_rootItem->childType() == MusicItem::ScoreType);
 
     QModelIndex scoreIndex = insertItem("Insert score", QModelIndex(), row, new Score(title));
-//    if (scoreIndex.isValid()) {
-//        QVector<int> dataRoles;
-//        dataRoles << LP::ScoreTitle;
-//        emit dataChanged(scoreIndex, scoreIndex, dataRoles);
-//    }
 
     return scoreIndex;
 }

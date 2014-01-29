@@ -21,7 +21,10 @@ Instrument::Instrument()
 }
 
 Instrument::Instrument(LP::InstrumentType type, const QString &name, PitchContextPtr pitchContext)
-    : m_type(type), m_name(name), m_pitchContext(pitchContext)
+    : m_type(type),
+      m_name(name),
+      m_pitchContext(pitchContext),
+      m_staffType(StaffType::None)
 {
 }
 
