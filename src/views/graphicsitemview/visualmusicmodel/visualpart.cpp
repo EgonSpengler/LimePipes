@@ -50,9 +50,18 @@ int VisualPart::staffCount() const
 
 void VisualPart::appendStaff()
 {
-    StaffGraphicsItem *staffItem = new StaffGraphicsItem;
+    StaffGraphicsItem *staffItem = newStaffItem();
     m_staffItems.append(staffItem);
     appendRow(staffItem);
+}
+
+StaffGraphicsItem * VisualPart::newStaffItem()
+{
+    StaffGraphicsItem *staffItem = new StaffGraphicsItem;
+    staffItem->setLineHeight(8);
+    staffItem->setLineWidth(1);
+
+    return staffItem;
 }
 
 void VisualPart::removeLastStaff()

@@ -9,6 +9,7 @@
 #ifndef STAFFGRAPHICSITEM_H
 #define STAFFGRAPHICSITEM_H
 
+#include <QPen>
 #include <common/defines.h>
 #include "interactinggraphicsitem.h"
 
@@ -25,15 +26,17 @@ public:
     int lineHeight() const;
     void setLineHeight(qreal lineHeight);
 
-    int lineWidth() const;
+    qreal lineWidth() const;
     void setLineWidth(qreal width);
+
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 private:
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
     StaffType m_staffType;
     qreal m_lineHeight;
-    qreal m_lineWidth;
+    QPen m_pen;
 };
 
 #endif // STAFFGRAPHICSITEM_H

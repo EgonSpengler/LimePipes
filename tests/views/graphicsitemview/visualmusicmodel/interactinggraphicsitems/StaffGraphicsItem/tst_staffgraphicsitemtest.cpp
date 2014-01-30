@@ -117,7 +117,7 @@ void StaffGraphicsItemTest::testStandardStaffSize()
     qreal maximumHeight = m_graphicsItem->maximumHeight();
     qreal minimumHeight = m_graphicsItem->minimumHeight();
     QVERIFY2(maximumHeight == minimumHeight, "No fixed size set");
-    QVERIFY2(maximumHeight == 5 * testLineHeight,
+    QVERIFY2(maximumHeight == 4 * testLineHeight,
              "Wrong height returned");
 
     // Test size changing after setting line height
@@ -125,7 +125,7 @@ void StaffGraphicsItemTest::testStandardStaffSize()
     m_graphicsItem->setLineHeight(testLineHeight);
     maximumHeight = m_graphicsItem->maximumHeight();
     minimumHeight = m_graphicsItem->minimumHeight();
-    QVERIFY2(maximumHeight == 5 * testLineHeight,
+    QVERIFY2(maximumHeight == 4 * testLineHeight,
              "size hint was not modified after setting line height");
 }
 

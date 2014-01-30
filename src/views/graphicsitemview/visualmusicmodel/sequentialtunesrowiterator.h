@@ -20,6 +20,10 @@ class SequentialTunesRowIterator : public RowIterator
 public:
     explicit SequentialTunesRowIterator(const VisualMusicModel *model,
                                         const QModelIndex& scoreIndex);
+
+private:
+    void appendTune(const QModelIndex& tuneIndex);
+    void appendPart(const QModelIndex& partIndex);
 };
 
 #endif // SEQUENTIALTUNESROWITERATOR_H

@@ -27,6 +27,7 @@ GHB_Instrument::GHB_Instrument()
                  QString("Great Highland Bagpipe"),
                  PitchContextPtr(new GHB_PitchContext()))
 {
+    setStaffType(StaffType::Standard);
 }
 
 bool GHB_Instrument::supportsSymbolType(int type) const

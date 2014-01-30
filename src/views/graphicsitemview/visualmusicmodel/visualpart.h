@@ -36,6 +36,7 @@ public:
     void setData(const QVariant &value, int key);
     void insertChildItem(int index, VisualItem *childItem);
 
+    StaffGraphicsItem * newStaffItem();
 private:
     QVector<StaffGraphicsItem*> m_staffItems;
     bool m_repeat;

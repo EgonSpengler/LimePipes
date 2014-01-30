@@ -15,11 +15,11 @@
 class GHB_PluginTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     GHB_PluginTest()
         : m_bagpipe(0) {}
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();
@@ -29,6 +29,7 @@ private Q_SLOTS:
     void testsupportedSymbolTypes();
     void testSymbolNamesForAllSymbols();
     void testPitchContext();
+    void testStaffType();
 
 private:
     GreatHighlandBagpipe *m_bagpipe;

@@ -73,6 +73,12 @@ void GHB_PluginTest::testPitchContext()
     QVERIFY2(pitchContext->pitchForStaffPos(6)->name() == "Low G", "Failed Low G");
 }
 
+void GHB_PluginTest::testStaffType()
+{
+    QVERIFY2(m_bagpipe->instrument()->staffType() == StaffType::Standard,
+             "Wrong staff type from great highland bagpipe instrument");
+}
+
 QTEST_MAIN(GHB_PluginTest)
 
 #include "tst_ghb_plugintest.moc"

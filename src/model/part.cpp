@@ -22,7 +22,8 @@ void Part::setStaffType(StaffType staffType)
 
 bool Part::itemSupportsWritingOfData(int role) const
 {
-    if (role == LP::PartRepeat)
+    if (role == LP::PartRepeat ||
+            role == LP::PartStaffType)
         return true;
     return false;
 }
