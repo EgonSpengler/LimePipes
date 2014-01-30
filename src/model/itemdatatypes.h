@@ -29,7 +29,6 @@
 #ifndef ITEMDATATYPES_H
 #define ITEMDATATYPES_H
 
-#include <QVector>
 #include <Qt>
 
 namespace LP {
@@ -46,32 +45,32 @@ enum ScoreDataRole {
 
 // Tune
 enum TuneDataRole {
-    TuneInstrument      = Qt::UserRole + 7
+    TuneInstrument      = Qt::UserRole + 6
 };
 
 // Part
 enum PartDataRole {
-    PartRepeat          = Qt::UserRole + 8,
-    PartStaffType       = Qt::UserRole + 9
+    PartRepeat          = Qt::UserRole + 7,
+    PartStaffType       = Qt::UserRole + 8
 };
 
 // Measure
 enum MeasureDataRole {
-    MeasureIsUpbeat     = Qt::UserRole + 10
+    MeasureIsUpbeat     = Qt::UserRole + 9
 };
 
 // Symbol
 enum SymbolDataRole {
-    SymbolType          = Qt::UserRole + 11,
-    SymbolName          = Qt::UserRole + 12,
-    SymbolLength        = Qt::UserRole + 13,
-    SymbolPitch         = Qt::UserRole + 14,
-    SymbolGraphic       = Qt::UserRole + 15
+    SymbolType          = Qt::UserRole + 10,
+    SymbolName          = Qt::UserRole + 11,
+    SymbolLength        = Qt::UserRole + 12,
+    SymbolPitch         = Qt::UserRole + 13,
+    SymbolGraphic       = Qt::UserRole + 14
 };
 
 // MelodyNote
 enum MelodyNoteDataRole {
-    MelodyNoteDots      = Qt::UserRole + 16
+    MelodyNoteDots      = Qt::UserRole + 15
 };
 
 }

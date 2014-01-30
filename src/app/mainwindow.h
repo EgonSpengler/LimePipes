@@ -33,7 +33,7 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
+
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -70,6 +70,7 @@ private:
     QTreeView *m_treeView;
     GraphicsItemView *m_graphicsItemView;
     GraphicsScene *m_graphicsScene;
+    QAbstractItemModel *m_proxyModel;
     QAbstractItemModel *m_model;
     AddSymbolsDialog *m_addSymbolsDialog;
     AboutDialog *m_aboutDialog;

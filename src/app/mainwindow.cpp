@@ -81,19 +81,21 @@ void MainWindow::createModelAndView()
     splitter->setStretchFactor(0, 2);
     splitter->setStretchFactor(1, 5);
 
-    MusicModel *musicModel = new MusicModel(this);
-    MusicProxyModel *proxyModel = new MusicProxyModel(this);
-    proxyModel->setSourceModel(musicModel);
-    m_model = musicModel;
+    m_model = new MusicModel(this);
 
-    m_treeView->setModel(proxyModel);
+    MusicProxyModel *proxyModel = new MusicProxyModel(this);
+    proxyModel->setSourceModel(m_model);
+    m_proxyModel = proxyModel;
+
+    m_treeView->setModel(m_proxyModel);
+
     m_graphicsItemView->setModel(m_model);
     setCentralWidget(splitter);
 }
 
 void MainWindow::createMenusAndToolBars()
 {
-    MusicModelInterface *musicModel = musicModelFromItemModel(m_model);
+    MusicModelInterface *musicModel = musicModelFromItemModel(m_proxyModel);
     ui->editUndoAction->setEnabled(musicModel->undoStack()->canUndo());
     ui->editRedoAction->setEnabled(musicModel->undoStack()->canRedo());
 }
@@ -103,7 +105,7 @@ void MainWindow::createConnections()
     connect(m_addSymbolsDialog, SIGNAL(insertSymbol(QString)),
             this, SLOT(insertSymbol(QString)));
 
-    MusicModelInterface *musicModel = musicModelFromItemModel(m_model);
+    MusicModelInterface *musicModel = musicModelFromItemModel(m_proxyModel);
     connect(musicModel->undoStack(), SIGNAL(canUndoChanged(bool)),
             ui->editUndoAction, SLOT(setEnabled(bool)));
     connect(musicModel->undoStack(), SIGNAL(canRedoChanged(bool)),
@@ -116,13 +118,13 @@ void MainWindow::createConnections()
 void MainWindow::createObjectNames()
 {
     m_treeView->setObjectName("treeView");
-    m_model->setObjectName("musicModel");
+    m_proxyModel->setObjectName("musicModel");
 }
 
 QString MainWindow::instrumentFromParentOfCurrentIndex()
 {
     QModelIndex currentIndex = m_treeView->currentIndex();
-    MusicModelInterface *musicModel = musicModelFromItemModel(m_model);
+    MusicModelInterface *musicModel = musicModelFromItemModel(m_proxyModel);
     if (!musicModel) return QString();
 
     while (!musicModel->isIndexTune(currentIndex)) {
@@ -133,7 +135,7 @@ QString MainWindow::instrumentFromParentOfCurrentIndex()
     }
 
     if (currentIndex.isValid()) {
-        QVariant currentInstrument = m_model->data(currentIndex, LP::TuneInstrument);
+        QVariant currentInstrument = m_proxyModel->data(currentIndex, LP::TuneInstrument);
         if (currentInstrument.isValid()) {
             return currentInstrument.value<InstrumentPtr>()->name();
         }
@@ -151,7 +153,7 @@ void MainWindow::on_fileNewAction_triggered()
     if (!okToClearData())
         return;
 
-    if (MusicModelInterface *musicModel = musicModelFromItemModel(m_model)) {
+    if (MusicModelInterface *musicModel = musicModelFromItemModel(m_proxyModel)) {
         musicModel->clear();
         musicModel->setFilename(QString());
         musicModel->undoStack()->clear();
@@ -161,7 +163,7 @@ void MainWindow::on_fileNewAction_triggered()
 
 bool MainWindow::okToClearData()
 {
-    if (MusicModelInterface *musicModel = musicModelFromItemModel(m_model)) {
+    if (MusicModelInterface *musicModel = musicModelFromItemModel(m_proxyModel)) {
         if (!musicModel->undoStack()->isClean()) {
             QScopedPointer<QMessageBox> messageBox(new QMessageBox(this));
             messageBox->setWindowModality(Qt::WindowModal);
@@ -188,7 +190,7 @@ bool MainWindow::okToClearData()
 void MainWindow::updateUi()
 {
     ui->fileSaveAction->setEnabled(isWindowModified());
-    int rows = m_model->rowCount();
+    int rows = m_proxyModel->rowCount();
     ui->fileSaveAsAction->setEnabled(isWindowModified() || rows);
     ui->editAddSymbolsAction->setEnabled(rows);
     ui->editAddTunePartAction->setEnabled(rows);
@@ -211,7 +213,7 @@ void MainWindow::loadFile(const QString &fileName)
 {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    MusicModelInterface *model = musicModelFromItemModel(m_model);
+    MusicModelInterface *model = musicModelFromItemModel(m_proxyModel);
     try {
         model->load(fileName);
 
@@ -242,7 +244,7 @@ void MainWindow::on_fileSaveAsAction_triggered()
 bool MainWindow::saveFile()
 {
     bool saved = false;
-    MusicModelInterface *model = musicModelFromItemModel(m_model);
+    MusicModelInterface *model = musicModelFromItemModel(m_proxyModel);
     if (model->filename().isEmpty()) {
         return saveFileAs();
     } else {
@@ -266,7 +268,7 @@ bool MainWindow::saveFile()
 
 bool MainWindow::saveFileAs()
 {
-    MusicModelInterface *model = musicModelFromItemModel(m_model);
+    MusicModelInterface *model = musicModelFromItemModel(m_proxyModel);
     QString filename = model->filename();
     QString dir = filename.isEmpty() ? "." : QFileInfo(filename).path();
     filename = QFileDialog::getSaveFileName(this,
@@ -287,7 +289,7 @@ bool MainWindow::saveFileAs()
 void MainWindow::on_editAddTuneAction_triggered()
 {
     MusicModelInterface *musicModel;
-    musicModel = musicModelFromItemModel(m_model);
+    musicModel = musicModelFromItemModel(m_proxyModel);
 
     if (!musicModel)
         return;
@@ -308,7 +310,7 @@ void MainWindow::on_editAddTuneAction_triggered()
 void MainWindow::on_editAddTunePartAction_triggered()
 {
     MusicModelInterface *musicModel;
-    musicModel = musicModelFromItemModel(m_model);
+    musicModel = musicModelFromItemModel(m_proxyModel);
 
     if (!musicModel)
         return;
@@ -327,7 +329,7 @@ void MainWindow::on_editAddTunePartAction_triggered()
 void MainWindow::on_editAddSymbolsAction_triggered()
 {
     MusicModelInterface *musicModel;
-    musicModel = musicModelFromItemModel(m_model);
+    musicModel = musicModelFromItemModel(m_proxyModel);
 
     if (!musicModel)
         return;
@@ -348,7 +350,7 @@ void MainWindow::on_editAddSymbolsAction_triggered()
 void MainWindow::on_editUndoAction_triggered()
 {
     MusicModelInterface *musicModel;
-    musicModel = musicModelFromItemModel(m_model);
+    musicModel = musicModelFromItemModel(m_proxyModel);
 
     musicModel->undoStack()->undo();
     updateUi();
@@ -357,7 +359,7 @@ void MainWindow::on_editUndoAction_triggered()
 void MainWindow::on_editRedoAction_triggered()
 {
     MusicModelInterface *musicModel;
-    musicModel = musicModelFromItemModel(m_model);
+    musicModel = musicModelFromItemModel(m_proxyModel);
 
     musicModel->undoStack()->redo();
     m_treeView->expandAll();
@@ -380,7 +382,7 @@ void MainWindow::insertSymbol(const QString &symbolName)
     if (!instrumentName.isEmpty()) {
 
         MusicModelInterface *musicModel;
-        musicModel = musicModelFromItemModel(m_model);
+        musicModel = musicModelFromItemModel(m_proxyModel);
 
         QModelIndex currentIndex = m_treeView->currentIndex();
 
