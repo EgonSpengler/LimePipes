@@ -10,7 +10,8 @@
 #include <common/settingdefines.h>
 #include "iteminteractions/scoreinteraction.h"
 #include "interactinggraphicsitems/scoregraphicsitem.h"
-#include "interactinggraphicsitems/staffgraphicsitem.h"
+#include "interactinggraphicsitems/measuregraphicsitem.h"
+#include "interactinggraphicsitems/symbolgraphicsitem.h"
 #include "visualpart.h"
 
 VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
@@ -23,9 +24,9 @@ VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
     case VisualItem::VisualPartItem:
         return newVisualPart();
     case VisualItem::VisualMeasureItem:
-        break;
+        return newVisualMeasure();
     case VisualItem::VisualSymbolItem:
-        break;
+        return newVisualSymbol();
     case VisualItem::NoVisualItem:
         break;
     }
@@ -60,6 +61,28 @@ VisualItem *VisualItemFactory::newVisualTune()
 VisualItem *VisualItemFactory::newVisualPart()
 {
     VisualItem *newItem = new VisualPart();
+
+    return newItem;
+}
+
+VisualItem *VisualItemFactory::newVisualMeasure()
+{
+    VisualItem *newItem = new VisualItem(VisualItem::VisualMeasureItem,
+                                         VisualItem::GraphicalInlineType);
+
+    MeasureGraphicsItem *measureGraphicsItem = new MeasureGraphicsItem;
+    newItem->setInlineGraphic(measureGraphicsItem);
+
+    return newItem;
+}
+
+VisualItem *VisualItemFactory::newVisualSymbol()
+{
+    VisualItem *newItem = new VisualItem(VisualItem::VisualSymbolItem,
+                                         VisualItem::GraphicalInlineType);
+
+    SymbolGraphicsItem *symbolGraphicsItem = new SymbolGraphicsItem;
+    newItem->setInlineGraphic(symbolGraphicsItem);
 
     return newItem;
 }

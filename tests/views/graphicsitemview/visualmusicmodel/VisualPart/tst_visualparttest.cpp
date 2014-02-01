@@ -33,6 +33,7 @@ private Q_SLOTS:
     void testAppendStaffItem();
     void testRemoveLastStaffItem();
     void testSetStaffTypeOnStaffItem();
+    void testInsertChildItemImplementation();
 
 private:
     VisualPart *m_visualPart;
@@ -132,6 +133,22 @@ void VisualPartTest::testSetStaffTypeOnStaffItem()
         QVERIFY2(staff->staffType() == m_visualPart->staffType(),
                  "Staff has not the right staff type set");
     }
+}
+
+void VisualPartTest::testInsertChildItemImplementation()
+{
+    VisualItem *testVisualItem = new VisualItem;
+    testVisualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+    InteractingGraphicsItem *testMeasureItem = new InteractingGraphicsItem;
+    testVisualItem->setInlineGraphic(testMeasureItem);
+
+    Q_ASSERT(testVisualItem->inlineGraphic() != 0);
+    Q_ASSERT(m_visualPart->m_staffItems.count());
+
+    m_visualPart->insertChildItem(0, testVisualItem);
+
+    QVERIFY2(m_visualPart->m_staffItems.at(0)->measureCount() == 1,
+             "Measure wasn't inserted");
 }
 
 QTEST_MAIN(VisualPartTest)

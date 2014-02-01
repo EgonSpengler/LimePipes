@@ -7,14 +7,20 @@
  */
 
 #include <QPainter>
+#include <QGraphicsLinearLayout>
 #include "staffgraphicsitem.h"
 
 StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_staffType(StaffType::None),
-      m_lineHeight(0)
+      m_lineHeight(0),
+      m_measureLayout(0)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
+
+    m_measureLayout = new QGraphicsLinearLayout(Qt::Horizontal, this);
+    m_measureLayout->setSpacing(0);
+    m_measureLayout->setContentsMargins(0, 0, 0, 0);
 }
 
 StaffType StaffGraphicsItem::staffType() const
@@ -88,4 +94,15 @@ void StaffGraphicsItem::setWindowFrameRectForLineWidth(qreal width)
     // Half of the line will be painted outside of rect
     width /= 2;
     setWindowFrameMargins(width, width, width, width);
+}
+
+
+void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
+{
+    m_measureLayout->insertItem(index, childItem);
+}
+
+int StaffGraphicsItem::measureCount() const
+{
+    return m_measureLayout->count();
 }

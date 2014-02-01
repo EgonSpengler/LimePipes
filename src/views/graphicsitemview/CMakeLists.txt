@@ -32,6 +32,8 @@ set( lp_graphicsitemview_SOURCES
         visualmusicmodel/interactinggraphicsitems/graphicitems/textrowwidget.cpp
         visualmusicmodel/interactinggraphicsitems/graphicitems/graphicstextitem.cpp
         visualmusicmodel/interactinggraphicsitems/staffgraphicsitem.cpp
+        visualmusicmodel/interactinggraphicsitems/measuregraphicsitem.cpp
+        visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.cpp
         )
 
 set( lp_graphicsitemview_UIs

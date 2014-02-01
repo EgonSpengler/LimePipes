@@ -13,6 +13,8 @@
 #include <common/defines.h>
 #include "interactinggraphicsitem.h"
 
+class QGraphicsLinearLayout;
+
 class StaffGraphicsItem : public InteractingGraphicsItem
 {
     friend class StaffGraphicsItemTest;
@@ -31,12 +33,17 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    // InteractingGraphicsItem interface
+    void insertChildItem(int index, InteractingGraphicsItem *childItem);
+    int measureCount() const;
+
 private:
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
     StaffType m_staffType;
     qreal m_lineHeight;
     QPen m_pen;
+    QGraphicsLinearLayout *m_measureLayout;
 };
 
 #endif // STAFFGRAPHICSITEM_H

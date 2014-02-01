@@ -127,11 +127,11 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parent, int start
                 continue;
 
             insertVisualItem(itemIndex, visualItem);
+            initVisualItemData(visualItem, itemIndex);
+
             if (visualItem->graphicalType() == VisualItem::GraphicalRowType) {
                 itemRowSequenceChanged(visualItem);
             }
-
-            initVisualItemData(visualItem, itemIndex);
 
             // Insert into parent Item
             if (!parent.isValid())
@@ -164,8 +164,14 @@ void VisualMusicModel::initVisualItemData(VisualItem *visualItem, const QPersist
         setVisualItemDataFromModel(visualItem, itemIndex, LP::PartRepeat);
         break;
     case VisualItem::VisualMeasureItem:
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::MeasureIsUpbeat);
         break;
     case VisualItem::VisualSymbolItem:
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolType);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolName);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolLength);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolPitch);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolGraphic);
         break;
     case VisualItem::NoVisualItem:
         break;

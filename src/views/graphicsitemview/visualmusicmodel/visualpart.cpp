@@ -90,4 +90,12 @@ void VisualPart::setData(const QVariant &value, int key)
 
 void VisualPart::insertChildItem(int index, VisualItem *childItem)
 {
+    if (m_staffItems.isEmpty())
+        return;
+
+    InteractingGraphicsItem *graphicsItem = childItem->inlineGraphic();
+    if (!graphicsItem)
+        return;
+
+    m_staffItems.first()->insertChildItem(index, graphicsItem);
 }

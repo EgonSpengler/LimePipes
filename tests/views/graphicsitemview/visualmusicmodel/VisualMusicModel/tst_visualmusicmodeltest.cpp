@@ -193,12 +193,28 @@ void VisualMusicModelTest::testInsertPart()
 
 void VisualMusicModelTest::testInsertMeasure()
 {
-    int measureCount = 8;
     Q_ASSERT(m_musicModel->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
-    m_musicModel->insertPartIntoTune(0, tuneIndex, measureCount);
+    QModelIndex partIndex  = m_musicModel->appendPartToTune(tuneIndex, 0);
+
+    QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
+    QModelIndex measureIndex = m_musicModel->appendMeasureToPart(partIndex);
+
+    QVERIFY2(rowSequenceSpy.count() == 0,
+             "Row sequence changed wasn emitted after inserting measure");
+    rowSequenceSpy.clear();
+
+    QVERIFY2(m_visualMusicModel->visualItemFromIndex(measureIndex) != 0,
+             "No visual item was inserted");
+
+    VisualItem *measureItem = m_visualMusicModel->visualItemFromIndex(measureIndex);
+    QVERIFY2(measureItem->parent() == m_visualMusicModel,
+             "Measure item has not visual music model as parent");
+
+    TestVisualItem *testItem = static_cast<TestVisualItem*>(measureItem);
+    QVERIFY2(testItem, "Can't get testitem from item");
 }
 
 void VisualMusicModelTest::testInsertSymbol()
@@ -212,7 +228,63 @@ void VisualMusicModelTest::testInsertSymbol()
     QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
     QModelIndex partIndex  = m_musicModel->insertPartIntoTune(0, tuneIndex, 8);
     QModelIndex measureIndex = m_musicModel->index(0, 0, partIndex);
-    m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
+
+    QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
+    QModelIndex symbolIndex = m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
+
+    QVERIFY2(rowSequenceSpy.count() == 0,
+             "Row sequence changed wasn emitted after inserting measure");
+    rowSequenceSpy.clear();
+
+    QVERIFY2(m_visualMusicModel->visualItemFromIndex(symbolIndex) != 0,
+             "No visual item was inserted");
+
+    VisualItem *symbolItem = m_visualMusicModel->visualItemFromIndex(symbolIndex);
+    QVERIFY2(symbolItem->parent() == m_visualMusicModel,
+             "Measure item has not visual music model as parent");
+
+    TestVisualItem *testItem = static_cast<TestVisualItem*>(symbolItem);
+    QVERIFY2(testItem, "Can't get testitem from item");
+
+    if (m_musicModel->data(symbolIndex, LP::SymbolType).isValid()) {
+        QVERIFY2(testItem->hasData(LP::SymbolType),
+                 "Symbol type data wasn't set");
+        QVERIFY2(testItem->data(LP::SymbolType).toInt() ==
+                 m_musicModel->data(symbolIndex, LP::SymbolType).toInt(),
+                 "VisualItem has wrong symbol type");
+    }
+
+    if (m_musicModel->data(symbolIndex, LP::SymbolName).isValid()) {
+        QVERIFY2(testItem->hasData(LP::SymbolName),
+                 "Symbol name data wasn't set");
+        QVERIFY2(testItem->data(LP::SymbolName).toString() ==
+                 m_musicModel->data(symbolIndex, LP::SymbolName).toString(),
+                 "VisualItem has wrong symbol name");
+    }
+
+    if (m_musicModel->data(symbolIndex, LP::SymbolLength).isValid()) {
+        QVERIFY2(testItem->hasData(LP::SymbolLength),
+                 "Symbol length data wasn't set");
+        QVERIFY2(testItem->data(LP::SymbolLength).value<Length::Value>() ==
+                 m_musicModel->data(symbolIndex, LP::SymbolLength).value<Length::Value>(),
+                 "VisualItem has wrong symbol length");
+    }
+
+    if (m_musicModel->data(symbolIndex, LP::SymbolPitch).isValid()) {
+        QVERIFY2(testItem->hasData(LP::SymbolPitch),
+                 "Symbol pitch data wasn't set");
+        QVERIFY2(testItem->data(LP::SymbolPitch).value<PitchPtr>() ==
+                 m_musicModel->data(symbolIndex, LP::SymbolPitch).value<PitchPtr>(),
+                 "VisualItem has wrong symbol pitch");
+    }
+
+    if (m_musicModel->data(symbolIndex, LP::SymbolGraphic).isValid()) {
+        QVERIFY2(testItem->hasData(LP::SymbolGraphic),
+                 "Symbol graphic data wasn't set");
+        QVERIFY2(testItem->data(LP::SymbolGraphic).value<SymbolGraphicPtr>() ==
+                 m_musicModel->data(symbolIndex, LP::SymbolGraphic).value<SymbolGraphicPtr>(),
+                 "VisualItem has wrong symbol graphic");
+    }
 }
 
 void VisualMusicModelTest::testInsertChildItemCallOnVisualItem()

@@ -25,6 +25,8 @@ private Q_SLOTS:
     void testCreateScore();
     void testCreateTune();
     void testCreatePart();
+    void tesCreateMeasure();
+    void testCreateSymbol();
 
 private:
     VisualItemFactory *m_itemFactory;
@@ -72,6 +74,24 @@ void VisualItemFactoryTest::testCreatePart()
     QVERIFY2(part != 0, "Factory returned no item");
     QVERIFY2(part->itemType() == VisualItem::VisualPartItem, "Factory returned wrong item type");
     QVERIFY2(part->graphicalType() == VisualItem::GraphicalRowType, "Factory wrong graphical type");
+}
+
+void VisualItemFactoryTest::tesCreateMeasure()
+{
+    VisualItem *measure = m_itemFactory->createVisualItem(VisualItem::VisualMeasureItem);
+    QVERIFY2(measure != 0, "Factory returned no item");
+    QVERIFY2(measure->itemType() == VisualItem::VisualMeasureItem, "Factory returned wrong item type");
+    QVERIFY2(measure->graphicalType() == VisualItem::GraphicalInlineType, "Factory returned wrong graphical type");
+    QVERIFY2(measure->inlineGraphic() != 0, "Factory hasn't set an inline graphic for measure item");
+}
+
+void VisualItemFactoryTest::testCreateSymbol()
+{
+    VisualItem *symbol = m_itemFactory->createVisualItem(VisualItem::VisualSymbolItem);
+    QVERIFY2(symbol != 0, "Factory returned no item");
+    QVERIFY2(symbol->itemType() == VisualItem::VisualSymbolItem, "Factory returned wrong item type");
+    QVERIFY2(symbol->graphicalType() == VisualItem::GraphicalInlineType, "Factory returned wrong graphical type");
+    QVERIFY2(symbol->inlineGraphic() != 0, "Factory hasn't set an inline graphic for symbol item");
 }
 
 QTEST_MAIN(VisualItemFactoryTest)

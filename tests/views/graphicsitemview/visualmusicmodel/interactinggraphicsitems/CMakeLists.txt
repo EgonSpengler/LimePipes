@@ -1,4 +1,6 @@
 add_subdirectory( InteractingGraphicsItem )
 add_subdirectory( ScoreGraphicsItem )
 add_subdirectory( StaffGraphicsItem )
+add_subdirectory( MeasureGraphicsItem )
+add_subdirectory( SymbolGraphicsItem )
 add_subdirectory( graphicitems )

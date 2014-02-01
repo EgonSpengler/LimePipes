@@ -22,6 +22,8 @@ private:
     VisualItem *newVisualScore();
     VisualItem *newVisualTune();
     VisualItem *newVisualPart();
+    VisualItem *newVisualMeasure();
+    VisualItem *newVisualSymbol();
 };
 
 #endif // VISUALITEMFACTORY_H
