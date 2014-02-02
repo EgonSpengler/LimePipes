@@ -15,6 +15,12 @@ class SymbolGraphicsItem : public InteractingGraphicsItem
 {
 public:
     explicit SymbolGraphicsItem(QGraphicsItem *parent = 0);
+
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+    // InteractingGraphicsItem interface
+public:
+    void setData(const QVariant &value, int key);
 };
 
 #endif // SYMBOLGRAPHICSITEM_H

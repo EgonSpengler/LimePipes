@@ -96,7 +96,6 @@ void StaffGraphicsItem::setWindowFrameRectForLineWidth(qreal width)
     setWindowFrameMargins(width, width, width, width);
 }
 
-
 void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
 {
     m_measureLayout->insertItem(index, childItem);

@@ -9,12 +9,20 @@
 #ifndef MEASUREGRAPHICSITEM_H
 #define MEASUREGRAPHICSITEM_H
 
+#include <QPen>
 #include "interactinggraphicsitem.h"
+
+class QGraphicsLinearLayout;
 
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
+    friend class MeasureGraphicsItemTest;
+
 public:
     explicit MeasureGraphicsItem(QGraphicsItem *parent = 0);
+
+    void setLineWidth(qreal width);
+    qreal lineWidth() const;
 
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -24,6 +32,9 @@ public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
     void setData(const QVariant &value, int key);
 
+private:
+    QGraphicsLinearLayout *m_symbolLayout;
+    QPen m_linePen;
 };
 
 #endif // MEASUREGRAPHICSITEM_H

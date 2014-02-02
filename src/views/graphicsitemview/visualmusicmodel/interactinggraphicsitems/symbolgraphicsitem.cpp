@@ -12,3 +12,11 @@ SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
 }
+
+void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+}
+
+void SymbolGraphicsItem::setData(const QVariant &value, int key)
+{
+}
