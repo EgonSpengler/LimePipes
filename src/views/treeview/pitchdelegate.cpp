@@ -9,9 +9,9 @@
 #include "pitchdelegate.h"
 #include <musicmodelinterface.h>
 #include <itemdatatypes.h>
-#include <datatypes/pitch.h>
-#include <datatypes/pitchcontext.h>
-#include <datatypes/instrument.h>
+#include <common/datatypes/pitch.h>
+#include <common/datatypes/pitchcontext.h>
+#include <common/datatypes/instrument.h>
 
 QStringList PitchDelegate::comboBoxItems(const QModelIndex &symbolIndex) const
 {

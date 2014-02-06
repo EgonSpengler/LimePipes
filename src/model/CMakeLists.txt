@@ -10,12 +10,12 @@ set( lp_model_SOURCES
         measure.cpp
         symbolgraphicbuilder.cpp
 
-        datatypes/instrument.cpp
-        datatypes/length.cpp
-        datatypes/pitch.cpp
-        datatypes/pitchcontext.cpp
-        datatypes/symbolgraphic.cpp
-        datatypes/timesignature.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/datatypes/instrument.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/datatypes/length.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/datatypes/pitch.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/datatypes/pitchcontext.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/datatypes/symbolgraphic.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/datatypes/timesignature.cpp
 
         musicfont/emmentalermusicfont.cpp
         musicfont/musicfont.cpp

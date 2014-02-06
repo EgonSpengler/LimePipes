@@ -120,6 +120,16 @@ void VisualItem::setData(const QVariant &value, int key)
 
 void VisualItem::insertChildItem(int index, VisualItem *childItem)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(childItem);
+    if (m_graphicalItemType == GraphicalInlineType &&
+            childItem->graphicalType() == GraphicalInlineType) {
+        InteractingGraphicsItem *childGraphicItem = childItem->inlineGraphic();
+        if (!childGraphicItem)
+            return;
+
+        InteractingGraphicsItem *thisGraphicItem = inlineGraphic();
+        if (!thisGraphicItem)
+            return;
+
+        thisGraphicItem->insertChildItem(index, childGraphicItem);
+    }
 }

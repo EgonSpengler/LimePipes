@@ -12,7 +12,7 @@
   */
 
 #include "symbol.h"
-#include <datatypes/pitch.h>
+#include <common/datatypes/pitch.h>
 #include <QXmlStreamWriter>
 
 Symbol::Symbol(MusicItem *parent)

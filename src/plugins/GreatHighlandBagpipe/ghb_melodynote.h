@@ -11,8 +11,8 @@
 
 #include <symbols/melodynote.h>
 #include "ghb_symboltypes.h"
-#include <datatypes/pitch.h>
-#include <datatypes/length.h>
+#include <common/datatypes/pitch.h>
+#include <common/datatypes/length.h>
 
 class GHB_MelodyNote : public MelodyNote
 {

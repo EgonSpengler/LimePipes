@@ -9,8 +9,8 @@
 #include "musicproxymodel.h"
 #include <musicmodel.h>
 #include <itemdatatypes.h>
-#include <datatypes/length.h>
-#include <datatypes/symbolgraphic.h>
+#include <common/datatypes/length.h>
+#include <common/datatypes/symbolgraphic.h>
 
 MusicProxyModel::MusicProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent)

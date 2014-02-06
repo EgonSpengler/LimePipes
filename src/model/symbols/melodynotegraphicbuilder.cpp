@@ -7,8 +7,8 @@
  */
 
 #include "melodynotegraphicbuilder.h"
-#include <model/datatypes/pitch.h>
-#include <model/datatypes/length.h>
+#include <common/datatypes/pitch.h>
+#include <common/datatypes/length.h>
 #include <model/itemdatatypes.h>
 #include <QPainter>
 #include <QPixmap>

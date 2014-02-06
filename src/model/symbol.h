@@ -12,8 +12,8 @@
 #include <QCoreApplication>
 #include <musicitem.h>
 #include <itemdatatypes.h>
-#include <datatypes/pitch.h>
-#include <datatypes/length.h>
+#include <common/datatypes/pitch.h>
+#include <common/datatypes/length.h>
 #include <symbolgraphicbuilder.h>
 #include "../interfaces/interfaceglobals.h"
 

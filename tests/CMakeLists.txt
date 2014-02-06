@@ -1,5 +1,5 @@
 set( MODEL_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/model )
-set( DATATYPES_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/model/datatypes )
+set( DATATYPES_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/common/datatypes )
 set( PLUGINS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/plugins )
 set( VIEWS_SOURCE_DIR ${CMAKE_SOURCE_DIR}/src/views )
 

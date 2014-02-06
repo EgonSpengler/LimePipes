@@ -10,7 +10,7 @@
 #define SYMBOLGRAPHICBUILDER_H
 
 #include <musicitem.h>
-#include <datatypes/symbolgraphic.h>
+#include <common/datatypes/symbolgraphic.h>
 #include <musicfont/musicfont.h>
 
 class SymbolGraphicBuilder

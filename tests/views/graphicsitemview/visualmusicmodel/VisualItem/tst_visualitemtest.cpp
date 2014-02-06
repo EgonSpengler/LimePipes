@@ -40,6 +40,7 @@ private Q_SLOTS:
     void testAppendRowDataChangedSignal();
     void testSetDataInlineGraphic();
     void testSetDataRowGraphics();
+    void testInsertChildImplementationForTwoInlineItems();
 
 private:
     VisualItem *m_visualItem;
@@ -317,6 +318,29 @@ void VisualItemTest::testSetDataRowGraphics()
 
     QVERIFY2(spyItem1.count() == 1, "set data wasn't called on first interacting row graphics item");
     QVERIFY2(spyItem2.count() == 1, "set data wasn't called on second interacting row graphics item");
+}
+
+void VisualItemTest::testInsertChildImplementationForTwoInlineItems()
+{
+    // If a inline visual item is inserted as child into inline visual item parent,
+    // VisualItem default implementation should call insertChildItem on the parent's
+    // InteractingGraphicsItem with the child's InteractingGraphicsItem
+
+    TestInteractingItem *parentInteractingItem = new TestInteractingItem();
+    VisualItem *parentVisualItem = new VisualItem();
+    parentVisualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+    parentVisualItem->setInlineGraphic(parentInteractingItem);
+
+    TestInteractingItem *childInteractingItem = new TestInteractingItem();
+    VisualItem *childVisualItem = new VisualItem();
+    childVisualItem->setGraphicalType(VisualItem::GraphicalInlineType);
+    childVisualItem->setInlineGraphic(childInteractingItem);
+
+    QSignalSpy spy(parentInteractingItem, SIGNAL(insertChildItemCalled()));
+
+    parentVisualItem->insertChildItem(0, childVisualItem);
+
+    QVERIFY2(spy.count() == 1, "insertChildItem wasn't called on InteractingGraphicsItem of child VisualItem");
 }
 
 QTEST_APPLESS_MAIN(VisualItemTest)

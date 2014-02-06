@@ -11,8 +11,12 @@
 
 #include "interactinggraphicsitem.h"
 
+class QGraphicsLinearLayout;
+
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
+    friend class MeasureGraphicsItemTest;
+
 public:
     explicit MeasureGraphicsItem(QGraphicsItem *parent = 0);
 
@@ -24,6 +28,8 @@ public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
     void setData(const QVariant &value, int key);
 
+private:
+    QGraphicsLinearLayout *m_symbolLayout;
 };
 
 #endif // MEASUREGRAPHICSITEM_H

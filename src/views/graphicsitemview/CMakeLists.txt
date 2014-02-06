@@ -10,6 +10,7 @@ set( lp_graphicsitemview_SOURCES
         ${CMAKE_SOURCE_DIR}/src/common/scoresettings.cpp
         ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
         ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/datatypes/symbolgraphic.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp

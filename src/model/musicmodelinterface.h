@@ -9,7 +9,7 @@
 #ifndef MUSICMODELINTERFACE_H
 #define MUSICMODELINTERFACE_H
 
-#include "datatypes/instrument.h"
+#include <common/datatypes/instrument.h>
 
 class Score;
 class Tune;
