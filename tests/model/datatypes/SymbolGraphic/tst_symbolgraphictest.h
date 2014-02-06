@@ -9,15 +9,15 @@
 #define __SYMBOLGRAPHICTEST_H__
 
 #include <QObject>
-#include <src/model/datatypes/symbolgraphic.h>
+#include <src/common/datatypes/symbolgraphic.h>
 
 class SymbolGraphicTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     SymbolGraphicTest();
-    
+
 private Q_SLOTS:
     void testDefaultConstructor();
     void testConstructor();

@@ -10,7 +10,7 @@
 #include <QtTest/QtTest>
 #include <QtTest/QSignalSpy>
 #include <itemdatatypes.h>
-#include <datatypes/instrument.h>
+#include <common/datatypes/instrument.h>
 #include <score.h>
 #include <tune.h>
 #include "tst_musicproxymodeltest.h"

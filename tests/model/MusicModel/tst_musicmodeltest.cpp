@@ -21,7 +21,7 @@
 #include "qt_modeltest/modeltest.h"
 #include <utilities/error.h>
 #include <itemdatatypes.h>
-#include <datatypes/instrument.h>
+#include <common/datatypes/instrument.h>
 #include <symbol.h>
 #include <score.h>
 #include <tune.h>

@@ -9,7 +9,7 @@
 #ifndef TESTINSTRUMENT_H
 #define TESTINSTRUMENT_H
 
-#include <datatypes/instrument.h>
+#include <common/datatypes/instrument.h>
 
 class TestInstrument : public Instrument
 {

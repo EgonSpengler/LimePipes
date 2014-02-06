@@ -11,7 +11,7 @@
 
 #include <instrumentinterface.h>
 #include <QString>
-#include <datatypes/instrument.h>
+#include <common/datatypes/instrument.h>
 
 /*
  * This Instrument is needed for testing the InstrumentManager.

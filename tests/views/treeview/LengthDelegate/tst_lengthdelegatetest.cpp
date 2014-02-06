@@ -8,7 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <datatypes/length.h>
+#include <common/datatypes/length.h>
 #include "tst_lengthdelegatetest.h"
 
 Q_IMPORT_PLUGIN(MusicModelTestPlugin)

@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QtTest>
+#include <QRectF>
 #include <QCoreApplication>
 #include <QGraphicsLinearLayout>
 #include <src/views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/measuregraphicsitem.h>
@@ -24,6 +25,10 @@ private Q_SLOTS:
     void cleanup();
     void testSymbolLayout();
     void testInsertChildItemImplementation();
+    void testSetGetLineWidth();
+//    void testSetLineSide();
+    void testBoundingRect();
+//    void testBoundingRectLineSide();
 
 private:
     MeasureGraphicsItem *m_measureGraphicsItem;
@@ -46,7 +51,6 @@ void MeasureGraphicsItemTest::cleanup()
 
 void MeasureGraphicsItemTest::testSymbolLayout()
 {
-
     QVERIFY2(m_measureGraphicsItem->layout() != 0, "No layout set");
     QVERIFY2(m_measureGraphicsItem->m_symbolLayout != 0, "Measure layout wasn't initialized");
     QVERIFY2(m_measureGraphicsItem->m_symbolLayout->spacing() == 0,
@@ -81,6 +85,37 @@ void MeasureGraphicsItemTest::testInsertChildItemImplementation()
     delete testInteractingItem1;
     delete testInteractingItem2;
     delete testInteractingItem3;
+}
+
+void MeasureGraphicsItemTest::testSetGetLineWidth()
+{
+    QVERIFY2(m_measureGraphicsItem->lineWidth() == 1,
+             "Wrong default line width");
+
+    m_measureGraphicsItem->setLineWidth(0);
+    QVERIFY2(m_measureGraphicsItem->lineWidth() == 1,
+             "Line width can be set to 0");
+
+    m_measureGraphicsItem->setLineWidth(12);
+    QVERIFY2(m_measureGraphicsItem->lineWidth() == 12,
+             "Can't set line width");
+}
+
+void MeasureGraphicsItemTest::testBoundingRect()
+{
+    int testItemWidth = 200;
+    int testItemHeight = 50;
+    qreal testLineWidth = 2;
+
+    m_measureGraphicsItem->setLineWidth(testLineWidth);
+    m_measureGraphicsItem->setGeometry(0, 0, testItemWidth, testItemHeight);
+
+    QRectF boundingRect(m_measureGraphicsItem->boundingRect());
+
+    QVERIFY2(boundingRect.top() == 0, "Wrong bounding rect top");
+    QVERIFY2(boundingRect.bottom() == testItemHeight, "Wrong bounding rect bottom");
+    QVERIFY2(boundingRect.left() == 0, "Wrong left side of bounding rect");
+    QVERIFY2(boundingRect.right() == testItemWidth, "Wrong right side of bounding rect");
 }
 
 QTEST_MAIN(MeasureGraphicsItemTest)

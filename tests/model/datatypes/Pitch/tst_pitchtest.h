@@ -9,15 +9,15 @@
 #define __PITCHTEST_H__
 
 #include <QObject>
-#include <src/model/datatypes/pitch.h>
+#include <src/common/datatypes/pitch.h>
 
 class PitchTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     PitchTest();
-    
+
 private Q_SLOTS:
     void testCreatePitch();
     void testSetPitchAsQVariant();

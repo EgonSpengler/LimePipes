@@ -12,15 +12,15 @@
 #include <QtTest/QtTest>
 
 #include <QObject>
-#include <src/model/datatypes/timesignature.h>
+#include <src/common/datatypes/timesignature.h>
 
 class TimeSignatureTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     TimeSignatureTest();
-    
+
 private Q_SLOTS:
     void testBeatCount();
     void testBeatUnit();

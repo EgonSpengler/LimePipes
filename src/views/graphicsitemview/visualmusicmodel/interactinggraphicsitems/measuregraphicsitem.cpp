@@ -20,6 +20,21 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     m_symbolLayout->setContentsMargins(0, 0, 0, 0);
 }
 
+void MeasureGraphicsItem::setLineWidth(qreal width)
+{
+    if (width <= 0)
+        return;
+
+    m_linePen.setWidthF(width);
+
+    width /= 2;
+}
+
+qreal MeasureGraphicsItem::lineWidth() const
+{
+    return m_linePen.widthF();
+}
+
 void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
 {
     m_symbolLayout->insertItem(index, childItem);
@@ -31,8 +46,11 @@ void MeasureGraphicsItem::setData(const QVariant &value, int key)
 
 void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-//    QPen pen(Qt::blue, 1);
-//    painter->setPen(pen);
+    painter->setPen(m_linePen);
+    QRectF rect(geometry());
 
-//    painter->drawRect(boundingRect());
+    qreal rightEdge = rect.right();
+
+    painter->drawLine(0, 0, 0, rect.height());
+    painter->drawLine(rightEdge, 0, rightEdge, rect.height());
 }

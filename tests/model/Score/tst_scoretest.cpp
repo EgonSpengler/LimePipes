@@ -8,7 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <datatypes/timesignature.h>
+#include <common/datatypes/timesignature.h>
 #include <itemdatatypes.h>
 #include "tst_scoretest.h"
 

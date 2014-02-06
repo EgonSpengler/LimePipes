@@ -11,7 +11,7 @@
 
 #include <QObject>
 #include <src/model/measure.h>
-#include <src/model/datatypes/instrument.h>
+#include <src/common/datatypes/instrument.h>
 
 class MeasureTest : public QObject
 {

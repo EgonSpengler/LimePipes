@@ -8,7 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <datatypes/pitch.h>
+#include <common/datatypes/pitch.h>
 #include "tst_pitchdelegatetest.h"
 
 Q_IMPORT_PLUGIN(MusicModelTestPlugin)

@@ -8,17 +8,17 @@
 #ifndef SCORETEST_H
 #define SCORETEST_H
 
-#include <model/datatypes/timesignature.h>
+#include <common/datatypes/timesignature.h>
 #include <QObject>
 #include <score.h>
 
 class ScoreTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     ScoreTest() : m_score(0) {}
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();

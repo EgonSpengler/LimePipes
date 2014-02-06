@@ -9,16 +9,16 @@
 #define __PITCHCONTEXTTEST_H__
 
 #include <QObject>
-#include <src/model/datatypes/pitchcontext.h>
+#include <src/common/datatypes/pitchcontext.h>
 
 class PitchContextTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     PitchContextTest()
         :m_context(0) {}
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();
