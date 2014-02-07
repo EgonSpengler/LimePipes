@@ -51,6 +51,6 @@ void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
 
     qreal rightEdge = rect.right();
 
-    painter->drawLine(0, 0, 0, rect.height());
+    //painter->drawLine(0, 0, 0, rect.height());
     painter->drawLine(rightEdge, 0, rightEdge, rect.height());
 }
