@@ -55,18 +55,16 @@ void SequentialTunesRowIterator::appendPart(const QModelIndex &partIndex)
     if (!model)
         return;
 
-    for (int i = 0; i < model->rowCount(partIndex); ++i) {
-        VisualItem *visualPart = visualItemFromIndex(partIndex);
-        if (!visualPart)
-            continue;
+    VisualItem *visualPart = visualItemFromIndex(partIndex);
+    if (!visualPart)
+        return;
 
-        QList<InteractingGraphicsItem*> staffItems(visualPart->rowGraphics());
-        for (int j = 0; j < staffItems.count(); ++j) {
-            InteractingGraphicsItem *staffItem = staffItems.at(j);
-            if (!staffItem)
-                return;
+    QList<InteractingGraphicsItem*> staffItems(visualPart->rowGraphics());
+    for (int j = 0; j < staffItems.count(); ++j) {
+        InteractingGraphicsItem *staffItem = staffItems.at(j);
+        if (!staffItem)
+            return;
 
-            m_rowItems.append(static_cast<QGraphicsWidget*>(staffItem));
-        }
+        m_rowItems.append(static_cast<QGraphicsWidget*>(staffItem));
     }
 }
