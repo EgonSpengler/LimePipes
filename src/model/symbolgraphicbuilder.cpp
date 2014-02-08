@@ -29,6 +29,8 @@
 
 MusicFontPtr SymbolGraphicBuilder::s_musicFont = MusicFontPtr(0);
 
+const int InitialLineHeight = 8;
+
 SymbolGraphicBuilder::SymbolGraphicBuilder(MusicItem *item)
     : m_item(item)
 {
@@ -37,7 +39,7 @@ SymbolGraphicBuilder::SymbolGraphicBuilder(MusicItem *item)
     // resources aren't available in static initialization,
     // so initialize in first call of constructor
     if (s_musicFont.data() == 0) {
-        s_musicFont = MusicFontPtr(new EmmentalerMusicFont(20));
+        s_musicFont = MusicFontPtr(new EmmentalerMusicFont(InitialLineHeight));
     }
 }
 

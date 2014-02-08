@@ -11,6 +11,8 @@
 #include <QGraphicsLinearLayout>
 #include "measuregraphicsitem.h"
 
+const int InitialLineWidth  = 1;
+
 MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_symbolLayout(0)
@@ -18,6 +20,8 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     m_symbolLayout = new QGraphicsLinearLayout(Qt::Horizontal, this);
     m_symbolLayout->setSpacing(0);
     m_symbolLayout->setContentsMargins(0, 0, 0, 0);
+
+    setLineWidth(InitialLineWidth);
 }
 
 void MeasureGraphicsItem::setLineWidth(qreal width)

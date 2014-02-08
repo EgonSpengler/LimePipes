@@ -3,6 +3,7 @@ find_package( Qt5PrintSupport REQUIRED )
 
 set( lp_graphicsitemview_SOURCES
         graphicsview.cpp
+        graphicsviewzoom.cpp
         graphicsscene.cpp
         graphicsitemview.cpp
         visualmusicpresenter.cpp

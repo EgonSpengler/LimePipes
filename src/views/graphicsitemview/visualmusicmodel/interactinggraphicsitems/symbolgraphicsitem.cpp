@@ -18,7 +18,8 @@ SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPixmap pixmap(m_symbolGraphic->pixmap());
-    painter->drawPixmap(0, 0, pixmap.scaled(pixmap.width(), 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+//    painter->drawPixmap(0, 0, pixmap.scaled(pixmap.width(), 10, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    painter->drawPixmap(0, 0, pixmap);
 }
 
 void SymbolGraphicsItem::setData(const QVariant &value, int key)

@@ -7,8 +7,10 @@
  */
 
 #include "graphicsview.h"
+#include "graphicsviewzoom.h"
 
 GraphicsView::GraphicsView(QWidget *parent) :
     QGraphicsView(parent)
 {
+    new GraphicsViewZoom(this);
 }
