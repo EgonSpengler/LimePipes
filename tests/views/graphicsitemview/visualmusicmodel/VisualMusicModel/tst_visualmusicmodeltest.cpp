@@ -277,14 +277,6 @@ void VisualMusicModelTest::testInsertSymbol()
                  m_musicModel->data(symbolIndex, LP::SymbolPitch).value<PitchPtr>(),
                  "VisualItem has wrong symbol pitch");
     }
-
-    if (m_musicModel->data(symbolIndex, LP::SymbolGraphic).isValid()) {
-        QVERIFY2(testItem->hasData(LP::SymbolGraphic),
-                 "Symbol graphic data wasn't set");
-        QVERIFY2(testItem->data(LP::SymbolGraphic).value<SymbolGraphicPtr>() ==
-                 m_musicModel->data(symbolIndex, LP::SymbolGraphic).value<SymbolGraphicPtr>(),
-                 "VisualItem has wrong symbol graphic");
-    }
 }
 
 void VisualMusicModelTest::testInsertChildItemCallOnVisualItem()

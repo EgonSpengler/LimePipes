@@ -70,56 +70,6 @@ void SymbolTest::testHasLength()
     QVERIFY2(m_symbol->hasLength(), "Failed, symbol with length returned false");
 }
 
-void SymbolTest::testHasGraphic()
-{
-    QVERIFY2(m_symbol->hasGraphic() == false, "Fail, symbol has graphic but it shouldn't have one");
-    TestSymbol *testSymbol = static_cast<TestSymbol*>(m_symbol);
-    Q_ASSERT(testSymbol);
-    testSymbol->setGraphicBuilder(new TestGraphicBuilder(m_symbol));
-    QVERIFY2(m_symbol->hasGraphic() == true, "Fail, symbol has no graphic");
-}
-
-void SymbolTest::testSetSymbolGraphicBuilder()
-{
-    TestGraphicBuilder *graphicBuilder = new TestGraphicBuilder(m_symbol);
-
-    TestSymbol *testSymbol = static_cast<TestSymbol*>(m_symbol);
-    Q_ASSERT(testSymbol);
-    QVERIFY2(testSymbol->data(LP::SymbolGraphic).isValid() == false, "Fail, symbol has already set a graphic");
-
-    QSignalSpy spy(graphicBuilder, SIGNAL(updateSymbolGraphicCalled()));
-    testSymbol->setGraphicBuilder(graphicBuilder);
-    QVERIFY2(spy.count() != 0, "Fail, updateSymbolGraphic wasn't called");
-
-    QVERIFY2(testSymbol->data(LP::SymbolGraphic).isValid(), "Symbol graphic wasn't set with graphic builder");
-    QVERIFY2(testSymbol->data(LP::SymbolGraphic).canConvert<SymbolGraphicPtr>(), "graphic data isn't a symbol graphic");
-}
-
-void SymbolTest::testCreateSymbolPixmaps()
-{
-    int testLineHeight = 55;
-    TestGraphicBuilder *graphicBuilder = new TestGraphicBuilder(m_symbol);
-    QSignalSpy spy(graphicBuilder, SIGNAL(createPixmapsCalled()));
-    TestSymbol *testSymbol = static_cast<TestSymbol*>(m_symbol);
-    Q_ASSERT(testSymbol);
-    testSymbol->setGraphicBuilder(graphicBuilder);
-    m_symbol->createSymbolPixmaps(testLineHeight);
-    QVERIFY2(spy.count() == 1, "graphic builder's create pixmaps wasn't called");
-    QVERIFY2(graphicBuilder->lineHeight() == testLineHeight, "line height wasn't set for graphics builder");
-}
-
-void SymbolTest::testAfterWritingDataCall()
-{
-    TestGraphicBuilder *graphicBuilder = new TestGraphicBuilder(m_symbol);
-    TestSymbol *testSymbol = static_cast<TestSymbol*>(m_symbol);
-    Q_ASSERT(testSymbol);
-    testSymbol->setGraphicBuilder(graphicBuilder);
-
-    QSignalSpy spy(testSymbol, SIGNAL(afterWritingDataCalled()));
-    m_symbol->setData(Length::_32, LP::SymbolLength);
-    QVERIFY2(spy.count() != 0, "Symbol graphic wasn't updated after setting data");
-}
-
 void SymbolTest::testWriteToXmlStream()
 {
     QString data;

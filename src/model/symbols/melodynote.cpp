@@ -56,7 +56,6 @@ void MelodyNote::initSymbol()
     initData(0, LP::MelodyNoteDots);
     setSymbolOptions(Symbol::HasPitch |
                      Symbol::HasLength);
-    setSymbolGraphicBuilder(new MelodyNoteGraphicBuilder(this));
 }
 
 void MelodyNote::writeItemDataToXmlStream(QXmlStreamWriter *writer)

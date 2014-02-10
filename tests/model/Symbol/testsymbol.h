@@ -19,8 +19,6 @@ class TestSymbol : public QObject,
 public:
     explicit TestSymbol(QObject *parent = 0);
 
-    void setGraphicBuilder(SymbolGraphicBuilder *builder) { setSymbolGraphicBuilder(builder); }
-
 protected:
     void afterWritingData(int role) { Q_UNUSED(role) emit afterWritingDataCalled(); }
 

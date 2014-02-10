@@ -16,8 +16,7 @@
 #include <QXmlStreamWriter>
 
 Symbol::Symbol(MusicItem *parent)
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent),
-      m_graphicBuilder(0)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent)
 {
     setDefaultSymbolOptions();
     initData(LP::NoSymbolType, LP::SymbolType);
@@ -25,8 +24,7 @@ Symbol::Symbol(MusicItem *parent)
 }
 
 Symbol::Symbol(int type, const QString &name, MusicItem *parent)
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
-      m_graphicBuilder(0)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
 {
     Q_UNUSED(parent)
     setDefaultSymbolOptions();
@@ -36,9 +34,6 @@ Symbol::Symbol(int type, const QString &name, MusicItem *parent)
 
 Symbol::~Symbol()
 {
-    if (m_graphicBuilder != 0) {
-        delete m_graphicBuilder;
-    }
 }
 
 void Symbol::setDefaultSymbolOptions()
@@ -70,45 +65,6 @@ Length::Value Symbol::length() const
         return data(LP::SymbolLength).value<Length::Value>();
     }
     return Length::_4;
-}
-
-bool Symbol::hasGraphic() const
-{
-    if (m_graphicBuilder == 0)
-        return false;
-    return true;
-}
-
-void Symbol::setSymbolGraphicBuilder(SymbolGraphicBuilder *builder)
-{
-    if (m_graphicBuilder != 0) {
-        delete m_graphicBuilder;
-    }
-
-    m_graphicBuilder = builder;
-
-    if (m_graphicBuilder != 0) {
-        SymbolGraphicPtr symbolGraphic = m_graphicBuilder->symbolGraphic();
-        initData(QVariant::fromValue<SymbolGraphicPtr>(symbolGraphic), LP::SymbolGraphic);
-        m_graphicBuilder->updateSymbolGraphic();
-    }
-}
-
-void Symbol::afterWritingData(int role)
-{
-    if (m_graphicBuilder != 0 &&
-            m_graphicBuilder->isSymbolGraphicAffectedByDataRole(role))
-    {
-        m_graphicBuilder->updateSymbolGraphic();
-    }
-}
-
-void Symbol::createSymbolPixmaps(int lineHeight)
-{
-    if (m_graphicBuilder != 0) {
-        m_graphicBuilder->setLineHeight(lineHeight);
-        m_graphicBuilder->createPixmaps(lineHeight);
-    }
 }
 
 bool Symbol::itemSupportsWritingOfData(int role) const

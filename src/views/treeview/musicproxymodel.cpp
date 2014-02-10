@@ -70,15 +70,6 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
             return QString("Measure");
     }
 
-    if (role == Qt::DecorationRole) {
-        if (model->isIndexSymbol(srcIndex)) {
-            QVariant symbolGraphicVar = srcIndex.data(LP::SymbolGraphic);
-            if (symbolGraphicVar.canConvert<SymbolGraphicPtr>()) {
-                SymbolGraphicPtr symbolGraphic = symbolGraphicVar.value<SymbolGraphicPtr>();
-                return symbolGraphic->pixmap();
-            }
-        }
-    }
     return QSortFilterProxyModel::data(index, role);
 }
 

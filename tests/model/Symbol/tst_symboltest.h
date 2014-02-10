@@ -16,10 +16,10 @@
 class SymbolTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     SymbolTest(): m_symbol(0) {}
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();
@@ -29,10 +29,6 @@ private Q_SLOTS:
     void testSymbolType();
     void testHasPitch();
     void testHasLength();
-    void testHasGraphic();
-    void testSetSymbolGraphicBuilder();
-    void testCreateSymbolPixmaps();
-    void testAfterWritingDataCall();
     void testWriteToXmlStream();
     void testReadFromXmlStream();
 

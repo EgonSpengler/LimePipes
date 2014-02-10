@@ -9,7 +9,6 @@
 #ifndef SYMBOLGRAPHICSITEM_H
 #define SYMBOLGRAPHICSITEM_H
 
-#include <common/datatypes/symbolgraphic.h>
 #include "interactinggraphicsitem.h"
 
 class SymbolGraphicsItem : public InteractingGraphicsItem
@@ -21,9 +20,6 @@ public:
 
     // InteractingGraphicsItem interface
     void setData(const QVariant &value, int key);
-
-private:
-    SymbolGraphicPtr m_symbolGraphic;
 };
 
 #endif // SYMBOLGRAPHICSITEM_H

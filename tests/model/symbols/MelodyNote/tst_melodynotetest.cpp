@@ -26,7 +26,6 @@ void MelodyNoteTest::testDefaultConstructor()
     QVERIFY2(m_melody->data(LP::SymbolName) == "Melody Note", "MelodyNote doesn't return symbol name data in default constructor");
     QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
     QVERIFY2(m_melody->hasLength(), "Melody note has no length");
-    QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
     QVERIFY2(m_melody->data(LP::MelodyNoteDots).isValid(), "No default value for dots");
 }
 
@@ -39,7 +38,6 @@ void MelodyNoteTest::testTypeAndNameConstructor()
     QVERIFY2(m_melody->data(LP::SymbolName) == "testtest", "MelodyNote doesn't return symbol name data if set through constructor");
     QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
     QVERIFY2(m_melody->hasLength(), "Melody note has no length");
-    QVERIFY2(m_melody->hasGraphic(), "Melody note has no graphic");
 }
 
 void MelodyNoteTest::testDots()
