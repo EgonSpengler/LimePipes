@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[])
 {
-    Q_INIT_RESOURCE( musicfont_resources );  // Because model is static plugin
+    Q_INIT_RESOURCE( musicfont_resources );  // Because views are static plugins
 
     QApplication app(argc, argv);
     QApplication::setApplicationName("LimePipes");

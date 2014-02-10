@@ -10,7 +10,7 @@
 #define MUSICFONTTEST_H
 
 #include <QObject>
-#include <musicfont/musicfont.h>
+#include <src/views/common/musicfont/musicfont.h>
 
 namespace {
 
@@ -48,14 +48,14 @@ private:
 class MusicFontTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     MusicFontTest();
-    
+
 private Q_SLOTS:
     void testGlyphNumber();
     void testBoundingRectForGlyph();
 };
 
-#endif 
+#endif
 

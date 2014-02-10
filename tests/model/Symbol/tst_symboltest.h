@@ -11,7 +11,6 @@
 
 #include <QObject>
 #include <testsymbol.h>
-#include <testgraphicbuilder.h>
 
 class SymbolTest : public QObject
 {

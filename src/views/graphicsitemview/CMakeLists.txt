@@ -1,6 +1,8 @@
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5PrintSupport REQUIRED )
 
+set( VIEWS_COMMON_DIR ${CMAKE_SOURCE_DIR}/src/views/common )
+
 set( lp_graphicsitemview_SOURCES
         graphicsview.cpp
         graphicsviewzoom.cpp
@@ -11,7 +13,12 @@ set( lp_graphicsitemview_SOURCES
         ${CMAKE_SOURCE_DIR}/src/common/scoresettings.cpp
         ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
         ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
-        ${CMAKE_SOURCE_DIR}/src/common/datatypes/symbolgraphic.cpp
+
+        ${VIEWS_COMMON_DIR}/symbolgraphic.cpp
+        ${VIEWS_COMMON_DIR}/symbolgraphicbuilder.cpp
+        ${VIEWS_COMMON_DIR}/melodynotegraphicbuilder.cpp
+        ${VIEWS_COMMON_DIR}/musicfont/musicfont.cpp
+        ${VIEWS_COMMON_DIR}/musicfont/emmentalermusicfont.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp
@@ -43,6 +50,12 @@ set( lp_graphicsitemview_UIs
         visualmusicmodel/iteminteractions/dialogs/textpropertyeditwidget.ui
         )
 qt5_wrap_ui( lp_graphicsitemview_SOURCES ${lp_graphicsitemview_UIs} )
+
+set( lp_graphicsitemview_RESOURCES
+        ${VIEWS_COMMON_DIR}/musicfont/musicfont_resources.qrc
+        )
+
+qt5_add_resources( lp_graphicsitemview_SOURCES ${lp_graphicsitemview_RESOURCES} )
 
 add_library( lp_graphicsitemview STATIC ${lp_graphicsitemview_SOURCES} )
 qt5_use_modules( lp_graphicsitemview Widgets PrintSupport )

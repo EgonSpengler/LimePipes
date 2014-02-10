@@ -8,7 +8,6 @@ find_package( Qt5Test  REQUIRED )
 set( Test_SOURCES
         tst_symboltest.cpp
         testsymbol.cpp
-        testgraphicbuilder.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

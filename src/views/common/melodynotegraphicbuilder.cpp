@@ -20,8 +20,7 @@ qreal SpaceBetweenDots = 0;
 
 }
 
-MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder(MusicItem *item)
-    : SymbolGraphicBuilder(item)
+MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder()
 {
     initSpaceBetweenNoteheadAndDots();
     initSpaceBetweenDots();

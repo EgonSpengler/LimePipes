@@ -11,7 +11,6 @@
 
 #include <QCoreApplication>
 #include <symbol.h>
-#include "melodynotegraphicbuilder.h"
 
 class MelodyNote : public Symbol
 {

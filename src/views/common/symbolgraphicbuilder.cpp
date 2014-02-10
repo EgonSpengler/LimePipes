@@ -25,14 +25,13 @@
   */
 
 #include "symbolgraphicbuilder.h"
-#include <model/musicfont/emmentalermusicfont.h>
+#include "musicfont/emmentalermusicfont.h"
 
 MusicFontPtr SymbolGraphicBuilder::s_musicFont = MusicFontPtr(0);
 
 const int InitialLineHeight = 8;
 
-SymbolGraphicBuilder::SymbolGraphicBuilder(MusicItem *item)
-    : m_item(item)
+SymbolGraphicBuilder::SymbolGraphicBuilder()
 {
     initSymbolGraphic();
 

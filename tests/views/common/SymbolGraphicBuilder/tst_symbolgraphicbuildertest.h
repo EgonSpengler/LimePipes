@@ -10,26 +10,17 @@
 #define SYMBOLGRAPHICBUILDERTEST_H
 
 #include <QObject>
-#include <symbolgraphicbuilder.h>
-#include <musicitem.h>
+#include <src/views/common/symbolgraphicbuilder.h>
 
 namespace {
 
-class TestMusicItem : public MusicItem
+class TestMusicItem
 {
 public:
     TestMusicItem()
-        : MusicItem()
-    {
-        initData(1111, initialDataRole);
-    }
+    { }
 
     static int initialDataRole;
-
-    bool itemSupportsWritingOfData(int role) const
-    { Q_UNUSED(role) return true; }
-    void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }
-    void readCurrentElementFromXmlStream(QXmlStreamReader *reader) { Q_UNUSED(reader) }
 };
 
 }
@@ -39,8 +30,7 @@ int TestMusicItem::initialDataRole = 1234;
 class TestGraphicBuilder : public SymbolGraphicBuilder
 {
 public:
-    TestGraphicBuilder(MusicItem *item)
-        : SymbolGraphicBuilder(item)
+    TestGraphicBuilder()
     {}
 
     void createPixmaps(int lineHeight) { Q_UNUSED(lineHeight) }
@@ -61,15 +51,13 @@ public:
     bool isSymbolGraphicAffectedByDataRole(int role) { Q_UNUSED(role) return true; }
 };
 
-
-
 class SymbolGraphicBuilderTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     SymbolGraphicBuilderTest() {}
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();
@@ -79,7 +67,6 @@ private Q_SLOTS:
     void testSetYOffset();
 
 private:
-    MusicItem *m_musicItem;
     TestGraphicBuilder *m_builder;
 };
 

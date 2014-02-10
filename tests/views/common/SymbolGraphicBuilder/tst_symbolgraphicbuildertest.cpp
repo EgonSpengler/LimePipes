@@ -12,14 +12,12 @@
 
 void SymbolGraphicBuilderTest::init()
 {
-    m_musicItem = new TestMusicItem();
-    m_builder = new TestGraphicBuilder(m_musicItem);
+    m_builder = new TestGraphicBuilder();
 }
 
 void SymbolGraphicBuilderTest::cleanup()
 {
     delete m_builder;
-    delete m_musicItem;
 }
 
 void SymbolGraphicBuilderTest::testSymbolGraphic()

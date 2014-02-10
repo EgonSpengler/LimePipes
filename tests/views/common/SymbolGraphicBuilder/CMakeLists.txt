@@ -1,6 +1,6 @@
 set( testname SymbolGraphicBuilderTest )
 set( testmodules Test Gui XmlPatterns )
-set( testlibraries lp_model )
+set( testlibraries lp_graphicsitemview )
 
 find_package( Qt5Test  REQUIRED )
 find_package( Qt5Gui   REQUIRED )

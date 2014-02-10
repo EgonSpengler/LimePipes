@@ -11,19 +11,19 @@
 
 #include <QObject>
 #include <QMetaType>
-#include <musicfont/emmentalermusicfont.h>
+#include <src/views/common/musicfont/emmentalermusicfont.h>
 
 Q_DECLARE_METATYPE(MusicFont::Glyph)
 
 class EmmentalerMusicFontTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     EmmentalerMusicFontTest()
         : m_lineHeight(100),
           m_musicFont(0) {}
-    
+
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();

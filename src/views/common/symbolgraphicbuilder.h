@@ -9,14 +9,14 @@
 #ifndef SYMBOLGRAPHICBUILDER_H
 #define SYMBOLGRAPHICBUILDER_H
 
-#include <musicitem.h>
-#include <common/datatypes/symbolgraphic.h>
-#include <musicfont/musicfont.h>
+#include <QVariant>
+#include "symbolgraphic.h"
+#include "musicfont/musicfont.h"
 
 class SymbolGraphicBuilder
 {
 public:
-    explicit SymbolGraphicBuilder(MusicItem *item);
+    explicit SymbolGraphicBuilder();
     virtual ~SymbolGraphicBuilder() {}
 
     SymbolGraphicPtr symbolGraphic() { return m_graphic; }
@@ -31,14 +31,14 @@ public slots:
 
 protected:
     MusicFontPtr musicFont() { return s_musicFont; }
-    QVariant itemData(int role) { return m_item->data(role); }
+    QVariant itemData(int role) { return QVariant(); }
 
     void setSymbolGraphicPixmap(const QPixmap &pixmap) { m_graphic->setPixmap(pixmap); }
     void setSymbolGraphicYOffset(qreal yOffset) { m_graphic->setYOffset(yOffset); }
 
 private:
     void initSymbolGraphic();
-    MusicItem *m_item;
+//    MusicItem *m_item;  // There has to be a new way of getting data, not MusicItem
     SymbolGraphicPtr m_graphic;
     static MusicFontPtr s_musicFont;
 };

@@ -9,7 +9,7 @@
 #ifndef MELODYNOTEGRAPHICBUILDER_H
 #define MELODYNOTEGRAPHICBUILDER_H
 
-#include <model/symbolgraphicbuilder.h>
+#include "symbolgraphicbuilder.h"
 
 class QPixmap;
 class QPainter;
@@ -17,7 +17,7 @@ class QPainter;
 class MelodyNoteGraphicBuilder : public SymbolGraphicBuilder
 {
 public:
-    MelodyNoteGraphicBuilder(MusicItem *item);
+    MelodyNoteGraphicBuilder();
 
     void createPixmaps(int lineHeight);
     void updateSymbolGraphic();
