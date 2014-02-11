@@ -8,7 +8,7 @@
 
 #include "lengthdelegate.h"
 #include <musicmodelinterface.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <common/datatypes/length.h>
 
 QStringList LengthDelegate::comboBoxItems(const QModelIndex &symbolIndex) const

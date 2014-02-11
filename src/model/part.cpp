@@ -6,7 +6,7 @@
  *
  */
 
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include "part.h"
 
 Part::Part(MusicItem *parent)

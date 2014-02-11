@@ -9,7 +9,7 @@
 #ifndef SCOREINTERACTION_H
 #define SCOREINTERACTION_H
 
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include "../iteminteraction.h"
 
 class ScorePropertiesDialog;

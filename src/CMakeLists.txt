@@ -14,6 +14,17 @@ set( limepipes_SOURCES
         views/treeview/musicsymboldatadelegate.cpp
         views/treeview/pitchdelegate.cpp
         views/treeview/treeview.cpp
+
+        # Other files
+        common/defines.h
+        common/itemdataroles.h
+        common/settingdefines.h
+
+        interfaces/interfaceglobals.h
+        interfaces/instrumentinterface.h
+        interfaces/symbolinterface.h
+
+        utilities/error.h
         )
 
 set( limepipes_UIs

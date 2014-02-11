@@ -10,7 +10,7 @@
 #define SETTINGDEFINES_H
 
 #include <QVariant>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 
 namespace Settings
 {

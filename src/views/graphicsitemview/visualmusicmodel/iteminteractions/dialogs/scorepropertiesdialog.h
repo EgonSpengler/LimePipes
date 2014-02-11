@@ -11,7 +11,7 @@
 
 #include <QHash>
 #include <QDialog>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 
 namespace Ui {
 class ScorePropertiesDialog;

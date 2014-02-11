@@ -10,7 +10,7 @@
 #define ITEMINTERACTION_H
 
 #include <QObject>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 
 class QVariant;
 class QGraphicsScene;

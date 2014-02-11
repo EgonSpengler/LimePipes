@@ -10,7 +10,7 @@
 #include <QKeyEvent>
 #include "pitchdelegate.h"
 #include "lengthdelegate.h"
-#include <model/itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <model/symbols/melodynote.h>
 
 TreeView::TreeView(QWidget *parent)

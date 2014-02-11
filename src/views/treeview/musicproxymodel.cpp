@@ -8,7 +8,7 @@
 
 #include "musicproxymodel.h"
 #include <musicmodel.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <common/datatypes/length.h>
 
 MusicProxyModel::MusicProxyModel(QObject *parent) :

@@ -20,7 +20,7 @@
 #include <utilities/error.h>
 #include "qt_modeltest/modeltest.h"
 #include <utilities/error.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <common/datatypes/instrument.h>
 #include <symbol.h>
 #include <score.h>

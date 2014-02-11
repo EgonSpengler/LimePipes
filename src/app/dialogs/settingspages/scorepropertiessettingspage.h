@@ -11,7 +11,7 @@
 
 #include <QHash>
 #include <QWidget>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <common/settingdefines.h>
 
 namespace Ui {

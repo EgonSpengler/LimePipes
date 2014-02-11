@@ -27,7 +27,7 @@
 #include <QUndoStack>
 #include <utilities/error.h>
 #include <musicmodel.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <treeview/musicproxymodel.h>
 #include <views/treeview/treeview.h>
 #include <views/graphicsitemview/graphicsitemview.h>

@@ -6,7 +6,7 @@
  *
  */
 
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include "interactinggraphicsitems/staffgraphicsitem.h"
 #include "visualpart.h"
 

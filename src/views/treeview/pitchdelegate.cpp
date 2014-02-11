@@ -8,7 +8,7 @@
 
 #include "pitchdelegate.h"
 #include <musicmodelinterface.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <common/datatypes/pitch.h>
 #include <common/datatypes/pitchcontext.h>
 #include <common/datatypes/instrument.h>

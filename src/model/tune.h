@@ -11,7 +11,7 @@
 
 #include <musicitem.h>
 #include <symbol.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <instrumentinterface.h>
 
 class Tune : public MusicItem

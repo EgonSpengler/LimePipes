@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QtTest/QSignalSpy>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <common/datatypes/instrument.h>
 #include <score.h>
 #include <tune.h>

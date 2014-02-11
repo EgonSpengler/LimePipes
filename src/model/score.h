@@ -11,7 +11,7 @@
 
 #include <QString>
 #include <musicitem.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 
 class Score : public MusicItem
 {

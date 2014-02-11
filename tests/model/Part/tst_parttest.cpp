@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QtCore/QCoreApplication>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 
 #include "tst_parttest.h"
 

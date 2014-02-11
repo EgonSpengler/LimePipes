@@ -9,7 +9,7 @@
 #include "melodynotegraphicbuilder.h"
 #include <common/datatypes/pitch.h>
 #include <common/datatypes/length.h>
-#include <model/itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <QPainter>
 #include <QPixmap>
 

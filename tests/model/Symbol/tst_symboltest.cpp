@@ -10,7 +10,7 @@
 #include <QtTest/QtTest>
 #include <QtTest/QSignalSpy>
 #include <interfaceglobals.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include "tst_symboltest.h"
 
 void SymbolTest::init()

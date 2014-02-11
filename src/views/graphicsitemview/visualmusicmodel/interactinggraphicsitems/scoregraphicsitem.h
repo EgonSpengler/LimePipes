@@ -11,7 +11,7 @@
 
 #include <QList>
 #include <QHash>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <common/settingdefines.h>
 #include <common/settingsobserver.h>
 #include "interactinggraphicsitem.h"

@@ -10,7 +10,7 @@
 #include <QtTest>
 #include <QCoreApplication>
 #include <QSignalSpy>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <views/graphicsitemview/visualmusicmodel/visualpart.h>
 #include <views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/staffgraphicsitem.h>
 

@@ -8,7 +8,7 @@
 
 #include <QVBoxLayout>
 #include <QResizeEvent>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include <musicitem.h>
 #include "graphicsview.h"
 #include "graphicsscene.h"

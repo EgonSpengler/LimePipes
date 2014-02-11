@@ -8,7 +8,7 @@
 
 #include <QAbstractItemModel>
 #include <musicitem.h>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include "visualmusicmodel.h"
 #include "sequentialtunesrowiterator.h"
 

@@ -7,7 +7,7 @@
  */
 
 #include <QPainter>
-#include <itemdatatypes.h>
+#include <common/itemdataroles.h>
 #include "symbolgraphicsitem.h"
 
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
