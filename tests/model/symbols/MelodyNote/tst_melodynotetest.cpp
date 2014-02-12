@@ -8,6 +8,7 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <common/defines.h>
 #include "tst_melodynotetest.h"
 
 void MelodyNoteTest::init()

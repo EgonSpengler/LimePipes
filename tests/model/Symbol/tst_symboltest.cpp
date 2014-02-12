@@ -9,7 +9,7 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <QtTest/QSignalSpy>
-#include <interfaceglobals.h>
+#include <common/defines.h>
 #include <common/itemdataroles.h>
 #include "tst_symboltest.h"
 

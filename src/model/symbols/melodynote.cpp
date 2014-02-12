@@ -12,6 +12,7 @@
   */
 
 #include "melodynote.h"
+#include <common/defines.h>
 #include <QXmlStreamWriter>
 
 #ifndef Q_OS_WIN

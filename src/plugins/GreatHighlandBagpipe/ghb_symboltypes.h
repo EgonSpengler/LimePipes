@@ -9,7 +9,7 @@
 #ifndef GHB_SYMBOLTYPES_H
 #define GHB_SYMBOLTYPES_H
 
-#include <interfaceglobals.h>
+#include <common/defines.h>
 
 namespace GHB {
 

@@ -8,7 +8,6 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
-#include <interfaceglobals.h>
 #include "tst_ghb_plugintest.h"
 
 void GHB_PluginTest::init()

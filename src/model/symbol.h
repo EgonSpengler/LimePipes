@@ -14,7 +14,6 @@
 #include <common/itemdataroles.h>
 #include <common/datatypes/pitch.h>
 #include <common/datatypes/length.h>
-#include "../interfaces/interfaceglobals.h"
 
 class Symbol : public MusicItem
 {

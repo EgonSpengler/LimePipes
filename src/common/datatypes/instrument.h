@@ -14,7 +14,6 @@
 #include <QSharedPointer>
 #include "pitchcontext.h"
 #include <common/defines.h>
-#include "../../interfaces/interfaceglobals.h"
 
 class Instrument
 {

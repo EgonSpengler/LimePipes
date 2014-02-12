@@ -35,36 +35,37 @@ namespace LP {
 
 // Score
 enum ScoreDataRole {
-    ScoreTitle          = Qt::UserRole,
-    ScoreComposer       = Qt::UserRole + 1,
-    ScoreArranger       = Qt::UserRole + 2,
-    ScoreYear           = Qt::UserRole + 3,
-    ScoreCopyright      = Qt::UserRole + 4,
-    ScoreType           = Qt::UserRole + 5
+    ScoreTitle          = Qt::UserRole,         // QString
+    ScoreComposer       = Qt::UserRole + 1,     // QString
+    ScoreArranger       = Qt::UserRole + 2,     // QString
+    ScoreYear           = Qt::UserRole + 3,     // QString
+    ScoreCopyright      = Qt::UserRole + 4,     // QString
+    ScoreType           = Qt::UserRole + 5      // QString
 };
 
 // Tune
 enum TuneDataRole {
-    TuneInstrument      = Qt::UserRole + 6
+    TuneInstrument      = Qt::UserRole + 6      // Instrument
 };
 
 // Part
 enum PartDataRole {
-    PartRepeat          = Qt::UserRole + 7,
-    PartStaffType       = Qt::UserRole + 8
+    PartRepeat          = Qt::UserRole + 7,     // bool
+    PartStaffType       = Qt::UserRole + 8      // StaffType in defines.h
 };
 
 // Measure
 enum MeasureDataRole {
-    MeasureIsUpbeat     = Qt::UserRole + 9
+    MeasureIsUpbeat     = Qt::UserRole + 9      // bool
 };
 
 // Symbol
 enum SymbolDataRole {
-    SymbolType          = Qt::UserRole + 10,
-    SymbolName          = Qt::UserRole + 11,
-    SymbolLength        = Qt::UserRole + 12,
-    SymbolPitch         = Qt::UserRole + 13,
+    SymbolCategory      = Qt::UserRole + 10,    // SymbolCategory in defines.h
+    SymbolType          = Qt::UserRole + 11,    // int
+    SymbolName          = Qt::UserRole + 12,    // QString
+    SymbolLength        = Qt::UserRole + 13,    // Length
+    SymbolPitch         = Qt::UserRole + 14,    // Pitch
 };
 
 // MelodyNote

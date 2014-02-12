@@ -20,7 +20,6 @@ set( limepipes_SOURCES
         common/itemdataroles.h
         common/settingdefines.h
 
-        interfaces/interfaceglobals.h
         interfaces/instrumentinterface.h
         interfaces/symbolinterface.h
 
