@@ -92,8 +92,7 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
         }
         QVariant symbol = data(index, LP::SymbolType);
         if (symbol.isValid() &&
-                symbol.canConvert<int>() &&
-                symbol.toInt() == LP::BarLine) {
+                symbol.canConvert<int>()) {
             theFlags &= Qt::ItemIsEnabled;
         }
     }

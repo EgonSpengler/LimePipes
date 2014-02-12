@@ -49,8 +49,7 @@ enum InstrumentType {
 
 enum IntegratedSymbolTypes {
     NoSymbolType = 1,
-    MelodyNote,
-    BarLine
+    MelodyNote
 };
 
 enum FirstSymbolTypeForInstrument {

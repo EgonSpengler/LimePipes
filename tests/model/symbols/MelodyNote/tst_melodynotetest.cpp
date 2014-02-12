@@ -32,9 +32,9 @@ void MelodyNoteTest::testDefaultConstructor()
 void MelodyNoteTest::testTypeAndNameConstructor()
 {
     delete m_melody;
-    m_melody = new MelodyNote(LP::BarLine, "testtest");
+    m_melody = new MelodyNote(LP::MelodyNote, "testtest");
 
-    QVERIFY2(m_melody->symbolType() == LP::BarLine, "Melody Note doesn't return right symbol type if set through constructor");
+    QVERIFY2(m_melody->symbolType() == LP::MelodyNote, "Melody Note doesn't return right symbol type if set through constructor");
     QVERIFY2(m_melody->data(LP::SymbolName) == "testtest", "MelodyNote doesn't return symbol name data if set through constructor");
     QVERIFY2(m_melody->hasPitch(), "Melody note has no pitch");
     QVERIFY2(m_melody->hasLength(), "Melody note has no length");
