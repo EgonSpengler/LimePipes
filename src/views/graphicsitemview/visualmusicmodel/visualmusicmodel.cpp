@@ -167,6 +167,7 @@ void VisualMusicModel::initVisualItemData(VisualItem *visualItem, const QPersist
         setVisualItemDataFromModel(visualItem, itemIndex, LP::MeasureIsUpbeat);
         break;
     case VisualItem::VisualSymbolItem:
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolCategory);
         setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolType);
         setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolName);
         setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolLength);

@@ -27,6 +27,8 @@ void SymbolTest::testConstructor()
 {
     QVERIFY2(m_symbol->data(LP::SymbolType).toInt() == LP::NoSymbolType, "Wrong Symbol id in default constructor");
     QVERIFY2(m_symbol->data(LP::SymbolName).isValid(), "Symbol has no name in default constructor");
+    QVERIFY2(m_symbol->data(LP::SymbolCategory).value<SymbolCategory>() == SymbolCategory::Control,
+             "Wrong default symbol category");
 
     Symbol symbol(333, "Testsymbol");
     QVERIFY2(symbol.data(LP::SymbolType).toInt() == 333, "Failed setting symbol Id in constructor");
@@ -41,6 +43,13 @@ void SymbolTest::testType()
 void SymbolTest::testChildType()
 {
     QVERIFY2( m_symbol->childType() == MusicItem::NoItemType, "The child itemtype of Symbol is not NoItem type");
+}
+
+void SymbolTest::testSymbolCategory()
+{
+    m_symbol->setData(QVariant::fromValue<SymbolCategory>(SymbolCategory::Graphical), LP::SymbolCategory);
+    QVERIFY2(m_symbol->data(LP::SymbolCategory).value<SymbolCategory>() == SymbolCategory::Graphical,
+             "Failed setting symbol category");
 }
 
 void SymbolTest::testSymbolType()

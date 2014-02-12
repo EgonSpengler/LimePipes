@@ -246,6 +246,14 @@ void VisualMusicModelTest::testInsertSymbol()
     TestVisualItem *testItem = static_cast<TestVisualItem*>(symbolItem);
     QVERIFY2(testItem, "Can't get testitem from item");
 
+    if (m_musicModel->data(symbolIndex, LP::SymbolCategory).isValid()) {
+        QVERIFY2(testItem->hasData(LP::SymbolCategory),
+                 "Symbol category data wasn't set");
+        QVERIFY2(testItem->data(LP::SymbolCategory).value<SymbolCategory>() ==
+                 m_musicModel->data(symbolIndex, LP::SymbolCategory).value<SymbolCategory>(),
+                 "VisualItem has wrong symbol category");
+    }
+
     if (m_musicModel->data(symbolIndex, LP::SymbolType).isValid()) {
         QVERIFY2(testItem->hasData(LP::SymbolType),
                  "Symbol type data wasn't set");

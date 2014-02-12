@@ -25,6 +25,7 @@ private Q_SLOTS:
     void testConstructor();
     void testType();
     void testChildType();
+    void testSymbolCategory();
     void testSymbolType();
     void testHasPitch();
     void testHasLength();
