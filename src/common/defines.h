@@ -28,6 +28,12 @@ enum class SymbolCategory
 Q_DECLARE_METATYPE(StaffType)
 Q_DECLARE_METATYPE(SymbolCategory)
 
+enum GraphicItemTypes {
+    StaffGraphic = 1,
+    MeasureGraphic = 2,
+    SymbolGraphic = 3
+};
+
 /*!
   * @namespace LP
   * Contains global definitions

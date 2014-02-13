@@ -9,12 +9,16 @@
 #ifndef SYMBOLGRAPHICSITEM_H
 #define SYMBOLGRAPHICSITEM_H
 
+#include <common/defines.h>
 #include "interactinggraphicsitem.h"
 
 class SymbolGraphicsItem : public InteractingGraphicsItem
 {
 public:
     explicit SymbolGraphicsItem(QGraphicsItem *parent = 0);
+
+    enum Type { Type = SymbolGraphic };
+    int type() const { return Type; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 

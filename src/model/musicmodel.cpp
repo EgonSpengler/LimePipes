@@ -90,11 +90,6 @@ Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
         if (index.column() == 0) {
             theFlags |= Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
         }
-        QVariant symbol = data(index, LP::SymbolType);
-        if (symbol.isValid() &&
-                symbol.canConvert<int>()) {
-            theFlags &= Qt::ItemIsEnabled;
-        }
     }
     return theFlags;
 }
