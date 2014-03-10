@@ -92,7 +92,8 @@ void CommonPluginManagerTest::testPluginsWereLoaded()
 
 void CommonPluginManagerTest::testLoadedStaticPlugins()
 {
-    QVERIFY2(m_commonPluginManager->staticPluginsCount() == m_staticInstrumentPlugins, "Not the correct amount of static plugins loaded");
+    QVERIFY2(m_commonPluginManager->staticPluginsCount() == m_staticInstrumentPlugins,
+             "Not the correct amount of static plugins loaded");
 }
 
 void CommonPluginManagerTest::testPluginsPath()

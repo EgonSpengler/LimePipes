@@ -74,8 +74,8 @@ public:
 
     void clear();
 
-    QStringList instrumentNames() const { return m_pluginManager->instrumentNames(); }
-    QStringList symbolNamesForInstrument(const QString &instrument) const { return m_pluginManager->symbolNamesForInstrument(instrument); }
+    QStringList instrumentNames() const;
+    QStringList symbolNamesForInstrument(const QString &instrument) const;
 
     void save(const QString &filename);
     void load(const QString &filename);

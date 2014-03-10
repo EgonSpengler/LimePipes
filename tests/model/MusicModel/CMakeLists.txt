@@ -12,6 +12,7 @@ find_package( Qt5Widgets      REQUIRED )
 find_package( Qt5XmlPatterns  REQUIRED )
 
 set( Test_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/app/commonpluginmanager.cpp
         tst_musicmodeltest.cpp
         qt_modeltest/modeltest.cpp
         )

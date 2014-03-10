@@ -12,14 +12,22 @@
 #include <common/datatypes/instrument.h>
 #include "commonpluginmanager.h"
 
+CommonPluginManager::CommonPluginManager(QObject *parent)
+    : QObject(parent),
+      m_staticPlugins(0),
+      m_dynamicPlugins(0)
+{
+    loadStaticPlugins();
+}
+
 CommonPluginManager::CommonPluginManager(const QDir &pluginsPath, QObject *parent)
     : QObject(parent),
       m_staticPlugins(0),
       m_dynamicPlugins(0),
       m_pluginsPath(pluginsPath)
 {
-    loadDynamicPlugins();
     loadStaticPlugins();
+    loadDynamicPlugins();
 }
 
 QStringList CommonPluginManager::symbolNamesForInstrument(const QString &instrumentName) const

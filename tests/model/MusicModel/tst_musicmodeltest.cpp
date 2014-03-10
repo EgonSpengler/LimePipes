@@ -38,6 +38,13 @@ const QString SymbolMimeType = "application/vnd.limepipes.xml.symbol.z";
 
 }
 
+MusicModelTest::MusicModelTest()
+    : m_model(0)
+{
+    qRegisterMetaType<QModelIndex>("QModelIndex");
+    m_pluginManager = PluginManager(new CommonPluginManager);
+}
+
 void MusicModelTest::initTestcase()
 {
     m_instrumentNames = m_model->instrumentNames();
@@ -62,6 +69,7 @@ void MusicModelTest::cleanupTestcase()
 void MusicModelTest::init()
 {
     m_model = new MusicModel(this);
+    m_model->setPluginManager(m_pluginManager);
 }
 
 void MusicModelTest::cleanup()
@@ -660,7 +668,7 @@ void MusicModelTest::checkTestfilesAgainstXsd()
 #ifdef Q_OS_MAC
     QSKIP("Test hangs up on QXmlSchema::load() und OS X");
 #endif
-    QSKIP("Checks require long time", SkipSingle);
+//    QSKIP("Checks require long time", SkipSingle);
 
     QUrl xsdUrl = QUrl::fromLocalFile(LIMEPIPES_XSD_FILE);
     QXmlSchema schema;
@@ -977,6 +985,7 @@ void MusicModelTest::testDropMimeDataScores()
     Q_ASSERT(!scoreTitleRow1.isEmpty());
 
     MusicModel model2;
+    model2.setPluginManager(m_pluginManager);
     model2.dropMimeData(data, Qt::MoveAction, 0, 0, QModelIndex());
     QVERIFY2(model2.rowCount(QModelIndex()) == 2, "Failed dropping scores into model");
 
@@ -1004,9 +1013,12 @@ void MusicModelTest::testDropMimeDataTunes()
     QModelIndex tuneIndex = m_model->index(0, 0, scoreIndex);
     Q_ASSERT(tuneIndex.isValid());
     QMimeData *data = m_model->mimeData(QModelIndexList() << tuneIndex);
+    Q_ASSERT(data);
 
     MusicModel model2;
+    model2.setPluginManager(m_pluginManager);
     QModelIndex scoreModel2 = model2.insertScore(0, "New Score");
+    Q_ASSERT(scoreModel2.isValid());
     model2.dropMimeData(data, Qt::MoveAction, 0, 0, scoreModel2);
     QVERIFY2(model2.rowCount(scoreModel2) == 1, "Tune wasn't inserted");
 
@@ -1027,6 +1039,7 @@ void MusicModelTest::testDropMimeDataParts()
     QMimeData *data = m_model->mimeData(QModelIndexList() << partIndex);
 
     MusicModel model2;
+    model2.setPluginManager(m_pluginManager);
     QModelIndex tuneIndex2 = model2.insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
     model2.dropMimeData(data, Qt::MoveAction, 0, 0, tuneIndex2);
     QVERIFY2(model2.rowCount(tuneIndex2) == 1, "Part wasn't inserted");
@@ -1052,6 +1065,7 @@ void MusicModelTest::testDropMimeDataMeasures()
 
     int measureCountBeforeDrop = 8;
     MusicModel model2;
+    model2.setPluginManager(m_pluginManager);
     QModelIndex tuneIndex2 = model2.insertTuneWithScore(0, "First Score", m_instrumentNames.at(0));
     QModelIndex partIndex2 = model2.insertPartIntoTune(0, tuneIndex2, measureCountBeforeDrop, true);
     model2.dropMimeData(data, Qt::MoveAction, 0, 0, partIndex2);
@@ -1089,6 +1103,7 @@ void MusicModelTest::testDropMimeDataSymbols()
 
     QMimeData *data = m_model->mimeData(QModelIndexList() << symbol1 << symbol2);
     MusicModel model2;
+    model2.setPluginManager(m_pluginManager);
     QModelIndex tuneModel2 = model2.insertTuneWithScore(0, "test score", m_instrumentNames.at(0));
     QModelIndex partIndex2 = m_model->insertPartIntoTune(0, tuneModel2, 10);
     QModelIndex measureIndex2 = m_model->index(0, 0, partIndex2);
@@ -1254,11 +1269,13 @@ void MusicModelTest::testUndoStackDropMimeData()
     QMimeData *data = m_model->mimeData(QModelIndexList() << scoreIndex << scoreIndex2);
 
     MusicModel model2;
+    model2.setPluginManager(m_pluginManager);
     model2.dropMimeData(data, Qt::MoveAction, 0, 0, QModelIndex());
 
     QVERIFY2(model2.undoStack()->count() == 1, "No command/too many commands pushed on undo stack while inserting");
 
     MusicModel model3;
+    model3.setPluginManager(m_pluginManager);
     model3.dropMimeData(data, Qt::MoveAction, -1, 0, QModelIndex());
     QVERIFY2(model2.undoStack()->count() == 1, "No command/too many commands pushed on undo stack while appending");
 }

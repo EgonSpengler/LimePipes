@@ -23,6 +23,7 @@ class CommonPluginManager : public QObject,
 {
     Q_OBJECT
 public:
+    explicit CommonPluginManager(QObject *parent = 0);
     explicit CommonPluginManager(const QDir& pluginsPath, QObject *parent = 0);
 
     // PluginManagerInterface

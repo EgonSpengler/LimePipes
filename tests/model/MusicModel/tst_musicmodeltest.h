@@ -11,6 +11,7 @@
 
 #include <musicmodel.h>
 #include <QFileInfoList>
+#include <app/commonpluginmanager.h>
 #include "config.h"
 
 class MusicModelTest : public QObject
@@ -18,9 +19,7 @@ class MusicModelTest : public QObject
     Q_OBJECT
 
 public:
-    MusicModelTest()
-        : m_model(0)
-    { qRegisterMetaType<QModelIndex>("QModelIndex"); }
+    explicit MusicModelTest();
 
 private Q_SLOTS:
     void initTestcase();
@@ -102,6 +101,7 @@ private:
     QStringList m_instrumentNames;
     QStringList m_symbolNames;
     QStringList m_musicItemTagNames;
+    PluginManager m_pluginManager;
 };
 
 #endif

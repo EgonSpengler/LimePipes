@@ -371,6 +371,11 @@ QModelIndex MusicModel::appendScore(const QString &title)
 
 QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName)
 {
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't insert tune into score.");
+        return QModelIndex();
+    }
+
     InstrumentPtr instrument(m_pluginManager->instrumentForName(instrumentName));
     return insertItem("Insert tune into score", score, row, new Tune(instrument));
 }
@@ -427,6 +432,11 @@ QModelIndex MusicModel::appendMeasureToPart(const QModelIndex &part)
 
 QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName)
 {
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't insert symbol into measure.");
+        return QModelIndex();
+    }
+
     MusicItem *measureItem = itemForIndex(measure);
     if (!measureItem && measureItem->type() == MusicItem::MeasureType)
         return QModelIndex();
@@ -488,6 +498,26 @@ void MusicModel::clear()
     delete m_rootItem;
     m_rootItem = 0;
     endResetModel();
+}
+
+QStringList MusicModel::instrumentNames() const
+{
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't return instrument names");
+        return QStringList();
+    }
+
+    return m_pluginManager->instrumentNames();
+}
+
+QStringList MusicModel::symbolNamesForInstrument(const QString &instrument) const
+{
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't return symbol names");
+        return QStringList();
+    }
+
+    return m_pluginManager->symbolNamesForInstrument(instrument);
 }
 
 void MusicModel::save(const QString &filename)
@@ -713,6 +743,11 @@ bool MusicModel::tagHasNonEmptyAttribute(QXmlStreamReader *reader, const QString
 
 bool MusicModel::instrumentNameIsSupported(const QString &instrumentName)
 {
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't check if instrument is supported.");
+        return false;
+    }
+
     if (m_pluginManager->instrumentNames().contains(instrumentName))
         return true;
     return false;
@@ -726,6 +761,11 @@ QString MusicModel::attributeValue(QXmlStreamReader *reader, const QString &attr
 
 MusicItem *MusicModel::newTuneWithInstrument(QXmlStreamReader *reader, MusicItem *item)
 {
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't return new tune with instrument.");
+        return 0;
+    }
+
     Tune *tune = itemPointerToNewChildItem<Tune>(&item);
     QString instrumentName = attributeValue(reader, "INSTRUMENT");
     tune->setInstrument(InstrumentPtr(m_pluginManager->instrumentForName(instrumentName)));
@@ -777,6 +817,11 @@ bool MusicModel::isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item)
 
 bool MusicModel::symbolNameIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem)
 {
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't check if symbol name is supported by tune item.");
+        return false;
+    }
+
     QString symbolNameFromAttribute = attributeValue(reader, "NAME");
 
     InstrumentPtr instrument = instrumentFromItem(tuneItem);
@@ -806,6 +851,11 @@ InstrumentPtr MusicModel::instrumentFromItem(MusicItem *item)
 
 MusicItem *MusicModel::newSymbolForMeasureItem(QXmlStreamReader *reader, MusicItem *item)
 {
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't return new symbol for measure item.");
+        return 0;
+    }
+
     MusicItem *tuneItem = getTuneItemParent(item);
 
     QString symbolNameFromAttribute = attributeValue(reader, "NAME");
