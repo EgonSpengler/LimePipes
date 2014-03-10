@@ -12,8 +12,8 @@
 #include "testinstrument.h"
 #include <QObject>
 #include <QStringList>
-#include <instrumentinterface.h>
-#include <symbolinterface.h>
+#include <src/common/interfaces/instrumentinterface.h>
+#include <src/common/interfaces/symbolinterface.h>
 
 namespace {
 
@@ -47,7 +47,7 @@ public:
         : m_instrument(InstrumentPtr(new TestInstrument())) {}
 
     // Instrument interface
-    InstrumentPtr instrument() const { return m_instrument; }
+    Instrument *instrument() const { return new TestInstrument; }
     QString name() const { return m_instrument->name(); }
 
     // Symbol interface

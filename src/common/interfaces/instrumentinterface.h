@@ -15,14 +15,14 @@
 #define INSTRUMENT_INTERFACE_H
 
 #include <QtPlugin>
-#include <src/common/datatypes/instrument.h>
 
 class QString;
+class Instrument;
 
 class InstrumentInterface {
 public:
     virtual ~InstrumentInterface() {}
-    virtual InstrumentPtr instrument() const = 0;
+    virtual Instrument *instrument() const = 0;
     virtual QString name() const = 0;
 };
 

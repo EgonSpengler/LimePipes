@@ -22,7 +22,7 @@ MeasureTest::MeasureTest()
 void MeasureTest::init()
 {
     m_measure = new Measure();
-    m_instrument = GreatHighlandBagpipe().instrument();
+    m_instrument = InstrumentPtr(GreatHighlandBagpipe().instrument());
 }
 
 void MeasureTest::cleanup()

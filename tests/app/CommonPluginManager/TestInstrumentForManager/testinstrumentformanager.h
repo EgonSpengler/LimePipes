@@ -9,7 +9,7 @@
 #ifndef TESTINSTRUMENTFORMANAGER_H
 #define TESTINSTRUMENTFORMANAGER_H
 
-#include <instrumentinterface.h>
+#include <common/interfaces/instrumentinterface.h>
 #include <QString>
 #include <instrument.h>
 
@@ -25,8 +25,7 @@ public:
         : m_instrument(InstrumentPtr(new TestInstrument())) {}
     QString name() const
         { return QString("Test instrument"); }
-    InstrumentPtr instrument() const
-    { return m_instrument; }
+    Instrument *instrument() const { return new TestInstrument; }
 
 private:
     class TestInstrument : public Instrument

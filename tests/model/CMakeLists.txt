@@ -7,6 +7,4 @@ add_subdirectory( Symbol )
 add_subdirectory( MusicItem )
 add_subdirectory( MusicModel )
 
-add_subdirectory( datatypes )
-add_subdirectory( InstrumentManager )
 add_subdirectory( symbols )

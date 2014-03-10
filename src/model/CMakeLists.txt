@@ -1,5 +1,4 @@
 set( lp_model_SOURCES
-        instrumentmanager.cpp
         musicitem.cpp
         musicmodel.cpp
         rootitem.cpp

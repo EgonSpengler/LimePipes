@@ -12,11 +12,12 @@
 #include <QComboBox>
 #include <musicmodel.h>
 #include <views/treeview/lengthdelegate.h>
+#include <common/itemdataroles.h>
 
 class LengthDelegateTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     LengthDelegateTest()
         : m_model(0),
@@ -26,7 +27,7 @@ public:
           m_symbolWithNoLengthIndex(0),
           m_parentWidget(0),
           m_editor(0) {}
-    
+
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();

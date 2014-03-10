@@ -17,6 +17,7 @@
  */
 
 #include "musicmodel.h"
+#include <QFile>
 #include <QDebug>
 #include <QMimeData>
 #include <QPair>
@@ -63,21 +64,12 @@ MusicModel::MusicModel(QObject *parent)
       m_dropMimeDataOccured(false),
       m_noDropOccured(false)
 {
-    m_instrumentManager = new InstrumentManager(pluginsDir());
     m_undoStack = new QUndoStack(this);
 }
 
 MusicModel::~MusicModel()
 {
     delete m_rootItem;
-    delete m_instrumentManager;
-}
-
-QDir MusicModel::pluginsDir()
-{
-    QDir pluginsDir(qApp->applicationDirPath());
-    pluginsDir.cd("plugins");
-    return pluginsDir;
 }
 
 Qt::ItemFlags MusicModel::flags(const QModelIndex &index) const
@@ -379,7 +371,7 @@ QModelIndex MusicModel::appendScore(const QString &title)
 
 QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, const QString &instrumentName)
 {
-    InstrumentPtr instrument = m_instrumentManager->instrumentForName(instrumentName);
+    InstrumentPtr instrument(m_pluginManager->instrumentForName(instrumentName));
     return insertItem("Insert tune into score", score, row, new Tune(instrument));
 }
 
@@ -449,7 +441,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         return QModelIndex();
 
     InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-    Symbol *symbol = m_instrumentManager->symbolForName(instrument->name(), symbolName);
+    Symbol *symbol = m_pluginManager->symbolForName(instrument->name(), symbolName);
 
     if (symbol &&
             symbol->symbolType() == LP::NoSymbolType)
@@ -585,6 +577,11 @@ void MusicModel::load(const QString &filename)
         throw LP::Error(reader.errorString());
 }
 
+void MusicModel::setPluginManager(const PluginManager &pluginManager)
+{
+    m_pluginManager = pluginManager;
+}
+
 void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)
 {
     while (!reader->atEnd()) {
@@ -716,7 +713,7 @@ bool MusicModel::tagHasNonEmptyAttribute(QXmlStreamReader *reader, const QString
 
 bool MusicModel::instrumentNameIsSupported(const QString &instrumentName)
 {
-    if (m_instrumentManager->instrumentNames().contains(instrumentName))
+    if (m_pluginManager->instrumentNames().contains(instrumentName))
         return true;
     return false;
 }
@@ -731,7 +728,7 @@ MusicItem *MusicModel::newTuneWithInstrument(QXmlStreamReader *reader, MusicItem
 {
     Tune *tune = itemPointerToNewChildItem<Tune>(&item);
     QString instrumentName = attributeValue(reader, "INSTRUMENT");
-    tune->setInstrument(m_instrumentManager->instrumentForName(instrumentName));
+    tune->setInstrument(InstrumentPtr(m_pluginManager->instrumentForName(instrumentName)));
     return tune;
 }
 
@@ -787,7 +784,7 @@ bool MusicModel::symbolNameIsSupportedByTuneItem(QXmlStreamReader *reader, Music
         return false;
 
     QStringList symbolNames =
-            m_instrumentManager->symbolNamesForInstrument(instrument->name());
+            m_pluginManager->symbolNamesForInstrument(instrument->name());
 
     if (symbolNames.contains(symbolNameFromAttribute)) {
             return true;
@@ -819,7 +816,7 @@ MusicItem *MusicModel::newSymbolForMeasureItem(QXmlStreamReader *reader, MusicIt
 
     MusicItem *parent = item;
     MusicItem *child = 0;
-    child = m_instrumentManager->symbolForName(instrument->name(), symbolNameFromAttribute);
+    child = m_pluginManager->symbolForName(instrument->name(), symbolNameFromAttribute);
 
     if (parent->okToInsertChild(child, parent->childCount()) &&
             parent->addChild(child)) {

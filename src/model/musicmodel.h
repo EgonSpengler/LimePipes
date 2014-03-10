@@ -11,9 +11,9 @@
 
 #include <QAbstractItemModel>
 #include <QHash>
-#include <instrumentmanager.h>
 #include <musicmodelinterface.h>
 #include <musicitem.h>
+#include <common/pluginmanagerinterface.h>
 
 class QXmlStreamWriter;
 class QXmlStreamReader;
@@ -30,8 +30,6 @@ class MusicModel : public QAbstractItemModel,
 public:
     explicit MusicModel(QObject *parent = 0);
     ~MusicModel();
-
-    QDir pluginsDir();
 
     Qt::ItemFlags flags(const QModelIndex &index) const;
     QModelIndex index(int row, int column, const QModelIndex &parent) const;
@@ -76,13 +74,15 @@ public:
 
     void clear();
 
-    QStringList instrumentNames() const { return m_instrumentManager->instrumentNames(); }
-    QStringList symbolNamesForInstrument(const QString &instrument) const { return m_instrumentManager->symbolNamesForInstrument(instrument); }
+    QStringList instrumentNames() const { return m_pluginManager->instrumentNames(); }
+    QStringList symbolNamesForInstrument(const QString &instrument) const { return m_pluginManager->symbolNamesForInstrument(instrument); }
 
     void save(const QString &filename);
     void load(const QString &filename);
 
     QUndoStack *undoStack() const { return m_undoStack; }
+
+    void setPluginManager(const PluginManager& pluginManager);
 
 private:
     bool allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &indexes) const;
@@ -141,7 +141,7 @@ private:
 
     MusicItem *m_rootItem;
     int m_columnCount;
-    InstrumentManager *m_instrumentManager;
+    PluginManager m_pluginManager;
     static QHash<int, QString> s_itemTypeTags;
     QUndoStack *m_undoStack;
     bool m_dropMimeDataOccured;

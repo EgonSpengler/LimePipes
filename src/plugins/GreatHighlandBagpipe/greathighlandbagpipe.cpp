@@ -16,8 +16,12 @@
 #include "ghb_doubling.h"
 
 GreatHighlandBagpipe::GreatHighlandBagpipe()
-    : m_bagpipe(InstrumentPtr(new GHB_Instrument()))
 {
+}
+
+Instrument *GreatHighlandBagpipe::instrument() const
+{
+    return new GHB_Instrument();
 }
 
 QStringList GreatHighlandBagpipe::symbols() const
@@ -29,7 +33,7 @@ QStringList GreatHighlandBagpipe::symbols() const
 Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
 {
     if (symbol == tr("Melody Note")) {
-        return new GHB_MelodyNote(m_bagpipe->pitchContext()->pitchForStaffPos(0), Length::_4);
+        return new GHB_MelodyNote(GHB_PitchContext().pitchForStaffPos(0), Length::_4);
     }
     if (symbol == tr("Doubling")) {
         return new GHB_Doubling();

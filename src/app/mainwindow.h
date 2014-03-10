@@ -10,6 +10,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <common/pluginmanagerinterface.h>
 
 class QTreeView;
 class QDir;
@@ -67,6 +68,7 @@ private:
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
 
     Ui::MainWindow *ui;
+    PluginManager m_pluginManager;
     QTreeView *m_treeView;
     GraphicsItemView *m_graphicsItemView;
     GraphicsScene *m_graphicsScene;

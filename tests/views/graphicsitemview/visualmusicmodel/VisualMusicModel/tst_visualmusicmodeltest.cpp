@@ -12,6 +12,8 @@
 #include <QStandardItemModel>
 #include <model/musicmodel.h>
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
+#include <common/itemdataroles.h>
+#include <common/datatypes/length.h>
 #include "testvisualitem.h"
 #include "testinteractingitem.h"
 #include "testvisualitemfactory.h"

@@ -12,11 +12,12 @@
 #include <QComboBox>
 #include <musicmodel.h>
 #include <views/treeview/pitchdelegate.h>
+#include <common/itemdataroles.h>
 
 class PitchDelegateTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     PitchDelegateTest()
         : m_model(0),
@@ -27,7 +28,7 @@ public:
           m_symbolWithNoPitchIndex(0),
           m_parentWidget(0),
           m_editor(0) {}
-    
+
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();

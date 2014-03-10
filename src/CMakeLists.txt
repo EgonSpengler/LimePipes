@@ -1,6 +1,7 @@
 set( limepipes_SOURCES
         app/main.cpp
         app/mainwindow.cpp
+        app/commonpluginmanager.cpp
         app/dialogs/newtunedialog.cpp
         app/dialogs/addsymbolsdialog.cpp
         app/dialogs/aboutdialog.cpp
@@ -20,8 +21,8 @@ set( limepipes_SOURCES
         common/itemdataroles.h
         common/settingdefines.h
 
-        interfaces/instrumentinterface.h
-        interfaces/symbolinterface.h
+        common/interfaces/instrumentinterface.h
+        common/interfaces/symbolinterface.h
 
         utilities/error.h
         )

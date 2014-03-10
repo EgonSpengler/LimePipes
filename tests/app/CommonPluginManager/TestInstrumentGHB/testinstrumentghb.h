@@ -9,7 +9,7 @@
 #ifndef TESTINSTRUMENTGHB_H
 #define TESTINSTRUMENTGHB_H
 
-#include <instrumentinterface.h>
+#include <common/interfaces/instrumentinterface.h>
 #include <QString>
 #include <common/datatypes/instrument.h>
 
@@ -31,8 +31,7 @@ public:
         : m_instrument(InstrumentPtr(new TestInstrument())) {}
     QString name() const
         { return QString("Great Highland Bagpipe"); }
-    InstrumentPtr instrument() const
-        { return m_instrument; }
+    Instrument *instrument() const { return new TestInstrument; }
 
 private:
     class TestInstrument : public Instrument

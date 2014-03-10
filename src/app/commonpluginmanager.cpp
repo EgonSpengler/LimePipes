@@ -6,38 +6,31 @@
  *
  */
 
-#include "instrumentmanager.h"
 #include <QPluginLoader>
+#include <common/interfaces/symbolinterface.h>
+#include <common/interfaces/instrumentinterface.h>
+#include <common/datatypes/instrument.h>
+#include "commonpluginmanager.h"
 
-InstrumentManager::InstrumentManager(const QDir &pluginsDir)
-    : m_staticPlugins(0),
+CommonPluginManager::CommonPluginManager(const QDir &pluginsPath, QObject *parent)
+    : QObject(parent),
+      m_staticPlugins(0),
       m_dynamicPlugins(0),
-      m_pluginsDir(pluginsDir)
+      m_pluginsPath(pluginsPath)
 {
-    loadStaticPlugins();
     loadDynamicPlugins();
+    loadStaticPlugins();
 }
 
-InstrumentPtr InstrumentManager::instrumentForName(const QString &name)
-{
-    InstrumentInterface *instrumentPlugin =
-            m_instrumentPlugins.value(name);
-    if (instrumentPlugin) {
-        return instrumentPlugin->instrument();
-    } else {
-        return InstrumentPtr(new NullInstrument());
-    }
-}
-
-QList<QString> InstrumentManager::symbolNamesForInstrument(const QString &instrumentName) const
+QStringList CommonPluginManager::symbolNamesForInstrument(const QString &instrumentName) const
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
         return m_instrumentSymbols.value(instrumentName)->symbols();
     }
-    return QList<QString>();
+    return QStringList();
 }
 
-Symbol *InstrumentManager::symbolForName(const QString &instrumentName, const QString &symbolName)
+Symbol *CommonPluginManager::symbolForName(const QString &instrumentName, const QString &symbolName) const
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
         if (m_instrumentSymbols.value(instrumentName)->symbols().contains(symbolName))
@@ -46,7 +39,24 @@ Symbol *InstrumentManager::symbolForName(const QString &instrumentName, const QS
     return new Symbol();
 }
 
-void InstrumentManager::loadStaticPlugins()
+Instrument *CommonPluginManager::instrumentForName(const QString &name) const
+{
+    InstrumentInterface *instrumentPlugin = m_instrumentPlugins.value(name);
+    if (instrumentPlugin) {
+        return instrumentPlugin->instrument();
+    } else {
+        return new NullInstrument();
+    }
+}
+
+void CommonPluginManager::setPluginsPathAndLoadDynamicPlugins(const QDir &pluginsPath)
+{
+    m_pluginsPath = pluginsPath;
+
+    loadDynamicPlugins();
+}
+
+void CommonPluginManager::loadStaticPlugins()
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances()) {
         if (addInstrumentPlugin(plugin)) {
@@ -55,14 +65,14 @@ void InstrumentManager::loadStaticPlugins()
     }
 }
 
-void InstrumentManager::loadDynamicPlugins()
+void CommonPluginManager::loadDynamicPlugins()
 {
-    if (m_pluginsDir.isReadable() == false) {
+    if (m_pluginsPath.isReadable() == false) {
         qWarning("Plugin directory is not readable");
         return;
     }
-    foreach (QString fileName, m_pluginsDir.entryList(QDir::Files)) {
-        QPluginLoader loader(m_pluginsDir.absoluteFilePath(fileName));
+    foreach (QString fileName, m_pluginsPath.entryList(QDir::Files)) {
+        QPluginLoader loader(m_pluginsPath.absoluteFilePath(fileName));
         QObject *plugin = loader.instance();
         if (plugin) {
             if (addInstrumentPlugin(plugin)) {
@@ -72,7 +82,7 @@ void InstrumentManager::loadDynamicPlugins()
     }
 }
 
-bool InstrumentManager::addInstrumentPlugin(QObject *plugin)
+bool CommonPluginManager::addInstrumentPlugin(QObject *plugin)
 {
     InstrumentInterface *iInstrument = qobject_cast<InstrumentInterface *> (plugin);
     if (iInstrument) {
@@ -85,7 +95,7 @@ bool InstrumentManager::addInstrumentPlugin(QObject *plugin)
     return false;
 }
 
-bool InstrumentManager::insertInstrumentPlugin(InstrumentInterface *instrument)
+bool CommonPluginManager::insertInstrumentPlugin(InstrumentInterface *instrument)
 {
     QString instrumentName = instrument->name();
     if (this->hasInstrumentWithName(instrumentName)) {
@@ -95,7 +105,7 @@ bool InstrumentManager::insertInstrumentPlugin(InstrumentInterface *instrument)
     return true;
 }
 
-void InstrumentManager::insertSymbolPlugin(QObject *plugin, const QString &instrumentName)
+void CommonPluginManager::insertSymbolPlugin(QObject *plugin, const QString &instrumentName)
 {
     SymbolInterface *iSymbols = qobject_cast<SymbolInterface *> (plugin);
     if (iSymbols) {
@@ -103,7 +113,7 @@ void InstrumentManager::insertSymbolPlugin(QObject *plugin, const QString &instr
     }
 }
 
-bool InstrumentManager::hasInstrumentWithName(const QString &name) const
+bool CommonPluginManager::hasInstrumentWithName(const QString &name) const
 {
     return m_instrumentPlugins.keys().contains(name);
 }

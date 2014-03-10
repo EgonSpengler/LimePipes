@@ -6,8 +6,8 @@
  *
  */
 
-#include <instrumentinterface.h>
 #include <common/itemdataroles.h>
+#include <common/datatypes/instrument.h>
 #include <symbol.h>
 #include "measure.h"
 

@@ -25,12 +25,14 @@
 #include <QScopedPointer>
 #include <QSplitter>
 #include <QUndoStack>
+#include <QtPlugin>
 #include <utilities/error.h>
-#include <musicmodel.h>
+#include <model/musicmodel.h>
 #include <common/itemdataroles.h>
 #include <treeview/musicproxymodel.h>
 #include <views/treeview/treeview.h>
 #include <views/graphicsitemview/graphicsitemview.h>
+#include "commonpluginmanager.h"
 #include "dialogs/newtunedialog.h"
 #include "dialogs/addsymbolsdialog.h"
 #include "dialogs/aboutdialog.h"
@@ -46,11 +48,23 @@ const int StatusTimeout =
 
 }
 
+const QString pluginsDirName("plugins");
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    QDir pluginsDir(QCoreApplication::applicationDirPath());
+    if (!pluginsDir.exists(pluginsDirName)) {
+        pluginsDir.mkdir(pluginsDirName);
+    }
+    pluginsDir.cd(pluginsDirName);
+
+    CommonPluginManager *pluginManager = new CommonPluginManager(pluginsDir);
+    m_pluginManager = PluginManager(pluginManager);
+
     m_addSymbolsDialog = new AddSymbolsDialog(this);
     m_aboutDialog = new AboutDialog(this);
     m_settingsDialog = new SettingsDialog(this);
@@ -81,7 +95,10 @@ void MainWindow::createModelAndView()
     splitter->setStretchFactor(0, 2);
     splitter->setStretchFactor(1, 5);
 
-    m_model = new MusicModel(this);
+    MusicModel *musicModel = new MusicModel(this);
+    musicModel->setPluginManager(m_pluginManager);
+
+    m_model = musicModel;
 
     MusicProxyModel *proxyModel = new MusicProxyModel(this);
     proxyModel->setSourceModel(m_model);

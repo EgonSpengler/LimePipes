@@ -10,6 +10,7 @@
 #define MUSICMODELTEST_H
 
 #include <musicmodel.h>
+#include <QFileInfoList>
 #include "config.h"
 
 class MusicModelTest : public QObject

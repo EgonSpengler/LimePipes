@@ -1,12 +1,13 @@
-set( testname InstrumentManagerTest )
+set( testname CommonPluginManagerTest )
 set( testmodules Test Gui )
-set( testlibraries lp_model lp_greathighlandbagpipe )
+set( testlibraries lp_greathighlandbagpipe )
 
 find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        tst_instrumentmanagertest.cpp
+        ${CMAKE_SOURCE_DIR}/src/app/commonpluginmanager.cpp
+        tst_commonpluginmanagertest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

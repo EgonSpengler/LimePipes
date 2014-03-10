@@ -16,7 +16,7 @@
 void TuneTest::init()
 {
     m_tune = new Tune();
-    m_instrument = GreatHighlandBagpipe().instrument();
+    m_instrument = InstrumentPtr(GreatHighlandBagpipe().instrument());
 }
 
 void TuneTest::cleanup()
