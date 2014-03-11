@@ -500,26 +500,6 @@ void MusicModel::clear()
     endResetModel();
 }
 
-QStringList MusicModel::instrumentNames() const
-{
-    if (m_pluginManager.isNull()) {
-        qWarning("No plugin manager installed. Can't return instrument names");
-        return QStringList();
-    }
-
-    return m_pluginManager->instrumentNames();
-}
-
-QStringList MusicModel::symbolNamesForInstrument(const QString &instrument) const
-{
-    if (m_pluginManager.isNull()) {
-        qWarning("No plugin manager installed. Can't return symbol names");
-        return QStringList();
-    }
-
-    return m_pluginManager->symbolNamesForInstrument(instrument);
-}
-
 void MusicModel::save(const QString &filename)
 {
     if (!filename.isEmpty())

@@ -47,13 +47,13 @@ MusicModelTest::MusicModelTest()
 
 void MusicModelTest::initTestcase()
 {
-    m_instrumentNames = m_model->instrumentNames();
+    m_instrumentNames = m_pluginManager->instrumentNames();
     if (m_instrumentNames.isEmpty()) {
         qWarning("There was no plugin loaded by the model.");
         return;
     }
 
-    m_symbolNames = m_model->symbolNamesForInstrument(m_instrumentNames.at(0));
+    m_symbolNames = m_pluginManager->symbolNamesForInstrument(m_instrumentNames.at(0));
     if (m_symbolNames.isEmpty()) {
         qWarning("Plugin's instrument has no symbols.");
         return;

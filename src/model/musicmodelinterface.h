@@ -49,9 +49,6 @@ public:
 
     virtual void clear() = 0;
 
-    virtual QStringList instrumentNames() const = 0;
-    virtual QStringList symbolNamesForInstrument(const QString &instrument) const = 0;
-
     QString filename() const { return m_filename; }
     void setFilename(const QString &filename) { m_filename = filename; }
 

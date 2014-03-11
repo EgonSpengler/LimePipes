@@ -311,7 +311,7 @@ void MainWindow::on_editAddTuneAction_triggered()
     if (!musicModel)
         return;
 
-    NewTuneDialog dialog(musicModel->instrumentNames(), this);
+    NewTuneDialog dialog(m_pluginManager->instrumentNames(), this);
     if (dialog.exec() == QDialog::Accepted) {
         musicModel->undoStack()->beginMacro(tr("Add Tune"));
 
@@ -354,7 +354,7 @@ void MainWindow::on_editAddSymbolsAction_triggered()
     QString instrumentName = instrumentFromParentOfCurrentIndex();
     if (!instrumentName.isEmpty()) {
         m_addSymbolsDialog->setSymbolNames(
-                    musicModel->symbolNamesForInstrument(instrumentName));
+                    m_pluginManager->symbolNamesForInstrument(instrumentName));
         m_addSymbolsDialog->show();
     } else {
         QMessageBox message;

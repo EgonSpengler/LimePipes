@@ -260,22 +260,6 @@ void MusicProxyModel::clear()
     }
 }
 
-QStringList MusicProxyModel::instrumentNames() const
-{
-    if (MusicModel *model = musicModel()) {
-        return model->instrumentNames();
-    }
-    return QStringList();
-}
-
-QStringList MusicProxyModel::symbolNamesForInstrument(const QString &instrument) const
-{
-    if (MusicModel *model = musicModel()) {
-        return model->symbolNamesForInstrument(instrument);
-    }
-    return QStringList();
-}
-
 void MusicProxyModel::save(const QString &filename)
 {
     if (MusicModel *model = musicModel()) {

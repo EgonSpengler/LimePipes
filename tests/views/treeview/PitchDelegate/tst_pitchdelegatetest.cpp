@@ -20,20 +20,20 @@ void PitchDelegateTest::initTestCase()
     m_model = new MusicModel(this);
     m_model->setPluginManager(m_pluginManager);
 
-    m_instrumentNames = m_model->instrumentNames();
+    m_instrumentNames = m_pluginManager->instrumentNames();
     if (m_instrumentNames.isEmpty()) {
-        qWarning("There was no plugin loaded by the model.");
+        qWarning("There was no plugin loaded by the plugin manager.");
         return;
     }
 
-    m_symbolNames = m_model->symbolNamesForInstrument(m_instrumentNames.at(0));
+    m_symbolNames = m_pluginManager->symbolNamesForInstrument(m_instrumentNames.at(0));
     if (m_symbolNames.isEmpty()) {
-        qWarning("Plugin's instrument has no symbols.");
+        qWarning("Plugin manager instrument has no symbols.");
         return;
     }
 
     m_tuneIndex = new QPersistentModelIndex(
-                m_model->insertTuneWithScore(0, "One score", m_model->instrumentNames().at(0)));
+                m_model->insertTuneWithScore(0, "One score", m_pluginManager->instrumentNames().at(0)));
 
     QVariant instrumentVar = m_tuneIndex->data(LP::TuneInstrument);
     if (!instrumentVar.isValid())

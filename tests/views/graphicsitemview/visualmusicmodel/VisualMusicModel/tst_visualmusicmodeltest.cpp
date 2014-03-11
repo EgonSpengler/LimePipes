@@ -126,13 +126,13 @@ void VisualMusicModelTest::testScoreDataChanged()
 
 void VisualMusicModelTest::testInsertTune()
 {
-    Q_ASSERT(m_musicModel->instrumentNames().count());
+    Q_ASSERT(m_pluginManager->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
 
     QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
     QModelIndex tuneIndex = m_musicModel->insertTuneIntoScore(0, scoreIndex,
-                                                              m_musicModel->instrumentNames().at(0));
+                                                              m_pluginManager->instrumentNames().at(0));
     QVERIFY2(rowSequenceSpy.count() == 1,
              "Row sequence changed signal wasn't emitted after inserting tune");
     rowSequenceSpy.clear();
@@ -155,8 +155,8 @@ void VisualMusicModelTest::testInsertTune()
 
 void VisualMusicModelTest::testInsertPart()
 {
-    Q_ASSERT(m_musicModel->instrumentNames().count());
-    QString testInstrumentName(m_musicModel->instrumentNames().at(0));
+    Q_ASSERT(m_pluginManager->instrumentNames().count());
+    QString testInstrumentName(m_pluginManager->instrumentNames().at(0));
 
     bool partRepeatData = true;
 
@@ -198,10 +198,10 @@ void VisualMusicModelTest::testInsertPart()
 
 void VisualMusicModelTest::testInsertMeasure()
 {
-    Q_ASSERT(m_musicModel->instrumentNames().count());
+    Q_ASSERT(m_pluginManager->instrumentNames().count());
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_pluginManager->instrumentNames().at(0));
     QModelIndex partIndex  = m_musicModel->appendPartToTune(tuneIndex, 0);
 
     QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
@@ -224,13 +224,13 @@ void VisualMusicModelTest::testInsertMeasure()
 
 void VisualMusicModelTest::testInsertSymbol()
 {
-    Q_ASSERT(m_musicModel->instrumentNames().count());
-    QString instrumentName = m_musicModel->instrumentNames().at(0);
-    Q_ASSERT(m_musicModel->symbolNamesForInstrument(instrumentName).count());
-    QString symbolName(m_musicModel->symbolNamesForInstrument(instrumentName).at(0));
+    Q_ASSERT(m_pluginManager->instrumentNames().count());
+    QString instrumentName = m_pluginManager->instrumentNames().at(0);
+    Q_ASSERT(m_pluginManager->symbolNamesForInstrument(instrumentName).count());
+    QString symbolName(m_pluginManager->symbolNamesForInstrument(instrumentName).at(0));
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
-    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_musicModel->instrumentNames().at(0));
+    QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_pluginManager->instrumentNames().at(0));
     QModelIndex partIndex  = m_musicModel->insertPartIntoTune(0, tuneIndex, 8);
     QModelIndex measureIndex = m_musicModel->index(0, 0, partIndex);
 
@@ -294,8 +294,8 @@ void VisualMusicModelTest::testInsertSymbol()
 
 void VisualMusicModelTest::testInsertChildItemCallOnVisualItem()
 {
-    Q_ASSERT(m_musicModel->instrumentNames().count());
-    QString instrumentName = m_musicModel->instrumentNames().at(0);
+    Q_ASSERT(m_pluginManager->instrumentNames().count());
+    QString instrumentName = m_pluginManager->instrumentNames().at(0);
     QString scoreTitle("Testscore");
     QModelIndex scoreIndex = m_musicModel->appendScore(scoreTitle);
     // Append two tunes for row > 0
