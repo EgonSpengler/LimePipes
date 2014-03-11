@@ -14,6 +14,7 @@
 #include <views/graphicsitemview/visualmusicmodel/visualmusicmodel.h>
 #include <common/itemdataroles.h>
 #include <common/datatypes/length.h>
+#include <app/commonpluginmanager.h>
 #include "testvisualitem.h"
 #include "testinteractingitem.h"
 #include "testvisualitemfactory.h"
@@ -32,7 +33,9 @@ VisualMusicModelTest::VisualMusicModelTest(QObject *parent)
 
 void VisualMusicModelTest::init()
 {
+    m_pluginManager = PluginManager(new CommonPluginManager);
     m_musicModel = new MusicModel(this);
+    m_musicModel->setPluginManager(m_pluginManager);
     m_itemFactory = new TestVisualItemFactory();
     m_visualMusicModel = new VisualMusicModel(m_itemFactory);
     m_visualMusicModel->setModel(m_musicModel);

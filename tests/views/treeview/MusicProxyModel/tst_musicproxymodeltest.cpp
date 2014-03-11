@@ -13,9 +13,17 @@
 #include <common/datatypes/instrument.h>
 #include <score.h>
 #include <tune.h>
+#include <app/commonpluginmanager.h>
 #include "tst_musicproxymodeltest.h"
 
 Q_IMPORT_PLUGIN(MusicModelTestPlugin)
+
+MusicProxyModelTest::MusicProxyModelTest()
+    : m_sourceModel(0),
+      m_proxyModel(0)
+{
+    qRegisterMetaType<QModelIndex>("QModelIndex");
+}
 
 void MusicProxyModelTest::initTestcase()
 {
@@ -34,7 +42,9 @@ void MusicProxyModelTest::initTestcase()
 
 void MusicProxyModelTest::init()
 {
+    m_pluginManager = PluginManager(new CommonPluginManager);
     m_sourceModel = new MusicModel(this);
+    m_sourceModel->setPluginManager(m_pluginManager);
     m_proxyModel = new MusicProxyModel(this);
     m_proxyModel->setSourceModel(m_sourceModel);
 }

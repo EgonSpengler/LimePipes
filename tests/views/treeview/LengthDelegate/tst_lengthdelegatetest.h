@@ -12,6 +12,7 @@
 #include <QComboBox>
 #include <musicmodel.h>
 #include <views/treeview/lengthdelegate.h>
+#include <common/pluginmanagerinterface.h>
 #include <common/itemdataroles.h>
 
 class LengthDelegateTest : public QObject
@@ -48,6 +49,7 @@ private:
     QModelIndex m_lengthIndex;
     QStringList m_instrumentNames;
     QStringList m_symbolNames;
+    PluginManager m_pluginManager;
 };
 
 #endif

@@ -9,13 +9,16 @@
 #include <QtCore/QString>
 #include <QtTest/QtTest>
 #include <common/datatypes/pitch.h>
+#include <app/commonpluginmanager.h>
 #include "tst_pitchdelegatetest.h"
 
 Q_IMPORT_PLUGIN(MusicModelTestPlugin)
 
 void PitchDelegateTest::initTestCase()
 {
+    m_pluginManager = PluginManager(new CommonPluginManager);
     m_model = new MusicModel(this);
+    m_model->setPluginManager(m_pluginManager);
 
     m_instrumentNames = m_model->instrumentNames();
     if (m_instrumentNames.isEmpty()) {

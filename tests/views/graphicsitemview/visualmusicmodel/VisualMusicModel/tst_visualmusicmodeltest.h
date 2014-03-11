@@ -7,6 +7,7 @@
  */
 
 #include <QObject>
+#include <common/pluginmanagerinterface.h>
 
 class MusicModel;
 class VisualMusicModel;
@@ -34,4 +35,5 @@ private:
     MusicModel *m_musicModel;
     VisualMusicModel *m_visualMusicModel;
     TestVisualItemFactory *m_itemFactory;
+    PluginManager m_pluginManager;
 };

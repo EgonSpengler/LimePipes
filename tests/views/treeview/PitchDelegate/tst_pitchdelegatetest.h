@@ -11,6 +11,7 @@
 
 #include <QComboBox>
 #include <musicmodel.h>
+#include <common/pluginmanagerinterface.h>
 #include <views/treeview/pitchdelegate.h>
 #include <common/itemdataroles.h>
 
@@ -50,6 +51,7 @@ private:
     QModelIndex m_pitchIndex;
     QStringList m_instrumentNames;
     QStringList m_symbolNames;
+    PluginManager m_pluginManager;
 };
 
 #endif

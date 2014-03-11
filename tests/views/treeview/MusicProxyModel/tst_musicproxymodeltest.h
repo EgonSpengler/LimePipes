@@ -13,6 +13,7 @@
 #include <musicmodel.h>
 #include <symbol.h>
 #include <views/treeview/musicproxymodel.h>
+#include <common/pluginmanagerinterface.h>
 
 namespace {
 
@@ -34,13 +35,10 @@ public:
 class MusicProxyModelTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
-    MusicProxyModelTest()
-        : m_sourceModel(0),
-          m_proxyModel(0)
-    { qRegisterMetaType<QModelIndex>("QModelIndex"); }
-    
+    explicit MusicProxyModelTest();
+
 private Q_SLOTS:
     void initTestcase();
     void init();
@@ -67,6 +65,7 @@ private:
     MusicProxyModel *m_proxyModel;
     QStringList m_instrumentNames;
     QStringList m_symbolNames;
+    PluginManager m_pluginManager;
 };
 
 #endif

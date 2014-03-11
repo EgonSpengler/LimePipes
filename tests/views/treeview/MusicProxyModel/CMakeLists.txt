@@ -6,6 +6,7 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/app/commonpluginmanager.cpp
         ${VIEWS_SOURCE_DIR}/treeview/musicproxymodel.cpp
         tst_musicproxymodeltest.cpp
         )
