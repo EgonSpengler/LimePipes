@@ -9,6 +9,7 @@
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
+#include <src/views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h>
 
 class SymbolGraphicsItemTest : public QObject
 {
@@ -18,26 +19,33 @@ public:
     SymbolGraphicsItemTest();
 
 private Q_SLOTS:
-    void initTestCase();
-    void cleanupTestCase();
-    void testCase1();
+    void init();
+    void cleanup();
+    void testGraphicsItemType();
+
+private:
+    SymbolGraphicsItem *m_symbolGraphicsItem;
 };
 
 SymbolGraphicsItemTest::SymbolGraphicsItemTest()
+    : m_symbolGraphicsItem(0)
 {
 }
 
-void SymbolGraphicsItemTest::initTestCase()
+void SymbolGraphicsItemTest::init()
 {
+    m_symbolGraphicsItem = new SymbolGraphicsItem;
 }
 
-void SymbolGraphicsItemTest::cleanupTestCase()
+void SymbolGraphicsItemTest::cleanup()
 {
+    delete m_symbolGraphicsItem;
 }
 
-void SymbolGraphicsItemTest::testCase1()
+void SymbolGraphicsItemTest::testGraphicsItemType()
 {
-    QVERIFY2(true, "Failure");
+    QVERIFY2(m_symbolGraphicsItem->type() == SymbolGraphicsItem::Type,
+             "Wrong graphics item type returned");
 }
 
 QTEST_MAIN(SymbolGraphicsItemTest)
