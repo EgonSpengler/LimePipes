@@ -11,6 +11,7 @@
 
 #include <QList>
 #include <QObject>
+#include <common/pluginmanagerinterface.h>
 #include "pageviewinterface.h"
 #include "graphicsitemview/visualmusicmodel/iteminteractions/scoreinteraction.h"
 
@@ -33,6 +34,8 @@ public:
 
     void setModel(QAbstractItemModel* model);
     QAbstractItemModel *model() const;
+
+    void setPluginManager(PluginManager pluginManager);
 
 private slots:
     void scoreRowSequenceChanged(int scoreIndex);

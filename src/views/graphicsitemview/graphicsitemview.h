@@ -10,6 +10,7 @@
 #define GRAPHICSITEMVIEW_H
 
 #include <QAbstractItemView>
+#include <common/pluginmanagerinterface.h>
 
 class GraphicsView;
 class GraphicsScene;
@@ -36,6 +37,8 @@ public:
     QRegion visualRegionForSelection(const QItemSelection &selection) const;
 
     void setModel(QAbstractItemModel *model);
+
+    void setPluginManager(PluginManager pluginManager);
 
 private:
     GraphicsScene *m_graphicsScene;

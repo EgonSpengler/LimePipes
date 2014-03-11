@@ -88,6 +88,7 @@ void MainWindow::createModelAndView()
 {
     m_treeView = new TreeView(this);
     m_graphicsItemView = new GraphicsItemView(this);
+    m_graphicsItemView->setPluginManager(m_pluginManager);
 
     QSplitter *splitter = new QSplitter(this);
     splitter->addWidget(m_treeView);

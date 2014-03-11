@@ -91,6 +91,12 @@ void GraphicsItemView::setModel(QAbstractItemModel *model)
     QAbstractItemView::setModel(model);
 }
 
+void GraphicsItemView::setPluginManager(PluginManager pluginManager)
+{
+    if (m_musicPresenter)
+        m_musicPresenter->setPluginManager(pluginManager);
+}
+
 void GraphicsItemView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollHint hint)
 {
 }

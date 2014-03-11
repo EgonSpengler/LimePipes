@@ -55,6 +55,11 @@ QAbstractItemModel *VisualMusicPresenter::model() const
     return m_visualMusicModel->model();
 }
 
+void VisualMusicPresenter::setPluginManager(PluginManager pluginManager)
+{
+    m_itemFactory->setPluginManager(pluginManager);
+}
+
 void VisualMusicPresenter::scoreRowSequenceChanged(int scoreIndex)
 {
     RowIterator iterator = m_visualMusicModel->rowIteratorForScore(scoreIndex);
