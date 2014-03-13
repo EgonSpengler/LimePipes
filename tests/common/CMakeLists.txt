@@ -1,4 +1,5 @@
 add_subdirectory( datatypes )
+add_subdirectory( graphictypes )
 add_subdirectory( ScoreSettings )
 add_subdirectory( ObservableSettings )
 add_subdirectory( SettingsObserver )

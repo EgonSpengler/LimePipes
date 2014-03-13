@@ -53,6 +53,7 @@ public:
     // Symbol interface
     QStringList symbols() const { return QStringList() << "Testsymbol" << symbolNameWithPitchAndLength; }
     Symbol *getSymbol(const QString &symbol);
+    SymbolGraphicBuilder *symbolGraphicBuilderForSymbolType(int type);
 
 private:
     InstrumentPtr m_instrument;

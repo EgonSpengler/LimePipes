@@ -23,6 +23,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testItemType();
     void testSymbolLayout();
     void testInsertChildItemImplementation();
     void testSetGetLineWidth();
@@ -47,6 +48,12 @@ void MeasureGraphicsItemTest::init()
 void MeasureGraphicsItemTest::cleanup()
 {
     delete m_measureGraphicsItem;
+}
+
+void MeasureGraphicsItemTest::testItemType()
+{
+    QVERIFY2(m_measureGraphicsItem->type() == MeasureGraphicsItem::Type,
+             "Wrong type for measure graphics item");
 }
 
 void MeasureGraphicsItemTest::testSymbolLayout()

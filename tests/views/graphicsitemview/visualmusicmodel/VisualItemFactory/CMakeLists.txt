@@ -1,11 +1,12 @@
 set( testname VisualItemFactoryTest )
 set( testmodules Test Widgets )
-set( testlibraries lp_graphicsitemview )
+set( testlibraries lp_model lp_graphicsitemview )
 
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/app/commonpluginmanager.cpp
         tst_visualitemfactorytest.cpp
         )
 

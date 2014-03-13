@@ -1,8 +1,6 @@
 add_definitions( -DQT_STATICPLUGIN )
 
 set( lp_greathighlandbagpipe_SOURCES
-        ${CMAKE_SOURCE_DIR}/src/model/symbols/melodynote.cpp
-        ${CMAKE_SOURCE_DIR}/src/views/common/melodynotegraphicbuilder.cpp
         greathighlandbagpipe.cpp
         ghb_instrument.cpp
         ghb_melodynote.cpp

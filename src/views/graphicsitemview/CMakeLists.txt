@@ -1,7 +1,7 @@
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5PrintSupport REQUIRED )
 
-set( VIEWS_COMMON_DIR ${CMAKE_SOURCE_DIR}/src/views/common )
+set( GRAPHICTYPES_DIR ${CMAKE_SOURCE_DIR}/src/common/graphictypes )
 
 set( lp_graphicsitemview_SOURCES
         graphicsview.cpp
@@ -14,11 +14,10 @@ set( lp_graphicsitemview_SOURCES
         ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
         ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
 
-        ${VIEWS_COMMON_DIR}/symbolgraphic.cpp
-        ${VIEWS_COMMON_DIR}/symbolgraphicbuilder.cpp
-        ${VIEWS_COMMON_DIR}/melodynotegraphicbuilder.cpp
-        ${VIEWS_COMMON_DIR}/musicfont/musicfont.cpp
-        ${VIEWS_COMMON_DIR}/musicfont/emmentalermusicfont.cpp
+        ${GRAPHICTYPES_DIR}/symbolgraphic.cpp
+        ${GRAPHICTYPES_DIR}/symbolgraphicbuilder.cpp
+        ${GRAPHICTYPES_DIR}/musicfont/musicfont.cpp
+        ${GRAPHICTYPES_DIR}/musicfont/emmentalermusicfont.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp
@@ -52,7 +51,7 @@ set( lp_graphicsitemview_UIs
 qt5_wrap_ui( lp_graphicsitemview_SOURCES ${lp_graphicsitemview_UIs} )
 
 set( lp_graphicsitemview_RESOURCES
-        ${VIEWS_COMMON_DIR}/musicfont/musicfont_resources.qrc
+        ${GRAPHICTYPES_DIR}/musicfont/musicfont_resources.qrc
         )
 
 qt5_add_resources( lp_graphicsitemview_SOURCES ${lp_graphicsitemview_RESOURCES} )

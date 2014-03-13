@@ -33,6 +33,7 @@ public:
     // Symbols interface
     QStringList symbols() const;
     Symbol *getSymbol(const QString &symbol);
+    SymbolGraphicBuilder *symbolGraphicBuilderForSymbolType(int type);
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H

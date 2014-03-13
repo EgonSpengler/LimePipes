@@ -11,7 +11,7 @@
 
 #include <QObject>
 #include <QMetaType>
-#include <src/views/common/musicfont/emmentalermusicfont.h>
+#include <src/common/graphictypes/musicfont/emmentalermusicfont.h>
 
 Q_DECLARE_METATYPE(MusicFont::Glyph)
 

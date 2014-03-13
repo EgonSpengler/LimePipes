@@ -22,7 +22,7 @@ class MeasureGraphicsItem : public InteractingGraphicsItem
 public:
     explicit MeasureGraphicsItem(QGraphicsItem *parent = 0);
 
-    enum Type { Type = MeasureGraphic };
+    enum { Type = MeasureGraphicItem };
     int type() const { return Type; }
 
     void setLineWidth(qreal width);

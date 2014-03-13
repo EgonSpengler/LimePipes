@@ -33,8 +33,8 @@ protected:
     MusicFontPtr musicFont() { return s_musicFont; }
     QVariant itemData(int role) { return QVariant(); }
 
-    void setSymbolGraphicPixmap(const QPixmap &pixmap) { m_graphic->setPixmap(pixmap); }
-    void setSymbolGraphicYOffset(qreal yOffset) { m_graphic->setYOffset(yOffset); }
+    void setSymbolGraphicPixmap(const QPixmap &pixmap);
+    void setSymbolGraphicYOffset(qreal yOffset);
 
 private:
     void initSymbolGraphic();

@@ -14,8 +14,7 @@
 namespace GHB {
 
 enum symbolTypes {
-    MelodyNote = LP::GreatHighlandBagpipeSymbol,
-    Doubling
+    Doubling = LP::GreatHighlandBagpipeSymbol
 };
 
 }

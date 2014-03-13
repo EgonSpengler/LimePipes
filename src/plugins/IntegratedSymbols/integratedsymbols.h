@@ -1,0 +1,33 @@
+/**
+ * @author  Thomas Baumann <teebaum@ymail.com>
+ *
+ * @section LICENSE
+ * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
+ *
+ */
+
+#ifndef INTEGRATEDSYMBOLS_H
+#define INTEGRATEDSYMBOLS_H
+
+#include <QObject>
+#include <QStringList>
+#include <common/interfaces/symbolinterface.h>
+
+class IntegratedSymbols : public QObject,
+                          public SymbolInterface
+{
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID SymbolInterfaceIID FILE "integratedsymbols.json")
+    Q_INTERFACES(SymbolInterface)
+
+public:
+    explicit IntegratedSymbols(QObject *parent = 0);
+
+    // SymbolInterface interface
+public:
+    QStringList symbols() const;
+    Symbol *getSymbol(const QString &symbol);
+    SymbolGraphicBuilder *symbolGraphicBuilderForSymbolType(int type);
+};
+
+#endif // INTEGRATEDSYMBOLS_H

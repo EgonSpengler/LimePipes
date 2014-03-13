@@ -238,7 +238,7 @@ void VisualMusicModelTest::testInsertSymbol()
     QModelIndex symbolIndex = m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
 
     QVERIFY2(rowSequenceSpy.count() == 0,
-             "Row sequence changed wasn emitted after inserting measure");
+             "Row sequence changed wasn't' emitted after inserting measure");
     rowSequenceSpy.clear();
 
     QVERIFY2(m_visualMusicModel->visualItemFromIndex(symbolIndex) != 0,

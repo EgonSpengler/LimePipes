@@ -15,16 +15,19 @@
 #define SYMBOLINTERFACE_H
 
 #include <QtPlugin>
+#include <QVector>
 #include <symbol.h>
 
 class QString;
 class QStringList;
+class SymbolGraphicBuilder;
 
 class SymbolInterface {
 public:
     virtual ~SymbolInterface() {}
     virtual QStringList symbols() const = 0;
     virtual Symbol *getSymbol( const QString &symbol ) = 0;
+    virtual SymbolGraphicBuilder *symbolGraphicBuilderForSymbolType(int type) = 0;
 };
 
 #define SymbolInterfaceIID "org.limepipes.LimePipes.SymbolInterface/0.2"

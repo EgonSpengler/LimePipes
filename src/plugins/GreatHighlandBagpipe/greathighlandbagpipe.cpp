@@ -40,3 +40,8 @@ Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
     }
     return new Symbol();
 }
+
+SymbolGraphicBuilder *GreatHighlandBagpipe::symbolGraphicBuilderForSymbolType(int type)
+{
+    return 0;
+}

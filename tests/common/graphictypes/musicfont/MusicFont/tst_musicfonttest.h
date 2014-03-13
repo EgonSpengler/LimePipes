@@ -10,7 +10,7 @@
 #define MUSICFONTTEST_H
 
 #include <QObject>
-#include <src/views/common/musicfont/musicfont.h>
+#include <src/common/graphictypes/musicfont/musicfont.h>
 
 namespace {
 

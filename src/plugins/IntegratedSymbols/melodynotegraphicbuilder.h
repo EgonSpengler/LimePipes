@@ -9,7 +9,7 @@
 #ifndef MELODYNOTEGRAPHICBUILDER_H
 #define MELODYNOTEGRAPHICBUILDER_H
 
-#include "symbolgraphicbuilder.h"
+#include <common/graphictypes/symbolgraphicbuilder.h>
 
 class QPixmap;
 class QPainter;

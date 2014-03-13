@@ -10,7 +10,7 @@
 #define SYMBOLGRAPHICBUILDERTEST_H
 
 #include <QObject>
-#include <src/views/common/symbolgraphicbuilder.h>
+#include <src/common/graphictypes/symbolgraphicbuilder.h>
 
 namespace {
 

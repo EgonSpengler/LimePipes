@@ -949,6 +949,8 @@ QModelIndex MusicModel::insertItem(const QString &text, const QModelIndex &paren
         if (validRow && okToInsert) {
             m_undoStack->push(new InsertItemsCommand(this, text,  parent, row, QList<MusicItem*>() << item));
             return index(row, 0, parent);
+        } else {
+            qWarning("Item can't be inserted into model");
         }
     }
     return QModelIndex();

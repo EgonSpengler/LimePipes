@@ -9,7 +9,7 @@
 #define __SYMBOLGRAPHICTEST_H__
 
 #include <QObject>
-#include <src/views/common/symbolgraphic.h>
+#include <src/common/graphictypes/symbolgraphic.h>
 
 class SymbolGraphicTest : public QObject
 {

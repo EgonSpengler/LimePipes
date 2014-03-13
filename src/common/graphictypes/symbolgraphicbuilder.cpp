@@ -52,6 +52,16 @@ qreal SymbolGraphicBuilder::lineHeight() const
     return s_musicFont->lineHeight();
 }
 
+void SymbolGraphicBuilder::setSymbolGraphicPixmap(const QPixmap &pixmap)
+{
+    m_graphic->setPixmap(pixmap);
+}
+
+void SymbolGraphicBuilder::setSymbolGraphicYOffset(qreal yOffset)
+{
+    m_graphic->setYOffset(yOffset);
+}
+
 void SymbolGraphicBuilder::initSymbolGraphic()
 {
     m_graphic = SymbolGraphicPtr(new SymbolGraphic());

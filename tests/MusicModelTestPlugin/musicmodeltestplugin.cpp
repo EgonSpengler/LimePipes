@@ -20,3 +20,8 @@ Symbol *MusicModelTestPlugin::getSymbol(const QString &symbol)
     }
     return new Symbol();
 }
+
+SymbolGraphicBuilder *MusicModelTestPlugin::symbolGraphicBuilderForSymbolType(int type)
+{
+    return 0;
+}

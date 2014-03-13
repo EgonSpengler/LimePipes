@@ -14,8 +14,6 @@
 
 class QTreeView;
 class QDir;
-class InstrumentInterface;
-class SymbolInterface;
 class Instrument;
 class MusicModel;
 class AddSymbolsDialog;

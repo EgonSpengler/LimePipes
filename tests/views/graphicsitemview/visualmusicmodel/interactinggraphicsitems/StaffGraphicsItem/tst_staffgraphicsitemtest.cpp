@@ -24,6 +24,7 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
+    void testType();
     void testDefaultStaffType();
     void testMeasureLayout();
     void testSetGetStaffType();
@@ -52,6 +53,12 @@ void StaffGraphicsItemTest::init()
 void StaffGraphicsItemTest::cleanup()
 {
     delete m_staffGraphicsItem;
+}
+
+void StaffGraphicsItemTest::testType()
+{
+    QVERIFY2(m_staffGraphicsItem->type() == StaffGraphicsItem::Type,
+             "Wrong type for staff graphics item");
 }
 
 void StaffGraphicsItemTest::testDefaultStaffType()

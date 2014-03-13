@@ -1,4 +1,4 @@
-set( testname SymbolGraphicTest )
+set( testname MusicFontTest )
 set( testmodules Test Gui )
 set( testlibraries )
 
@@ -6,8 +6,8 @@ find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
-        ${VIEWS_SOURCE_DIR}/common/symbolgraphic.cpp
-        tst_symbolgraphictest.cpp
+        ${COMMON_SOURCE_DIR}/graphictypes/musicfont/musicfont.cpp
+        tst_musicfonttest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

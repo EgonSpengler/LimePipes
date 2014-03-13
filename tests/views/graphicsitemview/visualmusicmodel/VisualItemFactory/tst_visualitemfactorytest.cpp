@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QtTest>
+#include <app/commonpluginmanager.h>
 #include <graphicsitemview/visualmusicmodel/visualitemfactory.h>
 #include <graphicsitemview/visualmusicmodel/visualpart.h>
 #include <graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.h>
@@ -22,6 +23,7 @@ public:
 private Q_SLOTS:
     void initTestCase();
     void cleanupTestCase();
+    void testSetGetPluginManager();
     void testCreateScore();
     void testCreateTune();
     void testCreatePart();
@@ -44,6 +46,18 @@ void VisualItemFactoryTest::initTestCase()
 void VisualItemFactoryTest::cleanupTestCase()
 {
     delete m_itemFactory;
+}
+
+void VisualItemFactoryTest::testSetGetPluginManager()
+{
+    PluginManager pluginManager(new CommonPluginManager);
+    QVERIFY2(m_itemFactory->hasValidPluginManager() == false,
+             "Plugin manager set in default item factory");
+    m_itemFactory->setPluginManager(pluginManager);
+    QVERIFY2(m_itemFactory->pluginManger() == pluginManager,
+             "Item factory returned wrong plugin manager");
+    QVERIFY2(m_itemFactory->hasValidPluginManager(),
+             "Plugin manager was set");
 }
 
 void VisualItemFactoryTest::testCreateScore()
