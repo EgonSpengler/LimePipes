@@ -30,10 +30,14 @@ CommonPluginManager::CommonPluginManager(const QDir &pluginsPath, QObject *paren
     loadDynamicPlugins();
 }
 
+CommonPluginManager::~CommonPluginManager()
+{
+}
+
 QStringList CommonPluginManager::symbolNamesForInstrument(const QString &instrumentName) const
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
-        return m_instrumentSymbols.value(instrumentName)->symbols();
+        return m_instrumentSymbols.value(instrumentName)->symbolNames();
     }
     return QStringList();
 }
@@ -41,8 +45,8 @@ QStringList CommonPluginManager::symbolNamesForInstrument(const QString &instrum
 Symbol *CommonPluginManager::symbolForName(const QString &instrumentName, const QString &symbolName) const
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
-        if (m_instrumentSymbols.value(instrumentName)->symbols().contains(symbolName))
-            return m_instrumentSymbols.value(instrumentName)->getSymbol(symbolName);
+        if (m_instrumentSymbols.value(instrumentName)->symbolNames().contains(symbolName))
+            return m_instrumentSymbols.value(instrumentName)->getSymbolForName(symbolName);
     }
     return new Symbol();
 }
@@ -70,6 +74,7 @@ void CommonPluginManager::loadStaticPlugins()
         if (addInstrumentPlugin(plugin)) {
             m_staticPlugins++;
         }
+        addSymbolPlugin(plugin);
     }
 }
 
@@ -86,6 +91,7 @@ void CommonPluginManager::loadDynamicPlugins()
             if (addInstrumentPlugin(plugin)) {
                 m_dynamicPlugins++;
             }
+            addSymbolPlugin(plugin);
         }
     }
 }
@@ -95,12 +101,20 @@ bool CommonPluginManager::addInstrumentPlugin(QObject *plugin)
     InstrumentInterface *iInstrument = qobject_cast<InstrumentInterface *> (plugin);
     if (iInstrument) {
         if (insertInstrumentPlugin(iInstrument)) {
-            insertSymbolPlugin(plugin, iInstrument->name());
+            insertInstrumentSymbolPlugin(plugin, iInstrument->name());
             return true;
         }
         return false;
     }
     return false;
+}
+
+void CommonPluginManager::addSymbolPlugin(QObject *plugin)
+{
+    SymbolInterface *iSymbols = qobject_cast<SymbolInterface *> (plugin);
+    if (iSymbols) {
+        m_symbolPlugins.append(iSymbols);
+    }
 }
 
 bool CommonPluginManager::insertInstrumentPlugin(InstrumentInterface *instrument)
@@ -113,7 +127,7 @@ bool CommonPluginManager::insertInstrumentPlugin(InstrumentInterface *instrument
     return true;
 }
 
-void CommonPluginManager::insertSymbolPlugin(QObject *plugin, const QString &instrumentName)
+void CommonPluginManager::insertInstrumentSymbolPlugin(QObject *plugin, const QString &instrumentName)
 {
     SymbolInterface *iSymbols = qobject_cast<SymbolInterface *> (plugin);
     if (iSymbols) {
@@ -124,4 +138,18 @@ void CommonPluginManager::insertSymbolPlugin(QObject *plugin, const QString &ins
 bool CommonPluginManager::hasInstrumentWithName(const QString &name) const
 {
     return m_instrumentPlugins.keys().contains(name);
+}
+
+SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
+{
+    foreach (SymbolInterface *symbolPlugin, m_symbolPlugins) {
+        if (!symbolPlugin)
+            continue;
+
+        SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
+        if (builder)
+            return builder;
+    }
+
+    return 0;
 }

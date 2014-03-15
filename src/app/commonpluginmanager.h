@@ -25,10 +25,12 @@ class CommonPluginManager : public QObject,
 public:
     explicit CommonPluginManager(QObject *parent = 0);
     explicit CommonPluginManager(const QDir& pluginsPath, QObject *parent = 0);
+    ~CommonPluginManager();
 
     // PluginManagerInterface
     QStringList symbolNamesForInstrument(const QString &instrumentName) const;
     Symbol *symbolForName(const QString &instrumentName, const QString &symbolName) const;
+    SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
 
     QStringList instrumentNames() const { return m_instrumentPlugins.keys(); }
     Instrument *instrumentForName(const QString &name) const;
@@ -43,11 +45,13 @@ private:
     void loadStaticPlugins();
     void loadDynamicPlugins();
     bool addInstrumentPlugin(QObject *plugin);
+    void addSymbolPlugin(QObject *plugin);
     bool insertInstrumentPlugin(InstrumentInterface *instrument);
-    void insertSymbolPlugin(QObject *plugin, const QString &instrumentName);
+    void insertInstrumentSymbolPlugin(QObject *plugin, const QString &instrumentName);
     bool hasInstrumentWithName(const QString &name) const;
     QMap<QString, InstrumentInterface*> m_instrumentPlugins;
     QMap<QString, SymbolInterface*> m_instrumentSymbols;
+    QList<SymbolInterface*> m_symbolPlugins;
     int m_staticPlugins;
     int m_dynamicPlugins;
     QDir m_pluginsPath;

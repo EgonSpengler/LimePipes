@@ -24,13 +24,13 @@ Instrument *GreatHighlandBagpipe::instrument() const
     return new GHB_Instrument();
 }
 
-QStringList GreatHighlandBagpipe::symbols() const
+QStringList GreatHighlandBagpipe::symbolNames() const
 {
     return QStringList()    << tr("Melody Note")
                             << tr("Doubling");
 }
 
-Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
+Symbol *GreatHighlandBagpipe::getSymbolForName(const QString &symbol)
 {
     if (symbol == tr("Melody Note")) {
         return new GHB_MelodyNote(GHB_PitchContext().pitchForStaffPos(0), Length::_4);
@@ -41,7 +41,17 @@ Symbol *GreatHighlandBagpipe::getSymbol(const QString &symbol)
     return new Symbol();
 }
 
-SymbolGraphicBuilder *GreatHighlandBagpipe::symbolGraphicBuilderForSymbolType(int type)
+SymbolGraphicBuilder *GreatHighlandBagpipe::symbolGraphicBuilderForType(int type)
 {
+    Q_UNUSED(type);
     return 0;
+}
+
+QVector<int> GreatHighlandBagpipe::symbolTypes()
+{
+    QVector<int> types;
+    types << LP::MelodyNote;
+    types << GHB::Doubling;
+
+    return types;
 }

@@ -9,7 +9,7 @@
 #include "musicmodeltestplugin.h"
 #include <QtPlugin>
 
-Symbol *MusicModelTestPlugin::getSymbol(const QString &symbol)
+Symbol *MusicModelTestPlugin::getSymbolForName(const QString &symbol)
 {
     if (symbol == "Testsymbol") {
         return new Symbol(LP::MelodyNote, "Testsymbol");
@@ -21,7 +21,12 @@ Symbol *MusicModelTestPlugin::getSymbol(const QString &symbol)
     return new Symbol();
 }
 
-SymbolGraphicBuilder *MusicModelTestPlugin::symbolGraphicBuilderForSymbolType(int type)
+SymbolGraphicBuilder *MusicModelTestPlugin::symbolGraphicBuilderForType(int type)
 {
     return 0;
+}
+
+QVector<int> MusicModelTestPlugin::symbolTypes()
+{
+    return QVector<int>();
 }

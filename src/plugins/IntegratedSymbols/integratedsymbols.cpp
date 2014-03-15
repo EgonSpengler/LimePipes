@@ -15,20 +15,28 @@ IntegratedSymbols::IntegratedSymbols(QObject *parent)
 {
 }
 
-QStringList IntegratedSymbols::symbols() const
+QStringList IntegratedSymbols::symbolNames() const
 {
     return QStringList();
 }
 
-Symbol *IntegratedSymbols::getSymbol(const QString &symbol)
+Symbol *IntegratedSymbols::getSymbolForName(const QString &symbol)
 {
     return 0;
 }
 
-SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForSymbolType(int type)
+SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForType(int type)
 {
     if (type == LP::MelodyNote)
         return new MelodyNoteGraphicBuilder();
 
     return 0;
+}
+
+QVector<int> IntegratedSymbols::symbolTypes()
+{
+    QVector<int> types;
+    types << LP::MelodyNote;
+
+    return types;
 }

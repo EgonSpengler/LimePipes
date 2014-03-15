@@ -1,6 +1,10 @@
 add_definitions( -DQT_STATICPLUGIN )
 
 set( lp_plugin_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/common/graphictypes/symbolgraphicbuilder.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/graphictypes/symbolgraphic.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/graphictypes/musicfont/musicfont.cpp
+        ${CMAKE_SOURCE_DIR}/src/common/graphictypes/musicfont/emmentalermusicfont.cpp
         integratedsymbols.cpp
         melodynotegraphicbuilder.cpp
     )

@@ -31,9 +31,11 @@ public:
     Instrument *instrument() const;
 
     // Symbols interface
-    QStringList symbols() const;
-    Symbol *getSymbol(const QString &symbol);
-    SymbolGraphicBuilder *symbolGraphicBuilderForSymbolType(int type);
+    QStringList symbolNames() const;
+    Symbol *getSymbolForName(const QString &symbol);
+
+    QVector<int> symbolTypes();
+    SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H

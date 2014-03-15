@@ -51,9 +51,11 @@ public:
     QString name() const { return m_instrument->name(); }
 
     // Symbol interface
-    QStringList symbols() const { return QStringList() << "Testsymbol" << symbolNameWithPitchAndLength; }
-    Symbol *getSymbol(const QString &symbol);
-    SymbolGraphicBuilder *symbolGraphicBuilderForSymbolType(int type);
+    QStringList symbolNames() const { return QStringList() << "Testsymbol" << symbolNameWithPitchAndLength; }
+    Symbol *getSymbolForName(const QString &symbol);
+
+    QVector<int> symbolTypes();
+    SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
 
 private:
     InstrumentPtr m_instrument;

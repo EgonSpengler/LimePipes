@@ -1,6 +1,6 @@
 set( testname CommonPluginManagerTest )
 set( testmodules Test Gui )
-set( testlibraries lp_greathighlandbagpipe )
+set( testlibraries lp_greathighlandbagpipe lp_integratedsymbols )
 
 find_package( Qt5Gui REQUIRED )
 find_package( Qt5Test    REQUIRED )

@@ -47,11 +47,11 @@ void GHB_PluginTest::testsupportedSymbolTypes()
 
 void GHB_PluginTest::testSymbolNamesForAllSymbols()
 {
-    QStringList allSymbols = m_bagpipe->symbols();
+    QStringList allSymbols = m_bagpipe->symbolNames();
 
     Symbol *symbol = 0;
     foreach (QString symbolName, allSymbols) {
-        symbol = m_bagpipe->getSymbol(symbolName);
+        symbol = m_bagpipe->getSymbolForName(symbolName);
         QVERIFY2(symbol->data(LP::SymbolName) == symbolName, "Failed, Symbol's name returned by Plugin doesn't match with name parameter from getSymbol-method.");
         delete symbol;
     }
