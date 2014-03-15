@@ -36,6 +36,22 @@ PluginManager SymbolGraphicsItem::pluginManger() const
     return m_pluginManager;
 }
 
+void SymbolGraphicsItem::setLineHeight(int lineHeigth)
+{
+    if (m_graphicBuilder.isNull())
+        return;
+
+    m_graphicBuilder->setLineHeight(lineHeigth);
+}
+
+int SymbolGraphicsItem::lineHeight() const
+{
+    if (m_graphicBuilder.isNull())
+        return 0;
+
+    return m_graphicBuilder->lineHeight();
+}
+
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 }

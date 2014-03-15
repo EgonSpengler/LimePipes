@@ -37,7 +37,7 @@ public:
     void insertChildItem(int index, VisualItem *childItem);
 
 private:
-    StaffGraphicsItem * newStaffItem();
+    StaffGraphicsItem *newStaffItem();
     QVector<StaffGraphicsItem*> m_staffItems;
     bool m_repeat;
     StaffType m_staffType;

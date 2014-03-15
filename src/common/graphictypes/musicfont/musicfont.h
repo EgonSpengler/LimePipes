@@ -57,7 +57,7 @@ public:
     void paintGlyph(QPainter *painter, Glyph glyph);
 
     void setLineHeight(int lineHeight);
-    qreal lineHeight() const;
+    int lineHeight() const;
 
     int glyphNumber(Glyph glyph);
     QRectF boundingRectForGlyph(Glyph glyph);

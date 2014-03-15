@@ -115,7 +115,7 @@ void MusicFont::setLineHeight(int lineHeight)
     }
 }
 
-qreal MusicFont::lineHeight() const
+int MusicFont::lineHeight() const
 {
     return m_lineHeight;
 }

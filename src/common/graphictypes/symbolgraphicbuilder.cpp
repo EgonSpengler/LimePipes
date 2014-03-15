@@ -47,7 +47,7 @@ void SymbolGraphicBuilder::setLineHeight(int lineHeight)
     s_musicFont->setLineHeight(lineHeight);
 }
 
-qreal SymbolGraphicBuilder::lineHeight() const
+int SymbolGraphicBuilder::lineHeight() const
 {
     return s_musicFont->lineHeight();
 }

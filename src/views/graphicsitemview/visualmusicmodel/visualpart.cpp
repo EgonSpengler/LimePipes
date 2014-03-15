@@ -58,7 +58,7 @@ void VisualPart::appendStaff()
     appendRow(staffItem);
 }
 
-StaffGraphicsItem * VisualPart::newStaffItem()
+StaffGraphicsItem *VisualPart::newStaffItem()
 {
     StaffGraphicsItem *staffItem = new StaffGraphicsItem;
     staffItem->setLineHeight(InitialLineHeight);

@@ -22,7 +22,7 @@ public:
     SymbolGraphicPtr symbolGraphic() { return m_graphic; }
 
     void setLineHeight(int lineHeight);
-    qreal lineHeight() const;
+    int lineHeight() const;
 
 public slots:
     virtual void createPixmaps(int lineHeight) = 0;

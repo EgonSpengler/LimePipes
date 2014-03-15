@@ -30,6 +30,7 @@ private Q_SLOTS:
     void testSetGetGraphicBuilder();
     void testSetGetPluginManager();
     void testSetDataItemType();
+    void testSetGetLineHeight();
 
 private:
     SymbolGraphicsItem *m_symbolGraphicsItem;
@@ -84,6 +85,26 @@ void SymbolGraphicsItemTest::testSetDataItemType()
 
     QVERIFY2(!m_symbolGraphicsItem->m_graphicBuilder.isNull(),
              "Symbol graphic builder wasn't set");
+}
+
+void SymbolGraphicsItemTest::testSetGetLineHeight()
+{
+    QVERIFY2(m_symbolGraphicsItem->lineHeight() == 0, "Wrong default line height");
+    m_symbolGraphicsItem->setLineHeight(20);
+    QVERIFY2(m_symbolGraphicsItem->lineHeight() == 0, "Line height was set despite no item type"
+                                                      " data and plugin manager was set");
+    PluginManager pluginManager(new CommonPluginManager);
+    SymbolGraphicBuilder *graphicBuilder = pluginManager->symbolGraphicBuilderForType(LP::MelodyNote);
+    QVERIFY2(graphicBuilder != 0, "A valid graphic builder is needed for next tests");
+
+    m_symbolGraphicsItem->setPluginManager(pluginManager);
+    m_symbolGraphicsItem->setData(LP::MelodyNote, LP::SymbolType);
+    Q_ASSERT(!m_symbolGraphicsItem->m_graphicBuilder.isNull());
+
+    int testLineHeight = 30;
+    m_symbolGraphicsItem->setLineHeight(testLineHeight);
+    QVERIFY2(m_symbolGraphicsItem->lineHeight() == testLineHeight,
+             "Failed setting/getting line height");
 }
 
 QTEST_MAIN(SymbolGraphicsItemTest)
