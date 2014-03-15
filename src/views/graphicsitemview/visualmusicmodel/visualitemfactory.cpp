@@ -82,6 +82,8 @@ VisualItem *VisualItemFactory::newVisualSymbol()
                                          VisualItem::GraphicalInlineType);
 
     SymbolGraphicsItem *symbolGraphicsItem = new SymbolGraphicsItem;
+    if (!pluginManger().isNull())
+        symbolGraphicsItem->setPluginManager(pluginManger());
     newItem->setInlineGraphic(symbolGraphicsItem);
 
     return newItem;

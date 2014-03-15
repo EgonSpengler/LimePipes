@@ -24,7 +24,6 @@ private:
     VisualItem *newVisualPart();
     VisualItem *newVisualMeasure();
     VisualItem *newVisualSymbol();
-    PluginManager m_pluginManager;
 };
 
 #endif // VISUALITEMFACTORY_H

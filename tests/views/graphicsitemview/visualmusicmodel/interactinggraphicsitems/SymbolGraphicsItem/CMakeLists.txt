@@ -1,11 +1,12 @@
 set( testname SymbolGraphicsItemTest )
 set( testmodules Test Widgets )
-set( testlibraries lp_graphicsitemview )
+set( testlibraries lp_model lp_integratedsymbols lp_graphicsitemview )
 
 find_package( Qt5Widgets REQUIRED )
 find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
+        ${CMAKE_SOURCE_DIR}/src/app/commonpluginmanager.cpp
         ../common/iteminteractiondummy.cpp
         testgraphicbuilder.cpp
         tst_symbolgraphicsitemtest.cpp

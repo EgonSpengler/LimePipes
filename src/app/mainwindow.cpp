@@ -39,6 +39,7 @@
 #include "dialogs/settingsdialog.h"
 
 Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
+Q_IMPORT_PLUGIN(IntegratedSymbols)
 
 namespace {
 

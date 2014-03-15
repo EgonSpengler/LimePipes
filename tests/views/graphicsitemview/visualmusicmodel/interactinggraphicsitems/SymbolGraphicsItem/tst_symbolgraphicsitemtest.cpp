@@ -10,7 +10,11 @@
 #include <QtTest>
 #include <QCoreApplication>
 #include "testgraphicbuilder.h"
+#include <common/itemdataroles.h>
+#include <app/commonpluginmanager.h>
 #include <src/views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h>
+
+Q_IMPORT_PLUGIN(IntegratedSymbols)
 
 class SymbolGraphicsItemTest : public QObject
 {
@@ -24,6 +28,8 @@ private Q_SLOTS:
     void cleanup();
     void testGraphicsItemType();
     void testSetGetGraphicBuilder();
+    void testSetGetPluginManager();
+    void testSetDataItemType();
 
 private:
     SymbolGraphicsItem *m_symbolGraphicsItem;
@@ -56,7 +62,28 @@ void SymbolGraphicsItemTest::testSetGetGraphicBuilder()
     m_symbolGraphicsItem->setGraphicBuilder(builder);
 
     QVERIFY2(m_symbolGraphicsItem->graphicBuilder() == builder,
-              "Failed setting/getting graphic builder");
+             "Failed setting/getting graphic builder");
+}
+
+void SymbolGraphicsItemTest::testSetGetPluginManager()
+{
+    PluginManager pluginManager(new CommonPluginManager);
+    m_symbolGraphicsItem->setPluginManager(pluginManager);
+    QVERIFY2(m_symbolGraphicsItem->pluginManger() == pluginManager,
+             "Failed setting/getting plugin manager");
+}
+
+void SymbolGraphicsItemTest::testSetDataItemType()
+{
+    PluginManager pluginManager(new CommonPluginManager);
+    SymbolGraphicBuilder *graphicBuilder = pluginManager->symbolGraphicBuilderForType(LP::MelodyNote);
+    QVERIFY2(graphicBuilder != 0, "A valid graphic builder is needed for next tests");
+
+    m_symbolGraphicsItem->setPluginManager(pluginManager);
+    m_symbolGraphicsItem->setData(LP::MelodyNote, LP::SymbolType);
+
+    QVERIFY2(!m_symbolGraphicsItem->m_graphicBuilder.isNull(),
+             "Symbol graphic builder wasn't set");
 }
 
 QTEST_MAIN(SymbolGraphicsItemTest)

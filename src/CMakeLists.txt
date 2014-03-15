@@ -56,6 +56,7 @@ qt5_use_modules( LimePipes Widgets PrintSupport )
 target_link_libraries( LimePipes
                             lp_model
                             lp_greathighlandbagpipe
+                            lp_integratedsymbols
                             lp_graphicsitemview
 )
 

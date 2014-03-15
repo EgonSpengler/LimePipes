@@ -11,11 +11,14 @@
 
 #include <QSharedPointer>
 #include <common/defines.h>
+#include <common/pluginmanagerinterface.h>
 #include <common/graphictypes/symbolgraphicbuilder.h>
 #include "interactinggraphicsitem.h"
 
 class SymbolGraphicsItem : public InteractingGraphicsItem
 {
+    Q_OBJECT
+    friend class SymbolGraphicsItemTest;
 public:
     explicit SymbolGraphicsItem(QGraphicsItem *parent = 0);
 
@@ -23,8 +26,8 @@ public:
     enum { Type = SymbolGraphicItem };
     int type() const { return Type; }
 
-    void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
-    SymbolGraphicBuilder *graphicBuilder() const;
+    void setPluginManager(PluginManager pluginManger);
+    PluginManager pluginManger() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
@@ -32,7 +35,11 @@ public:
     void setData(const QVariant &value, int key);
 
 private:
+    void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
+    SymbolGraphicBuilder *graphicBuilder() const;
+
     QSharedPointer<SymbolGraphicBuilder> m_graphicBuilder;
+    PluginManager m_pluginManager;
 };
 
 #endif // SYMBOLGRAPHICSITEM_H
