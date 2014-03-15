@@ -15,6 +15,16 @@ SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
 {
 }
 
+void SymbolGraphicsItem::setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder)
+{
+    m_graphicBuilder.reset(symbolGraphicBuilder);
+}
+
+SymbolGraphicBuilder *SymbolGraphicsItem::graphicBuilder() const
+{
+    return m_graphicBuilder.data();
+}
+
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 }

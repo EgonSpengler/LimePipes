@@ -14,6 +14,7 @@
 #include "visualitem.h"
 #include "rowiterator.h"
 #include "abstractvisualitemfactory.h"
+#include <common/pluginmanagerinterface.h>
 
 class VisualMusicModel : public QObject
 {
@@ -30,6 +31,10 @@ public:
     QAbstractItemModel *model() const;
 
     RowIterator rowIteratorForScore(int index);
+
+    void setPluginManager(PluginManager pluginManager);
+    PluginManager pluginManager() const;
+    bool hasValidPluginManager() const;
 
 signals:
     void scoreRowSequenceChanged(int scoreIndex);
@@ -49,6 +54,7 @@ private:
     QAbstractItemModel *m_model;
     QHash<QPersistentModelIndex, VisualItem*> m_visualItemIndexes;
     AbstractVisualItemFactory *m_itemFactory;
+    PluginManager m_pluginManager;
 };
 
 #endif // VISUALMUSICMODEL_H_7R3SY07L

@@ -7,6 +7,7 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         ../common/iteminteractiondummy.cpp
+        testgraphicbuilder.cpp
         tst_symbolgraphicsitemtest.cpp
         )
 

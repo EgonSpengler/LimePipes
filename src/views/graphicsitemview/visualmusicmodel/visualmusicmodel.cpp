@@ -236,3 +236,18 @@ RowIterator VisualMusicModel::rowIteratorForScore(int index)
     SequentialTunesRowIterator iterator(this, scoreIndex);
     return iterator;
 }
+
+void VisualMusicModel::setPluginManager(PluginManager pluginManager)
+{
+    m_pluginManager = pluginManager;
+}
+
+PluginManager VisualMusicModel::pluginManager() const
+{
+    return m_pluginManager;
+}
+
+bool VisualMusicModel::hasValidPluginManager() const
+{
+    return !m_pluginManager.isNull();
+}
