@@ -43,6 +43,12 @@ public:
         Q_UNUSED(childItem);
     }
 
+    /*!
+     * \brief setData Will be called if the data of the view's model has changed.
+     *        If the item has an ItemInteraction assigned, its setData will be called.
+     * \param value The new value
+     * \param key The key of the value
+     */
     virtual void setData(const QVariant& value, int key);
 
 signals:
