@@ -10,9 +10,6 @@
 #include "interactinggraphicsitems/staffgraphicsitem.h"
 #include "visualpart.h"
 
-const int InitialLineHeight = 8;
-const int InitialLineWidth  = 1;
-
 VisualPart::VisualPart(QObject *parent)
     : VisualItem(VisualItem::VisualPartItem,
                  VisualItem::GraphicalRowType,
@@ -61,8 +58,6 @@ void VisualPart::appendStaff()
 StaffGraphicsItem *VisualPart::newStaffItem()
 {
     StaffGraphicsItem *staffItem = new StaffGraphicsItem;
-    staffItem->setLineHeight(InitialLineHeight);
-    staffItem->setLineWidth(InitialLineWidth);
 
     return staffItem;
 }

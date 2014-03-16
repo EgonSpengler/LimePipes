@@ -10,6 +10,11 @@
 #include <QGraphicsLinearLayout>
 #include "staffgraphicsitem.h"
 
+namespace {
+const int InitialLineHeight = 8;
+const int InitialLineWidth  = 1;
+}
+
 StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_staffType(StaffType::None),
@@ -21,6 +26,9 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     m_measureLayout = new QGraphicsLinearLayout(Qt::Horizontal, this);
     m_measureLayout->setSpacing(0);
     m_measureLayout->setContentsMargins(0, 0, 0, 0);
+
+    setLineHeight(InitialLineHeight);
+    setLineWidth(InitialLineWidth);
 }
 
 StaffType StaffGraphicsItem::staffType() const

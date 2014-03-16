@@ -28,12 +28,6 @@ public:
     StaffType staffType() const;
     void setStaffType(StaffType type);
 
-    int lineHeight() const;
-    void setLineHeight(qreal lineHeight);
-
-    qreal lineWidth() const;
-    void setLineWidth(qreal width);
-
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     // InteractingGraphicsItem interface
@@ -41,6 +35,10 @@ public:
     int measureCount() const;
 
 private:
+    int lineHeight() const;
+    void setLineHeight(qreal lineHeight);
+    qreal lineWidth() const;
+    void setLineWidth(qreal width);
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
     StaffType m_staffType;

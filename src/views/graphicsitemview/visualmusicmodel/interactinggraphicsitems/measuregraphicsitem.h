@@ -25,9 +25,6 @@ public:
     enum { Type = MeasureGraphicItem };
     int type() const { return Type; }
 
-    void setLineWidth(qreal width);
-    qreal lineWidth() const;
-
     // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
@@ -37,6 +34,8 @@ public:
     void setData(const QVariant &value, int key);
 
 private:
+    void setLineWidth(qreal width);
+    qreal lineWidth() const;
     QGraphicsLinearLayout *m_symbolLayout;
     QPen m_linePen;
 };
