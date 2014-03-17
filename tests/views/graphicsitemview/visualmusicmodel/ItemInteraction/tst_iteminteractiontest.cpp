@@ -14,10 +14,10 @@
 class ItemInteractionTest : public QObject
 {
     Q_OBJECT
-    
+
 public:
     ItemInteractionTest();
-    
+
 private Q_SLOTS:
     void init();
     void cleanup();

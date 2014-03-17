@@ -31,7 +31,8 @@
 
 #include <Qt>
 
-namespace LP {
+namespace LP
+{
 
 // Score
 enum ScoreDataRole {
@@ -72,6 +73,14 @@ enum SymbolDataRole {
 enum MelodyNoteDataRole {
     MelodyNoteDots      = Qt::UserRole + 15
 };
+
+namespace View
+{
+enum GraphicsDataRole {
+    StaffLineHeight = 1
+};
+
+}
 
 }
 

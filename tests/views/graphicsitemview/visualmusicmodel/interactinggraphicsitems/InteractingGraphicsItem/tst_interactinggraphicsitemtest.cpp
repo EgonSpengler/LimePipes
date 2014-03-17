@@ -13,6 +13,7 @@
 #include <QGraphicsView>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
+#include <common/itemdataroles.h>
 #include <views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.h>
 #include <iteminteractiondummy.h>
 
@@ -33,6 +34,7 @@ private Q_SLOTS:
     void testMouseReleseEvent();
     void testMouseDoubleClickEvent();
     void testContextMenuEvent();
+    void testSetGetGraphicsData();
 
 private:
     InteractingGraphicsItem *m_interactingGraphicsItem;
@@ -143,6 +145,18 @@ void InteractingGraphicsItemTest::testContextMenuEvent()
     QVERIFY2(spy.count() == 1, "context menu event wasn't called on VisualItemInterface");
 
     delete contextMenuEvent;
+}
+
+void InteractingGraphicsItemTest::testSetGetGraphicsData()
+{
+    using namespace LP::View;
+    int testData(36);
+    int testDataRole = StaffLineHeight;
+
+    m_interactingGraphicsItem->setGraphicsData(testData, testDataRole);
+
+    QVERIFY2(m_interactingGraphicsItem->graphicsData(testDataRole).toInt() == testData,
+             "Failed setting/getting graphics data");
 }
 
 QTEST_MAIN(InteractingGraphicsItemTest)

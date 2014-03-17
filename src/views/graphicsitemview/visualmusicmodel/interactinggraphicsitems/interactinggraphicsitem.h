@@ -10,6 +10,7 @@
 #define INTERACTINGGRAPHICSITEM_H
 
 #include <QGraphicsWidget>
+#include <common/itemdataroles.h>
 
 class ItemInteraction;
 
@@ -50,6 +51,21 @@ public:
      * \param key The key of the value
      */
     virtual void setData(const QVariant& value, int key);
+
+    /*!
+     * \brief setGraphicsData Sets the graphics data which is data only used by the view.
+     *        This can be the line height of the Staff or the line width of the pen to use.
+     * \param value The value to set.
+     * \param key The data key to set.
+     */
+    virtual void setGraphicsData(const QVariant& value, int key);
+
+    /*!
+     * \brief graphicsData Returns the graphics data which was set with setGraphicsData.
+     * \param key The data key.
+     * \return  The value.
+     */
+    virtual QVariant graphicsData(int key);
 
 signals:
     void itemInteractionChanged();
