@@ -29,7 +29,7 @@ public:
     void setPluginManager(PluginManager pluginManger);
     PluginManager pluginManger() const;
 
-    void setLineHeight(int lineHeigth);
+    void setStaffLineHeight(int lineHeigth);
     int lineHeight() const;
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

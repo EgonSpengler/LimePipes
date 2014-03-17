@@ -18,7 +18,7 @@ const int InitialLineWidth  = 1;
 StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_staffType(StaffType::None),
-      m_lineHeight(0),
+      m_staffLineHeight(0),
       m_measureLayout(0)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
@@ -27,8 +27,8 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     m_measureLayout->setSpacing(0);
     m_measureLayout->setContentsMargins(0, 0, 0, 0);
 
-    setLineHeight(InitialLineHeight);
-    setLineWidth(InitialLineWidth);
+    setStaffLineHeight(InitialLineHeight);
+    setPenWidth(InitialLineWidth);
 }
 
 StaffType StaffGraphicsItem::staffType() const
@@ -42,26 +42,26 @@ void StaffGraphicsItem::setStaffType(StaffType type)
     setSizeHintsForStaffType(type);
 }
 
-int StaffGraphicsItem::lineHeight() const
+int StaffGraphicsItem::staffLineHeight() const
 {
-    return m_lineHeight;
+    return m_staffLineHeight;
 }
 
-void StaffGraphicsItem::setLineHeight(qreal lineHeight)
+void StaffGraphicsItem::setStaffLineHeight(qreal lineHeight)
 {
     if (lineHeight < 1)
         return;
 
-    m_lineHeight = lineHeight;
+    m_staffLineHeight = lineHeight;
     setSizeHintsForStaffType(m_staffType);
 }
 
-qreal StaffGraphicsItem::lineWidth() const
+qreal StaffGraphicsItem::penWidth() const
 {
     return m_pen.widthF();
 }
 
-void StaffGraphicsItem::setLineWidth(qreal width)
+void StaffGraphicsItem::setPenWidth(qreal width)
 {
     if (width < 1)
         return;
@@ -81,7 +81,7 @@ void StaffGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
         painter->setPen(m_pen);
         painter->drawRect(0, 0, width, height);
         for (int i = 1; i < 4; ++i) {
-            painter->drawLine(0, i*m_lineHeight, width, i*m_lineHeight);
+            painter->drawLine(0, i*m_staffLineHeight, width, i*m_staffLineHeight);
         }
     }
 }
@@ -89,7 +89,7 @@ void StaffGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 void StaffGraphicsItem::setSizeHintsForStaffType(StaffType type)
 {
     if (type == StaffType::Standard) {
-        qreal height = m_lineHeight * 4;
+        qreal height = m_staffLineHeight * 4;
         QSizeF maximum(maximumSize());
         QSizeF minimum(minimumSize());
         setMaximumSize(maximum.width(), height);

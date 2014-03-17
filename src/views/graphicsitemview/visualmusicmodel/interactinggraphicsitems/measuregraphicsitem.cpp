@@ -21,10 +21,10 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     m_symbolLayout->setSpacing(0);
     m_symbolLayout->setContentsMargins(0, 0, 0, 0);
 
-    setLineWidth(InitialLineWidth);
+    setPenWidth(InitialLineWidth);
 }
 
-void MeasureGraphicsItem::setLineWidth(qreal width)
+void MeasureGraphicsItem::setPenWidth(qreal width)
 {
     if (width <= 0)
         return;
@@ -34,7 +34,7 @@ void MeasureGraphicsItem::setLineWidth(qreal width)
     width /= 2;
 }
 
-qreal MeasureGraphicsItem::lineWidth() const
+qreal MeasureGraphicsItem::penWidth() const
 {
     return m_linePen.widthF();
 }

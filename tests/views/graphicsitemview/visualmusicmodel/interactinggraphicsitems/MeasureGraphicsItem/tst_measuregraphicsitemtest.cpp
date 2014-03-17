@@ -26,7 +26,7 @@ private Q_SLOTS:
     void testItemType();
     void testSymbolLayout();
     void testInsertChildItemImplementation();
-    void testSetGetLineWidth();
+    void testSetGetPenWidth();
 //    void testSetLineSide();
     void testBoundingRect();
 //    void testBoundingRectLineSide();
@@ -94,17 +94,17 @@ void MeasureGraphicsItemTest::testInsertChildItemImplementation()
     delete testInteractingItem3;
 }
 
-void MeasureGraphicsItemTest::testSetGetLineWidth()
+void MeasureGraphicsItemTest::testSetGetPenWidth()
 {
-    QVERIFY2(m_measureGraphicsItem->lineWidth() == 1,
+    QVERIFY2(m_measureGraphicsItem->penWidth() == 1,
              "Wrong default line width");
 
-    m_measureGraphicsItem->setLineWidth(0);
-    QVERIFY2(m_measureGraphicsItem->lineWidth() == 1,
+    m_measureGraphicsItem->setPenWidth(0);
+    QVERIFY2(m_measureGraphicsItem->penWidth() == 1,
              "Line width can be set to 0");
 
-    m_measureGraphicsItem->setLineWidth(12);
-    QVERIFY2(m_measureGraphicsItem->lineWidth() == 12,
+    m_measureGraphicsItem->setPenWidth(12);
+    QVERIFY2(m_measureGraphicsItem->penWidth() == 12,
              "Can't set line width");
 }
 
@@ -114,7 +114,7 @@ void MeasureGraphicsItemTest::testBoundingRect()
     int testItemHeight = 50;
     qreal testLineWidth = 2;
 
-    m_measureGraphicsItem->setLineWidth(testLineWidth);
+    m_measureGraphicsItem->setPenWidth(testLineWidth);
     m_measureGraphicsItem->setGeometry(0, 0, testItemWidth, testItemHeight);
 
     QRectF boundingRect(m_measureGraphicsItem->boundingRect());

@@ -90,7 +90,7 @@ void SymbolGraphicsItemTest::testSetDataItemType()
 void SymbolGraphicsItemTest::testSetGetLineHeight()
 {
     QVERIFY2(m_symbolGraphicsItem->lineHeight() == 0, "Wrong default line height");
-    m_symbolGraphicsItem->setLineHeight(20);
+    m_symbolGraphicsItem->setStaffLineHeight(20);
     QVERIFY2(m_symbolGraphicsItem->lineHeight() == 0, "Line height was set despite no item type"
                                                       " data and plugin manager was set");
     PluginManager pluginManager(new CommonPluginManager);
@@ -102,7 +102,7 @@ void SymbolGraphicsItemTest::testSetGetLineHeight()
     Q_ASSERT(!m_symbolGraphicsItem->m_graphicBuilder.isNull());
 
     int testLineHeight = 30;
-    m_symbolGraphicsItem->setLineHeight(testLineHeight);
+    m_symbolGraphicsItem->setStaffLineHeight(testLineHeight);
     QVERIFY2(m_symbolGraphicsItem->lineHeight() == testLineHeight,
              "Failed setting/getting line height");
 }

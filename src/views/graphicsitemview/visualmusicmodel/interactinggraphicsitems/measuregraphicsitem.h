@@ -34,8 +34,8 @@ public:
     void setData(const QVariant &value, int key);
 
 private:
-    void setLineWidth(qreal width);
-    qreal lineWidth() const;
+    void setPenWidth(qreal width);
+    qreal penWidth() const;
     QGraphicsLinearLayout *m_symbolLayout;
     QPen m_linePen;
 };

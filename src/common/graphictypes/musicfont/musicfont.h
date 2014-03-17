@@ -56,7 +56,7 @@ public:
 
     void paintGlyph(QPainter *painter, Glyph glyph);
 
-    void setLineHeight(int lineHeight);
+    void setStaffLineHeight(int lineHeight);
     int lineHeight() const;
 
     int glyphNumber(Glyph glyph);
@@ -69,7 +69,7 @@ protected:
 private:
     void updateFont();
     void setNewPointSizeToHeightOfGlyph(Glyph lineHeightGlyph);
-    int m_lineHeight;
+    int m_staffLineHeight;
     QFont m_font;
     QHash<Glyph, int> m_glyphNumbers;
 };

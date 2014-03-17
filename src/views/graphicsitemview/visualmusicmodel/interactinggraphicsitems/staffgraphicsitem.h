@@ -35,14 +35,14 @@ public:
     int measureCount() const;
 
 private:
-    int lineHeight() const;
-    void setLineHeight(qreal lineHeight);
-    qreal lineWidth() const;
-    void setLineWidth(qreal width);
+    int staffLineHeight() const;
+    void setStaffLineHeight(qreal staffLineHeight);
+    qreal penWidth() const;
+    void setPenWidth(qreal width);
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
     StaffType m_staffType;
-    qreal m_lineHeight;
+    qreal m_staffLineHeight;
     QPen m_pen;
     QGraphicsLinearLayout *m_measureLayout;
 };

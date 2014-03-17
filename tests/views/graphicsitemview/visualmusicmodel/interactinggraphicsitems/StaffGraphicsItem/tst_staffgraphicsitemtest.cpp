@@ -28,8 +28,8 @@ private Q_SLOTS:
     void testDefaultStaffType();
     void testMeasureLayout();
     void testSetGetStaffType();
-    void testSetGetLineHeight();
-    void testSetGetLineWidth();
+    void testSetGetStaffLineHeight();
+    void testSetGetPenWidth();
     void testSizePolicy();
     void testStandardStaffSize();
     void testStandardStaffBoundingRect();
@@ -91,40 +91,40 @@ void StaffGraphicsItemTest::testSetGetStaffType()
              "Failed setting/getting staff type");
 }
 
-void StaffGraphicsItemTest::testSetGetLineHeight()
+void StaffGraphicsItemTest::testSetGetStaffLineHeight()
 {
     int testLineHeight = 20;
-    QVERIFY2(m_staffGraphicsItem->lineHeight() == 0,
+    QVERIFY2(m_staffGraphicsItem->staffLineHeight() == 0,
              "Default line height is not 0");
-    m_staffGraphicsItem->setLineHeight(testLineHeight);
-    QVERIFY2(m_staffGraphicsItem->lineHeight() == testLineHeight,
+    m_staffGraphicsItem->setStaffLineHeight(testLineHeight);
+    QVERIFY2(m_staffGraphicsItem->staffLineHeight() == testLineHeight,
              "Failed getting line height");
 
-    m_staffGraphicsItem->setLineHeight(0);
-    QVERIFY2(m_staffGraphicsItem->lineHeight() != 0,
+    m_staffGraphicsItem->setStaffLineHeight(0);
+    QVERIFY2(m_staffGraphicsItem->staffLineHeight() != 0,
              "Line height can't be 0");
 
-    m_staffGraphicsItem->setLineHeight(-12);
-    QVERIFY2(m_staffGraphicsItem->lineHeight() != -12,
+    m_staffGraphicsItem->setStaffLineHeight(-12);
+    QVERIFY2(m_staffGraphicsItem->staffLineHeight() != -12,
              "Line height can't be less than 0");
 }
 
-void StaffGraphicsItemTest::testSetGetLineWidth()
+void StaffGraphicsItemTest::testSetGetPenWidth()
 {
     int testLineWidth = 2;
-    QVERIFY2(m_staffGraphicsItem->lineWidth() == 1,
+    QVERIFY2(m_staffGraphicsItem->penWidth() == 1,
              "Wrong default line width");
 
-    m_staffGraphicsItem->setLineWidth(testLineWidth);
-    QVERIFY2(m_staffGraphicsItem->lineWidth() == testLineWidth,
+    m_staffGraphicsItem->setPenWidth(testLineWidth);
+    QVERIFY2(m_staffGraphicsItem->penWidth() == testLineWidth,
              "Failed setting line width");
 
-    m_staffGraphicsItem->setLineWidth(0);
-    QVERIFY2(m_staffGraphicsItem->lineWidth() != 0,
+    m_staffGraphicsItem->setPenWidth(0);
+    QVERIFY2(m_staffGraphicsItem->penWidth() != 0,
              "Line height can't be 0");
 
-    m_staffGraphicsItem->setLineWidth(-12);
-    QVERIFY2(m_staffGraphicsItem->lineWidth() != -12,
+    m_staffGraphicsItem->setPenWidth(-12);
+    QVERIFY2(m_staffGraphicsItem->penWidth() != -12,
              "Line height can't be less than 0");
 }
 
@@ -139,7 +139,7 @@ void StaffGraphicsItemTest::testSizePolicy()
 void StaffGraphicsItemTest::testStandardStaffSize()
 {
     int testLineHeight = 16;
-    m_staffGraphicsItem->setLineHeight(testLineHeight);
+    m_staffGraphicsItem->setStaffLineHeight(testLineHeight);
     m_staffGraphicsItem->setStaffType(StaffType::Standard);
 
     qreal maximumHeight = m_staffGraphicsItem->maximumHeight();
@@ -150,7 +150,7 @@ void StaffGraphicsItemTest::testStandardStaffSize()
 
     // Test size changing after setting line height
     testLineHeight += 2;
-    m_staffGraphicsItem->setLineHeight(testLineHeight);
+    m_staffGraphicsItem->setStaffLineHeight(testLineHeight);
     maximumHeight = m_staffGraphicsItem->maximumHeight();
     minimumHeight = m_staffGraphicsItem->minimumHeight();
     QVERIFY2(maximumHeight == 4 * testLineHeight,
@@ -162,8 +162,8 @@ void StaffGraphicsItemTest::testStandardStaffBoundingRect()
     qreal testLineHeight = 26;
     qreal testLineWidth = 4;
     int testItemWidth = 50;
-    m_staffGraphicsItem->setLineHeight(testLineHeight);
-    m_staffGraphicsItem->setLineWidth(testLineWidth);
+    m_staffGraphicsItem->setStaffLineHeight(testLineHeight);
+    m_staffGraphicsItem->setPenWidth(testLineWidth);
     m_staffGraphicsItem->setStaffType(StaffType::Standard);
     m_staffGraphicsItem->setGeometry(0, 0, testItemWidth, m_staffGraphicsItem->maximumHeight());
     qreal testItemHeight = m_staffGraphicsItem->maximumHeight();

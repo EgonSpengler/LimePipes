@@ -29,7 +29,7 @@ qreal initialPointSize = 20;
 }
 
 MusicFont::MusicFont(int lineHeight)
-    : m_lineHeight(lineHeight), m_font(QFont())
+    : m_staffLineHeight(lineHeight), m_font(QFont())
 {
     m_font.setPointSizeF(initialPointSize);
 }
@@ -69,14 +69,14 @@ void MusicFont::updateFont()
         setNewPointSizeToHeightOfGlyph(lineHeightGlyph);
         lineHeightGlyphRect = boundingRectForGlyph(lineHeightGlyph);
 
-    } while (qRound(lineHeightGlyphRect.height()) != m_lineHeight &&
-             lineHeightGlyphRect.height() != m_lineHeight + 1);
+    } while (qRound(lineHeightGlyphRect.height()) != m_staffLineHeight &&
+             lineHeightGlyphRect.height() != m_staffLineHeight + 1);
 }
 
 void MusicFont::setNewPointSizeToHeightOfGlyph(Glyph lineHeightGlyph)
 {
     QRectF lineHeightGlyphBoundingRect = boundingRectForGlyph(lineHeightGlyph);
-    qreal newPointSize = (qreal)m_lineHeight / lineHeightGlyphBoundingRect.height() * m_font.pointSizeF();
+    qreal newPointSize = (qreal)m_staffLineHeight / lineHeightGlyphBoundingRect.height() * m_font.pointSizeF();
 
     m_font.setPointSizeF(newPointSize);
 }
@@ -107,15 +107,15 @@ void MusicFont::paintGlyph(QPainter *painter, MusicFont::Glyph glyph)
     painter->restore();
 }
 
-void MusicFont::setLineHeight(int lineHeight)
+void MusicFont::setStaffLineHeight(int lineHeight)
 {
-    if (m_lineHeight != lineHeight) {
-        m_lineHeight = lineHeight;
+    if (m_staffLineHeight != lineHeight) {
+        m_staffLineHeight = lineHeight;
         updateFont();
     }
 }
 
 int MusicFont::lineHeight() const
 {
-    return m_lineHeight;
+    return m_staffLineHeight;
 }

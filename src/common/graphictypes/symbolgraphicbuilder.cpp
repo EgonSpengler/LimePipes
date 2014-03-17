@@ -42,9 +42,9 @@ SymbolGraphicBuilder::SymbolGraphicBuilder()
     }
 }
 
-void SymbolGraphicBuilder::setLineHeight(int lineHeight)
+void SymbolGraphicBuilder::setStaffLineHeight(int lineHeight)
 {
-    s_musicFont->setLineHeight(lineHeight);
+    s_musicFont->setStaffLineHeight(lineHeight);
 }
 
 int SymbolGraphicBuilder::lineHeight() const

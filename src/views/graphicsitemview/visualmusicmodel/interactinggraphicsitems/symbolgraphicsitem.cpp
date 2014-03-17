@@ -36,12 +36,12 @@ PluginManager SymbolGraphicsItem::pluginManger() const
     return m_pluginManager;
 }
 
-void SymbolGraphicsItem::setLineHeight(int lineHeigth)
+void SymbolGraphicsItem::setStaffLineHeight(int lineHeigth)
 {
     if (m_graphicBuilder.isNull())
         return;
 
-    m_graphicBuilder->setLineHeight(lineHeigth);
+    m_graphicBuilder->setStaffLineHeight(lineHeigth);
 }
 
 int SymbolGraphicsItem::lineHeight() const

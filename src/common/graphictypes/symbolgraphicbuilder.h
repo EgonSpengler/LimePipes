@@ -21,7 +21,7 @@ public:
 
     SymbolGraphicPtr symbolGraphic() { return m_graphic; }
 
-    void setLineHeight(int lineHeight);
+    void setStaffLineHeight(int lineHeight);
     int lineHeight() const;
 
 public slots:
