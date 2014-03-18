@@ -32,6 +32,7 @@ public:
 public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
     void setData(const QVariant &value, int key);
+    void setGraphicsData(int key, const QVariant &value);
 
 private:
     void setPenWidth(qreal width);

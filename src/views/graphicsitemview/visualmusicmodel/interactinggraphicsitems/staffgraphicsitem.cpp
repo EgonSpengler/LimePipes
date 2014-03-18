@@ -133,6 +133,7 @@ void StaffGraphicsItem::setGraphicsData(int key, const QVariant &value)
     if (key == StaffLineHeight) {
         setStaffLineHeight(value.toInt());
     }
+    InteractingGraphicsItem::setGraphicsData(key, value);
 }
 
 int StaffGraphicsItem::measureCount() const

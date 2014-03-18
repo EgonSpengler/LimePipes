@@ -230,6 +230,9 @@ void StaffGraphicsItemTest::testGraphicsDataStaffLineHeight()
     m_staffGraphicsItem->setGraphicsData(testDataRole, testData);
     QVERIFY2(m_staffGraphicsItem->staffLineHeight() == testData,
              "Staff line height wasn't set");
+    QVERIFY2(m_staffGraphicsItem->graphicsData(testDataRole).toInt() == testData,
+             "Parent implementation wasn't called in setGraphicsData implementation");
+
 
     InteractingGraphicsItem *childItem = new InteractingGraphicsItem;
     m_staffGraphicsItem->insertChildItem(0, childItem);
