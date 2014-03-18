@@ -9,7 +9,9 @@
 #ifndef INTERACTINGGRAPHICSITEM_H
 #define INTERACTINGGRAPHICSITEM_H
 
+#include <QList>
 #include <QGraphicsWidget>
+#include "graphicsitemtypes.h"
 #include <common/itemdataroles.h>
 
 class ItemInteraction;
@@ -23,6 +25,8 @@ class InteractingGraphicsItem : public QGraphicsWidget
 public:
     explicit InteractingGraphicsItem(QGraphicsItem *parent = 0);
     virtual ~InteractingGraphicsItem() {}
+
+    int type() const { return LP::View::InteractingGraphicsItem; }
 
     /*!
      * \brief setItemInteraction
@@ -58,7 +62,7 @@ public:
      * \param value The value to set.
      * \param key The data key to set.
      */
-    virtual void setGraphicsData(const QVariant& value, int key);
+    virtual void setGraphicsData(int key, const QVariant& value);
 
     /*!
      * \brief graphicsData Returns the graphics data which was set with setGraphicsData.

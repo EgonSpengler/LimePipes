@@ -153,7 +153,7 @@ void InteractingGraphicsItemTest::testSetGetGraphicsData()
     int testData(36);
     int testDataRole = StaffLineHeight;
 
-    m_interactingGraphicsItem->setGraphicsData(testData, testDataRole);
+    m_interactingGraphicsItem->setGraphicsData(testDataRole, testData);
 
     QVERIFY2(m_interactingGraphicsItem->graphicsData(testDataRole).toInt() == testData,
              "Failed setting/getting graphics data");

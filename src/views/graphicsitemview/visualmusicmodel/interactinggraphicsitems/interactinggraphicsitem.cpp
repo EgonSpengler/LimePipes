@@ -27,7 +27,7 @@ void InteractingGraphicsItem::setData(const QVariant &value, int key)
     }
 }
 
-void InteractingGraphicsItem::setGraphicsData(const QVariant &value, int key)
+void InteractingGraphicsItem::setGraphicsData(int key, const QVariant &value)
 {
     QGraphicsItem::setData(key, value);
 }

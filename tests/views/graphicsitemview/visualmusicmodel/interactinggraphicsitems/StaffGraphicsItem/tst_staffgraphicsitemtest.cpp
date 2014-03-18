@@ -35,6 +35,7 @@ private Q_SLOTS:
     void testStandardStaffBoundingRect();
     void testInsertChildItemImplementation();
     void testMeasureCount();
+    void testGraphicsDataStaffLineHeight();
 
 private:
     StaffGraphicsItem *m_staffGraphicsItem;
@@ -94,8 +95,8 @@ void StaffGraphicsItemTest::testSetGetStaffType()
 void StaffGraphicsItemTest::testSetGetStaffLineHeight()
 {
     int testLineHeight = 20;
-    QVERIFY2(m_staffGraphicsItem->staffLineHeight() == 0,
-             "Default line height is not 0");
+    QVERIFY2(m_staffGraphicsItem->staffLineHeight() == 8,
+             "Default line height is not 8");
     m_staffGraphicsItem->setStaffLineHeight(testLineHeight);
     QVERIFY2(m_staffGraphicsItem->staffLineHeight() == testLineHeight,
              "Failed getting line height");
@@ -219,6 +220,27 @@ void StaffGraphicsItemTest::testMeasureCount()
 
     delete testInteractingItem1;
     delete testInteractingItem2;
+}
+
+void StaffGraphicsItemTest::testGraphicsDataStaffLineHeight()
+{
+    int testData(45);
+    int testDataUpdate(55);
+    int testDataRole(LP::View::StaffLineHeight);
+    m_staffGraphicsItem->setGraphicsData(testDataRole, testData);
+    QVERIFY2(m_staffGraphicsItem->staffLineHeight() == testData,
+             "Staff line height wasn't set");
+
+    InteractingGraphicsItem *childItem = new InteractingGraphicsItem;
+    m_staffGraphicsItem->insertChildItem(0, childItem);
+    QVERIFY2(childItem->graphicsData(LP::View::StaffLineHeight).toInt() == testData,
+             "Staff line height wasn't set on child item while inserting");
+
+    InteractingGraphicsItem *childItem2 = new InteractingGraphicsItem;
+    m_staffGraphicsItem->insertChildItem(1, childItem2);
+    m_staffGraphicsItem->setGraphicsData(LP::View::StaffLineHeight, testDataUpdate);
+    QVERIFY2(childItem2->graphicsData(LP::View::StaffLineHeight).toInt() == testDataUpdate,
+              "Graphics data update wasn't populated to child items");
 }
 
 QTEST_MAIN(StaffGraphicsItemTest)

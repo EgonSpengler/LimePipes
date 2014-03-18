@@ -32,11 +32,13 @@ public:
 
     // InteractingGraphicsItem interface
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
+    void setGraphicsData(int key, const QVariant& value);
     int measureCount() const;
 
 private:
     int staffLineHeight() const;
     void setStaffLineHeight(qreal staffLineHeight);
+    void setStaffLineHeightOfChildren(qreal staffLineHeight);
     qreal penWidth() const;
     void setPenWidth(qreal width);
     void setSizeHintsForStaffType(StaffType type);
