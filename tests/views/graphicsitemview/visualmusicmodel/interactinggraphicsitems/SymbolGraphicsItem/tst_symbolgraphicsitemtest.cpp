@@ -31,6 +31,7 @@ private Q_SLOTS:
     void testSetGetPluginManager();
     void testSetDataItemType();
     void testSetGetLineHeight();
+    void testGraphicsDataStaffLineHeight();
 
 private:
     SymbolGraphicsItem *m_symbolGraphicsItem;
@@ -89,9 +90,9 @@ void SymbolGraphicsItemTest::testSetDataItemType()
 
 void SymbolGraphicsItemTest::testSetGetLineHeight()
 {
-    QVERIFY2(m_symbolGraphicsItem->lineHeight() == 0, "Wrong default line height");
+    QVERIFY2(m_symbolGraphicsItem->staffLineHeight() == 0, "Wrong default line height");
     m_symbolGraphicsItem->setStaffLineHeight(20);
-    QVERIFY2(m_symbolGraphicsItem->lineHeight() == 0, "Line height was set despite no item type"
+    QVERIFY2(m_symbolGraphicsItem->staffLineHeight() == 0, "Line height was set despite no item type"
                                                       " data and plugin manager was set");
     PluginManager pluginManager(new CommonPluginManager);
     SymbolGraphicBuilder *graphicBuilder = pluginManager->symbolGraphicBuilderForType(LP::MelodyNote);
@@ -103,8 +104,28 @@ void SymbolGraphicsItemTest::testSetGetLineHeight()
 
     int testLineHeight = 30;
     m_symbolGraphicsItem->setStaffLineHeight(testLineHeight);
-    QVERIFY2(m_symbolGraphicsItem->lineHeight() == testLineHeight,
+    QVERIFY2(m_symbolGraphicsItem->staffLineHeight() == testLineHeight,
              "Failed setting/getting line height");
+}
+
+void SymbolGraphicsItemTest::testGraphicsDataStaffLineHeight()
+{
+    int testData(45);
+    int testDataUpdate(55);
+    int testDataRole(LP::View::StaffLineHeight);
+    PluginManager pluginManager(new CommonPluginManager);
+    SymbolGraphicBuilder *graphicBuilder = pluginManager->symbolGraphicBuilderForType(LP::MelodyNote);
+    QVERIFY2(graphicBuilder != 0, "A valid graphic builder is needed for next tests");
+    m_symbolGraphicsItem->setPluginManager(pluginManager);
+    m_symbolGraphicsItem->setData(LP::MelodyNote, LP::SymbolType);
+    Q_ASSERT(!m_symbolGraphicsItem->m_graphicBuilder.isNull());
+
+    m_symbolGraphicsItem->setGraphicsData(testDataRole, testData);
+    QVERIFY2(m_symbolGraphicsItem->graphicsData(testDataRole).toInt() == testData,
+             "Parent implementation wasn't called in setGraphicsData implementation");
+
+    QVERIFY2(m_symbolGraphicsItem->m_graphicBuilder->lineHeight() == testData,
+             "Staff line height wasn't set on graphic builder");
 }
 
 QTEST_MAIN(SymbolGraphicsItemTest)

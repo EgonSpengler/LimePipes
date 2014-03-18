@@ -11,6 +11,8 @@
 #include <common/itemdataroles.h>
 #include "symbolgraphicsitem.h"
 
+using namespace LP::View;
+
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
@@ -44,7 +46,7 @@ void SymbolGraphicsItem::setStaffLineHeight(int lineHeigth)
     m_graphicBuilder->setStaffLineHeight(lineHeigth);
 }
 
-int SymbolGraphicsItem::lineHeight() const
+int SymbolGraphicsItem::staffLineHeight() const
 {
     if (m_graphicBuilder.isNull())
         return 0;
@@ -69,4 +71,13 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
         SymbolGraphicBuilder *graphicBuilder = m_pluginManager->symbolGraphicBuilderForType(value.toInt());
         setGraphicBuilder(graphicBuilder);
     }
+}
+
+void SymbolGraphicsItem::setGraphicsData(int key, const QVariant &value)
+{
+    if (key == StaffLineHeight) {
+        setStaffLineHeight(value.toInt());
+    }
+
+    InteractingGraphicsItem::setGraphicsData(key, value);
 }

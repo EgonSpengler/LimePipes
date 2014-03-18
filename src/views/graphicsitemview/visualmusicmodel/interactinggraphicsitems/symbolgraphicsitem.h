@@ -29,15 +29,15 @@ public:
     void setPluginManager(PluginManager pluginManger);
     PluginManager pluginManger() const;
 
-    void setStaffLineHeight(int lineHeigth);
-    int lineHeight() const;
-
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     // InteractingGraphicsItem interface
     void setData(const QVariant &value, int key);
+    void setGraphicsData(int key, const QVariant &value);
 
 private:
+    void setStaffLineHeight(int lineHeigth);
+    int staffLineHeight() const;
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
     SymbolGraphicBuilder *graphicBuilder() const;
 
