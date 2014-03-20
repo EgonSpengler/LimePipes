@@ -12,10 +12,6 @@ TestGraphicBuilder::TestGraphicBuilder()
 {
 }
 
-void TestGraphicBuilder::createPixmaps(int lineHeight)
-{
-}
-
 void TestGraphicBuilder::updateSymbolGraphic()
 {
 }

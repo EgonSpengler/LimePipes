@@ -19,16 +19,15 @@ class MelodyNoteGraphicBuilder : public SymbolGraphicBuilder
 public:
     MelodyNoteGraphicBuilder();
 
-    void createPixmaps(int lineHeight);
-    void updateSymbolGraphic();
-    bool isSymbolGraphicAffectedByDataRole(int role);
+    void initSymbolGraphic();
+    void updateSymbolGraphic(const QVariant &value, int key);
+    QVector<int> graphicDataRoles() const;
 
 private:
     QPixmap pixmapForActualItemData();
     QRectF rectForActualItemData();
 
     bool isPitchOnLine();
-    bool itemHasRequiredDataForGraphic();
 
     void initSpaceBetweenNoteheadAndDots();
     void initSpaceBetweenDots();

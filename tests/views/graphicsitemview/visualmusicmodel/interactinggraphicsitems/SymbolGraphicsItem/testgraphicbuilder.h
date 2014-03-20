@@ -18,7 +18,6 @@ public:
 
     // SymbolGraphicBuilder interface
 public slots:
-    void createPixmaps(int lineHeight);
     void updateSymbolGraphic();
     bool isSymbolGraphicAffectedByDataRole(int role);
 };

@@ -14,7 +14,7 @@
 class EmmentalerMusicFont : public MusicFont
 {
 public:
-    explicit EmmentalerMusicFont(int lineHeight);
+    explicit EmmentalerMusicFont(int staffLineHeight);
 
 private:
     void addNumberGlyphs();

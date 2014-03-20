@@ -115,7 +115,7 @@ void MusicFont::setStaffLineHeight(int lineHeight)
     }
 }
 
-int MusicFont::lineHeight() const
+int MusicFont::staffLineHeight() const
 {
     return m_staffLineHeight;
 }

@@ -111,7 +111,6 @@ void SymbolGraphicsItemTest::testSetGetLineHeight()
 void SymbolGraphicsItemTest::testGraphicsDataStaffLineHeight()
 {
     int testData(45);
-    int testDataUpdate(55);
     int testDataRole(LP::View::StaffLineHeight);
     PluginManager pluginManager(new CommonPluginManager);
     SymbolGraphicBuilder *graphicBuilder = pluginManager->symbolGraphicBuilderForType(LP::MelodyNote);
@@ -124,7 +123,7 @@ void SymbolGraphicsItemTest::testGraphicsDataStaffLineHeight()
     QVERIFY2(m_symbolGraphicsItem->graphicsData(testDataRole).toInt() == testData,
              "Parent implementation wasn't called in setGraphicsData implementation");
 
-    QVERIFY2(m_symbolGraphicsItem->m_graphicBuilder->lineHeight() == testData,
+    QVERIFY2(m_symbolGraphicsItem->m_graphicBuilder->staffLineHeight() == testData,
              "Staff line height wasn't set on graphic builder");
 }
 

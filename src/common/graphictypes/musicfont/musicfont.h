@@ -51,13 +51,13 @@ public:
         Flags_u3, Flags_u4, Flags_u5, Flags_u6, Flags_u7, Flags_d3, Flags_d4, Flags_d5, Flags_d6, Flags_d7
     };
 
-    explicit MusicFont(int lineHeight);
+    explicit MusicFont(int staffLineHeight);
     virtual ~MusicFont() { }
 
     void paintGlyph(QPainter *painter, Glyph glyph);
 
-    void setStaffLineHeight(int lineHeight);
-    int lineHeight() const;
+    void setStaffLineHeight(int staffLineHeight);
+    int staffLineHeight() const;
 
     int glyphNumber(Glyph glyph);
     QRectF boundingRectForGlyph(Glyph glyph);

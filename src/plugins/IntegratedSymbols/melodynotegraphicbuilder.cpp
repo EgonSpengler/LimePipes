@@ -26,20 +26,6 @@ MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder()
     initSpaceBetweenDots();
 }
 
-void MelodyNoteGraphicBuilder::createPixmaps(int lineHeight)
-{
-    Q_UNUSED(lineHeight)
-}
-
-void MelodyNoteGraphicBuilder::updateSymbolGraphic()
-{
-    if (!itemHasRequiredDataForGraphic())
-        return;
-
-    QPixmap pixmap = pixmapForActualItemData();
-    setSymbolGraphicPixmap(pixmap);
-}
-
 QPixmap MelodyNoteGraphicBuilder::pixmapForActualItemData()
 {
     QRectF pixmapRect = rectForActualItemData();
@@ -62,7 +48,7 @@ QRectF MelodyNoteGraphicBuilder::rectForActualItemData()
 {
     QRectF rect = musicFont()->boundingRectForGlyph(MusicFont::Noteheads_s1);
 
-    int dotCount = itemData(LP::MelodyNoteDots).value<int>();
+    int dotCount = data(LP::MelodyNoteDots).value<int>();
     qreal dotWidth = musicFont()->boundingRectForGlyph(MusicFont::Dot).width();
     qreal dotsTotalWidth = dotCount * dotWidth + (dotCount - 1) * SpaceBetweenDots;
 
@@ -101,7 +87,7 @@ void MelodyNoteGraphicBuilder::addNotehead(QPainter *painter)
 
 MusicFont::Glyph MelodyNoteGraphicBuilder::actualNoteheadGlyph()
 {
-    Length::Value length = itemData(LP::SymbolLength).value<Length::Value>();
+    Length::Value length = data(LP::SymbolLength).value<Length::Value>();
     if (length < Length::_4)
         return MusicFont::Noteheads_s1;
     return MusicFont::Noteheads_s2;
@@ -111,7 +97,7 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
 {
     qreal dotWidth = musicFont()->boundingRectForGlyph(MusicFont::Dot).width();
     painter->save();
-    QVariant dotCountVariant = itemData(LP::MelodyNoteDots);
+    QVariant dotCountVariant = data(LP::MelodyNoteDots);
     if (dotCountVariant.isValid() &&
             dotCountVariant.canConvert<int>()) {
 
@@ -126,33 +112,37 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
     painter->restore();
 }
 
-bool MelodyNoteGraphicBuilder::isSymbolGraphicAffectedByDataRole(int role)
+void MelodyNoteGraphicBuilder::initSymbolGraphic()
 {
-    if (role == LP::SymbolPitch ||
-            role == LP::SymbolLength ||
-            role == LP::MelodyNoteDots)
-        return true;
-    return false;
+    QPixmap pixmap = pixmapForActualItemData();
+    setSymbolGraphicPixmap(pixmap);
+}
+
+void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int key)
+{
+    Q_UNUSED(value);
+    Q_UNUSED(key);
+    initSymbolGraphic();
+}
+
+QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const
+{
+    QVector<int> dataRoles;
+    dataRoles.append(LP::SymbolPitch);
+    dataRoles.append(LP::SymbolLength);
+    dataRoles.append(LP::MelodyNoteDots);
+
+    return dataRoles;
 }
 
 bool MelodyNoteGraphicBuilder::isPitchOnLine()
 {
-    QVariant pitchVar = itemData(LP::SymbolPitch);
+    QVariant pitchVar = data(LP::SymbolPitch);
     if (pitchVar.isValid() && pitchVar.canConvert<PitchPtr>()) {
         PitchPtr pitch = pitchVar.value<PitchPtr>();
         if (pitch->staffPos() % 2) {
             return false;
         }
-        return true;
-    }
-    return false;
-}
-
-bool MelodyNoteGraphicBuilder::itemHasRequiredDataForGraphic()
-{
-    if (itemData(LP::SymbolPitch).isValid() &&
-            itemData(LP::SymbolLength).isValid() &&
-            itemData(LP::MelodyNoteDots).isValid()) {
         return true;
     }
     return false;

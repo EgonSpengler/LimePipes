@@ -8,40 +8,64 @@
 
 #include <QtCore/QString>
 #include <QtTest/QtTest>
+#include <common/itemdataroles.h>
 #include "tst_symbolgraphicbuildertest.h"
 
 void SymbolGraphicBuilderTest::init()
 {
-    m_builder = new TestGraphicBuilder();
+    m_builder = new TestSymbolGraphicBuilder();
 }
 
 void SymbolGraphicBuilderTest::cleanup()
 {
-    delete m_builder;
+    m_builder->deleteLater();
 }
 
-void SymbolGraphicBuilderTest::testSymbolGraphic()
+void SymbolGraphicBuilderTest::testConstructor()
 {
     SymbolGraphicPtr symbolGraphic = m_builder->symbolGraphic();
     QVERIFY2(symbolGraphic->pixmap().isNull() == true, "SymbolGraphics pixmap was initially set");
+    QVERIFY2(!m_builder->s_musicFont.isNull(), "Music font wasn't set");
+    QVERIFY2(m_builder->s_musicFont->staffLineHeight() > 0, "No initial staff line height was set");
 }
 
-void SymbolGraphicBuilderTest::testItemData()
+void SymbolGraphicBuilderTest::testSetGetData()
 {
-    QVariant initialData = m_builder->getItemData(TestMusicItem::initialDataRole);
-    QVERIFY2(initialData.isValid(), "Failed getting item data in subclass");
+    QVector<int> graphicDataRoles;
+    graphicDataRoles.append(LP::SymbolType);
+    m_builder->setGraphicDataRoles(graphicDataRoles);
+    QVERIFY2(m_builder->graphicDataRoles() == graphicDataRoles,
+             "Graphic data roles where not set in TestGraphicBuilder");
+
+    int testData = 12;
+    m_builder->setData(testData, LP::SymbolType);
+    int builderData = m_builder->data(LP::SymbolType).toInt();
+    QVERIFY2(builderData == testData, "Failed setting/getting data that has a graphic data role");
+
+    m_builder->setData(33, LP::SymbolPitch);
+    QVERIFY2(!m_builder->data(LP::SymbolPitch).isValid(), "A non graphic data role was set in builder");
 }
 
-void SymbolGraphicBuilderTest::testSetPixmap()
+void SymbolGraphicBuilderTest::testSetGetStaffLineHeight()
 {
-    m_builder->setGraphicPixmap(QPixmap(30, 10));
+    int testLineHeight = 89;
+    m_builder->setStaffLineHeight(testLineHeight);
+    QVERIFY2(m_builder->staffLineHeight() == testLineHeight,
+             "Failed setting/getting staff line height");
+    QVERIFY2(m_builder->s_musicFont->staffLineHeight() == testLineHeight,
+             "Staff line height of music font wasn't set");
+}
+
+void SymbolGraphicBuilderTest::testSetGetPixmap()
+{
+    m_builder->setSymbolGraphicPixmap(QPixmap(30, 10));
     SymbolGraphicPtr symbolGraphic = m_builder->symbolGraphic();
     QVERIFY2(symbolGraphic->pixmap().width() == 30, "Failed setting pixmap");
 }
 
 void SymbolGraphicBuilderTest::testSetYOffset()
 {
-    m_builder->setGraphicYOffset(23.56);
+    m_builder->setSymbolGraphicYOffset(23.56);
     SymbolGraphicPtr symbolGraphic = m_builder->symbolGraphic();
     QVERIFY2(symbolGraphic->yOffset() == 23.56, "Failed setting y offset");
 }

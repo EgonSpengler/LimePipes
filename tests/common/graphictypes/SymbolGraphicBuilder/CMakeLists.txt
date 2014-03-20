@@ -8,6 +8,7 @@ find_package( Qt5XmlPatterns  REQUIRED )
 
 set( Test_SOURCES
         tst_symbolgraphicbuildertest.cpp
+        testsymbolgraphicbuilder.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

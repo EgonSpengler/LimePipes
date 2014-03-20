@@ -29,11 +29,13 @@
 
 MusicFontPtr SymbolGraphicBuilder::s_musicFont = MusicFontPtr(0);
 
+namespace {
 const int InitialLineHeight = 8;
+}
 
 SymbolGraphicBuilder::SymbolGraphicBuilder()
 {
-    initSymbolGraphic();
+    initSymbolGraphicMember();
 
     // resources aren't available in static initialization,
     // so initialize in first call of constructor
@@ -47,9 +49,37 @@ void SymbolGraphicBuilder::setStaffLineHeight(int lineHeight)
     s_musicFont->setStaffLineHeight(lineHeight);
 }
 
-int SymbolGraphicBuilder::lineHeight() const
+int SymbolGraphicBuilder::staffLineHeight() const
 {
-    return s_musicFont->lineHeight();
+    return s_musicFont->staffLineHeight();
+}
+
+void SymbolGraphicBuilder::setData(const QVariant &value, int key)
+{
+    if (!graphicDataRoles().contains(key))
+        return;
+
+    if (m_graphicData.value(key) != value &&
+            value.isValid()) {
+        m_graphicData.insert(key, value);
+        updateSymbolGraphic(value, key);
+    }
+}
+
+QVariant SymbolGraphicBuilder::data(int key) const
+{
+    return m_graphicData.value(key);
+}
+
+bool SymbolGraphicBuilder::isGraphicValid() const
+{
+    foreach (int requiredRole, graphicDataRoles()) {
+        if (!m_graphicData.value(requiredRole).isValid()) {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void SymbolGraphicBuilder::setSymbolGraphicPixmap(const QPixmap &pixmap)
@@ -62,7 +92,7 @@ void SymbolGraphicBuilder::setSymbolGraphicYOffset(qreal yOffset)
     m_graphic->setYOffset(yOffset);
 }
 
-void SymbolGraphicBuilder::initSymbolGraphic()
+void SymbolGraphicBuilder::initSymbolGraphicMember()
 {
     m_graphic = SymbolGraphicPtr(new SymbolGraphic());
 }

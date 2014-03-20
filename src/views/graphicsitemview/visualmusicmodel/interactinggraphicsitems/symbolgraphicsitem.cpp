@@ -51,11 +51,13 @@ int SymbolGraphicsItem::staffLineHeight() const
     if (m_graphicBuilder.isNull())
         return 0;
 
-    return m_graphicBuilder->lineHeight();
+    return m_graphicBuilder->staffLineHeight();
 }
 
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if (m_graphicBuilder.isNull())
+        return;
 }
 
 void SymbolGraphicsItem::setData(const QVariant &value, int key)
@@ -70,6 +72,9 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
         }
         SymbolGraphicBuilder *graphicBuilder = m_pluginManager->symbolGraphicBuilderForType(value.toInt());
         setGraphicBuilder(graphicBuilder);
+    }
+    if (!m_graphicBuilder.isNull()) {
+        m_graphicBuilder->setData(value, key);
     }
 }
 

@@ -10,46 +10,8 @@
 #define SYMBOLGRAPHICBUILDERTEST_H
 
 #include <QObject>
+#include "testsymbolgraphicbuilder.h"
 #include <src/common/graphictypes/symbolgraphicbuilder.h>
-
-namespace {
-
-class TestMusicItem
-{
-public:
-    TestMusicItem()
-    { }
-
-    static int initialDataRole;
-};
-
-}
-
-int TestMusicItem::initialDataRole = 1234;
-
-class TestGraphicBuilder : public SymbolGraphicBuilder
-{
-public:
-    TestGraphicBuilder()
-    {}
-
-    void createPixmaps(int lineHeight) { Q_UNUSED(lineHeight) }
-    void updateSymbolGraphic() { }
-
-    QVariant getItemData(int role) {
-        return SymbolGraphicBuilder::itemData(role);
-    }
-
-    void setGraphicPixmap(const QPixmap &pixmap) {
-        setSymbolGraphicPixmap(pixmap);
-    }
-
-    void setGraphicYOffset(qreal yOffset) {
-        setSymbolGraphicYOffset(yOffset);
-    }
-
-    bool isSymbolGraphicAffectedByDataRole(int role) { Q_UNUSED(role) return true; }
-};
 
 class SymbolGraphicBuilderTest : public QObject
 {
@@ -61,13 +23,14 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testSymbolGraphic();
-    void testItemData();
-    void testSetPixmap();
+    void testConstructor();
+    void testSetGetData();
+    void testSetGetStaffLineHeight();
+    void testSetGetPixmap();
     void testSetYOffset();
 
 private:
-    TestGraphicBuilder *m_builder;
+    TestSymbolGraphicBuilder *m_builder;
 };
 
 #endif
