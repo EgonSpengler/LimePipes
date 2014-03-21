@@ -56,8 +56,9 @@ int SymbolGraphicsItem::staffLineHeight() const
 
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if (m_graphicBuilder.isNull())
-        return;
+    if (!m_graphicBuilder.isNull()) {
+        painter->drawPixmap(0, 0, m_graphicBuilder->symbolGraphic()->pixmap());
+    }
 }
 
 void SymbolGraphicsItem::setData(const QVariant &value, int key)
