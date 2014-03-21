@@ -7,12 +7,13 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         ${CMAKE_SOURCE_DIR}/src/app/commonpluginmanager.cpp
+        ${TEST_MOCK_DIR}/testsymbolgraphicbuilder.cpp
         ../common/iteminteractiondummy.cpp
-        testgraphicbuilder.cpp
         tst_symbolgraphicsitemtest.cpp
         )
 
 include_directories(
+    ${TEST_MOCK_DIR}
     ../common
 )
 

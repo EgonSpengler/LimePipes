@@ -9,9 +9,10 @@
 #include <QString>
 #include <QtTest>
 #include <QCoreApplication>
-#include "testgraphicbuilder.h"
+#include <QSignalSpy>
 #include <common/itemdataroles.h>
 #include <app/commonpluginmanager.h>
+#include <testsymbolgraphicbuilder.h>
 #include <src/views/graphicsitemview/visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h>
 
 Q_IMPORT_PLUGIN(IntegratedSymbols)
@@ -30,6 +31,7 @@ private Q_SLOTS:
     void testSetGetGraphicBuilder();
     void testSetGetPluginManager();
     void testSetDataItemType();
+    void testSetDataOfGraphicBuilder();
     void testSetGetLineHeight();
     void testGraphicsDataStaffLineHeight();
 
@@ -60,7 +62,7 @@ void SymbolGraphicsItemTest::testGraphicsItemType()
 
 void SymbolGraphicsItemTest::testSetGetGraphicBuilder()
 {
-    SymbolGraphicBuilder *builder = new TestGraphicBuilder;
+    SymbolGraphicBuilder *builder = new TestSymbolGraphicBuilder;
     m_symbolGraphicsItem->setGraphicBuilder(builder);
 
     QVERIFY2(m_symbolGraphicsItem->graphicBuilder() == builder,
@@ -86,6 +88,22 @@ void SymbolGraphicsItemTest::testSetDataItemType()
 
     QVERIFY2(!m_symbolGraphicsItem->m_graphicBuilder.isNull(),
              "Symbol graphic builder wasn't set");
+}
+
+void SymbolGraphicsItemTest::testSetDataOfGraphicBuilder()
+{
+    int testDataRole = LP::SymbolCategory;
+    int testValue = 12;
+    TestSymbolGraphicBuilder *graphicBuilder = new TestSymbolGraphicBuilder;
+    QVector<int> builderDataRoles;
+    builderDataRoles.append(testDataRole);
+    graphicBuilder->setGraphicDataRoles(builderDataRoles);
+    m_symbolGraphicsItem->setGraphicBuilder(graphicBuilder);
+    Q_ASSERT(!m_symbolGraphicsItem->m_graphicBuilder.isNull());
+
+    m_symbolGraphicsItem->setData(testValue, testDataRole);
+    QVERIFY2(graphicBuilder->data(testDataRole).toInt() == testValue,
+            "setData wasn't called on graphic builder in SymbolGraphicsItem");
 }
 
 void SymbolGraphicsItemTest::testSetGetLineHeight()

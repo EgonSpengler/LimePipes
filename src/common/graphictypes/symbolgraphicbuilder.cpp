@@ -34,6 +34,7 @@ const int InitialLineHeight = 8;
 }
 
 SymbolGraphicBuilder::SymbolGraphicBuilder()
+    : m_graphicWasInitialized(false)
 {
     initSymbolGraphicMember();
 
@@ -61,8 +62,33 @@ void SymbolGraphicBuilder::setData(const QVariant &value, int key)
 
     if (m_graphicData.value(key) != value &&
             value.isValid()) {
+        bool initializeStateBefore = m_graphicWasInitialized;
+        handleInitOfSymbolGraphic(value, key);
         m_graphicData.insert(key, value);
-        updateSymbolGraphic(value, key);
+
+        // Call update only if initializeSymbolGraphic was called before
+        // and not in this call of setData
+        if (m_graphicWasInitialized &&
+                m_graphicWasInitialized == initializeStateBefore) {
+            updateSymbolGraphic(value, key);
+        }
+    }
+}
+
+void SymbolGraphicBuilder::handleInitOfSymbolGraphic(const QVariant &value, int key)
+{
+    if (m_graphicWasInitialized)
+        return;
+
+    int currentDataCount = m_graphicData.count();
+    int neededDataCount  = graphicDataRoles().count();
+    if (currentDataCount + 1 != neededDataCount)
+        return;
+
+    if (graphicDataRoles().contains(key) &&
+            !m_graphicData.contains(key)) {
+        initializeSymbolGraphic();
+        m_graphicWasInitialized = true;
     }
 }
 

@@ -54,12 +54,13 @@ protected:
     }
 
     /*! \brief initSymbolGraphic Will be called if all required graphic data has been set. */
-    virtual void initSymbolGraphic() {}
+    virtual void initializeSymbolGraphic() {}
 
 private:
     void initSymbolGraphicMember();
+    void handleInitOfSymbolGraphic(const QVariant& value, int key);
     SymbolGraphicPtr m_graphic;
-    bool m_graphicIsValid;
+    bool m_graphicWasInitialized;
     QHash<int, QVariant> m_graphicData;
     static MusicFontPtr s_musicFont;
 };

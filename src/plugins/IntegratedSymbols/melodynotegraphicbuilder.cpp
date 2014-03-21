@@ -112,7 +112,7 @@ void MelodyNoteGraphicBuilder::addDots(QPainter *painter)
     painter->restore();
 }
 
-void MelodyNoteGraphicBuilder::initSymbolGraphic()
+void MelodyNoteGraphicBuilder::initializeSymbolGraphic()
 {
     QPixmap pixmap = pixmapForActualItemData();
     setSymbolGraphicPixmap(pixmap);
@@ -122,7 +122,7 @@ void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int ke
 {
     Q_UNUSED(value);
     Q_UNUSED(key);
-    initSymbolGraphic();
+    initializeSymbolGraphic();
 }
 
 QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const

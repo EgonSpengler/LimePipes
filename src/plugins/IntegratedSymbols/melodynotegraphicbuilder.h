@@ -19,7 +19,7 @@ class MelodyNoteGraphicBuilder : public SymbolGraphicBuilder
 public:
     MelodyNoteGraphicBuilder();
 
-    void initSymbolGraphic();
+    void initializeSymbolGraphic();
     void updateSymbolGraphic(const QVariant &value, int key);
     QVector<int> graphicDataRoles() const;
 

@@ -10,7 +10,7 @@
 #define SYMBOLGRAPHICBUILDERTEST_H
 
 #include <QObject>
-#include "testsymbolgraphicbuilder.h"
+#include <testsymbolgraphicbuilder.h>
 #include <src/common/graphictypes/symbolgraphicbuilder.h>
 
 class SymbolGraphicBuilderTest : public QObject
@@ -26,6 +26,10 @@ private Q_SLOTS:
     void testConstructor();
     void testSetGetData();
     void testSetGetStaffLineHeight();
+    void testIsGraphicValid();
+    void testInitSymbolGraphicCall();
+    void testUpdateSymbolGraphicCallOnNonDependentBuilder();
+    void testUpdateSymbolGraphicCall();
     void testSetGetPixmap();
     void testSetYOffset();
 
