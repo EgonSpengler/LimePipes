@@ -27,8 +27,3 @@ QVector<int> TestSymbolGraphicBuilder::graphicDataRoles() const
 {
     return m_graphicDataRoles;
 }
-
-void TestSymbolGraphicBuilder::initializeSymbolGraphic()
-{
-    emit initSymbolGraphicCalled();
-}

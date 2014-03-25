@@ -23,13 +23,11 @@ public:
 
 signals:
     void updateSymbolGraphicCalled();
-    void initSymbolGraphicCalled();
 
     // SymbolGraphicBuilder interface
 public:
     void updateSymbolGraphic(const QVariant &value, int key);
     QVector<int> graphicDataRoles() const;
-    void initializeSymbolGraphic();
 
 private:
     QVector<int> m_graphicDataRoles;

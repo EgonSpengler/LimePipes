@@ -57,53 +57,7 @@ void SymbolGraphicBuilderTest::testSetGetStaffLineHeight()
              "Staff line height of music font wasn't set");
 }
 
-void SymbolGraphicBuilderTest::testIsGraphicValid()
-{
-    QVERIFY2(m_builder->isGraphicValid() == true,
-             "A graphic builder which depends on no data roles should be valid");
-
-    int role1 = LP::SymbolType;
-    int role2 = LP::SymbolLength;
-    QVector<int> graphicDataRoles{role1, role2};
-    m_builder->setGraphicDataRoles(graphicDataRoles);
-    QVERIFY2(m_builder->isGraphicValid() == false,
-             "Graphic is valid despite no data was set");
-
-    m_builder->setData(1234, role1);
-    QVERIFY2(m_builder->isGraphicValid() == false,
-             "Graphic is valid despite not all data was set");
-
-    m_builder->setData(1234, role2);
-    QVERIFY2(m_builder->isGraphicValid() == true,
-             "Graphic is not valid despite all data was set");
-}
-
-void SymbolGraphicBuilderTest::testInitSymbolGraphicCall()
-{
-    int role1 = LP::SymbolType;
-    int role2 = LP::SymbolLength;
-    QVector<int> graphicDataRoles{role1, role2};
-    m_builder->setGraphicDataRoles(graphicDataRoles);
-
-    QSignalSpy initSpy(m_builder, SIGNAL(initSymbolGraphicCalled()));
-    QSignalSpy updateSpy(m_builder, SIGNAL(updateSymbolGraphicCalled()));
-    m_builder->setData(8483, role1);
-    QVERIFY2(initSpy.count() == 0, "init was called too early on builder");
-    QVERIFY2(updateSpy.count() == 0, "Update should be called after initialize");
-
-    m_builder->setData(QVariant(), role2);
-    QVERIFY2(initSpy.count() == 0, "init was called on builder despite invalid data was set");
-    QVERIFY2(updateSpy.count() == 0, "Update should be called after initialize");
-
-    m_builder->setData(86747, role2);
-    QVERIFY2(initSpy.count()   == 1, "init wasn't called on builder after all data has been set with valid values");
-    QVERIFY2(updateSpy.count() == 0, "Update should be called after initialize but not with initialize");
-
-    m_builder->setData(573927, role2);
-    QVERIFY2(updateSpy.count() == 1, "Update should be called after initialize was called");
-}
-
-void SymbolGraphicBuilderTest::testUpdateSymbolGraphicCallOnNonDependentBuilder()
+void SymbolGraphicBuilderTest::testUpdateSymbolGrapicCall()
 {
     int testData = 8934;
     int testDataRole = LP::SymbolCategory;
@@ -112,13 +66,10 @@ void SymbolGraphicBuilderTest::testUpdateSymbolGraphicCallOnNonDependentBuilder(
     m_builder->setGraphicDataRoles(graphicDataRoles);
     QSignalSpy spy(m_builder, SIGNAL(updateSymbolGraphicCalled()));
     m_builder->setData(testData, testDataRole);
-
-    // set data for update
-    m_builder->setData(testData + 1, testDataRole);
     QVERIFY2(spy.count() == 1, "updateSymbolGraphic was not called on the builder");
 }
 
-void SymbolGraphicBuilderTest::testUpdateSymbolGraphicCall()
+void SymbolGraphicBuilderTest::testUpdateSymbolGraphicCallOnNonDependentBuilder()
 {
     QSignalSpy spy(m_builder, SIGNAL(updateSymbolGraphicCalled()));
     m_builder->setData(123, LP::SymbolCategory);

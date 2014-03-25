@@ -26,10 +26,8 @@ private Q_SLOTS:
     void testConstructor();
     void testSetGetData();
     void testSetGetStaffLineHeight();
-    void testIsGraphicValid();
-    void testInitSymbolGraphicCall();
+    void testUpdateSymbolGrapicCall();
     void testUpdateSymbolGraphicCallOnNonDependentBuilder();
-    void testUpdateSymbolGraphicCall();
     void testSetGetPixmap();
     void testSetYOffset();
 
