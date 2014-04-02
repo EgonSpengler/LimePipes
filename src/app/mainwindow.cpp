@@ -33,6 +33,7 @@
 #include <views/treeview/treeview.h>
 #include <views/graphicsitemview/graphicsitemview.h>
 #include "commonpluginmanager.h"
+#include "SMuFL/smuflloader.h"
 #include "dialogs/newtunedialog.h"
 #include "dialogs/addsymbolsdialog.h"
 #include "dialogs/aboutdialog.h"
@@ -46,14 +47,22 @@ namespace {
 const int StatusTimeout =
         10      /* seconds */
         * 1000  /* milli seconds */;
-
 }
 
 const QString pluginsDirName("plugins");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    m_treeView(0),
+    m_graphicsItemView(0),
+    m_graphicsScene(0),
+    m_proxyModel(0),
+    m_model(0),
+    m_addSymbolsDialog(0),
+    m_aboutDialog(0),
+    m_settingsDialog(0),
+    m_smuflLoader(0)
 {
     ui->setupUi(this);
 
@@ -70,6 +79,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_aboutDialog = new AboutDialog(this);
     m_settingsDialog = new SettingsDialog(this);
 
+    initSmufl();
     createModelAndView();
     createMenusAndToolBars();
     createConnections();
@@ -83,6 +93,14 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::initSmufl()
+{
+    m_smuflLoader = new SMuFLLoader(this);
+    m_smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
+    m_smuflLoader->setFont(QStringLiteral(":/SMuFL/fonts/Bravura/Bravura.otf"));
+    m_smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
 }
 
 void MainWindow::createModelAndView()

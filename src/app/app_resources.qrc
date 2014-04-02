@@ -14,4 +14,12 @@
         <file alias="document-properties">resources/img/document-properties.svg</file>
         <file alias="score_settings">resources/img/score_settings.svg</file>
     </qresource>
+    <qresource prefix="/SMuFL">
+        <file alias="classes.json">SMuFL/definition/classes.json</file>
+        <file alias="glyphnames.json">SMuFL/definition/glyphnames.json</file>
+    </qresource>
+    <qresource prefix="/SMuFL/fonts/Bravura">
+        <file alias="metadata.json">SMuFL/fonts/bravura/bravura_metadata.json</file>
+        <file alias="Bravura.otf">SMuFL/fonts/bravura/Bravura.otf</file>
+    </qresource>
 </RCC>

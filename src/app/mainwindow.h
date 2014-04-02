@@ -24,6 +24,7 @@ class MusicModelInterface;
 class GraphicsItemView;
 class GraphicsScene;
 class SettingsDialog;
+class SMuFLLoader;
 
 namespace Ui {
 class MainWindow;
@@ -53,6 +54,7 @@ private slots:
     void setWindowModifiedForUndoStackCleanState(bool clean);
 
 private:
+    void initSmufl();
     void createModelAndView();
     void createMenusAndToolBars();
     void createConnections();
@@ -75,6 +77,7 @@ private:
     AddSymbolsDialog *m_addSymbolsDialog;
     AboutDialog *m_aboutDialog;
     SettingsDialog *m_settingsDialog;
+    SMuFLLoader *m_smuflLoader;
 };
 
 #endif // MAINWINDOW_H

@@ -8,6 +8,7 @@ set( limepipes_SOURCES
         app/dialogs/settingsdialog.cpp
         app/dialogs/settingspages/scorepropertiessettingspage.cpp
         app/dialogs/settingspages/scorepropertieswidget.cpp
+        app/SMuFL/smuflloader.cpp
         common/scoresettings.cpp
 
         views/treeview/lengthdelegate.cpp
@@ -20,6 +21,7 @@ set( limepipes_SOURCES
         common/defines.h
         common/itemdataroles.h
         common/settingdefines.h
+        common/graphictypes/SMuFL/smufl.cpp
 
         common/interfaces/instrumentinterface.h
         common/interfaces/symbolinterface.h

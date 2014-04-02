@@ -8,6 +8,7 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <common/graphictypes/glyphitem.h>
 #include <common/itemdataroles.h>
 #include "symbolgraphicsitem.h"
 
@@ -16,6 +17,7 @@ using namespace LP::View;
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
+    GlyphItem *glyphItem = new GlyphItem("noteheadBlack", this);
 }
 
 void SymbolGraphicsItem::setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder)
