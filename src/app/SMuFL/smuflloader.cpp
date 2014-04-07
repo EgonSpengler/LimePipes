@@ -44,6 +44,11 @@ void SMuFLLoader::setFontFromPath(const QString &path)
     m_font = QFont(fontFamilies.at(0));
 }
 
+void SMuFLLoader::setFontPixelSize(int pixelSize)
+{
+    m_font.setPixelSize(pixelSize);
+}
+
 void SMuFLLoader::loadGlyphnamesFromFile(const QString &glyphNamesFilePath)
 {
     QFile glyphNamesFile(glyphNamesFilePath);
@@ -80,6 +85,11 @@ void SMuFLLoader::loadFontMetadataFromFile(const QString &fontMetadataFilePath)
     setEngravingsFromJson(engravingsJson);
 
     m_fontGlyphs = fontMetaData.value(QStringLiteral("glyphs")).toObject();
+}
+
+void SMuFLLoader::setInstance(SMuFL *smuflInstance)
+{
+    m_smufl = smuflInstance;
 }
 
 void SMuFLLoader::setEngravingsFromJson(const QJsonObject &json)

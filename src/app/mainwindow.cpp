@@ -97,10 +97,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::initSmufl()
 {
+    int staffLineHeight = 20;
+    int oneEm = 4 * staffLineHeight;
     m_smuflLoader = new SMuFLLoader(this);
+
+    m_smuflLoader->setFontFromPath(QStringLiteral(":/SMuFL/fonts/Bravura/Bravura.otf"));
+    m_smuflLoader->setFontPixelSize(oneEm);
     m_smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
-    m_smuflLoader->setFont(QStringLiteral(":/SMuFL/fonts/Bravura/Bravura.otf"));
     m_smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
+    m_smuflLoader->setInstance(m_smuflLoader);
 }
 
 void MainWindow::createModelAndView()

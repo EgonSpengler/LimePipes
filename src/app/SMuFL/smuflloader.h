@@ -22,12 +22,13 @@ public:
 
     void setFont(const QFont &font);
     void setFontFromPath(const QString &path);
+    void setFontPixelSize(int pixelSize);
 
     void loadGlyphnamesFromFile(const QString& glyphNamesFilePath);
     void loadFontMetadataFromFile(const QString& fontMetadataFilePath);
 
-    // SMuFL interface
-public:
+    void setInstance(SMuFL *smuflInstance);
+
     QFont font() const;
     quint32 codepointForGlyph(const QString &glyphname) const;
     quint32 alternateCodepointForGlyph(const QString &glyphname) const;

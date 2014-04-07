@@ -6,6 +6,7 @@
  *
  */
 
+#include <QPainter>
 #include "SMuFL/smufl.h"
 #include "glyphitem.h"
 
@@ -22,6 +23,8 @@ void GlyphItem::initFromGlyphName(const QString &glyphName)
         return;
     }
 
+    quint32 codepoint = smufl->codepointForGlyph(glyphName);
+    m_char = QChar(codepoint);
 }
 
 QRectF GlyphItem::boundingRect() const
@@ -31,4 +34,9 @@ QRectF GlyphItem::boundingRect() const
 
 void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if (!SMuFL::instance())
+        return;
+
+    painter->setFont(SMuFL::instance()->font());
+    painter->drawText(0, 0, m_char);
 }

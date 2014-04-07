@@ -9,6 +9,7 @@
 #ifndef GLYPHITEM_H
 #define GLYPHITEM_H
 
+#include <QChar>
 #include <QGraphicsItem>
 
 class GlyphItem : public QGraphicsItem
@@ -21,7 +22,7 @@ public:
 
 private:
     void initFromGlyphName(const QString& glyphName);
-
+    QChar m_char;
 };
 
 #endif // GLYPHITEM_H
