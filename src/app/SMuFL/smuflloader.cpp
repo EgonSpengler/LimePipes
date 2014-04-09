@@ -87,11 +87,6 @@ void SMuFLLoader::loadFontMetadataFromFile(const QString &fontMetadataFilePath)
     m_fontGlyphs = fontMetaData.value(QStringLiteral("glyphs")).toObject();
 }
 
-void SMuFLLoader::setInstance(SMuFL *smuflInstance)
-{
-    m_smufl = smuflInstance;
-}
-
 void SMuFLLoader::setEngravingsFromJson(const QJsonObject &json)
 {
     Engravings newEngravings{0};

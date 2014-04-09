@@ -18,6 +18,7 @@ public:
 
     VisualItem *createVisualItem(VisualItem::ItemType type);
 
+    void setSmuflForGraphicsItem(InteractingGraphicsItem *graphicsItem);
 private:
     VisualItem *newVisualScore();
     VisualItem *newVisualTune();

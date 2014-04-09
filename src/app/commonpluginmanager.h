@@ -41,6 +41,9 @@ public:
     void setPluginsPathAndLoadDynamicPlugins(const QDir& pluginsPath);
     QString pluginsPath() const { return m_pluginsPath.absolutePath(); }
 
+    SMuFLPtr smufl() const;
+    void setSmufl(const SMuFLPtr &smufl);
+
 private:
     void loadStaticPlugins();
     void loadDynamicPlugins();
@@ -55,6 +58,7 @@ private:
     int m_staticPlugins;
     int m_dynamicPlugins;
     QDir m_pluginsPath;
+    SMuFLPtr m_smufl;
 };
 
 #endif // COMMONPLUGINMANAGER_H

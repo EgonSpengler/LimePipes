@@ -34,6 +34,12 @@ VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
     return 0;
 }
 
+void VisualItemFactory::setSmuflForGraphicsItem(InteractingGraphicsItem *graphicsItem)
+{
+    if (!pluginManger().isNull())
+        graphicsItem->setSmufl(pluginManger()->smufl());
+}
+
 VisualItem *VisualItemFactory::newVisualScore()
 {
     VisualItem *newItem = new VisualItem(VisualItem::VisualScoreItem,
@@ -41,9 +47,11 @@ VisualItem *VisualItemFactory::newVisualScore()
 
     ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem(Settings::Score::Header);
     scoreHeaderItem->setItemInteraction(new ScoreInteraction);
+    setSmuflForGraphicsItem(scoreHeaderItem);
 
     ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem(Settings::Score::Footer);
     scoreFooterItem->setItemInteraction(new ScoreInteraction);
+    setSmuflForGraphicsItem(scoreFooterItem);
 
     newItem->appendRow(scoreHeaderItem);
     newItem->appendRow(scoreFooterItem);
@@ -60,7 +68,9 @@ VisualItem *VisualItemFactory::newVisualTune()
 
 VisualItem *VisualItemFactory::newVisualPart()
 {
-    VisualItem *newItem = new VisualPart();
+    VisualPart *newItem = new VisualPart();
+    if (!pluginManger().isNull())
+        newItem->setSmufl(pluginManger()->smufl());
 
     return newItem;
 }
@@ -72,6 +82,7 @@ VisualItem *VisualItemFactory::newVisualMeasure()
 
     MeasureGraphicsItem *measureGraphicsItem = new MeasureGraphicsItem;
     newItem->setInlineGraphic(measureGraphicsItem);
+    setSmuflForGraphicsItem(measureGraphicsItem);
 
     return newItem;
 }
@@ -85,6 +96,7 @@ VisualItem *VisualItemFactory::newVisualSymbol()
     if (!pluginManger().isNull())
         symbolGraphicsItem->setPluginManager(pluginManger());
     newItem->setInlineGraphic(symbolGraphicsItem);
+    setSmuflForGraphicsItem(symbolGraphicsItem);
 
     return newItem;
 }

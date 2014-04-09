@@ -61,8 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_model(0),
     m_addSymbolsDialog(0),
     m_aboutDialog(0),
-    m_settingsDialog(0),
-    m_smuflLoader(0)
+    m_settingsDialog(0)
 {
     ui->setupUi(this);
 
@@ -99,13 +98,13 @@ void MainWindow::initSmufl()
 {
     int staffLineHeight = 20;
     int oneEm = 4 * staffLineHeight;
-    m_smuflLoader = new SMuFLLoader(this);
+    SMuFLLoader *smuflLoader = new SMuFLLoader();
 
-    m_smuflLoader->setFontFromPath(QStringLiteral(":/SMuFL/fonts/Bravura/Bravura.otf"));
-    m_smuflLoader->setFontPixelSize(oneEm);
-    m_smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
-    m_smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
-    m_smuflLoader->setInstance(m_smuflLoader);
+    smuflLoader->setFontFromPath(QStringLiteral(":/SMuFL/fonts/Bravura/Bravura.otf"));
+    smuflLoader->setFontPixelSize(oneEm);
+    smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
+    smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
+    m_smufl = SMuFLPtr(smuflLoader);
 }
 
 void MainWindow::createModelAndView()

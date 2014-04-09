@@ -8,19 +8,12 @@
 
 #include "smufl.h"
 
-SMuFL *SMuFL::m_smufl = 0;
-
 SMuFL::SMuFL()
 {
 }
 
 SMuFL::~SMuFL()
 {
-}
-
-SMuFL *SMuFL::instance()
-{
-    return m_smufl;
 }
 
 QFont SMuFL::font() const

@@ -27,8 +27,6 @@ public:
     void loadGlyphnamesFromFile(const QString& glyphNamesFilePath);
     void loadFontMetadataFromFile(const QString& fontMetadataFilePath);
 
-    void setInstance(SMuFL *smuflInstance);
-
     QFont font() const;
     quint32 codepointForGlyph(const QString &glyphname) const;
     quint32 alternateCodepointForGlyph(const QString &glyphname) const;

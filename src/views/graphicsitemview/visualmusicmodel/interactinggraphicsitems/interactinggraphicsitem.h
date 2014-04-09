@@ -11,6 +11,7 @@
 
 #include <QList>
 #include <QGraphicsWidget>
+#include <common/graphictypes/SMuFL/smufl.h>
 #include "graphicsitemtypes.h"
 #include <common/itemdataroles.h>
 
@@ -71,6 +72,9 @@ public:
      */
     virtual QVariant graphicsData(int key);
 
+    SMuFLPtr smufl() const;
+    void setSmufl(const SMuFLPtr &smufl);
+
 signals:
     void itemInteractionChanged();
 
@@ -83,6 +87,7 @@ protected:
 
 private:
     ItemInteraction *m_itemInteraction;
+    SMuFLPtr m_smufl;
 };
 
 #endif // INTERACTINGGRAPHICSITEM_H

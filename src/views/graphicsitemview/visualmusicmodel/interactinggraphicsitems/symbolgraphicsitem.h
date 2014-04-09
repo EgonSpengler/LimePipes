@@ -15,6 +15,8 @@
 #include <common/graphictypes/symbolgraphicbuilder.h>
 #include "interactinggraphicsitem.h"
 
+class GlyphItem;
+
 class SymbolGraphicsItem : public InteractingGraphicsItem
 {
     Q_OBJECT
@@ -43,6 +45,7 @@ private:
 
     QSharedPointer<SymbolGraphicBuilder> m_graphicBuilder;
     PluginManager m_pluginManager;
+    GlyphItem *m_glyphItem;
 };
 
 #endif // SYMBOLGRAPHICSITEM_H

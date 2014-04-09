@@ -10,6 +10,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <common/graphictypes/SMuFL/smufl.h>
 #include <common/pluginmanagerinterface.h>
 
 class QTreeView;
@@ -24,7 +25,6 @@ class MusicModelInterface;
 class GraphicsItemView;
 class GraphicsScene;
 class SettingsDialog;
-class SMuFLLoader;
 
 namespace Ui {
 class MainWindow;
@@ -77,7 +77,7 @@ private:
     AddSymbolsDialog *m_addSymbolsDialog;
     AboutDialog *m_aboutDialog;
     SettingsDialog *m_settingsDialog;
-    SMuFLLoader *m_smuflLoader;
+    SMuFLPtr m_smufl;
 };
 
 #endif // MAINWINDOW_H

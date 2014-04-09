@@ -139,6 +139,15 @@ bool CommonPluginManager::hasInstrumentWithName(const QString &name) const
 {
     return m_instrumentPlugins.keys().contains(name);
 }
+SMuFLPtr CommonPluginManager::smufl() const
+{
+    return m_smufl;
+}
+
+void CommonPluginManager::setSmufl(const SMuFLPtr &smufl)
+{
+    m_smufl = smufl;
+}
 
 SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
 {

@@ -58,8 +58,19 @@ void VisualPart::appendStaff()
 StaffGraphicsItem *VisualPart::newStaffItem()
 {
     StaffGraphicsItem *staffItem = new StaffGraphicsItem;
+    staffItem->setSmufl(m_smufl);
 
     return staffItem;
+}
+
+SMuFLPtr VisualPart::smufl() const
+{
+    return m_smufl;
+}
+
+void VisualPart::setSmufl(const SMuFLPtr &smufl)
+{
+    m_smufl = smufl;
 }
 
 void VisualPart::removeLastStaff()

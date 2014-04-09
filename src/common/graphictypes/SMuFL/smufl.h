@@ -10,25 +10,22 @@
 #define SMUFL_H
 
 #include <QFont>
+#include <QSharedPointer>
 #include "smufltypes.h"
 
 class SMuFL
 {
 public:
-    SMuFL();
+    explicit SMuFL();
     virtual ~SMuFL();
 
-    static SMuFL *instance();
-
     virtual QFont font() const;
-
     virtual quint32 codepointForGlyph(const QString& glyphname) const;
     virtual quint32 alternateCodepointForGlyph(const QString& glyphname) const;
     virtual Engravings engravings() const;
     virtual GlyphData glyphData(const QString& glyphname);
-
-protected:
-    static SMuFL *m_smufl;
 };
+
+typedef QSharedPointer<SMuFL> SMuFLPtr;
 
 #endif // SMUFL_H

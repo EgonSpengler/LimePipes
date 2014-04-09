@@ -80,3 +80,13 @@ void InteractingGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *e
     if (m_itemInteraction)
         m_itemInteraction->contextMenuEvent(event);
 }
+SMuFLPtr InteractingGraphicsItem::smufl() const
+{
+    return m_smufl;
+}
+
+void InteractingGraphicsItem::setSmufl(const SMuFLPtr &smufl)
+{
+    m_smufl = smufl;
+}
+

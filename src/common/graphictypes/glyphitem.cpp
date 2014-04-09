@@ -13,19 +13,39 @@
 GlyphItem::GlyphItem(const QString &glyphName, QGraphicsItem *parent)
     : QGraphicsItem(parent)
 {
-    initFromGlyphName(glyphName);
+    setGlyphName(glyphName);
 }
 
 void GlyphItem::initFromGlyphName(const QString &glyphName)
 {
-    SMuFL *smufl = SMuFL::instance();
-    if (!smufl) {
+    if (m_smufl.isNull())
         return;
-    }
 
-    quint32 codepoint = smufl->codepointForGlyph(glyphName);
+    quint32 codepoint = m_smufl->codepointForGlyph(glyphName);
     m_char = QChar(codepoint);
 }
+
+SMuFLPtr GlyphItem::smufl() const
+{
+    return m_smufl;
+}
+
+void GlyphItem::setSmufl(const SMuFLPtr &smufl)
+{
+    m_smufl = smufl;
+    initFromGlyphName(m_glyphName);
+}
+
+QString GlyphItem::glyphName() const
+{
+    return m_glyphName;
+}
+
+void GlyphItem::setGlyphName(const QString &glyphName)
+{
+    m_glyphName = glyphName;
+}
+
 
 QRectF GlyphItem::boundingRect() const
 {
@@ -34,9 +54,9 @@ QRectF GlyphItem::boundingRect() const
 
 void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if (!SMuFL::instance())
+    if (m_smufl.isNull())
         return;
 
-    painter->setFont(SMuFL::instance()->font());
+    painter->setFont(m_smufl->font());
     painter->drawText(0, 0, m_char);
 }
