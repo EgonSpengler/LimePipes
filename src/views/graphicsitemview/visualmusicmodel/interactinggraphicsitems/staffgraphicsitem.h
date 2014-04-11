@@ -35,6 +35,9 @@ public:
     void setGraphicsData(int key, const QVariant& value);
     int measureCount() const;
 
+protected:
+    void smuflHasChanged(const SMuFLPtr &smufl);
+
 private:
     int staffLineHeight() const;
     void setStaffLineHeight(qreal staffLineHeight);

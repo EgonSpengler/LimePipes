@@ -87,6 +87,10 @@ SMuFLPtr InteractingGraphicsItem::smufl() const
 
 void InteractingGraphicsItem::setSmufl(const SMuFLPtr &smufl)
 {
+    if (m_smufl == smufl)
+        return;
+
     m_smufl = smufl;
+    smuflHasChanged(m_smufl);
 }
 

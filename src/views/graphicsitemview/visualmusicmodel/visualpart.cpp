@@ -70,7 +70,13 @@ SMuFLPtr VisualPart::smufl() const
 
 void VisualPart::setSmufl(const SMuFLPtr &smufl)
 {
+    if (m_smufl == smufl)
+        return;
+
     m_smufl = smufl;
+    foreach (StaffGraphicsItem *staff, m_staffItems) {
+        staff->setSmufl(m_smufl);
+    }
 }
 
 void VisualPart::removeLastStaff()

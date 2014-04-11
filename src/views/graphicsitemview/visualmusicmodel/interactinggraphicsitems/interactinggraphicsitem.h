@@ -85,6 +85,8 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
+    virtual void smuflHasChanged(const SMuFLPtr& smufl) {}
+
 private:
     ItemInteraction *m_itemInteraction;
     SMuFLPtr m_smufl;

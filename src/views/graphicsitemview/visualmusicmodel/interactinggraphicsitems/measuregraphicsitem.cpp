@@ -80,3 +80,12 @@ void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     //painter->drawLine(0, 0, 0, rect.height());
     painter->drawLine(rightEdge, 0, rightEdge, rect.height());
 }
+
+void MeasureGraphicsItem::smuflHasChanged(const SMuFLPtr &smufl)
+{
+    QFont font = smufl->font();
+    qreal staffSpace = font.pixelSize() / 4;
+    Engravings engravings(smufl->engravings());
+    qreal width = engravings.thinBarlineThickness * staffSpace;
+    setPenWidth(width);
+}

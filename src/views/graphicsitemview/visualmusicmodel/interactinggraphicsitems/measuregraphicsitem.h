@@ -34,6 +34,10 @@ public:
     void setData(const QVariant &value, int key);
     void setGraphicsData(int key, const QVariant &value);
 
+    // InteractingGraphicsItem interface
+protected:
+    void smuflHasChanged(const SMuFLPtr &smufl);
+
 private:
     void setPenWidth(qreal width);
     qreal penWidth() const;

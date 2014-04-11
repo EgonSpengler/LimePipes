@@ -71,14 +71,16 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     pluginsDir.cd(pluginsDirName);
 
+    initSmufl();
+
     CommonPluginManager *pluginManager = new CommonPluginManager(pluginsDir);
     m_pluginManager = PluginManager(pluginManager);
+    pluginManager->setSmufl(m_smufl);
 
     m_addSymbolsDialog = new AddSymbolsDialog(this);
     m_aboutDialog = new AboutDialog(this);
     m_settingsDialog = new SettingsDialog(this);
 
-    initSmufl();
     createModelAndView();
     createMenusAndToolBars();
     createConnections();
@@ -96,7 +98,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::initSmufl()
 {
-    int staffLineHeight = 20;
+    int staffLineHeight = 10;
     int oneEm = 4 * staffLineHeight;
     SMuFLLoader *smuflLoader = new SMuFLLoader();
 

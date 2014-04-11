@@ -140,3 +140,13 @@ int StaffGraphicsItem::measureCount() const
 {
     return m_measureLayout->count();
 }
+
+void StaffGraphicsItem::smuflHasChanged(const SMuFLPtr &smufl)
+{
+    QFont font = smufl->font();
+    qreal staffSpace = font.pixelSize() / 4;
+    setStaffLineHeight(staffSpace);
+    Engravings engravings(smufl->engravings());
+    qreal width = engravings.staffLineThickness * staffSpace;
+    setPenWidth(width);
+}
