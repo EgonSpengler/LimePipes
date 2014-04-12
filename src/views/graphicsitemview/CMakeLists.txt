@@ -18,8 +18,6 @@ set( lp_graphicsitemview_SOURCES
         ${GRAPHICTYPES_DIR}/glyphitem.cpp
         ${GRAPHICTYPES_DIR}/symbolgraphic.cpp
         ${GRAPHICTYPES_DIR}/symbolgraphicbuilder.cpp
-        ${GRAPHICTYPES_DIR}/musicfont/musicfont.cpp
-        ${GRAPHICTYPES_DIR}/musicfont/emmentalermusicfont.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp
@@ -53,7 +51,6 @@ set( lp_graphicsitemview_UIs
 qt5_wrap_ui( lp_graphicsitemview_SOURCES ${lp_graphicsitemview_UIs} )
 
 set( lp_graphicsitemview_RESOURCES
-        ${GRAPHICTYPES_DIR}/musicfont/musicfont_resources.qrc
         )
 
 qt5_add_resources( lp_graphicsitemview_SOURCES ${lp_graphicsitemview_RESOURCES} )

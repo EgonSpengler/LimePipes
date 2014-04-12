@@ -24,21 +24,11 @@ public:
 
 private:
     QPixmap pixmapForActualItemData();
-    QRectF rectForActualItemData();
 
     bool isPitchOnLine();
 
     void initSpaceBetweenNoteheadAndDots();
     void initSpaceBetweenDots();
-
-    qreal yOffsetForNotehead(qreal pixmapHeight);
-    qreal yOffsetForDots(qreal pixmapHeight);
-    qreal xOffsetForDots();
-
-    void addNotehead(QPainter *painter);
-    void addDots(QPainter *painter);
-
-    MusicFont::Glyph actualNoteheadGlyph();
 };
 
 #endif // MELODYNOTEGRAPHICBUILDER_H

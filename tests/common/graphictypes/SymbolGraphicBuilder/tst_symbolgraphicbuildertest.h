@@ -25,7 +25,6 @@ private Q_SLOTS:
     void cleanup();
     void testConstructor();
     void testSetGetData();
-    void testSetGetStaffLineHeight();
     void testUpdateSymbolGrapicCall();
     void testUpdateSymbolGraphicCallOnNonDependentBuilder();
     void testSetGetPixmap();

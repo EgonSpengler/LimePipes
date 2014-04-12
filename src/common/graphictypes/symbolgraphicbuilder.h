@@ -13,7 +13,6 @@
 #include <QVector>
 #include <QVariant>
 #include "symbolgraphic.h"
-#include "musicfont/musicfont.h"
 
 class SymbolGraphicBuilder
 {
@@ -24,15 +23,10 @@ public:
 
     SymbolGraphicPtr symbolGraphic() { return m_graphic; }
 
-    void setStaffLineHeight(int staffLineHeight);
-    int staffLineHeight() const;
-
     void setData(const QVariant &value, int key);
     QVariant data(int key) const;
 
 protected:
-    MusicFontPtr musicFont() { return s_musicFont; }
-
     void setSymbolGraphicPixmap(const QPixmap &pixmap);
     void setSymbolGraphicYOffset(qreal yOffset);
 
@@ -52,7 +46,6 @@ private:
     void initSymbolGraphicMember();
     SymbolGraphicPtr m_graphic;
     QHash<int, QVariant> m_graphicData;
-    static MusicFontPtr s_musicFont;
 };
 
 #endif // SYMBOLGRAPHICBUILDER_H

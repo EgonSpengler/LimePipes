@@ -20,33 +20,10 @@
  */
 
 #include "symbolgraphicbuilder.h"
-#include "musicfont/emmentalermusicfont.h"
-
-MusicFontPtr SymbolGraphicBuilder::s_musicFont = MusicFontPtr(0);
-
-namespace {
-const int InitialLineHeight = 8;
-}
 
 SymbolGraphicBuilder::SymbolGraphicBuilder()
 {
     initSymbolGraphicMember();
-
-    // resources aren't available in static initialization,
-    // so initialize in first call of constructor
-    if (s_musicFont.data() == 0) {
-        s_musicFont = MusicFontPtr(new EmmentalerMusicFont(InitialLineHeight));
-    }
-}
-
-void SymbolGraphicBuilder::setStaffLineHeight(int lineHeight)
-{
-    s_musicFont->setStaffLineHeight(lineHeight);
-}
-
-int SymbolGraphicBuilder::staffLineHeight() const
-{
-    return s_musicFont->staffLineHeight();
 }
 
 void SymbolGraphicBuilder::setData(const QVariant &value, int key)

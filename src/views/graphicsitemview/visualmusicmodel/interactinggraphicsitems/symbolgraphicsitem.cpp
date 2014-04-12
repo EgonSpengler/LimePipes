@@ -44,25 +44,17 @@ PluginManager SymbolGraphicsItem::pluginManger() const
 
 void SymbolGraphicsItem::setStaffLineHeight(int lineHeigth)
 {
-    if (m_graphicBuilder.isNull())
-        return;
-
-    m_graphicBuilder->setStaffLineHeight(lineHeigth);
 }
 
 int SymbolGraphicsItem::staffLineHeight() const
 {
-    if (m_graphicBuilder.isNull())
-        return 0;
-
-    return m_graphicBuilder->staffLineHeight();
 }
 
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if (!m_graphicBuilder.isNull()) {
-        painter->drawPixmap(0, 0, m_graphicBuilder->symbolGraphic()->pixmap());
-    }
+//    if (!m_graphicBuilder.isNull()) {
+//        painter->drawPixmap(0, 0, m_graphicBuilder->symbolGraphic()->pixmap());
+//    }
 }
 
 void SymbolGraphicsItem::setData(const QVariant &value, int key)

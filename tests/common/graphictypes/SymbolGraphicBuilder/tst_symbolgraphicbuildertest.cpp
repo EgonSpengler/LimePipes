@@ -26,8 +26,6 @@ void SymbolGraphicBuilderTest::testConstructor()
 {
     SymbolGraphicPtr symbolGraphic = m_builder->symbolGraphic();
     QVERIFY2(symbolGraphic->pixmap().isNull() == true, "SymbolGraphics pixmap was initially set");
-    QVERIFY2(!m_builder->s_musicFont.isNull(), "Music font wasn't set");
-    QVERIFY2(m_builder->s_musicFont->staffLineHeight() > 0, "No initial staff line height was set");
 }
 
 void SymbolGraphicBuilderTest::testSetGetData()
@@ -45,16 +43,6 @@ void SymbolGraphicBuilderTest::testSetGetData()
 
     m_builder->setData(33, LP::SymbolPitch);
     QVERIFY2(!m_builder->data(LP::SymbolPitch).isValid(), "A non graphic data role was set in builder");
-}
-
-void SymbolGraphicBuilderTest::testSetGetStaffLineHeight()
-{
-    int testLineHeight = 89;
-    m_builder->setStaffLineHeight(testLineHeight);
-    QVERIFY2(m_builder->staffLineHeight() == testLineHeight,
-             "Failed setting/getting staff line height");
-    QVERIFY2(m_builder->s_musicFont->staffLineHeight() == testLineHeight,
-             "Staff line height of music font wasn't set");
 }
 
 void SymbolGraphicBuilderTest::testUpdateSymbolGrapicCall()

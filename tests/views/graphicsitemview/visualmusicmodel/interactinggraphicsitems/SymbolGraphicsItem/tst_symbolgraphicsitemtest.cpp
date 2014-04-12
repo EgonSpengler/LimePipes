@@ -140,9 +140,6 @@ void SymbolGraphicsItemTest::testGraphicsDataStaffLineHeight()
     m_symbolGraphicsItem->setGraphicsData(testDataRole, testData);
     QVERIFY2(m_symbolGraphicsItem->graphicsData(testDataRole).toInt() == testData,
              "Parent implementation wasn't called in setGraphicsData implementation");
-
-    QVERIFY2(m_symbolGraphicsItem->m_graphicBuilder->staffLineHeight() == testData,
-             "Staff line height wasn't set on graphic builder");
 }
 
 QTEST_MAIN(SymbolGraphicsItemTest)
