@@ -12,7 +12,6 @@
 #include <QHash>
 #include <QVector>
 #include <QVariant>
-#include "symbolgraphic.h"
 
 class GlyphItem;
 
@@ -48,8 +47,6 @@ protected:
     }
 
 private:
-    void initSymbolGraphicMember();
-    SymbolGraphicPtr m_graphic;
     QHash<int, QVariant> m_graphicData;
 };
 

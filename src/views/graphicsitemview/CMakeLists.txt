@@ -16,7 +16,6 @@ set( lp_graphicsitemview_SOURCES
 
         ${GRAPHICTYPES_DIR}/SMuFL/smufl.cpp
         ${GRAPHICTYPES_DIR}/glyphitem.cpp
-        ${GRAPHICTYPES_DIR}/symbolgraphic.cpp
         ${GRAPHICTYPES_DIR}/symbolgraphicbuilder.cpp
 
         pageviewitem/pageviewitem.cpp

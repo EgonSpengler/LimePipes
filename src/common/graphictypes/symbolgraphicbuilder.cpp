@@ -24,7 +24,6 @@
 
 SymbolGraphicBuilder::SymbolGraphicBuilder()
 {
-    initSymbolGraphicMember();
 }
 
 GlyphItem *SymbolGraphicBuilder::glyphItem() const
@@ -51,15 +50,8 @@ QVariant SymbolGraphicBuilder::data(int key) const
 
 void SymbolGraphicBuilder::setSymbolGraphicPixmap(const QPixmap &pixmap)
 {
-    m_graphic->setPixmap(pixmap);
 }
 
 void SymbolGraphicBuilder::setSymbolGraphicYOffset(qreal yOffset)
 {
-    m_graphic->setYOffset(yOffset);
-}
-
-void SymbolGraphicBuilder::initSymbolGraphicMember()
-{
-    m_graphic = SymbolGraphicPtr(new SymbolGraphic());
 }

@@ -17,7 +17,6 @@ using namespace LP::View;
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
-    m_glyphItem = new GlyphItem("noteheadBlack", this);
 }
 
 void SymbolGraphicsItem::setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder)
@@ -34,7 +33,8 @@ void SymbolGraphicsItem::setPluginManager(PluginManager pluginManger)
 {
     m_pluginManager = pluginManger;
 
-    m_glyphItem->setSmufl(m_pluginManager->smufl());
+    if (m_glyphItem)
+        m_glyphItem->setSmufl(m_pluginManager->smufl());
 }
 
 PluginManager SymbolGraphicsItem::pluginManger() const
@@ -60,6 +60,9 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
             return;
         }
         SymbolGraphicBuilder *graphicBuilder = m_pluginManager->symbolGraphicBuilderForType(value.toInt());
+        graphicBuilder->glyphItem()->setParentItem(this);
+        if (!m_pluginManager.isNull())
+            graphicBuilder->glyphItem()->setSmufl(m_pluginManager->smufl());
         setGraphicBuilder(graphicBuilder);
     }
     if (!m_graphicBuilder.isNull()) {

@@ -10,6 +10,7 @@
 #include <common/datatypes/pitch.h>
 #include <common/datatypes/length.h>
 #include <common/itemdataroles.h>
+#include <common/graphictypes/glyphitem.h>
 #include <QPainter>
 #include <QPixmap>
 
@@ -21,7 +22,9 @@ qreal SpaceBetweenDots = 0;
 }
 
 MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder()
+    : m_glyph(0)
 {
+    m_glyph = new GlyphItem("noteheadBlack");
     initSpaceBetweenNoteheadAndDots();
     initSpaceBetweenDots();
 }
@@ -92,4 +95,10 @@ void MelodyNoteGraphicBuilder::initSpaceBetweenDots()
 
 //    QRectF dot = musicFont()->boundingRectForGlyph(MusicFont::Dot);
 //    SpaceBetweenDots = 0.7 * dot.width();
+}
+
+
+GlyphItem *MelodyNoteGraphicBuilder::glyphItem() const
+{
+    return m_glyph;
 }

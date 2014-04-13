@@ -74,14 +74,6 @@ enum MelodyNoteDataRole {
     MelodyNoteDots      = Qt::UserRole + 15
 };
 
-namespace View
-{
-enum GraphicsDataRole {
-    StaffLineHeight = 1
-};
-
-}
-
 }
 
 #endif // ITEMDATATYPES_H

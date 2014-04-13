@@ -21,6 +21,7 @@ public:
 
     void updateSymbolGraphic(const QVariant &value, int key);
     QVector<int> graphicDataRoles() const;
+    GlyphItem *glyphItem() const;
 
 private:
     QPixmap pixmapForActualItemData();
@@ -29,6 +30,8 @@ private:
 
     void initSpaceBetweenNoteheadAndDots();
     void initSpaceBetweenDots();
+
+    GlyphItem *m_glyph;
 };
 
 #endif // MELODYNOTEGRAPHICBUILDER_H
