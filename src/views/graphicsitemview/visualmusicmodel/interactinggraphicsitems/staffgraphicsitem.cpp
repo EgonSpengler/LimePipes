@@ -58,20 +58,6 @@ void StaffGraphicsItem::setStaffLineHeight(qreal lineHeight)
 
     m_staffLineHeight = lineHeight;
     setSizeHintsForStaffType(m_staffType);
-    setStaffLineHeightOfChildren(lineHeight);
-}
-
-void StaffGraphicsItem::setStaffLineHeightOfChildren(qreal staffLineHeight)
-{
-    for (int i = 0; i < m_measureLayout->count(); ++i) {
-        QGraphicsLayoutItem *layoutItem = m_measureLayout->itemAt(i);
-        if (!layoutItem)
-            continue;
-        InteractingGraphicsItem *childItem = static_cast<InteractingGraphicsItem*>(layoutItem->graphicsItem());
-        if (!childItem)
-            continue;
-        childItem->setGraphicsData(StaffLineHeight, staffLineHeight);
-    }
 }
 
 qreal StaffGraphicsItem::penWidth() const
@@ -125,15 +111,6 @@ void StaffGraphicsItem::setWindowFrameRectForLineWidth(qreal width)
 void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
 {
     m_measureLayout->insertItem(index, childItem);
-    childItem->setGraphicsData(StaffLineHeight, m_staffLineHeight);
-}
-
-void StaffGraphicsItem::setGraphicsData(int key, const QVariant &value)
-{
-    if (key == StaffLineHeight) {
-        setStaffLineHeight(value.toInt());
-    }
-    InteractingGraphicsItem::setGraphicsData(key, value);
 }
 
 int StaffGraphicsItem::measureCount() const

@@ -42,14 +42,6 @@ PluginManager SymbolGraphicsItem::pluginManger() const
     return m_pluginManager;
 }
 
-void SymbolGraphicsItem::setStaffLineHeight(int lineHeigth)
-{
-}
-
-int SymbolGraphicsItem::staffLineHeight() const
-{
-}
-
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 //    if (!m_graphicBuilder.isNull()) {
@@ -73,13 +65,4 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
     if (!m_graphicBuilder.isNull()) {
         m_graphicBuilder->setData(value, key);
     }
-}
-
-void SymbolGraphicsItem::setGraphicsData(int key, const QVariant &value)
-{
-    if (key == StaffLineHeight) {
-        setStaffLineHeight(value.toInt());
-    }
-
-    InteractingGraphicsItem::setGraphicsData(key, value);
 }

@@ -29,7 +29,6 @@ private Q_SLOTS:
     void testSetGetPenWidth();
 //    void testSetLineSide();
     void testBoundingRect();
-    void testGraphicsDataStaffLineHeight();
 //    void testBoundingRectLineSide();
 
 private:
@@ -124,28 +123,6 @@ void MeasureGraphicsItemTest::testBoundingRect()
     QVERIFY2(boundingRect.bottom() == testItemHeight, "Wrong bounding rect bottom");
     QVERIFY2(boundingRect.left() == 0, "Wrong left side of bounding rect");
     QVERIFY2(boundingRect.right() == testItemWidth, "Wrong right side of bounding rect");
-}
-
-void MeasureGraphicsItemTest::testGraphicsDataStaffLineHeight()
-{
-    int testData(45);
-    int testDataUpdate(55);
-    int testDataRole(LP::View::StaffLineHeight);
-    m_measureGraphicsItem->setGraphicsData(testDataRole, testData);
-
-    QVERIFY2(m_measureGraphicsItem->graphicsData(testDataRole).toInt() == testData,
-             "Parent implementation wasn't called in setGraphicsData implementation");
-
-    InteractingGraphicsItem *childItem = new InteractingGraphicsItem;
-    m_measureGraphicsItem->insertChildItem(0, childItem);
-    QVERIFY2(childItem->graphicsData(LP::View::StaffLineHeight).toInt() == testData,
-             "Staff line height wasn't set on child item while inserting");
-
-    InteractingGraphicsItem *childItem2 = new InteractingGraphicsItem;
-    m_measureGraphicsItem->insertChildItem(1, childItem2);
-    m_measureGraphicsItem->setGraphicsData(LP::View::StaffLineHeight, testDataUpdate);
-    QVERIFY2(childItem2->graphicsData(LP::View::StaffLineHeight).toInt() == testDataUpdate,
-              "Graphics data update wasn't populated to child items");
 }
 
 QTEST_MAIN(MeasureGraphicsItemTest)

@@ -14,6 +14,8 @@
 #include <QVariant>
 #include "symbolgraphic.h"
 
+class GlyphItem;
+
 class SymbolGraphicBuilder
 {
     friend class SymbolGraphicBuilderTest;
@@ -21,7 +23,10 @@ public:
     explicit SymbolGraphicBuilder();
     virtual ~SymbolGraphicBuilder() {}
 
-    SymbolGraphicPtr symbolGraphic() { return m_graphic; }
+    /*!
+     * \brief glyphItem Return the GlyphItem which represents the Symbol
+     */
+    virtual GlyphItem *glyphItem() const;
 
     void setData(const QVariant &value, int key);
     QVariant data(int key) const;

@@ -19,11 +19,17 @@
  *
  */
 
+#include "glyphitem.h"
 #include "symbolgraphicbuilder.h"
 
 SymbolGraphicBuilder::SymbolGraphicBuilder()
 {
     initSymbolGraphicMember();
+}
+
+GlyphItem *SymbolGraphicBuilder::glyphItem() const
+{
+    return 0;
 }
 
 void SymbolGraphicBuilder::setData(const QVariant &value, int key)

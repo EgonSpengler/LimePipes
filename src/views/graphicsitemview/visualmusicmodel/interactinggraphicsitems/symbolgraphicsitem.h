@@ -35,11 +35,8 @@ public:
 
     // InteractingGraphicsItem interface
     void setData(const QVariant &value, int key);
-    void setGraphicsData(int key, const QVariant &value);
 
 private:
-    void setStaffLineHeight(int lineHeigth);
-    int staffLineHeight() const;
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
     SymbolGraphicBuilder *graphicBuilder() const;
 

@@ -22,12 +22,6 @@ void SymbolGraphicBuilderTest::cleanup()
     m_builder->deleteLater();
 }
 
-void SymbolGraphicBuilderTest::testConstructor()
-{
-    SymbolGraphicPtr symbolGraphic = m_builder->symbolGraphic();
-    QVERIFY2(symbolGraphic->pixmap().isNull() == true, "SymbolGraphics pixmap was initially set");
-}
-
 void SymbolGraphicBuilderTest::testSetGetData()
 {
     QVector<int> graphicDataRoles;
@@ -63,20 +57,6 @@ void SymbolGraphicBuilderTest::testUpdateSymbolGraphicCallOnNonDependentBuilder(
     m_builder->setData(123, LP::SymbolCategory);
     QVERIFY2(spy.count() == 0, "updateSymbolGraphic was called despite the builder depends on "
              "no data role");
-}
-
-void SymbolGraphicBuilderTest::testSetGetPixmap()
-{
-    m_builder->setSymbolGraphicPixmap(QPixmap(30, 10));
-    SymbolGraphicPtr symbolGraphic = m_builder->symbolGraphic();
-    QVERIFY2(symbolGraphic->pixmap().width() == 30, "Failed setting pixmap");
-}
-
-void SymbolGraphicBuilderTest::testSetYOffset()
-{
-    m_builder->setSymbolGraphicYOffset(23.56);
-    SymbolGraphicPtr symbolGraphic = m_builder->symbolGraphic();
-    QVERIFY2(symbolGraphic->yOffset() == 23.56, "Failed setting y offset");
 }
 
 QTEST_MAIN(SymbolGraphicBuilderTest)

@@ -27,16 +27,6 @@ void InteractingGraphicsItem::setData(const QVariant &value, int key)
     }
 }
 
-void InteractingGraphicsItem::setGraphicsData(int key, const QVariant &value)
-{
-    QGraphicsItem::setData(key, value);
-}
-
-QVariant InteractingGraphicsItem::graphicsData(int key)
-{
-    return QGraphicsItem::data(key);
-}
-
 void InteractingGraphicsItem::setItemInteraction(ItemInteraction *itemInteraction)
 {
     if (itemInteraction == m_itemInteraction)

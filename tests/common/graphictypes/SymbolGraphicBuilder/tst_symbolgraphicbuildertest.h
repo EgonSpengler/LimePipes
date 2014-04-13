@@ -23,12 +23,9 @@ public:
 private Q_SLOTS:
     void init();
     void cleanup();
-    void testConstructor();
     void testSetGetData();
     void testUpdateSymbolGrapicCall();
     void testUpdateSymbolGraphicCallOnNonDependentBuilder();
-    void testSetGetPixmap();
-    void testSetYOffset();
 
 private:
     TestSymbolGraphicBuilder *m_builder;
