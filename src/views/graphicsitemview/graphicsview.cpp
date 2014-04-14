@@ -13,4 +13,6 @@ GraphicsView::GraphicsView(QWidget *parent) :
     QGraphicsView(parent)
 {
     new GraphicsViewZoom(this);
+
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 }
