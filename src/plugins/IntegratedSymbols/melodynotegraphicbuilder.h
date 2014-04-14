@@ -32,6 +32,9 @@ private:
     void initSpaceBetweenDots();
 
     GlyphItem *m_glyph;
+
+protected:
+    void smuflChanged(const SMuFLPtr &smufl);
 };
 
 #endif // MELODYNOTEGRAPHICBUILDER_H

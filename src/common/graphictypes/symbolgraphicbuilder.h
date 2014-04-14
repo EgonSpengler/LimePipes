@@ -12,6 +12,7 @@
 #include <QHash>
 #include <QVector>
 #include <QVariant>
+#include <common/graphictypes/SMuFL/smufl.h>
 
 class GlyphItem;
 
@@ -30,6 +31,13 @@ public:
     void setData(const QVariant &value, int key);
     QVariant data(int key) const;
 
+    SMuFLPtr smufl() const { return m_smufl; }
+    void setSmufl(const SMuFLPtr &smufl)
+    {
+        m_smufl = smufl;
+        smuflChanged(m_smufl);
+    }
+
 protected:
     void setSymbolGraphicPixmap(const QPixmap &pixmap);
     void setSymbolGraphicYOffset(qreal yOffset);
@@ -46,8 +54,11 @@ protected:
         return QVector<int>();
     }
 
+    virtual void smuflChanged(const SMuFLPtr &smufl) { Q_UNUSED(smufl); }
+
 private:
     QHash<int, QVariant> m_graphicData;
+    SMuFLPtr m_smufl;
 };
 
 #endif // SYMBOLGRAPHICBUILDER_H

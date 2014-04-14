@@ -7,6 +7,7 @@
  */
 
 #include <QPluginLoader>
+#include <common/graphictypes/symbolgraphicbuilder.h>
 #include <common/interfaces/symbolinterface.h>
 #include <common/interfaces/instrumentinterface.h>
 #include <common/datatypes/instrument.h>
@@ -156,8 +157,10 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
             continue;
 
         SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
-        if (builder)
+        if (builder) {
+            builder->setSmufl(m_smufl);
             return builder;
+        }
     }
 
     return 0;

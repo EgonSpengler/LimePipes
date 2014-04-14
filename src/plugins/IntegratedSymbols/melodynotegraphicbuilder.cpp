@@ -29,6 +29,11 @@ MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder()
     initSpaceBetweenDots();
 }
 
+void MelodyNoteGraphicBuilder::smuflChanged(const SMuFLPtr &smufl)
+{
+    m_glyph->setSmufl(smufl);
+}
+
 QPixmap MelodyNoteGraphicBuilder::pixmapForActualItemData()
 {
 //    QRectF pixmapRect = rectForActualItemData();
