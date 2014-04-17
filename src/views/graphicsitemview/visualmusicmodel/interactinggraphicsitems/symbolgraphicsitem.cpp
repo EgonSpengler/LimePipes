@@ -57,8 +57,14 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
             return;
         }
         SymbolGraphicBuilder *graphicBuilder = m_pluginManager->symbolGraphicBuilderForType(value.toInt());
-        graphicBuilder->glyphItem()->setParentItem(this);
-        setGraphicBuilder(graphicBuilder);
+        if (graphicBuilder) {
+            setGraphicBuilder(graphicBuilder);
+
+            GlyphItem *glyphItem = graphicBuilder->glyphItem();
+            if (glyphItem) {
+                glyphItem->setParentItem(this);
+            }
+        }
     }
     if (!m_graphicBuilder.isNull()) {
         m_graphicBuilder->setData(value, key);

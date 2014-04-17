@@ -58,6 +58,7 @@ void VisualPart::appendStaff()
 StaffGraphicsItem *VisualPart::newStaffItem()
 {
     StaffGraphicsItem *staffItem = new StaffGraphicsItem;
+    staffItem->setStaffType(staffType());
     staffItem->setSmufl(m_smufl);
 
     return staffItem;
@@ -112,5 +113,10 @@ void VisualPart::insertChildItem(int index, VisualItem *childItem)
     if (!graphicsItem)
         return;
 
-    m_staffItems.first()->insertChildItem(index, graphicsItem);
+    StaffGraphicsItem *lastStaffItem = m_staffItems.last();
+    if (lastStaffItem->measureCount() >= 4) {
+        appendStaff();
+        lastStaffItem = m_staffItems.last();
+    }
+    lastStaffItem->insertChildItem(lastStaffItem->measureCount(), graphicsItem);
 }

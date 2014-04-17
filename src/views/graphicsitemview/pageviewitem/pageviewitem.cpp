@@ -165,8 +165,10 @@ void PageViewItem::addPage()
     m_pageLayout->addItem(page);
     m_pages.append(page);
 
-    connect(page, SIGNAL(lastRowExceedsContentBounds()), this, SLOT(rowExceedsBoundsOfPage()));
-    connect(page, SIGNAL(remainingVerticalSpaceChanged(int,int)), this, SLOT(remainingVerticalSpaceHasChanged(int,int)));
+    connect(page, SIGNAL(lastRowExceedsContentBounds()),
+            this, SLOT(rowExceedsBoundsOfPage()));
+    connect(page, SIGNAL(remainingVerticalSpaceChanged(int,int)),
+            this, SLOT(remainingVerticalSpaceHasChanged(int,int)));
 }
 
 void PageViewItem::removePage(PageItem *page)
@@ -239,4 +241,16 @@ int PageViewItem::firstIndexOfPage(const PageItem *page) const
     }
 
     return firstIndexOfCurrentPage;
+}
+
+int PageViewItem::indexOfRow(QGraphicsWidget *row)
+{
+    for (int i = 0; i < rowCount(); ++i) {
+        QGraphicsWidget *currentRow = rowAt(i);
+        if (currentRow &&
+                currentRow == row) {
+            return i;
+        }
+    }
+    return -1;
 }

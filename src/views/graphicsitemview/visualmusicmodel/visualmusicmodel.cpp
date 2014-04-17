@@ -224,16 +224,16 @@ VisualItem *VisualMusicModel::visualItemFromIndex(const QModelIndex &itemIndex) 
     return m_visualItemIndexes.value(itemIndex);
 }
 
-RowIterator VisualMusicModel::rowIteratorForScore(int index)
+RowIterator *VisualMusicModel::rowIteratorForScore(int index)
 {
     if (m_model == 0)
-        return RowIterator();
+        return new RowIterator();
 
     QModelIndex scoreIndex = m_model->index(index, 0);
     if (!scoreIndex.isValid())
-        return RowIterator();
+        return new RowIterator();
 
-    SequentialTunesRowIterator iterator(this, scoreIndex);
+    SequentialTunesRowIterator *iterator = new SequentialTunesRowIterator(this, scoreIndex);
     return iterator;
 }
 

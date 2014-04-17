@@ -359,7 +359,7 @@ void MainWindow::on_editAddTunePartAction_triggered()
         return;
 
     if (musicModel->isIndexTune(m_treeView->currentIndex())) {
-        musicModel->insertPartIntoTune(0, m_treeView->currentIndex(), 9, true);
+        musicModel->insertPartIntoTune(0, m_treeView->currentIndex(), 4, true);
         m_treeView->expand(m_treeView->currentIndex());
     }
     else {

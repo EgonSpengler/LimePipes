@@ -24,7 +24,7 @@ PageItem::PageItem(QGraphicsItem *parent)
 {
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    QPrinter printer;
+    QPrinter printer(QPrinter::ScreenResolution);
     qreal minEdge = qMin(printer.paperRect().width(),
                          printer.paperRect().height());
     qreal margin = minEdge * 0.1;
@@ -64,21 +64,21 @@ void PageItem::setPageAndContentRectFromPrinter(const QPrinter &printer)
     m_pageRect = printer.paperRect();
     m_pageContentRect = printer.pageRect();
 
-    qreal scaleFactor = 0;
-    if (printer.orientation() == QPrinter::Portrait)
-        scaleFactor = m_shortEdgeWidth / m_pageRect.width();
-    else
-        scaleFactor = m_shortEdgeWidth / m_pageRect.height();
+//    qreal scaleFactor = 0;
+//    if (printer.orientation() == QPrinter::Portrait)
+//        scaleFactor = m_shortEdgeWidth / m_pageRect.width();
+//    else
+//        scaleFactor = m_shortEdgeWidth / m_pageRect.height();
 
-    m_pageRect.setSize(QSizeF(m_pageRect.width() * scaleFactor,
-                               m_pageRect.height() * scaleFactor));
-    m_pageRect.setTopLeft(QPointF(m_pageRect.x() * scaleFactor,
-                                   m_pageRect.y() * scaleFactor));
+//    m_pageRect.setSize(QSizeF(m_pageRect.width() * scaleFactor,
+//                               m_pageRect.height() * scaleFactor));
+//    m_pageRect.setTopLeft(QPointF(m_pageRect.x() * scaleFactor,
+//                                   m_pageRect.y() * scaleFactor));
 
-    m_pageContentRect.setSize(QSizeF(m_pageContentRect.width() * scaleFactor,
-                              m_pageContentRect.height() * scaleFactor));
-    m_pageContentRect.setTopLeft(QPointF(m_pageContentRect.x() * scaleFactor,
-                                   m_pageContentRect.y() * scaleFactor));
+//    m_pageContentRect.setSize(QSizeF(m_pageContentRect.width() * scaleFactor,
+//                              m_pageContentRect.height() * scaleFactor));
+//    m_pageContentRect.setTopLeft(QPointF(m_pageContentRect.x() * scaleFactor,
+//                                   m_pageContentRect.y() * scaleFactor));
 
     setPreferredSize(m_pageRect.size());
 }
@@ -98,6 +98,11 @@ int PageItem::remainingVerticalSpace() const
 int PageItem::rowCount() const
 {
     return m_layout->count();
+}
+
+int PageItem::indexOfRow(QGraphicsWidget *row)
+{
+    return childItems().indexOf(row);
 }
 
 QGraphicsWidget *PageItem::rowAt(int index)

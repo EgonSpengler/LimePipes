@@ -60,12 +60,44 @@ void VisualMusicPresenter::setPluginManager(PluginManager pluginManager)
     m_itemFactory->setPluginManager(pluginManager);
 }
 
+#include <visualmusicmodel/interactinggraphicsitems/staffgraphicsitem.h>
+
 void VisualMusicPresenter::scoreRowSequenceChanged(int scoreIndex)
 {
-    RowIterator iterator = m_visualMusicModel->rowIteratorForScore(scoreIndex);
-    for (int i=0; i<iterator.rowCount(); i++) {
-        m_pageView->appendRow(iterator.rowAt(i));
+    RowIterator *iterator = m_visualMusicModel->rowIteratorForScore(scoreIndex);
+    QGraphicsWidget *headerRow = iterator->rowAt(0);
+    QGraphicsWidget *footerRow = iterator->rowAt(iterator->rowCount() - 1);
+
+    if (m_pageView->indexOfRow(headerRow) == -1) {
+        m_pageView->appendRow(headerRow);
+        m_pageView->appendRow(footerRow);
     }
+
+    int headerRowIndex = m_pageView->indexOfRow(headerRow);
+
+    for (int i = 0; i < iterator->rowCount(); i++) {
+        // Skip header and footer
+        if (i == 0 ||
+                i == iterator->rowCount() - 1) {
+            continue;
+        }
+
+        int newRowIndex = headerRowIndex + i;
+        QGraphicsWidget *row = iterator->rowAt(i);
+
+        int rowIndex = m_pageView->indexOfRow(row);
+
+        if (rowIndex == -1) {
+            m_pageView->insertRow(newRowIndex, row);
+        } else {
+            if (rowIndex != newRowIndex) {
+                m_pageView->removeRow(rowIndex);
+                m_pageView->insertRow(newRowIndex, row);
+            }
+        }
+    }
+
+    delete iterator;
 }
 
 VisualMusicModel *VisualMusicPresenter::visualMusicModel() const

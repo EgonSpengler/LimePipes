@@ -23,6 +23,7 @@ class RowIterator
 public:
     explicit RowIterator();
     explicit RowIterator(const VisualMusicModel *model);
+    virtual ~RowIterator() {}
 
     QGraphicsWidget *rowAt(int index) const;
     int rowCount() const;

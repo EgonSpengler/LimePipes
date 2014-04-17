@@ -32,6 +32,7 @@ public:
     int pageCount() const;
     int rowCount() const;
     int rowCountOfPage(int index) const;
+    int indexOfRow(QGraphicsWidget *row);
 
     void appendRow(QGraphicsWidget *row);
     void prependRow(QGraphicsWidget *row);

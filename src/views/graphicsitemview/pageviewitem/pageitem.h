@@ -30,6 +30,7 @@ public:
 
     int remainingVerticalSpace() const;
     int rowCount() const;
+    int indexOfRow(QGraphicsWidget *row);
 
     QGraphicsWidget *rowAt(int index);
 

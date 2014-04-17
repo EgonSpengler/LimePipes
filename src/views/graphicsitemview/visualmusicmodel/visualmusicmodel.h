@@ -30,7 +30,7 @@ public:
     void setModel(QAbstractItemModel *model);
     QAbstractItemModel *model() const;
 
-    RowIterator rowIteratorForScore(int index);
+    RowIterator *rowIteratorForScore(int index);
 
     void setPluginManager(PluginManager pluginManager);
     PluginManager pluginManager() const;
