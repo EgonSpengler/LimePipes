@@ -44,6 +44,7 @@ private:
     void setPenWidth(qreal width);
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
+    void setFixedWidthsOnChildren();
     StaffType m_staffType;
     qreal m_staffLineHeight;
     QPen m_pen;

@@ -12,6 +12,8 @@
 #include "visualmusicmodel.h"
 #include "sequentialtunesrowiterator.h"
 
+#include <QDebug>
+
 VisualMusicModel::VisualMusicModel(AbstractVisualItemFactory *itemFactory, QObject *parent)
     : QObject(parent),
       m_model(0),
@@ -113,14 +115,14 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     }
 }
 
-void VisualMusicModel::insertNewVisualItems(const QModelIndex &parent, int start, int end,
+void VisualMusicModel::insertNewVisualItems(const QModelIndex &parentIndex, int start, int end,
                                             VisualItem::ItemType itemType)
 {
     if (!model())
         return;
 
     for (int i=start; i<=end; i++) {
-        QPersistentModelIndex itemIndex(m_model->index(i, 0, parent));
+        QPersistentModelIndex itemIndex(m_model->index(i, 0, parentIndex));
         if (itemIndex.isValid()) {
             VisualItem *visualItem = m_itemFactory->createVisualItem(itemType);
             if (visualItem == 0)
@@ -134,16 +136,65 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parent, int start
             }
 
             // Insert into parent Item
-            if (!parent.isValid())
+            if (!parentIndex.isValid())
                 continue;
 
-            VisualItem *parentItem = visualItemFromIndex(parent);
+            VisualItem *parentItem = visualItemFromIndex(parentIndex);
             if (parentItem == 0)
                 continue;
 
             parentItem->insertChildItem(i, visualItem);
+
+//            debugInsertion(parentIndex, i, parentItem, visualItem);
         }
     }
+}
+
+QString VisualMusicModel::visualItemTypeToString(const VisualItem::ItemType itemType)
+{
+    QString itemTypeName;
+    switch (itemType) {
+    case VisualItem::NoVisualItem:
+        break;
+    case VisualItem::VisualScoreItem:
+        itemTypeName = QStringLiteral("Score");
+        break;
+    case VisualItem::VisualTuneItem:
+        itemTypeName = QStringLiteral("Tune");
+        break;
+    case VisualItem::VisualPartItem:
+        itemTypeName = QStringLiteral("Part");
+        break;
+    case VisualItem::VisualMeasureItem:
+        itemTypeName = QStringLiteral("Measure");
+        break;
+    case VisualItem::VisualSymbolItem:
+        itemTypeName = QStringLiteral("Symbol");
+        break;
+    }
+
+    return itemTypeName;
+}
+
+void VisualMusicModel::debugInsertion(const QModelIndex &parentIndex, int indexPos,
+                                      const VisualItem *parentItem, const VisualItem *childItem)
+{
+    QString itemType = visualItemTypeToString(childItem->itemType());
+    QString parentType = visualItemTypeToString(parentItem->itemType());
+
+    qDebug() << QString("Insertion of new %1 item into %2. row of %3: ")
+             .arg(itemType)
+             .arg(parentIndex.row())
+             .arg(parentType)
+             << '\n'
+             << parentType << " model index: " << parentIndex << '\n'
+             << itemType << " model index: "  << m_model->index(indexPos, 0, parentIndex) << '\n'
+             << "Insert position: "    << indexPos << '\n'
+             << "Visual parent item: " << parentItem << '\n'
+             << "Parent inline graphic: " << parentItem->inlineGraphic() << '\n'
+             << "Visual child item:"   << childItem << '\n'
+             << "Child inline graphic: " << childItem->inlineGraphic() << '\n'
+             << "End of insert" << '\n';
 }
 
 void VisualMusicModel::initVisualItemData(VisualItem *visualItem, const QPersistentModelIndex& itemIndex)

@@ -6,11 +6,13 @@
  *
  */
 
+#include <QSizePolicy>
 #include <QPainter>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsLayoutItem>
 #include <QGraphicsItem>
 #include "staffgraphicsitem.h"
+#include <QDebug>
 
 namespace {
 const int InitialLineHeight = 8;
@@ -111,6 +113,25 @@ void StaffGraphicsItem::setWindowFrameRectForLineWidth(qreal width)
 void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
 {
     m_measureLayout->insertItem(index, childItem);
+    setFixedWidthsOnChildren();
+}
+
+void StaffGraphicsItem::setFixedWidthsOnChildren()
+{
+    int childCount = m_measureLayout->count();
+    qreal childWidth = geometry().width() / childCount;
+
+    for (int i = 0; i < childCount; ++i) {
+        QGraphicsLayoutItem *childItem = m_measureLayout->itemAt(i);
+
+        if (childItem->minimumWidth() == childWidth &&
+                childItem->maximumWidth() == childWidth) {
+            continue;
+        }
+
+        childItem->setMinimumWidth(childWidth);
+        childItem->setMaximumWidth(childWidth);
+    }
 }
 
 int StaffGraphicsItem::measureCount() const

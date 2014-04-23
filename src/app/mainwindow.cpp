@@ -382,6 +382,7 @@ void MainWindow::on_editAddSymbolsAction_triggered()
         m_addSymbolsDialog->setSymbolNames(
                     m_pluginManager->symbolNamesForInstrument(instrumentName));
         m_addSymbolsDialog->show();
+        m_addSymbolsDialog->raise();
     } else {
         QMessageBox message;
         message.setText(tr("Please select a symbol as position to insert a new symbol"));

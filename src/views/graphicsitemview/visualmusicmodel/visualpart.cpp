@@ -118,5 +118,6 @@ void VisualPart::insertChildItem(int index, VisualItem *childItem)
         appendStaff();
         lastStaffItem = m_staffItems.last();
     }
-    lastStaffItem->insertChildItem(lastStaffItem->measureCount(), graphicsItem);
+
+    lastStaffItem->insertChildItem(index, graphicsItem);
 }
