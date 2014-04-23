@@ -54,3 +54,9 @@ QGraphicsWidget *PageViewDummy::rowAt(int index) const
 
     return m_graphicWidgets.at(index);
 }
+
+
+int PageViewDummy::indexOfRow(QGraphicsWidget *row)
+{
+    return 0;
+}

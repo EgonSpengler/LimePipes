@@ -29,6 +29,7 @@ public:
     void insertRow(int index, QGraphicsWidget *row);
     void removeRow(int rowIndex);
     QGraphicsWidget *rowAt(int index) const;
+    int indexOfRow(QGraphicsWidget *row);
 
 private:
     QList<QGraphicsWidget*> m_graphicWidgets;
