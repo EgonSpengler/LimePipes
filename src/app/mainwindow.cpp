@@ -38,6 +38,7 @@
 #include "dialogs/addsymbolsdialog.h"
 #include "dialogs/aboutdialog.h"
 #include "dialogs/settingsdialog.h"
+#include "model/symbol.h"
 
 Q_IMPORT_PLUGIN(GreatHighlandBagpipe)
 Q_IMPORT_PLUGIN(IntegratedSymbols)
@@ -94,6 +95,13 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+    ui = 0;
+
+    m_model->deleteLater();
+    m_model = 0;
+
+    m_proxyModel->deleteLater();
+    m_proxyModel = 0;
 }
 
 void MainWindow::initSmufl()
@@ -145,17 +153,17 @@ void MainWindow::createMenusAndToolBars()
 
 void MainWindow::createConnections()
 {
-    connect(m_addSymbolsDialog, SIGNAL(insertSymbol(QString)),
-            this, SLOT(insertSymbol(QString)));
+    connect(m_addSymbolsDialog, &AddSymbolsDialog::insertSymbol,
+            this, &MainWindow::insertSymbol);
 
     MusicModelInterface *musicModel = musicModelFromItemModel(m_proxyModel);
-    connect(musicModel->undoStack(), SIGNAL(canUndoChanged(bool)),
-            ui->editUndoAction, SLOT(setEnabled(bool)));
-    connect(musicModel->undoStack(), SIGNAL(canRedoChanged(bool)),
-            ui->editRedoAction, SLOT(setEnabled(bool)));
+    connect(musicModel->undoStack(), &QUndoStack::canUndoChanged,
+            ui->editUndoAction, &QAction::setEnabled);
+    connect(musicModel->undoStack(), &QUndoStack::canRedoChanged,
+            ui->editRedoAction, &QAction::setEnabled);
 
-    connect(musicModel->undoStack(), SIGNAL(cleanChanged(bool)),
-            this, SLOT(setWindowModifiedForUndoStackCleanState(bool)));
+    connect(musicModel->undoStack(), &QUndoStack::cleanChanged,
+            this, &MainWindow::setWindowModifiedForUndoStackCleanState);
 }
 
 void MainWindow::createObjectNames()
@@ -232,6 +240,10 @@ bool MainWindow::okToClearData()
 
 void MainWindow::updateUi()
 {
+    if (ui == 0 || m_model == 0
+            || m_proxyModel == 0)
+        return;
+
     ui->fileSaveAction->setEnabled(isWindowModified());
     int rows = m_proxyModel->rowCount();
     ui->fileSaveAsAction->setEnabled(isWindowModified() || rows);
@@ -378,9 +390,23 @@ void MainWindow::on_editAddSymbolsAction_triggered()
         return;
 
     QString instrumentName = instrumentFromParentOfCurrentIndex();
+
+    m_addSymbolsDialog->clearSymbolList();
     if (!instrumentName.isEmpty()) {
-        m_addSymbolsDialog->setSymbolNames(
-                    m_pluginManager->symbolNamesForInstrument(instrumentName));
+        QVector<int> symbolTypes(m_pluginManager->symbolTypesForInstrument(instrumentName));
+        foreach (int type, symbolTypes) {
+            Symbol *symbol = m_pluginManager->symbolForType(type);
+            if (!symbol)
+                continue;
+
+            QString symbolName = symbol->data(LP::SymbolName).toString();
+            if (!symbolName.isEmpty()) {
+                m_addSymbolsDialog->addSymbol(symbolName, type);
+            }
+
+            delete symbol;
+        }
+
         m_addSymbolsDialog->show();
         m_addSymbolsDialog->raise();
     } else {
@@ -420,32 +446,30 @@ void MainWindow::on_editSettingsAction_triggered()
     m_settingsDialog->show();
 }
 
-void MainWindow::insertSymbol(const QString &symbolName)
+void MainWindow::insertSymbol(int symbolType)
 {
-    QString instrumentName = instrumentFromParentOfCurrentIndex();
-    if (!instrumentName.isEmpty()) {
+    MusicModelInterface *musicModel;
+    musicModel = musicModelFromItemModel(m_proxyModel);
 
-        MusicModelInterface *musicModel;
-        musicModel = musicModelFromItemModel(m_proxyModel);
+    QModelIndex currentIndex = m_treeView->currentIndex();
 
-        QModelIndex currentIndex = m_treeView->currentIndex();
+    if (!musicModel)
+        return;
 
-        if (!musicModel) return;
-
-        if (!(musicModel->isIndexMeasure(currentIndex) ||
-              musicModel->isIndexSymbol(currentIndex)))
-            return;
-
-        if (musicModel->isIndexMeasure(currentIndex)) {
-            musicModel->appendSymbolToMeasure(currentIndex, symbolName);
-        }
-        if (musicModel->isIndexSymbol(currentIndex)) {
-            musicModel->insertSymbolIntoMeasure(currentIndex.row(),
-                                     currentIndex.parent(), symbolName);
-        }
-
-        m_treeView->expand(m_treeView->currentIndex());
+    if (!(musicModel->isIndexMeasure(currentIndex) ||
+          musicModel->isIndexSymbol(currentIndex))) {
+        return;
     }
+
+    if (musicModel->isIndexMeasure(currentIndex)) {
+        musicModel->appendSymbolToMeasure(currentIndex, symbolType);
+    }
+    if (musicModel->isIndexSymbol(currentIndex)) {
+        musicModel->insertSymbolIntoMeasure(currentIndex.row(),
+                                            currentIndex.parent(), symbolType);
+    }
+
+    m_treeView->expand(m_treeView->currentIndex());
     updateUi();
 }
 

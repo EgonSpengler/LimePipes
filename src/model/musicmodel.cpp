@@ -430,7 +430,7 @@ QModelIndex MusicModel::appendMeasureToPart(const QModelIndex &part)
     return insertMeasureIntoPart(rowCount(part), part);
 }
 
-QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName)
+QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, int type)
 {
     if (m_pluginManager.isNull()) {
         qWarning("No plugin manager installed. Can't insert symbol into measure.");
@@ -451,7 +451,24 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         return QModelIndex();
 
     InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-    Symbol *symbol = m_pluginManager->symbolForName(instrument->name(), symbolName);
+    Symbol *symbol = m_pluginManager->symbolForType(type);
+
+    // Init pitch if symbol has it
+    if (symbol->hasPitch()) {
+        PitchContextPtr pitchContext = instrument->pitchContext();
+        int initialStaffPos = 0;
+        if (pitchContext->lowestStaffPos() > initialStaffPos) {
+            initialStaffPos = pitchContext->lowestStaffPos();
+        }
+        PitchPtr pitch = pitchContext->pitchForStaffPos(initialStaffPos);
+        QVariant pitchValue(QVariant::fromValue<PitchPtr>(pitch));
+        symbol->setData(pitchValue, LP::SymbolPitch);
+    }
+
+    // Init length if symbol has it
+    if (symbol->hasLength()) {
+        symbol->setData(Length::_4, LP::SymbolLength);
+    }
 
     if (symbol &&
             symbol->symbolType() == LP::NoSymbolType)
@@ -461,9 +478,9 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     return insertItem(insertText, measure, row, symbol);
 }
 
-QModelIndex MusicModel::appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName)
+QModelIndex MusicModel::appendSymbolToMeasure(const QModelIndex &measure, int type)
 {
-    return insertSymbolIntoMeasure(rowCount(measure), measure, symbolName);
+    return insertSymbolIntoMeasure(rowCount(measure), measure, type);
 }
 
 MusicItem *MusicModel::itemForIndex(const QModelIndex &index) const
@@ -955,3 +972,4 @@ QModelIndex MusicModel::insertItem(const QString &text, const QModelIndex &paren
     }
     return QModelIndex();
 }
+

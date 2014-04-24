@@ -41,8 +41,8 @@ public:
     QModelIndex appendPartToTune(const QModelIndex &tune, int measures, bool withRepeat=false);
     QModelIndex insertMeasureIntoPart(int row, const QModelIndex &part);
     QModelIndex appendMeasureToPart(const QModelIndex &part);
-    QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName);
-    QModelIndex appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName);
+    QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, int type);
+    QModelIndex appendSymbolToMeasure(const QModelIndex &measure, int type);
 
     MusicItem *itemForIndex(const QModelIndex &index) const;
 

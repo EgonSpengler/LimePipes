@@ -47,10 +47,10 @@ void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 //    }
 
     // Bounding rect
-    QPen pen(Qt::red);
-    pen.setWidthF(1.0);
-    painter->setPen(pen);
-    painter->drawRect(boundingRect());
+//    QPen pen(Qt::red);
+//    pen.setWidthF(1.0);
+//    painter->setPen(pen);
+//    painter->drawRect(boundingRect());
 }
 
 void SymbolGraphicsItem::setData(const QVariant &value, int key)

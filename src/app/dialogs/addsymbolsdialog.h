@@ -18,16 +18,18 @@ class AddSymbolsDialog;
 class AddSymbolsDialog : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit AddSymbolsDialog(QWidget *parent = 0);
     ~AddSymbolsDialog();
 
+    void clearSymbolList();
+    void addSymbol(const QString& name, int id);
     void setSymbolNames(const QStringList &symbolNames);
 
 signals:
-    void insertSymbol(const QString &symbolName);
-    
+    void insertSymbol(int type);
+
 private:
     Ui::AddSymbolsDialog *ui;
 

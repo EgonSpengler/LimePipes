@@ -8,6 +8,7 @@
 
 #include "addsymbolsdialog.h"
 #include "ui_addsymbolsdialog.h"
+#include <QListWidgetItem>
 
 AddSymbolsDialog::AddSymbolsDialog(QWidget *parent) :
     QDialog(parent),
@@ -23,6 +24,18 @@ AddSymbolsDialog::~AddSymbolsDialog()
     delete ui;
 }
 
+void AddSymbolsDialog::clearSymbolList()
+{
+    ui->symbolsListWidget->clear();
+}
+
+void AddSymbolsDialog::addSymbol(const QString &name, int id)
+{
+    QListWidgetItem *newItem = new QListWidgetItem(name);
+    newItem->setData(Qt::UserRole, id);
+    ui->symbolsListWidget->addItem(newItem);
+}
+
 void AddSymbolsDialog::setSymbolNames(const QStringList &symbolNames)
 {
     ui->symbolsListWidget->clear();
@@ -33,6 +46,7 @@ void AddSymbolsDialog::insertSymbolClicked()
 {
     QListWidgetItem *currentItem = ui->symbolsListWidget->currentItem();
     if (currentItem) {
-        emit insertSymbol(currentItem->text());
+        int symbolType = currentItem->data(Qt::UserRole).toInt();
+        emit insertSymbol(symbolType);
     }
 }

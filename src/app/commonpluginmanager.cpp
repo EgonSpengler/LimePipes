@@ -43,6 +43,14 @@ QStringList CommonPluginManager::symbolNamesForInstrument(const QString &instrum
     return QStringList();
 }
 
+QVector<int> CommonPluginManager::symbolTypesForInstrument(const QString &instrumentName) const
+{
+    if (m_instrumentSymbols.contains(instrumentName)) {
+        return m_instrumentSymbols.value(instrumentName)->symbolTypes();
+    }
+    return QVector<int>();
+}
+
 Symbol *CommonPluginManager::symbolForName(const QString &instrumentName, const QString &symbolName) const
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
@@ -168,5 +176,20 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
 
 Symbol *CommonPluginManager::symbolForType(int type)
 {
+    foreach (SymbolInterface *symbolPlugin, m_symbolPlugins) {
+        if (!symbolPlugin)
+            continue;
 
+        QVector<int> symbolTypes(symbolPlugin->symbolTypes());
+
+        if (symbolTypes.contains(type)) {
+            Symbol *symbol = symbolPlugin->symbolForType(type);
+            if (symbol == 0)
+                continue;
+
+            return symbol;
+        }
+    }
+
+    return 0;
 }

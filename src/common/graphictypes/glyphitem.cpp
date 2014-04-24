@@ -72,6 +72,10 @@ void GlyphItem::setGlyphName(const QString &glyphName)
 
 QRectF GlyphItem::boundingRect() const
 {
+    if (m_glyphName.isEmpty()) {
+        return childrenBoundingRect();
+    }
+
     return m_boundingRect;
 }
 

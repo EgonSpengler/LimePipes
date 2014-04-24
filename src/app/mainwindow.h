@@ -50,7 +50,7 @@ private slots:
     void on_editRedoAction_triggered();
     void on_helpAboutAction_triggered();
     void on_editSettingsAction_triggered();
-    void insertSymbol(const QString &symbolName);
+    void insertSymbol(int symbolType);
     void setWindowModifiedForUndoStackCleanState(bool clean);
 
 private:

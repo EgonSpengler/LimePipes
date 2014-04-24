@@ -224,21 +224,21 @@ QModelIndex MusicProxyModel::appendMeasureToPart(const QModelIndex &part)
     return QModelIndex();
 }
 
-QModelIndex MusicProxyModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName)
+QModelIndex MusicProxyModel::insertSymbolIntoMeasure(int row, const QModelIndex &measure, int type)
 {
     if (MusicModel *model = musicModel()) {
         QModelIndex srcMeasureIndex = mapToSource(measure);
-        QModelIndex srcIndex = model->insertSymbolIntoMeasure(row, srcMeasureIndex, symbolName);
+        QModelIndex srcIndex = model->insertSymbolIntoMeasure(row, srcMeasureIndex, type);
         return mapFromSource(srcIndex);
     }
     return QModelIndex();
 }
 
-QModelIndex MusicProxyModel::appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName)
+QModelIndex MusicProxyModel::appendSymbolToMeasure(const QModelIndex &measure, int type)
 {
     if (MusicModel *model = musicModel()) {
         QModelIndex srcMeasureIndex = mapToSource(measure);
-        QModelIndex srcIndex = model->appendSymbolToMeasure(srcMeasureIndex, symbolName);
+        QModelIndex srcIndex = model->appendSymbolToMeasure(srcMeasureIndex, type);
         return mapFromSource(srcIndex);
     }
     return QModelIndex();

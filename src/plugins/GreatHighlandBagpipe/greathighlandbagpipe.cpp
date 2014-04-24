@@ -56,4 +56,6 @@ Symbol *GreatHighlandBagpipe::symbolForType(int type)
 {
     if (type == GHB::Doubling)
         return new GHB_Doubling();
+
+    return 0;
 }

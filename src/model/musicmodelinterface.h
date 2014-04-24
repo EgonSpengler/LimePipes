@@ -35,8 +35,8 @@ public:
     virtual QModelIndex insertMeasureIntoPart(int row, const QModelIndex &part) = 0;
     virtual QModelIndex appendMeasureToPart(const QModelIndex &part) = 0;
 
-    virtual QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, const QString &symbolName) = 0;
-    virtual QModelIndex appendSymbolToMeasure(const QModelIndex &measure, const QString &symbolName) = 0;
+    virtual QModelIndex insertSymbolIntoMeasure(int row, const QModelIndex &measure, int type) = 0;
+    virtual QModelIndex appendSymbolToMeasure(const QModelIndex &measure, int type) = 0;
 
     virtual MusicItem *itemForIndex(const QModelIndex& index) const = 0;
 

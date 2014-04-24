@@ -37,6 +37,7 @@ public:
     bool hasValidPluginManager() const;
 
     QString visualItemTypeToString(const VisualItem::ItemType itemType);
+
 signals:
     void scoreRowSequenceChanged(int scoreIndex);
 
