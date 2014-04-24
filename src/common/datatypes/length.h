@@ -20,10 +20,10 @@ class Length
     Q_DECLARE_TR_FUNCTIONS(LengthValues)
 public:
     enum Value {
-        _1 = 1,
-        _2 = 2,
-        _4 = 4,
-        _8 = 8,
+        _1 = 1,  //!< Whole
+        _2 = 2,  //!< Half
+        _4 = 4,  //!< Quarter
+        _8 = 8,  //!< Eighth
         _16 = 16,
         _32 = 32,
         _64 = 64
@@ -33,6 +33,8 @@ public:
 
     static QString nameForValue(Length::Value value);
     static QStringList lengthNames();
+
+    static int toInt(Length::Value length);
 
 private:
     explicit Length();

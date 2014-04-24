@@ -51,6 +51,11 @@ QStringList Length::lengthNames()
     return QStringList(s_lengths.values());
 }
 
+int Length::toInt(Length::Value length)
+{
+    return static_cast<int>(length);
+}
+
 QList<int> Length::lengthValues()
 {
     return QList<int>() << _1 << _2 << _4 << _8 <<

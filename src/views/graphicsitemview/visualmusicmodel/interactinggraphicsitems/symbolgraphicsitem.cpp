@@ -45,6 +45,12 @@ void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem
 //    if (!m_graphicBuilder.isNull()) {
 //        painter->drawPixmap(0, 0, m_graphicBuilder->symbolGraphic()->pixmap());
 //    }
+
+    // Bounding rect
+    QPen pen(Qt::red);
+    pen.setWidthF(1.0);
+    painter->setPen(pen);
+    painter->drawRect(boundingRect());
 }
 
 void SymbolGraphicsItem::setData(const QVariant &value, int key)
@@ -64,10 +70,22 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
             GlyphItem *glyphItem = graphicBuilder->glyphItem();
             if (glyphItem) {
                 glyphItem->setParentItem(this);
+                setMaximumWidthForGlyphItem(glyphItem);
             }
         }
     }
     if (!m_graphicBuilder.isNull()) {
         m_graphicBuilder->setData(value, key);
+        if (m_graphicBuilder->graphicDataRoles().contains(key)) {
+            setMaximumWidthForGlyphItem(m_graphicBuilder->glyphItem());
+        }
     }
+}
+
+void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)
+{
+    if (!glyphItem)
+        return;
+
+    setMaximumWidth(glyphItem->boundingRect().width());
 }

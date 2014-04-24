@@ -38,20 +38,17 @@ public:
         smuflChanged(m_smufl);
     }
 
-protected:
-    void setSymbolGraphicPixmap(const QPixmap &pixmap);
-    void setSymbolGraphicYOffset(qreal yOffset);
-
-    virtual void updateSymbolGraphic(const QVariant& value, int key)
-    {
-        Q_UNUSED(value);
-        Q_UNUSED(key);
-    }
-
     /*! \brief graphicDataRoles Returns the data roles which affect the appearance of the graphic. */
     virtual QVector<int> graphicDataRoles() const
     {
         return QVector<int>();
+    }
+
+protected:
+    virtual void updateSymbolGraphic(const QVariant& value, int key)
+    {
+        Q_UNUSED(value);
+        Q_UNUSED(key);
     }
 
     virtual void smuflChanged(const SMuFLPtr &smufl) { Q_UNUSED(smufl); }

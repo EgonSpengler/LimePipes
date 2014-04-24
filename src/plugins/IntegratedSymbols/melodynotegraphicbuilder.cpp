@@ -11,6 +11,7 @@
 #include <common/datatypes/length.h>
 #include <common/itemdataroles.h>
 #include <common/graphictypes/glyphitem.h>
+#include <MelodyNote/melodynoteglyphitem.h>
 #include <QPainter>
 #include <QPixmap>
 
@@ -24,9 +25,17 @@ qreal SpaceBetweenDots = 0;
 MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder()
     : m_glyph(0)
 {
-    m_glyph = new GlyphItem("noteheadBlack");
+    m_glyph = new MelodyNoteGlyphItem();
     initSpaceBetweenNoteheadAndDots();
     initSpaceBetweenDots();
+}
+
+void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int key)
+{
+    if (key == LP::SymbolLength) {
+        Length::Value length = value.value<Length::Value>();
+        m_glyph->setLength(length);
+    }
 }
 
 void MelodyNoteGraphicBuilder::smuflChanged(const SMuFLPtr &smufl)
@@ -51,14 +60,6 @@ QPixmap MelodyNoteGraphicBuilder::pixmapForActualItemData()
 
 //    return pixmap;
     return QPixmap();
-}
-
-void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int key)
-{
-    Q_UNUSED(value);
-    Q_UNUSED(key);
-    QPixmap pixmap = pixmapForActualItemData();
-    setSymbolGraphicPixmap(pixmap);
 }
 
 QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const

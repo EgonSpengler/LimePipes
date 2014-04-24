@@ -11,13 +11,12 @@
 
 #include <common/graphictypes/symbolgraphicbuilder.h>
 
-class QPixmap;
-class QPainter;
+class MelodyNoteGlyphItem;
 
 class MelodyNoteGraphicBuilder : public SymbolGraphicBuilder
 {
 public:
-    MelodyNoteGraphicBuilder();
+    explicit MelodyNoteGraphicBuilder();
 
     void updateSymbolGraphic(const QVariant &value, int key);
     QVector<int> graphicDataRoles() const;
@@ -31,7 +30,7 @@ private:
     void initSpaceBetweenNoteheadAndDots();
     void initSpaceBetweenDots();
 
-    GlyphItem *m_glyph;
+    MelodyNoteGlyphItem *m_glyph;
 
 protected:
     void smuflChanged(const SMuFLPtr &smufl);

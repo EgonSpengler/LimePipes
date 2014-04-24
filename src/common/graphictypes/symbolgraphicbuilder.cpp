@@ -47,11 +47,3 @@ QVariant SymbolGraphicBuilder::data(int key) const
 {
     return m_graphicData.value(key);
 }
-
-void SymbolGraphicBuilder::setSymbolGraphicPixmap(const QPixmap &pixmap)
-{
-}
-
-void SymbolGraphicBuilder::setSymbolGraphicYOffset(qreal yOffset)
-{
-}

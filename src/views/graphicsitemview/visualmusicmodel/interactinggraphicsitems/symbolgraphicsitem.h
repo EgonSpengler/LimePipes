@@ -36,6 +36,7 @@ public:
     // InteractingGraphicsItem interface
     void setData(const QVariant &value, int key);
 
+    void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
 private:
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
     SymbolGraphicBuilder *graphicBuilder() const;
