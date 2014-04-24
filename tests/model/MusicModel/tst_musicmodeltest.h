@@ -99,7 +99,7 @@ private:
     void checkTagHierarchy(const QStringRef &parentTag, const QStringRef &tag);
     MusicModel *m_model;
     QStringList m_instrumentNames;
-    QStringList m_symbolNames;
+    QVector<int> m_symbolTypes;
     QStringList m_musicItemTagNames;
     PluginManager m_pluginManager;
 };

@@ -226,8 +226,8 @@ void VisualMusicModelTest::testInsertSymbol()
 {
     Q_ASSERT(m_pluginManager->instrumentNames().count());
     QString instrumentName = m_pluginManager->instrumentNames().at(0);
-    Q_ASSERT(m_pluginManager->symbolNamesForInstrument(instrumentName).count());
-    QString symbolName(m_pluginManager->symbolNamesForInstrument(instrumentName).at(0));
+    Q_ASSERT(m_pluginManager->symbolTypesForInstrument(instrumentName).count());
+    int symbolType(m_pluginManager->symbolTypesForInstrument(instrumentName).at(0));
 
     QModelIndex scoreIndex = m_musicModel->insertScore(0, "Test score");
     QModelIndex tuneIndex  = m_musicModel->insertTuneIntoScore(0, scoreIndex, m_pluginManager->instrumentNames().at(0));
@@ -235,7 +235,7 @@ void VisualMusicModelTest::testInsertSymbol()
     QModelIndex measureIndex = m_musicModel->index(0, 0, partIndex);
 
     QSignalSpy rowSequenceSpy(m_visualMusicModel, SIGNAL(scoreRowSequenceChanged(int)));
-    QModelIndex symbolIndex = m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolName);
+    QModelIndex symbolIndex = m_musicModel->insertSymbolIntoMeasure(0, measureIndex, symbolType);
 
     QVERIFY2(rowSequenceSpy.count() == 0,
              "Row sequence changed wasn't' emitted after inserting measure");
