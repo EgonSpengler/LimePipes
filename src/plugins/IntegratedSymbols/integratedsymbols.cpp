@@ -7,6 +7,7 @@
  */
 
 #include <common/defines.h>
+#include <symbols/melodynote.h>
 #include "integratedsymbols.h"
 #include "melodynotegraphicbuilder.h"
 
@@ -39,4 +40,12 @@ QVector<int> IntegratedSymbols::symbolTypes()
     types << LP::MelodyNote;
 
     return types;
+}
+
+Symbol *IntegratedSymbols::symbolForType(int type)
+{
+    if (type == LP::MelodyNote)
+        return new MelodyNote();
+
+    return 0;
 }

@@ -30,3 +30,8 @@ QVector<int> MusicModelTestPlugin::symbolTypes()
 {
     return QVector<int>();
 }
+
+Symbol *MusicModelTestPlugin::symbolForType(int type)
+{
+    return 0;
+}

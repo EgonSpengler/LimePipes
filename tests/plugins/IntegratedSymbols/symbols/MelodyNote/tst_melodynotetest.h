@@ -10,7 +10,7 @@
 #define MELODYNOTETEST_H
 
 #include <QObject>
-#include <symbols/melodynote.h>
+#include <plugins/IntegratedSymbols/symbols/melodynote.h>
 
 class MelodyNoteTest : public QObject
 {

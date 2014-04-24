@@ -3,7 +3,6 @@ add_definitions( -DQT_STATICPLUGIN )
 set( lp_greathighlandbagpipe_SOURCES
         greathighlandbagpipe.cpp
         ghb_instrument.cpp
-        ghb_melodynote.cpp
         ghb_doubling.cpp
     )
 

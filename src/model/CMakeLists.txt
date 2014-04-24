@@ -13,8 +13,6 @@ set( lp_model_SOURCES
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/pitch.cpp
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/pitchcontext.cpp
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/timesignature.cpp
-
-        symbols/melodynote.cpp
         )
 
 add_library( lp_model STATIC ${lp_model_SOURCES} )

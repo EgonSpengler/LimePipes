@@ -7,7 +7,6 @@ find_package( Qt5Test    REQUIRED )
 
 set( Test_SOURCES
         ${PLUGINS_SOURCE_DIR}/GreatHighlandBagpipe/ghb_doubling.cpp
-        ${PLUGINS_SOURCE_DIR}/GreatHighlandBagpipe/ghb_melodynote.cpp
         ${PLUGINS_SOURCE_DIR}/GreatHighlandBagpipe/ghb_instrument.cpp
         ${PLUGINS_SOURCE_DIR}/GreatHighlandBagpipe/greathighlandbagpipe.cpp
         tst_ghb_plugintest.cpp

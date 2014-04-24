@@ -165,3 +165,8 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
 
     return 0;
 }
+
+Symbol *CommonPluginManager::symbolForType(int type)
+{
+
+}

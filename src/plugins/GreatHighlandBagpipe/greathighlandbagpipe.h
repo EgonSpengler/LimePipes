@@ -33,6 +33,7 @@ public:
     // Symbols interface
     QStringList symbolNames() const;
     Symbol *getSymbolForName(const QString &symbol);
+    Symbol *symbolForType(int type);
 
     QVector<int> symbolTypes();
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);

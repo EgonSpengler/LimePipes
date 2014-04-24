@@ -26,6 +26,7 @@ public:
 
     virtual QStringList symbolNamesForInstrument(const QString &instrumentName) const = 0;
     virtual Symbol *symbolForName(const QString &instrumentName, const QString &symbolName) const = 0;
+    virtual Symbol *symbolForType(int type) = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;
 
     virtual QStringList instrumentNames() const = 0;

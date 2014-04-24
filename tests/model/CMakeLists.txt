@@ -6,5 +6,3 @@ add_subdirectory( Measure )
 add_subdirectory( Symbol )
 add_subdirectory( MusicItem )
 add_subdirectory( MusicModel )
-
-add_subdirectory( symbols )

@@ -11,7 +11,7 @@
 #include "pitchdelegate.h"
 #include "lengthdelegate.h"
 #include <common/itemdataroles.h>
-#include <model/symbols/melodynote.h>
+#include <plugins/IntegratedSymbols/symbols/melodynote.h>
 
 TreeView::TreeView(QWidget *parent)
     : QTreeView(parent)

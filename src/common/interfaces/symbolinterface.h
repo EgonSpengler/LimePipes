@@ -27,6 +27,7 @@ public:
     virtual ~SymbolInterface() {}
     virtual QStringList symbolNames() const = 0;
     virtual Symbol *getSymbolForName( const QString &symbol ) = 0;
+    virtual Symbol *symbolForType(int type) = 0;
 
     virtual QVector<int> symbolTypes() = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;

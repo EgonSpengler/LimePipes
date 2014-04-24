@@ -30,6 +30,7 @@ public:
     // PluginManagerInterface
     QStringList symbolNamesForInstrument(const QString &instrumentName) const;
     Symbol *symbolForName(const QString &instrumentName, const QString &symbolName) const;
+    Symbol *symbolForType(int type);
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
 
     QStringList instrumentNames() const { return m_instrumentPlugins.keys(); }

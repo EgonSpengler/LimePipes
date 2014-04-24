@@ -12,7 +12,6 @@
   */
 
 #include "greathighlandbagpipe.h"
-#include "ghb_melodynote.h"
 #include "ghb_doubling.h"
 
 GreatHighlandBagpipe::GreatHighlandBagpipe()
@@ -32,9 +31,6 @@ QStringList GreatHighlandBagpipe::symbolNames() const
 
 Symbol *GreatHighlandBagpipe::getSymbolForName(const QString &symbol)
 {
-    if (symbol == tr("Melody Note")) {
-        return new GHB_MelodyNote(GHB_PitchContext().pitchForStaffPos(0), Length::_4);
-    }
     if (symbol == tr("Doubling")) {
         return new GHB_Doubling();
     }
@@ -54,4 +50,10 @@ QVector<int> GreatHighlandBagpipe::symbolTypes()
     types << GHB::Doubling;
 
     return types;
+}
+
+Symbol *GreatHighlandBagpipe::symbolForType(int type)
+{
+    if (type == GHB::Doubling)
+        return new GHB_Doubling();
 }

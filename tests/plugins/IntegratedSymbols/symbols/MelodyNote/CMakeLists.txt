@@ -1,13 +1,13 @@
-set( testname GHBMelodyNoteTest )
+set( testname MelodyNoteTest )
 set( testmodules Test Gui )
 set( testlibraries lp_model )
 
-find_package( Qt5Gui REQUIRED )
-find_package( Qt5Test    REQUIRED )
+find_package( Qt5Gui  REQUIRED )
+find_package( Qt5Test REQUIRED )
 
 set( Test_SOURCES
-        ${PLUGINS_SOURCE_DIR}/GreatHighlandBagpipe/ghb_melodynote.cpp
-        tst_ghb_melodynotetest.cpp
+        ${PLUGINS_SOURCE_DIR}/IntegratedSymbols/symbols/melodynote.cpp
+        tst_melodynotetest.cpp
         )
 
 add_executable( ${testname} ${Test_SOURCES} )

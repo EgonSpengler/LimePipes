@@ -53,6 +53,7 @@ public:
     // Symbol interface
     QStringList symbolNames() const { return QStringList() << "Testsymbol" << symbolNameWithPitchAndLength; }
     Symbol *getSymbolForName(const QString &symbol);
+    Symbol *symbolForType(int type);
 
     QVector<int> symbolTypes();
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
