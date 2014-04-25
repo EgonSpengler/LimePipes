@@ -7,7 +7,6 @@
  */
 
 #include "melodynotegraphicbuilder.h"
-#include <common/datatypes/pitch.h>
 #include <common/datatypes/length.h>
 #include <common/itemdataroles.h>
 #include <common/graphictypes/glyphitem.h>
@@ -26,8 +25,6 @@ MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder()
     : m_glyph(0)
 {
     m_glyph = new MelodyNoteGlyphItem();
-    initSpaceBetweenNoteheadAndDots();
-    initSpaceBetweenDots();
 }
 
 void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int key)
@@ -36,6 +33,22 @@ void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int ke
         Length::Value length = value.value<Length::Value>();
         m_glyph->setLength(length);
     }
+    if (key == LP::SymbolPitch) {
+        PitchPtr pitch = value.value<PitchPtr>();
+        m_glyph->setNoteIsOnLine(isPitchOnLine(pitch));
+    }
+    if (key == LP::MelodyNoteDots) {
+        int dots = value.toInt();
+        m_glyph->setDots(dots);
+    }
+}
+
+bool MelodyNoteGraphicBuilder::isPitchOnLine(const PitchPtr &pitch) const
+{
+    if (pitch->staffPos() % 2) {
+        return false;
+    }
+    return true;
 }
 
 void MelodyNoteGraphicBuilder::smuflChanged(const SMuFLPtr &smufl)
@@ -70,19 +83,6 @@ QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const
     dataRoles.append(LP::MelodyNoteDots);
 
     return dataRoles;
-}
-
-bool MelodyNoteGraphicBuilder::isPitchOnLine()
-{
-    QVariant pitchVar = data(LP::SymbolPitch);
-    if (pitchVar.isValid() && pitchVar.canConvert<PitchPtr>()) {
-        PitchPtr pitch = pitchVar.value<PitchPtr>();
-        if (pitch->staffPos() % 2) {
-            return false;
-        }
-        return true;
-    }
-    return false;
 }
 
 void MelodyNoteGraphicBuilder::initSpaceBetweenNoteheadAndDots()

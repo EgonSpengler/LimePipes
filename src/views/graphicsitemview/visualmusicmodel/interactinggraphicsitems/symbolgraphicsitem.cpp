@@ -87,5 +87,6 @@ void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)
     if (!glyphItem)
         return;
 
-    setMaximumWidth(glyphItem->boundingRect().width());
+    qreal maxWidth = glyphItem->boundingRect().width();
+    setMaximumWidth(maxWidth);
 }

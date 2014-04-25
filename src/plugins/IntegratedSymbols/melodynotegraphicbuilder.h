@@ -9,6 +9,7 @@
 #ifndef MELODYNOTEGRAPHICBUILDER_H
 #define MELODYNOTEGRAPHICBUILDER_H
 
+#include <common/datatypes/pitch.h>
 #include <common/graphictypes/symbolgraphicbuilder.h>
 
 class MelodyNoteGlyphItem;
@@ -25,7 +26,7 @@ public:
 private:
     QPixmap pixmapForActualItemData();
 
-    bool isPitchOnLine();
+    bool isPitchOnLine(const PitchPtr &pitch) const;
 
     void initSpaceBetweenNoteheadAndDots();
     void initSpaceBetweenDots();
