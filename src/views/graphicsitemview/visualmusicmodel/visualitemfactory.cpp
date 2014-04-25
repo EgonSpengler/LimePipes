@@ -9,6 +9,7 @@
 #include "visualitemfactory.h"
 #include <common/settingdefines.h>
 #include "iteminteractions/scoreinteraction.h"
+#include "iteminteractions/symbolinteraction.h"
 #include "interactinggraphicsitems/scoregraphicsitem.h"
 #include "interactinggraphicsitems/measuregraphicsitem.h"
 #include "interactinggraphicsitems/symbolgraphicsitem.h"
@@ -93,6 +94,7 @@ VisualItem *VisualItemFactory::newVisualSymbol()
                                          VisualItem::GraphicalInlineType);
 
     SymbolGraphicsItem *symbolGraphicsItem = new SymbolGraphicsItem;
+    symbolGraphicsItem->setItemInteraction(new SymbolInteraction);
     if (!pluginManger().isNull())
         symbolGraphicsItem->setPluginManager(pluginManger());
     newItem->setInlineGraphic(symbolGraphicsItem);
