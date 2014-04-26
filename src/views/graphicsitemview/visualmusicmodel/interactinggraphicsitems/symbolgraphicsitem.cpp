@@ -17,7 +17,6 @@ using namespace LP::View;
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
-    setMaximumWidth(20);
 }
 
 void SymbolGraphicsItem::setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder)
@@ -74,12 +73,27 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
             }
         }
     }
+    if (key == LP::SymbolPitch) {
+        PitchPtr pitch = value.value<PitchPtr>();
+        setGlyphItemYPosForPitch(pitch);
+    }
     if (!m_graphicBuilder.isNull()) {
         m_graphicBuilder->setData(value, key);
         if (m_graphicBuilder->graphicDataRoles().contains(key)) {
             setMaximumWidthForGlyphItem(m_graphicBuilder->glyphItem());
         }
     }
+}
+
+void SymbolGraphicsItem::setGlyphItemYPosForPitch(const PitchPtr &pitch)
+{
+    if (m_graphicBuilder.isNull())
+        return;
+
+    GlyphItem *glyph = m_graphicBuilder->glyphItem();
+    SMuFLPtr smuflFont = smufl();
+    qreal halfStaffSpace = smuflFont->font().pixelSize() / 4 / 2;
+    glyph->setY(halfStaffSpace * pitch->staffPos());
 }
 
 void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)

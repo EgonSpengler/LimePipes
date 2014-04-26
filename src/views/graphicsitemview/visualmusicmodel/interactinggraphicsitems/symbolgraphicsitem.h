@@ -11,6 +11,7 @@
 
 #include <QSharedPointer>
 #include <common/defines.h>
+#include <common/datatypes/pitch.h>
 #include <common/pluginmanagerinterface.h>
 #include <common/graphictypes/symbolgraphicbuilder.h>
 #include "interactinggraphicsitem.h"
@@ -37,13 +38,14 @@ public:
     void setData(const QVariant &value, int key);
 
     void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
+
 private:
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
+    void setGlyphItemYPosForPitch(const PitchPtr &pitch);
     SymbolGraphicBuilder *graphicBuilder() const;
 
     QSharedPointer<SymbolGraphicBuilder> m_graphicBuilder;
     PluginManager m_pluginManager;
-    GlyphItem *m_glyphItem;
 };
 
 #endif // SYMBOLGRAPHICSITEM_H
