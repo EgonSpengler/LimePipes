@@ -94,7 +94,7 @@ VisualItem *VisualItemFactory::newVisualSymbol()
                                          VisualItem::GraphicalInlineType);
 
     SymbolGraphicsItem *symbolGraphicsItem = new SymbolGraphicsItem;
-    symbolGraphicsItem->setItemInteraction(new SymbolInteraction);
+    symbolGraphicsItem->setItemInteraction(new SymbolInteraction(pluginManger()->smufl()));
     if (!pluginManger().isNull())
         symbolGraphicsItem->setPluginManager(pluginManger());
     newItem->setInlineGraphic(symbolGraphicsItem);

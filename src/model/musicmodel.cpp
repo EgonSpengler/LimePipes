@@ -453,7 +453,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
     Symbol *symbol = m_pluginManager->symbolForType(type);
 
-    // Init pitch if symbol has it
+    // Init pitch and pitch context if symbol has it
     if (symbol->hasPitch()) {
         PitchContextPtr pitchContext = instrument->pitchContext();
         int initialStaffPos = 0;
@@ -463,6 +463,8 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         PitchPtr pitch = pitchContext->pitchForStaffPos(initialStaffPos);
         QVariant pitchValue(QVariant::fromValue<PitchPtr>(pitch));
         symbol->setData(pitchValue, LP::SymbolPitch);
+        QVariant pitchContextValue(QVariant::fromValue<PitchContextPtr>(pitchContext));
+        symbol->setData(pitchContextValue, LP::SymbolPitchContext);
     }
 
     // Init length if symbol has it

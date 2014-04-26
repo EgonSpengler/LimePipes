@@ -83,6 +83,8 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
             setMaximumWidthForGlyphItem(m_graphicBuilder->glyphItem());
         }
     }
+
+    InteractingGraphicsItem::setData(value, key);
 }
 
 void SymbolGraphicsItem::setGlyphItemYPosForPitch(const PitchPtr &pitch)

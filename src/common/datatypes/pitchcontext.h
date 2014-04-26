@@ -36,4 +36,6 @@ private:
 
 typedef QSharedPointer<PitchContext> PitchContextPtr;
 
+Q_DECLARE_METATYPE(PitchContextPtr)
+
 #endif // PITCHCONTEXT_H

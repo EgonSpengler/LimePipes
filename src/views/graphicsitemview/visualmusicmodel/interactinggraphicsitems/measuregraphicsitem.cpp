@@ -46,7 +46,7 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
 
 void MeasureGraphicsItem::setData(const QVariant &value, int key)
 {
-
+    InteractingGraphicsItem::setData(value, key);
 }
 
 void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

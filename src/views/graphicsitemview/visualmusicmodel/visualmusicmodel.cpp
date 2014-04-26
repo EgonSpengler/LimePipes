@@ -223,6 +223,7 @@ void VisualMusicModel::initVisualItemData(VisualItem *visualItem, const QPersist
         setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolName);
         setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolLength);
         setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolPitch);
+        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolPitchContext);
         break;
     case VisualItem::NoVisualItem:
         break;

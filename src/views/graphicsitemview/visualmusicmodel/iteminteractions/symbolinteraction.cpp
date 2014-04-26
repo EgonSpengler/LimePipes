@@ -6,21 +6,30 @@
  *
  */
 
+#include <QGraphicsSceneMouseEvent>
 #include "symbolinteraction.h"
+#include <QDebug>
 
-SymbolInteraction::SymbolInteraction(QObject *parent)
-    : ItemInteraction(parent)
+SymbolInteraction::SymbolInteraction(const SMuFLPtr &smufl, QObject *parent)
+    : ItemInteraction(parent),
+      m_smufl(smufl)
 {
 }
 
 void SymbolInteraction::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug("mouse press");
+    if (m_smufl.isNull())
+        return;
+
+    m_currentYDragStart = event->pos().y();
+    qDebug() << QString("Mouse press at y %1").arg(m_currentYDragStart);
 }
 
 void SymbolInteraction::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug("mouse move");
+    qreal halfStaffSpace = m_smufl->font().pixelSize() / 4 / 8;
+    qreal currentYPos = event->pos().y();
+    qDebug() << QString("Mouse move at y %1").arg(currentYPos);
 }
 
 void SymbolInteraction::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -40,4 +49,12 @@ void SymbolInteraction::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 
 void SymbolInteraction::setData(const QVariant &value, int role)
 {
+    if (role == LP::SymbolPitch) {
+        PitchPtr pitch = value.value<PitchPtr>();
+        m_currentPitch = pitch;
+    }
+    if (role == LP::SymbolPitchContext) {
+        PitchContextPtr pitchContext = value.value<PitchContextPtr>();
+        m_pitchContext = pitchContext;
+    }
 }

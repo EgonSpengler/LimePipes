@@ -66,12 +66,13 @@ enum SymbolDataRole {
     SymbolType          = Qt::UserRole + 11,    // int (267)
     SymbolName          = Qt::UserRole + 12,    // QString (268)
     SymbolLength        = Qt::UserRole + 13,    // Length (269)
-    SymbolPitch         = Qt::UserRole + 14,    // Pitch (270)
+    SymbolPitch         = Qt::UserRole + 14,    // PitchPtr (270)
+    SymbolPitchContext  = Qt::UserRole + 15,    // PitchContextPtr (271)
 };
 
 // MelodyNote
 enum MelodyNoteDataRole {
-    MelodyNoteDots      = Qt::UserRole + 15     // int (271)
+    MelodyNoteDots      = Qt::UserRole + 16     // int (272)
 };
 
 }

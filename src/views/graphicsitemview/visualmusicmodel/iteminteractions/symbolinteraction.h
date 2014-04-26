@@ -10,11 +10,13 @@
 #define SYMBOLINTERACTION_H
 
 #include "../iteminteraction.h"
+#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/datatypes/pitchcontext.h>
 
 class SymbolInteraction : public ItemInteraction
 {
 public:
-    explicit SymbolInteraction(QObject *parent = 0);
+    explicit SymbolInteraction(const SMuFLPtr& smufl, QObject *parent = 0);
 
     // ItemInteraction interface
 public:
@@ -24,6 +26,12 @@ public:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
     void setData(const QVariant &value, int role);
+
+private:
+    qreal m_currentYDragStart;
+    SMuFLPtr m_smufl;
+    PitchContextPtr m_pitchContext;
+    PitchPtr m_currentPitch;
 };
 
 #endif // SYMBOLINTERACTION_H
