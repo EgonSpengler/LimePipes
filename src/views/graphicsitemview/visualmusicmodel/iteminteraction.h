@@ -14,6 +14,7 @@
 
 class QVariant;
 class QGraphicsScene;
+class QGraphicsItem;
 class QGraphicsSceneMouseEvent;
 class QGraphicsSceneContextMenuEvent;
 
@@ -34,19 +35,19 @@ public:
         return m_graphicsScene;
     }
 
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event)
+    virtual void mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+    virtual void mouseMoveEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+    virtual void mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+    virtual void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+    virtual void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event)
     { Q_UNUSED(event); }
 
     virtual void setData(const QVariant& value, int role)

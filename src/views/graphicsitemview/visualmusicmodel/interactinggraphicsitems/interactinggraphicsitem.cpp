@@ -52,7 +52,7 @@ void InteractingGraphicsItem::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_interactionMode == Direct ||
             m_interactionMode == Both) {
-        m_itemInteraction->mousePressEvent(event);
+        m_itemInteraction->mousePressEvent(this, event);
     }
 }
 
@@ -63,7 +63,7 @@ void InteractingGraphicsItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_interactionMode == Direct ||
             m_interactionMode == Both) {
-        m_itemInteraction->mouseMoveEvent(event);
+        m_itemInteraction->mouseMoveEvent(this, event);
     }
 }
 
@@ -74,7 +74,7 @@ void InteractingGraphicsItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
     if (m_interactionMode == Direct ||
             m_interactionMode == Both) {
-        m_itemInteraction->mouseReleaseEvent(event);
+        m_itemInteraction->mouseReleaseEvent(this, event);
     }
 }
 
@@ -85,7 +85,7 @@ void InteractingGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
 
     if (m_interactionMode == Direct ||
             m_interactionMode == Both) {
-        m_itemInteraction->mouseDoubleClickEvent(event);
+        m_itemInteraction->mouseDoubleClickEvent(this, event);
     }
 }
 
@@ -96,7 +96,7 @@ void InteractingGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *e
 
     if (m_interactionMode == Direct ||
             m_interactionMode == Both) {
-        m_itemInteraction->contextMenuEvent(event);
+        m_itemInteraction->contextMenuEvent(this, event);
     }
 }
 
@@ -133,35 +133,35 @@ bool InteractingGraphicsItem::sceneEventFilter(QGraphicsItem *watched, QEvent *e
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
         if (!mouseEvent)
             return false;
-        m_itemInteraction->mousePressEvent(mouseEvent);
+        m_itemInteraction->mousePressEvent(watched, mouseEvent);
         return true;
     }
     case QEvent::GraphicsSceneMouseMove: {
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
         if (!mouseEvent)
             return false;
-        m_itemInteraction->mouseMoveEvent(mouseEvent);
+        m_itemInteraction->mouseMoveEvent(watched, mouseEvent);
         return true;
     }
     case QEvent::GraphicsSceneMouseRelease: {
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
         if (!mouseEvent)
             return false;
-        m_itemInteraction->mouseReleaseEvent(mouseEvent);
+        m_itemInteraction->mouseReleaseEvent(watched, mouseEvent);
         return true;
     }
     case QEvent::GraphicsSceneMouseDoubleClick: {
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
         if (!mouseEvent)
             return false;
-        m_itemInteraction->mouseDoubleClickEvent(mouseEvent);
+        m_itemInteraction->mouseDoubleClickEvent(watched, mouseEvent);
         return true;
     }
     case QEvent::GraphicsSceneContextMenu: {
         QGraphicsSceneContextMenuEvent *contextMenuEvent = static_cast<QGraphicsSceneContextMenuEvent*>(event);
         if (!contextMenuEvent)
             return false;
-        m_itemInteraction->contextMenuEvent(contextMenuEvent);
+        m_itemInteraction->contextMenuEvent(watched, contextMenuEvent);
         return true;
     }
     default:

@@ -23,11 +23,11 @@ public:
     ~ScoreInteraction();
 
     // InteractingItemInterface interface
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+    void mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
+    void mouseMoveEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
+    void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
+    void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event);
 
     void setData(const QVariant &value, int role);
 

@@ -13,18 +13,28 @@ PitchContext::PitchContext()
     m_pitches.insert(0, PitchPtr(new Pitch(0, "No pitch")));
 }
 
+/*!
+ * \brief PitchContext::lowestStaffPos Returns the staff position of the lowest pitch.
+ *        This is the staff pos with the highest number.
+ * \return
+ */
 int PitchContext::lowestStaffPos() const
-{
-    return m_pitches.keys().at(0);
-}
-
-int PitchContext::highestStaffPos() const
 {
     int highestIndex = m_pitches.count() - 1;
     if (highestIndex >= 0) {
         return m_pitches.keys().at(highestIndex);
     }
     return 0;
+}
+
+/*!
+ * \brief PitchContext::highestStaffPos Returns the staff position of the highest pitch.
+ *        This is the staff pos with the lowest number.
+ * \return
+ */
+int PitchContext::highestStaffPos() const
+{
+    return m_pitches.keys().at(0);
 }
 
 QStringList PitchContext::pitchNames() const

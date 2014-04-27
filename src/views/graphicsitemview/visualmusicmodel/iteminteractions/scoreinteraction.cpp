@@ -29,27 +29,27 @@ void ScoreInteraction::createConnections()
             this, &ScoreInteraction::propertyTextChanged);
 }
 
-void ScoreInteraction::mousePressEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void ScoreInteraction::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mouseMoveEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void ScoreInteraction::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void ScoreInteraction::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event)
+void ScoreInteraction::mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
     Q_UNUSED(event);
 }
 
-void ScoreInteraction::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
+void ScoreInteraction::contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event)
 {
     m_scorePropertiesDialog->show();
     Q_UNUSED(event);
