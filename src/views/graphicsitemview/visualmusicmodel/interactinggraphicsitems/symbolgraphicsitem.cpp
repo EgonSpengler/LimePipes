@@ -17,6 +17,7 @@ using namespace LP::View;
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
+    setInteractionMode(InteractingGraphicsItem::Filter);
 }
 
 void SymbolGraphicsItem::setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder)
@@ -105,4 +106,21 @@ void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)
 
     qreal maxWidth = glyphItem->boundingRect().width();
     setMaximumWidth(maxWidth);
+}
+
+QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == QGraphicsItem::ItemSceneHasChanged) {
+        if (scene()) { // If this item was initially added to a scene,
+                       // install this item as scene event filter
+            if (!m_graphicBuilder.isNull()) {
+                GlyphItem *glyphItem = m_graphicBuilder->glyphItem();
+                if (glyphItem) {
+                    glyphItem->installSceneEventFilter(this);
+                }
+            }
+        }
+    }
+
+    return QGraphicsItem::itemChange(change, value);
 }

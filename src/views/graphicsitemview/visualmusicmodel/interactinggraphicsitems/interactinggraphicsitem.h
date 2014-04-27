@@ -24,6 +24,19 @@ class InteractingGraphicsItem : public QGraphicsWidget
     friend class InteractingGraphicsItemTest;
 
 public:
+    /*!
+     * \brief The InteractionMode enum Describes, how this InteractingGraphicsItem handles
+     *        events.
+     */
+    enum InteractionMode {
+        None,   //!< No interaction is forwarded to the item interaction
+        Direct, //!< This item reacts directly on events. (e.g. mousePressEvent is forwarded
+                //!< to the item interaction. This is the default behavior.
+        Filter, //!< This item filters only the scene events for other items. Direct events
+                //!< aren't forwarded
+        Both    //!< Direct and Filter events are forwarded to the interaction item
+    };
+
     explicit InteractingGraphicsItem(QGraphicsItem *parent = 0);
     virtual ~InteractingGraphicsItem() {}
 
@@ -60,6 +73,9 @@ public:
     SMuFLPtr smufl() const;
     void setSmufl(const SMuFLPtr &smufl);
 
+    InteractionMode interactionMode() const;
+    void setInteractionMode(const InteractionMode &interactionMode);
+
 signals:
     void itemInteractionChanged();
 
@@ -70,11 +86,14 @@ protected:
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
+    bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);
+
     virtual void smuflHasChanged(const SMuFLPtr& smufl) {}
 
 private:
     ItemInteraction *m_itemInteraction;
     SMuFLPtr m_smufl;
+    InteractionMode m_interactionMode;
 };
 
 #endif // INTERACTINGGRAPHICSITEM_H

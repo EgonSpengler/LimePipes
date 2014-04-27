@@ -27,9 +27,15 @@ void SymbolInteraction::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void SymbolInteraction::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qreal halfStaffSpace = m_smufl->font().pixelSize() / 4 / 8;
+    qreal quarterStaffSpace = m_smufl->font().pixelSize() / 4 / 4;
     qreal currentYPos = event->pos().y();
+//    if (currentYPos - m_currentYDragStart) {
+//        // upwards
+//    } else {
+//        // downwards
+//    }
     qDebug() << QString("Mouse move at y %1").arg(currentYPos);
+    qDebug() << QString("Drag distance: %1").arg(currentYPos - m_currentYDragStart);
 }
 
 void SymbolInteraction::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)

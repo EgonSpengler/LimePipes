@@ -39,6 +39,9 @@ public:
 
     void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
 
+protected:
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
 private:
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
     void setGlyphItemYPosForPitch(const PitchPtr &pitch);
