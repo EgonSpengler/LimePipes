@@ -2,6 +2,7 @@ find_package( Qt5Widgets REQUIRED )
 find_package( Qt5PrintSupport REQUIRED )
 
 set( GRAPHICTYPES_DIR ${CMAKE_SOURCE_DIR}/src/common/graphictypes )
+set( TYPES_DIR ${CMAKE_SOURCE_DIR}/src/common/datatypes )
 
 set( lp_graphicsitemview_SOURCES
         graphicsview.cpp
@@ -17,6 +18,9 @@ set( lp_graphicsitemview_SOURCES
         ${GRAPHICTYPES_DIR}/SMuFL/smufl.cpp
         ${GRAPHICTYPES_DIR}/glyphitem.cpp
         ${GRAPHICTYPES_DIR}/symbolgraphicbuilder.cpp
+
+        ${TYPES_DIR}/pitchcontext.cpp
+        ${TYPES_DIR}/pitch.cpp
 
         pageviewitem/pageviewitem.cpp
         pageviewitem/pageitem.cpp

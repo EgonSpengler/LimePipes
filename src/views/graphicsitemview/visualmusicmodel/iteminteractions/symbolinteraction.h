@@ -31,7 +31,7 @@ public:
 
 private:
     void setPitchDragAreas();
-    int pitchPosForYPos(qreal yPos);
+    int pitchPosForStaffYPos(qreal yPos);
     QPointF staffPointForSymbolPoint(const QGraphicsItem *symbolItem, const QPointF &point) const;
     qreal m_currentYDragStart;
     SMuFLPtr m_smufl;
