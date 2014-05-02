@@ -174,6 +174,21 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
     return 0;
 }
 
+ItemInteraction *CommonPluginManager::itemInteractionForType(int type)
+{
+    foreach (SymbolInterface *symbolPlugin, m_symbolPlugins) {
+        if (!symbolPlugin)
+            continue;
+
+        ItemInteraction *interaction = symbolPlugin->itemInteractionForType(type);
+        if (interaction) {
+            return interaction;
+        }
+    }
+
+    return 0;
+}
+
 Symbol *CommonPluginManager::symbolForType(int type)
 {
     foreach (SymbolInterface *symbolPlugin, m_symbolPlugins) {
@@ -193,3 +208,4 @@ Symbol *CommonPluginManager::symbolForType(int type)
 
     return 0;
 }
+

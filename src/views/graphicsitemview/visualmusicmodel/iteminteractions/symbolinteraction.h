@@ -9,7 +9,7 @@
 #ifndef SYMBOLINTERACTION_H
 #define SYMBOLINTERACTION_H
 
-#include "../iteminteraction.h"
+#include <common/graphictypes/iteminteraction.h>
 #include <common/graphictypes/SMuFL/smufl.h>
 #include <common/datatypes/pitchcontext.h>
 #include <QHash>
@@ -20,13 +20,17 @@ class SymbolInteraction : public ItemInteraction
 public:
     explicit SymbolInteraction(const SMuFLPtr& smufl, QObject *parent = 0);
 
+
+    void setAdditionalInteraction(ItemInteraction *interaction);
+
     // ItemInteraction interface
-public:
     void mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void setData(const QVariant &value, int role);
 
 private:
@@ -38,6 +42,7 @@ private:
     PitchContextPtr m_pitchContext;
     PitchPtr m_currentPitch;
     QHash<int, QPair<qreal, qreal>> m_pitchDragAreas;
+    ItemInteraction *m_interaction;
 };
 
 #endif // SYMBOLINTERACTION_H

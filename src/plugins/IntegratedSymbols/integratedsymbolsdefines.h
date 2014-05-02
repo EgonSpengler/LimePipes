@@ -6,9 +6,9 @@
  *
  */
 
-#include "iteminteraction.h"
+#ifndef INTEGRATEDSYMBOLSDEFINES_H
+#define INTEGRATEDSYMBOLSDEFINES_H
 
-ItemInteraction::ItemInteraction(QObject *parent)
-    : QObject(parent)
-{
-}
+const int MelodyNoteMaxDots(4);
+
+#endif // INTEGRATEDSYMBOLSDEFINES_H

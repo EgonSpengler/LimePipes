@@ -16,6 +16,7 @@ class Symbol;
 class Instrument;
 class QString;
 class QStringList;
+class ItemInteraction;
 class SymbolGraphicBuilder;
 
 class PluginManagerInterface
@@ -32,6 +33,7 @@ public:
     virtual QVector<int> symbolTypesForInstrument(const QString &instrumentName) const = 0;
     virtual Symbol *symbolForType(int type) = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;
+    virtual ItemInteraction *itemInteractionForType(int type) = 0;
 
     virtual QStringList instrumentNames() const = 0;
     virtual Instrument *instrumentForName(const QString &name) const = 0;

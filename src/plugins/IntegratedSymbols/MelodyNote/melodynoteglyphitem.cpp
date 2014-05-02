@@ -9,6 +9,7 @@
 #include <QString>
 #include <QPen>
 #include <QDebug>
+#include "../integratedsymbolsdefines.h"
 #include "melodynoteglyphitem.h"
 
 static const QString WholeNoteHead("noteheadWhole");
@@ -16,13 +17,13 @@ static const QString HalfNoteHead("noteheadHalf");
 static const QString BlackNoteHead("noteheadBlack");
 static const QString AugmentationDot("augmentationDot");
 
-static int MaxDots(4);
-
 MelodyNoteGlyphItem::MelodyNoteGlyphItem()
     : GlyphItem(),
       m_ledgerPosition(LedgerLinePosition::Below),
       m_onLine(false)
 {
+    // For key press and release events, make it focusable
+    setFlag(QGraphicsItem::ItemIsFocusable, true);
     m_notehead = new GlyphItem(this);
 }
 
@@ -45,8 +46,8 @@ void MelodyNoteGlyphItem::setDots(int dots)
 {
     if (dots < 0)
         dots = 0;
-    if (dots > MaxDots)
-        dots = MaxDots;
+    if (dots > MelodyNoteMaxDots)
+        dots = MelodyNoteMaxDots;
 
     if (dots == m_augmentationDots.count())
         return;

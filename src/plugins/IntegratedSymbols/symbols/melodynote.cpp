@@ -14,10 +14,7 @@
 #include "melodynote.h"
 #include <common/defines.h>
 #include <QXmlStreamWriter>
-
-#ifndef Q_OS_WIN
-    const int MelodyNote::MaxDots;
-#endif
+#include "../integratedsymbolsdefines.h"
 
 MelodyNote::MelodyNote()
     : Symbol(LP::MelodyNote, tr("Melody Note"))
@@ -47,8 +44,8 @@ void MelodyNote::beforeWritingData(QVariant &value, int role)
             value.canConvert<int>()) {
         if (value.value<int>() < 0)
             value.setValue(0);
-        if (value.value<int>() > MelodyNote::MaxDots)
-            value.setValue(MelodyNote::MaxDots);
+        if (value.value<int>() > MelodyNoteMaxDots)
+            value.setValue(MelodyNoteMaxDots);
     }
 }
 

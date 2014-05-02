@@ -6,37 +6,29 @@
  *
  */
 
-#ifndef SCOREINTERACTION_H
-#define SCOREINTERACTION_H
+#ifndef MELODYNOTEINTERACTION_H
+#define MELODYNOTEINTERACTION_H
 
-#include <common/itemdataroles.h>
 #include <common/graphictypes/iteminteraction.h>
 
-class ScorePropertiesDialog;
-
-class ScoreInteraction : public ItemInteraction
+class MelodyNoteInteraction : public ItemInteraction
 {
-    friend class ScoreInteractionTest;
-
+    Q_OBJECT
 public:
-    explicit ScoreInteraction(QObject *parent = 0);
-    ~ScoreInteraction();
+    explicit MelodyNoteInteraction(QObject *parent = 0);
 
-    // InteractingItemInterface interface
     void mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event);
-
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void setData(const QVariant &value, int role);
 
-private slots:
-    void propertyTextChanged(LP::ScoreDataRole dataRole, const QString& text);
-
 private:
-    void createConnections();
-    ScorePropertiesDialog *m_scorePropertiesDialog;
+    void handleAddDots();
+    int m_dotCount;
 };
 
-#endif // SCOREINTERACTION_H
+#endif // MELODYNOTEINTERACTION_H

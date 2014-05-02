@@ -11,7 +11,7 @@
 #include "pitchdelegate.h"
 #include "lengthdelegate.h"
 #include <common/itemdataroles.h>
-#include <plugins/IntegratedSymbols/symbols/melodynote.h>
+#include <plugins/IntegratedSymbols/integratedsymbolsdefines.h>
 
 TreeView::TreeView(QWidget *parent)
     : QTreeView(parent)
@@ -61,7 +61,7 @@ void TreeView::handleAddDots()
 
         dots++;
 
-        if (dots > MelodyNote::MaxDots)
+        if (dots > MelodyNoteMaxDots)
             dots = 0;
 
         model()->setData(index, QVariant(dots), LP::MelodyNoteDots);

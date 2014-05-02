@@ -19,6 +19,7 @@ public:
     virtual ~AbstractVisualItemFactory() {}
 
     virtual VisualItem *createVisualItem(VisualItem::ItemType type) = 0;
+    virtual VisualItem *createVisualSymbol(int symbolType) = 0;
 
     void setPluginManager(PluginManager pluginManager) { m_pluginManager = pluginManager; }
     PluginManager pluginManger() const { return m_pluginManager; }

@@ -12,7 +12,7 @@
 #include <common/scoresettings.h>
 #include "graphicitems/textwidget.h"
 #include "graphicitems/textrowwidget.h"
-#include "../iteminteraction.h"
+#include <common/graphictypes/iteminteraction.h>
 #include "scoregraphicsitem.h"
 
 ScoreGraphicsItem::ScoreGraphicsItem(QGraphicsItem *parent)

@@ -7,7 +7,7 @@
  */
 
 #include "interactinggraphicsitems/interactinggraphicsitem.h"
-#include "iteminteraction.h"
+#include <common/graphictypes/iteminteraction.h>
 #include "visualitem.h"
 
 VisualItem::VisualItem(QObject *parent)

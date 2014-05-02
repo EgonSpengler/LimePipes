@@ -33,6 +33,7 @@ public:
     Symbol *symbolForName(const QString &instrumentName, const QString &symbolName) const;
     Symbol *symbolForType(int type);
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
+    ItemInteraction *itemInteractionForType(int type);
 
     QStringList instrumentNames() const { return m_instrumentPlugins.keys(); }
     Instrument *instrumentForName(const QString &name) const;

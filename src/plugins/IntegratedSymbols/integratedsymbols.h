@@ -31,6 +31,7 @@ public:
 
     QVector<int> symbolTypes();
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
+    ItemInteraction *itemInteractionForType(int type);
 };
 
 #endif // INTEGRATEDSYMBOLS_H

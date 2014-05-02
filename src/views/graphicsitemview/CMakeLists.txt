@@ -18,6 +18,7 @@ set( lp_graphicsitemview_SOURCES
         ${GRAPHICTYPES_DIR}/SMuFL/smufl.cpp
         ${GRAPHICTYPES_DIR}/glyphitem.cpp
         ${GRAPHICTYPES_DIR}/symbolgraphicbuilder.cpp
+        ${GRAPHICTYPES_DIR}/iteminteraction.cpp
 
         ${TYPES_DIR}/pitchcontext.cpp
         ${TYPES_DIR}/pitch.cpp
@@ -29,7 +30,6 @@ set( lp_graphicsitemview_SOURCES
         visualmusicmodel/visualmusicmodel.cpp
         visualmusicmodel/visualitem.cpp
         visualmusicmodel/visualpart.cpp
-        visualmusicmodel/iteminteraction.cpp
         visualmusicmodel/rowiterator.cpp
         visualmusicmodel/sequentialtunesrowiterator.cpp
 

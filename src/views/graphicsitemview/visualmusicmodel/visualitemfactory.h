@@ -17,6 +17,7 @@ public:
     explicit VisualItemFactory() {}
 
     VisualItem *createVisualItem(VisualItem::ItemType type);
+    VisualItem *createVisualSymbol(int symbolType);
 
     void setSmuflForGraphicsItem(InteractingGraphicsItem *graphicsItem);
 private:
@@ -24,7 +25,7 @@ private:
     VisualItem *newVisualTune();
     VisualItem *newVisualPart();
     VisualItem *newVisualMeasure();
-    VisualItem *newVisualSymbol();
+    VisualItem *newVisualSymbol(int symbolType);
 };
 
 #endif // VISUALITEMFACTORY_H

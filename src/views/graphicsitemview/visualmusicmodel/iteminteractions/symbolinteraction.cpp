@@ -13,8 +13,25 @@
 
 SymbolInteraction::SymbolInteraction(const SMuFLPtr &smufl, QObject *parent)
     : ItemInteraction(parent),
-      m_smufl(smufl)
+      m_smufl(smufl),
+      m_interaction(0)
 {
+}
+
+void SymbolInteraction::setAdditionalInteraction(ItemInteraction *interaction)
+{
+    if (interaction == 0)
+        return;
+
+    if (m_interaction != 0) {
+        m_interaction->deleteLater();
+        m_interaction = 0;
+    }
+
+    m_interaction = interaction;
+    m_interaction->setParent(this);
+    connect(m_interaction, &ItemInteraction::dataChanged,
+            this, &ItemInteraction::dataChanged);
 }
 
 void SymbolInteraction::mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
@@ -24,6 +41,10 @@ void SymbolInteraction::mousePressEvent(const QGraphicsItem *item, QGraphicsScen
 
     m_currentYDragStart = event->pos().y();
     setPitchDragAreas();
+
+    if (m_interaction) {
+        m_interaction->mousePressEvent(item, event);
+    }
 }
 
 void SymbolInteraction::setPitchDragAreas()
@@ -80,21 +101,34 @@ void SymbolInteraction::mouseMoveEvent(const QGraphicsItem *item, QGraphicsScene
 
     PitchPtr pitch = m_pitchContext->pitchForStaffPos(pitchStaffPos);
     emit dataChanged(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
+
+    if (m_interaction) {
+        m_interaction->mouseMoveEvent(item, event);
+    }
 }
 
 void SymbolInteraction::mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
     qDebug("mouse release");
+    if (m_interaction) {
+        m_interaction->mouseReleaseEvent(item, event);
+    }
 }
 
 void SymbolInteraction::mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
     qDebug("mouse doubleclick");
+    if (m_interaction) {
+        m_interaction->mouseDoubleClickEvent(item, event);
+    }
 }
 
 void SymbolInteraction::contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event)
 {
     qDebug("context menu event");
+    if (m_interaction) {
+        m_interaction->contextMenuEvent(item, event);
+    }
 }
 
 void SymbolInteraction::setData(const QVariant &value, int role)
@@ -109,5 +143,23 @@ void SymbolInteraction::setData(const QVariant &value, int role)
     if (role == LP::SymbolPitchContext) {
         PitchContextPtr pitchContext = value.value<PitchContextPtr>();
         m_pitchContext = pitchContext;
+    }
+
+    if (m_interaction) {
+        m_interaction->setData(value, role);
+    }
+}
+
+void SymbolInteraction::keyPressEvent(QKeyEvent *event)
+{
+    if (m_interaction) {
+        m_interaction->keyPressEvent(event);
+    }
+}
+
+void SymbolInteraction::keyReleaseEvent(QKeyEvent *event)
+{
+    if (m_interaction) {
+        m_interaction->keyReleaseEvent(event);
     }
 }

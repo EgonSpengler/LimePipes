@@ -9,7 +9,7 @@
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
-#include "../iteminteraction.h"
+#include <common/graphictypes/iteminteraction.h>
 #include "interactinggraphicsitem.h"
 
 InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)
@@ -36,8 +36,10 @@ void InteractingGraphicsItem::setItemInteraction(ItemInteraction *itemInteractio
     if (itemInteraction == m_itemInteraction)
         return;
 
-    if (m_itemInteraction)
-        delete m_itemInteraction;
+    if (m_itemInteraction) {
+        m_itemInteraction->deleteLater();
+        m_itemInteraction = 0;
+    }
 
     itemInteraction->setParent(this);
     m_itemInteraction = itemInteraction;
@@ -162,6 +164,20 @@ bool InteractingGraphicsItem::sceneEventFilter(QGraphicsItem *watched, QEvent *e
         if (!contextMenuEvent)
             return false;
         m_itemInteraction->contextMenuEvent(watched, contextMenuEvent);
+        return true;
+    }
+    case QEvent::KeyPress: {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (!keyEvent)
+            return false;
+        m_itemInteraction->keyPressEvent(keyEvent);
+        return true;
+    }
+    case QEvent::KeyRelease: {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (!keyEvent)
+            return false;
+        m_itemInteraction->keyReleaseEvent(keyEvent);
         return true;
     }
     default:

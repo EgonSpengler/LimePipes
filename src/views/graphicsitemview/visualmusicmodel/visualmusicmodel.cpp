@@ -124,7 +124,15 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parentIndex, int 
     for (int i=start; i<=end; i++) {
         QPersistentModelIndex itemIndex(m_model->index(i, 0, parentIndex));
         if (itemIndex.isValid()) {
-            VisualItem *visualItem = m_itemFactory->createVisualItem(itemType);
+            VisualItem *visualItem = 0;
+            if (itemType == VisualItem::VisualSymbolItem) {
+                QVariant data = m_model->data(itemIndex, LP::SymbolType);
+                int symbolType = data.toInt();
+                visualItem = m_itemFactory->createVisualSymbol(symbolType);
+
+            } else {
+                visualItem = m_itemFactory->createVisualItem(itemType);
+            }
             if (visualItem == 0)
                 continue;
 

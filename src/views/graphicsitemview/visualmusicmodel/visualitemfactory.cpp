@@ -26,10 +26,10 @@ VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
         return newVisualPart();
     case VisualItem::VisualMeasureItem:
         return newVisualMeasure();
-    case VisualItem::VisualSymbolItem:
-        return newVisualSymbol();
     case VisualItem::NoVisualItem:
         break;
+    default:
+        return 0;
     }
 
     return 0;
@@ -88,17 +88,29 @@ VisualItem *VisualItemFactory::newVisualMeasure()
     return newItem;
 }
 
-VisualItem *VisualItemFactory::newVisualSymbol()
+VisualItem *VisualItemFactory::newVisualSymbol(int symbolType)
 {
     VisualItem *newItem = new VisualItem(VisualItem::VisualSymbolItem,
                                          VisualItem::GraphicalInlineType);
 
     SymbolGraphicsItem *symbolGraphicsItem = new SymbolGraphicsItem;
-    symbolGraphicsItem->setItemInteraction(new SymbolInteraction(pluginManger()->smufl()));
+    SymbolInteraction *symbolInteraction = new SymbolInteraction(pluginManger()->smufl());
+    ItemInteraction *additionalInteraction = pluginManger()->itemInteractionForType(symbolType);
+    if (additionalInteraction) {
+        symbolInteraction->setAdditionalInteraction(additionalInteraction);
+    }
+
+    symbolGraphicsItem->setItemInteraction(symbolInteraction);
     if (!pluginManger().isNull())
         symbolGraphicsItem->setPluginManager(pluginManger());
     newItem->setInlineGraphic(symbolGraphicsItem);
     setSmuflForGraphicsItem(symbolGraphicsItem);
 
     return newItem;
+}
+
+
+VisualItem *VisualItemFactory::createVisualSymbol(int symbolType)
+{
+    return newVisualSymbol(symbolType);
 }

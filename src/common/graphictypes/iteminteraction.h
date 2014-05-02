@@ -13,10 +13,10 @@
 #include <common/itemdataroles.h>
 
 class QVariant;
-class QGraphicsScene;
 class QGraphicsItem;
 class QGraphicsSceneMouseEvent;
 class QGraphicsSceneContextMenuEvent;
+class QKeyEvent;
 
 class ItemInteraction : public QObject
 {
@@ -24,16 +24,6 @@ class ItemInteraction : public QObject
 public:
     explicit ItemInteraction(QObject *parent = 0);
     virtual ~ItemInteraction() {}
-
-    void setGraphicsScene(QGraphicsScene *scene)
-    {
-        m_graphicsScene = scene;
-    }
-
-    QGraphicsScene *graphicsScene() const
-    {
-        return m_graphicsScene;
-    }
 
     virtual void mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
     { Q_UNUSED(event); }
@@ -47,6 +37,12 @@ public:
     virtual void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
     { Q_UNUSED(event); }
 
+    virtual void keyPressEvent(QKeyEvent *event)
+    { Q_UNUSED(event); }
+
+    virtual void keyReleaseEvent(QKeyEvent *event)
+    { Q_UNUSED(event); }
+
     virtual void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event)
     { Q_UNUSED(event); }
 
@@ -55,9 +51,6 @@ public:
 
 signals:
     void dataChanged(const QVariant& value, int role);
-
-private:
-    QGraphicsScene *m_graphicsScene;
 };
 
 #endif // ITEMINTERACTION_H

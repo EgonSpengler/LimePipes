@@ -8,6 +8,7 @@
 
 #include <common/defines.h>
 #include <symbols/melodynote.h>
+#include <MelodyNote/melodynoteinteraction.h>
 #include "integratedsymbols.h"
 #include "melodynotegraphicbuilder.h"
 
@@ -48,4 +49,13 @@ Symbol *IntegratedSymbols::symbolForType(int type)
         return new MelodyNote();
 
     return 0;
+}
+
+ItemInteraction *IntegratedSymbols::itemInteractionForType(int type)
+{
+    if (type == LP::MelodyNote) {
+        return new MelodyNoteInteraction();
+    }
+
+    return SymbolInterface::itemInteractionForType(type);
 }
