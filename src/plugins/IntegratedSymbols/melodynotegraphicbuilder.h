@@ -30,6 +30,7 @@ protected:
 private:
     bool isPitchOnLine(const PitchPtr &pitch) const;
     void setLedgerLinesForPitch(const PitchPtr &pitch);
+    int ledgerLineCountForStaffPos(int staffPos);
 
     MelodyNoteGlyphItem *m_glyph;
     PitchContextPtr m_pitchContext;

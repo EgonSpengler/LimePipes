@@ -50,7 +50,36 @@ bool MelodyNoteGraphicBuilder::isPitchOnLine(const PitchPtr &pitch) const
 
 void MelodyNoteGraphicBuilder::setLedgerLinesForPitch(const PitchPtr &pitch)
 {
+    if (m_pitchContext.isNull())
+        return;
 
+    int staffPos = pitch->staffPos();
+    int ledgerLineCount = ledgerLineCountForStaffPos(staffPos);
+    m_glyph->setLedgerLines(ledgerLineCount, staffPos < 0);
+}
+
+int MelodyNoteGraphicBuilder::ledgerLineCountForStaffPos(int staffPos)
+{
+    if (m_pitchContext.isNull())
+        return 0;
+
+    StaffType staffType = m_pitchContext->staffType();
+    if (staffType == StaffType::Standard) {
+        if (staffPos >= -1 &&
+                staffPos <= 9) {
+            return 0;
+        }
+
+        // Above
+        if (staffPos < 0) {
+            return static_cast<int>(staffPos / 2 * -1);
+        } else {
+        // Below staff
+            return static_cast<int>((staffPos - 8) / 2);
+        }
+    }
+
+    return 0;
 }
 
 void MelodyNoteGraphicBuilder::smuflChanged(const SMuFLPtr &smufl)

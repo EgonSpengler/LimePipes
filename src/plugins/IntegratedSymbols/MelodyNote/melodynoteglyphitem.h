@@ -40,12 +40,14 @@ private:
     void setAugmentationDots(int dotCount);
     void setDotGlyphCount(int dotCount);
     void setLedgerLinesItems(int count);
+    void layoutNoteHead();
     void layoutLedgerLineItems();
     void layoutAugmentationDots();
     qreal spaceBetweenNoteheadAndDot() const;
     qreal spaceBetweenAugmentationDots() const;
     qreal augmentationPositionAboveLine() const;
     bool hasLedgerLines() const;
+    qreal ledgerLineExtensionWidth() const;
     GlyphItem *m_notehead;
     QVector<GlyphItem*> m_augmentationDots;
     QVector<QGraphicsLineItem*> m_ledgerLines;

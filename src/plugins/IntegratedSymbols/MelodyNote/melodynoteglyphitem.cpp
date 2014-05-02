@@ -8,6 +8,7 @@
 
 #include <QString>
 #include <QPen>
+#include <QDebug>
 #include "melodynoteglyphitem.h"
 
 static const QString WholeNoteHead("noteheadWhole");
@@ -19,8 +20,8 @@ static int MaxDots(4);
 
 MelodyNoteGlyphItem::MelodyNoteGlyphItem()
     : GlyphItem(),
-      m_onLine(false),
-      m_ledgerPosition(LedgerLinePosition::Below)
+      m_ledgerPosition(LedgerLinePosition::Below),
+      m_onLine(false)
 {
     m_notehead = new GlyphItem(this);
 }
@@ -28,6 +29,7 @@ MelodyNoteGlyphItem::MelodyNoteGlyphItem()
 void MelodyNoteGlyphItem::setLength(Length::Value length)
 {
     m_notehead->setGlyphName(noteheadForLength(length));
+    layoutNoteHead();
 }
 
 void MelodyNoteGlyphItem::setNoteIsOnLine(bool onLine)
@@ -92,6 +94,10 @@ void MelodyNoteGlyphItem::setDotGlyphCount(int dotCount)
 
 void MelodyNoteGlyphItem::setLedgerLines(int count, bool aboveNotehead)
 {
+    if (count < 0 ||
+            m_ledgerLines.count() == count)
+        return;
+
     if (aboveNotehead) {
         m_ledgerPosition = LedgerLinePosition::Above;
     } else {
@@ -100,6 +106,9 @@ void MelodyNoteGlyphItem::setLedgerLines(int count, bool aboveNotehead)
 
     setLedgerLinesItems(count);
     layoutLedgerLineItems();
+    layoutNoteHead();
+    layoutAugmentationDots();
+    prepareGeometryChange();
 }
 
 void MelodyNoteGlyphItem::setLedgerLinesItems(int count)
@@ -131,16 +140,23 @@ void MelodyNoteGlyphItem::setLedgerLinesItems(int count)
     }
 }
 
+void MelodyNoteGlyphItem::layoutNoteHead()
+{
+    if (hasLedgerLines()) {
+        m_notehead->setX(ledgerLineExtensionWidth());
+    } else {
+        m_notehead->setX(0);
+    }
+}
+
 void MelodyNoteGlyphItem::layoutLedgerLineItems()
 {
     if (!m_ledgerLines.count())
         return;
 
     qreal halfStaffSpace = smufl()->halfStaffSpace();
-    qreal staffSpace = smufl()->staffSpace();
     qreal noteHeadWidth = m_notehead->boundingRect().width();
-    qreal ledgerLineExtension = smufl()->engravings().legerLineExtension;
-    qreal ledgerLineWidth = noteHeadWidth + 2 * (staffSpace * ledgerLineExtension);
+    qreal ledgerLineWidth = noteHeadWidth + 2 * ledgerLineExtensionWidth();
 
     for (int i = 0; i < m_ledgerLines.count(); ++i) {
         qreal yPos = i * halfStaffSpace;
@@ -150,6 +166,7 @@ void MelodyNoteGlyphItem::layoutLedgerLineItems()
 
         QGraphicsLineItem *ledgerLineItem = m_ledgerLines.at(i);
         ledgerLineItem->setLine(0, yPos, ledgerLineWidth, yPos);
+        ledgerLineItem->setVisible(true);
     }
 }
 
@@ -189,6 +206,17 @@ qreal MelodyNoteGlyphItem::augmentationPositionAboveLine() const
 bool MelodyNoteGlyphItem::hasLedgerLines() const
 {
     return m_ledgerLines.count();
+}
+
+/*!
+ * \brief MelodyNoteGlyphItem::ledgerLineExtensionWidth
+ *        The width, which a leger line extends the note head on a side.
+ * \return  The width
+ */
+qreal MelodyNoteGlyphItem::ledgerLineExtensionWidth() const
+{
+    qreal ledgerLineExtension = smufl()->engravings().legerLineExtension;
+    return ledgerLineExtension * smufl()->staffSpace() / 2;
 }
 
 QString MelodyNoteGlyphItem::noteheadForLength(Length::Value length)
