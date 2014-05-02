@@ -19,7 +19,6 @@ MelodyNoteInteraction::MelodyNoteInteraction(QObject *parent) :
 
 void MelodyNoteInteraction::mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "Mouse press in melody interaction";
 }
 
 void MelodyNoteInteraction::mouseMoveEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
@@ -65,9 +64,4 @@ void MelodyNoteInteraction::handleAddDots()
         dots = 0;
 
     emit dataChanged(dots, LP::MelodyNoteDots);
-}
-
-void MelodyNoteInteraction::keyReleaseEvent(QKeyEvent *event)
-{
-    qDebug() << "Key released";
 }

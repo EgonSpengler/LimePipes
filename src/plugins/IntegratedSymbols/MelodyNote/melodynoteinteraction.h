@@ -23,7 +23,6 @@ public:
     void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event);
     void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
     void setData(const QVariant &value, int role);
 
 private:
