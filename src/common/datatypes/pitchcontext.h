@@ -13,6 +13,7 @@
 #include <QStringList>
 #include <QSharedPointer>
 #include <QVariant>
+#include <common/defines.h>
 #include "pitch.h"
 
 class PitchContext
@@ -28,10 +29,15 @@ public:
     PitchPtr pitchForName(const QString &name) const;
     PitchPtr pitchForStaffPos(int staffPos) const;
 
+    StaffType staffType() const;
+    void setStaffType(const StaffType &staffType);
+
+protected:
     void insertPitch(int staffPos, const QString &name);
 
 private:
     QMap<int, PitchPtr> m_pitches;
+    StaffType m_staffType;
 };
 
 typedef QSharedPointer<PitchContext> PitchContextPtr;

@@ -33,6 +33,16 @@ GlyphData SMuFL::glyphData(const QString &glyphname)
     return data;
 }
 
+qreal SMuFL::staffSpace() const
+{
+    return font().pixelSize() / 4;
+}
+
+qreal SMuFL::halfStaffSpace() const
+{
+    return font().pixelSize() / 8;
+}
+
 quint32 SMuFL::codepointForGlyph(const QString &glyphname) const
 {
     return 0;

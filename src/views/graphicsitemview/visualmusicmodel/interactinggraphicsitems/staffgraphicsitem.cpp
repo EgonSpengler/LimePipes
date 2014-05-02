@@ -141,8 +141,7 @@ int StaffGraphicsItem::measureCount() const
 
 void StaffGraphicsItem::smuflHasChanged(const SMuFLPtr &smufl)
 {
-    QFont font = smufl->font();
-    qreal staffSpace = font.pixelSize() / 4;
+    qreal staffSpace = smufl->staffSpace();
     setStaffLineHeight(staffSpace);
     Engravings engravings(smufl->engravings());
     qreal width = engravings.staffLineThickness * staffSpace;

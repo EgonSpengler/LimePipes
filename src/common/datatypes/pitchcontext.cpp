@@ -9,6 +9,7 @@
 #include "pitchcontext.h"
 
 PitchContext::PitchContext()
+    : m_staffType(StaffType::Standard)
 {
     m_pitches.insert(0, PitchPtr(new Pitch(0, "No pitch")));
 }
@@ -70,3 +71,13 @@ void PitchContext::insertPitch(int staffPos, const QString &name)
 {
     m_pitches.insert(staffPos, PitchPtr(new Pitch(staffPos, name)));
 }
+StaffType PitchContext::staffType() const
+{
+    return m_staffType;
+}
+
+void PitchContext::setStaffType(const StaffType &staffType)
+{
+    m_staffType = staffType;
+}
+

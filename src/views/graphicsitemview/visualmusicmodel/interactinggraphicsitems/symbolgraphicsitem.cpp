@@ -42,10 +42,6 @@ PluginManager SymbolGraphicsItem::pluginManger() const
 
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-//    if (!m_graphicBuilder.isNull()) {
-//        painter->drawPixmap(0, 0, m_graphicBuilder->symbolGraphic()->pixmap());
-//    }
-
     // Bounding rect
 //    QPen pen(Qt::red);
 //    pen.setWidthF(1.0);
@@ -94,8 +90,7 @@ void SymbolGraphicsItem::setGlyphItemYPosForPitch(const PitchPtr &pitch)
         return;
 
     GlyphItem *glyph = m_graphicBuilder->glyphItem();
-    SMuFLPtr smuflFont = smufl();
-    qreal halfStaffSpace = smuflFont->font().pixelSize() / 4 / 2;
+    qreal halfStaffSpace = smufl()->halfStaffSpace();
     glyph->setY(halfStaffSpace * pitch->staffPos());
 }
 

@@ -24,6 +24,9 @@ public:
     virtual quint32 alternateCodepointForGlyph(const QString& glyphname) const;
     virtual Engravings engravings() const;
     virtual GlyphData glyphData(const QString& glyphname);
+
+    qreal staffSpace() const;
+    qreal halfStaffSpace() const;
 };
 
 typedef QSharedPointer<SMuFL> SMuFLPtr;

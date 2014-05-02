@@ -11,6 +11,7 @@
 
 #include <common/datatypes/pitch.h>
 #include <common/graphictypes/symbolgraphicbuilder.h>
+#include <common/datatypes/pitchcontext.h>
 
 class MelodyNoteGlyphItem;
 
@@ -23,18 +24,15 @@ public:
     QVector<int> graphicDataRoles() const;
     GlyphItem *glyphItem() const;
 
-private:
-    QPixmap pixmapForActualItemData();
-
-    bool isPitchOnLine(const PitchPtr &pitch) const;
-
-    void initSpaceBetweenNoteheadAndDots();
-    void initSpaceBetweenDots();
-
-    MelodyNoteGlyphItem *m_glyph;
-
 protected:
     void smuflChanged(const SMuFLPtr &smufl);
+
+private:
+    bool isPitchOnLine(const PitchPtr &pitch) const;
+    void setLedgerLinesForPitch(const PitchPtr &pitch);
+
+    MelodyNoteGlyphItem *m_glyph;
+    PitchContextPtr m_pitchContext;
 };
 
 #endif // MELODYNOTEGRAPHICBUILDER_H

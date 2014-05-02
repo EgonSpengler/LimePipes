@@ -33,13 +33,11 @@ public:
     virtual bool supportsSymbolType(int type) const = 0;
 
     StaffType staffType() const;
-    void setStaffType(StaffType staffType);
 
 private:
     LP::InstrumentType m_type;
     QString m_name;
     PitchContextPtr m_pitchContext;
-    StaffType m_staffType;
 };
 
 class NullInstrument : public Instrument

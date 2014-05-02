@@ -15,16 +15,14 @@
 Instrument::Instrument()
     : m_type(LP::NoInstrument),
       m_name(QString("No Instrument")),
-      m_pitchContext(PitchContextPtr(new PitchContext())),
-      m_staffType(StaffType::None)
+      m_pitchContext(PitchContextPtr(new PitchContext()))
 {
 }
 
 Instrument::Instrument(LP::InstrumentType type, const QString &name, PitchContextPtr pitchContext)
     : m_type(type),
       m_name(name),
-      m_pitchContext(pitchContext),
-      m_staffType(StaffType::None)
+      m_pitchContext(pitchContext)
 {
 }
 
@@ -37,10 +35,5 @@ Instrument::Instrument(const Instrument &other)
 
 StaffType Instrument::staffType() const
 {
-    return m_staffType;
-}
-
-void Instrument::setStaffType(StaffType staffType)
-{
-    m_staffType = staffType;
+    return m_pitchContext->staffType();
 }

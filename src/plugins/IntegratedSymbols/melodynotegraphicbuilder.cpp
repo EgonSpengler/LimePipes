@@ -14,13 +14,6 @@
 #include <QPainter>
 #include <QPixmap>
 
-namespace {
-
-qreal SpaceBetweenNoteheadAndDots = 0;
-qreal SpaceBetweenDots = 0;
-
-}
-
 MelodyNoteGraphicBuilder::MelodyNoteGraphicBuilder()
     : m_glyph(0)
 {
@@ -36,10 +29,14 @@ void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int ke
     if (key == LP::SymbolPitch) {
         PitchPtr pitch = value.value<PitchPtr>();
         m_glyph->setNoteIsOnLine(isPitchOnLine(pitch));
+        setLedgerLinesForPitch(pitch);
     }
     if (key == LP::MelodyNoteDots) {
         int dots = value.toInt();
         m_glyph->setDots(dots);
+    }
+    if (key == LP::SymbolPitchContext) {
+        m_pitchContext = value.value<PitchContextPtr>();
     }
 }
 
@@ -51,28 +48,14 @@ bool MelodyNoteGraphicBuilder::isPitchOnLine(const PitchPtr &pitch) const
     return true;
 }
 
+void MelodyNoteGraphicBuilder::setLedgerLinesForPitch(const PitchPtr &pitch)
+{
+
+}
+
 void MelodyNoteGraphicBuilder::smuflChanged(const SMuFLPtr &smufl)
 {
     m_glyph->setSmufl(smufl);
-}
-
-QPixmap MelodyNoteGraphicBuilder::pixmapForActualItemData()
-{
-//    QRectF pixmapRect = rectForActualItemData();
-
-//    QPixmap pixmap(pixmapRect.width(), pixmapRect.height());
-//    pixmap.fill(Qt::transparent);
-//    QPainter painter(&pixmap);
-
-//    painter.translate(0.0, yOffsetForNotehead(pixmapRect.height()));
-//    addNotehead(&painter);
-
-//    painter.resetTransform();
-//    painter.translate(xOffsetForDots(), yOffsetForDots(pixmapRect.height()));
-//    addDots(&painter);
-
-//    return pixmap;
-    return QPixmap();
 }
 
 QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const
@@ -81,28 +64,10 @@ QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const
     dataRoles.append(LP::SymbolPitch);
     dataRoles.append(LP::SymbolLength);
     dataRoles.append(LP::MelodyNoteDots);
+    dataRoles.append(LP::SymbolPitchContext);
 
     return dataRoles;
 }
-
-void MelodyNoteGraphicBuilder::initSpaceBetweenNoteheadAndDots()
-{
-    if (SpaceBetweenNoteheadAndDots != 0)
-        return;
-
-//    QRectF dot = musicFont()->boundingRectForGlyph(MusicFont::Dot);
-//    SpaceBetweenNoteheadAndDots = 0.8 * dot.width();
-}
-
-void MelodyNoteGraphicBuilder::initSpaceBetweenDots()
-{
-    if (SpaceBetweenDots != 0)
-        return;
-
-//    QRectF dot = musicFont()->boundingRectForGlyph(MusicFont::Dot);
-//    SpaceBetweenDots = 0.7 * dot.width();
-}
-
 
 GlyphItem *MelodyNoteGraphicBuilder::glyphItem() const
 {

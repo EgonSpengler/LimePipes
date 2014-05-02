@@ -31,7 +31,7 @@ void SymbolInteraction::setPitchDragAreas()
     if (m_smufl.isNull())
         return;
 
-    qreal halfStaffSpace = m_smufl->font().pixelSize() / 4 / 2;
+    qreal halfStaffSpace = m_smufl->halfStaffSpace();
     for (int i = m_pitchContext->highestStaffPos();
          i <= m_pitchContext->lowestStaffPos(); ++i) {
         qreal staffPosition = i * halfStaffSpace;
