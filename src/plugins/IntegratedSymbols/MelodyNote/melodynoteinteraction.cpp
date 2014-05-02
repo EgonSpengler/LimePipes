@@ -44,8 +44,10 @@ void MelodyNoteInteraction::setData(const QVariant &value, int role)
     }
 }
 
-void MelodyNoteInteraction::keyPressEvent(QKeyEvent *event)
+void MelodyNoteInteraction::keyPressEvent(const QGraphicsItem *item, QKeyEvent *event)
 {
+    Q_UNUSED(item);
+
     switch (event->key()) {
     case Qt::Key_Period:
         handleAddDots();

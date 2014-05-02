@@ -29,8 +29,8 @@ public:
     void mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event);
     void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event);
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    void keyPressEvent(const QGraphicsItem *item, QKeyEvent *event);
+    void keyReleaseEvent(const QGraphicsItem *item, QKeyEvent *event);
     void setData(const QVariant &value, int role);
 
 private:

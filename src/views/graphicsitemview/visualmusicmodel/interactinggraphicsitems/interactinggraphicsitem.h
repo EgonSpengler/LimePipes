@@ -84,6 +84,10 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void focusInEvent(QFocusEvent *event);
+    void focusOutEvent(QFocusEvent *event);
+    void keyPressEvent(QKeyEvent *event);
+    void keyReleaseEvent(QKeyEvent *event);
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
 
     bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);

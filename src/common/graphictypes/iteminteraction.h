@@ -17,6 +17,7 @@ class QGraphicsItem;
 class QGraphicsSceneMouseEvent;
 class QGraphicsSceneContextMenuEvent;
 class QKeyEvent;
+class QFocusEvent;
 
 class ItemInteraction : public QObject
 {
@@ -37,10 +38,16 @@ public:
     virtual void mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void keyPressEvent(QKeyEvent *event)
+    virtual void keyPressEvent(const QGraphicsItem *item, QKeyEvent *event)
     { Q_UNUSED(event); }
 
-    virtual void keyReleaseEvent(QKeyEvent *event)
+    virtual void keyReleaseEvent(const QGraphicsItem *item, QKeyEvent *event)
+    { Q_UNUSED(event); }
+
+    virtual void focusInEvent(const QGraphicsItem *item, QFocusEvent *event)
+    { Q_UNUSED(event); }
+
+    virtual void focusOutEvent(const QGraphicsItem *item, QFocusEvent *event)
     { Q_UNUSED(event); }
 
     virtual void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event)

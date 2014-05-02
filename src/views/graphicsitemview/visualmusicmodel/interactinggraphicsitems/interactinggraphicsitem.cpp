@@ -91,6 +91,50 @@ void InteractingGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
     }
 }
 
+void InteractingGraphicsItem::focusInEvent(QFocusEvent *event)
+{
+    if (!m_itemInteraction)
+        return;
+
+    if (m_interactionMode == Direct ||
+            m_interactionMode == Both) {
+        m_itemInteraction->focusInEvent(this, event);
+    }
+}
+
+void InteractingGraphicsItem::focusOutEvent(QFocusEvent *event)
+{
+    if (!m_itemInteraction)
+        return;
+
+    if (m_interactionMode == Direct ||
+            m_interactionMode == Both) {
+        m_itemInteraction->focusOutEvent(this, event);
+    }
+}
+
+void InteractingGraphicsItem::keyPressEvent(QKeyEvent *event)
+{
+    if (!m_itemInteraction)
+        return;
+
+    if (m_interactionMode == Direct ||
+            m_interactionMode == Both) {
+        m_itemInteraction->keyPressEvent(this, event);
+    }
+}
+
+void InteractingGraphicsItem::keyReleaseEvent(QKeyEvent *event)
+{
+    if (!m_itemInteraction)
+        return;
+
+    if (m_interactionMode == Direct ||
+            m_interactionMode == Both) {
+        m_itemInteraction->keyReleaseEvent(this, event);
+    }
+}
+
 void InteractingGraphicsItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     if (!m_itemInteraction)
@@ -170,14 +214,28 @@ bool InteractingGraphicsItem::sceneEventFilter(QGraphicsItem *watched, QEvent *e
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if (!keyEvent)
             return false;
-        m_itemInteraction->keyPressEvent(keyEvent);
+        m_itemInteraction->keyPressEvent(watched, keyEvent);
         return true;
     }
     case QEvent::KeyRelease: {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         if (!keyEvent)
             return false;
-        m_itemInteraction->keyReleaseEvent(keyEvent);
+        m_itemInteraction->keyReleaseEvent(watched, keyEvent);
+        return true;
+    }
+    case QEvent::FocusIn: {
+        QFocusEvent *focusEvent = static_cast<QFocusEvent*>(event);
+        if (!focusEvent)
+            return false;
+        m_itemInteraction->focusInEvent(watched, focusEvent);
+        return true;
+    }
+    case QEvent::FocusOut: {
+        QFocusEvent *focusEvent = static_cast<QFocusEvent*>(event);
+        if (!focusEvent)
+            return false;
+        m_itemInteraction->focusOutEvent(watched, focusEvent);
         return true;
     }
     default:
@@ -211,4 +269,3 @@ void InteractingGraphicsItem::setSmufl(const SMuFLPtr &smufl)
     m_smufl = smufl;
     smuflHasChanged(m_smufl);
 }
-

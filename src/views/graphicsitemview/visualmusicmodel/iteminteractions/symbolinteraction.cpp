@@ -150,16 +150,16 @@ void SymbolInteraction::setData(const QVariant &value, int role)
     }
 }
 
-void SymbolInteraction::keyPressEvent(QKeyEvent *event)
+void SymbolInteraction::keyPressEvent(const QGraphicsItem *item, QKeyEvent *event)
 {
     if (m_interaction) {
-        m_interaction->keyPressEvent(event);
+        m_interaction->keyPressEvent(item, event);
     }
 }
 
-void SymbolInteraction::keyReleaseEvent(QKeyEvent *event)
+void SymbolInteraction::keyReleaseEvent(const QGraphicsItem *item, QKeyEvent *event)
 {
     if (m_interaction) {
-        m_interaction->keyReleaseEvent(event);
+        m_interaction->keyReleaseEvent(item, event);
     }
 }

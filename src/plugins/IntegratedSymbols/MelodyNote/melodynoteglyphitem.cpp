@@ -112,15 +112,22 @@ void MelodyNoteGlyphItem::setLedgerLines(int count, bool aboveNotehead)
     prepareGeometryChange();
 }
 
+QPen MelodyNoteGlyphItem::ledgerLinePen() const
+{
+    QPen linePen;
+    qreal ledgerLineThickness = smufl()->engravings().legerLineThickness * smufl()->staffSpace();
+    linePen.setWidthF(ledgerLineThickness);
+
+    return linePen;
+}
+
 void MelodyNoteGlyphItem::setLedgerLinesItems(int count)
 {
     if (m_ledgerLines.count() == count)
         return;
 
     if (m_ledgerLines.count() < count) {
-        QPen linePen;
-        qreal ledgerLineThickness = smufl()->engravings().legerLineThickness * smufl()->staffSpace();
-        linePen.setWidthF(ledgerLineThickness);
+        QPen linePen = ledgerLinePen();
 
         while (m_ledgerLines.count() < count) {
             QGraphicsLineItem *newLedgerLine = new QGraphicsLineItem(this);
@@ -237,5 +244,10 @@ void MelodyNoteGlyphItem::smuflHasChanged(const SMuFLPtr &smufl)
     m_notehead->setSmufl(smufl);
     for (int i = 0; i < m_augmentationDots.count(); ++i) {
         m_augmentationDots.at(i)->setSmufl(smufl);
+    }
+
+    QPen ledgerPen = ledgerLinePen();
+    for (int i = 0; i < m_ledgerLines.count(); ++i) {
+        m_ledgerLines.at(i)->setPen(ledgerPen);
     }
 }

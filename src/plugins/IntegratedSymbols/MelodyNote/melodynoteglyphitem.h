@@ -27,6 +27,7 @@ public:
 
     void setLedgerLines(int count, bool aboveNotehead);
 
+    QPen ledgerLinePen() const;
 protected:
     void smuflHasChanged(const SMuFLPtr &smufl);
 
