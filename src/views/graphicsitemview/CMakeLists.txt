@@ -15,7 +15,7 @@ set( lp_graphicsitemview_SOURCES
         ${CMAKE_SOURCE_DIR}/src/common/observablesettings.cpp
         ${CMAKE_SOURCE_DIR}/src/common/settingsobserver.cpp
 
-        ${GRAPHICTYPES_DIR}/SMuFL/smufl.cpp
+        ${GRAPHICTYPES_DIR}/MusicFont/musicfont.cpp
         ${GRAPHICTYPES_DIR}/glyphitem.cpp
         ${GRAPHICTYPES_DIR}/symbolgraphicbuilder.cpp
         ${GRAPHICTYPES_DIR}/iteminteraction.cpp

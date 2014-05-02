@@ -8,7 +8,7 @@
 
 #include <QPainter>
 #include <QFontMetricsF>
-#include "SMuFL/smufl.h"
+#include "MusicFont/musicfont.h"
 #include "glyphitem.h"
 
 GlyphItem::GlyphItem(QGraphicsItem *parent)
@@ -24,13 +24,13 @@ GlyphItem::GlyphItem(const QString &glyphName, QGraphicsItem *parent)
 
 void GlyphItem::initFromGlyphName(const QString &glyphName)
 {
-    if (m_smufl.isNull() || glyphName.isEmpty())
+    if (m_musicFont.isNull() || glyphName.isEmpty())
         return;
 
-    quint32 codepoint = m_smufl->codepointForGlyph(glyphName);
+    quint32 codepoint = m_musicFont->codepointForGlyph(glyphName);
     m_char = QChar(codepoint);
 
-    QFontMetricsF metrics(m_smufl->font());
+    QFontMetricsF metrics(m_musicFont->font());
     QRectF newBoundingRect(metrics.boundingRect(m_char));
     if (m_boundingRect != newBoundingRect) {
         m_boundingRect = newBoundingRect;
@@ -40,19 +40,19 @@ void GlyphItem::initFromGlyphName(const QString &glyphName)
     }
 }
 
-SMuFLPtr GlyphItem::smufl() const
+MusicFontPtr GlyphItem::musicFont() const
 {
-    return m_smufl;
+    return m_musicFont;
 }
 
-void GlyphItem::setSmufl(const SMuFLPtr &smufl)
+void GlyphItem::setMusicFont(const MusicFontPtr &musicFont)
 {
-    if (m_smufl == smufl)
+    if (m_musicFont == musicFont)
         return;
 
-    m_smufl = smufl;
+    m_musicFont = musicFont;
     initFromGlyphName(m_glyphName);
-    smuflHasChanged(m_smufl);
+    musicFontHasChanged(m_musicFont);
 }
 
 QString GlyphItem::glyphName() const
@@ -81,10 +81,10 @@ QRectF GlyphItem::boundingRect() const
 
 void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if (m_smufl.isNull() || m_char.isNull())
+    if (m_musicFont.isNull() || m_char.isNull())
         return;
 
-    painter->setFont(m_smufl->font());
+    painter->setFont(m_musicFont->font());
     painter->drawText(0, 0, m_char);
 
     // Bounding rect

@@ -35,7 +35,7 @@ public:
     int measureCount() const;
 
 protected:
-    void smuflHasChanged(const SMuFLPtr &smufl);
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
 
 private:
     int staffLineHeight() const;

@@ -76,7 +76,7 @@ void MelodyNoteGlyphItem::setDotGlyphCount(int dotCount)
     if (m_augmentationDots.count() < dotCount) {
         while (m_augmentationDots.count() < dotCount) {
             GlyphItem *newDot = new GlyphItem(AugmentationDot, this);
-            newDot->setSmufl(smufl());
+            newDot->setMusicFont(musicFont());
             newDot->setVisible(false);
             m_augmentationDots.append(newDot);
         }
@@ -115,7 +115,7 @@ void MelodyNoteGlyphItem::setLedgerLines(int count, bool aboveNotehead)
 QPen MelodyNoteGlyphItem::ledgerLinePen() const
 {
     QPen linePen;
-    qreal ledgerLineThickness = smufl()->engravings().legerLineThickness * smufl()->staffSpace();
+    qreal ledgerLineThickness = musicFont()->engravings().legerLineThickness * musicFont()->staffSpace();
     linePen.setWidthF(ledgerLineThickness);
 
     return linePen;
@@ -162,7 +162,7 @@ void MelodyNoteGlyphItem::layoutLedgerLineItems()
     if (!m_ledgerLines.count())
         return;
 
-    qreal halfStaffSpace = smufl()->halfStaffSpace();
+    qreal halfStaffSpace = musicFont()->halfStaffSpace();
     qreal noteHeadWidth = m_notehead->boundingRect().width();
     qreal ledgerLineWidth = noteHeadWidth + 2 * ledgerLineExtensionWidth();
 
@@ -198,17 +198,17 @@ void MelodyNoteGlyphItem::layoutAugmentationDots()
 
 qreal MelodyNoteGlyphItem::spaceBetweenNoteheadAndDot() const
 {
-    return smufl()->font().pixelSize() / 14;
+    return musicFont()->font().pixelSize() / 14;
 }
 
 qreal MelodyNoteGlyphItem::spaceBetweenAugmentationDots() const
 {
-    return smufl()->font().pixelSize() / 24;
+    return musicFont()->font().pixelSize() / 24;
 }
 
 qreal MelodyNoteGlyphItem::augmentationPositionAboveLine() const
 {
-    return -smufl()->halfStaffSpace();
+    return -musicFont()->halfStaffSpace();
 }
 
 bool MelodyNoteGlyphItem::hasLedgerLines() const
@@ -223,8 +223,8 @@ bool MelodyNoteGlyphItem::hasLedgerLines() const
  */
 qreal MelodyNoteGlyphItem::ledgerLineExtensionWidth() const
 {
-    qreal ledgerLineExtension = smufl()->engravings().legerLineExtension;
-    return ledgerLineExtension * smufl()->staffSpace() / 2;
+    qreal ledgerLineExtension = musicFont()->engravings().legerLineExtension;
+    return ledgerLineExtension * musicFont()->staffSpace() / 2;
 }
 
 QString MelodyNoteGlyphItem::noteheadForLength(Length::Value length)
@@ -239,11 +239,11 @@ QString MelodyNoteGlyphItem::noteheadForLength(Length::Value length)
     }
 }
 
-void MelodyNoteGlyphItem::smuflHasChanged(const SMuFLPtr &smufl)
+void MelodyNoteGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 {
-    m_notehead->setSmufl(smufl);
+    m_notehead->setMusicFont(musicFont);
     for (int i = 0; i < m_augmentationDots.count(); ++i) {
-        m_augmentationDots.at(i)->setSmufl(smufl);
+        m_augmentationDots.at(i)->setMusicFont(musicFont);
     }
 
     QPen ledgerPen = ledgerLinePen();

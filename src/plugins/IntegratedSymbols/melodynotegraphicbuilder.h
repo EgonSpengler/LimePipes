@@ -25,7 +25,7 @@ public:
     GlyphItem *glyphItem() const;
 
 protected:
-    void smuflChanged(const SMuFLPtr &smufl);
+    void musicFontChanged(const MusicFontPtr &musicFont);
 
 private:
     bool isPitchOnLine(const PitchPtr &pitch) const;

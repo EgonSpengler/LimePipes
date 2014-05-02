@@ -9,7 +9,7 @@
 #ifndef PLUGINMANAGERINTERFACE_H
 #define PLUGINMANAGERINTERFACE_H
 
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 #include <QSharedPointer>
 
 class Symbol;
@@ -38,7 +38,7 @@ public:
     virtual QStringList instrumentNames() const = 0;
     virtual Instrument *instrumentForName(const QString &name) const = 0;
 
-    virtual SMuFLPtr smufl() const = 0;
+    virtual MusicFontPtr musicFont() const = 0;
 };
 
 typedef QSharedPointer<PluginManagerInterface> PluginManager;

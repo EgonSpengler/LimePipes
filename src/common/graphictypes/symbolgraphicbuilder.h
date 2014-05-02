@@ -12,7 +12,7 @@
 #include <QHash>
 #include <QVector>
 #include <QVariant>
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 
 class GlyphItem;
 
@@ -31,11 +31,11 @@ public:
     void setData(const QVariant &value, int key);
     QVariant data(int key) const;
 
-    SMuFLPtr smufl() const { return m_smufl; }
-    void setSmufl(const SMuFLPtr &smufl)
+    MusicFontPtr musicFont() const { return m_musicFont; }
+    void setMusicFont(const MusicFontPtr &musicFont)
     {
-        m_smufl = smufl;
-        smuflChanged(m_smufl);
+        m_musicFont = musicFont;
+        musicFontChanged(m_musicFont);
     }
 
     /*! \brief graphicDataRoles Returns the data roles which affect the appearance of the graphic. */
@@ -51,11 +51,11 @@ protected:
         Q_UNUSED(key);
     }
 
-    virtual void smuflChanged(const SMuFLPtr &smufl) { Q_UNUSED(smufl); }
+    virtual void musicFontChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
 
 private:
     QHash<int, QVariant> m_graphicData;
-    SMuFLPtr m_smufl;
+    MusicFontPtr m_musicFont;
 };
 
 #endif // SYMBOLGRAPHICBUILDER_H

@@ -90,7 +90,7 @@ void SymbolGraphicsItem::setGlyphItemYPosForPitch(const PitchPtr &pitch)
         return;
 
     GlyphItem *glyph = m_graphicBuilder->glyphItem();
-    qreal halfStaffSpace = smufl()->halfStaffSpace();
+    qreal halfStaffSpace = musicFont()->halfStaffSpace();
     glyph->setY(halfStaffSpace * pitch->staffPos());
 }
 

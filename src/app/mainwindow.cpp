@@ -72,11 +72,11 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     pluginsDir.cd(pluginsDirName);
 
-    initSmufl();
+    initMusicFont();
 
     CommonPluginManager *pluginManager = new CommonPluginManager(pluginsDir);
     m_pluginManager = PluginManager(pluginManager);
-    pluginManager->setSmufl(m_smufl);
+    pluginManager->setMusicFont(m_musicFont);
 
     m_addSymbolsDialog = new AddSymbolsDialog(this);
     m_aboutDialog = new AboutDialog(this);
@@ -104,7 +104,7 @@ MainWindow::~MainWindow()
     m_proxyModel = 0;
 }
 
-void MainWindow::initSmufl()
+void MainWindow::initMusicFont()
 {
     int staffLineHeight = 10;
     int oneEm = 4 * staffLineHeight;
@@ -114,7 +114,7 @@ void MainWindow::initSmufl()
     smuflLoader->setFontPixelSize(oneEm);
     smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
     smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
-    m_smufl = SMuFLPtr(smuflLoader);
+    m_musicFont = MusicFontPtr(smuflLoader);
 }
 
 void MainWindow::createModelAndView()

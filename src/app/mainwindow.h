@@ -10,7 +10,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/pluginmanagerinterface.h>
 
 class QTreeView;
@@ -54,7 +54,7 @@ private slots:
     void setWindowModifiedForUndoStackCleanState(bool clean);
 
 private:
-    void initSmufl();
+    void initMusicFont();
     void createModelAndView();
     void createMenusAndToolBars();
     void createConnections();
@@ -77,7 +77,7 @@ private:
     AddSymbolsDialog *m_addSymbolsDialog;
     AboutDialog *m_aboutDialog;
     SettingsDialog *m_settingsDialog;
-    SMuFLPtr m_smufl;
+    MusicFontPtr m_musicFont;
 };
 
 #endif // MAINWINDOW_H

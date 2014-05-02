@@ -10,7 +10,7 @@
 #define VISUALPART_H
 
 #include <QVector>
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/defines.h>
 #include "visualitem.h"
 
@@ -37,15 +37,15 @@ public:
     void setData(const QVariant &value, int key);
     void insertChildItem(int index, VisualItem *childItem);
 
-    SMuFLPtr smufl() const;
-    void setSmufl(const SMuFLPtr &smufl);
+    MusicFontPtr musicFont() const;
+    void setMusicFont(const MusicFontPtr &musicFont);
 
 private:
     StaffGraphicsItem *newStaffItem();
     QVector<StaffGraphicsItem*> m_staffItems;
     bool m_repeat;
     StaffType m_staffType;
-    SMuFLPtr m_smufl;
+    MusicFontPtr m_musicFont;
 };
 
 #endif // VISUALPART_H

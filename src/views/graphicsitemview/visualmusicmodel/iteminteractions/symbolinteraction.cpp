@@ -11,9 +11,9 @@
 #include "symbolinteraction.h"
 #include <QDebug>
 
-SymbolInteraction::SymbolInteraction(const SMuFLPtr &smufl, QObject *parent)
+SymbolInteraction::SymbolInteraction(const MusicFontPtr &musicFont, QObject *parent)
     : ItemInteraction(parent),
-      m_smufl(smufl),
+      m_musicFont(musicFont),
       m_interaction(0)
 {
 }
@@ -36,7 +36,7 @@ void SymbolInteraction::setAdditionalInteraction(ItemInteraction *interaction)
 
 void SymbolInteraction::mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
-    if (m_smufl.isNull())
+    if (m_musicFont.isNull())
         return;
 
     m_currentYDragStart = event->pos().y();
@@ -49,10 +49,10 @@ void SymbolInteraction::mousePressEvent(const QGraphicsItem *item, QGraphicsScen
 
 void SymbolInteraction::setPitchDragAreas()
 {
-    if (m_smufl.isNull())
+    if (m_musicFont.isNull())
         return;
 
-    qreal halfStaffSpace = m_smufl->halfStaffSpace();
+    qreal halfStaffSpace = m_musicFont->halfStaffSpace();
     for (int i = m_pitchContext->highestStaffPos();
          i <= m_pitchContext->lowestStaffPos(); ++i) {
         qreal staffPosition = i * halfStaffSpace;

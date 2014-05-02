@@ -35,10 +35,10 @@ VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
     return 0;
 }
 
-void VisualItemFactory::setSmuflForGraphicsItem(InteractingGraphicsItem *graphicsItem)
+void VisualItemFactory::setMusicFontForGraphicsItem(InteractingGraphicsItem *graphicsItem)
 {
     if (!pluginManger().isNull())
-        graphicsItem->setSmufl(pluginManger()->smufl());
+        graphicsItem->setMusicFont(pluginManger()->musicFont());
 }
 
 VisualItem *VisualItemFactory::newVisualScore()
@@ -48,11 +48,11 @@ VisualItem *VisualItemFactory::newVisualScore()
 
     ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem(Settings::Score::Header);
     scoreHeaderItem->setItemInteraction(new ScoreInteraction);
-    setSmuflForGraphicsItem(scoreHeaderItem);
+    setMusicFontForGraphicsItem(scoreHeaderItem);
 
     ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem(Settings::Score::Footer);
     scoreFooterItem->setItemInteraction(new ScoreInteraction);
-    setSmuflForGraphicsItem(scoreFooterItem);
+    setMusicFontForGraphicsItem(scoreFooterItem);
 
     newItem->appendRow(scoreHeaderItem);
     newItem->appendRow(scoreFooterItem);
@@ -71,7 +71,7 @@ VisualItem *VisualItemFactory::newVisualPart()
 {
     VisualPart *newItem = new VisualPart();
     if (!pluginManger().isNull())
-        newItem->setSmufl(pluginManger()->smufl());
+        newItem->setMusicFont(pluginManger()->musicFont());
 
     return newItem;
 }
@@ -83,7 +83,7 @@ VisualItem *VisualItemFactory::newVisualMeasure()
 
     MeasureGraphicsItem *measureGraphicsItem = new MeasureGraphicsItem;
     newItem->setInlineGraphic(measureGraphicsItem);
-    setSmuflForGraphicsItem(measureGraphicsItem);
+    setMusicFontForGraphicsItem(measureGraphicsItem);
 
     return newItem;
 }
@@ -94,7 +94,7 @@ VisualItem *VisualItemFactory::newVisualSymbol(int symbolType)
                                          VisualItem::GraphicalInlineType);
 
     SymbolGraphicsItem *symbolGraphicsItem = new SymbolGraphicsItem;
-    SymbolInteraction *symbolInteraction = new SymbolInteraction(pluginManger()->smufl());
+    SymbolInteraction *symbolInteraction = new SymbolInteraction(pluginManger()->musicFont());
     ItemInteraction *additionalInteraction = pluginManger()->itemInteractionForType(symbolType);
     if (additionalInteraction) {
         symbolInteraction->setAdditionalInteraction(additionalInteraction);
@@ -104,7 +104,7 @@ VisualItem *VisualItemFactory::newVisualSymbol(int symbolType)
     if (!pluginManger().isNull())
         symbolGraphicsItem->setPluginManager(pluginManger());
     newItem->setInlineGraphic(symbolGraphicsItem);
-    setSmuflForGraphicsItem(symbolGraphicsItem);
+    setMusicFontForGraphicsItem(symbolGraphicsItem);
 
     return newItem;
 }

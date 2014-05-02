@@ -139,11 +139,11 @@ int StaffGraphicsItem::measureCount() const
     return m_measureLayout->count();
 }
 
-void StaffGraphicsItem::smuflHasChanged(const SMuFLPtr &smufl)
+void StaffGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 {
-    qreal staffSpace = smufl->staffSpace();
+    qreal staffSpace = musicFont->staffSpace();
     setStaffLineHeight(staffSpace);
-    Engravings engravings(smufl->engravings());
+    Engravings engravings(musicFont->engravings());
     qreal width = engravings.staffLineThickness * staffSpace;
     setPenWidth(width);
 }

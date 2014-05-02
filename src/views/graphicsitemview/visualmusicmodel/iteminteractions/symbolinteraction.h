@@ -10,7 +10,7 @@
 #define SYMBOLINTERACTION_H
 
 #include <common/graphictypes/iteminteraction.h>
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/datatypes/pitchcontext.h>
 #include <QHash>
 #include <QPair>
@@ -18,8 +18,7 @@
 class SymbolInteraction : public ItemInteraction
 {
 public:
-    explicit SymbolInteraction(const SMuFLPtr& smufl, QObject *parent = 0);
-
+    explicit SymbolInteraction(const MusicFontPtr& musicFont, QObject *parent = 0);
 
     void setAdditionalInteraction(ItemInteraction *interaction);
 
@@ -38,7 +37,7 @@ private:
     int pitchPosForStaffYPos(qreal yPos);
     QPointF staffPointForSymbolPoint(const QGraphicsItem *symbolItem, const QPointF &point) const;
     qreal m_currentYDragStart;
-    SMuFLPtr m_smufl;
+    MusicFontPtr m_musicFont;
     PitchContextPtr m_pitchContext;
     PitchPtr m_currentPitch;
     QHash<int, QPair<qreal, qreal>> m_pitchDragAreas;

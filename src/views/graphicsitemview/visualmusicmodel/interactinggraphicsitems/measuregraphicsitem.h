@@ -25,7 +25,6 @@ public:
     enum { Type = MeasureGraphicItem };
     int type() const { return Type; }
 
-    // QGraphicsItem interface
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
     // InteractingGraphicsItem interface
@@ -35,7 +34,7 @@ public:
 
     // InteractingGraphicsItem interface
 protected:
-    void smuflHasChanged(const SMuFLPtr &smufl);
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
 
 private:
     void setPenWidth(qreal width);

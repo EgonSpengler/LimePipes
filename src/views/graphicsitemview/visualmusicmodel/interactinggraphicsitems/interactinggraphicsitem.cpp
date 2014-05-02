@@ -255,17 +255,16 @@ void InteractingGraphicsItem::setInteractionMode(const InteractionMode &interact
     m_interactionMode = interactionMode;
 }
 
-
-SMuFLPtr InteractingGraphicsItem::smufl() const
+MusicFontPtr InteractingGraphicsItem::musicFont() const
 {
-    return m_smufl;
+    return m_musicFont;
 }
 
-void InteractingGraphicsItem::setSmufl(const SMuFLPtr &smufl)
+void InteractingGraphicsItem::setMusicFont(const MusicFontPtr &musicFont)
 {
-    if (m_smufl == smufl)
+    if (m_musicFont == musicFont)
         return;
 
-    m_smufl = smufl;
-    smuflHasChanged(m_smufl);
+    m_musicFont = musicFont;
+    musicFontHasChanged(m_musicFont);
 }

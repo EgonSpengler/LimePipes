@@ -19,8 +19,8 @@ public:
     VisualItem *createVisualItem(VisualItem::ItemType type);
     VisualItem *createVisualSymbol(int symbolType);
 
-    void setSmuflForGraphicsItem(InteractingGraphicsItem *graphicsItem);
 private:
+    void setMusicFontForGraphicsItem(InteractingGraphicsItem *graphicsItem);
     VisualItem *newVisualScore();
     VisualItem *newVisualTune();
     VisualItem *newVisualPart();

@@ -44,8 +44,8 @@ public:
     void setPluginsPathAndLoadDynamicPlugins(const QDir& pluginsPath);
     QString pluginsPath() const { return m_pluginsPath.absolutePath(); }
 
-    SMuFLPtr smufl() const;
-    void setSmufl(const SMuFLPtr &smufl);
+    MusicFontPtr musicFont() const;
+    void setMusicFont(const MusicFontPtr &musicFont);
 
 private:
     void loadStaticPlugins();
@@ -61,7 +61,7 @@ private:
     int m_staticPlugins;
     int m_dynamicPlugins;
     QDir m_pluginsPath;
-    SMuFLPtr m_smufl;
+    MusicFontPtr m_musicFont;
 };
 
 #endif // COMMONPLUGINMANAGER_H

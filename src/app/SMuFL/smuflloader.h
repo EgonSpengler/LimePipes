@@ -11,10 +11,10 @@
 
 #include <QObject>
 #include <QJsonObject>
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 
 class SMuFLLoader : public QObject,
-                    public SMuFL
+                    public MusicFont
 {
     Q_OBJECT
 public:

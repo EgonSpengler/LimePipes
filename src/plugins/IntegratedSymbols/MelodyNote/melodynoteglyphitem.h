@@ -29,7 +29,7 @@ public:
 
     QPen ledgerLinePen() const;
 protected:
-    void smuflHasChanged(const SMuFLPtr &smufl);
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
 
 private:
     enum class LedgerLinePosition {

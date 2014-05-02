@@ -11,7 +11,7 @@
 
 #include <QChar>
 #include <QRectF>
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 #include <QGraphicsItem>
 
 class GlyphItem : public QGraphicsItem
@@ -26,17 +26,17 @@ public:
     QString glyphName() const;
     void setGlyphName(const QString &glyphName);
 
-    SMuFLPtr smufl() const;
-    void setSmufl(const SMuFLPtr &smufl);
+    MusicFontPtr musicFont() const;
+    void setMusicFont(const MusicFontPtr &musicFont);
 
 protected:
-    virtual void smuflHasChanged(const SMuFLPtr &smufl) { Q_UNUSED(smufl); }
+    virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
 
 private:
     void initFromGlyphName(const QString& glyphName);
     QString m_glyphName;
     QChar m_char;
-    SMuFLPtr m_smufl;
+    MusicFontPtr m_musicFont;
     QRectF m_boundingRect;
 };
 

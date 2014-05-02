@@ -6,29 +6,31 @@
  *
  */
 
-#ifndef SMUFL_H
-#define SMUFL_H
+#ifndef MUSICFONT_H
+#define MUSICFONT_H
 
 #include <QFont>
+#include <QPalette>
 #include <QSharedPointer>
-#include "smufltypes.h"
+#include "musicfonttypes.h"
 
-class SMuFL
+class MusicFont
 {
 public:
-    explicit SMuFL();
-    virtual ~SMuFL();
+    explicit MusicFont();
+    virtual ~MusicFont();
 
     virtual QFont font() const;
     virtual quint32 codepointForGlyph(const QString& glyphname) const;
     virtual quint32 alternateCodepointForGlyph(const QString& glyphname) const;
     virtual Engravings engravings() const;
     virtual GlyphData glyphData(const QString& glyphname);
+    virtual QPalette palette() const;
 
     qreal staffSpace() const;
     qreal halfStaffSpace() const;
 };
 
-typedef QSharedPointer<SMuFL> SMuFLPtr;
+typedef QSharedPointer<MusicFont> MusicFontPtr;
 
-#endif // SMUFL_H
+#endif // MUSICFONT_H

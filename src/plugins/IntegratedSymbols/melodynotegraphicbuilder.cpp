@@ -82,9 +82,9 @@ int MelodyNoteGraphicBuilder::ledgerLineCountForStaffPos(int staffPos)
     return 0;
 }
 
-void MelodyNoteGraphicBuilder::smuflChanged(const SMuFLPtr &smufl)
+void MelodyNoteGraphicBuilder::musicFontChanged(const MusicFontPtr &musicFont)
 {
-    m_glyph->setSmufl(smufl);
+    m_glyph->setMusicFont(musicFont);
 }
 
 QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const

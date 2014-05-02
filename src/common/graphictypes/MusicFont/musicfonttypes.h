@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef SMUFLTYPES_H
-#define SMUFLTYPES_H
+#ifndef MUSICFONTTYPES_H
+#define MUSICFONTTYPES_H
 
 #include <QPointF>
 
@@ -52,4 +52,4 @@ struct GlyphData {
     QPointF numeralBottom;
 };
 
-#endif // SMUFLTYPES_H
+#endif // MUSICFONTTYPES_H

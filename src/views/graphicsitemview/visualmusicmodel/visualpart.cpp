@@ -59,24 +59,24 @@ StaffGraphicsItem *VisualPart::newStaffItem()
 {
     StaffGraphicsItem *staffItem = new StaffGraphicsItem;
     staffItem->setStaffType(staffType());
-    staffItem->setSmufl(m_smufl);
+    staffItem->setMusicFont(m_musicFont);
 
     return staffItem;
 }
 
-SMuFLPtr VisualPart::smufl() const
+MusicFontPtr VisualPart::musicFont() const
 {
-    return m_smufl;
+    return m_musicFont;
 }
 
-void VisualPart::setSmufl(const SMuFLPtr &smufl)
+void VisualPart::setMusicFont(const MusicFontPtr &musicFont)
 {
-    if (m_smufl == smufl)
+    if (m_musicFont == musicFont)
         return;
 
-    m_smufl = smufl;
+    m_musicFont = musicFont;
     foreach (StaffGraphicsItem *staff, m_staffItems) {
-        staff->setSmufl(m_smufl);
+        staff->setMusicFont(m_musicFont);
     }
 }
 

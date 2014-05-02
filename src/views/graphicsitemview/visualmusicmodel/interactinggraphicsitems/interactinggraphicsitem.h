@@ -11,7 +11,7 @@
 
 #include <QList>
 #include <QGraphicsWidget>
-#include <common/graphictypes/SMuFL/smufl.h>
+#include <common/graphictypes/MusicFont/musicfont.h>
 #include "graphicsitemtypes.h"
 #include <common/itemdataroles.h>
 
@@ -70,8 +70,8 @@ public:
      */
     virtual void setData(const QVariant& value, int key);
 
-    SMuFLPtr smufl() const;
-    void setSmufl(const SMuFLPtr &smufl);
+    MusicFontPtr musicFont() const;
+    void setMusicFont(const MusicFontPtr &musicFont);
 
     InteractionMode interactionMode() const;
     void setInteractionMode(const InteractionMode &interactionMode);
@@ -92,11 +92,11 @@ protected:
 
     bool sceneEventFilter(QGraphicsItem *watched, QEvent *event);
 
-    virtual void smuflHasChanged(const SMuFLPtr& smufl) {}
+    virtual void musicFontHasChanged(const MusicFontPtr& musicFont) { Q_UNUSED(musicFont); }
 
 private:
     ItemInteraction *m_itemInteraction;
-    SMuFLPtr m_smufl;
+    MusicFontPtr m_musicFont;
     InteractionMode m_interactionMode;
 };
 

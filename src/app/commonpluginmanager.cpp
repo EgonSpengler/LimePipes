@@ -148,14 +148,14 @@ bool CommonPluginManager::hasInstrumentWithName(const QString &name) const
 {
     return m_instrumentPlugins.keys().contains(name);
 }
-SMuFLPtr CommonPluginManager::smufl() const
+MusicFontPtr CommonPluginManager::musicFont() const
 {
-    return m_smufl;
+    return m_musicFont;
 }
 
-void CommonPluginManager::setSmufl(const SMuFLPtr &smufl)
+void CommonPluginManager::setMusicFont(const MusicFontPtr &musicFont)
 {
-    m_smufl = smufl;
+    m_musicFont = musicFont;
 }
 
 SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
@@ -166,7 +166,7 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
 
         SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
         if (builder) {
-            builder->setSmufl(m_smufl);
+            builder->setMusicFont(m_musicFont);
             return builder;
         }
     }

@@ -60,10 +60,10 @@ void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     painter->drawLine(rightEdge, 0, rightEdge, rect.height());
 }
 
-void MeasureGraphicsItem::smuflHasChanged(const SMuFLPtr &smufl)
+void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 {
-    qreal staffSpace = smufl->staffSpace();
-    Engravings engravings(smufl->engravings());
+    qreal staffSpace = musicFont->staffSpace();
+    Engravings engravings(musicFont->engravings());
     qreal width = engravings.thinBarlineThickness * staffSpace;
     setPenWidth(width);
 }
