@@ -8,11 +8,13 @@
 
 #include <QPainter>
 #include <QFontMetricsF>
+#include <QDebug>
 #include "MusicFont/musicfont.h"
 #include "glyphitem.h"
 
 GlyphItem::GlyphItem(QGraphicsItem *parent)
-    : QGraphicsItem(parent)
+    : QGraphicsItem(parent),
+      m_colorRole(QPalette::WindowText)
 {
 }
 
@@ -55,6 +57,14 @@ void GlyphItem::setMusicFont(const MusicFontPtr &musicFont)
     musicFontHasChanged(m_musicFont);
 }
 
+void GlyphItem::setColorRole(QPalette::ColorRole colorRole)
+{
+    if (m_colorRole == colorRole)
+        return;
+
+    m_colorRole = colorRole;
+}
+
 QString GlyphItem::glyphName() const
 {
     return m_glyphName;
@@ -84,6 +94,7 @@ void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (m_musicFont.isNull() || m_char.isNull())
         return;
 
+//    painter->setBrush(m_musicFont->palette().brush(m_colorRole));
     painter->setFont(m_musicFont->font());
     painter->drawText(0, 0, m_char);
 

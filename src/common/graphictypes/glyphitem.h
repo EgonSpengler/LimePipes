@@ -13,6 +13,7 @@
 #include <QRectF>
 #include <common/graphictypes/MusicFont/musicfont.h>
 #include <QGraphicsItem>
+#include <QPalette>
 
 class GlyphItem : public QGraphicsItem
 {
@@ -29,6 +30,8 @@ public:
     MusicFontPtr musicFont() const;
     void setMusicFont(const MusicFontPtr &musicFont);
 
+    void setColorRole(QPalette::ColorRole colorRole);
+
 protected:
     virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
 
@@ -38,6 +41,7 @@ private:
     QChar m_char;
     MusicFontPtr m_musicFont;
     QRectF m_boundingRect;
+    QPalette::ColorRole m_colorRole;
 };
 
 #endif // GLYPHITEM_H

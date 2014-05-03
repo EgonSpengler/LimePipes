@@ -17,6 +17,7 @@ using namespace LP::View;
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
+    setFocusPolicy(Qt::StrongFocus);
     setInteractionMode(InteractingGraphicsItem::Filter);
 }
 
@@ -66,6 +67,7 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
             GlyphItem *glyphItem = graphicBuilder->glyphItem();
             if (glyphItem) {
                 glyphItem->setParentItem(this);
+                glyphItem->setFocusProxy(this);
                 setMaximumWidthForGlyphItem(glyphItem);
             }
         }
@@ -118,4 +120,16 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
     }
 
     return QGraphicsItem::itemChange(change, value);
+}
+
+void SymbolGraphicsItem::focusInEvent(QFocusEvent *event)
+{
+    qDebug("SymbolItem focus in");
+    InteractingGraphicsItem::focusInEvent(event);
+}
+
+void SymbolGraphicsItem::focusOutEvent(QFocusEvent *event)
+{
+    qDebug("SymbolItem focus out");
+    InteractingGraphicsItem::focusOutEvent(event);
 }

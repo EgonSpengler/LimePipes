@@ -163,3 +163,20 @@ void SymbolInteraction::keyReleaseEvent(const QGraphicsItem *item, QKeyEvent *ev
         m_interaction->keyReleaseEvent(item, event);
     }
 }
+
+
+void SymbolInteraction::focusInEvent(const QGraphicsItem *item, QFocusEvent *event)
+{
+    qDebug("Symbol interaction focus in");
+    if (m_interaction) {
+        m_interaction->focusInEvent(item, event);
+    }
+}
+
+void SymbolInteraction::focusOutEvent(const QGraphicsItem *item, QFocusEvent *event)
+{
+    qDebug("Symbol interaction focus out");
+    if (m_interaction) {
+        m_interaction->focusOutEvent(item, event);
+    }
+}

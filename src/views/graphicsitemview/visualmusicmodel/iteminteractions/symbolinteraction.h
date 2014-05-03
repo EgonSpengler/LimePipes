@@ -30,6 +30,8 @@ public:
     void contextMenuEvent(const QGraphicsItem *item, QGraphicsSceneContextMenuEvent *event);
     void keyPressEvent(const QGraphicsItem *item, QKeyEvent *event);
     void keyReleaseEvent(const QGraphicsItem *item, QKeyEvent *event);
+    void focusInEvent(const QGraphicsItem *item, QFocusEvent *event);
+    void focusOutEvent(const QGraphicsItem *item, QFocusEvent *event);
     void setData(const QVariant &value, int role);
 
 private:

@@ -40,6 +40,8 @@ public:
     void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
 
 protected:
+    void focusInEvent(QFocusEvent *event);
+    void focusOutEvent(QFocusEvent *event);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:

@@ -22,7 +22,6 @@ MelodyNoteGlyphItem::MelodyNoteGlyphItem()
       m_ledgerPosition(LedgerLinePosition::Below),
       m_onLine(false)
 {
-    // For key press and release events, make it focusable
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     m_notehead = new GlyphItem(this);
 }

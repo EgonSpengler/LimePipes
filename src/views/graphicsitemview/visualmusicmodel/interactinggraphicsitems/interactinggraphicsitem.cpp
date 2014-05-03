@@ -96,10 +96,7 @@ void InteractingGraphicsItem::focusInEvent(QFocusEvent *event)
     if (!m_itemInteraction)
         return;
 
-    if (m_interactionMode == Direct ||
-            m_interactionMode == Both) {
-        m_itemInteraction->focusInEvent(this, event);
-    }
+    m_itemInteraction->focusInEvent(this, event);
 }
 
 void InteractingGraphicsItem::focusOutEvent(QFocusEvent *event)
@@ -107,10 +104,7 @@ void InteractingGraphicsItem::focusOutEvent(QFocusEvent *event)
     if (!m_itemInteraction)
         return;
 
-    if (m_interactionMode == Direct ||
-            m_interactionMode == Both) {
-        m_itemInteraction->focusOutEvent(this, event);
-    }
+    m_itemInteraction->focusOutEvent(this, event);
 }
 
 void InteractingGraphicsItem::keyPressEvent(QKeyEvent *event)
