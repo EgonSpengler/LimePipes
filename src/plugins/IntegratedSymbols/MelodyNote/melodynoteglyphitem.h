@@ -31,7 +31,7 @@ public:
 
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
-    void colorRoleHasChanged(QPalette::ColorRole colorRole);
+    void colorRoleHasChanged(const FontColor &color);
 
 private:
     enum class LedgerLinePosition {

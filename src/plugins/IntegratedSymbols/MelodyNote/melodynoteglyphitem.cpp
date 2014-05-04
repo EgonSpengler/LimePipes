@@ -78,6 +78,7 @@ void MelodyNoteGlyphItem::setDotGlyphCount(int dotCount)
             GlyphItem *newDot = new GlyphItem(AugmentationDot, this);
             newDot->setMusicFont(musicFont());
             newDot->setVisible(false);
+            newDot->setColorRole(colorRole());
             m_augmentationDots.append(newDot);
         }
     }
@@ -117,6 +118,7 @@ QPen MelodyNoteGlyphItem::ledgerLinePen() const
     QPen linePen;
     qreal ledgerLineThickness = musicFont()->engravings().legerLineThickness * musicFont()->staffSpace();
     linePen.setWidthF(ledgerLineThickness);
+    linePen.setColor(musicFont()->fontColor(colorRole()));
 
     return linePen;
 }
@@ -252,7 +254,16 @@ void MelodyNoteGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     }
 }
 
-void MelodyNoteGlyphItem::colorRoleHasChanged(QPalette::ColorRole colorRole)
+void MelodyNoteGlyphItem::colorRoleHasChanged(const FontColor &color)
 {
-    m_notehead->setColorRole(colorRole);
+    m_notehead->setColorRole(color);
+
+    for (int i = 0; i < m_augmentationDots.count(); ++i) {
+        m_augmentationDots.at(i)->setColorRole(color);
+    }
+
+    QPen ledgerPen = ledgerLinePen();
+    for (int i = 0; i < m_ledgerLines.count(); ++i) {
+        m_ledgerLines.at(i)->setPen(ledgerPen);
+    }
 }

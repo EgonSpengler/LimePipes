@@ -14,12 +14,13 @@
 
 GlyphItem::GlyphItem(QGraphicsItem *parent)
     : QGraphicsItem(parent),
-      m_colorRole(QPalette::WindowText)
+      m_colorRole(FontColor::Normal)
 {
 }
 
 GlyphItem::GlyphItem(const QString &glyphName, QGraphicsItem *parent)
-    : QGraphicsItem(parent)
+    : QGraphicsItem(parent),
+      m_colorRole(FontColor::Normal)
 {
     setGlyphName(glyphName);
 }
@@ -57,13 +58,19 @@ void GlyphItem::setMusicFont(const MusicFontPtr &musicFont)
     musicFontHasChanged(m_musicFont);
 }
 
-void GlyphItem::setColorRole(QPalette::ColorRole colorRole)
+void GlyphItem::setColorRole(const FontColor &colorRole)
 {
     if (m_colorRole == colorRole)
         return;
 
     m_colorRole = colorRole;
     colorRoleHasChanged(m_colorRole);
+    update();
+}
+
+FontColor GlyphItem::colorRole() const
+{
+    return m_colorRole;
 }
 
 QString GlyphItem::glyphName() const
@@ -95,12 +102,7 @@ void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (m_musicFont.isNull() || m_char.isNull())
         return;
 
-    QColor color;
-    if (hasFocus()) {
-        color = m_musicFont->fontColor(FontColor::Focus);
-    } else {
-        color = m_musicFont->fontColor(FontColor::Normal);
-    }
+    QColor color(m_musicFont->fontColor(m_colorRole));
     painter->setPen(color);
     painter->setFont(m_musicFont->font());
     painter->drawText(0, 0, m_char);

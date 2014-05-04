@@ -127,7 +127,7 @@ void SymbolGraphicsItem::focusInEvent(QFocusEvent *event)
     if (m_graphicBuilder.isNull())
         goto parent_implementation;
 
-    m_graphicBuilder->glyphItem()->update();
+    m_graphicBuilder->glyphItem()->setColorRole(FontColor::Focus);
 
 parent_implementation:
     InteractingGraphicsItem::focusInEvent(event);
@@ -138,7 +138,7 @@ void SymbolGraphicsItem::focusOutEvent(QFocusEvent *event)
     if (m_graphicBuilder.isNull())
         goto parent_implementation;
 
-    m_graphicBuilder->glyphItem()->update();
+    m_graphicBuilder->glyphItem()->setColorRole(FontColor::Normal);
 
 parent_implementation:
     InteractingGraphicsItem::focusOutEvent(event);
