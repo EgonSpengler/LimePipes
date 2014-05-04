@@ -448,6 +448,32 @@ void MainWindow::on_editSettingsAction_triggered()
     m_settingsDialog->show();
 }
 
+void MainWindow::on_editCreateTestScore_triggered()
+{
+    MusicModelInterface *musicModel;
+    musicModel = musicModelFromItemModel(m_proxyModel);
+
+    if (!musicModel)
+        return;
+
+    musicModel->undoStack()->beginMacro(tr("Add Tune"));
+
+    QModelIndex score = musicModel->appendScore("Test Score");
+    QModelIndex tune = musicModel->appendTuneToScore(score,
+                                                     QStringLiteral("Great Highland Bagpipe"));
+    m_treeView->setCurrentIndex(tune);
+
+    musicModel->undoStack()->endMacro();
+
+    QModelIndex partIndex = musicModel->insertPartIntoTune(0, tune, 4, true);
+
+    QModelIndex measureIndex = m_proxyModel->index(1, 0, partIndex);
+
+    musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
+
+    updateUi();
+}
+
 void MainWindow::insertSymbol(int symbolType)
 {
     MusicModelInterface *musicModel;

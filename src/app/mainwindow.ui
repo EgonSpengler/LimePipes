@@ -84,6 +84,8 @@
    <addaction name="editAddTuneAction"/>
    <addaction name="editAddTunePartAction"/>
    <addaction name="editAddSymbolsAction"/>
+   <addaction name="separator"/>
+   <addaction name="editCreateTestScore"/>
   </widget>
   <action name="fileNewAction">
    <property name="icon">
@@ -228,6 +230,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="editCreateTestScore">
+   <property name="icon">
+    <iconset resource="app_resources.qrc">
+     <normaloff>:/application/score_settings</normaloff>:/application/score_settings</iconset>
+   </property>
+   <property name="text">
+    <string>Create Test Score</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a score with tune and symbols</string>
    </property>
   </action>
  </widget>

@@ -50,6 +50,7 @@ private slots:
     void on_editRedoAction_triggered();
     void on_helpAboutAction_triggered();
     void on_editSettingsAction_triggered();
+    void on_editCreateTestScore_triggered();
     void insertSymbol(int symbolType);
     void setWindowModifiedForUndoStackCleanState(bool clean);
 
