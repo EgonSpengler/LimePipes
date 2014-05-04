@@ -24,6 +24,7 @@ MelodyNoteGlyphItem::MelodyNoteGlyphItem()
 {
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     m_notehead = new GlyphItem(this);
+    m_notehead->setFocusProxy(this);
 }
 
 void MelodyNoteGlyphItem::setLength(Length::Value length)
@@ -249,4 +250,9 @@ void MelodyNoteGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     for (int i = 0; i < m_ledgerLines.count(); ++i) {
         m_ledgerLines.at(i)->setPen(ledgerPen);
     }
+}
+
+void MelodyNoteGlyphItem::colorRoleHasChanged(QPalette::ColorRole colorRole)
+{
+    m_notehead->setColorRole(colorRole);
 }

@@ -91,6 +91,12 @@ void InteractingGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
     }
 }
 
+/*!
+ * \brief InteractingGraphicsItem::focusInEvent
+ * focusInEvent is always handled by this class itself. If there are child items,
+ * theses should set this item as focus proxy.
+ * \param event
+ */
 void InteractingGraphicsItem::focusInEvent(QFocusEvent *event)
 {
     if (!m_itemInteraction)
@@ -99,6 +105,12 @@ void InteractingGraphicsItem::focusInEvent(QFocusEvent *event)
     m_itemInteraction->focusInEvent(this, event);
 }
 
+/*!
+ * \brief InteractingGraphicsItem::focusOutEvent
+ * focusOutEvent is always handled by this class itself. If there are child items,
+ * theses should set this item as focus proxy.
+ * \param event
+ */
 void InteractingGraphicsItem::focusOutEvent(QFocusEvent *event)
 {
     if (!m_itemInteraction)

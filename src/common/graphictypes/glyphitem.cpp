@@ -63,6 +63,7 @@ void GlyphItem::setColorRole(QPalette::ColorRole colorRole)
         return;
 
     m_colorRole = colorRole;
+    colorRoleHasChanged(m_colorRole);
 }
 
 QString GlyphItem::glyphName() const
@@ -94,7 +95,13 @@ void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (m_musicFont.isNull() || m_char.isNull())
         return;
 
-//    painter->setBrush(m_musicFont->palette().brush(m_colorRole));
+    QColor color;
+    if (hasFocus()) {
+        color = m_musicFont->palette().brush(QPalette::Highlight).color();
+    } else {
+        color = m_musicFont->palette().brush(QPalette::WindowText).color();
+    }
+    painter->setPen(color);
     painter->setFont(m_musicFont->font());
     painter->drawText(0, 0, m_char);
 

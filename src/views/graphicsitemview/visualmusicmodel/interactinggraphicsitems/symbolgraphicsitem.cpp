@@ -124,12 +124,22 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
 
 void SymbolGraphicsItem::focusInEvent(QFocusEvent *event)
 {
-    qDebug("SymbolItem focus in");
+    if (m_graphicBuilder.isNull())
+        goto parent_implementation;
+
+    m_graphicBuilder->glyphItem()->update();
+
+parent_implementation:
     InteractingGraphicsItem::focusInEvent(event);
 }
 
 void SymbolGraphicsItem::focusOutEvent(QFocusEvent *event)
 {
-    qDebug("SymbolItem focus out");
+    if (m_graphicBuilder.isNull())
+        goto parent_implementation;
+
+    m_graphicBuilder->glyphItem()->update();
+
+parent_implementation:
     InteractingGraphicsItem::focusOutEvent(event);
 }

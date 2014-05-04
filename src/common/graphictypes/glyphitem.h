@@ -34,6 +34,7 @@ public:
 
 protected:
     virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
+    virtual void colorRoleHasChanged(QPalette::ColorRole colorRole) { Q_UNUSED(colorRole); }
 
 private:
     void initFromGlyphName(const QString& glyphName);
