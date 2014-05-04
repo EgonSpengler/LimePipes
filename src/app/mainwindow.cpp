@@ -115,7 +115,7 @@ void MainWindow::initMusicFont()
     smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
     smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
     smuflLoader->setFontColor(FontColor::Normal, Qt::black);
-    smuflLoader->setFontColor(FontColor::Focus, QColor(0x266FFF));
+    smuflLoader->setFontColor(FontColor::Focus, QColor(0x004adc));
     m_musicFont = MusicFontPtr(smuflLoader);
 }
 
