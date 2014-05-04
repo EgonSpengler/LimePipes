@@ -34,9 +34,9 @@ GlyphData MusicFont::glyphData(const QString &glyphname)
     return data;
 }
 
-QPalette MusicFont::palette() const
+QColor MusicFont::fontColor(const FontColor &color) const
 {
-    return QPalette();
+    return QColor();
 }
 
 qreal MusicFont::staffSpace() const

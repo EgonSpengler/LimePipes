@@ -14,6 +14,11 @@
 #include <QDebug>
 #include "smuflloader.h"
 
+uint qHash(const FontColor& fontColor)
+{
+    return static_cast<uint>(fontColor);
+}
+
 SMuFLLoader::SMuFLLoader(QObject *parent)
     : QObject(parent),
       m_engravings({0})
@@ -47,6 +52,16 @@ void SMuFLLoader::setFontFromPath(const QString &path)
 void SMuFLLoader::setFontPixelSize(int pixelSize)
 {
     m_font.setPixelSize(pixelSize);
+}
+
+void SMuFLLoader::setFontColor(const FontColor &colorType, const QColor &color)
+{
+    m_fontColors.insert(colorType, color);
+}
+
+QColor SMuFLLoader::fontColor(const FontColor &color) const
+{
+    return m_fontColors.value(color);
 }
 
 void SMuFLLoader::loadGlyphnamesFromFile(const QString &glyphNamesFilePath)

@@ -119,15 +119,18 @@ void InteractingGraphicsItem::focusOutEvent(QFocusEvent *event)
     m_itemInteraction->focusOutEvent(this, event);
 }
 
+/*!
+ * \brief InteractingGraphicsItem::keyPressEvent
+ * keyPressEvent is always handled by this class itself. If there are child items,
+ * theses should set this item as focus proxy.
+ * \param event
+ */
 void InteractingGraphicsItem::keyPressEvent(QKeyEvent *event)
 {
     if (!m_itemInteraction)
         return;
 
-    if (m_interactionMode == Direct ||
-            m_interactionMode == Both) {
-        m_itemInteraction->keyPressEvent(this, event);
-    }
+    m_itemInteraction->keyPressEvent(this, event);
 }
 
 void InteractingGraphicsItem::keyReleaseEvent(QKeyEvent *event)

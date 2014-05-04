@@ -10,9 +10,15 @@
 #define MUSICFONT_H
 
 #include <QFont>
-#include <QPalette>
 #include <QSharedPointer>
 #include "musicfonttypes.h"
+
+enum class FontColor
+{
+    Normal,
+    Focus,
+    Selected
+};
 
 class MusicFont
 {
@@ -25,7 +31,7 @@ public:
     virtual quint32 alternateCodepointForGlyph(const QString& glyphname) const;
     virtual Engravings engravings() const;
     virtual GlyphData glyphData(const QString& glyphname);
-    virtual QPalette palette() const;
+    virtual QColor fontColor(const FontColor &color) const;
 
     qreal staffSpace() const;
     qreal halfStaffSpace() const;

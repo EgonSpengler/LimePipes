@@ -11,6 +11,8 @@
 
 #include <QObject>
 #include <QJsonObject>
+#include <QHash>
+#include <QColor>
 #include <common/graphictypes/MusicFont/musicfont.h>
 
 class SMuFLLoader : public QObject,
@@ -23,6 +25,7 @@ public:
     void setFont(const QFont &font);
     void setFontFromPath(const QString &path);
     void setFontPixelSize(int pixelSize);
+    void setFontColor(const FontColor &colorType, const QColor& color);
 
     void loadGlyphnamesFromFile(const QString& glyphNamesFilePath);
     void loadFontMetadataFromFile(const QString& fontMetadataFilePath);
@@ -32,6 +35,7 @@ public:
     quint32 alternateCodepointForGlyph(const QString &glyphname) const;
     Engravings engravings() const;
     GlyphData glyphData(const QString &glyphname);
+    QColor fontColor(const FontColor &color) const;
 
 private:
     void setEngravings(const Engravings &engravings);
@@ -44,6 +48,7 @@ private:
     Engravings m_engravings;
     QJsonObject m_glyphNames;
     QJsonObject m_fontGlyphs;
+    QHash<FontColor, QColor> m_fontColors;
 };
 
 #endif // SMUFLLOADER_H

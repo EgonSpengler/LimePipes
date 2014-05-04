@@ -97,9 +97,9 @@ void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     QColor color;
     if (hasFocus()) {
-        color = m_musicFont->palette().brush(QPalette::Highlight).color();
+        color = m_musicFont->fontColor(FontColor::Focus);
     } else {
-        color = m_musicFont->palette().brush(QPalette::WindowText).color();
+        color = m_musicFont->fontColor(FontColor::Normal);
     }
     painter->setPen(color);
     painter->setFont(m_musicFont->font());
