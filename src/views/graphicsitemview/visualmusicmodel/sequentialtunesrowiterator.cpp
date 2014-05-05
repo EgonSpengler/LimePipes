@@ -19,9 +19,18 @@ SequentialTunesRowIterator::SequentialTunesRowIterator(const VisualMusicModel *m
     if (!visualScore || !itemModel)
         return;
 
-    InteractingGraphicsItem *scoreHeaderItem = visualScore->rowGraphics().at(0);
-    InteractingGraphicsItem *scoreFooterItem = visualScore->rowGraphics().at(1);
-    m_rowItems.append(static_cast<QGraphicsWidget*>(scoreHeaderItem));
+    QList<InteractingGraphicsItem*> scoreItems = visualScore->rowGraphics();
+
+    InteractingGraphicsItem *scoreHeaderItem = 0;
+    if (scoreItems.count())
+        scoreHeaderItem = visualScore->rowGraphics().at(0);
+
+    InteractingGraphicsItem *scoreFooterItem = 0;
+    if (scoreItems.count() > 1)
+        scoreFooterItem = visualScore->rowGraphics().at(1);
+
+    if (scoreHeaderItem)
+        m_rowItems.append(static_cast<QGraphicsWidget*>(scoreHeaderItem));
 
     for (int i = 0; i < itemModel->rowCount(scoreIndex); i++) {
         QModelIndex tuneIndex = itemModel->index(i, 0, scoreIndex);
@@ -31,7 +40,8 @@ SequentialTunesRowIterator::SequentialTunesRowIterator(const VisualMusicModel *m
         appendTune(tuneIndex);
     }
 
-    m_rowItems.append(static_cast<QGraphicsWidget*>(scoreFooterItem));
+    if (scoreFooterItem)
+        m_rowItems.append(static_cast<QGraphicsWidget*>(scoreFooterItem));
 }
 
 void SequentialTunesRowIterator::appendTune(const QModelIndex &tuneIndex)

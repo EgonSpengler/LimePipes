@@ -6,6 +6,7 @@
  *
  */
 
+#include <QGraphicsScene>
 #include "interactinggraphicsitems/interactinggraphicsitem.h"
 #include <common/graphictypes/iteminteraction.h>
 #include "visualitem.h"
@@ -28,6 +29,10 @@ VisualItem::VisualItem(VisualItem::ItemType type, VisualItem::GraphicalType grap
     : QObject(parent),
       m_itemType(type),
       m_graphicalItemType(graphicalType)
+{
+}
+
+VisualItem::~VisualItem()
 {
 }
 
@@ -93,9 +98,47 @@ void VisualItem::removeLastRow()
         return;
 
     InteractingGraphicsItem *graphicsItem = m_graphicsItems.takeLast();
-    disconnectItemInteraction(graphicsItem->itemInteraction());
+    removeGraphicsItem(graphicsItem);
 
     emit rowSequenceChanged();
+}
+
+void VisualItem::removeAllRows()
+{
+    if (graphicalType() != GraphicalRowType)
+        return;
+
+    if (m_graphicsItems.isEmpty())
+        return;
+
+    foreach (InteractingGraphicsItem *graphicsItem, m_graphicsItems) {
+        removeGraphicsItem(graphicsItem);
+    }
+
+    emit rowSequenceChanged();
+}
+
+void VisualItem::removeInlineGraphic()
+{
+    if (graphicalType() != GraphicalRowType)
+        return;
+
+    if (m_graphicsItems.isEmpty())
+        return;
+
+    InteractingGraphicsItem *graphicsItem = m_graphicsItems.takeLast();
+    removeGraphicsItem(graphicsItem);
+}
+
+void VisualItem::removeGraphicsItem(InteractingGraphicsItem *graphicsItem)
+{
+    disconnectItemInteraction(graphicsItem->itemInteraction());
+    QGraphicsScene *scene = graphicsItem->scene();
+    if (scene) {
+        scene->removeItem(graphicsItem);
+    }
+
+    graphicsItem->deleteLater();
 }
 
 QList<InteractingGraphicsItem *> VisualItem::rowGraphics() const
@@ -131,5 +174,23 @@ void VisualItem::insertChildItem(int index, VisualItem *childItem)
             return;
 
         thisGraphicItem->insertChildItem(index, childGraphicItem);
+    }
+}
+
+void VisualItem::removeChildItem(VisualItem *childItem)
+{
+    if (graphicalType() == GraphicalInlineType &&
+            childItem->graphicalType() == GraphicalInlineType) {
+        InteractingGraphicsItem *childGraphicItem = childItem->inlineGraphic();
+        if (!childGraphicItem)
+            return;
+
+        InteractingGraphicsItem *thisGraphicItem = inlineGraphic();
+        if (!thisGraphicItem)
+            return;
+
+        thisGraphicItem->removeChildItem(childGraphicItem);
+        childGraphicItem->setVisible(false);
+        childGraphicItem->deleteLater();
     }
 }

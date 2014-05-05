@@ -40,7 +40,7 @@ public:
     explicit VisualItem(QObject *parent = 0);
     explicit VisualItem(ItemType type, QObject *parent = 0);
     explicit VisualItem(ItemType type, GraphicalType graphicalType, QObject *parent = 0);
-    virtual ~VisualItem() {}
+    virtual ~VisualItem();
 
     void setItemType(ItemType type) { m_itemType = type; }
     ItemType itemType() const { return m_itemType; }
@@ -53,12 +53,16 @@ public:
 
     void appendRow(InteractingGraphicsItem *graphicsItem);
     void removeLastRow();
+    void removeAllRows();
+    void removeInlineGraphic();
     QList<InteractingGraphicsItem*> rowGraphics() const;
     int rowCount() const;
 
     virtual void setData(const QVariant& value, int key);
     virtual void insertChildItem(int index, VisualItem *childItem);
+    virtual void removeChildItem(VisualItem *childItem);
 
+    void removeGraphicsItem(InteractingGraphicsItem *graphicsItem);
 signals:
     void dataChanged(const QVariant& value, int dataRole);
     void rowSequenceChanged();

@@ -9,6 +9,7 @@
 #include <QAbstractItemModel>
 #include <musicitem.h>
 #include <common/itemdataroles.h>
+#include "interactinggraphicsitems/interactinggraphicsitem.h"
 #include "visualmusicmodel.h"
 #include "sequentialtunesrowiterator.h"
 
@@ -88,6 +89,8 @@ void VisualMusicModel::setModel(QAbstractItemModel *model)
 
     connect(m_model, &QAbstractItemModel::rowsInserted,
             this, &VisualMusicModel::rowsInserted);
+    connect(m_model, &QAbstractItemModel::rowsAboutToBeRemoved,
+            this, &VisualMusicModel::rowsAboutToBeRemoved);
     connect(m_model, &QAbstractItemModel::dataChanged,
             this, &VisualMusicModel::dataChanged);
 }
@@ -115,13 +118,48 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     }
 }
 
+void VisualMusicModel::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
+{
+    for (int i=start; i<=end; i++) {
+        QModelIndex itemIndex = m_model->index(i, 0, parent);
+        if (!itemIndex.isValid())
+            continue;
+
+        VisualItem *item = m_visualItemIndexes.value(itemIndex);
+        if (!item)
+            continue;
+
+        // If no valid parent index => Score was removed
+        if (!parent.isValid()) {
+            item->removeAllRows();
+        } else {
+            VisualItem *parentItem = m_visualItemIndexes.value(parent);
+
+            if (item->graphicalType() == VisualItem::GraphicalRowType) {
+                for (int i = 0; i < item->rowCount(); ++i) {
+                    item->removeLastRow();
+                }
+            } else {
+                if (!parentItem)
+                    continue;
+
+                parentItem->removeChildItem(item);
+                item->removeInlineGraphic();
+            }
+        }
+
+        m_visualItemIndexes.remove(itemIndex);
+        item->deleteLater();
+    }
+}
+
 void VisualMusicModel::insertNewVisualItems(const QModelIndex &parentIndex, int start, int end,
                                             VisualItem::ItemType itemType)
 {
     if (!model())
         return;
 
-    for (int i=start; i<=end; i++) {
+    for (int i=start; i<=end; i++){
         QPersistentModelIndex itemIndex(m_model->index(i, 0, parentIndex));
         if (itemIndex.isValid()) {
             VisualItem *visualItem = 0;

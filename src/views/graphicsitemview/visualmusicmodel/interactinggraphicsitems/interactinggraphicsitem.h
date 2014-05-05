@@ -63,6 +63,16 @@ public:
     }
 
     /*!
+     * \brief removeChildItem Can be reimplemented by subclasses to remove child items from
+     *        a layout.
+     * \param childItem
+     */
+    virtual void removeChildItem(InteractingGraphicsItem *childItem)
+    {
+        Q_UNUSED(childItem);
+    }
+
+    /*!
      * \brief setData Will be called if the data of the view's model has changed.
      *        If the item has an ItemInteraction assigned, its setData will be called.
      * \param value The new value
