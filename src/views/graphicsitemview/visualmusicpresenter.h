@@ -32,16 +32,12 @@ public:
     void setPageView(PageViewInterface *pageView);
     PageViewInterface *pageView() const;
 
-    void setModel(QAbstractItemModel* model);
-    QAbstractItemModel *model() const;
-
-    void setPluginManager(PluginManager pluginManager);
+    void setVisualMusicModel(VisualMusicModel *visualModel);
 
 private slots:
     void scoreRowSequenceChanged(int scoreIndex);
 
 private:
-    void createConnections();
     VisualMusicModel *visualMusicModel() const;
     PageViewInterface *m_pageView;
     VisualMusicModel *m_visualMusicModel;

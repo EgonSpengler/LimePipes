@@ -16,16 +16,6 @@ VisualMusicPresenter::VisualMusicPresenter(QObject *parent)
       m_visualMusicModel(0),
       m_itemFactory(0)
 {
-    m_itemFactory = new VisualItemFactory();
-    m_visualMusicModel = new VisualMusicModel(m_itemFactory, this);
-
-    createConnections();
-}
-
-void VisualMusicPresenter::createConnections()
-{
-    connect(m_visualMusicModel, &VisualMusicModel::scoreRowSequenceChanged,
-            this, &VisualMusicPresenter::scoreRowSequenceChanged);
 }
 
 VisualMusicPresenter::~VisualMusicPresenter()
@@ -43,24 +33,12 @@ PageViewInterface *VisualMusicPresenter::pageView() const
     return m_pageView;
 }
 
-void VisualMusicPresenter::setModel(QAbstractItemModel *model)
+void VisualMusicPresenter::setVisualMusicModel(VisualMusicModel *visualModel)
 {
-    if (m_visualMusicModel->model() != model &&
-            model != 0)
-         m_visualMusicModel->setModel(model);
+    m_visualMusicModel = visualModel;
+    connect(m_visualMusicModel, &VisualMusicModel::scoreRowSequenceChanged,
+            this, &VisualMusicPresenter::scoreRowSequenceChanged);
 }
-
-QAbstractItemModel *VisualMusicPresenter::model() const
-{
-    return m_visualMusicModel->model();
-}
-
-void VisualMusicPresenter::setPluginManager(PluginManager pluginManager)
-{
-    m_itemFactory->setPluginManager(pluginManager);
-}
-
-#include <visualmusicmodel/interactinggraphicsitems/staffgraphicsitem.h>
 
 void VisualMusicPresenter::scoreRowSequenceChanged(int scoreIndex)
 {

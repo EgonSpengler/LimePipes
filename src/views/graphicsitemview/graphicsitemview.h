@@ -16,6 +16,8 @@ class GraphicsView;
 class GraphicsScene;
 class VisualMusicPresenter;
 class PageViewItem;
+class VisualMusicModel;
+class VisualItemFactory;
 
 class GraphicsItemView : public QAbstractItemView
 {
@@ -45,6 +47,8 @@ private:
     GraphicsView *m_graphicsView;
     VisualMusicPresenter *m_musicPresenter;
     PageViewItem *m_pageView;
+    VisualMusicModel *m_visualMusicModel;
+    VisualItemFactory *m_visualItemFactory;
 };
 
 #endif // GRAPHICSITEMVIEW_H

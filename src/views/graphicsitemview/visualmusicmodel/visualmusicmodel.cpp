@@ -222,6 +222,42 @@ QString VisualMusicModel::visualItemTypeToString(const VisualItem::ItemType item
     return itemTypeName;
 }
 
+QRectF VisualMusicModel::sceneBoundingRectForIndex(const QModelIndex &index) const
+{
+    VisualItem *item = visualItemFromIndex(index);
+    if (item == 0)
+        return QRectF();
+
+    if (item->graphicalType() == VisualItem::GraphicalInlineType) {
+        InteractingGraphicsItem *graphicsItem = item->inlineGraphic();
+        if (!graphicsItem)
+            return QRect();
+
+        return graphicsItem->mapToScene(graphicsItem->boundingRect()).boundingRect();
+    }
+
+    return QRect();
+}
+
+QModelIndex VisualMusicModel::indexAt(const QPointF &point) const
+{
+    foreach (VisualItem *item, m_visualItemIndexes) {
+        if (item->graphicalType() != VisualItem::GraphicalInlineType)
+            continue;
+
+        InteractingGraphicsItem *graphicItem = item->inlineGraphic();
+        if (!graphicItem)
+            continue;
+
+        QPointF itemPoint = graphicItem->mapFromScene(point);
+        if (graphicItem->childrenBoundingRect().contains(itemPoint)) {
+            return m_visualItemIndexes.key(item);
+        }
+    }
+
+    return QModelIndex();
+}
+
 void VisualMusicModel::debugInsertion(const QModelIndex &parentIndex, int indexPos,
                                       const VisualItem *parentItem, const VisualItem *childItem)
 {

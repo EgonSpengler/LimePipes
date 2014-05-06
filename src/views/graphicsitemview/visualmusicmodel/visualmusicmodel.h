@@ -16,6 +16,8 @@
 #include "abstractvisualitemfactory.h"
 #include <common/pluginmanagerinterface.h>
 
+class QGraphicsItem;
+
 class VisualMusicModel : public QObject
 {
     Q_OBJECT
@@ -37,6 +39,10 @@ public:
     bool hasValidPluginManager() const;
 
     QString visualItemTypeToString(const VisualItem::ItemType itemType);
+
+    QRectF sceneBoundingRectForIndex(const QModelIndex &index) const;
+
+    QModelIndex indexAt(const QPointF &point) const;
 
 signals:
     void scoreRowSequenceChanged(int scoreIndex);
