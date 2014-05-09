@@ -35,12 +35,14 @@ GraphicsItemView::GraphicsItemView(QWidget *parent)
 
     m_graphicsScene = new GraphicsScene(this);
     m_graphicsView = new GraphicsView(this);
-    QFrame *viewPortWidget = new QFrame();
+    m_graphicsView->setInteractive(false);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_graphicsView);
     layout->setContentsMargins(0, 0, 0, 0);
-    viewPortWidget->setLayout(layout);
-    setViewport(viewPortWidget);
+    setLayout(layout);
+
+    QFrame *frame = new QFrame();
+    setViewport(frame);
 
     m_visualItemFactory = new VisualItemFactory();
     m_visualMusicModel = new VisualMusicModel(m_visualItemFactory, this);
@@ -51,6 +53,7 @@ GraphicsItemView::GraphicsItemView(QWidget *parent)
     m_musicPresenter->setPageView(m_pageView);
     m_graphicsScene->addItem(m_pageView);
 
+    setSelectionMode(QAbstractItemView::ContiguousSelection);
 }
 
 GraphicsItemView::~GraphicsItemView()
@@ -101,6 +104,10 @@ QRegion GraphicsItemView::visualRegionForSelection(const QItemSelection &selecti
     return QRegion();
 }
 
+void GraphicsItemView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollHint hint)
+{
+}
+
 void GraphicsItemView::setModel(QAbstractItemModel *model)
 {
     if (m_visualMusicModel->model() != model &&
@@ -115,6 +122,7 @@ void GraphicsItemView::setPluginManager(PluginManager pluginManager)
     m_visualItemFactory->setPluginManager(pluginManager);
 }
 
-void GraphicsItemView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollHint hint)
+void GraphicsItemView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
+    m_visualMusicModel->setCurrent(current);
 }

@@ -42,6 +42,9 @@ public:
 
     void setPluginManager(PluginManager pluginManager);
 
+private slots:
+    void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+
 private:
     GraphicsScene *m_graphicsScene;
     GraphicsView *m_graphicsView;

@@ -43,6 +43,7 @@ public:
     QRectF sceneBoundingRectForIndex(const QModelIndex &index) const;
 
     QModelIndex indexAt(const QPointF &point) const;
+    void setCurrent(const QModelIndex& current);
 
 signals:
     void scoreRowSequenceChanged(int scoreIndex);

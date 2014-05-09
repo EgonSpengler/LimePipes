@@ -7,6 +7,8 @@
  */
 
 #include <QAbstractItemModel>
+#include <QGraphicsScene>
+#include <QGraphicsItemGroup>
 #include <musicitem.h>
 #include <common/itemdataroles.h>
 #include "interactinggraphicsitems/interactinggraphicsitem.h"
@@ -235,8 +237,31 @@ QRectF VisualMusicModel::sceneBoundingRectForIndex(const QModelIndex &index) con
 
         return graphicsItem->mapToScene(graphicsItem->boundingRect()).boundingRect();
     }
+    if (item->graphicalType() == VisualItem::GraphicalRowType) {
+        QList<InteractingGraphicsItem*> interactingGraphicsItems(item->rowGraphics());
+        if (interactingGraphicsItems.isEmpty())
+            return QRectF();
 
-    return QRect();
+        QGraphicsScene *scene = interactingGraphicsItems.at(0)->scene();
+        if (scene == 0)
+            return QRectF();
+
+        QList<QGraphicsItem*> items;
+        foreach (InteractingGraphicsItem *interactingItem, interactingGraphicsItems) {
+            QGraphicsItem *item = static_cast<QGraphicsItem*>(interactingItem);
+            if (item) {
+                items << item;
+            }
+        }
+
+        QGraphicsItemGroup *itemGroup = scene->createItemGroup(items);
+        QRectF boundingRect = itemGroup->boundingRect();
+        scene->destroyItemGroup(itemGroup);
+
+        return boundingRect;
+    }
+
+    return QRectF();
 }
 
 QModelIndex VisualMusicModel::indexAt(const QPointF &point) const
@@ -256,6 +281,21 @@ QModelIndex VisualMusicModel::indexAt(const QPointF &point) const
     }
 
     return QModelIndex();
+}
+
+void VisualMusicModel::setCurrent(const QModelIndex &current)
+{
+    VisualItem *visualItem = m_visualItemIndexes.value(current);
+    if (!visualItem)
+        return;
+
+    if (visualItem->graphicalType() == VisualItem::GraphicalInlineType) {
+        InteractingGraphicsItem *interactingItem = visualItem->inlineGraphic();
+        if (!interactingItem)
+            return;
+
+        interactingItem->setFocus();
+    }
 }
 
 void VisualMusicModel::debugInsertion(const QModelIndex &parentIndex, int indexPos,
