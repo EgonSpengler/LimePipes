@@ -15,6 +15,7 @@
 
 class InteractingGraphicsItem;
 class ItemInteraction;
+class QGraphicsItem;
 
 class VisualItem : public QObject
 {
@@ -63,6 +64,9 @@ public:
     virtual void removeChildItem(VisualItem *childItem);
 
     void removeGraphicsItem(InteractingGraphicsItem *graphicsItem);
+
+    bool hasGraphicsItem(QGraphicsItem *item) const;
+
 signals:
     void dataChanged(const QVariant& value, int dataRole);
     void rowSequenceChanged();

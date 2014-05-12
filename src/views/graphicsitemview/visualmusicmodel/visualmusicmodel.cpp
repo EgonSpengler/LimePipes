@@ -9,6 +9,7 @@
 #include <QAbstractItemModel>
 #include <QGraphicsScene>
 #include <QGraphicsItemGroup>
+#include <QDebug>
 #include <musicitem.h>
 #include <common/itemdataroles.h>
 #include "interactinggraphicsitems/interactinggraphicsitem.h"
@@ -198,7 +199,7 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parentIndex, int 
     }
 }
 
-QString VisualMusicModel::visualItemTypeToString(const VisualItem::ItemType itemType)
+QString VisualMusicModel::visualItemTypeToString(const VisualItem::ItemType itemType) const
 {
     QString itemTypeName;
     switch (itemType) {
@@ -230,6 +231,10 @@ QRectF VisualMusicModel::sceneBoundingRectForIndex(const QModelIndex &index) con
     if (item == 0)
         return QRectF();
 
+    if (item->itemType() == VisualItem::VisualMeasureItem ||
+            item->graphicalType() == VisualItem::GraphicalRowType)
+        return QRectF();
+
     if (item->graphicalType() == VisualItem::GraphicalInlineType) {
         InteractingGraphicsItem *graphicsItem = item->inlineGraphic();
         if (!graphicsItem)
@@ -237,46 +242,40 @@ QRectF VisualMusicModel::sceneBoundingRectForIndex(const QModelIndex &index) con
 
         return graphicsItem->mapToScene(graphicsItem->boundingRect()).boundingRect();
     }
-    if (item->graphicalType() == VisualItem::GraphicalRowType) {
-        QList<InteractingGraphicsItem*> interactingGraphicsItems(item->rowGraphics());
-        if (interactingGraphicsItems.isEmpty())
-            return QRectF();
+//    if (item->graphicalType() == VisualItem::GraphicalRowType) {
+//        QList<InteractingGraphicsItem*> interactingGraphicsItems(item->rowGraphics());
+//        if (interactingGraphicsItems.isEmpty())
+//            return QRectF();
 
-        QGraphicsScene *scene = interactingGraphicsItems.at(0)->scene();
-        if (scene == 0)
-            return QRectF();
+//        QGraphicsScene *scene = interactingGraphicsItems.at(0)->scene();
+//        if (scene == 0)
+//            return QRectF();
 
-        QList<QGraphicsItem*> items;
-        foreach (InteractingGraphicsItem *interactingItem, interactingGraphicsItems) {
-            QGraphicsItem *item = static_cast<QGraphicsItem*>(interactingItem);
-            if (item) {
-                items << item;
-            }
-        }
+//        QList<QGraphicsItem*> items;
+//        foreach (InteractingGraphicsItem *interactingItem, interactingGraphicsItems) {
+//            QGraphicsItem *item = static_cast<QGraphicsItem*>(interactingItem);
+//            if (item) {
+//                items << item;
+//            }
+//        }
 
-        QGraphicsItemGroup *itemGroup = scene->createItemGroup(items);
-        QRectF boundingRect = itemGroup->boundingRect();
-        scene->destroyItemGroup(itemGroup);
+//        QGraphicsItemGroup *itemGroup = scene->createItemGroup(items);
+//        QRectF boundingRect = itemGroup->boundingRect();
+//        scene->destroyItemGroup(itemGroup);
 
-        return boundingRect;
-    }
+//        return boundingRect;
+//    }
 
     return QRectF();
 }
 
-QModelIndex VisualMusicModel::indexAt(const QPointF &point) const
+QModelIndex VisualMusicModel::indexForItem(QGraphicsItem *item) const
 {
-    foreach (VisualItem *item, m_visualItemIndexes) {
-        if (item->graphicalType() != VisualItem::GraphicalInlineType)
-            continue;
+    foreach (VisualItem *visualItem, m_visualItemIndexes) {
+        if (visualItem->hasGraphicsItem(item)) {
+            qDebug() << "Index for item : " << visualItemTypeToString(visualItem->itemType());
 
-        InteractingGraphicsItem *graphicItem = item->inlineGraphic();
-        if (!graphicItem)
-            continue;
-
-        QPointF itemPoint = graphicItem->mapFromScene(point);
-        if (graphicItem->childrenBoundingRect().contains(itemPoint)) {
-            return m_visualItemIndexes.key(item);
+            return m_visualItemIndexes.key(visualItem);
         }
     }
 

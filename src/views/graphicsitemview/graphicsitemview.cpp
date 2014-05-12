@@ -10,6 +10,9 @@
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include <QScrollBar>
+#include <QScrollArea>
+#include <QGraphicsView>
+#include <QDebug>
 #include <common/itemdataroles.h>
 #include <musicitem.h>
 #include <visualmusicmodel/visualmusicmodel.h>
@@ -70,8 +73,10 @@ QRect GraphicsItemView::visualRect(const QModelIndex &index) const
 QModelIndex GraphicsItemView::indexAt(const QPoint &point) const
 {
     QPointF scenePoint = m_graphicsView->mapToScene(point);
+    QGraphicsItem *itemAtPoint = m_graphicsScene->itemAt(scenePoint, m_graphicsView->transform());
 
-    return m_visualMusicModel->indexAt(scenePoint);
+    QModelIndex index = m_visualMusicModel->indexForItem(itemAtPoint);
+    return index;
 }
 
 QModelIndex GraphicsItemView::moveCursor(QAbstractItemView::CursorAction cursorAction,

@@ -7,6 +7,7 @@
  */
 
 #include <QGraphicsScene>
+#include <QGraphicsItem>
 #include "interactinggraphicsitems/interactinggraphicsitem.h"
 #include <common/graphictypes/iteminteraction.h>
 #include "visualitem.h"
@@ -139,6 +140,22 @@ void VisualItem::removeGraphicsItem(InteractingGraphicsItem *graphicsItem)
     }
 
     graphicsItem->deleteLater();
+}
+
+bool VisualItem::hasGraphicsItem(QGraphicsItem *item) const
+{
+    foreach (InteractingGraphicsItem *interactingItem, m_graphicsItems) {
+        QGraphicsItem *graphicsItem = static_cast<QGraphicsItem*>(interactingItem);
+        if (graphicsItem == item)
+            return true;
+
+        if (itemType() == VisualSymbolItem) {
+            if (graphicsItem->childItems().contains(item))
+                return true;
+        }
+    }
+
+    return false;
 }
 
 QList<InteractingGraphicsItem *> VisualItem::rowGraphics() const

@@ -38,11 +38,11 @@ public:
     PluginManager pluginManager() const;
     bool hasValidPluginManager() const;
 
-    QString visualItemTypeToString(const VisualItem::ItemType itemType);
+    QString visualItemTypeToString(const VisualItem::ItemType itemType) const;
 
     QRectF sceneBoundingRectForIndex(const QModelIndex &index) const;
 
-    QModelIndex indexAt(const QPointF &point) const;
+    QModelIndex indexForItem(QGraphicsItem *item) const;
     void setCurrent(const QModelIndex& current);
 
 signals:
