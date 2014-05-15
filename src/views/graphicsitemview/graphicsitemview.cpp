@@ -26,7 +26,7 @@
 #include "graphicsitemview.h"
 
 GraphicsItemView::GraphicsItemView(QWidget *parent)
-    : QAbstractItemView(parent),
+    : QWidget(parent),
       m_graphicsScene(0),
       m_graphicsView(0),
       m_musicPresenter(0),
@@ -38,14 +38,11 @@ GraphicsItemView::GraphicsItemView(QWidget *parent)
 
     m_graphicsScene = new GraphicsScene(this);
     m_graphicsView = new GraphicsView(this);
-    m_graphicsView->setInteractive(false);
+//    m_graphicsView->setInteractive(false);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_graphicsView);
     layout->setContentsMargins(0, 0, 0, 0);
     setLayout(layout);
-
-    QFrame *frame = new QFrame();
-    setViewport(frame);
 
     m_visualItemFactory = new VisualItemFactory();
     m_visualMusicModel = new VisualMusicModel(m_visualItemFactory, this);
@@ -55,8 +52,6 @@ GraphicsItemView::GraphicsItemView(QWidget *parent)
     m_graphicsView->setScene(m_graphicsScene);
     m_musicPresenter->setPageView(m_pageView);
     m_graphicsScene->addItem(m_pageView);
-
-    setSelectionMode(QAbstractItemView::ContiguousSelection);
 }
 
 GraphicsItemView::~GraphicsItemView()
@@ -64,70 +59,15 @@ GraphicsItemView::~GraphicsItemView()
     delete m_visualItemFactory;
 }
 
-QRect GraphicsItemView::visualRect(const QModelIndex &index) const
-{
-    QRectF sceneRect = m_visualMusicModel->sceneBoundingRectForIndex(index);
-    return m_graphicsView->mapFromScene(sceneRect).boundingRect();
-}
-
-QModelIndex GraphicsItemView::indexAt(const QPoint &point) const
-{
-    QPointF scenePoint = m_graphicsView->mapToScene(point);
-    QGraphicsItem *itemAtPoint = m_graphicsScene->itemAt(scenePoint, m_graphicsView->transform());
-
-    QModelIndex index = m_visualMusicModel->indexForItem(itemAtPoint);
-    return index;
-}
-
-QModelIndex GraphicsItemView::moveCursor(QAbstractItemView::CursorAction cursorAction,
-        Qt::KeyboardModifiers modifiers)
-{
-    return QModelIndex();
-}
-
-int GraphicsItemView::horizontalOffset() const
-{
-    return m_graphicsView->horizontalScrollBar()->value();
-}
-
-int GraphicsItemView::verticalOffset() const
-{
-    return m_graphicsView->verticalScrollBar()->value();
-}
-
-bool GraphicsItemView::isIndexHidden(const QModelIndex &index) const
-{
-    return false;
-}
-
-void GraphicsItemView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command)
-{
-}
-
-QRegion GraphicsItemView::visualRegionForSelection(const QItemSelection &selection) const
-{
-    return QRegion();
-}
-
-void GraphicsItemView::scrollTo(const QModelIndex &index, QAbstractItemView::ScrollHint hint)
-{
-}
-
 void GraphicsItemView::setModel(QAbstractItemModel *model)
 {
     if (m_visualMusicModel->model() != model &&
-            model != 0)
+            model != 0) {
          m_visualMusicModel->setModel(model);
-
-    QAbstractItemView::setModel(model);
+    }
 }
 
 void GraphicsItemView::setPluginManager(PluginManager pluginManager)
 {
     m_visualItemFactory->setPluginManager(pluginManager);
-}
-
-void GraphicsItemView::currentChanged(const QModelIndex &current, const QModelIndex &previous)
-{
-    m_visualMusicModel->setCurrent(current);
 }

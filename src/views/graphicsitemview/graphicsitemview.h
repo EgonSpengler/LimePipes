@@ -19,7 +19,7 @@ class PageViewItem;
 class VisualMusicModel;
 class VisualItemFactory;
 
-class GraphicsItemView : public QAbstractItemView
+class GraphicsItemView : public QWidget
 {
     friend class GraphicsItemViewTest;
 
@@ -28,22 +28,9 @@ public:
     explicit GraphicsItemView(QWidget *parent = 0);
     ~GraphicsItemView();
 
-    QRect visualRect(const QModelIndex &index) const;
-    void scrollTo(const QModelIndex &index, ScrollHint hint);
-    QModelIndex indexAt(const QPoint &point) const;
-    QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
-    int horizontalOffset() const;
-    int verticalOffset() const;
-    bool isIndexHidden(const QModelIndex &index) const;
-    void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command);
-    QRegion visualRegionForSelection(const QItemSelection &selection) const;
-
     void setModel(QAbstractItemModel *model);
 
     void setPluginManager(PluginManager pluginManager);
-
-private slots:
-    void currentChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private:
     GraphicsScene *m_graphicsScene;
