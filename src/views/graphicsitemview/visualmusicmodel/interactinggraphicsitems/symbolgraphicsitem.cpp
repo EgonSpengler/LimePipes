@@ -19,6 +19,7 @@ SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
 {
     setFocusPolicy(Qt::StrongFocus);
     setInteractionMode(InteractingGraphicsItem::Filter);
+    setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
 void SymbolGraphicsItem::setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder)
@@ -68,6 +69,7 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
             if (glyphItem) {
                 glyphItem->setParentItem(this);
                 glyphItem->setFocusProxy(this);
+                glyphItem->setFlag(QGraphicsItem::ItemIsSelectable);
                 setMaximumWidthForGlyphItem(glyphItem);
             }
         }
@@ -117,6 +119,17 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
                 }
             }
         }
+    }
+    if (change == QGraphicsItem::ItemSelectedChange) {
+        bool selected = value.toBool();
+        if (!m_graphicBuilder.isNull()) {
+            FontColor color = FontColor::Normal;
+            if (selected) {
+                color = FontColor::Selected;
+            }
+            m_graphicBuilder->glyphItem()->setColorRole(color);
+        }
+        qDebug() << "Item has selected state: " << selected;
     }
 
     return QGraphicsItem::itemChange(change, value);

@@ -38,6 +38,7 @@ GraphicsItemView::GraphicsItemView(QWidget *parent)
 
     m_graphicsScene = new GraphicsScene(this);
     m_graphicsView = new GraphicsView(this);
+    m_graphicsView->setDragMode(QGraphicsView::RubberBandDrag);
 //    m_graphicsView->setInteractive(false);
     QVBoxLayout *layout = new QVBoxLayout;
     layout->addWidget(m_graphicsView);

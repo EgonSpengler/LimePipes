@@ -116,6 +116,7 @@ void MainWindow::initMusicFont()
     smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
     smuflLoader->setFontColor(FontColor::Normal, Qt::black);
     smuflLoader->setFontColor(FontColor::Focus, QColor(0x004adc));
+    smuflLoader->setFontColor(FontColor::Selected, QColor(0x4a008c));
     m_musicFont = MusicFontPtr(smuflLoader);
 }
 
@@ -468,9 +469,16 @@ void MainWindow::on_editCreateTestScore_triggered()
     QModelIndex partIndex = musicModel->insertPartIntoTune(0, tune, 4, true);
 
     QModelIndex measureIndex = m_proxyModel->index(1, 0, partIndex);
+    QModelIndex measureIndex2 = m_proxyModel->index(2, 0, partIndex);
 
     musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
 
+    musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
     updateUi();
 }
 
