@@ -19,8 +19,6 @@ const int InitialLineHeight = 8;
 const int InitialLineWidth  = 1;
 }
 
-using namespace LP::View;
-
 StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_staffType(StaffType::None),

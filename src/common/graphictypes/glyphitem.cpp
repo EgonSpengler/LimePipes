@@ -16,12 +16,14 @@ GlyphItem::GlyphItem(QGraphicsItem *parent)
     : QGraphicsItem(parent),
       m_colorRole(FontColor::Normal)
 {
+    setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
 GlyphItem::GlyphItem(const QString &glyphName, QGraphicsItem *parent)
     : QGraphicsItem(parent),
       m_colorRole(FontColor::Normal)
 {
+    setFlag(QGraphicsItem::ItemIsSelectable);
     setGlyphName(glyphName);
 }
 
@@ -71,6 +73,21 @@ void GlyphItem::setColorRole(const FontColor &colorRole)
 FontColor GlyphItem::colorRole() const
 {
     return m_colorRole;
+}
+
+QVariant GlyphItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
+{
+    if (change == QGraphicsItem::ItemSelectedChange) {
+        bool selected = value.toBool();
+        FontColor color = FontColor::Normal;
+        if (selected) {
+            color = FontColor::Selected;
+        }
+        setColorRole(color);
+        qDebug() << "Glyph item has selected state: " << selected;
+    }
+
+    return QGraphicsItem::itemChange(change, value);
 }
 
 QString GlyphItem::glyphName() const

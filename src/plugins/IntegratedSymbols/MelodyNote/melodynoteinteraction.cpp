@@ -39,12 +39,12 @@ void MelodyNoteInteraction::contextMenuEvent(const QGraphicsItem *item, QGraphic
 
 void MelodyNoteInteraction::focusInEvent(const QGraphicsItem *item, QFocusEvent *event)
 {
-    qDebug("focus in melody note interaction");
+//    qDebug("focus in melody note interaction");
 }
 
 void MelodyNoteInteraction::focusOutEvent(const QGraphicsItem *item, QFocusEvent *event)
 {
-    qDebug("focus out melody note interaction");
+//    qDebug("focus out melody note interaction");
 }
 
 void MelodyNoteInteraction::setData(const QVariant &value, int role)

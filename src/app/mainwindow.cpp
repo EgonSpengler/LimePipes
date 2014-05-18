@@ -479,6 +479,9 @@ void MainWindow::on_editCreateTestScore_triggered()
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
+
+    m_treeView->expandAll();
+
     updateUi();
 }
 

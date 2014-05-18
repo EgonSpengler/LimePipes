@@ -31,21 +31,17 @@
 #include <tune.h>
 #include <part.h>
 #include <measure.h>
+#include <common/defines.h>
 #include <utilities/error.h>
 
 namespace {
 
 const int MaxTuneUnderScore = 3;  //!< From limepipes.xsd
 const int MaxCompression = 9;
-const QString ScoreMimeType  = "application/vnd.limepipes.xml.score.z";
-const QString TuneMimeType   = "application/vnd.limepipes.xml.tune.z";
-const QString PartMimeType   = "application/vnd.limepipes.xml.part.z";
-const QString MeasureMimeType = "application/vnd.limepipes.xml.measure.z";
-const QString SymbolMimeType = "application/vnd.limepipes.xml.symbol.z";
 
 }
 
-QHash<int, QString> MusicModel::s_itemTypeTags = initItemTypeTags();
+QHash<int, QString> MusicModel::s_itemTypeTags = MusicModel::initItemTypeTags();
 
 QHash<int, QString> MusicModel::initItemTypeTags()
 {
@@ -191,7 +187,7 @@ bool MusicModel::removeRows(int row, int count, const QModelIndex &parent)
 
 QStringList MusicModel::mimeTypes() const
 {
-    return QStringList() << ScoreMimeType << TuneMimeType << SymbolMimeType;
+    return QStringList() << LP::MimeTypes::Score << LP::MimeTypes::Tune << LP::MimeTypes::Symbol;
 }
 
 QMimeData *MusicModel::mimeData(const QModelIndexList &indexes) const
@@ -248,15 +244,15 @@ const QString MusicModel::mimeTypeForItem(const MusicItem *item) const
 {
     switch (item->type()) {
     case MusicItem::ScoreType:
-        return ScoreMimeType;
+        return LP::MimeTypes::Score;
     case MusicItem::TuneType:
-        return TuneMimeType;
+        return LP::MimeTypes::Tune;
     case MusicItem::PartType:
-        return PartMimeType;
+        return LP::MimeTypes::Part;
     case MusicItem::MeasureType:
-        return MeasureMimeType;
+        return LP::MimeTypes::Measure;
     case MusicItem::SymbolType:
-        return SymbolMimeType;
+        return LP::MimeTypes::Symbol;
     default:
         qWarning() << "Mime type for MusicItem not supported.";
         return QString();
@@ -316,11 +312,11 @@ bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, 
 
 bool MusicModel::dataHasSupportedMimeType(const QMimeData *data)
 {
-    if (data->hasFormat(ScoreMimeType) ||
-            data->hasFormat(TuneMimeType) ||
-            data->hasFormat(PartMimeType) ||
-            data->hasFormat(MeasureMimeType) ||
-            data->hasFormat(SymbolMimeType))
+    if (data->hasFormat(LP::MimeTypes::Score) ||
+            data->hasFormat(LP::MimeTypes::Tune) ||
+            data->hasFormat(LP::MimeTypes::Part) ||
+            data->hasFormat(LP::MimeTypes::Measure) ||
+            data->hasFormat(LP::MimeTypes::Symbol))
         return true;
     return false;
 }
@@ -329,23 +325,23 @@ bool MusicModel::itemSupportsDropOfMimeType(const MusicItem *item, const QString
 {
     switch(item->type()) {
     case MusicItem::RootItemType:
-        if (mimeType == ScoreMimeType)
+        if (mimeType == LP::MimeTypes::Score)
             return true;
         return false;
     case MusicItem::ScoreType:
-        if (mimeType == TuneMimeType)
+        if (mimeType == LP::MimeTypes::Tune)
             return true;
         return false;
     case MusicItem::TuneType:
-        if (mimeType == PartMimeType)
+        if (mimeType == LP::MimeTypes::Part)
             return true;
         return false;
     case MusicItem::PartType:
-        if (mimeType == MeasureMimeType)
+        if (mimeType == LP::MimeTypes::Measure)
             return true;
         return false;
     case MusicItem::MeasureType:
-        if (mimeType == SymbolMimeType)
+        if (mimeType == LP::MimeTypes::Symbol)
             return true;
         return false;
     default:

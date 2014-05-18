@@ -12,6 +12,7 @@
 #include <QChar>
 #include <QRectF>
 #include <common/graphictypes/MusicFont/musicfont.h>
+#include <common/defines.h>
 #include <QGraphicsItem>
 
 class GlyphItem : public QGraphicsItem
@@ -19,6 +20,9 @@ class GlyphItem : public QGraphicsItem
 public:
     explicit GlyphItem(QGraphicsItem *parent = 0);
     explicit GlyphItem(const QString& glyphName, QGraphicsItem *parent = 0);
+
+    enum { Type = SymbolGlyphItemType };
+    int type() const { return Type; }
 
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -35,6 +39,7 @@ public:
 protected:
     virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
     virtual void colorRoleHasChanged(const FontColor &colorRole) { Q_UNUSED(colorRole); }
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
 private:
     void initFromGlyphName(const QString& glyphName);

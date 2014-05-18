@@ -8,12 +8,13 @@
 
 #include <QPen>
 #include <QPainter>
+#include <QMimeData>
+#include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsLinearLayout>
+#include <common/defines.h>
 #include "measuregraphicsitem.h"
 
 const int InitialLineWidth  = 1;
-
-using namespace LP::View;
 
 MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
@@ -24,6 +25,7 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     m_symbolLayout->setContentsMargins(0, 0, 0, 0);
 
     setPenWidth(InitialLineWidth);
+    setAcceptDrops(true);
 }
 
 void MeasureGraphicsItem::setPenWidth(qreal width)
@@ -66,4 +68,25 @@ void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     Engravings engravings(musicFont->engravings());
     qreal width = engravings.thinBarlineThickness * staffSpace;
     setPenWidth(width);
+}
+
+void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    if (event->mimeData()->hasFormat(LP::MimeTypes::Symbol))
+        event->acceptProposedAction();
+    else
+        return;
+
+    QPointF itemPos = mapFromScene(event->scenePos());
+
+}
+
+void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+
+}
+
+void MeasureGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+{
+
 }

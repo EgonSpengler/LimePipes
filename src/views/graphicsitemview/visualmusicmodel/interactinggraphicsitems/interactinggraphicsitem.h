@@ -12,7 +12,7 @@
 #include <QList>
 #include <QGraphicsWidget>
 #include <common/graphictypes/MusicFont/musicfont.h>
-#include "graphicsitemtypes.h"
+#include <common/defines.h>
 #include <common/itemdataroles.h>
 
 class ItemInteraction;
@@ -40,7 +40,8 @@ public:
     explicit InteractingGraphicsItem(QGraphicsItem *parent = 0);
     virtual ~InteractingGraphicsItem() {}
 
-    int type() const { return LP::View::InteractingGraphicsItem; }
+    enum { Type = InteractingGraphicsItemType };
+    int type() const { return Type; }
 
     /*!
      * \brief setItemInteraction

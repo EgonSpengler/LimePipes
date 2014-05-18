@@ -22,7 +22,7 @@ class StaffGraphicsItem : public InteractingGraphicsItem
 public:
     explicit StaffGraphicsItem(QGraphicsItem *parent = 0);
 
-    enum { Type = StaffGraphicItem };
+    enum { Type = StaffGraphicsItemType };
     int type() const { return Type; }
 
     StaffType staffType() const;

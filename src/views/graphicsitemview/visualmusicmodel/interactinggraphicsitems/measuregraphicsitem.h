@@ -22,7 +22,7 @@ class MeasureGraphicsItem : public InteractingGraphicsItem
 public:
     explicit MeasureGraphicsItem(QGraphicsItem *parent = 0);
 
-    enum { Type = MeasureGraphicItem };
+    enum { Type = MeasureGraphicsItemType };
     int type() const { return Type; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -35,6 +35,9 @@ public:
     // InteractingGraphicsItem interface
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
 
 private:
     void setPenWidth(qreal width);

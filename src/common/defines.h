@@ -9,6 +9,9 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
+#include <QString>
+#include <QDebug>
+#include <QGraphicsItem>
 #include <QMetaType>
 
 enum class StaffType
@@ -28,11 +31,40 @@ enum class SymbolCategory
 Q_DECLARE_METATYPE(StaffType)
 Q_DECLARE_METATYPE(SymbolCategory)
 
-enum GraphicItemTypes {
-    StaffGraphicItem = 1,
-    MeasureGraphicItem = 2,
-    SymbolGraphicItem = 3
+enum GraphicsItemType {
+    NoGraphicsItemType = QGraphicsItem::UserType,
+    InteractingGraphicsItemType = QGraphicsItem::UserType + 1,
+    StaffGraphicsItemType = QGraphicsItem::UserType + 2,
+    MeasureGraphicsItemType = QGraphicsItem::UserType + 3,
+    SymbolGraphicsItemType = QGraphicsItem::UserType + 4,
+    SymbolGlyphItemType = QGraphicsItem::UserType + 5
 };
+
+inline QDebug operator <<(QDebug dbg, const GraphicsItemType & type)
+{
+    switch (type) {
+    case (InteractingGraphicsItemType):
+        dbg.nospace() << QStringLiteral("Interacting Item");
+        break;
+    case (StaffGraphicsItemType):
+        dbg.nospace() << QStringLiteral("Staff Item");
+        break;
+    case (MeasureGraphicsItemType):
+        dbg.nospace() << QStringLiteral("Measure Item");
+        break;
+    case (SymbolGraphicsItemType):
+        dbg.nospace() << QStringLiteral("Symbol Item");
+        break;
+    case (SymbolGlyphItemType):
+        dbg.nospace() << QStringLiteral("Symbol glyph Item");
+        break;
+    default:
+        dbg.nospace() << QStringLiteral("No Item Type");
+        break;
+    }
+
+    return dbg.space();
+}
 
 /*!
   * @namespace LP
@@ -85,6 +117,14 @@ enum FirstSymbolTypeForInstrument {
     TinWhistleSymbol            = GET_FIRST_SYMBOL_TYPE(TinWhistle),
     VocalsSymbol                = GET_FIRST_SYMBOL_TYPE(Vocals)
 };
+
+namespace MimeTypes {
+const QString Score  = "application/vnd.limepipes.xml.score.z";
+const QString Tune   = "application/vnd.limepipes.xml.tune.z";
+const QString Part   = "application/vnd.limepipes.xml.part.z";
+const QString Measure = "application/vnd.limepipes.xml.measure.z";
+const QString Symbol = "application/vnd.limepipes.xml.symbol.z";
+}
 
 }
 

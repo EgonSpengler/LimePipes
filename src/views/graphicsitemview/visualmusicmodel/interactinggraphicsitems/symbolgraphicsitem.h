@@ -26,7 +26,7 @@ public:
     explicit SymbolGraphicsItem(QGraphicsItem *parent = 0);
 
     // QGraphicsItem interface
-    enum { Type = SymbolGraphicItem };
+    enum { Type = SymbolGraphicsItemType };
     int type() const { return Type; }
 
     void setPluginManager(PluginManager pluginManger);

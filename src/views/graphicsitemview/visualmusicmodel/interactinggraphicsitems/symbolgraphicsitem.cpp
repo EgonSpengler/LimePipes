@@ -12,8 +12,6 @@
 #include <common/itemdataroles.h>
 #include "symbolgraphicsitem.h"
 
-using namespace LP::View;
-
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent)
 {
@@ -120,17 +118,17 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
             }
         }
     }
-    if (change == QGraphicsItem::ItemSelectedChange) {
-        bool selected = value.toBool();
-        if (!m_graphicBuilder.isNull()) {
-            FontColor color = FontColor::Normal;
-            if (selected) {
-                color = FontColor::Selected;
-            }
-            m_graphicBuilder->glyphItem()->setColorRole(color);
-        }
-        qDebug() << "Item has selected state: " << selected;
-    }
+//    if (change == QGraphicsItem::ItemSelectedChange) {
+//        bool selected = value.toBool();
+//        if (!m_graphicBuilder.isNull()) {
+//            FontColor color = FontColor::Normal;
+//            if (selected) {
+//                color = FontColor::Selected;
+//            }
+//            m_graphicBuilder->glyphItem()->setColorRole(color);
+//        }
+//        qDebug() << "Item has selected state: " << selected;
+//    }
 
     return QGraphicsItem::itemChange(change, value);
 }
