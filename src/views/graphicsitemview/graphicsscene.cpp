@@ -45,3 +45,8 @@ void GraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     QGraphicsScene::mouseReleaseEvent(event);
 }
+
+void GraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsScene::dragEnterEvent(event);
+}

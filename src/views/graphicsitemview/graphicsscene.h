@@ -24,6 +24,7 @@ protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
 };
 
 #endif // GRAPHICSSCENE_H

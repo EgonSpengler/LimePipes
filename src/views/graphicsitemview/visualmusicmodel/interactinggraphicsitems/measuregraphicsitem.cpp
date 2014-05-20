@@ -79,14 +79,15 @@ void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 
     QPointF itemPos = mapFromScene(event->scenePos());
 
+    qDebug() << "Drag enter in measure item";
 }
 
 void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
-
+    qDebug() << "Drag move in measure item";
 }
 
 void MeasureGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
-
+    qDebug() << "Drag leave in measure item";
 }

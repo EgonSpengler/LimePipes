@@ -105,21 +105,21 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
 
 void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
 {
-    event->acceptProposedAction();
+//    event->acceptProposedAction();
 
     QGraphicsView::dragEnterEvent(event);
 }
 
 void GraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
-    event->acceptProposedAction();
-//    QGraphicsView::dragMoveEvent(event);
+//    event->acceptProposedAction();
+    QGraphicsView::dragMoveEvent(event);
 }
 
 void GraphicsView::dragLeaveEvent(QDragLeaveEvent *event)
 {
 
-//    QGraphicsView::dragLeaveEvent(event);
+    QGraphicsView::dragLeaveEvent(event);
 }
 
 void GraphicsView::dropEvent(QDropEvent *event)
