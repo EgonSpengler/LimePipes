@@ -37,6 +37,8 @@ public:
     // InteractingGraphicsItem interface
     void setData(const QVariant &value, int key);
 
+    void setGeometry(const QRectF &rect);
+
     void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
 
 protected:

@@ -100,7 +100,7 @@ void GraphicsView::mouseMoveEvent(QMouseEvent *event)
 void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
 
-    QGraphicsView::mouseReleaseEvent(event);
+//    QGraphicsView::mouseReleaseEvent(event);
 }
 
 void GraphicsView::dragEnterEvent(QDragEnterEvent *event)

@@ -133,6 +133,16 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
     return QGraphicsItem::itemChange(change, value);
 }
 
+void SymbolGraphicsItem::setGeometry(const QRectF &rect)
+{
+    QRectF oldGeometry(geometry());
+    qDebug() << "Old geometry: " << oldGeometry;
+    qDebug() << "Old is null: " << oldGeometry.isNull();
+
+    qDebug() << "New geometry: " << rect;
+    InteractingGraphicsItem::setGeometry(rect);
+}
+
 void SymbolGraphicsItem::focusInEvent(QFocusEvent *event)
 {
     if (m_graphicBuilder.isNull())
