@@ -135,11 +135,11 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
 
 void SymbolGraphicsItem::setGeometry(const QRectF &rect)
 {
-    QRectF oldGeometry(geometry());
-    qDebug() << "Old geometry: " << oldGeometry;
-    qDebug() << "Old is null: " << oldGeometry.isNull();
+//    QRectF oldGeometry(geometry());
+//    qDebug() << "Old geometry: " << oldGeometry;
+//    qDebug() << "Old is null: " << oldGeometry.isNull();
 
-    qDebug() << "New geometry: " << rect;
+//    qDebug() << "New geometry: " << rect;
     InteractingGraphicsItem::setGeometry(rect);
 }
 

@@ -85,7 +85,7 @@ void GraphicsView::mouseMoveEvent(QMouseEvent *event)
         scene()->render(&painter, targetRect, sceneRect);
 
         QDrag *drag = new QDrag(this);
-        drag->setDragCursor(pixmap, Qt::CopyAction);
+//        drag->setDragCursor(pixmap, Qt::CopyAction);
         QMimeData *mimeData = new QMimeData;
         mimeData->setData(LP::MimeTypes::Symbol, QString("Some text").toUtf8());
         drag->setMimeData(mimeData);
@@ -124,9 +124,9 @@ void GraphicsView::dragLeaveEvent(QDragLeaveEvent *event)
 
 void GraphicsView::dropEvent(QDropEvent *event)
 {
-    event->acceptProposedAction();
+//    event->acceptProposedAction();
 
-//    QGraphicsView::dropEvent(event);
+    QGraphicsView::dropEvent(event);
 }
 
 GraphicsItemType GraphicsView::itemTypeOfGraphicsItem(const QGraphicsItem *item) const

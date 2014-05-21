@@ -39,8 +39,6 @@ public:
 
     void setGeometry(const QRectF &rect);
 
-    void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
-
 protected:
     void focusInEvent(QFocusEvent *event);
     void focusOutEvent(QFocusEvent *event);
@@ -49,6 +47,7 @@ protected:
 private:
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
     void setGlyphItemYPosForPitch(const PitchPtr &pitch);
+    void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
     SymbolGraphicBuilder *graphicBuilder() const;
 
     QSharedPointer<SymbolGraphicBuilder> m_graphicBuilder;
