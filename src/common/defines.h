@@ -37,7 +37,10 @@ enum GraphicsItemType {
     StaffGraphicsItemType = QGraphicsItem::UserType + 2,
     MeasureGraphicsItemType = QGraphicsItem::UserType + 3,
     SymbolGraphicsItemType = QGraphicsItem::UserType + 4,
-    SymbolGlyphItemType = QGraphicsItem::UserType + 5
+    SymbolGlyphItemType = QGraphicsItem::UserType + 5,
+
+    PageViewItemType = QGraphicsItem::UserType + 6,
+    PageItemType = QGraphicsItem::UserType + 7,
 };
 
 inline QDebug operator <<(QDebug dbg, const GraphicsItemType & type)
@@ -57,6 +60,12 @@ inline QDebug operator <<(QDebug dbg, const GraphicsItemType & type)
         break;
     case (SymbolGlyphItemType):
         dbg.nospace() << QStringLiteral("Symbol glyph Item");
+        break;
+    case (PageViewItemType):
+        dbg.nospace() << QStringLiteral("Page View Item");
+        break;
+    case (PageItemType):
+        dbg.nospace() << QStringLiteral("Page Item");
         break;
     default:
         dbg.nospace() << QStringLiteral("No Item Type");

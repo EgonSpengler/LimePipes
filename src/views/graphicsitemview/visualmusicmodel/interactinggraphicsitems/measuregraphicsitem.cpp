@@ -10,11 +10,8 @@
 #include <QPainter>
 #include <QMimeData>
 #include <QGraphicsSceneDragDropEvent>
-#include <QGraphicsLinearLayout>
 #include <common/defines.h>
 #include "measuregraphicsitem.h"
-
-#include <QCoreApplication>
 
 const int InitialLineWidth  = 1;
 
@@ -44,6 +41,23 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
     childItem->setParentItem(this);
     childItem->setVisible(false);
 
+    layoutSymbolItems();
+}
+
+void MeasureGraphicsItem::setData(const QVariant &value, int key)
+{
+    InteractingGraphicsItem::setData(value, key);
+}
+
+void MeasureGraphicsItem::setGeometry(const QRectF &rect)
+{
+    InteractingGraphicsItem::setGeometry(rect);
+    qDebug() << "SetGeometry in measure graphics item: " << rect;
+    layoutSymbolItems();
+}
+
+void MeasureGraphicsItem::layoutSymbolItems()
+{
     qreal currentWidth = 0;
     for (int i = 0; i < m_symbolItems.count(); ++i) {
         InteractingGraphicsItem *currentItem = m_symbolItems.at(i);
@@ -57,19 +71,13 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
     }
 }
 
-void MeasureGraphicsItem::setData(const QVariant &value, int key)
-{
-    InteractingGraphicsItem::setData(value, key);
-}
-
 void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setPen(m_linePen);
     QRectF rect(geometry());
 
-    qreal rightEdge = rect.right();
+    qreal rightEdge = rect.width();
 
-    painter->drawLine(0, 0, 0, rect.height());
     painter->drawLine(rightEdge, 0, rightEdge, rect.height());
 }
 
@@ -92,7 +100,6 @@ void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 
     QPointF itemPos = mapFromScene(event->scenePos());
 
-    m_dragGapItem = new QGraphicsWidget(this);
     for (int i = 0; i < m_symbolItems.count(); ++i) {
         m_dragMoveRects.append(m_symbolItems.at(i)->geometry());
     }
@@ -105,6 +112,7 @@ void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
         InteractingGraphicsItem::dragMoveEvent(event);
         return;
     }
+    event->acceptProposedAction();
 
     qreal eventXPos = mapFromScene(event->scenePos()).x();
     qreal shiftWidth = 0;
@@ -121,7 +129,6 @@ void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
         item->setGeometry(itemGeometry);
     }
 
-    event->acceptProposedAction();
     qDebug() << "Drag move in measure item";
 }
 

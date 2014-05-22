@@ -36,15 +36,15 @@ void SymbolInteraction::setAdditionalInteraction(ItemInteraction *interaction)
 
 void SymbolInteraction::mousePressEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
-//    if (m_musicFont.isNull())
-//        return;
+    if (m_musicFont.isNull())
+        return;
 
-//    m_currentYDragStart = event->pos().y();
-//    setPitchDragAreas();
+    m_currentYDragStart = event->pos().y();
+    setPitchDragAreas();
 
-//    if (m_interaction) {
-//        m_interaction->mousePressEvent(item, event);
-//    }
+    if (m_interaction) {
+        m_interaction->mousePressEvent(item, event);
+    }
 }
 
 void SymbolInteraction::setPitchDragAreas()
@@ -85,34 +85,34 @@ int SymbolInteraction::pitchPosForStaffYPos(qreal yPos)
 
 void SymbolInteraction::mouseMoveEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
-//    QPointF staffEventPos = staffPointForSymbolPoint(item, event->pos());
-//    int highestStaffPos = m_pitchContext->highestStaffPos();
-//    int lowestStaffPos = m_pitchContext->lowestStaffPos();
-//    qreal upperBound = m_pitchDragAreas.value(highestStaffPos).first;
-//    qreal lowerBound = m_pitchDragAreas.value(lowestStaffPos).second;
-//    int pitchStaffPos = 0;
-//    if (staffEventPos.y() < upperBound) {
-//        pitchStaffPos = highestStaffPos;
-//    } else if (staffEventPos.y() > lowerBound) {
-//        pitchStaffPos = lowestStaffPos;
-//    } else {
-//        pitchStaffPos = pitchPosForStaffYPos(staffEventPos.y());
-//    }
+    QPointF staffEventPos = staffPointForSymbolPoint(item, event->pos());
+    int highestStaffPos = m_pitchContext->highestStaffPos();
+    int lowestStaffPos = m_pitchContext->lowestStaffPos();
+    qreal upperBound = m_pitchDragAreas.value(highestStaffPos).first;
+    qreal lowerBound = m_pitchDragAreas.value(lowestStaffPos).second;
+    int pitchStaffPos = 0;
+    if (staffEventPos.y() < upperBound) {
+        pitchStaffPos = highestStaffPos;
+    } else if (staffEventPos.y() > lowerBound) {
+        pitchStaffPos = lowestStaffPos;
+    } else {
+        pitchStaffPos = pitchPosForStaffYPos(staffEventPos.y());
+    }
 
-//    PitchPtr pitch = m_pitchContext->pitchForStaffPos(pitchStaffPos);
-//    emit dataChanged(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
+    PitchPtr pitch = m_pitchContext->pitchForStaffPos(pitchStaffPos);
+    emit dataChanged(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
 
-//    if (m_interaction) {
-//        m_interaction->mouseMoveEvent(item, event);
-//    }
+    if (m_interaction) {
+        m_interaction->mouseMoveEvent(item, event);
+    }
 }
 
 void SymbolInteraction::mouseReleaseEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)
 {
-//    qDebug("mouse release");
-//    if (m_interaction) {
-//        m_interaction->mouseReleaseEvent(item, event);
-//    }
+    qDebug("mouse release");
+    if (m_interaction) {
+        m_interaction->mouseReleaseEvent(item, event);
+    }
 }
 
 void SymbolInteraction::mouseDoubleClickEvent(const QGraphicsItem *item, QGraphicsSceneMouseEvent *event)

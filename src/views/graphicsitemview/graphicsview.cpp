@@ -42,6 +42,8 @@ void GraphicsView::mousePressEvent(QMouseEvent *event)
 
     if (QGraphicsItem *item = itemAt(event->pos())) {
         GraphicsItemType itemType = itemTypeOfGraphicsItem(item);
+        qDebug() << "Clicked item type: " << itemType <<
+                    QString("(int: %1)").arg(item->type());
         if (itemType == SymbolGraphicsItemType ||
                 itemType == SymbolGlyphItemType) {
             if (scene()->selectedItems().contains(item)) {
@@ -94,13 +96,13 @@ void GraphicsView::mouseMoveEvent(QMouseEvent *event)
         m_symbolDragStart = QPoint();
     }
 
-//    QGraphicsView::mouseMoveEvent(event);
+    QGraphicsView::mouseMoveEvent(event);
 }
 
 void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
 
-//    QGraphicsView::mouseReleaseEvent(event);
+    QGraphicsView::mouseReleaseEvent(event);
 }
 
 void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
@@ -131,7 +133,8 @@ void GraphicsView::dropEvent(QDropEvent *event)
 
 GraphicsItemType GraphicsView::itemTypeOfGraphicsItem(const QGraphicsItem *item) const
 {
-    if (m_itemTypes.contains(item->type())) {
+    int type = item->type();
+    if (m_itemTypes.contains(type)) {
         return static_cast<GraphicsItemType>(item->type());
     }
 

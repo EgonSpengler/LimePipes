@@ -12,7 +12,7 @@
 #include <QGraphicsWidget>
 #include <QList>
 #include "../pageviewinterface.h"
-#include "../itemtypes.h"
+#include <common/defines.h>
 
 class PageItem;
 class QGraphicsLinearLayout;

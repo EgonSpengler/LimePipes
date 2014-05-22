@@ -81,10 +81,8 @@ void StaffGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
 
     if (m_staffType == StaffType::Standard) {
         qreal width = geometry().width();
-        qreal height = geometry().height();
         painter->setPen(m_pen);
-        painter->drawRect(0, 0, width, height);
-        for (int i = 1; i < 4; ++i) {
+        for (int i = 0; i < 5; ++i) {
             painter->drawLine(0, i*m_staffLineHeight, width, i*m_staffLineHeight);
         }
     }

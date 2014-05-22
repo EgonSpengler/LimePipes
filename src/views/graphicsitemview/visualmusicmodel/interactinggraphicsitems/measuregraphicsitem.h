@@ -14,8 +14,6 @@
 #include <common/defines.h>
 #include "interactinggraphicsitem.h"
 
-class QGraphicsLinearLayout;
-
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
     friend class MeasureGraphicsItemTest;
@@ -32,9 +30,8 @@ public:
 public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
     void setData(const QVariant &value, int key);
+    void setGeometry(const QRectF& rect);
 
-    // InteractingGraphicsItem interface
-    void clearEndOfDrag();
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -43,13 +40,13 @@ protected:
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 private:
+    void clearEndOfDrag();
+    void layoutSymbolItems();
     void setPenWidth(qreal width);
     qreal penWidth() const;
     QList<InteractingGraphicsItem*> m_symbolItems;
-//    QGraphicsLinearLayout *m_symbolLayout;
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
-    QGraphicsWidget *m_dragGapItem;
 };
 
 #endif // MEASUREGRAPHICSITEM_H

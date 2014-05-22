@@ -10,7 +10,7 @@
 #define PAGEITEM_H
 
 #include <QGraphicsWidget>
-#include "../itemtypes.h"
+#include <common/defines.h>
 
 class QPrinter;
 class QGraphicsLinearLayout;
