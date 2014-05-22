@@ -19,13 +19,8 @@
 const int InitialLineWidth  = 1;
 
 MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
-    : InteractingGraphicsItem(parent),
-      m_symbolLayout(0)
+    : InteractingGraphicsItem(parent)
 {
-    m_symbolLayout = new QGraphicsLinearLayout(Qt::Horizontal, this);
-    m_symbolLayout->setSpacing(0);
-    m_symbolLayout->setContentsMargins(0, 0, 0, 0);
-
     setPenWidth(InitialLineWidth);
     setAcceptDrops(true);
 }
@@ -88,64 +83,72 @@ void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 
 void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
-    if (event->mimeData()->hasFormat(LP::MimeTypes::Symbol))
-        event->accept();
-    else
+    if (event->mimeData()->hasFormat(LP::MimeTypes::Symbol)) {
+        event->acceptProposedAction();
+    } else {
+        InteractingGraphicsItem::dragEnterEvent(event);
         return;
+    }
 
     QPointF itemPos = mapFromScene(event->scenePos());
 
     m_dragGapItem = new QGraphicsWidget(this);
-    for (int i = 0; i < m_symbolLayout->count(); ++i) {
-        m_dragMoveRects.append(m_symbolLayout->itemAt(i)->geometry());
+    for (int i = 0; i < m_symbolItems.count(); ++i) {
+        m_dragMoveRects.append(m_symbolItems.at(i)->geometry());
     }
     qDebug() << "Drag enter in measure item at: " << itemPos;
 }
 
 void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 {
-    if (m_dragMoveRects.count() != m_symbolLayout->count())
+    if (m_dragMoveRects.count() != m_symbolItems.count()) {
+        InteractingGraphicsItem::dragMoveEvent(event);
         return;
+    }
 
     qreal eventXPos = mapFromScene(event->scenePos()).x();
     qreal shiftWidth = 0;
     for (int i = 0; i < m_dragMoveRects.count(); ++i) {
         QRectF itemGeometry(m_dragMoveRects.at(i));
-//        QGraphicsLayoutItem *item = m_symbolLayout->itemAt(i);
-//        QRectF geometry(item->geometry());
+        QGraphicsLayoutItem *item = m_symbolItems.at(i);
         if (itemGeometry.x() <= eventXPos &&
                 itemGeometry.x() + itemGeometry.width() > eventXPos) {
             qDebug() << "Shift item is " << i + 1;
             shiftWidth = itemGeometry.width();
-            m_dragGapItem->setMaximumWidth(shiftWidth);
-            m_dragGapItem->setMinimumWidth(shiftWidth);
-
-            m_symbolLayout->removeItem(m_dragGapItem);
-            m_symbolLayout->insertItem(i, m_dragGapItem);
-
-            QCoreApplication::processEvents(QEventLoop::AllEvents, 300);
         }
+
+        itemGeometry.moveLeft(itemGeometry.x() + shiftWidth);
+        item->setGeometry(itemGeometry);
     }
 
-    event->accept();
+    event->acceptProposedAction();
     qDebug() << "Drag move in measure item";
 }
 
 void MeasureGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
+    event->acceptProposedAction();
     clearEndOfDrag();
     qDebug() << "Drag leave in measure item";
 }
 
 void MeasureGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
+    event->acceptProposedAction();
     clearEndOfDrag();
     qDebug() << "Drop in measure item";
 }
 
 void MeasureGraphicsItem::clearEndOfDrag()
 {
-    m_symbolLayout->removeItem(m_dragGapItem);
-    m_dragGapItem->deleteLater();
+    if (m_dragMoveRects.count() != m_symbolItems.count()) {
+        return;
+    }
+
+    for (int i = 0; i < m_symbolItems.count(); ++i) {
+        InteractingGraphicsItem *item = m_symbolItems.at(i);
+        item->setGeometry(m_dragMoveRects.at(i));
+    }
+
     m_dragMoveRects.clear();
 }

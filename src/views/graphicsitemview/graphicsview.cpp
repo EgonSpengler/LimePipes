@@ -74,15 +74,15 @@ void GraphicsView::mouseMoveEvent(QMouseEvent *event)
         QList<QGraphicsItem*> symbolGraphicsItems = selectedSymbolGraphicsItems();
         qDebug() << QString("Dragging %1 symbol items").arg(symbolGraphicsItems.count());
 
-        QGraphicsItemGroup *itemGroup = scene()->createItemGroup(symbolGraphicsItems);
-        QRectF sceneRect = itemGroup->sceneBoundingRect();
-        scene()->destroyItemGroup(itemGroup);
+//        QGraphicsItemGroup *itemGroup = scene()->createItemGroup(symbolGraphicsItems);
+//        QRectF sceneRect = itemGroup->sceneBoundingRect();
+//        scene()->destroyItemGroup(itemGroup);
 
-        QRectF targetRect;
-        targetRect.setSize(sceneRect.size());
-        QPixmap pixmap(targetRect.width(), targetRect.height());
-        QPainter painter(&pixmap);
-        scene()->render(&painter, targetRect, sceneRect);
+//        QRectF targetRect;
+//        targetRect.setSize(sceneRect.size());
+//        QPixmap pixmap(targetRect.width(), targetRect.height());
+//        QPainter painter(&pixmap);
+//        scene()->render(&painter, targetRect, sceneRect);
 
         QDrag *drag = new QDrag(this);
 //        drag->setDragCursor(pixmap, Qt::CopyAction);

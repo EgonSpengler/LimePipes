@@ -46,7 +46,7 @@ private:
     void setPenWidth(qreal width);
     qreal penWidth() const;
     QList<InteractingGraphicsItem*> m_symbolItems;
-    QGraphicsLinearLayout *m_symbolLayout;
+//    QGraphicsLinearLayout *m_symbolLayout;
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
     QGraphicsWidget *m_dragGapItem;
