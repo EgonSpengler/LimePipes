@@ -17,6 +17,7 @@
 #include "interactinggraphicsitem.h"
 
 class GlyphItem;
+class QPropertyAnimation;
 
 class SymbolGraphicsItem : public InteractingGraphicsItem
 {
@@ -39,6 +40,11 @@ public:
 
     void setGeometry(const QRectF &rect);
 
+    void fadeIn();
+    void fadeOut();
+
+    void setGeometryAnimated(const QRectF& rect);
+
 protected:
     void focusInEvent(QFocusEvent *event);
     void focusOutEvent(QFocusEvent *event);
@@ -49,9 +55,13 @@ private:
     void setGlyphItemYPosForPitch(const PitchPtr &pitch);
     void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
     SymbolGraphicBuilder *graphicBuilder() const;
+    void fadeSymbolItem(bool in);
 
     QSharedPointer<SymbolGraphicBuilder> m_graphicBuilder;
     PluginManager m_pluginManager;
+    QPropertyAnimation *m_fadeAnimation;
+    QPropertyAnimation *m_geometryAnimation;
+    QRectF m_geometryAfterAnimation;
 };
 
 #endif // SYMBOLGRAPHICSITEM_H

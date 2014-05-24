@@ -11,6 +11,7 @@
 #include <QMimeData>
 #include <QGraphicsSceneDragDropEvent>
 #include <common/defines.h>
+#include "symbolgraphicsitem.h"
 #include "measuregraphicsitem.h"
 
 const int InitialLineWidth  = 1;
@@ -35,9 +36,20 @@ qreal MeasureGraphicsItem::penWidth() const
     return m_linePen.widthF();
 }
 
+void MeasureGraphicsItem::setSymbolGeometry(SymbolGraphicsItem *symbolItem, const QRectF &rect)
+{
+    symbolItem->setGeometryAnimated(rect);
+}
+
 void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
 {
-    m_symbolItems.insert(index, childItem);
+    SymbolGraphicsItem *symbolItem = qgraphicsitem_cast<SymbolGraphicsItem*>(childItem);
+    if (!symbolItem) {
+        qWarning() << "Non symbol can't be inserted into measure";
+        return;
+    }
+
+    m_symbolItems.insert(index, symbolItem);
     childItem->setParentItem(this);
     childItem->setVisible(false);
 
@@ -52,23 +64,41 @@ void MeasureGraphicsItem::setData(const QVariant &value, int key)
 void MeasureGraphicsItem::setGeometry(const QRectF &rect)
 {
     InteractingGraphicsItem::setGeometry(rect);
-    qDebug() << "SetGeometry in measure graphics item: " << rect;
+//    qDebug() << "SetGeometry in measure graphics item: " << rect;
     layoutSymbolItems();
 }
 
 void MeasureGraphicsItem::layoutSymbolItems()
 {
+    QList<QRectF> geometries(symbolGeometries());
+    if (!geometries.count() == m_symbolItems.count())
+        return;
+
+    for (int i = 0; i < geometries.count(); ++i) {
+        SymbolGraphicsItem *currentItem = m_symbolItems.at(i);
+
+        setSymbolGeometry(currentItem, geometries.at(i));
+
+        if (!currentItem->isVisible()) {
+            currentItem->fadeIn();
+        }
+    }
+}
+
+QList<QRectF> MeasureGraphicsItem::symbolGeometries() const
+{
+    QList<QRectF> geometries;
+    QRectF itemGeometry;
     qreal currentWidth = 0;
     for (int i = 0; i < m_symbolItems.count(); ++i) {
-        InteractingGraphicsItem *currentItem = m_symbolItems.at(i);
+        SymbolGraphicsItem *currentItem = m_symbolItems.at(i);
         qreal currentItemWidth = currentItem->preferredWidth();
-        currentItem->setGeometry(currentWidth, 0, currentItemWidth,
-                                 geometry().height());
-        if (!currentItem->isVisible()) {
-            currentItem->setVisible(true);
-        }
+        itemGeometry = QRectF(currentWidth, 0, currentItemWidth,
+                              geometry().height());
+        geometries << itemGeometry;
         currentWidth += currentItemWidth;
     }
+    return geometries;
 }
 
 void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -100,9 +130,7 @@ void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 
     QPointF itemPos = mapFromScene(event->scenePos());
 
-    for (int i = 0; i < m_symbolItems.count(); ++i) {
-        m_dragMoveRects.append(m_symbolItems.at(i)->geometry());
-    }
+    m_dragMoveRects = symbolGeometries();
     qDebug() << "Drag enter in measure item at: " << itemPos;
 }
 
@@ -118,7 +146,7 @@ void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     qreal shiftWidth = 0;
     for (int i = 0; i < m_dragMoveRects.count(); ++i) {
         QRectF itemGeometry(m_dragMoveRects.at(i));
-        QGraphicsLayoutItem *item = m_symbolItems.at(i);
+        SymbolGraphicsItem *item = m_symbolItems.at(i);
         if (itemGeometry.x() <= eventXPos &&
                 itemGeometry.x() + itemGeometry.width() > eventXPos) {
             qDebug() << "Shift item is " << i + 1;
@@ -126,7 +154,7 @@ void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
         }
 
         itemGeometry.moveLeft(itemGeometry.x() + shiftWidth);
-        item->setGeometry(itemGeometry);
+        setSymbolGeometry(item, itemGeometry);
     }
 
     qDebug() << "Drag move in measure item";
@@ -153,8 +181,8 @@ void MeasureGraphicsItem::clearEndOfDrag()
     }
 
     for (int i = 0; i < m_symbolItems.count(); ++i) {
-        InteractingGraphicsItem *item = m_symbolItems.at(i);
-        item->setGeometry(m_dragMoveRects.at(i));
+        SymbolGraphicsItem *item = m_symbolItems.at(i);
+        setSymbolGeometry(item, m_dragMoveRects.at(i));
     }
 
     m_dragMoveRects.clear();

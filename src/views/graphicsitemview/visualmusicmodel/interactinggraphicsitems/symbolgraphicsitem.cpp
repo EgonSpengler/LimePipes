@@ -8,6 +8,7 @@
 
 #include <QPainter>
 #include <QDebug>
+#include <QPropertyAnimation>
 #include <common/graphictypes/glyphitem.h>
 #include <common/itemdataroles.h>
 #include "symbolgraphicsitem.h"
@@ -18,6 +19,12 @@ SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
     setFocusPolicy(Qt::StrongFocus);
     setInteractionMode(InteractingGraphicsItem::Filter);
     setFlag(QGraphicsItem::ItemIsSelectable);
+
+    m_fadeAnimation = new QPropertyAnimation(this, "opacity", this);
+    m_fadeAnimation->setDuration(180);
+
+    m_geometryAnimation = new QPropertyAnimation(this, "geometry", this);
+    m_geometryAnimation->setDuration(100);
 }
 
 void SymbolGraphicsItem::setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder)
@@ -118,6 +125,12 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
             }
         }
     }
+    if (change == QGraphicsItem::ItemVisibleChange) {
+        qDebug() << "Symbol visible change: " << value.toBool();
+    }
+    if (change == QGraphicsItem::ItemVisibleHasChanged) {
+        qDebug() << "Symbol visible has change: " << value.toBool();
+    }
 //    if (change == QGraphicsItem::ItemSelectedChange) {
 //        bool selected = value.toBool();
 //        if (!m_graphicBuilder.isNull()) {
@@ -133,13 +146,62 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
     return QGraphicsItem::itemChange(change, value);
 }
 
+void SymbolGraphicsItem::fadeIn()
+{
+    if (!isVisible()) {
+        setVisible(true);
+    }
+    fadeSymbolItem(true);
+}
+
+void SymbolGraphicsItem::fadeOut()
+{
+    if (isVisible()) {
+        setVisible(false);
+    }
+    fadeSymbolItem(false);
+}
+
+void SymbolGraphicsItem::fadeSymbolItem(bool in)
+{
+    int start = 0;
+    int end = 1;
+    if (!in) {
+        int tmp;
+        tmp = start;
+        start = end;
+        end = tmp;
+    }
+
+    m_fadeAnimation->setStartValue(start);
+    m_fadeAnimation->setEndValue(end);
+    m_fadeAnimation->start();
+}
+
+void SymbolGraphicsItem::setGeometryAnimated(const QRectF &rect)
+{
+    if (m_geometryAnimation->state() == QPropertyAnimation::Running) {
+        QRectF endGeometry = m_geometryAnimation->endValue().toRectF();
+        if (endGeometry != rect) {
+            m_geometryAnimation->stop();
+            m_geometryAnimation->setStartValue(geometry());
+            m_geometryAnimation->setEndValue(rect);
+            m_geometryAnimation->start();
+        }
+    } else {
+        m_geometryAnimation->setStartValue(geometry());
+        m_geometryAnimation->setEndValue(rect);
+        m_geometryAnimation->start();
+    }
+}
+
 void SymbolGraphicsItem::setGeometry(const QRectF &rect)
 {
 //    QRectF oldGeometry(geometry());
 //    qDebug() << "Old geometry: " << oldGeometry;
 //    qDebug() << "Old is null: " << oldGeometry.isNull();
 
-//    qDebug() << "New geometry: " << rect;
+    qDebug() << "New symbol graphics item geometry: " << rect;
     InteractingGraphicsItem::setGeometry(rect);
 }
 

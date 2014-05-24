@@ -14,6 +14,8 @@
 #include <common/defines.h>
 #include "interactinggraphicsitem.h"
 
+class SymbolGraphicsItem;
+
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
     friend class MeasureGraphicsItemTest;
@@ -32,6 +34,7 @@ public:
     void setData(const QVariant &value, int key);
     void setGeometry(const QRectF& rect);
 
+    void setSymbolGeometry(SymbolGraphicsItem *item, int i);
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -42,9 +45,11 @@ protected:
 private:
     void clearEndOfDrag();
     void layoutSymbolItems();
+    QList<QRectF> symbolGeometries() const;
     void setPenWidth(qreal width);
     qreal penWidth() const;
-    QList<InteractingGraphicsItem*> m_symbolItems;
+    void setSymbolGeometry(SymbolGraphicsItem *symbolItem, const QRectF& rect);
+    QList<SymbolGraphicsItem*> m_symbolItems;
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
 };
