@@ -34,7 +34,6 @@ public:
     void setData(const QVariant &value, int key);
     void setGeometry(const QRectF& rect);
 
-    void setSymbolGeometry(SymbolGraphicsItem *item, int i);
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
@@ -43,12 +42,13 @@ protected:
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 private:
-    void clearEndOfDrag();
     void layoutSymbolItems();
+    void clearEndOfDrag();
     QList<QRectF> symbolGeometries() const;
     void setPenWidth(qreal width);
     qreal penWidth() const;
     void setSymbolGeometry(SymbolGraphicsItem *symbolItem, const QRectF& rect);
+    void setSymbolGeometry(SymbolGraphicsItem *item, int i);
     QList<SymbolGraphicsItem*> m_symbolItems;
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
