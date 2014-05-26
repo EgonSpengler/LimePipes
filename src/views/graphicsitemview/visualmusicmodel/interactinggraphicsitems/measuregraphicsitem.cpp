@@ -10,6 +10,7 @@
 #include <QPainter>
 #include <QMimeData>
 #include <QGraphicsSceneDragDropEvent>
+#include <QGraphicsLinearLayout>
 #include <common/defines.h>
 #include "symbolgraphicsitem.h"
 #include "measuregraphicsitem.h"
@@ -21,6 +22,8 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
 {
     setPenWidth(InitialLineWidth);
     setAcceptDrops(true);
+
+    m_layout = new QGraphicsLinearLayout(Qt::Horizontal, this);
 }
 
 void MeasureGraphicsItem::setPenWidth(qreal width)
@@ -49,11 +52,12 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
         return;
     }
 
+    m_layout->insertItem(index, childItem);
     m_symbolItems.insert(index, symbolItem);
     childItem->setParentItem(this);
     childItem->setVisible(false);
 
-    layoutSymbolItems();
+//    layoutSymbolItems();
 }
 
 void MeasureGraphicsItem::setData(const QVariant &value, int key)
@@ -65,7 +69,7 @@ void MeasureGraphicsItem::setGeometry(const QRectF &rect)
 {
     InteractingGraphicsItem::setGeometry(rect);
 //    qDebug() << "SetGeometry in measure graphics item: " << rect;
-    layoutSymbolItems();
+//    layoutSymbolItems();
 }
 
 void MeasureGraphicsItem::layoutSymbolItems()

@@ -15,6 +15,7 @@
 #include "interactinggraphicsitem.h"
 
 class SymbolGraphicsItem;
+class QGraphicsLinearLayout;
 
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
@@ -52,6 +53,7 @@ private:
     QList<SymbolGraphicsItem*> m_symbolItems;
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
+    QGraphicsLinearLayout *m_layout;
 };
 
 #endif // MEASUREGRAPHICSITEM_H
