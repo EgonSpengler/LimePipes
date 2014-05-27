@@ -11,12 +11,14 @@
 #include <QWidget>
 #include <QGraphicsSceneMouseEvent>
 #include <QApplication>
+#include <QAbstractItemModel>
 #include "graphicsscene.h"
+#include "visualmusicmodel/visualmusicmodel.h"
 #include "visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h"
-#include "pageviewitem/pageviewitem.h"
 
 GraphicsScene::GraphicsScene(QObject *parent)
-    : QGraphicsScene(parent)
+    : QGraphicsScene(parent),
+      m_visualMusicModel(0)
 {
     setBackgroundBrush(QBrush(QColor(0xD0, 0xD0, 0xD0)));
 
@@ -51,12 +53,15 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    if (m_symbolDragStart.isNull()) {
+    if (m_symbolDragStart.isNull() ||
+            !(event->buttons() & Qt::LeftButton)) {
         QGraphicsScene::mouseMoveEvent(event);
         return;
     }
 
-    if (!(event->buttons() & Qt::LeftButton)) {
+    if (!m_visualMusicModel) {
+        qDebug() << "No VisualMusicModel set in GraphicsScene. Can't start drag.";
+        QGraphicsScene::mouseMoveEvent(event);
         return;
     }
 
@@ -64,6 +69,15 @@ void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     if ( dragDistance.length() > QApplication::startDragDistance()) {
         QList<QGraphicsItem*> symbolGraphicsItems = selectedSymbolGraphicsItems();
         qDebug() << QString("Dragging %1 symbol items").arg(symbolGraphicsItems.count());
+
+        QModelIndexList symbolIndexes;
+        foreach (QGraphicsItem *symbolItem, symbolGraphicsItems) {
+            QModelIndex symbolIndex = m_visualMusicModel->indexForItem(symbolItem);
+            if (symbolIndex.isValid()) {
+                symbolIndexes.append(symbolIndex);
+            }
+        }
+        qDebug() << "Selected symbol indexes: " << symbolIndexes;
 
         //        QGraphicsItemGroup *itemGroup = scene()->createItemGroup(symbolGraphicsItems);
         //        QRectF sceneRect = itemGroup->sceneBoundingRect();
@@ -78,8 +92,16 @@ void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         QDrag *drag = new QDrag(this);
         //        drag->setDragCursor(pixmap, Qt::CopyAction);
         QMimeData *mimeData = new QMimeData;
-        mimeData->setData(LP::MimeTypes::Symbol, QString("Some text").toUtf8());
-        drag->setMimeData(mimeData);
+        if (symbolIndexes.count()) {
+            const QAbstractItemModel *model = symbolIndexes.at(0).model();
+            if (model) {
+                qDebug() << "Setting drag mime data from model";
+                drag->setMimeData(model->mimeData(symbolIndexes));
+            }
+        } else {
+            mimeData->setData(LP::MimeTypes::Symbol, QString("Some text").toUtf8());
+            drag->setMimeData(mimeData);
+        }
 
         drag->exec(Qt::CopyAction);
         m_symbolDragStart = QPoint();
@@ -145,3 +167,14 @@ QGraphicsItem *GraphicsScene::symbolGraphicsItemForGlyphItem(QGraphicsItem *glyp
         tempItem = tempItem->parentItem();
     }
 }
+
+VisualMusicModel *GraphicsScene::visualMusicModel() const
+{
+    return m_visualMusicModel;
+}
+
+void GraphicsScene::setVisualMusicModel(VisualMusicModel *visualMusicModel)
+{
+    m_visualMusicModel = visualMusicModel;
+}
+

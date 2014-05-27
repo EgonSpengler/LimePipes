@@ -13,14 +13,17 @@
 #include <QGraphicsScene>
 #include <common/defines.h>
 
-class PageViewItem;
 class QGraphicsSceneMouseEvent;
+class VisualMusicModel;
 
 class GraphicsScene : public QGraphicsScene
 {
     Q_OBJECT
 public:
     explicit GraphicsScene(QObject *parent = 0);
+
+    VisualMusicModel *visualMusicModel() const;
+    void setVisualMusicModel(VisualMusicModel *visualMusicModel);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -34,6 +37,7 @@ private:
     QGraphicsItem *symbolGraphicsItemForGlyphItem(QGraphicsItem *glyphItem);
     QList<int> m_itemTypes;
     QPointF m_symbolDragStart;
+    VisualMusicModel *m_visualMusicModel;
 };
 
 #endif // GRAPHICSSCENE_H

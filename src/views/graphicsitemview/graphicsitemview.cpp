@@ -49,6 +49,7 @@ GraphicsItemView::GraphicsItemView(QWidget *parent)
     m_visualMusicModel = new VisualMusicModel(m_visualItemFactory, this);
     m_musicPresenter = new VisualMusicPresenter(this);
     m_musicPresenter->setVisualMusicModel(m_visualMusicModel);
+    m_graphicsScene->setVisualMusicModel(m_visualMusicModel);
 
     m_graphicsView->setScene(m_graphicsScene);
     m_musicPresenter->setPageView(m_pageView);
