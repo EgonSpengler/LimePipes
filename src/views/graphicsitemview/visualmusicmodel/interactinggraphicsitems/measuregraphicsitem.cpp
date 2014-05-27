@@ -24,6 +24,8 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     setAcceptDrops(true);
 
     m_layout = new QGraphicsLinearLayout(Qt::Horizontal, this);
+    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setSpacing(0);
 }
 
 void MeasureGraphicsItem::setPenWidth(qreal width)
@@ -54,10 +56,6 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
 
     m_layout->insertItem(index, childItem);
     m_symbolItems.insert(index, symbolItem);
-    childItem->setParentItem(this);
-    childItem->setVisible(false);
-
-//    layoutSymbolItems();
 }
 
 void MeasureGraphicsItem::setData(const QVariant &value, int key)
@@ -69,7 +67,6 @@ void MeasureGraphicsItem::setGeometry(const QRectF &rect)
 {
     InteractingGraphicsItem::setGeometry(rect);
 //    qDebug() << "SetGeometry in measure graphics item: " << rect;
-//    layoutSymbolItems();
 }
 
 void MeasureGraphicsItem::layoutSymbolItems()
