@@ -35,99 +35,36 @@ GraphicsView::GraphicsView(QWidget *parent) :
 
 void GraphicsView::mousePressEvent(QMouseEvent *event)
 {
-    if (!scene()) {
-        QGraphicsView::mousePressEvent(event);
-        return;
-    }
-
-    if (QGraphicsItem *item = itemAt(event->pos())) {
-        GraphicsItemType itemType = itemTypeOfGraphicsItem(item);
-        qDebug() << "Clicked item type: " << itemType <<
-                    QString("(int: %1)").arg(item->type());
-        if (itemType == SymbolGraphicsItemType ||
-                itemType == SymbolGlyphItemType) {
-            if (scene()->selectedItems().contains(item)) {
-                qDebug() << "Clicked item is selected";
-            }
-            if (event->button() == Qt::LeftButton) {
-                m_symbolDragStart = event->pos();
-            }
-        } else {
-            m_symbolDragStart = QPoint();
-        }
-    }
-
     QGraphicsView::mousePressEvent(event);
 }
 
 void GraphicsView::mouseMoveEvent(QMouseEvent *event)
 {
-    if (m_symbolDragStart.isNull()) {
-        QGraphicsView::mouseMoveEvent(event);
-        return;
-    }
-
-    if (!(event->buttons() & Qt::LeftButton)) {
-            return;
-    }
-
-    QLineF dragDistance(m_symbolDragStart, event->pos());
-    if ( dragDistance.length() > QApplication::startDragDistance()) {
-        QList<QGraphicsItem*> symbolGraphicsItems = selectedSymbolGraphicsItems();
-        qDebug() << QString("Dragging %1 symbol items").arg(symbolGraphicsItems.count());
-
-//        QGraphicsItemGroup *itemGroup = scene()->createItemGroup(symbolGraphicsItems);
-//        QRectF sceneRect = itemGroup->sceneBoundingRect();
-//        scene()->destroyItemGroup(itemGroup);
-
-//        QRectF targetRect;
-//        targetRect.setSize(sceneRect.size());
-//        QPixmap pixmap(targetRect.width(), targetRect.height());
-//        QPainter painter(&pixmap);
-//        scene()->render(&painter, targetRect, sceneRect);
-
-        QDrag *drag = new QDrag(this);
-//        drag->setDragCursor(pixmap, Qt::CopyAction);
-        QMimeData *mimeData = new QMimeData;
-        mimeData->setData(LP::MimeTypes::Symbol, QString("Some text").toUtf8());
-        drag->setMimeData(mimeData);
-
-        drag->exec(Qt::CopyAction);
-        m_symbolDragStart = QPoint();
-    }
-
     QGraphicsView::mouseMoveEvent(event);
 }
 
 void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
-
     QGraphicsView::mouseReleaseEvent(event);
 }
 
 void GraphicsView::dragEnterEvent(QDragEnterEvent *event)
 {
-//    event->acceptProposedAction();
-
     QGraphicsView::dragEnterEvent(event);
 }
 
 void GraphicsView::dragMoveEvent(QDragMoveEvent *event)
 {
-//    event->acceptProposedAction();
     QGraphicsView::dragMoveEvent(event);
 }
 
 void GraphicsView::dragLeaveEvent(QDragLeaveEvent *event)
 {
-
     QGraphicsView::dragLeaveEvent(event);
 }
 
 void GraphicsView::dropEvent(QDropEvent *event)
 {
-//    event->acceptProposedAction();
-
     QGraphicsView::dropEvent(event);
 }
 

@@ -197,11 +197,6 @@ void SymbolGraphicsItem::setGeometryAnimated(const QRectF &rect)
 
 void SymbolGraphicsItem::setGeometry(const QRectF &rect)
 {
-//    QRectF oldGeometry(geometry());
-//    qDebug() << "Old geometry: " << oldGeometry;
-//    qDebug() << "Old is null: " << oldGeometry.isNull();
-
-    qDebug() << "New symbol graphics item geometry: " << rect;
     InteractingGraphicsItem::setGeometry(rect);
 }
 

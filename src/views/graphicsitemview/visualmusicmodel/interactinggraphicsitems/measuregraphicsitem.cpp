@@ -129,10 +129,7 @@ void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
         return;
     }
 
-    QPointF itemPos = mapFromScene(event->scenePos());
-
     m_dragMoveRects = symbolGeometries();
-    qDebug() << "Drag enter in measure item at: " << itemPos;
 }
 
 void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
@@ -157,22 +154,18 @@ void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
         itemGeometry.moveLeft(itemGeometry.x() + shiftWidth);
         setSymbolGeometry(item, itemGeometry);
     }
-
-    qDebug() << "Drag move in measure item";
 }
 
 void MeasureGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
     event->acceptProposedAction();
     clearEndOfDrag();
-    qDebug() << "Drag leave in measure item";
 }
 
 void MeasureGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     event->acceptProposedAction();
     clearEndOfDrag();
-    qDebug() << "Drop in measure item";
 }
 
 void MeasureGraphicsItem::clearEndOfDrag()

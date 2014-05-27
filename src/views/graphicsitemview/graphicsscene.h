@@ -9,7 +9,9 @@
 #ifndef GRAPHICSSCENE_H
 #define GRAPHICSSCENE_H
 
+#include <QList>
 #include <QGraphicsScene>
+#include <common/defines.h>
 
 class PageViewItem;
 class QGraphicsSceneMouseEvent;
@@ -25,6 +27,13 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+
+private:
+    GraphicsItemType itemTypeOfGraphicsItem(const QGraphicsItem *item) const;
+    QList<QGraphicsItem*> selectedSymbolGraphicsItems();
+    QGraphicsItem *symbolGraphicsItemForGlyphItem(QGraphicsItem *glyphItem);
+    QList<int> m_itemTypes;
+    QPointF m_symbolDragStart;
 };
 
 #endif // GRAPHICSSCENE_H
