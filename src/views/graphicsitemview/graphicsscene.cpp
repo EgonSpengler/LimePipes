@@ -15,6 +15,7 @@
 #include "graphicsscene.h"
 #include "visualmusicmodel/visualmusicmodel.h"
 #include "visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h"
+#include "visualmusicmodel/interactinggraphicsitems/measuregraphicsitem.h"
 
 GraphicsScene::GraphicsScene(QObject *parent)
     : QGraphicsScene(parent),
@@ -91,23 +92,68 @@ void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
         QDrag *drag = new QDrag(this);
         //        drag->setDragCursor(pixmap, Qt::CopyAction);
-        QMimeData *mimeData = new QMimeData;
         if (symbolIndexes.count()) {
             const QAbstractItemModel *model = symbolIndexes.at(0).model();
             if (model) {
                 qDebug() << "Setting drag mime data from model";
-                drag->setMimeData(model->mimeData(symbolIndexes));
+                QMimeData *data = model->mimeData(symbolIndexes);
+                QStringList dataTypex = data->formats();
+                drag->setMimeData(data);
             }
-        } else {
-            mimeData->setData(LP::MimeTypes::Symbol, QString("Some text").toUtf8());
-            drag->setMimeData(mimeData);
         }
 
-        drag->exec(Qt::CopyAction);
+        drag->exec(Qt::MoveAction);
         m_symbolDragStart = QPoint();
     }
 
     QGraphicsScene::mouseMoveEvent(event);
+}
+
+void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
+{
+    qDebug() << "GraphicsScene dropEvent";
+    const QMimeData *mimeData = event->mimeData();
+
+    qDebug() << "GraphicsScene drop event mime formats: " << mimeData->formats();
+    if (mimeData->formats().contains(LP::MimeTypes::Symbol)) {
+        qDebug() << "Symbols dropped";
+        QGraphicsItem *dropItem = itemAt(event->scenePos(), QTransform());
+        if (!dropItem)
+            goto baseImpl;
+
+        GraphicsItemType dropItemType = itemTypeOfGraphicsItem(dropItem);
+        qDebug() << "Drop target: " << dropItemType;
+        if (dropItemType == MeasureGraphicsItemType) {
+            MeasureGraphicsItem *measureItem = qgraphicsitem_cast<MeasureGraphicsItem*>(dropItem);
+            if (!measureItem) {
+                qWarning() << "Can't cast drop item to measure graphics item";
+                goto baseImpl;
+            }
+
+            QPointF dropPos = measureItem->mapFromScene(event->scenePos());
+            QGraphicsItem *dropItem = measureItem->dropItemAt(dropPos);
+            if (dropItem == measureItem) {
+                qDebug() << "Drop on measure";
+            } else {
+                qDebug() << "Drop on " << itemTypeOfGraphicsItem(dropItem);
+            }
+
+            QModelIndex dropItemIndex = m_visualMusicModel->indexForItem(dropItem);
+            qDebug() << "Drop index: " << dropItemIndex;
+            QAbstractItemModel *itemModel = m_visualMusicModel->model();
+            if (!itemModel) {
+                qWarning() << "Can't dropMimeData. VisualMusicModel has no abstract item model set.";
+                goto baseImpl;
+            }
+
+            itemModel->dropMimeData(event->mimeData(), event->dropAction(),
+                                    dropItemIndex.row(), dropItemIndex.column(),
+                                    dropItemIndex.parent());
+        }
+    }
+
+baseImpl:
+    QGraphicsScene::dropEvent(event);
 }
 
 void GraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
@@ -118,6 +164,11 @@ void GraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 void GraphicsScene::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     QGraphicsScene::dragEnterEvent(event);
+}
+
+void GraphicsScene::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsScene::dragMoveEvent(event);
 }
 
 GraphicsItemType GraphicsScene::itemTypeOfGraphicsItem(const QGraphicsItem *item) const

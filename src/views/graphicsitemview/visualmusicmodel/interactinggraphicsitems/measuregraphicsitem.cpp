@@ -112,6 +112,39 @@ void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     painter->drawLine(rightEdge, 0, rightEdge, rect.height());
 }
 
+/*!
+ * \brief MeasureGraphicsItem::dropItemAt Returns the item which is the drop target
+ *        if a drop occurs. Measure item is asked for a drop target because it will
+ *        shift symbol items while dragging.
+ * \param point The point in item coordiantes.
+ * \return  The item which should act as drop target (whos model index will be used
+ *          in dropMimeData.
+ */
+QGraphicsItem *MeasureGraphicsItem::dropItemAt(const QPointF &point)
+{
+    if (!m_dragMoveRects.count())
+        return this;
+
+    if (m_symbolItems.count() != m_dragMoveRects.count())
+        return this;
+
+    QRectF itemRect = m_dragMoveRects.last();
+    if (point.x() > itemRect.right()) {
+        return this;
+    }
+
+    qreal pointX = point.x();
+    for (int i = 0; i < m_dragMoveRects.count(); ++i) {
+        itemRect = m_dragMoveRects.at(i);
+        if (itemRect.x() <= pointX &&
+                itemRect.x() + itemRect.width() >= pointX) {
+            return m_symbolItems.at(i);
+        }
+    }
+
+    return this;
+}
+
 void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 {
     qreal staffSpace = musicFont->staffSpace();

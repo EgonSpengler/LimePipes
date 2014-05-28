@@ -29,6 +29,8 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
+    QGraphicsItem *dropItemAt(const QPointF &point);
+
     // InteractingGraphicsItem interface
 public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
