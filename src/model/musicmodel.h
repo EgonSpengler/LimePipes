@@ -84,7 +84,8 @@ public:
 private:
     bool allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &indexes) const;
     const QString mimeTypeForItem(const MusicItem *item) const;
-    bool dataHasSupportedMimeType(const QMimeData *data);
+    bool dataContainsOnlyOneSupportedMimeType(const QMimeData *data);
+    QString supportedMimeTypeFromData(const QMimeData *data);
     bool itemSupportsDropOfMimeType(const MusicItem *item, const QString &mimeType);
 
     void writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const;
@@ -112,7 +113,7 @@ private:
     bool tagHasNameOfItemType(QStringRef tagname, MusicItem::Type type);
 
     bool instrumentNameIsSupported(const QString &instrumentName);
-    bool symbolNameIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem);
+    bool symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem);
 
     MusicItem *newTuneWithInstrument(QXmlStreamReader *reader, MusicItem *item);
     MusicItem *newSymbolForMeasureItem(QXmlStreamReader *reader, MusicItem *item);

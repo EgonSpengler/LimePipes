@@ -27,13 +27,7 @@ class SymbolInterface {
 public:
     virtual ~SymbolInterface() {}
 
-    // Deprecated. Is used by import/export from LimePipes xml files
-    virtual QStringList symbolNames() const = 0;
-    virtual Symbol *getSymbolForName( const QString &symbol ) = 0;
-    // End of deprecated
-
     virtual Symbol *symbolForType(int type) = 0;
-
     virtual QVector<int> symbolTypes() = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;
     virtual ItemInteraction *itemInteractionForType(int type)

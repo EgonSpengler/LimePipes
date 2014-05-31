@@ -25,11 +25,6 @@ public:
     PluginManagerInterface() {}
     virtual ~PluginManagerInterface() {}
 
-    // Deprecated. Is used by import/export from LimePipes xml files
-    virtual QStringList symbolNamesForInstrument(const QString &instrumentName) const = 0;
-    virtual Symbol *symbolForName(const QString &instrumentName, const QString &symbolName) const = 0;
-    // End of deprecated
-
     virtual QVector<int> symbolTypesForInstrument(const QString &instrumentName) const = 0;
     virtual Symbol *symbolForType(int type) = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;

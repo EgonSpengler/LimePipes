@@ -35,29 +35,12 @@ CommonPluginManager::~CommonPluginManager()
 {
 }
 
-QStringList CommonPluginManager::symbolNamesForInstrument(const QString &instrumentName) const
-{
-    if (m_instrumentSymbols.contains(instrumentName)) {
-        return m_instrumentSymbols.value(instrumentName)->symbolNames();
-    }
-    return QStringList();
-}
-
 QVector<int> CommonPluginManager::symbolTypesForInstrument(const QString &instrumentName) const
 {
     if (m_instrumentSymbols.contains(instrumentName)) {
         return m_instrumentSymbols.value(instrumentName)->symbolTypes();
     }
     return QVector<int>();
-}
-
-Symbol *CommonPluginManager::symbolForName(const QString &instrumentName, const QString &symbolName) const
-{
-    if (m_instrumentSymbols.contains(instrumentName)) {
-        if (m_instrumentSymbols.value(instrumentName)->symbolNames().contains(symbolName))
-            return m_instrumentSymbols.value(instrumentName)->getSymbolForName(symbolName);
-    }
-    return new Symbol();
 }
 
 Instrument *CommonPluginManager::instrumentForName(const QString &name) const

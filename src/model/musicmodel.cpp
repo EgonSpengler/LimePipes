@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QMimeData>
 #include <QPair>
+#include <QString>
 #include <QtWidgets/QUndoStack>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
@@ -259,13 +260,14 @@ const QString MusicModel::mimeTypeForItem(const MusicItem *item) const
     }
 }
 
-bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, int row,
+                              int column, const QModelIndex &parent)
 {
     if (action == Qt::IgnoreAction)
         return true;
 
     if (action != Qt::MoveAction || column > 0 ||
-            !mimeData || !dataHasSupportedMimeType(mimeData))
+            !mimeData || !dataContainsOnlyOneSupportedMimeType(mimeData))
         return false;
 
     if (isIndexTune(parent) &&
@@ -273,8 +275,7 @@ bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, 
             row = rowCount(parent) - 1;
     }
 
-    Q_ASSERT(mimeData->formats().count() == 1);
-    QString mimeType = mimeData->formats().at(0);
+    QString mimeType = supportedMimeTypeFromData(mimeData);
 
     createRootItemIfNotPresent();
     if (MusicItem *parentItem = itemForIndex(parent)) {
@@ -310,15 +311,57 @@ bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, 
     return false;
 }
 
-bool MusicModel::dataHasSupportedMimeType(const QMimeData *data)
+/*!
+ * \brief MusicModel::dataContainsOnlyOneSupportedMimeType
+ *        Check if the given mime data contains only one supported mime type of LimePipes.
+ * \param data
+ * \return True, if the mime data contains only one supported mime type, otherwise false.
+ */
+bool MusicModel::dataContainsOnlyOneSupportedMimeType(const QMimeData *data)
 {
-    if (data->hasFormat(LP::MimeTypes::Score) ||
-            data->hasFormat(LP::MimeTypes::Tune) ||
-            data->hasFormat(LP::MimeTypes::Part) ||
-            data->hasFormat(LP::MimeTypes::Measure) ||
-            data->hasFormat(LP::MimeTypes::Symbol))
-        return true;
-    return false;
+    QStringList dataFormats(data->formats());
+    bool hasLimePipesFormat = false;
+    if (dataFormats.contains(LP::MimeTypes::Symbol)) {
+        hasLimePipesFormat = true;
+    }
+    if (dataFormats.contains(LP::MimeTypes::Measure)) {
+        if (hasLimePipesFormat) { return false; }
+        hasLimePipesFormat = true;
+    }
+    if (dataFormats.contains(LP::MimeTypes::Part)) {
+        if (hasLimePipesFormat) { return false; }
+        hasLimePipesFormat = true;
+    }
+    if (dataFormats.contains(LP::MimeTypes::Tune)) {
+        if (hasLimePipesFormat) { return false; }
+        hasLimePipesFormat = true;
+    }
+    if (dataFormats.contains(LP::MimeTypes::Score)) {
+        if (hasLimePipesFormat) { return false; }
+        hasLimePipesFormat = true;
+    }
+
+    return hasLimePipesFormat;
+}
+
+/*!
+ * \brief MusicModel::supportedMimeTypeFromData Returns the first mime type from QMimeData,
+ *        which is supported by LimePipes
+ * \param data The mime data to check for supported mime type
+ * \return The supported mime type or an empty string, if no supported mime type can be found.
+ */
+QString MusicModel::supportedMimeTypeFromData(const QMimeData *data)
+{
+    QStringList supportedMimeTypes({LP::MimeTypes::Symbol, LP::MimeTypes::Measure,
+                                   LP::MimeTypes::Part, LP::MimeTypes::Tune,
+                                   LP::MimeTypes::Score});
+    foreach (const QString mimeType, data->formats()) {
+        if (supportedMimeTypes.contains(mimeType)) {
+            return mimeType;
+        }
+    }
+
+    return QStringLiteral("");
 }
 
 bool MusicModel::itemSupportsDropOfMimeType(const MusicItem *item, const QString &mimeType)
@@ -569,10 +612,10 @@ void MusicModel::writeTuneAttributes(QXmlStreamWriter *writer, MusicItem *musicI
 
 void MusicModel::writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const
 {
-    QVariant symbolNameVar = musicItem->data(LP::SymbolName);
-    if (symbolNameVar.isValid() &&
-            symbolNameVar.canConvert<QString>()) {
-        writer->writeAttribute("NAME", symbolNameVar.toString());
+    QVariant symbolTypeVar = musicItem->data(LP::SymbolType);
+    if (symbolTypeVar.isValid() &&
+            symbolTypeVar.canConvert<int>()) {
+        writer->writeAttribute("TYPE", QString::number(symbolTypeVar.toInt()));
     }
 }
 
@@ -803,30 +846,30 @@ bool MusicModel::isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item)
     MusicItem *tuneItem = getTuneItemParent(item);
 
     if (tagHasNameOfItemType(reader->name(), MusicItem::SymbolType) &&
-            tagHasNonEmptyAttribute(reader, "NAME") &&
-            symbolNameIsSupportedByTuneItem(reader, tuneItem)) {
+            tagHasNonEmptyAttribute(reader, "TYPE") &&
+            symbolTypeIsSupportedByTuneItem(reader, tuneItem)) {
         return true;
     }
     return false;
 }
 
-bool MusicModel::symbolNameIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem)
+bool MusicModel::symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem)
 {
     if (m_pluginManager.isNull()) {
         qWarning("No plugin manager installed. Can't check if symbol name is supported by tune item.");
         return false;
     }
 
-    QString symbolNameFromAttribute = attributeValue(reader, "NAME");
+    QString symbolTypeFromAttribute = attributeValue(reader, "TYPE");
+    int symbolTypeAttribute = symbolTypeFromAttribute.toInt();
 
     InstrumentPtr instrument = instrumentFromItem(tuneItem);
     if (instrument->type() == LP::NoInstrument)
         return false;
 
-    QStringList symbolNames =
-            m_pluginManager->symbolNamesForInstrument(instrument->name());
+    QVector<int> symbolTypes = m_pluginManager->symbolTypesForInstrument(instrument->name());
 
-    if (symbolNames.contains(symbolNameFromAttribute)) {
+    if (symbolTypes.contains(symbolTypeAttribute)) {
             return true;
     }
     return false;
@@ -853,15 +896,15 @@ MusicItem *MusicModel::newSymbolForMeasureItem(QXmlStreamReader *reader, MusicIt
 
     MusicItem *tuneItem = getTuneItemParent(item);
 
-    QString symbolNameFromAttribute = attributeValue(reader, "NAME");
+    QString symbolTypeFromAttribute = attributeValue(reader, "TYPE");
+    int symbolType = symbolTypeFromAttribute.toInt();
 
     InstrumentPtr instrument = instrumentFromItem(tuneItem);
     if (instrument->type() == LP::NoInstrument)
         return item;
 
     MusicItem *parent = item;
-    MusicItem *child = 0;
-    child = m_pluginManager->symbolForName(instrument->name(), symbolNameFromAttribute);
+    MusicItem *child = m_pluginManager->symbolForType(symbolType);
 
     if (parent->okToInsertChild(child, parent->childCount()) &&
             parent->addChild(child)) {

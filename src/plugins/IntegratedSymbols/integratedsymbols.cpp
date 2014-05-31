@@ -17,16 +17,6 @@ IntegratedSymbols::IntegratedSymbols(QObject *parent)
 {
 }
 
-QStringList IntegratedSymbols::symbolNames() const
-{
-    return QStringList();
-}
-
-Symbol *IntegratedSymbols::getSymbolForName(const QString &symbol)
-{
-    return 0;
-}
-
 SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForType(int type)
 {
     if (type == LP::MelodyNote)

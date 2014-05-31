@@ -28,9 +28,7 @@ public:
     ~CommonPluginManager();
 
     // PluginManagerInterface
-    QStringList symbolNamesForInstrument(const QString &instrumentName) const;
     QVector<int> symbolTypesForInstrument(const QString &instrumentName) const;
-    Symbol *symbolForName(const QString &instrumentName, const QString &symbolName) const;
     Symbol *symbolForType(int type);
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     ItemInteraction *itemInteractionForType(int type);

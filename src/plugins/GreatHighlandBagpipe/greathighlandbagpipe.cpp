@@ -23,20 +23,6 @@ Instrument *GreatHighlandBagpipe::instrument() const
     return new GHB_Instrument();
 }
 
-QStringList GreatHighlandBagpipe::symbolNames() const
-{
-    return QStringList()    << tr("Melody Note")
-                            << tr("Doubling");
-}
-
-Symbol *GreatHighlandBagpipe::getSymbolForName(const QString &symbol)
-{
-    if (symbol == tr("Doubling")) {
-        return new GHB_Doubling();
-    }
-    return new Symbol();
-}
-
 SymbolGraphicBuilder *GreatHighlandBagpipe::symbolGraphicBuilderForType(int type)
 {
     Q_UNUSED(type);

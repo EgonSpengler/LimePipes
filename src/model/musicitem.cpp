@@ -21,6 +21,7 @@
   * @brief Subclasses can initialize read only data with this method.
   */
 
+#include <QDebug>
 #include "musicitem.h"
 
 MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
@@ -63,6 +64,11 @@ bool MusicItem::insertChild(int row, MusicItem *item)
 
 bool MusicItem::addChild(MusicItem *item)
 {
+    if (!item) {
+        qWarning() << "Can't add 0 child music item";
+        return false;
+    }
+
     if (m_childType == NoItemType)
         return false;
 
