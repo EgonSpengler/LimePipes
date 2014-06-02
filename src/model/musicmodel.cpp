@@ -214,6 +214,7 @@ QMimeData *MusicModel::mimeData(const QModelIndexList &indexes) const
     writer.writeEndElement();
 
     if (!mimeDataType.isEmpty()) {
+        qDebug() << "Model mime data: " << xmlData;
         mimeData->setData(mimeDataType, qCompress(xmlData, MaxCompression));
         return mimeData;
     }
@@ -504,11 +505,6 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         symbol->setData(pitchValue, LP::SymbolPitch);
         QVariant pitchContextValue(QVariant::fromValue<PitchContextPtr>(pitchContext));
         symbol->setData(pitchContextValue, LP::SymbolPitchContext);
-    }
-
-    // Init length if symbol has it
-    if (symbol->hasLength()) {
-        symbol->setData(Length::_4, LP::SymbolLength);
     }
 
     if (symbol &&

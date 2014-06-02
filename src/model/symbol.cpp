@@ -130,4 +130,13 @@ void Symbol::writeLength(QXmlStreamWriter *writer)
 void Symbol::setSymbolOptions(Symbol::Options options)
 {
     m_symbolOptions = options;
+
+    if (options & HasLength) {
+        initData(QVariant::fromValue<Length::Value>(Length::_8), LP::SymbolLength);
+    }
+    if (options & HasPitch) {
+        Pitch *pitch = new Pitch(0, QStringLiteral("Default pitch"));
+        m_defaultPitch.reset(pitch);
+        initData(QVariant::fromValue<PitchPtr>(m_defaultPitch), LP::SymbolPitch);
+    }
 }
