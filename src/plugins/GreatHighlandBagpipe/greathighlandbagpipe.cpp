@@ -45,3 +45,8 @@ Symbol *GreatHighlandBagpipe::symbolForType(int type)
 
     return 0;
 }
+
+QVector<int> GreatHighlandBagpipe::additionalDataForSymbolType(int symbolType)
+{
+    return QVector<int>();
+}

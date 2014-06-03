@@ -72,4 +72,5 @@ void GraphicsItemView::setModel(QAbstractItemModel *model)
 void GraphicsItemView::setPluginManager(PluginManager pluginManager)
 {
     m_visualItemFactory->setPluginManager(pluginManager);
+    m_visualMusicModel->setPluginManager(pluginManager);
 }

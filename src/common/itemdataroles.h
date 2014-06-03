@@ -30,6 +30,7 @@
 #define ITEMDATATYPES_H
 
 #include <Qt>
+#include <QVector>
 
 namespace LP
 {
@@ -43,22 +44,31 @@ enum ScoreDataRole {
     ScoreCopyright      = Qt::UserRole + 4,     // QString (260)
     ScoreType           = Qt::UserRole + 5      // QString (261)
 };
-
+static QVector<ScoreDataRole> allScoreDataRoles({ScoreTitle,
+                                                   ScoreComposer,
+                                                   ScoreArranger,
+                                                   ScoreYear,
+                                                   ScoreCopyright,
+                                                   ScoreType});
 // Tune
 enum TuneDataRole {
     TuneInstrument      = Qt::UserRole + 6      // Instrument (262)
 };
+static QVector<TuneDataRole> allTuneDataRoles({TuneInstrument});
 
 // Part
 enum PartDataRole {
     PartRepeat          = Qt::UserRole + 7,     // bool (263)
     PartStaffType       = Qt::UserRole + 8      // StaffType in defines.h (264)
 };
+static QVector<PartDataRole> allPartDataRoles({PartRepeat,
+                                                   PartStaffType});
 
 // Measure
 enum MeasureDataRole {
     MeasureIsUpbeat     = Qt::UserRole + 9      // bool (265)
 };
+static QVector<MeasureDataRole> allMeasureDataRoles({MeasureIsUpbeat});
 
 // Symbol
 enum SymbolDataRole {
@@ -69,6 +79,12 @@ enum SymbolDataRole {
     SymbolPitch         = Qt::UserRole + 14,    // PitchPtr (270)
     SymbolPitchContext  = Qt::UserRole + 15,    // PitchContextPtr (271)
 };
+static QVector<SymbolDataRole> allSymbolDataRoles({SymbolCategory,
+                                                     SymbolType,
+                                                     SymbolName,
+                                                     SymbolLength,
+                                                     SymbolPitch,
+                                                     SymbolPitchContext});
 
 // MelodyNote
 enum MelodyNoteDataRole {

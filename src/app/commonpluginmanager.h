@@ -30,6 +30,7 @@ public:
     // PluginManagerInterface
     QVector<int> symbolTypesForInstrument(const QString &instrumentName) const;
     Symbol *symbolForType(int type);
+    QVector<int> additionalDataForSymbolType(int symbolType);
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     ItemInteraction *itemInteractionForType(int type);
 
@@ -53,6 +54,7 @@ private:
     bool insertInstrumentPlugin(InstrumentInterface *instrument);
     void insertInstrumentSymbolPlugin(QObject *plugin, const QString &instrumentName);
     bool hasInstrumentWithName(const QString &name) const;
+    SymbolInterface *symbolPluginWithSymbol(int symbolType);
     QMap<QString, InstrumentInterface*> m_instrumentPlugins;
     QMap<QString, SymbolInterface*> m_instrumentSymbols;
     QList<SymbolInterface*> m_symbolPlugins;

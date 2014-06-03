@@ -27,6 +27,7 @@ public:
 
     virtual QVector<int> symbolTypesForInstrument(const QString &instrumentName) const = 0;
     virtual Symbol *symbolForType(int type) = 0;
+    virtual QVector<int> additionalDataForSymbolType(int symbolType) = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;
     virtual ItemInteraction *itemInteractionForType(int type) = 0;
 

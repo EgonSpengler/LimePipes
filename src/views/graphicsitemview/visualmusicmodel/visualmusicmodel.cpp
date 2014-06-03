@@ -322,30 +322,50 @@ void VisualMusicModel::initVisualItemData(VisualItem *visualItem, const QPersist
 {
     switch (visualItem->itemType()) {
     case VisualItem::VisualScoreItem:
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreTitle);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreType);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreComposer);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreArranger);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreCopyright);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::ScoreYear);
+        foreach (LP::ScoreDataRole dataRole, LP::allScoreDataRoles) {
+            setVisualItemDataFromModel(visualItem, itemIndex, dataRole);
+        }
         break;
     case VisualItem::VisualTuneItem:
+        foreach (LP::TuneDataRole dataRole, LP::allTuneDataRoles) {
+            setVisualItemDataFromModel(visualItem, itemIndex, dataRole);
+        }
         break;
     case VisualItem::VisualPartItem:
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::PartStaffType);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::PartRepeat);
+        foreach (LP::PartDataRole dataRole, LP::allPartDataRoles) {
+            setVisualItemDataFromModel(visualItem, itemIndex, dataRole);
+        }
         break;
     case VisualItem::VisualMeasureItem:
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::MeasureIsUpbeat);
+        foreach (LP::MeasureDataRole dataRole, LP::allMeasureDataRoles) {
+            setVisualItemDataFromModel(visualItem, itemIndex, dataRole);
+        }
         break;
-    case VisualItem::VisualSymbolItem:
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolType);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolPitchContext);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolCategory);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolName);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolLength);
-        setVisualItemDataFromModel(visualItem, itemIndex, LP::SymbolPitch);
+    case VisualItem::VisualSymbolItem: {
+        foreach (LP::SymbolDataRole dataRole, LP::allSymbolDataRoles) {
+            setVisualItemDataFromModel(visualItem, itemIndex, dataRole);
+        }
+
+        if (!hasValidPluginManager()) {
+            qWarning() << "VisualMusicModel: Can't set additional symbol data on new symbol."
+                          " No plugin manager was set";
+            break;
+        }
+
+        int symbolType = m_model->data(itemIndex, LP::SymbolType).toInt();
+        if (symbolType == LP::NoSymbolType) {
+            qWarning() << "VisualMusicModel: Can't set an empty symbol type";
+            break;
+        }
+
+        QVector<int> additionalDataRoles;
+        additionalDataRoles = m_pluginManager->additionalDataForSymbolType(symbolType);
+        for (int i = 0; i < additionalDataRoles.count(); ++i) {
+            setVisualItemDataFromModel(visualItem, itemIndex, additionalDataRoles.at(i));
+        }
+
         break;
+    }
     case VisualItem::NoVisualItem:
         break;
     }

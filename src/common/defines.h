@@ -114,7 +114,7 @@ enum InstrumentType {
 };
 
 enum IntegratedSymbolTypes {
-    NoSymbolType = 1,
+    NoSymbolType = 0,
     MelodyNote
 };
 

@@ -29,6 +29,13 @@ public:
 
     virtual Symbol *symbolForType(int type) = 0;
     virtual QVector<int> symbolTypes() = 0;
+
+    /*!
+     * \brief additionalDataForSymbolType A symbol can have additional data to the symbol data
+     *        e.g. melody notes have dots
+     * \param symbolType The type of the symbol
+     */
+    virtual QVector<int> additionalDataForSymbolType(int symbolType) = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;
     virtual ItemInteraction *itemInteractionForType(int type)
     {

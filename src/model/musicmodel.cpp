@@ -492,6 +492,11 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
 
     InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
     Symbol *symbol = m_pluginManager->symbolForType(type);
+    if (symbol == 0) {
+        qWarning() << "MusicModel: Can't insert symbol. PluginManager returned 0 for symbol type "
+                      << type;
+        return QModelIndex();
+    }
 
     // Init pitch and pitch context if symbol has it
     if (symbol->hasPitch()) {

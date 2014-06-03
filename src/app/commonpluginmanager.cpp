@@ -131,6 +131,7 @@ bool CommonPluginManager::hasInstrumentWithName(const QString &name) const
 {
     return m_instrumentPlugins.keys().contains(name);
 }
+
 MusicFontPtr CommonPluginManager::musicFont() const
 {
     return m_musicFont;
@@ -143,36 +144,45 @@ void CommonPluginManager::setMusicFont(const MusicFontPtr &musicFont)
 
 SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
 {
-    foreach (SymbolInterface *symbolPlugin, m_symbolPlugins) {
-        if (!symbolPlugin)
-            continue;
+    SymbolInterface *symbolPlugin = symbolPluginWithSymbol(type);
+    if (!symbolPlugin)
+        return 0;
 
-        SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
-        if (builder) {
-            builder->setMusicFont(m_musicFont);
-            return builder;
-        }
+    SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
+    if (builder) {
+        builder->setMusicFont(m_musicFont);
     }
-
-    return 0;
+    return builder;
 }
 
 ItemInteraction *CommonPluginManager::itemInteractionForType(int type)
 {
-    foreach (SymbolInterface *symbolPlugin, m_symbolPlugins) {
-        if (!symbolPlugin)
-            continue;
+    SymbolInterface *symbolPlugin = symbolPluginWithSymbol(type);
+    if (!symbolPlugin)
+        return 0;
 
-        ItemInteraction *interaction = symbolPlugin->itemInteractionForType(type);
-        if (interaction) {
-            return interaction;
-        }
-    }
-
-    return 0;
+    return symbolPlugin->itemInteractionForType(type);
 }
 
 Symbol *CommonPluginManager::symbolForType(int type)
+{
+    SymbolInterface *symbolPlugin = symbolPluginWithSymbol(type);
+    if (!symbolPlugin)
+        return 0;
+
+    return symbolPlugin->symbolForType(type);
+}
+
+QVector<int> CommonPluginManager::additionalDataForSymbolType(int symbolType)
+{
+    SymbolInterface *symbolPlugin = symbolPluginWithSymbol(symbolType);
+    if (!symbolPlugin)
+        return QVector<int>();
+
+    return symbolPlugin->additionalDataForSymbolType(symbolType);
+}
+
+SymbolInterface *CommonPluginManager::symbolPluginWithSymbol(int symbolType)
 {
     foreach (SymbolInterface *symbolPlugin, m_symbolPlugins) {
         if (!symbolPlugin)
@@ -180,15 +190,14 @@ Symbol *CommonPluginManager::symbolForType(int type)
 
         QVector<int> symbolTypes(symbolPlugin->symbolTypes());
 
-        if (symbolTypes.contains(type)) {
-            Symbol *symbol = symbolPlugin->symbolForType(type);
-            if (symbol == 0)
-                continue;
-
-            return symbol;
+        if (symbolTypes.contains(symbolType)) {
+            Symbol *symbol = symbolPlugin->symbolForType(symbolType);
+            if (symbol != 0) {
+                delete symbol;
+                return symbolPlugin;
+            }
         }
     }
 
     return 0;
 }
-

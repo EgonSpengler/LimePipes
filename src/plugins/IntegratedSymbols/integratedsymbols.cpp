@@ -49,3 +49,12 @@ ItemInteraction *IntegratedSymbols::itemInteractionForType(int type)
 
     return SymbolInterface::itemInteractionForType(type);
 }
+
+QVector<int> IntegratedSymbols::additionalDataForSymbolType(int symbolType)
+{
+    if (symbolType == LP::MelodyNote) {
+        return QVector<int>({LP::MelodyNoteDots});
+    }
+
+    return QVector<int>();
+}

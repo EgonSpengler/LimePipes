@@ -15,9 +15,9 @@
 #include <common/interfaces/instrumentinterface.h>
 #include <common/interfaces/symbolinterface.h>
 
-class GreatHighlandBagpipe :    public QObject,
-                                public InstrumentInterface,
-                                public SymbolInterface
+class GreatHighlandBagpipe :  public QObject,
+                              public InstrumentInterface,
+                              public SymbolInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID InstrumentInterfaceIID FILE "greathighlandbagpipe.json")
@@ -34,6 +34,7 @@ public:
     Symbol *symbolForType(int type);
     QVector<int> symbolTypes();
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
+    QVector<int> additionalDataForSymbolType(int symbolType);
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H
