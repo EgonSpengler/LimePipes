@@ -19,6 +19,7 @@ class QGraphicsLinearLayout;
 
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
+    Q_OBJECT
     friend class MeasureGraphicsItemTest;
 
 public:
@@ -32,7 +33,6 @@ public:
     QGraphicsItem *dropItemAt(const QPointF &point);
 
     // InteractingGraphicsItem interface
-public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
     void setData(const QVariant &value, int key);
     void setGeometry(const QRectF& rect);

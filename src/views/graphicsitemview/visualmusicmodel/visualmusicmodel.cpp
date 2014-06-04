@@ -162,7 +162,7 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parentIndex, int 
     if (!model())
         return;
 
-    for (int i=start; i<=end; i++){
+    for (int i=start; i<=end; i++) {
         QPersistentModelIndex itemIndex(m_model->index(i, 0, parentIndex));
         if (itemIndex.isValid()) {
             VisualItem *visualItem = 0;

@@ -111,8 +111,8 @@ void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)
         return;
 
     qreal maxWidth = glyphItem->boundingRect().width();
-    qDebug() << "SymbolGraphicsItem: set maximum width to: " << maxWidth;
     setMaximumWidth(maxWidth);
+    qDebug() << "SymbolGraphicsItem: set maximum width to: " << maxWidth;
 }
 
 QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)

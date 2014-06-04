@@ -11,7 +11,9 @@
 #include <QMimeData>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsLinearLayout>
+
 #include <common/defines.h>
+
 #include "symbolgraphicsitem.h"
 #include "measuregraphicsitem.h"
 
@@ -50,12 +52,15 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
 {
     SymbolGraphicsItem *symbolItem = qgraphicsitem_cast<SymbolGraphicsItem*>(childItem);
     if (!symbolItem) {
-        qWarning() << "Non symbol can't be inserted into measure";
+        qWarning() << "MeasureGraphicsItem: Non symbol can't be inserted into measure";
         return;
     }
 
-    qDebug() << "MeasureGraphicsItem: Insert symbol into layout";
+    qDebug() << "MeasureGraphicsItem: Insert symbol into layout ";
+    qDebug() << "MeasureGraphicsItem: Layout " << m_layout;
+    qDebug() << "MeasureGraphicsItem: Layout count " << m_layout->count();
     m_layout->insertItem(index, childItem);
+    qDebug() << "MeasureGraphicsItem: Layout count " << m_layout->count();
     m_symbolItems.insert(index, symbolItem);
 }
 
@@ -67,7 +72,7 @@ void MeasureGraphicsItem::setData(const QVariant &value, int key)
 void MeasureGraphicsItem::setGeometry(const QRectF &rect)
 {
     InteractingGraphicsItem::setGeometry(rect);
-//    qDebug() << "SetGeometry in measure graphics item: " << rect;
+    //    qDebug() << "SetGeometry in measure graphics item: " << rect;
 }
 
 void MeasureGraphicsItem::layoutSymbolItems()
@@ -192,12 +197,14 @@ void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 
 void MeasureGraphicsItem::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
 {
+    qDebug() << "MeasureGraphicsItem: drag leave";
     event->acceptProposedAction();
     clearEndOfDrag();
 }
 
 void MeasureGraphicsItem::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
+    qDebug() << "MeasureGraphicsItem: drop event";
     event->acceptProposedAction();
     clearEndOfDrag();
 }
@@ -208,6 +215,7 @@ void MeasureGraphicsItem::clearEndOfDrag()
         return;
     }
 
+    qDebug() << "MeasureGraphicsItem: Clear end of drag. set geometries back.";
     for (int i = 0; i < m_symbolItems.count(); ++i) {
         SymbolGraphicsItem *item = m_symbolItems.at(i);
         setSymbolGeometry(item, m_dragMoveRects.at(i));
