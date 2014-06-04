@@ -618,6 +618,29 @@ void MusicModel::writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musi
             symbolTypeVar.canConvert<int>()) {
         writer->writeAttribute("TYPE", QString::number(symbolTypeVar.toInt()));
     }
+
+    // Get instrument
+    MusicItem *tuneItem = musicItem;
+    InstrumentPtr instrument;
+    while (1) {
+        if (tuneItem->type() == MusicItem::ScoreType ||
+                tuneItem->parent() == 0) {
+            break;
+        }
+
+        if (tuneItem->type() == MusicItem::TuneType) {
+            instrument = instrumentFromItem(tuneItem);
+            break;
+        }
+
+        tuneItem = tuneItem->parent();
+    }
+
+    if (instrument.isNull()) {
+        qWarning() << "Can't save instrument into symbol xml stream";
+        return;
+    }
+    writer->writeAttribute("INSTRUMENT", instrument->name());
 }
 
 const QString MusicModel::tagNameOfMusicItemType(MusicItem::Type type) const
@@ -837,6 +860,8 @@ void MusicModel::readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem *
         QString readPitchName = reader->readElementText();
         if (pitchNames.contains(readPitchName)) {
             PitchPtr pitch = instrument->pitchContext()->pitchForName(readPitchName);
+            (*item)->setData(QVariant::fromValue<PitchContextPtr>(instrument->pitchContext()),
+                             LP::SymbolPitchContext);
             (*item)->setData(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
         }
     }
@@ -876,7 +901,7 @@ bool MusicModel::symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, Music
     return false;
 }
 
-InstrumentPtr MusicModel::instrumentFromItem(MusicItem *item)
+InstrumentPtr MusicModel::instrumentFromItem(MusicItem *item) const
 {
     Q_ASSERT(item->type() == MusicItem::TuneType);
 

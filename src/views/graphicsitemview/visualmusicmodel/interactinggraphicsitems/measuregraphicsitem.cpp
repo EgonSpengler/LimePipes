@@ -54,6 +54,7 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
         return;
     }
 
+    qDebug() << "MeasureGraphicsItem: Insert symbol into layout";
     m_layout->insertItem(index, childItem);
     m_symbolItems.insert(index, symbolItem);
 }

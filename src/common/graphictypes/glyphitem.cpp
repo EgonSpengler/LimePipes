@@ -125,8 +125,8 @@ void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawText(0, 0, m_char);
 
     // Bounding rect
-//    QPen pen(Qt::blue);
-//    pen.setWidthF(1.0);
-//    painter->setPen(pen);
-//    painter->drawRect(m_boundingRect);
+    QPen pen(Qt::blue);
+    pen.setWidthF(1.0);
+    painter->setPen(pen);
+    painter->drawRect(m_boundingRect);
 }

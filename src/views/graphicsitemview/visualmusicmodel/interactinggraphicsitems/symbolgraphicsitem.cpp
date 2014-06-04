@@ -9,8 +9,10 @@
 #include <QPainter>
 #include <QDebug>
 #include <QPropertyAnimation>
+
 #include <common/graphictypes/glyphitem.h>
 #include <common/itemdataroles.h>
+
 #include "symbolgraphicsitem.h"
 
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
@@ -50,10 +52,10 @@ PluginManager SymbolGraphicsItem::pluginManger() const
 void SymbolGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     // Bounding rect
-//    QPen pen(Qt::red);
-//    pen.setWidthF(1.0);
-//    painter->setPen(pen);
-//    painter->drawRect(boundingRect());
+    QPen pen(Qt::red);
+    pen.setWidthF(1.0);
+    painter->setPen(pen);
+    painter->drawRect(boundingRect());
 }
 
 void SymbolGraphicsItem::setData(const QVariant &value, int key)
@@ -109,6 +111,7 @@ void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)
         return;
 
     qreal maxWidth = glyphItem->boundingRect().width();
+    qDebug() << "SymbolGraphicsItem: set maximum width to: " << maxWidth;
     setMaximumWidth(maxWidth);
 }
 
