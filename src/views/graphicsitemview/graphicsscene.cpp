@@ -71,14 +71,14 @@ void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         QList<QGraphicsItem*> symbolGraphicsItems = selectedSymbolGraphicsItems();
         qDebug() << QString("Dragging %1 symbol items").arg(symbolGraphicsItems.count());
 
-        QModelIndexList symbolIndexes;
+        m_dragSymbolIndexes.clear();
         foreach (QGraphicsItem *symbolItem, symbolGraphicsItems) {
             QModelIndex symbolIndex = m_visualMusicModel->indexForItem(symbolItem);
             if (symbolIndex.isValid()) {
-                symbolIndexes.append(symbolIndex);
+                m_dragSymbolIndexes.append(symbolIndex);
             }
         }
-        qDebug() << "Selected symbol indexes: " << symbolIndexes;
+        qDebug() << "Selected symbol indexes: " << m_dragSymbolIndexes;
 
         //        QGraphicsItemGroup *itemGroup = scene()->createItemGroup(symbolGraphicsItems);
         //        QRectF sceneRect = itemGroup->sceneBoundingRect();
@@ -92,17 +92,17 @@ void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
         QDrag *drag = new QDrag(this);
         //        drag->setDragCursor(pixmap, Qt::CopyAction);
-        if (symbolIndexes.count()) {
-            const QAbstractItemModel *model = symbolIndexes.at(0).model();
+        if (m_dragSymbolIndexes.count()) {
+            const QAbstractItemModel *model = m_dragSymbolIndexes.at(0).model();
             if (model) {
                 qDebug() << "Setting drag mime data from model";
-                QMimeData *data = model->mimeData(symbolIndexes);
-                QStringList dataTypex = data->formats();
+                QMimeData *data = model->mimeData(m_dragSymbolIndexes);
                 drag->setMimeData(data);
             }
         }
 
         drag->exec(Qt::MoveAction);
+
         m_symbolDragStart = QPoint();
     }
 
@@ -116,6 +116,12 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 
     qDebug() << "GraphicsScene drop event mime formats: " << mimeData->formats();
     if (mimeData->formats().contains(LP::MimeTypes::Symbol)) {
+        Qt::DropAction dropAction = event->dropAction();
+        if (dropAction != Qt::MoveAction) {
+            qDebug() << "GraphicsScene: Another drop action as moving is currently not supported";
+            return;
+        }
+
         qDebug() << "Symbols dropped";
         QGraphicsItem *dropItem = itemAt(event->scenePos(), QTransform());
         if (!dropItem)
@@ -147,9 +153,19 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
             }
 
             QGraphicsScene::dropEvent(event);
-            itemModel->dropMimeData(event->mimeData(), event->dropAction(),
-                                    dropItemIndex.row(), dropItemIndex.column(),
-                                    dropItemIndex.parent());
+            bool dropSuccess = itemModel->dropMimeData(event->mimeData(), dropAction,
+                                                       dropItemIndex.row(), dropItemIndex.column(),
+                                                       dropItemIndex.parent());
+            if (!dropSuccess)
+                return;
+
+            if (dropAction == Qt::MoveAction) {
+                foreach (const QModelIndex &index, m_dragSymbolIndexes) {
+                    itemModel->removeRow(index.row(), index.parent());
+                }
+            }
+
+            return; // No base implementation call
         }
     }
 

@@ -10,6 +10,7 @@
 #define GRAPHICSSCENE_H
 
 #include <QList>
+#include <QModelIndexList>
 #include <QGraphicsScene>
 #include <common/defines.h>
 
@@ -39,6 +40,7 @@ private:
     QGraphicsItem *symbolGraphicsItemForGlyphItem(QGraphicsItem *glyphItem);
     QList<int> m_itemTypes;
     QPointF m_symbolDragStart;
+    QModelIndexList m_dragSymbolIndexes;
     VisualMusicModel *m_visualMusicModel;
 };
 
