@@ -16,6 +16,7 @@
 
 class SymbolGraphicsItem;
 class QGraphicsLinearLayout;
+class StemEngraver;
 
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
@@ -24,6 +25,7 @@ class MeasureGraphicsItem : public InteractingGraphicsItem
 
 public:
     explicit MeasureGraphicsItem(QGraphicsItem *parent = 0);
+    ~MeasureGraphicsItem();
 
     enum { Type = MeasureGraphicsItemType };
     int type() const { return Type; }
@@ -34,8 +36,12 @@ public:
 
     // InteractingGraphicsItem interface
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
+    void removeChildItem(InteractingGraphicsItem *childItem);
     void setData(const QVariant &value, int key);
     void setGeometry(const QRectF& rect);
+
+    StemEngraver *stemEngraver() const;
+    void setStemEngraver(StemEngraver *stemEngraver);
 
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
@@ -56,6 +62,7 @@ private:
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
     QGraphicsLinearLayout *m_layout;
+    StemEngraver *m_stemEngraver;
 };
 
 #endif // MEASUREGRAPHICSITEM_H

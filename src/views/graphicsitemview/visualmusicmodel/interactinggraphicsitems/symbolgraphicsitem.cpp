@@ -202,6 +202,15 @@ void SymbolGraphicsItem::stopAnimations()
     m_geometryAnimation->stop();
 }
 
+GlyphItem *SymbolGraphicsItem::glyph() const
+{
+    if (m_graphicBuilder) {
+        return m_graphicBuilder->glyphItem();
+    }
+
+    return 0;
+}
+
 void SymbolGraphicsItem::setGeometry(const QRectF &rect)
 {
     InteractingGraphicsItem::setGeometry(rect);

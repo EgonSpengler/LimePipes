@@ -13,6 +13,7 @@
 #include <QGraphicsLinearLayout>
 
 #include <common/defines.h>
+#include <common/graphictypes/stemengraver.h>
 
 #include "symbolgraphicsitem.h"
 #include "measuregraphicsitem.h"
@@ -20,14 +21,23 @@
 const int InitialLineWidth  = 1;
 
 MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
-    : InteractingGraphicsItem(parent)
+    : InteractingGraphicsItem(parent),
+      m_stemEngraver(0)
 {
     setPenWidth(InitialLineWidth);
     setAcceptDrops(true);
 
+    m_stemEngraver = new StemEngraver();
+
     m_layout = new QGraphicsLinearLayout(Qt::Horizontal, this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
+}
+
+MeasureGraphicsItem::~MeasureGraphicsItem()
+{
+    delete m_stemEngraver;
+    m_stemEngraver = 0;
 }
 
 void MeasureGraphicsItem::setPenWidth(qreal width)
@@ -47,6 +57,16 @@ void MeasureGraphicsItem::setSymbolGeometry(SymbolGraphicsItem *symbolItem, cons
 {
     symbolItem->setGeometryAnimated(rect);
 }
+StemEngraver *MeasureGraphicsItem::stemEngraver() const
+{
+    return m_stemEngraver;
+}
+
+void MeasureGraphicsItem::setStemEngraver(StemEngraver *stemEngraver)
+{
+    m_stemEngraver = stemEngraver;
+}
+
 
 void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
 {
@@ -64,6 +84,36 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
 
     m_layout->insertItem(index, childItem);
     m_symbolItems.insert(index, symbolItem);
+    GlyphItem *glyph = symbolItem->glyph();
+    if(!glyph) {
+        qDebug() << "MeasureGraphicsItem: No glyph item returned from "
+                    "newly inserted SymbolGraphicsItem";
+        return;
+    }
+    m_stemEngraver->insertGlyphItem(index, glyph);
+}
+
+void MeasureGraphicsItem::removeChildItem(InteractingGraphicsItem *childItem)
+{
+    SymbolGraphicsItem *symbolItem = qgraphicsitem_cast<SymbolGraphicsItem*>(childItem);
+    if (!symbolItem) {
+        qWarning() << "MeasureGraphicsItem: Non symbol can't be located for removal from measure";
+        InteractingGraphicsItem::removeChildItem(childItem);
+        return;
+    }
+    m_symbolItems.removeAll(symbolItem);
+
+    GlyphItem *glyph = symbolItem->glyph();
+    if (!glyph) {
+        qDebug() << "MeasureGraphicsItem: No glyph item returned from "
+                    "SymbolGraphicsItem which should be removed";
+        InteractingGraphicsItem::removeChildItem(childItem);
+        return;
+
+    }
+    m_stemEngraver->removeGlyphItem(symbolItem->glyph());
+
+    InteractingGraphicsItem::removeChildItem(childItem);
 }
 
 void MeasureGraphicsItem::setData(const QVariant &value, int key)

@@ -19,6 +19,7 @@ set( lp_graphicsitemview_SOURCES
         ${GRAPHICTYPES_DIR}/glyphitem.cpp
         ${GRAPHICTYPES_DIR}/symbolgraphicbuilder.cpp
         ${GRAPHICTYPES_DIR}/iteminteraction.cpp
+        ${GRAPHICTYPES_DIR}/stemengraver.cpp
 
         ${TYPES_DIR}/pitchcontext.cpp
         ${TYPES_DIR}/pitch.cpp

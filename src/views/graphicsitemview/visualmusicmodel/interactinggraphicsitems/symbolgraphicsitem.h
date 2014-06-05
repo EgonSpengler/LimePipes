@@ -47,6 +47,8 @@ public:
 
     void stopAnimations();
 
+    GlyphItem *glyph() const;
+
 protected:
     void focusInEvent(QFocusEvent *event);
     void focusOutEvent(QFocusEvent *event);
