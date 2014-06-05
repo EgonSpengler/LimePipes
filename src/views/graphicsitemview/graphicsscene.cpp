@@ -146,6 +146,7 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
                 goto baseImpl;
             }
 
+            QGraphicsScene::dropEvent(event);
             itemModel->dropMimeData(event->mimeData(), event->dropAction(),
                                     dropItemIndex.row(), dropItemIndex.column(),
                                     dropItemIndex.parent());

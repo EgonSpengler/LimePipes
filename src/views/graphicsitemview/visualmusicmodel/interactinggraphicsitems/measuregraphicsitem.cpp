@@ -56,11 +56,13 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
         return;
     }
 
-    qDebug() << "MeasureGraphicsItem: Insert symbol into layout ";
-    qDebug() << "MeasureGraphicsItem: Layout " << m_layout;
-    qDebug() << "MeasureGraphicsItem: Layout count " << m_layout->count();
+    // All animations have to be stopped before insertion.
+    // If the animation lasts longer than layout activation, items aren't on their right position
+    foreach (SymbolGraphicsItem *symbolItem, m_symbolItems) {
+        symbolItem->stopAnimations();
+    }
+
     m_layout->insertItem(index, childItem);
-    qDebug() << "MeasureGraphicsItem: Layout count " << m_layout->count();
     m_symbolItems.insert(index, symbolItem);
 }
 

@@ -45,6 +45,8 @@ public:
 
     void setGeometryAnimated(const QRectF& rect);
 
+    void stopAnimations();
+
 protected:
     void focusInEvent(QFocusEvent *event);
     void focusOutEvent(QFocusEvent *event);

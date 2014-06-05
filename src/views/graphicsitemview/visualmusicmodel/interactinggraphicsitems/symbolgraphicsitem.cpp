@@ -112,7 +112,6 @@ void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)
 
     qreal maxWidth = glyphItem->boundingRect().width();
     setMaximumWidth(maxWidth);
-    qDebug() << "SymbolGraphicsItem: set maximum width to: " << maxWidth;
 }
 
 QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change, const QVariant &value)
@@ -196,6 +195,11 @@ void SymbolGraphicsItem::setGeometryAnimated(const QRectF &rect)
         m_geometryAnimation->setEndValue(rect);
         m_geometryAnimation->start();
     }
+}
+
+void SymbolGraphicsItem::stopAnimations()
+{
+    m_geometryAnimation->stop();
 }
 
 void SymbolGraphicsItem::setGeometry(const QRectF &rect)
