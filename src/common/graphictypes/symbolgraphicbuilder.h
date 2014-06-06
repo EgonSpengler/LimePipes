@@ -12,13 +12,16 @@
 #include <QHash>
 #include <QVector>
 #include <QVariant>
+#include <QObject>
 #include <common/graphictypes/MusicFont/musicfont.h>
 
 class GlyphItem;
 
-class SymbolGraphicBuilder
+class SymbolGraphicBuilder : public QObject
 {
+    Q_OBJECT
     friend class SymbolGraphicBuilderTest;
+
 public:
     explicit SymbolGraphicBuilder();
     virtual ~SymbolGraphicBuilder() {}
@@ -43,6 +46,9 @@ public:
     {
         return QVector<int>();
     }
+
+signals:
+    void dataChanged(const QVariant& data, int role);
 
 protected:
     virtual void updateSymbolGraphic(const QVariant& value, int key)

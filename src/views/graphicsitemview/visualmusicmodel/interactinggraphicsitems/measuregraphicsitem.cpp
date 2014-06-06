@@ -84,13 +84,13 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
 
     m_layout->insertItem(index, childItem);
     m_symbolItems.insert(index, symbolItem);
-    GlyphItem *glyph = symbolItem->glyph();
-    if(!glyph) {
-        qDebug() << "MeasureGraphicsItem: No glyph item returned from "
+    SymbolGraphicBuilder *graphicBuilder = symbolItem->graphicBuilder();
+    if(!graphicBuilder) {
+        qDebug() << "MeasureGraphicsItem: No graphic builder returned from "
                     "newly inserted SymbolGraphicsItem";
         return;
     }
-    m_stemEngraver->insertGlyphItem(index, glyph);
+    m_stemEngraver->insertGraphicsBuilder(index, graphicBuilder);
 }
 
 void MeasureGraphicsItem::removeChildItem(InteractingGraphicsItem *childItem)
@@ -103,15 +103,15 @@ void MeasureGraphicsItem::removeChildItem(InteractingGraphicsItem *childItem)
     }
     m_symbolItems.removeAll(symbolItem);
 
-    GlyphItem *glyph = symbolItem->glyph();
-    if (!glyph) {
-        qDebug() << "MeasureGraphicsItem: No glyph item returned from "
+    SymbolGraphicBuilder *graphicBuilder = symbolItem->graphicBuilder();
+    if (!graphicBuilder) {
+        qDebug() << "MeasureGraphicsItem: No graphic builder returned from "
                     "SymbolGraphicsItem which should be removed";
         InteractingGraphicsItem::removeChildItem(childItem);
         return;
 
     }
-    m_stemEngraver->removeGlyphItem(symbolItem->glyph());
+    m_stemEngraver->removeGraphicsBuilder(graphicBuilder);
 
     InteractingGraphicsItem::removeChildItem(childItem);
 }
@@ -209,6 +209,8 @@ void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     Engravings engravings(musicFont->engravings());
     qreal width = engravings.thinBarlineThickness * staffSpace;
     setPenWidth(width);
+
+    m_stemEngraver->setMusicFont(musicFont);
 }
 
 void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)

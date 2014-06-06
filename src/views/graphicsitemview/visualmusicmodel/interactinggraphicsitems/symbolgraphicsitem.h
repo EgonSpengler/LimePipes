@@ -47,7 +47,7 @@ public:
 
     void stopAnimations();
 
-    GlyphItem *glyph() const;
+    SymbolGraphicBuilder *graphicBuilder() const;
 
 protected:
     void focusInEvent(QFocusEvent *event);
@@ -58,7 +58,6 @@ private:
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
     void setGlyphItemYPosForPitch(const PitchPtr &pitch);
     void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
-    SymbolGraphicBuilder *graphicBuilder() const;
     void fadeSymbolItem(bool in);
 
     QSharedPointer<SymbolGraphicBuilder> m_graphicBuilder;

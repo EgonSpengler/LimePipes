@@ -40,6 +40,7 @@ void SymbolGraphicBuilder::setData(const QVariant &value, int key)
             value.isValid()) {
         m_graphicData.insert(key, value);
         updateSymbolGraphic(value, key);
+        emit dataChanged(value, key);
     }
 }
 

@@ -177,8 +177,8 @@ void VisualMusicModel::insertNewVisualItems(const QModelIndex &parentIndex, int 
             if (visualItem == 0)
                 continue;
 
-            initVisualItemData(visualItem, itemIndex);
             insertVisualItem(itemIndex, visualItem);
+            initVisualItemData(visualItem, itemIndex);
 
             if (visualItem->graphicalType() == VisualItem::GraphicalRowType) {
                 itemRowSequenceChanged(visualItem);
