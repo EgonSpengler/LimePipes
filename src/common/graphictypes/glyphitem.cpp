@@ -90,9 +90,50 @@ QVariant GlyphItem::itemChange(QGraphicsItem::GraphicsItemChange change, const Q
     return QGraphicsItem::itemChange(change, value);
 }
 
+GlyphData GlyphItem::glyphDataToItemCoordinates(const GlyphData &glyphData) const
+{
+    if (musicFont().isNull())
+        return glyphData;
+
+    GlyphData itemData(glyphData);
+    qreal staffSpace = m_musicFont->staffSpace();
+    itemData.nominalWidth *= staffSpace;
+
+    itemData.numeralBottom *= staffSpace;
+    itemData.numeralBottom.setY(itemData.numeralBottom.y() * -1);
+
+    itemData.numeralTop *= staffSpace;
+    itemData.numeralTop.setY(itemData.numeralTop.y() * -1);
+
+    itemData.stemDownNW *= staffSpace;
+    itemData.stemDownNW.setY(itemData.stemDownNW.y() * -1);
+
+    itemData.stemDownSW *= staffSpace;
+    itemData.stemDownSW.setY(itemData.stemDownSW.y() * -1);
+
+    itemData.stemUpNW *= staffSpace;
+    itemData.stemUpNW.setY(itemData.stemUpNW.y() * -1);
+
+    itemData.stemUpSE *= staffSpace;
+    itemData.stemUpSE.setY(itemData.stemUpSE.y() * -1);
+
+
+    return itemData;
+}
+
 QString GlyphItem::glyphName() const
 {
     return m_glyphName;
+}
+
+GlyphData GlyphItem::itemGlyphData() const
+{
+    if (m_musicFont.isNull() ||
+            m_glyphName.isEmpty())
+        return GlyphData();
+
+    GlyphData data = m_musicFont->glyphData(m_glyphName);
+    return glyphDataToItemCoordinates(data);
 }
 
 void GlyphItem::setGlyphName(const QString &glyphName)
@@ -125,8 +166,8 @@ void GlyphItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->drawText(0, 0, m_char);
 
     // Bounding rect
-    QPen pen(Qt::blue);
-    pen.setWidthF(1.0);
-    painter->setPen(pen);
-    painter->drawRect(m_boundingRect);
+//    QPen pen(Qt::blue);
+//    pen.setWidthF(1.0);
+//    painter->setPen(pen);
+//    painter->drawRect(m_boundingRect);
 }

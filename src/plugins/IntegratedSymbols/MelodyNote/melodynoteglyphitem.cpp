@@ -267,3 +267,18 @@ void MelodyNoteGlyphItem::colorRoleHasChanged(const FontColor &color)
         m_ledgerLines.at(i)->setPen(ledgerPen);
     }
 }
+
+QString MelodyNoteGlyphItem::glyphName() const
+{
+    return m_notehead->glyphName();
+}
+
+GlyphData MelodyNoteGlyphItem::itemGlyphData() const
+{
+    GlyphData data = m_notehead->itemGlyphData();
+    data.stemDownNW += QPointF(m_notehead->x(), 0);
+    data.stemDownSW += QPointF(m_notehead->x(), 0);
+    data.stemUpNW += QPointF(m_notehead->x(), 0);
+    data.stemUpSE += QPointF(m_notehead->x(), 0);
+    return data;
+}

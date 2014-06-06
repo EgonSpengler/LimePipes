@@ -56,6 +56,14 @@ int Length::toInt(Length::Value length)
     return static_cast<int>(length);
 }
 
+bool Length::hasFlag(Length::Value length)
+{
+    int lengthNumber = toInt(length);
+    if (lengthNumber >= 8)
+        return true;
+    return false;
+}
+
 QList<int> Length::lengthValues()
 {
     return QList<int>() << _1 << _2 << _4 << _8 <<

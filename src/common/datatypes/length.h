@@ -26,7 +26,11 @@ public:
         _8 = 8,  //!< Eighth
         _16 = 16,
         _32 = 32,
-        _64 = 64
+        _64 = 64,
+        _128 = 128,
+        _256 = 256,
+        _512 = 512,
+        _1024 = 1024
     };
     static Value valueForName(const QString &name);
     static QList<int> lengthValues();
@@ -35,6 +39,7 @@ public:
     static QStringList lengthNames();
 
     static int toInt(Length::Value length);
+    static bool hasFlag(Length::Value length);
 
 private:
     explicit Length();

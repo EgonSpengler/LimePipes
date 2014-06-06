@@ -9,19 +9,45 @@
 #ifndef STEMGLYPHITEM_H
 #define STEMGLYPHITEM_H
 
+#include <QGraphicsLineItem>
 #include <common/datatypes/length.h>
-
+#include <common/datatypes/pitch.h>
 #include "glyphitem.h"
+
+class QGraphicsLineItem;
 
 class StemGlyphItem : public GlyphItem
 {
 public:
+    enum Direction {
+        Upwards,
+        Downwards
+    };
+
     explicit StemGlyphItem();
 
     void setLength(Length::Value length);
 
+    void setPitch(const PitchPtr &pitch);
+
+    void setStemLengthFactor(qreal staffSpaceFactor);
+
+    Direction stemDirection() const;
+    void setStemDirection(const Direction &stemDirection);
+
+    void setFlagGlyph(Length::Value length);
+
+    // GlyphItem interface
+protected:
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
+
 private:
-    GlyphItem *m_flag;
+    QString flagGlyphNameFromLength(Length::Value length);
+    void layoutFlagGlyphAndStem();
+    GlyphItem *m_flagItem;
+    QGraphicsLineItem *m_stemItem;
+    Direction m_stemDirection;
+    qreal m_stemLengthFactor;
 };
 
 #endif // STEMGLYPHITEM_H

@@ -29,6 +29,9 @@ public:
 
     QPen ledgerLinePen() const;
 
+    QString glyphName() const;
+    GlyphData itemGlyphData() const;
+
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
     void colorRoleHasChanged(const FontColor &color);

@@ -27,7 +27,21 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-    QString glyphName() const;
+    /*!
+     * \brief glyphName The name of the glyph. If a subclass is only a container for more GlyphItems,
+     *        it can return the name of the right glyph item. This should be the glyph
+     * \return
+     */
+    virtual QString glyphName() const;
+
+    /*!
+     * \brief glyphData Returns the GlyphData in item coordinates. If a subclass of GlyphItem
+     *        is only a container for more GlyphItems, it can reimplement this method to return
+     *        the right positions.
+     * \return  The GlyphData
+     */
+    virtual GlyphData itemGlyphData() const;
+
     void setGlyphName(const QString &glyphName);
 
     MusicFontPtr musicFont() const;
@@ -40,6 +54,7 @@ protected:
     virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
     virtual void colorRoleHasChanged(const FontColor &colorRole) { Q_UNUSED(colorRole); }
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    GlyphData glyphDataToItemCoordinates(const GlyphData &itemGlyphData) const;
 
 private:
     void initFromGlyphName(const QString& glyphName);

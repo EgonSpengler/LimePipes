@@ -11,6 +11,7 @@
 
 #include <common/itemdataroles.h>
 #include <common/datatypes/length.h>
+#include <common/datatypes/pitch.h>
 
 #include "symbolgraphicbuilder.h"
 #include "stemglyphitem.h"
@@ -26,7 +27,14 @@ void StemEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builde
     data.graphicBuilder = builder;
     data.glyphItem = new StemGlyphItem;
 
+    data.glyphItem->setStemDirection(StemGlyphItem::Downwards);
+
     m_stemDatas.insert(index, data);
+    GlyphItem *builderItem = builder->glyphItem();
+    if (builderItem) {
+        data.glyphItem->setMusicFont(musicFont());
+        data.glyphItem->setParentItem(builderItem);
+    }
     QObject::connect(builder, &SymbolGraphicBuilder::dataChanged,
                      [this, builder] (const QVariant& data, int role) {
         builderDataChanged(builder, data, role);
@@ -55,6 +63,13 @@ void StemEngraver::builderDataChanged(SymbolGraphicBuilder *builder, const QVari
         if (!stemData.glyphItem)
             return;
         stemData.glyphItem->setLength(length);
+    }
+    if (role == LP::SymbolPitch) {
+        PitchPtr pitch = data.value<PitchPtr>();
+        StemData stemData = stemDataWithGraphicBuilder(builder);
+        if (!stemData.glyphItem)
+            return;
+        stemData.glyphItem->setPitch(pitch);
     }
 }
 
