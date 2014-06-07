@@ -39,6 +39,10 @@ void StemEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builde
                      [this, builder] (const QVariant& data, int role) {
         builderDataChanged(builder, data, role);
     });
+
+    // Init
+    builderDataChanged(builder, builder->data(LP::SymbolLength), LP::SymbolLength);
+    builderDataChanged(builder, builder->data(LP::SymbolPitch), LP::SymbolPitch);
 }
 
 void StemEngraver::removeGraphicsBuilder(SymbolGraphicBuilder *builder)
