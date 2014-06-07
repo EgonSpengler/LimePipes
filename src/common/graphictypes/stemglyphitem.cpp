@@ -102,10 +102,9 @@ void StemGlyphItem::layoutFlagGlyphAndStem()
     qreal halfLineThickness = m_stemItem->pen().widthF() / 2;
     m_stemItem->setLine(halfLineThickness, 0,
                         halfLineThickness, stemLength);
-    m_stemItem->moveBy(basePos.x(), basePos.y());
+    m_stemItem->setPos(basePos);
 
-    m_flagItem->setPos(0, stemLength);
-    m_flagItem->moveBy(basePos.x(), basePos.y());
+    m_flagItem->setPos(QPointF(0, stemLength) + basePos);
 }
 
 void StemGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
