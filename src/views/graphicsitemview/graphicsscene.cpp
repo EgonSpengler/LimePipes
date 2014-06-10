@@ -139,13 +139,9 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 
             QPointF dropPos = measureItem->mapFromScene(event->scenePos());
             QGraphicsItem *dropItem = measureItem->dropItemAt(dropPos);
-            if (dropItem == measureItem) {
-                qDebug() << "Drop on measure";
-            } else {
-                qDebug() << "Drop on " << itemTypeOfGraphicsItem(dropItem);
-            }
-
+            QModelIndex measureItemIndex = m_visualMusicModel->indexForItem(measureItem);
             QModelIndex dropItemIndex = m_visualMusicModel->indexForItem(dropItem);
+
             qDebug() << "Drop index: " << dropItemIndex;
             QAbstractItemModel *itemModel = m_visualMusicModel->model();
             if (!itemModel) {
@@ -153,10 +149,19 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
                 goto baseImpl;
             }
 
+            int dropRow = dropItemIndex.row();
+            int dropColumn = dropItemIndex.column();
+            if (dropItem == measureItem) {
+                qDebug() << "Drop on measure";
+                dropRow = -1;
+                dropColumn = -1;
+            } else {
+                qDebug() << "Drop on " << itemTypeOfGraphicsItem(dropItem);
+            }
+
             QGraphicsScene::dropEvent(event);
             bool dropSuccess = itemModel->dropMimeData(event->mimeData(), dropAction,
-                                                       dropItemIndex.row(), dropItemIndex.column(),
-                                                       dropItemIndex.parent());
+                                                       dropRow, dropColumn, measureItemIndex);
             if (!dropSuccess)
                 return;
 
