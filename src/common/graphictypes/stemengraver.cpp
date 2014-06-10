@@ -32,7 +32,9 @@ void StemEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builde
     StemData data;
     data.graphicBuilder = builder;
     data.glyphItem = new StemGlyphItem;
-    data.glyphItem->connectColorRoleToGlyph(builder->glyphItem());
+    if (builder->glyphItem()) {
+        data.glyphItem->connectColorRoleToGlyph(builder->glyphItem());
+    }
 
     data.glyphItem->setStemDirection(StemGlyphItem::Downwards);
 

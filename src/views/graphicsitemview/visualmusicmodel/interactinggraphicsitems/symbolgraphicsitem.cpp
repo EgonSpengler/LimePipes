@@ -101,6 +101,9 @@ void SymbolGraphicsItem::setGlyphItemYPosForPitch(const PitchPtr &pitch)
         return;
 
     GlyphItem *glyph = m_graphicBuilder->glyphItem();
+    if (!glyph)
+        return;
+
     qreal halfStaffSpace = musicFont()->halfStaffSpace();
     glyph->setY(halfStaffSpace * pitch->staffPos());
 }
@@ -212,7 +215,9 @@ void SymbolGraphicsItem::focusInEvent(QFocusEvent *event)
     if (m_graphicBuilder.isNull())
         goto parent_implementation;
 
-    m_graphicBuilder->glyphItem()->setColorRole(FontColor::Focus);
+    if (m_graphicBuilder->glyphItem()) {
+        m_graphicBuilder->glyphItem()->setColorRole(FontColor::Focus);
+    }
 
 parent_implementation:
     InteractingGraphicsItem::focusInEvent(event);
@@ -238,4 +243,13 @@ void SymbolGraphicsItem::focusOutEvent(QFocusEvent *event)
     glyph->setColorRole(color);
 
     InteractingGraphicsItem::focusOutEvent(event);
+}
+
+void SymbolGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
+{
+    // Symbols without graphic builder set maximum width depending on
+    // staff size
+    if (m_graphicBuilder.isNull()) {
+        setMaximumWidth(musicFont->staffSpace() / 4);
+    }
 }

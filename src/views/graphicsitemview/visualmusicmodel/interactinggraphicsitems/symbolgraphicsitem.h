@@ -53,6 +53,7 @@ protected:
     void focusInEvent(QFocusEvent *event);
     void focusOutEvent(QFocusEvent *event);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
 
 private:
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);

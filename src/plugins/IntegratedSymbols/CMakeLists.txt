@@ -8,9 +8,12 @@ set( lp_plugin_SOURCES
 
         integratedsymbols.cpp
         integratedsymbolsdefines.h
+
         MelodyNote/melodynoteglyphitem.cpp
         MelodyNote/melodynoteinteraction.cpp
-        melodynotegraphicbuilder.cpp
+        MelodyNote/melodynotegraphicbuilder.cpp
+
+        Tie/tiegraphicbuilder.cpp
     )
 
 add_library( lp_integratedsymbols STATIC ${lp_plugin_SOURCES} )

@@ -18,6 +18,10 @@ public:
     explicit Tie();
 private:
     void initSymbol();
+
+    // MusicItem interface
+public:
+    bool itemSupportsWritingOfData(int role) const;
 };
 
 #endif // TIE_H

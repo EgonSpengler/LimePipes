@@ -29,8 +29,15 @@ enum class SymbolCategory
     Text        //!< Visible symbols presentable as text
 };
 
+enum class SymbolSpanType
+{
+    Start = 1,
+    End
+};
+
 Q_DECLARE_METATYPE(StaffType)
 Q_DECLARE_METATYPE(SymbolCategory)
+Q_DECLARE_METATYPE(SymbolSpanType)
 
 enum GraphicsItemType {
     NoGraphicsItemType = QGraphicsItem::UserType,

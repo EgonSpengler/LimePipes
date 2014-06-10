@@ -37,6 +37,7 @@ bool GHB_Instrument::supportsSymbolType(int type) const
 
     case GHB::Doubling:
     case LP::MelodyNote:
+    case LP::Tie:
         return true;
     default:
         return false;

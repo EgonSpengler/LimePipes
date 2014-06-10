@@ -11,9 +11,10 @@
 #include "symbols/melodynote.h"
 #include "symbols/tie.h"
 
-#include <MelodyNote/melodynoteinteraction.h>
+#include "MelodyNote/melodynoteinteraction.h"
+#include "MelodyNote/melodynotegraphicbuilder.h"
 
-#include "melodynotegraphicbuilder.h"
+#include "Tie/tiegraphicbuilder.h"
 #include "integratedsymbols.h"
 
 IntegratedSymbols::IntegratedSymbols(QObject *parent)
@@ -27,6 +28,8 @@ SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForType(int type)
 {
     if (type == LP::MelodyNote)
         return new MelodyNoteGraphicBuilder();
+    if (type == LP::Tie)
+        return new TieGraphicBuilder();
 
     return 0;
 }

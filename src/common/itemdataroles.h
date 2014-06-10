@@ -78,17 +78,19 @@ enum SymbolDataRole {
     SymbolLength        = Qt::UserRole + 13,    // Length (269)
     SymbolPitch         = Qt::UserRole + 14,    // PitchPtr (270)
     SymbolPitchContext  = Qt::UserRole + 15,    // PitchContextPtr (271)
+    SymbolSpanType      = Qt::UserRole * 16,    // SymbolSpanType in defines.h. (272)
 };
 static QVector<SymbolDataRole> allSymbolDataRoles({SymbolType,
+                                                   SymbolCategory,
                                                    SymbolPitchContext,
                                                    SymbolLength,
                                                    SymbolPitch,
                                                    SymbolName,
-                                                   SymbolCategory});
+                                                   SymbolSpanType});
 
 // MelodyNote
 enum MelodyNoteDataRole {
-    MelodyNoteDots      = Qt::UserRole + 16     // int (272)
+    MelodyNoteDots      = Qt::UserRole + 17     // int (273)
 };
 
 }
