@@ -24,6 +24,7 @@ MelodyNoteGlyphItem::MelodyNoteGlyphItem()
 {
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     m_notehead = new GlyphItem(this);
+    m_notehead->connectColorRoleToGlyph(this);
     m_notehead->setFocusProxy(this);
 }
 
@@ -76,6 +77,7 @@ void MelodyNoteGlyphItem::setDotGlyphCount(int dotCount)
     if (m_augmentationDots.count() < dotCount) {
         while (m_augmentationDots.count() < dotCount) {
             GlyphItem *newDot = new GlyphItem(AugmentationDot, this);
+            newDot->connectColorRoleToGlyph(this);
             newDot->setMusicFont(musicFont());
             newDot->setVisible(false);
             newDot->setColorRole(colorRole());
@@ -256,12 +258,6 @@ void MelodyNoteGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 
 void MelodyNoteGlyphItem::colorRoleHasChanged(const FontColor &color)
 {
-    m_notehead->setColorRole(color);
-
-    for (int i = 0; i < m_augmentationDots.count(); ++i) {
-        m_augmentationDots.at(i)->setColorRole(color);
-    }
-
     QPen ledgerPen = ledgerLinePen();
     for (int i = 0; i < m_ledgerLines.count(); ++i) {
         m_ledgerLines.at(i)->setPen(ledgerPen);

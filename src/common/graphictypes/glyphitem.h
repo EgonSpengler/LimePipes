@@ -13,10 +13,11 @@
 #include <QRectF>
 #include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/defines.h>
-#include <QGraphicsItem>
+#include <QGraphicsObject>
 
-class GlyphItem : public QGraphicsItem
+class GlyphItem : public QGraphicsObject
 {
+    Q_OBJECT
 public:
     explicit GlyphItem(QGraphicsItem *parent = 0);
     explicit GlyphItem(const QString& glyphName, QGraphicsItem *parent = 0);
@@ -47,8 +48,15 @@ public:
     MusicFontPtr musicFont() const;
     void setMusicFont(const MusicFontPtr &musicFont);
 
-    void setColorRole(const FontColor &colorRole);
     FontColor colorRole() const;
+
+    void connectColorRoleToGlyph(GlyphItem *glyph);
+
+public slots:
+    void setColorRole(const FontColor &colorRole);
+
+signals:
+    void colorRoleChanged(const FontColor &colorRole);
 
 protected:
     virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }

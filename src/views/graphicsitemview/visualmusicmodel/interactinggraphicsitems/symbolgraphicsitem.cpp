@@ -220,11 +220,22 @@ parent_implementation:
 
 void SymbolGraphicsItem::focusOutEvent(QFocusEvent *event)
 {
-    if (m_graphicBuilder.isNull())
-        goto parent_implementation;
+    if (m_graphicBuilder.isNull()) {
+        InteractingGraphicsItem::focusOutEvent(event);
+        return;
+    }
 
-    m_graphicBuilder->glyphItem()->setColorRole(FontColor::Normal);
+    GlyphItem *glyph = m_graphicBuilder->glyphItem();
+    if (!glyph) {
+        InteractingGraphicsItem::focusOutEvent(event);
+        return;
+    }
 
-parent_implementation:
+    FontColor color = FontColor::Normal;
+    if (glyph->isSelected())
+        color = FontColor::Selected;
+
+    glyph->setColorRole(color);
+
     InteractingGraphicsItem::focusOutEvent(event);
 }

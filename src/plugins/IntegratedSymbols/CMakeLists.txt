@@ -2,7 +2,6 @@ add_definitions( -DQT_STATICPLUGIN )
 
 set( lp_plugin_SOURCES
         ${CMAKE_SOURCE_DIR}/src/common/graphictypes/symbolgraphicbuilder.cpp
-        ${CMAKE_SOURCE_DIR}/src/common/graphictypes/glyphitem.cpp
 
         symbols/melodynote.cpp
 

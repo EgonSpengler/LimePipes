@@ -19,6 +19,7 @@ StemGlyphItem::StemGlyphItem()
       m_stemLengthFactor(3.5)
 {
     m_flagItem = new GlyphItem(this);
+    m_flagItem->connectColorRoleToGlyph(this);
     m_stemItem = new QGraphicsLineItem(this);
 }
 
@@ -113,5 +114,12 @@ void StemGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     QPen stemPen = m_stemItem->pen();
     stemPen.setWidthF(musicFont->engravings().stemThickness *
                       musicFont->staffSpace());
+    m_stemItem->setPen(stemPen);
+}
+
+void StemGlyphItem::colorRoleHasChanged(const FontColor &colorRole)
+{
+    QPen stemPen = m_stemItem->pen();
+    stemPen.setColor(musicFont()->fontColor(colorRole));
     m_stemItem->setPen(stemPen);
 }

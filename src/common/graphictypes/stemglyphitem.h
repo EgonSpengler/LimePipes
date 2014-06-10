@@ -40,6 +40,7 @@ public:
     // GlyphItem interface
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
+    void colorRoleHasChanged(const FontColor &colorRole);
 
 private:
     QString flagGlyphNameFromLength(Length::Value length);

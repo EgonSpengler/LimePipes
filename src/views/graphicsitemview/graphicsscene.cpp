@@ -75,7 +75,8 @@ void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
         foreach (QGraphicsItem *symbolItem, symbolGraphicsItems) {
             QModelIndex symbolIndex = m_visualMusicModel->indexForItem(symbolItem);
             if (symbolIndex.isValid()) {
-                m_dragSymbolIndexes.append(symbolIndex);
+                QPersistentModelIndex persistentSymbolIndex(symbolIndex);
+                m_dragSymbolIndexes.append(persistentSymbolIndex);
             }
         }
         qDebug() << "Selected symbol indexes: " << m_dragSymbolIndexes;

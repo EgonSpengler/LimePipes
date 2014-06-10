@@ -13,14 +13,14 @@
 #include "glyphitem.h"
 
 GlyphItem::GlyphItem(QGraphicsItem *parent)
-    : QGraphicsItem(parent),
+    : QGraphicsObject(parent),
       m_colorRole(FontColor::Normal)
 {
     setFlag(QGraphicsItem::ItemIsSelectable);
 }
 
 GlyphItem::GlyphItem(const QString &glyphName, QGraphicsItem *parent)
-    : QGraphicsItem(parent),
+    : QGraphicsObject(parent),
       m_colorRole(FontColor::Normal)
 {
     setFlag(QGraphicsItem::ItemIsSelectable);
@@ -45,6 +45,12 @@ void GlyphItem::initFromGlyphName(const QString &glyphName)
     }
 }
 
+void GlyphItem::connectColorRoleToGlyph(GlyphItem *glyph)
+{
+    connect(glyph, &GlyphItem::colorRoleChanged,
+            this, &GlyphItem::setColorRole);
+}
+
 MusicFontPtr GlyphItem::musicFont() const
 {
     return m_musicFont;
@@ -67,6 +73,7 @@ void GlyphItem::setColorRole(const FontColor &colorRole)
 
     m_colorRole = colorRole;
     colorRoleHasChanged(m_colorRole);
+    emit colorRoleChanged(colorRole);
     update();
 }
 
@@ -83,8 +90,11 @@ QVariant GlyphItem::itemChange(QGraphicsItem::GraphicsItemChange change, const Q
         if (selected) {
             color = FontColor::Selected;
         }
-        setColorRole(color);
-        qDebug() << "Glyph item has selected state: " << selected;
+
+        // Focus Color role has higher priority and is set from external
+        if (colorRole() != FontColor::Focus) {
+            setColorRole(color);
+        }
     }
 
     return QGraphicsItem::itemChange(change, value);

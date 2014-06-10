@@ -20,6 +20,8 @@ enum class FontColor
     Selected
 };
 
+Q_DECLARE_METATYPE( FontColor )
+
 class MusicFont
 {
 public:

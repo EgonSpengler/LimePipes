@@ -12,6 +12,7 @@
 #include <common/itemdataroles.h>
 #include <common/datatypes/length.h>
 #include <common/datatypes/pitch.h>
+#include <common/graphictypes/glyphitem.h>
 
 #include "symbolgraphicbuilder.h"
 #include "stemglyphitem.h"
@@ -23,9 +24,15 @@ StemEngraver::StemEngraver()
 
 void StemEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder)
 {
+    if (builder->glyphItem() == 0) {
+        qWarning() << "Can't insert graphcis builder with no glyph item";
+        return;
+    }
+
     StemData data;
     data.graphicBuilder = builder;
     data.glyphItem = new StemGlyphItem;
+    data.glyphItem->connectColorRoleToGlyph(builder->glyphItem());
 
     data.glyphItem->setStemDirection(StemGlyphItem::Downwards);
 
@@ -97,4 +104,3 @@ void StemEngraver::setMusicFont(const MusicFontPtr &musicFont)
 {
     m_musicFont = musicFont;
 }
-
