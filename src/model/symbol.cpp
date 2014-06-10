@@ -20,7 +20,7 @@ Symbol::Symbol(MusicItem *parent)
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent)
 {
     setDefaultSymbolOptions();
-    initData(QVariant::fromValue<SymbolCategory>(SymbolCategory::Control), LP::SymbolCategory);
+    initData(QVariant::fromValue<SymbolCategory>(SymbolCategory::None), LP::SymbolCategory);
     initData(LP::NoSymbolType, LP::SymbolType);
     initData( tr("No name symbol"), LP::SymbolName);
 }
@@ -30,7 +30,7 @@ Symbol::Symbol(int type, const QString &name, MusicItem *parent)
 {
     Q_UNUSED(parent)
     setDefaultSymbolOptions();
-    initData(QVariant::fromValue<SymbolCategory>(SymbolCategory::Control), LP::SymbolCategory);
+    initData(QVariant::fromValue<SymbolCategory>(SymbolCategory::None), LP::SymbolCategory);
     initData(type, LP::SymbolType);
     initData(name, LP::SymbolName);
 }

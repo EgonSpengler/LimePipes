@@ -7,14 +7,20 @@
  */
 
 #include <common/defines.h>
-#include <symbols/melodynote.h>
+
+#include "symbols/melodynote.h"
+#include "symbols/tie.h"
+
 #include <MelodyNote/melodynoteinteraction.h>
-#include "integratedsymbols.h"
+
 #include "melodynotegraphicbuilder.h"
+#include "integratedsymbols.h"
 
 IntegratedSymbols::IntegratedSymbols(QObject *parent)
     : QObject(parent)
 {
+    m_symbolTypes << LP::MelodyNote;
+    m_symbolTypes << LP::Tie;
 }
 
 SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForType(int type)
@@ -27,16 +33,17 @@ SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForType(int type)
 
 QVector<int> IntegratedSymbols::symbolTypes()
 {
-    QVector<int> types;
-    types << LP::MelodyNote;
-
-    return types;
+    return m_symbolTypes;
 }
 
 Symbol *IntegratedSymbols::symbolForType(int type)
 {
-    if (type == LP::MelodyNote)
+    switch (type) {
+    case LP::MelodyNote:
         return new MelodyNote();
+    case LP::Tie:
+        return new Tie();
+    }
 
     return 0;
 }

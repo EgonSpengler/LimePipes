@@ -35,6 +35,9 @@ public:
     QVector<int> symbolTypes();
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);
+
+private:
+    QVector<int> m_symbolTypes;
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H

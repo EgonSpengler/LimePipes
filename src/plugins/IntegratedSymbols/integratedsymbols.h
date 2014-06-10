@@ -30,6 +30,9 @@ public:
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     ItemInteraction *itemInteractionForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);
+
+private:
+    QVector<int> m_symbolTypes;
 };
 
 #endif // INTEGRATEDSYMBOLS_H

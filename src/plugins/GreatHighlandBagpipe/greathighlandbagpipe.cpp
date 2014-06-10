@@ -16,6 +16,9 @@
 
 GreatHighlandBagpipe::GreatHighlandBagpipe()
 {
+    m_symbolTypes << LP::MelodyNote;
+    m_symbolTypes << LP::Tie;
+    m_symbolTypes << GHB::Doubling;
 }
 
 Instrument *GreatHighlandBagpipe::instrument() const
@@ -31,11 +34,7 @@ SymbolGraphicBuilder *GreatHighlandBagpipe::symbolGraphicBuilderForType(int type
 
 QVector<int> GreatHighlandBagpipe::symbolTypes()
 {
-    QVector<int> types;
-    types << LP::MelodyNote;
-    types << GHB::Doubling;
-
-    return types;
+    return m_symbolTypes;
 }
 
 Symbol *GreatHighlandBagpipe::symbolForType(int type)

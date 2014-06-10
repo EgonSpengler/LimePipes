@@ -23,8 +23,9 @@ enum class StaffType
 
 enum class SymbolCategory
 {
-    Control,    //!< Non visible control symbols (e.g. part 1 of 2)
-    Graphical,  //!< Visible symbols with pixmaps (e.g. melody notes)
+    None,    //!< Non visible control symbols (e.g. part 1 of 2)
+    Graphical,  //!< Visible symbols with graphics created by a SymbolGraphicBuilder
+    Spanning,   //!< Visible symbols which consist of an start and end symbol
     Text        //!< Visible symbols presentable as text
 };
 
@@ -115,7 +116,8 @@ enum InstrumentType {
 
 enum IntegratedSymbolTypes {
     NoSymbolType = 0,
-    MelodyNote
+    MelodyNote,
+    Tie
 };
 
 enum FirstSymbolTypeForInstrument {
