@@ -136,6 +136,7 @@ private:
     bool isMusicItemTag(const QStringRef &tagName);
 
     QModelIndex insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item);
+    QModelIndex insertItems(const QString &text, const QModelIndex &parent, int row, const QList<MusicItem *> &items);
 
     MusicItem *m_rootItem;
     int m_columnCount;

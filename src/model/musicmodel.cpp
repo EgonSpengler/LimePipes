@@ -498,6 +498,9 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         return QModelIndex();
     }
 
+    SymbolCategory category = symbol->data(LP::SymbolCategory).value<SymbolCategory>();
+    qDebug() << "MusicModel: Inserting symbol with cat: " << static_cast<int>(category);
+
     // Init pitch and pitch context if symbol has it
     if (symbol->hasPitch()) {
         PitchContextPtr pitchContext = instrument->pitchContext();
@@ -1027,17 +1030,39 @@ bool MusicModel::isRowValid(MusicItem *item, int row) const
 
 QModelIndex MusicModel::insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item)
 {
-    if (MusicItem *parentItem = itemForIndex(parent)) {
-        bool validRow = isRowValid(parentItem, row);
-        bool okToInsert = parentItem->okToInsertChild(item, row);
-        if (validRow && okToInsert) {
-            m_undoStack->push(new InsertItemsCommand(this, text,  parent, row, QList<MusicItem*>() << item));
-            return index(row, 0, parent);
-        } else {
-            qWarning() << QString("MusicModel: Item can't be inserted into model: row valid (%1), okToInsert (%2)")
-                          .arg(validRow)
-                          .arg(okToInsert);
+    return insertItems(text, parent, row, QList<MusicItem*>({item}));
+}
+
+QModelIndex MusicModel::insertItems(const QString &text, const QModelIndex &parent, int row,
+                                    const QList<MusicItem*> &items)
+{
+    MusicItem *parentItem = itemForIndex(parent);
+    if (!parentItem) {
+        return QModelIndex();
+    }
+
+    bool okToInsert = true;
+    foreach (const MusicItem *item, items) {
+        if (!parentItem->okToInsertChild(item, row)) {
+            okToInsert = false;
+            break;
         }
+    }
+
+    if (!okToInsert) {
+        qWarning() << "MusicModel: Can't insert items. Parent item returned false for "
+                      "okToInsertChild for at least one item";
+        return QModelIndex();
+    }
+
+    bool validRow = isRowValid(parentItem, row);
+    if (validRow && okToInsert) {
+        m_undoStack->push(new InsertItemsCommand(this, text,  parent, row, items));
+        return index(row, 0, parent);
+    } else {
+        qWarning() << QString("MusicModel: Item can't be inserted into model: row valid (%1), okToInsert (%2)")
+                      .arg(validRow)
+                      .arg(okToInsert);
     }
     return QModelIndex();
 }
