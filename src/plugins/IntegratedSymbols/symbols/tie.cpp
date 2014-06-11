@@ -22,8 +22,11 @@ void Tie::initSymbol()
 
 bool Tie::itemSupportsWritingOfData(int role) const
 {
-    if (role == LP::SymbolSpanType) {
+    switch (role) {
+    case LP::SymbolSpanBuddy:
+    case LP::SymbolSpanType:
         return true;
     }
+
     return Symbol::itemSupportsWritingOfData(role);
 }

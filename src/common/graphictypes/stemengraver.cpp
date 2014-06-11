@@ -25,7 +25,7 @@ StemEngraver::StemEngraver()
 void StemEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder)
 {
     if (builder->glyphItem() == 0) {
-        qWarning() << "Can't insert graphcis builder with no glyph item";
+        qWarning() << "StemEngraver: Can't insert graphcis builder with no glyph item";
         return;
     }
 

@@ -138,6 +138,9 @@ private:
     QModelIndex insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item);
     QModelIndex insertItems(const QString &text, const QModelIndex &parent, int row, const QList<MusicItem *> &items);
 
+    // Candidate for public api
+    QModelIndex insertSpanningSymbolIntoMeasure(int row, const QModelIndex &measure, int type);
+
     MusicItem *m_rootItem;
     int m_columnCount;
     PluginManager m_pluginManager;

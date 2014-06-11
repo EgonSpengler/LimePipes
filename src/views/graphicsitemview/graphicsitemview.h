@@ -18,6 +18,7 @@ class VisualMusicPresenter;
 class PageViewItem;
 class VisualMusicModel;
 class VisualItemFactory;
+class GraphicsMapperInterface;
 
 class GraphicsItemView : public QWidget
 {
@@ -31,6 +32,8 @@ public:
     void setModel(QAbstractItemModel *model);
 
     void setPluginManager(PluginManager pluginManager);
+
+    GraphicsMapperInterface *graphicsMapper() const;
 
 private:
     GraphicsScene *m_graphicsScene;

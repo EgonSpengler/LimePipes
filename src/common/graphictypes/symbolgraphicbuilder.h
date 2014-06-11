@@ -16,6 +16,7 @@
 #include <common/graphictypes/MusicFont/musicfont.h>
 
 class GlyphItem;
+class GraphicsMapperInterface;
 
 class SymbolGraphicBuilder : public QObject
 {
@@ -47,6 +48,9 @@ public:
         return QVector<int>();
     }
 
+    GraphicsMapperInterface *graphicsMapper() const;
+    void setGraphicsMapper(GraphicsMapperInterface *graphicsMapper);
+
 signals:
     void dataChanged(const QVariant& data, int role);
 
@@ -62,6 +66,7 @@ protected:
 private:
     QHash<int, QVariant> m_graphicData;
     MusicFontPtr m_musicFont;
+    GraphicsMapperInterface *m_graphicsMapper;
 };
 
 #endif // SYMBOLGRAPHICBUILDER_H

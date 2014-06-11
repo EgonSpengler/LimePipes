@@ -9,7 +9,11 @@
 #ifndef TIEGRAPHICBUILDER_H
 #define TIEGRAPHICBUILDER_H
 
+#include <QVector>
+#include <QPersistentModelIndex>
+
 #include <common/graphictypes/symbolgraphicbuilder.h>
+#include <common/defines.h>
 
 class TieGraphicBuilder : public SymbolGraphicBuilder
 {
@@ -25,6 +29,8 @@ protected:
     void musicFontChanged(const MusicFontPtr &musicFont);
 
 private:
+    SymbolSpanType m_spanType;
+    QPersistentModelIndex m_buddyIndex;
     QVector<int> m_dataRoles;
 };
 

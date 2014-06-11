@@ -11,14 +11,15 @@
 #include <QObject>
 #include <QHash>
 #include <QPersistentModelIndex>
-#include "visualitem.h"
 #include "rowiterator.h"
 #include "abstractvisualitemfactory.h"
 #include <common/pluginmanagerinterface.h>
+#include <common/graphicsmapperinterface.h>
 
 class QGraphicsItem;
 
-class VisualMusicModel : public QObject
+class VisualMusicModel : public QObject,
+                         public GraphicsMapperInterface
 {
     Q_OBJECT
 
@@ -43,6 +44,7 @@ public:
     QRectF sceneBoundingRectForIndex(const QModelIndex &index) const;
 
     QModelIndex indexForItem(QGraphicsItem *item) const;
+    QGraphicsItem *itemForIndex(const QModelIndex &index) const;
     void setCurrent(const QModelIndex& current);
 
 signals:

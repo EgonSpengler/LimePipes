@@ -10,13 +10,15 @@
 #include <common/graphictypes/symbolgraphicbuilder.h>
 #include <common/interfaces/symbolinterface.h>
 #include <common/interfaces/instrumentinterface.h>
+#include <common/graphicsmapperinterface.h>
 #include <common/datatypes/instrument.h>
 #include "commonpluginmanager.h"
 
 CommonPluginManager::CommonPluginManager(QObject *parent)
     : QObject(parent),
       m_staticPlugins(0),
-      m_dynamicPlugins(0)
+      m_dynamicPlugins(0),
+      m_graphicsMapper(0)
 {
     loadStaticPlugins();
 }
@@ -25,7 +27,8 @@ CommonPluginManager::CommonPluginManager(const QDir &pluginsPath, QObject *paren
     : QObject(parent),
       m_staticPlugins(0),
       m_dynamicPlugins(0),
-      m_pluginsPath(pluginsPath)
+      m_pluginsPath(pluginsPath),
+      m_graphicsMapper(0)
 {
     loadStaticPlugins();
     loadDynamicPlugins();
@@ -151,6 +154,7 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
     SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
     if (builder) {
         builder->setMusicFont(m_musicFont);
+        builder->setGraphicsMapper(m_graphicsMapper);
     }
     return builder;
 }
@@ -200,4 +204,14 @@ SymbolInterface *CommonPluginManager::symbolPluginWithSymbol(int symbolType)
     }
 
     return 0;
+}
+
+GraphicsMapperInterface *CommonPluginManager::graphicsMapper() const
+{
+    return m_graphicsMapper;
+}
+
+void CommonPluginManager::setGraphicsMapper(GraphicsMapperInterface *graphicsMapper)
+{
+    m_graphicsMapper = graphicsMapper;
 }

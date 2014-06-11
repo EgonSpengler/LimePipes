@@ -17,6 +17,7 @@
 
 class SymbolInterface;
 class InstrumentInterface;
+class GraphicsMapperInterface;
 
 class CommonPluginManager : public QObject,
                             public PluginManagerInterface
@@ -46,6 +47,9 @@ public:
     MusicFontPtr musicFont() const;
     void setMusicFont(const MusicFontPtr &musicFont);
 
+    GraphicsMapperInterface *graphicsMapper() const;
+    void setGraphicsMapper(GraphicsMapperInterface *graphicsMapper);
+
 private:
     void loadStaticPlugins();
     void loadDynamicPlugins();
@@ -62,6 +66,7 @@ private:
     int m_dynamicPlugins;
     QDir m_pluginsPath;
     MusicFontPtr m_musicFont;
+    GraphicsMapperInterface *m_graphicsMapper;
 };
 
 #endif // COMMONPLUGINMANAGER_H

@@ -23,6 +23,7 @@
 #include "symbolgraphicbuilder.h"
 
 SymbolGraphicBuilder::SymbolGraphicBuilder()
+    : m_graphicsMapper(0)
 {
 }
 
@@ -48,3 +49,19 @@ QVariant SymbolGraphicBuilder::data(int key) const
 {
     return m_graphicData.value(key);
 }
+
+/*!
+ * \brief SymbolGraphicBuilder::graphicsMapper
+ *        Spanning symbols need a way to get the position of their buddy item.
+ * \return
+ */
+GraphicsMapperInterface *SymbolGraphicBuilder::graphicsMapper() const
+{
+    return m_graphicsMapper;
+}
+
+void SymbolGraphicBuilder::setGraphicsMapper(GraphicsMapperInterface *graphicsMapper)
+{
+    m_graphicsMapper = graphicsMapper;
+}
+

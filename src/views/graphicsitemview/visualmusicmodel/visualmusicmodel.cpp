@@ -8,6 +8,7 @@
 
 #include <QAbstractItemModel>
 #include <QGraphicsScene>
+#include <QGraphicsItem>
 #include <QGraphicsItemGroup>
 #include <QDebug>
 #include <musicitem.h>
@@ -280,6 +281,16 @@ QModelIndex VisualMusicModel::indexForItem(QGraphicsItem *item) const
     }
 
     return QModelIndex();
+}
+
+QGraphicsItem *VisualMusicModel::itemForIndex(const QModelIndex &index) const
+{
+    VisualItem *item = m_visualItemIndexes.value(index);
+    if (item) {
+        return item->inlineGraphic();
+    }
+
+    return 0;
 }
 
 void VisualMusicModel::setCurrent(const QModelIndex &current)

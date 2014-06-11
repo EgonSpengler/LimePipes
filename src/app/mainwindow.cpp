@@ -83,6 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_settingsDialog = new SettingsDialog(this);
 
     createModelAndView();
+    pluginManager->setGraphicsMapper(m_graphicsItemView->graphicsMapper());
     createMenusAndToolBars();
     createConnections();
     createObjectNames();

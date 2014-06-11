@@ -499,7 +499,10 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     }
 
     SymbolCategory category = symbol->data(LP::SymbolCategory).value<SymbolCategory>();
-    qDebug() << "MusicModel: Inserting symbol with cat: " << static_cast<int>(category);
+    if (category == SymbolCategory::Spanning) {
+        delete symbol;
+        return insertSpanningSymbolIntoMeasure(row, measure, type);
+    }
 
     // Init pitch and pitch context if symbol has it
     if (symbol->hasPitch()) {
@@ -522,6 +525,39 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
 
     return insertItem(insertText, measure, row, symbol);
 }
+
+QModelIndex MusicModel::insertSpanningSymbolIntoMeasure(int row, const QModelIndex &measure, int type)
+{
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't insert spanning symbol into measure.");
+        return QModelIndex();
+    }
+
+    Symbol *startSymbol = m_pluginManager->symbolForType(type);
+    Symbol *endSymbol = m_pluginManager->symbolForType(type);
+    if (startSymbol == 0 ||
+            endSymbol == 0) {
+        qWarning() << "MusicModel: Can't insert symbol. PluginManager returned 0 for symbol type "
+                      << type;
+        return QModelIndex();
+    }
+
+    startSymbol->setData(QVariant::fromValue<SymbolSpanType>(SymbolSpanType::Start),
+                         LP::SymbolSpanType);
+    endSymbol->setData(QVariant::fromValue<SymbolSpanType>(SymbolSpanType::End),
+                         LP::SymbolSpanType);
+
+    m_undoStack->beginMacro(tr("Insert %1 Items")
+                            .arg(startSymbol->data(LP::SymbolName).toString()));
+    QPersistentModelIndex endSymbolIndex = insertItem(QStringLiteral(""), measure, row, endSymbol);
+    QPersistentModelIndex startSymbolIndex = insertItem(QStringLiteral(""), measure, row, startSymbol);
+    setData(startSymbolIndex, QVariant(endSymbolIndex), LP::SymbolSpanBuddy);
+    setData(endSymbolIndex, QVariant(startSymbolIndex), LP::SymbolSpanBuddy);
+    m_undoStack->endMacro();
+
+    return startSymbolIndex;
+}
+
 
 QModelIndex MusicModel::appendSymbolToMeasure(const QModelIndex &measure, int type)
 {
@@ -1066,4 +1102,3 @@ QModelIndex MusicModel::insertItems(const QString &text, const QModelIndex &pare
     }
     return QModelIndex();
 }
-
