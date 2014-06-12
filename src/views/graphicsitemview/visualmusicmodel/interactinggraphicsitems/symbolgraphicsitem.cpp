@@ -131,10 +131,8 @@ QVariant SymbolGraphicsItem::itemChange(QGraphicsItem::GraphicsItemChange change
         }
     }
     if (change == QGraphicsItem::ItemVisibleChange) {
-        qDebug() << "Symbol visible change: " << value.toBool();
     }
     if (change == QGraphicsItem::ItemVisibleHasChanged) {
-        qDebug() << "Symbol visible has change: " << value.toBool();
     }
 //    if (change == QGraphicsItem::ItemSelectedChange) {
 //        bool selected = value.toBool();

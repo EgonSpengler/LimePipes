@@ -24,6 +24,9 @@ StemEngraver::StemEngraver()
 
 void StemEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder)
 {
+    if (builder->symbolType() != LP::MelodyNote)
+        return;
+
     if (builder->glyphItem() == 0) {
         qWarning() << "StemEngraver: Can't insert graphcis builder with no glyph item";
         return;

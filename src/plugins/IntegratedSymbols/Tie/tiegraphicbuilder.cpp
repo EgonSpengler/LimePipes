@@ -9,7 +9,6 @@
 #include <QDebug>
 
 #include <common/itemdataroles.h>
-#include <common/graphicsmapperinterface.h>
 #include <common/defines.h>
 #include "tiegraphicbuilder.h"
 
@@ -32,20 +31,6 @@ void TieGraphicBuilder::updateSymbolGraphic(const QVariant &value, int key)
 
     if (key == LP::SymbolSpanBuddy) {
         m_buddyIndex = value.toModelIndex();
-        if (graphicsMapper()) {
-            QGraphicsItem *buddyItem = graphicsMapper()->itemForIndex(m_buddyIndex);
-            if (m_spanType == SymbolSpanType::Start)
-                qDebug() << "Start Span item";
-            else
-                qDebug() << "End Span item";
-
-            if (!buddyItem) {
-                qDebug() << "No buddy graphics item returned for index";
-            } else {
-                GraphicsItemType buddyType = static_cast<GraphicsItemType>(buddyItem->type());
-                qDebug() << "Buddy is a " << buddyType;
-            }
-        }
     }
 
 }

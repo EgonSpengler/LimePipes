@@ -19,11 +19,12 @@
  *
  */
 
+#include <common/itemdataroles.h>
 #include "glyphitem.h"
 #include "symbolgraphicbuilder.h"
 
 SymbolGraphicBuilder::SymbolGraphicBuilder()
-    : m_graphicsMapper(0)
+    : m_symbolType(0)
 {
 }
 
@@ -34,6 +35,10 @@ GlyphItem *SymbolGraphicBuilder::glyphItem() const
 
 void SymbolGraphicBuilder::setData(const QVariant &value, int key)
 {
+    if (key == LP::SymbolType) {
+        setSymbolType(value.toInt());
+    }
+
     if (!graphicDataRoles().contains(key))
         return;
 
@@ -49,19 +54,13 @@ QVariant SymbolGraphicBuilder::data(int key) const
 {
     return m_graphicData.value(key);
 }
-
-/*!
- * \brief SymbolGraphicBuilder::graphicsMapper
- *        Spanning symbols need a way to get the position of their buddy item.
- * \return
- */
-GraphicsMapperInterface *SymbolGraphicBuilder::graphicsMapper() const
+int SymbolGraphicBuilder::symbolType() const
 {
-    return m_graphicsMapper;
+    return m_symbolType;
 }
 
-void SymbolGraphicBuilder::setGraphicsMapper(GraphicsMapperInterface *graphicsMapper)
+void SymbolGraphicBuilder::setSymbolType(int symbolType)
 {
-    m_graphicsMapper = graphicsMapper;
+    m_symbolType = symbolType;
 }
 

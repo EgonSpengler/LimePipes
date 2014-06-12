@@ -14,7 +14,6 @@
 #include <QGraphicsView>
 #include <QDebug>
 #include <common/itemdataroles.h>
-#include <common/graphicsmapperinterface.h>
 #include <musicitem.h>
 #include <visualmusicmodel/visualmusicmodel.h>
 #include <visualmusicmodel/visualitemfactory.h>
@@ -74,9 +73,4 @@ void GraphicsItemView::setPluginManager(PluginManager pluginManager)
 {
     m_visualItemFactory->setPluginManager(pluginManager);
     m_visualMusicModel->setPluginManager(pluginManager);
-}
-
-GraphicsMapperInterface *GraphicsItemView::graphicsMapper() const
-{
-    return static_cast<GraphicsMapperInterface*>(m_visualMusicModel);
 }

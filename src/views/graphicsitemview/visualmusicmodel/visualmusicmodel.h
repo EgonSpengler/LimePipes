@@ -14,12 +14,10 @@
 #include "rowiterator.h"
 #include "abstractvisualitemfactory.h"
 #include <common/pluginmanagerinterface.h>
-#include <common/graphicsmapperinterface.h>
 
 class QGraphicsItem;
 
-class VisualMusicModel : public QObject,
-                         public GraphicsMapperInterface
+class VisualMusicModel : public QObject
 {
     Q_OBJECT
 
