@@ -14,6 +14,7 @@
 
 #include <common/defines.h>
 #include <common/graphictypes/stemengraver.h>
+#include <common/graphictypes/tieengraver.h>
 
 #include "symbolgraphicsitem.h"
 #include "measuregraphicsitem.h"
@@ -21,13 +22,15 @@
 const int InitialLineWidth  = 1;
 
 MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
-    : InteractingGraphicsItem(parent),
-      m_stemEngraver(0)
+    : InteractingGraphicsItem(parent)
 {
     setPenWidth(InitialLineWidth);
     setAcceptDrops(true);
 
-    m_stemEngraver = new StemEngraver();
+    StemEngraver *stemEngraver = new StemEngraver();
+    appendEngraver(stemEngraver);
+    TieEngraver *tieEngraver = new TieEngraver();
+    appendEngraver(tieEngraver);
 
     m_layout = new QGraphicsLinearLayout(Qt::Horizontal, this);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -36,8 +39,7 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
 
 MeasureGraphicsItem::~MeasureGraphicsItem()
 {
-    delete m_stemEngraver;
-    m_stemEngraver = 0;
+    qDeleteAll(m_engravers);
 }
 
 void MeasureGraphicsItem::setPenWidth(qreal width)
@@ -57,14 +59,12 @@ void MeasureGraphicsItem::setSymbolGeometry(SymbolGraphicsItem *symbolItem, cons
 {
     symbolItem->setGeometryAnimated(rect);
 }
-StemEngraver *MeasureGraphicsItem::stemEngraver() const
-{
-    return m_stemEngraver;
-}
 
-void MeasureGraphicsItem::setStemEngraver(StemEngraver *stemEngraver)
+void MeasureGraphicsItem::appendEngraver(BaseEngraver *engraver)
 {
-    m_stemEngraver = stemEngraver;
+    if (!m_engravers.contains(engraver)) {
+        m_engravers.append(engraver);
+    }
 }
 
 
@@ -90,7 +90,10 @@ void MeasureGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *ch
                     "newly inserted SymbolGraphicsItem";
         return;
     }
-    m_stemEngraver->insertGraphicsBuilder(index, graphicBuilder);
+
+    foreach (BaseEngraver *engraver, m_engravers) {
+        engraver->insertGraphicsBuilder(index, graphicBuilder);
+    }
 }
 
 void MeasureGraphicsItem::removeChildItem(InteractingGraphicsItem *childItem)
@@ -111,7 +114,10 @@ void MeasureGraphicsItem::removeChildItem(InteractingGraphicsItem *childItem)
         return;
 
     }
-    m_stemEngraver->removeGraphicsBuilder(graphicBuilder);
+
+    foreach (BaseEngraver *engraver, m_engravers) {
+        engraver->removeGraphicsBuilder(graphicBuilder);
+    }
 
     InteractingGraphicsItem::removeChildItem(childItem);
 }
@@ -210,7 +216,9 @@ void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     qreal width = engravings.thinBarlineThickness * staffSpace;
     setPenWidth(width);
 
-    m_stemEngraver->setMusicFont(musicFont);
+    foreach (BaseEngraver *engraver, m_engravers) {
+        engraver->setMusicFont(musicFont);
+    }
 }
 
 void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)

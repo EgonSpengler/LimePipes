@@ -99,13 +99,3 @@ StemData StemEngraver::stemDataWithGraphicBuilder(SymbolGraphicBuilder *builder)
 
     return StemData();
 }
-
-MusicFontPtr StemEngraver::musicFont() const
-{
-    return m_musicFont;
-}
-
-void StemEngraver::setMusicFont(const MusicFontPtr &musicFont)
-{
-    m_musicFont = musicFont;
-}

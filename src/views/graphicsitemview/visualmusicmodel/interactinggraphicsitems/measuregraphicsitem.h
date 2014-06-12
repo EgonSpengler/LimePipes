@@ -16,7 +16,7 @@
 
 class SymbolGraphicsItem;
 class QGraphicsLinearLayout;
-class StemEngraver;
+class BaseEngraver;
 
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
@@ -40,8 +40,7 @@ public:
     void setData(const QVariant &value, int key);
     void setGeometry(const QRectF& rect);
 
-    StemEngraver *stemEngraver() const;
-    void setStemEngraver(StemEngraver *stemEngraver);
+    void appendEngraver(BaseEngraver *engraver);
 
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
@@ -62,7 +61,7 @@ private:
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
     QGraphicsLinearLayout *m_layout;
-    StemEngraver *m_stemEngraver;
+    QList<BaseEngraver*> m_engravers;
 };
 
 #endif // MEASUREGRAPHICSITEM_H

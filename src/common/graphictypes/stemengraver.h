@@ -11,9 +11,8 @@
 
 #include <QList>
 
-#include <common/graphictypes/MusicFont/musicfont.h>
+#include "baseengraver.h"
 
-class SymbolGraphicBuilder;
 class StemGlyphItem;
 
 struct StemData {
@@ -26,24 +25,19 @@ struct StemData {
     StemGlyphItem *glyphItem;
 };
 
-class StemEngraver
+class StemEngraver : public BaseEngraver
 {
 public:
     explicit StemEngraver();
     virtual ~StemEngraver() {}
 
     void insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder);
-
     void removeGraphicsBuilder(SymbolGraphicBuilder *builder);
-
-    MusicFontPtr musicFont() const;
-    void setMusicFont(const MusicFontPtr &musicFont);
 
 private:
     void builderDataChanged(SymbolGraphicBuilder *builder, const QVariant &data, int role);
     StemData stemDataWithGraphicBuilder(SymbolGraphicBuilder *builder);
     QList<StemData> m_stemDatas;
-    MusicFontPtr m_musicFont;
 };
 
 #endif // STEMENGRAVER_H
