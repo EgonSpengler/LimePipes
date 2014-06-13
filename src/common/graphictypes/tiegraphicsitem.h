@@ -10,11 +10,11 @@
 #define TIEGRAPHICSITEM_H
 
 #include <QList>
-#include <QGraphicsItem>
+#include <QGraphicsPathItem>
 
 class GlyphItem;
 
-class TieGraphicsItem : public QGraphicsItem
+class TieGraphicsItem : public QGraphicsPathItem
 {
 public:
     explicit TieGraphicsItem(QGraphicsItem *parent = 0);
@@ -22,9 +22,9 @@ public:
     void addGlyph(GlyphItem *item);
     void removeGlyph(GlyphItem *item);
 
-    QRectF boundingRect() const;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 private:
+    void updatePath();
+    void reposition();
     QList<GlyphItem*> m_spanningGlyphs;
 };
 

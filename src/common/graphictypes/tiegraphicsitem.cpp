@@ -9,7 +9,7 @@
 #include "tiegraphicsitem.h"
 
 TieGraphicsItem::TieGraphicsItem(QGraphicsItem *parent)
-    : QGraphicsItem(parent)
+    : QGraphicsPathItem(parent)
 {
 }
 
@@ -17,20 +17,27 @@ void TieGraphicsItem::addGlyph(GlyphItem *item)
 {
     if (!m_spanningGlyphs.contains(item)) {
         m_spanningGlyphs.append(item);
+        updatePath();
+        reposition();
     }
 }
 
 void TieGraphicsItem::removeGlyph(GlyphItem *item)
 {
+    if (!m_spanningGlyphs.contains(item))
+        return;
+
     m_spanningGlyphs.removeAll(item);
+    updatePath();
+    reposition();
 }
 
-
-QRectF TieGraphicsItem::boundingRect() const
+void TieGraphicsItem::updatePath()
 {
-    return QRectF();
+
 }
 
-void TieGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void TieGraphicsItem::reposition()
 {
+
 }

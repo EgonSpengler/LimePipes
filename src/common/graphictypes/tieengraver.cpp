@@ -58,8 +58,6 @@ SymbolGraphicBuilder *TieEngraver::endItemBuilderAfter(int index)
 
 void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder)
 {
-    m_graphicBuilder.insert(index, builder);
-
     if (builder->symbolType() == LP::Tie) {
         SymbolSpanType spanType = spanTypeOfBuilder(builder);
         if (spanType == SymbolSpanType::Start) {
@@ -95,6 +93,40 @@ void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder
                     << index;
     }
 
+    m_graphicBuilder.insert(index, builder);
+
+    if (builder->symbolType() == LP::Tie) {
+        return;
+    }
+
+    if (builder->glyphItem()) {
+        SymbolGraphicBuilder *tieStart = 0;
+
+        // Search for tie start directly before newly inserted symbol
+        for (int i = index; i >= 0; --i) {
+            tieStart = m_graphicBuilder.at(i);
+            SymbolSpanType spanType = spanTypeOfBuilder(tieStart);
+
+            if (spanType == SymbolSpanType::Start) {
+                break;
+            }
+            if (spanType == SymbolSpanType::End ||
+                    i == 0) {
+                tieStart = 0;
+                break;
+            }
+        }
+
+        if (!tieStart) {
+            return;
+        }
+
+        TieGraphicsItem *tieItem = m_tieItems.value(tieStart);
+        if (!tieItem)
+            return;
+
+        tieItem->addGlyph(builder->glyphItem());
+    }
 }
 
 void TieEngraver::removeGraphicsBuilder(SymbolGraphicBuilder *builder)
