@@ -61,6 +61,8 @@ void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder
     if (builder->symbolType() == LP::Tie) {
         SymbolSpanType spanType = spanTypeOfBuilder(builder);
         if (spanType == SymbolSpanType::Start) {
+            // TieGraphicsItem will have no parent item per default.
+            // It will add itself to the graphics scene, when items are added
             TieGraphicsItem *tieItem = new TieGraphicsItem;
             m_tieItems.insert(builder, tieItem);
 
