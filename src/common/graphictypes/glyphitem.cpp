@@ -51,6 +51,21 @@ void GlyphItem::connectColorRoleToGlyph(GlyphItem *glyph)
             this, &GlyphItem::setColorRole);
 }
 
+bool GlyphItem::scenePosChangeEnabled() const
+{
+    return flags().testFlag(QGraphicsItem::ItemSendsScenePositionChanges);
+}
+
+/*!
+ * \brief GlyphItem::setScenePosChangeEnabled
+ *        If set to true, the scenePosChanged signal will be emitted on scene position changes.
+ * \param enabled
+ */
+void GlyphItem::setScenePosChangeEnabled(bool enabled)
+{
+    setFlag(QGraphicsItem::ItemSendsScenePositionChanges, enabled);
+}
+
 MusicFontPtr GlyphItem::musicFont() const
 {
     return m_musicFont;
@@ -95,6 +110,10 @@ QVariant GlyphItem::itemChange(QGraphicsItem::GraphicsItemChange change, const Q
         if (colorRole() != FontColor::Focus) {
             setColorRole(color);
         }
+    }
+    if (change == QGraphicsItem::ItemScenePositionHasChanged) {
+        QPointF pos = value.toPointF();
+        emit scenePosChanged(pos);
     }
 
     return QGraphicsItem::itemChange(change, value);

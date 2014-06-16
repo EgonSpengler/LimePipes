@@ -52,11 +52,15 @@ public:
 
     void connectColorRoleToGlyph(GlyphItem *glyph);
 
+    bool scenePosChangeEnabled() const;
+    void setScenePosChangeEnabled(bool enabled);
+
 public slots:
     void setColorRole(const FontColor &colorRole);
 
 signals:
     void colorRoleChanged(const FontColor &colorRole);
+    void scenePosChanged(const QPointF &pos);
 
 protected:
     virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }

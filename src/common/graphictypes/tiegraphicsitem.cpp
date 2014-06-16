@@ -21,11 +21,12 @@ void TieGraphicsItem::addGlyph(GlyphItem *item)
 {
     if (!m_spanningGlyphs.contains(item)) {
         m_spanningGlyphs.append(item);
-        QObject::connect(item, &GlyphItem::xChanged,
+        item->setScenePosChangeEnabled(true);
+        QObject::connect(item, &GlyphItem::scenePosChanged,
                          [this, item] {
             checkIfHasGlyphAndUpdate(item);
         });
-        QObject::connect(item, &GlyphItem::yChanged,
+        QObject::connect(item, &GlyphItem::scenePosChanged,
                 [this, item] {
             checkIfHasGlyphAndUpdate(item);
         });
@@ -40,6 +41,7 @@ void TieGraphicsItem::removeGlyph(GlyphItem *item)
         return;
 
     m_spanningGlyphs.removeAll(item);
+    item->setScenePosChangeEnabled(false);
     updatePath();
     reposition();
 }
