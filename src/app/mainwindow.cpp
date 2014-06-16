@@ -476,7 +476,8 @@ void MainWindow::on_editCreateTestScore_triggered()
     musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
 
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
-    musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
+    QModelIndex startTieIndex = musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::Tie);
+    musicModel->insertSymbolIntoMeasure(startTieIndex.row() + 1, measureIndex2, LP::MelodyNote);
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
 

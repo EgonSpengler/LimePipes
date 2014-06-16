@@ -15,6 +15,7 @@
 TieGraphicsItem::TieGraphicsItem(QGraphicsItem *parent)
     : QGraphicsPathItem(parent)
 {
+    setBrush(Qt::black);
 }
 
 void TieGraphicsItem::addGlyph(GlyphItem *item)
@@ -62,9 +63,10 @@ void TieGraphicsItem::updatePath()
         glyphItemsSceneRect = glyphItemsSceneRect.united(sceneItemRect);
     }
 
+    qreal staffSpace = musicFont()->staffSpace();
     qreal width = glyphItemsSceneRect.width();
-    qreal height = glyphItemsSceneRect.width() / 3;
-    qreal midThickness = height / 2;
+    qreal height = staffSpace * 2;
+    qreal midThickness = musicFont()->engravings().tieMidpointThickness * staffSpace * 2;
 
     QPointF startPoint(0, 0);
     QPointF endPoint(width, 0);
@@ -77,6 +79,8 @@ void TieGraphicsItem::updatePath()
     path.quadTo(midPoint2, startPoint);
 
     setPath(path);
+//    qDebug() << "TieGraphicsItem: bounding rect path: " << path.boundingRect();
+//    qDebug() << "TieGraphicsItem: bounding rect: " << boundingRect();
 
     if (!scene()) {
         m_spanningGlyphs.at(0)->scene()->addItem(this);
