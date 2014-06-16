@@ -6,7 +6,9 @@
  *
  */
 
+#include <QObject>
 #include <QGraphicsScene>
+
 #include "glyphitem.h"
 #include "tiegraphicsitem.h"
 
@@ -19,6 +21,14 @@ void TieGraphicsItem::addGlyph(GlyphItem *item)
 {
     if (!m_spanningGlyphs.contains(item)) {
         m_spanningGlyphs.append(item);
+        QObject::connect(item, &GlyphItem::xChanged,
+                         [this, item] {
+            checkIfHasGlyphAndUpdate(item);
+        });
+        QObject::connect(item, &GlyphItem::yChanged,
+                [this, item] {
+            checkIfHasGlyphAndUpdate(item);
+        });
         updatePath();
         reposition();
     }
@@ -78,3 +88,22 @@ void TieGraphicsItem::reposition()
 {
 
 }
+
+MusicFontPtr TieGraphicsItem::musicFont() const
+{
+    return m_musicFont;
+}
+
+void TieGraphicsItem::setMusicFont(const MusicFontPtr &musicFont)
+{
+    m_musicFont = musicFont;
+}
+
+void TieGraphicsItem::checkIfHasGlyphAndUpdate(GlyphItem *item)
+{
+    if (!m_spanningGlyphs.contains(item))
+        return;
+
+    updatePath();
+}
+

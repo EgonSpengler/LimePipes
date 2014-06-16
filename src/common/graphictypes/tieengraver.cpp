@@ -64,6 +64,7 @@ void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder
             // TieGraphicsItem will have no parent item per default.
             // It will add itself to the graphics scene, when items are added
             TieGraphicsItem *tieItem = new TieGraphicsItem;
+            tieItem->setMusicFont(musicFont());
             m_tieItems.insert(builder, tieItem);
 
             SymbolGraphicBuilder *endItemBuilder = endItemBuilderAfter(index);
@@ -135,4 +136,11 @@ void TieEngraver::removeGraphicsBuilder(SymbolGraphicBuilder *builder)
 {
     m_graphicBuilder.removeAll(builder);
     m_tieItems.remove(builder);
+}
+
+void TieEngraver::musicFontHasChanged(const MusicFontPtr &musicFont)
+{
+    foreach (TieGraphicsItem *tieGraphic, m_tieItems) {
+        tieGraphic->setMusicFont(musicFont);
+    }
 }

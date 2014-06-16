@@ -12,6 +12,8 @@
 #include <QList>
 #include <QGraphicsPathItem>
 
+#include <common/graphictypes/MusicFont/musicfont.h>
+
 class GlyphItem;
 
 class TieGraphicsItem : public QGraphicsPathItem
@@ -22,10 +24,15 @@ public:
     void addGlyph(GlyphItem *item);
     void removeGlyph(GlyphItem *item);
 
+    MusicFontPtr musicFont() const;
+    void setMusicFont(const MusicFontPtr &musicFont);
+
 private:
+    void checkIfHasGlyphAndUpdate(GlyphItem *item);
     void updatePath();
     void reposition();
     QList<GlyphItem*> m_spanningGlyphs;
+    MusicFontPtr m_musicFont;
 };
 
 #endif // TIEGRAPHICSITEM_H

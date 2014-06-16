@@ -12,6 +12,8 @@
 #include <QList>
 #include <QHash>
 
+#include <common/defines.h>
+
 #include "baseengraver.h"
 
 class SymbolGraphicBuilder;
@@ -28,6 +30,10 @@ public:
     void removeGraphicsBuilder(SymbolGraphicBuilder *builder);
 
     SymbolSpanType spanTypeOfBuilder(SymbolGraphicBuilder *builder);
+
+protected:
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
+
 private:
     SymbolGraphicBuilder *startItemBuilderBefore(int index);
     SymbolGraphicBuilder *endItemBuilderAfter(int index);
