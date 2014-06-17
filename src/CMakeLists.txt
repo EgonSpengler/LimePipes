@@ -8,8 +8,10 @@ set( limepipes_SOURCES
         app/dialogs/settingsdialog.cpp
         app/dialogs/settingspages/scorepropertiessettingspage.cpp
         app/dialogs/settingspages/scorepropertieswidget.cpp
+        app/dialogs/settingspages/layoutsettingspage.cpp
         app/SMuFL/smuflloader.cpp
         common/scoresettings.cpp
+        common/layoutsettings.cpp
 
         views/treeview/lengthdelegate.cpp
         views/treeview/musicproxymodel.cpp
@@ -37,6 +39,7 @@ set( limepipes_UIs
         app/dialogs/settingsdialog.ui
         app/dialogs/settingspages/scorepropertiessettingspage.ui
         app/dialogs/settingspages/scorepropertieswidget.ui
+        app/dialogs/settingspages/layoutsettingspage.ui
         )
 
 set( limepipes_RESOURCES

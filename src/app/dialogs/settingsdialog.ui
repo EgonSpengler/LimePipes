@@ -35,11 +35,26 @@
        </property>
        <item>
         <property name="text">
+         <string>Layout</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../app_resources.qrc">
+          <normaloff>:/application/tune-add-part</normaloff>:/application/tune-add-part</iconset>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
+        </property>
+       </item>
+       <item>
+        <property name="text">
          <string>Music Sheet</string>
         </property>
         <property name="icon">
          <iconset resource="../app_resources.qrc">
           <normaloff>:/application/score_settings</normaloff>:/application/score_settings</iconset>
+        </property>
+        <property name="flags">
+         <set>ItemIsSelectable|ItemIsEnabled</set>
         </property>
        </item>
       </widget>
@@ -58,6 +73,7 @@
          <height>500</height>
         </size>
        </property>
+       <widget class="LayoutSettingsPage" name="layoutSettings"/>
        <widget class="QWidget" name="musicSheetSettings">
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="spacing">
@@ -121,6 +137,12 @@
    <header location="global">dialogs/settingspages/scorepropertiessettingspage.h</header>
    <container>1</container>
   </customwidget>
+  <customwidget>
+   <class>LayoutSettingsPage</class>
+   <extends>QWidget</extends>
+   <header location="global">dialogs/settingspages/layoutsettingspage.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources>
   <include location="../app_resources.qrc"/>
@@ -133,8 +155,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>254</x>
+     <y>766</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -149,8 +171,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>322</x>
+     <y>766</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

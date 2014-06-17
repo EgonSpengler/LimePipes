@@ -18,6 +18,7 @@ namespace Settings
 enum class Category
 {
     NoCategory,
+    Layout,
     Score,
     Tune,
     Part,
