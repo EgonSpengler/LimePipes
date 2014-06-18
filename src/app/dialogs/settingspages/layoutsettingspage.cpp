@@ -29,16 +29,44 @@ LayoutSettingsPage::LayoutSettingsPage(QWidget *parent)
       ui(new Ui::LayoutSettingsPage)
 {
     qRegisterMetaType<QPageSize::PageSizeId>("QPageSize::PageSizeId");
+    qRegisterMetaType<QPageLayout::Unit>("QPageLayout::Unit");
+
     ui->setupUi(this);
     m_layoutSettings = new LayoutSettings(this);
 
     initPageFormatComboBox();
-    initUiWithSettings();
+    initLayoutUnitComboBox();
+    m_pageLayout = m_layoutSettings->pageLayout();
+    setUiFromPageLayout();
+    createConnections();
+}
+
+void LayoutSettingsPage::createConnections()
+{
+    connect(ui->layoutUnitComboBox, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(currentLayoutUnitChanged(int)));
+    connect(ui->paperFormatComboBox, SIGNAL(currentIndexChanged(int)),
+            this, SLOT(currentPageSizeChanged(int)));
 }
 
 LayoutSettingsPage::~LayoutSettingsPage()
 {
     delete ui;
+}
+
+void LayoutSettingsPage::currentLayoutUnitChanged(int index)
+{
+    QVariant unitData = ui->layoutUnitComboBox->currentData();
+    m_pageLayout.setUnits(unitData.value<QPageLayout::Unit>());
+    setUiFromPageLayout();
+}
+
+void LayoutSettingsPage::currentPageSizeChanged(int index)
+{
+    QVariant sizeData = ui->paperFormatComboBox->currentData();
+    QPageSize pageSize(sizeData.value<QPageSize::PageSizeId>());
+    m_pageLayout.setPageSize(pageSize);
+    setUiFromPageLayout();
 }
 
 void LayoutSettingsPage::initPageFormatComboBox()
@@ -50,32 +78,52 @@ void LayoutSettingsPage::initPageFormatComboBox()
     }
 }
 
-void LayoutSettingsPage::initUiWithSettings()
+void LayoutSettingsPage::initLayoutUnitComboBox()
 {
-    QPageLayout pageLayout = m_layoutSettings->pageLayout();
+    QVector<QPageLayout::Unit> pageSizeUnits({QPageLayout::Millimeter,
+                                         QPageLayout::Point,
+                                         QPageLayout::Inch,
+                                         QPageLayout::Pica,
+                                         QPageLayout::Didot,
+                                         QPageLayout::Cicero});
+    foreach (const QPageLayout::Unit unit, pageSizeUnits) {
+        ui->layoutUnitComboBox->addItem(pageLayoutUnitToString(unit),
+                                        QVariant::fromValue<QPageLayout::Unit>(unit));
+    }
+}
 
-    QPageSize::PageSizeId pageSize = pageLayout.pageSize().id();
+void LayoutSettingsPage::setMarginSpinboxSuffixes(QString unitName)
+{
+    ui->leftMarginSpinBox->setSuffix(unitName);
+    ui->bottomMarginSpinBox->setSuffix(unitName);
+    ui->topMarginSpinBox->setSuffix(unitName);
+    ui->rightMarginSpinBox->setSuffix(unitName);
+}
+
+void LayoutSettingsPage::setUiFromPageLayout()
+{
+    QPageSize::PageSizeId pageSize = m_pageLayout.pageSize().id();
     QVariant pageSizeData = QVariant::fromValue<QPageSize::PageSizeId>(pageSize);
     int pageSizeIndex = ui->paperFormatComboBox->findData(pageSizeData);
     ui->paperFormatComboBox->setCurrentIndex(pageSizeIndex);
 
-    if (pageLayout.orientation() == QPageLayout::Portrait)
+    if (m_pageLayout.orientation() == QPageLayout::Portrait)
         ui->portraitRadioButton->setChecked(true);
     else
         ui->landscapeRadioButton->setChecked(true);
 
-    QPageLayout::Unit unit = pageLayout.units();
+    QPageLayout::Unit unit = m_pageLayout.units();
+    QVariant pageUnitData = QVariant::fromValue<QPageLayout::Unit>(unit);
+    int pageUnitIndex = ui->layoutUnitComboBox->findData(pageUnitData);
+    ui->layoutUnitComboBox->setCurrentIndex(pageUnitIndex);
     QString unitName = pageLayoutUnitToString(unit);
 
-    QMarginsF margins = pageLayout.margins();
+    QMarginsF margins = m_pageLayout.margins();
     ui->topMarginSpinBox->setValue(margins.top());
-    ui->topMarginSpinBox->setSuffix(unitName);
     ui->rightMarginSpinBox->setValue(margins.right());
-    ui->rightMarginSpinBox->setSuffix(unitName);
     ui->bottomMarginSpinBox->setValue(margins.bottom());
-    ui->bottomMarginSpinBox->setSuffix(unitName);
     ui->leftMarginSpinBox->setValue(margins.left());
-    ui->leftMarginSpinBox->setSuffix(unitName);
+    setMarginSpinboxSuffixes(unitName);
 }
 
 QString LayoutSettingsPage::pageLayoutUnitToString(const QPageLayout::Unit &unit)

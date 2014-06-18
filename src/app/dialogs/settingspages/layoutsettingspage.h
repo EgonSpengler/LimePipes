@@ -28,12 +28,20 @@ public:
     explicit LayoutSettingsPage(QWidget *parent = 0);
     ~LayoutSettingsPage();
 
+private slots:
+    void currentLayoutUnitChanged(int index);
+    void currentPageSizeChanged(int index);
+
 private:
     void initPageFormatComboBox();
-    void initUiWithSettings();
+    void initLayoutUnitComboBox();
+    void setUiFromPageLayout();
+    void createConnections();
     QString pageLayoutUnitToString(const QPageLayout::Unit &unit);
+    void setMarginSpinboxSuffixes(QString unitName);
     static QVector<QPageSize::PageSizeId> s_pageSizes;
     LayoutSettings *m_layoutSettings;
+    QPageLayout m_pageLayout;
     Ui::LayoutSettingsPage *ui;
 };
 
