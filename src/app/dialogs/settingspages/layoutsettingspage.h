@@ -10,6 +10,8 @@
 #define LAYOUTSETTINGSPAGE_H
 
 #include <QFrame>
+#include <QVector>
+#include <QPageSize>
 
 namespace Ui {
 class LayoutSettingsPage;
@@ -26,6 +28,8 @@ public:
     ~LayoutSettingsPage();
 
 private:
+    void initPageFormatComboBox();
+    static QVector<QPageSize::PageSizeId> s_pageSizes;
     LayoutSettings *m_layoutSettings;
     Ui::LayoutSettingsPage *ui;
 };
