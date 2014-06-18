@@ -7,6 +7,7 @@
  */
 
 #include <QSettings>
+#include <QPrinter>
 
 #include "layoutsettings.h"
 
@@ -14,4 +15,11 @@ LayoutSettings::LayoutSettings(QObject *parent)
     : ObservableSettings(parent)
 {
     m_settings = new QSettings(this);
+
+    m_defaultPageLayout = QPrinter().pageLayout();
+}
+
+QPageLayout LayoutSettings::pageLayout()
+{
+    return m_defaultPageLayout;
 }

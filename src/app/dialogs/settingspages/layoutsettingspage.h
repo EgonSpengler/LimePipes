@@ -12,6 +12,7 @@
 #include <QFrame>
 #include <QVector>
 #include <QPageSize>
+#include <QPageLayout>
 
 namespace Ui {
 class LayoutSettingsPage;
@@ -29,6 +30,8 @@ public:
 
 private:
     void initPageFormatComboBox();
+    void initUiWithSettings();
+    QString pageLayoutUnitToString(const QPageLayout::Unit &unit);
     static QVector<QPageSize::PageSizeId> s_pageSizes;
     LayoutSettings *m_layoutSettings;
     Ui::LayoutSettingsPage *ui;

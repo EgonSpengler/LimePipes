@@ -9,6 +9,8 @@
 #ifndef LAYOUTSETTINGS_H
 #define LAYOUTSETTINGS_H
 
+#include <QPageLayout>
+
 #include "observablesettings.h"
 
 class QSettings;
@@ -19,7 +21,10 @@ class LayoutSettings : public ObservableSettings
 public:
     explicit LayoutSettings(QObject *parent = 0);
 
+    QPageLayout pageLayout();
+
 private:
+    QPageLayout m_defaultPageLayout;
     QSettings *m_settings;
 };
 
