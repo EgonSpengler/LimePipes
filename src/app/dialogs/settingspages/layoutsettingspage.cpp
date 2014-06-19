@@ -47,6 +47,24 @@ void LayoutSettingsPage::createConnections()
             this, SLOT(currentLayoutUnitChanged(int)));
     connect(ui->paperFormatComboBox, SIGNAL(currentIndexChanged(int)),
             this, SLOT(currentPageSizeChanged(int)));
+    connect(ui->topMarginSpinBox, SIGNAL(valueChanged(double)),
+            this, SLOT(marginsChanged()));
+    connect(ui->rightMarginSpinBox, SIGNAL(valueChanged(double)),
+            this, SLOT(marginsChanged()));
+    connect(ui->bottomMarginSpinBox, SIGNAL(valueChanged(double)),
+            this, SLOT(marginsChanged()));
+    connect(ui->leftMarginSpinBox, SIGNAL(valueChanged(double)),
+            this, SLOT(marginsChanged()));
+    connect(ui->portraitRadioButton, &QRadioButton::clicked,
+            [this] {
+        m_pageLayout.setOrientation(QPageLayout::Portrait);
+        writeSettings();
+    });
+    connect(ui->landscapeRadioButton, &QRadioButton::clicked,
+            [this] {
+        m_pageLayout.setOrientation(QPageLayout::Landscape);
+        writeSettings();
+    });
 }
 
 LayoutSettingsPage::~LayoutSettingsPage()
@@ -58,6 +76,7 @@ void LayoutSettingsPage::currentLayoutUnitChanged(int index)
 {
     QVariant unitData = ui->layoutUnitComboBox->currentData();
     m_pageLayout.setUnits(unitData.value<QPageLayout::Unit>());
+    writeSettings();
     setUiFromPageLayout();
 }
 
@@ -66,6 +85,30 @@ void LayoutSettingsPage::currentPageSizeChanged(int index)
     QVariant sizeData = ui->paperFormatComboBox->currentData();
     QPageSize pageSize(sizeData.value<QPageSize::PageSizeId>());
     m_pageLayout.setPageSize(pageSize);
+    writeSettings();
+    setUiFromPageLayout();
+}
+
+void LayoutSettingsPage::writeSettings()
+{
+    m_layoutSettings->setPageLayout(m_pageLayout);
+}
+
+void LayoutSettingsPage::marginsChanged()
+{
+    QMarginsF margins;
+    margins.setTop(ui->topMarginSpinBox->value());
+    margins.setRight(ui->rightMarginSpinBox->value());
+    margins.setBottom(ui->bottomMarginSpinBox->value());
+    margins.setLeft(ui->leftMarginSpinBox->value());
+
+    m_pageLayout.setMargins(margins);
+    writeSettings();
+}
+
+void LayoutSettingsPage::restoreDefaultPageSize()
+{
+    m_pageLayout = m_layoutSettings->defaultPageLayout();
     setUiFromPageLayout();
 }
 

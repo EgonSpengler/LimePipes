@@ -28,9 +28,12 @@ public:
     explicit LayoutSettingsPage(QWidget *parent = 0);
     ~LayoutSettingsPage();
 
+    void writeSettings();
 private slots:
     void currentLayoutUnitChanged(int index);
     void currentPageSizeChanged(int index);
+    void marginsChanged();
+    void restoreDefaultPageSize();
 
 private:
     void initPageFormatComboBox();

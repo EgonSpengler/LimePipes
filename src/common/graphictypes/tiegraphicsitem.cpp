@@ -27,10 +27,6 @@ void TieGraphicsItem::addGlyph(GlyphItem *item)
                          [this, item] {
             checkIfHasGlyphAndUpdate(item);
         });
-        QObject::connect(item, &GlyphItem::scenePosChanged,
-                [this, item] {
-            checkIfHasGlyphAndUpdate(item);
-        });
         updatePath();
         reposition();
     }
