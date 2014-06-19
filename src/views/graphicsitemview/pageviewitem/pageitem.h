@@ -10,12 +10,16 @@
 #define PAGEITEM_H
 
 #include <QGraphicsWidget>
+
 #include <common/defines.h>
+#include <common/settingsobserver.h>
 
 class QPrinter;
+class QPageLayout;
 class QGraphicsLinearLayout;
 
-class PageItem : public QGraphicsWidget
+class PageItem : public QGraphicsWidget,
+                 public SettingsObserver
 {
     Q_OBJECT
 
@@ -26,7 +30,6 @@ public:
     int type() const { return Type; }
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
-    void setPageAndContentRectFromPrinter(const QPrinter &printer);
 
     int remainingVerticalSpace() const;
     int rowCount() const;
@@ -41,14 +44,17 @@ public:
     void removeRow(int index);
     void removeRow(QGraphicsWidget *row);
 
+    // SettingsObserver interface
+    void notify();
+
 signals:
     void remainingVerticalSpaceChanged(int oldValue, int newValue);
     void lastRowExceedsContentBounds();
 
 private:
+    void setPageLayout(const QPageLayout &layout);
     void prepareWidgetForRow(QGraphicsWidget *rowWidget);
     bool isValidRowIndex(int rowIndex);
-    int m_shortEdgeWidth;
     QRectF m_pageRect;
     QRectF m_pageContentRect;
     QGraphicsLinearLayout *m_layout;

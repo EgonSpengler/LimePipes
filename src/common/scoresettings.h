@@ -40,10 +40,6 @@ public:
     LP::ScoreDataRole dataRole() const;
     void setDataRole(LP::ScoreDataRole dataRole);
 
-    void clear();
-    void sync();
-    QString fileName();
-
 private:
     static QString getKey(Settings::Score::Area area, LP::ScoreDataRole dataRole, Settings::Score::Appearance appearance);
     static QVariant defaultValue(const QString& key);
@@ -51,6 +47,10 @@ private:
     static QHash<QString, QVariant> initDefaultValues();
     static QString alignmentToString(Settings::TextAlignment alignment);
     static Settings::TextAlignment alignmentFromString(const QString& alignment);
+
+    void clear();
+    void sync();
+    QString fileName();
 
     Settings::Score::Area m_scoreArea;
     LP::ScoreDataRole m_dataRole;

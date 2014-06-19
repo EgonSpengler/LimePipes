@@ -110,6 +110,7 @@ void LayoutSettingsPage::restoreDefaultPageSize()
 {
     m_pageLayout = m_layoutSettings->defaultPageLayout();
     setUiFromPageLayout();
+    writeSettings();
 }
 
 void LayoutSettingsPage::initPageFormatComboBox()

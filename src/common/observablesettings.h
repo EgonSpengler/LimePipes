@@ -27,8 +27,10 @@ public:
 
     static void registerObserver(SettingsObserver *settingsObserver);
     static void unregisterObserver(SettingsObserver *settingsObserver);
-    static void notify(Settings::Category category);
     static bool isObserverRegistered(SettingsObserver *settingsObserver);
+
+protected:
+    static void notify(Settings::Category category);
 
 private:
     static QList<SettingsObserver*> m_settingsObserver;

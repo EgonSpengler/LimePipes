@@ -15,14 +15,16 @@
 class SettingsObserver
 {
 public:
-    explicit SettingsObserver(QObject *parent = 0);
-    explicit SettingsObserver(Settings::Category settingCategory, QObject *parent = 0);
+    explicit SettingsObserver();
+    explicit SettingsObserver(Settings::Category settingCategory);
     virtual ~SettingsObserver() {}
 
-    void setSettingsCategory(Settings::Category category);
     Settings::Category settingCategory() const;
 
     virtual void notify() {}
+
+protected:
+    void setSettingsCategory(Settings::Category category);
 
 private:
     Settings::Category m_settingsCategory;

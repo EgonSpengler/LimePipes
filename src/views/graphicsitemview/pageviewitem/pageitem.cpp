@@ -10,31 +10,23 @@
 #include <QGraphicsLayout>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsDropShadowEffect>
+#include <common/layoutsettings.h>
 #include <QPainter>
 #include <QPrinter>
-
-namespace {
-
-const int DefaultShortEdgeWidth = 950;
-
-}
+#include <QApplication>
+#include <QScreen>
 
 PageItem::PageItem(QGraphicsItem *parent)
-    : QGraphicsWidget(parent), m_shortEdgeWidth(DefaultShortEdgeWidth), m_pageRect(QRectF()), m_pageContentRect(QRectF())
+    : QGraphicsWidget(parent),
+      SettingsObserver(Settings::Category::Layout),
+      m_pageRect(QRectF()),
+      m_pageContentRect(QRectF())
 {
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-    QPrinter printer(QPrinter::ScreenResolution);
-    qreal minEdge = qMin(printer.paperRect().width(),
-                         printer.paperRect().height());
-    qreal margin = minEdge * 0.1;
-    printer.setPageMargins(margin, margin, margin, margin, QPrinter::DevicePixel);
-    setPageAndContentRectFromPrinter(printer);
-
-    // Layout adjusts itselt to the contents rect
-    setContentsMargins(m_pageContentRect.x(), m_pageContentRect.y(),
-                       m_pageRect.width() - m_pageContentRect.x() - m_pageContentRect.width(),
-                       m_pageRect.height() - m_pageContentRect.y() - m_pageContentRect.height());
+    LayoutSettings::registerObserver(this);
+    LayoutSettings settings;
+    setPageLayout(settings.pageLayout());
 
     m_layout = new QGraphicsLinearLayout(Qt::Vertical);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -59,28 +51,21 @@ void PageItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawRect(m_pageContentRect);
 }
 
-void PageItem::setPageAndContentRectFromPrinter(const QPrinter &printer)
+void PageItem::setPageLayout(const QPageLayout &layout)
 {
-    m_pageRect = printer.paperRect();
-    m_pageContentRect = printer.pageRect();
-
-//    qreal scaleFactor = 0;
-//    if (printer.orientation() == QPrinter::Portrait)
-//        scaleFactor = m_shortEdgeWidth / m_pageRect.width();
-//    else
-//        scaleFactor = m_shortEdgeWidth / m_pageRect.height();
-
-//    m_pageRect.setSize(QSizeF(m_pageRect.width() * scaleFactor,
-//                               m_pageRect.height() * scaleFactor));
-//    m_pageRect.setTopLeft(QPointF(m_pageRect.x() * scaleFactor,
-//                                   m_pageRect.y() * scaleFactor));
-
-//    m_pageContentRect.setSize(QSizeF(m_pageContentRect.width() * scaleFactor,
-//                              m_pageContentRect.height() * scaleFactor));
-//    m_pageContentRect.setTopLeft(QPointF(m_pageContentRect.x() * scaleFactor,
-//                                   m_pageContentRect.y() * scaleFactor));
+    QScreen *screen = QApplication::primaryScreen();
+    int pixelPerInch = screen->physicalDotsPerInch();
+    int resolution = pixelPerInch;
+    m_pageRect = layout.fullRectPixels(resolution);
+    m_pageContentRect = layout.paintRectPixels(resolution);
 
     setPreferredSize(m_pageRect.size());
+
+    // Layout adjusts itselt to the contents rect
+    setContentsMargins(m_pageContentRect.x(), m_pageContentRect.y(),
+                       m_pageRect.width() - m_pageContentRect.x() - m_pageContentRect.width(),
+                       m_pageRect.height() - m_pageContentRect.y() - m_pageContentRect.height());
+
 }
 
 int PageItem::remainingVerticalSpace() const
@@ -162,4 +147,11 @@ bool PageItem::isValidRowIndex(int rowIndex)
             rowIndex >= m_layout->count())
         return false;
     return true;
+}
+
+void PageItem::notify()
+{
+    LayoutSettings settings;
+    QPageLayout layout = settings.pageLayout();
+    setPageLayout(layout);
 }

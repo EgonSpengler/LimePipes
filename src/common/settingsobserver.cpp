@@ -10,15 +10,13 @@
 
 using namespace Settings;
 
-SettingsObserver::SettingsObserver(QObject *parent)
-    :
-      m_settingsCategory(Category::NoCategory)
+SettingsObserver::SettingsObserver()
+    : m_settingsCategory(Category::NoCategory)
 {
 }
 
-SettingsObserver::SettingsObserver(Settings::Category settingCategory, QObject *parent)
-    :
-      m_settingsCategory(settingCategory)
+SettingsObserver::SettingsObserver(Settings::Category settingCategory)
+    : m_settingsCategory(settingCategory)
 {
 }
 

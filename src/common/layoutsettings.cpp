@@ -50,6 +50,8 @@ void LayoutSettings::setPageLayout(const QPageLayout &pageLayout)
     setUnit(pageLayout.units());
     setOrientation(pageLayout.orientation());
     setMargins(pageLayout.margins());
+
+    notify(Settings::Category::Layout);
 }
 
 QString LayoutSettings::key(const QString &valueName) const
