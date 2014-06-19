@@ -12,6 +12,7 @@
 #include <QMainWindow>
 #include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/pluginmanagerinterface.h>
+#include <common/settingsobserver.h>
 
 class QTreeView;
 class QDir;
@@ -25,12 +26,14 @@ class MusicModelInterface;
 class GraphicsItemView;
 class GraphicsScene;
 class SettingsDialog;
+class SMuFLLoader;
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow,
+                   public SettingsObserver
 {
     Q_OBJECT
 
@@ -38,6 +41,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void notify(Settings::Id id);
+
+    void setMusicFontSizeFromSettings();
 private slots:
     void on_fileNewAction_triggered();
     void on_fileOpenAction_triggered();
@@ -79,6 +85,7 @@ private:
     AboutDialog *m_aboutDialog;
     SettingsDialog *m_settingsDialog;
     MusicFontPtr m_musicFont;
+    SMuFLLoader *m_smuflLoader;
 };
 
 #endif // MAINWINDOW_H

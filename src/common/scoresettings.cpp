@@ -162,7 +162,7 @@ void ScoreSettings::setValue(Area area, LP::ScoreDataRole dataRole, Appearance a
         writeValue = alignmentToString(value.value<Settings::TextAlignment>());
 
     m_settings->setValue(valueKey, writeValue);
-    notify(Settings::Category::Score);
+    notify(Settings::Category::Score, Settings::Id::ScoreData);
 }
 
 void ScoreSettings::remove(Appearance appearance)

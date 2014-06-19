@@ -37,7 +37,6 @@ public:
     void setData(const QVariant &value, int key);
     void insertChildItem(int index, VisualItem *childItem);
 
-    MusicFontPtr musicFont() const;
     void setMusicFont(const MusicFontPtr &musicFont);
 
 private:

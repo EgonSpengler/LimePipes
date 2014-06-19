@@ -26,6 +26,19 @@ enum class Category
     Symbol
 };
 
+enum class Id
+{
+    None,
+
+    // Score
+    ScoreData,
+
+    // Layout
+    PageLayout,
+    StaffSpace,
+    MusicFont
+};
+
 enum class TextAlignment
 {
     NoAlignment,

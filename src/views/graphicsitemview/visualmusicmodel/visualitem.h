@@ -13,6 +13,8 @@
 #include <QList>
 #include <QPersistentModelIndex>
 
+#include <common/graphictypes/MusicFont/musicfont.h>
+
 class InteractingGraphicsItem;
 class ItemInteraction;
 class QGraphicsItem;
@@ -66,6 +68,8 @@ public:
     void removeGraphicsItem(InteractingGraphicsItem *graphicsItem);
 
     bool hasGraphicsItem(QGraphicsItem *item) const;
+
+    virtual void setMusicFont(const MusicFontPtr &musicFont);
 
 signals:
     void dataChanged(const QVariant& value, int dataRole);

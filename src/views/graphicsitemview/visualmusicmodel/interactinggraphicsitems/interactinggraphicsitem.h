@@ -11,6 +11,7 @@
 
 #include <QList>
 #include <QGraphicsWidget>
+
 #include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/defines.h>
 #include <common/itemdataroles.h>

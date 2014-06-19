@@ -351,8 +351,11 @@ bool ScoreGraphicsItem::TextItemPosition::operator ==(const ScoreGraphicsItem::T
 }
 
 
-void ScoreGraphicsItem::notify()
+void ScoreGraphicsItem::notify(Settings::Id id)
 {
+    if (id != Settings::Id::ScoreData)
+        return;
+
     updateDataFromSettings();
 }
 

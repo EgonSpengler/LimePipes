@@ -13,9 +13,18 @@
 #include <QPageSize>
 #include <QMarginsF>
 
+#include <common/graphictypes/MusicFont/musicfont.h>
+
 #include "observablesettings.h"
 
 class QSettings;
+
+//class MusicSheetLayout {
+
+//public:
+//    MusicSheetLayout()
+//    {}
+//};
 
 class LayoutSettings : public ObservableSettings
 {
@@ -23,9 +32,24 @@ class LayoutSettings : public ObservableSettings
 public:
     explicit LayoutSettings(QObject *parent = 0);
 
-    QPageLayout pageLayout();
-    QPageLayout defaultPageLayout();
+    QPageLayout pageLayout() const;
+    QPageLayout defaultPageLayout() const;
     void setPageLayout(const QPageLayout &pageLayout);
+
+//    MusicSheetLayout musicSheetLayout() const;
+
+    static QString pageLayoutUnitToString(const QPageLayout::Unit &unit);
+
+    /*!
+     * \brief staffSpace Staff space in millimeter
+     * \return
+     */
+    double staffSpaceMM() const;
+    void setStaffSpaceMM(const double &staffSpaceMM);
+
+    int staffSpacePixel() const;
+
+    void notifyAboutMusicFontChange();
 
 private:
     QString key(const QString &valueName) const;

@@ -39,7 +39,7 @@ public:
     void initialize();
 
     // SettingsObserver
-    void notify();
+    void notify(Settings::Id id);
 
 signals:
     void itemTextChanged(const QVariant& text, int dataRole);

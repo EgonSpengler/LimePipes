@@ -21,7 +21,7 @@ public:
 
     Settings::Category settingCategory() const;
 
-    virtual void notify() {}
+    virtual void notify(Settings::Id) {}
 
 protected:
     void setSettingsCategory(Settings::Category category);

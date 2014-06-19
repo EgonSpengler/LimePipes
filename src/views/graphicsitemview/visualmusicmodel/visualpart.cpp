@@ -59,25 +59,8 @@ StaffGraphicsItem *VisualPart::newStaffItem()
 {
     StaffGraphicsItem *staffItem = new StaffGraphicsItem;
     staffItem->setStaffType(staffType());
-    staffItem->setMusicFont(m_musicFont);
 
     return staffItem;
-}
-
-MusicFontPtr VisualPart::musicFont() const
-{
-    return m_musicFont;
-}
-
-void VisualPart::setMusicFont(const MusicFontPtr &musicFont)
-{
-    if (m_musicFont == musicFont)
-        return;
-
-    m_musicFont = musicFont;
-    foreach (StaffGraphicsItem *staff, m_staffItems) {
-        staff->setMusicFont(m_musicFont);
-    }
 }
 
 void VisualPart::removeLastStaff()
@@ -120,4 +103,10 @@ void VisualPart::insertChildItem(int index, VisualItem *childItem)
     }
 
     lastStaffItem->insertChildItem(index, graphicsItem);
+}
+
+void VisualPart::setMusicFont(const MusicFontPtr &musicFont)
+{
+    m_musicFont = musicFont;
+    VisualItem::setMusicFont(musicFont);
 }

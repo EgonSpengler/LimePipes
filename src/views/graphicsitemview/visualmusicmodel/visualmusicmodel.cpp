@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <musicitem.h>
 #include <common/itemdataroles.h>
+#include <common/observablesettings.h>
 #include "interactinggraphicsitems/interactinggraphicsitem.h"
 #include "visualmusicmodel.h"
 #include "sequentialtunesrowiterator.h"
@@ -21,9 +22,11 @@
 
 VisualMusicModel::VisualMusicModel(AbstractVisualItemFactory *itemFactory, QObject *parent)
     : QObject(parent),
+      SettingsObserver(Settings::Category::Layout),
       m_model(0),
       m_itemFactory(itemFactory)
 {
+    ObservableSettings::registerObserver(this);
 }
 
 VisualMusicModel::~VisualMusicModel()
@@ -454,4 +457,14 @@ PluginManager VisualMusicModel::pluginManager() const
 bool VisualMusicModel::hasValidPluginManager() const
 {
     return !m_pluginManager.isNull();
+}
+
+void VisualMusicModel::notify(Settings::Id id)
+{
+    if (id != Settings::Id::MusicFont)
+        return;
+
+    foreach (VisualItem *item, m_visualItemIndexes) {
+        item->setMusicFont(m_pluginManager->musicFont());
+    }
 }

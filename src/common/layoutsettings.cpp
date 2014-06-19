@@ -8,6 +8,8 @@
 
 #include <QSettings>
 #include <QPrinter>
+#include <QScreen>
+#include <QApplication>
 
 #include "layoutsettings.h"
 
@@ -21,6 +23,9 @@ static const QString TopMarginKey("topmargin");
 static const QString BottomMarginKey("bottommargin");
 static const QString RightMarginKey("rightmargin");
 
+static const QString StaffSpaceKey("staff space");
+static const double StaffSpaceDefault(1.75);
+
 LayoutSettings::LayoutSettings(QObject *parent)
     : ObservableSettings(parent)
 {
@@ -29,7 +34,7 @@ LayoutSettings::LayoutSettings(QObject *parent)
     m_defaultPageLayout = QPrinter().pageLayout();
 }
 
-QPageLayout LayoutSettings::pageLayout()
+QPageLayout LayoutSettings::pageLayout() const
 {
     QPageLayout layout(m_defaultPageLayout);
     layout.setPageSize(QPageSize(pageSizeFromSettings()));
@@ -39,7 +44,7 @@ QPageLayout LayoutSettings::pageLayout()
     return layout;
 }
 
-QPageLayout LayoutSettings::defaultPageLayout()
+QPageLayout LayoutSettings::defaultPageLayout() const
 {
     return m_defaultPageLayout;
 }
@@ -51,7 +56,32 @@ void LayoutSettings::setPageLayout(const QPageLayout &pageLayout)
     setOrientation(pageLayout.orientation());
     setMargins(pageLayout.margins());
 
-    notify(Settings::Category::Layout);
+    notify(Settings::Category::Layout, Settings::Id::PageLayout);
+}
+
+//MusicSheetLayout LayoutSettings::musicSheetLayout() const
+//{
+//    return MusicSheetLayout();
+//}
+
+QString LayoutSettings::pageLayoutUnitToString(const QPageLayout::Unit &unit)
+{
+    switch (unit) {
+    case QPageLayout::Millimeter:
+        return tr("mm");
+    case QPageLayout::Point:
+        return tr("pt");
+    case QPageLayout::Inch:
+        return tr("in");
+    case QPageLayout::Pica:
+        return tr("pica");
+    case QPageLayout::Didot:
+        return tr("didot");
+    case QPageLayout::Cicero:
+        return tr("cicero");
+    default:
+        return QStringLiteral("");
+    }
 }
 
 QString LayoutSettings::key(const QString &valueName) const
@@ -117,3 +147,29 @@ void LayoutSettings::setUnit(QPageLayout::Unit unit)
 {
     m_settings->setValue(key(UnitKey), static_cast<int>(unit));
 }
+
+void LayoutSettings::notifyAboutMusicFontChange()
+{
+    notify(Settings::Category::Layout, Settings::Id::MusicFont);
+}
+
+double LayoutSettings::staffSpaceMM() const
+{
+    return m_settings->value(key(StaffSpaceKey), StaffSpaceDefault).toDouble();
+}
+
+void LayoutSettings::setStaffSpaceMM(const double &staffSpace)
+{
+    m_settings->setValue(key(StaffSpaceKey), staffSpace);
+    notify(Settings::Category::Layout, Settings::Id::StaffSpace);
+}
+
+int LayoutSettings::staffSpacePixel() const
+{
+    QScreen *screen = QApplication::primaryScreen();
+    double pixelPerMM = screen->physicalDotsPerInch() / 2.54 / 10;
+    double pixelPerStaffSpace = staffSpaceMM() * pixelPerMM;
+
+    return qRound(pixelPerStaffSpace);
+}
+

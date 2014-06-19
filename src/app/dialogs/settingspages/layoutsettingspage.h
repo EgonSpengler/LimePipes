@@ -28,20 +28,21 @@ public:
     explicit LayoutSettingsPage(QWidget *parent = 0);
     ~LayoutSettingsPage();
 
-    void writeSettings();
 private slots:
     void currentLayoutUnitChanged(int index);
     void currentPageSizeChanged(int index);
     void marginsChanged();
     void restoreDefaultPageSize();
+    void staffSpaceChanged(double spaceInMM);
 
 private:
     void initPageFormatComboBox();
     void initLayoutUnitComboBox();
     void setUiFromPageLayout();
+    void initUi();
     void createConnections();
-    QString pageLayoutUnitToString(const QPageLayout::Unit &unit);
     void setMarginSpinboxSuffixes(QString unitName);
+    void writePageLayoutSettings();
     static QVector<QPageSize::PageSizeId> s_pageSizes;
     LayoutSettings *m_layoutSettings;
     QPageLayout m_pageLayout;

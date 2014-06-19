@@ -45,7 +45,7 @@ public:
     void removeRow(QGraphicsWidget *row);
 
     // SettingsObserver interface
-    void notify();
+    void notify(Settings::Id id);
 
 signals:
     void remainingVerticalSpaceChanged(int oldValue, int newValue);

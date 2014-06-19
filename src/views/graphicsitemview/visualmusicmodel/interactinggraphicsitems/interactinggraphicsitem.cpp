@@ -10,6 +10,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
 #include <common/graphictypes/iteminteraction.h>
+#include <common/observablesettings.h>
 #include "interactinggraphicsitem.h"
 
 InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)
@@ -271,9 +272,6 @@ MusicFontPtr InteractingGraphicsItem::musicFont() const
 
 void InteractingGraphicsItem::setMusicFont(const MusicFontPtr &musicFont)
 {
-    if (m_musicFont == musicFont)
-        return;
-
     m_musicFont = musicFont;
     musicFontHasChanged(m_musicFont);
 }

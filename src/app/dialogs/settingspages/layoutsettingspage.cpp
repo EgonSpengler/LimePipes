@@ -37,7 +37,7 @@ LayoutSettingsPage::LayoutSettingsPage(QWidget *parent)
     initPageFormatComboBox();
     initLayoutUnitComboBox();
     m_pageLayout = m_layoutSettings->pageLayout();
-    setUiFromPageLayout();
+    initUi();
     createConnections();
 }
 
@@ -58,13 +58,15 @@ void LayoutSettingsPage::createConnections()
     connect(ui->portraitRadioButton, &QRadioButton::clicked,
             [this] {
         m_pageLayout.setOrientation(QPageLayout::Portrait);
-        writeSettings();
+        writePageLayoutSettings();
     });
     connect(ui->landscapeRadioButton, &QRadioButton::clicked,
             [this] {
         m_pageLayout.setOrientation(QPageLayout::Landscape);
-        writeSettings();
+        writePageLayoutSettings();
     });
+    connect(ui->staffSpaceSpinBox, SIGNAL(valueChanged(double)),
+            this, SLOT(staffSpaceChanged(double)));
 }
 
 LayoutSettingsPage::~LayoutSettingsPage()
@@ -76,7 +78,7 @@ void LayoutSettingsPage::currentLayoutUnitChanged(int index)
 {
     QVariant unitData = ui->layoutUnitComboBox->currentData();
     m_pageLayout.setUnits(unitData.value<QPageLayout::Unit>());
-    writeSettings();
+    writePageLayoutSettings();
     setUiFromPageLayout();
 }
 
@@ -85,11 +87,11 @@ void LayoutSettingsPage::currentPageSizeChanged(int index)
     QVariant sizeData = ui->paperFormatComboBox->currentData();
     QPageSize pageSize(sizeData.value<QPageSize::PageSizeId>());
     m_pageLayout.setPageSize(pageSize);
-    writeSettings();
+    writePageLayoutSettings();
     setUiFromPageLayout();
 }
 
-void LayoutSettingsPage::writeSettings()
+void LayoutSettingsPage::writePageLayoutSettings()
 {
     m_layoutSettings->setPageLayout(m_pageLayout);
 }
@@ -103,14 +105,19 @@ void LayoutSettingsPage::marginsChanged()
     margins.setLeft(ui->leftMarginSpinBox->value());
 
     m_pageLayout.setMargins(margins);
-    writeSettings();
+    writePageLayoutSettings();
 }
 
 void LayoutSettingsPage::restoreDefaultPageSize()
 {
     m_pageLayout = m_layoutSettings->defaultPageLayout();
     setUiFromPageLayout();
-    writeSettings();
+    writePageLayoutSettings();
+}
+
+void LayoutSettingsPage::staffSpaceChanged(double spaceInMM)
+{
+    m_layoutSettings->setStaffSpaceMM(spaceInMM);
 }
 
 void LayoutSettingsPage::initPageFormatComboBox()
@@ -131,7 +138,7 @@ void LayoutSettingsPage::initLayoutUnitComboBox()
                                          QPageLayout::Didot,
                                          QPageLayout::Cicero});
     foreach (const QPageLayout::Unit unit, pageSizeUnits) {
-        ui->layoutUnitComboBox->addItem(pageLayoutUnitToString(unit),
+        ui->layoutUnitComboBox->addItem(LayoutSettings::pageLayoutUnitToString(unit),
                                         QVariant::fromValue<QPageLayout::Unit>(unit));
     }
 }
@@ -160,7 +167,7 @@ void LayoutSettingsPage::setUiFromPageLayout()
     QVariant pageUnitData = QVariant::fromValue<QPageLayout::Unit>(unit);
     int pageUnitIndex = ui->layoutUnitComboBox->findData(pageUnitData);
     ui->layoutUnitComboBox->setCurrentIndex(pageUnitIndex);
-    QString unitName = pageLayoutUnitToString(unit);
+    QString unitName = LayoutSettings::pageLayoutUnitToString(unit);
 
     QMarginsF margins = m_pageLayout.margins();
     ui->topMarginSpinBox->setValue(margins.top());
@@ -170,22 +177,8 @@ void LayoutSettingsPage::setUiFromPageLayout()
     setMarginSpinboxSuffixes(unitName);
 }
 
-QString LayoutSettingsPage::pageLayoutUnitToString(const QPageLayout::Unit &unit)
+void LayoutSettingsPage::initUi()
 {
-    switch (unit) {
-    case QPageLayout::Millimeter:
-        return tr("mm");
-    case QPageLayout::Point:
-        return tr("pt");
-    case QPageLayout::Inch:
-        return tr("in");
-    case QPageLayout::Pica:
-        return tr("pica");
-    case QPageLayout::Didot:
-        return tr("didot");
-    case QPageLayout::Cicero:
-        return tr("cicero");
-    default:
-        return QStringLiteral("");
-    }
+    setUiFromPageLayout();
+    ui->staffSpaceSpinBox->setValue(m_layoutSettings->staffSpaceMM());
 }

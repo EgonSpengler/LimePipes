@@ -26,12 +26,15 @@
 #include <QSplitter>
 #include <QUndoStack>
 #include <QtPlugin>
+
 #include <utilities/error.h>
 #include <model/musicmodel.h>
 #include <common/itemdataroles.h>
+#include <common/layoutsettings.h>
 #include <treeview/musicproxymodel.h>
 #include <views/treeview/treeview.h>
 #include <views/graphicsitemview/graphicsitemview.h>
+
 #include "commonpluginmanager.h"
 #include "SMuFL/smuflloader.h"
 #include "dialogs/newtunedialog.h"
@@ -54,6 +57,7 @@ const QString pluginsDirName("plugins");
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+    SettingsObserver(Settings::Category::Layout),
     ui(new Ui::MainWindow),
     m_treeView(0),
     m_graphicsItemView(0),
@@ -62,9 +66,12 @@ MainWindow::MainWindow(QWidget *parent) :
     m_model(0),
     m_addSymbolsDialog(0),
     m_aboutDialog(0),
-    m_settingsDialog(0)
+    m_settingsDialog(0),
+    m_smuflLoader(0)
 {
     ui->setupUi(this);
+
+    LayoutSettings::registerObserver(this);
 
     QDir pluginsDir(QCoreApplication::applicationDirPath());
     if (!pluginsDir.exists(pluginsDirName)) {
@@ -72,15 +79,15 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     pluginsDir.cd(pluginsDirName);
 
+    m_addSymbolsDialog = new AddSymbolsDialog(this);
+    m_aboutDialog = new AboutDialog(this);
+    m_settingsDialog = new SettingsDialog(this);
+
     initMusicFont();
 
     CommonPluginManager *pluginManager = new CommonPluginManager(pluginsDir);
     m_pluginManager = PluginManager(pluginManager);
     pluginManager->setMusicFont(m_musicFont);
-
-    m_addSymbolsDialog = new AddSymbolsDialog(this);
-    m_aboutDialog = new AboutDialog(this);
-    m_settingsDialog = new SettingsDialog(this);
 
     createModelAndView();
     createMenusAndToolBars();
@@ -104,20 +111,30 @@ MainWindow::~MainWindow()
     m_proxyModel = 0;
 }
 
+void MainWindow::setMusicFontSizeFromSettings()
+{
+    if (!m_smuflLoader)
+        return;
+
+    LayoutSettings settings;
+    int staffSpace = settings.staffSpacePixel();
+    int oneEm = 4 * staffSpace;
+    m_smuflLoader->setFontPixelSize(oneEm);
+
+    settings.notifyAboutMusicFontChange();
+}
+
 void MainWindow::initMusicFont()
 {
-    int staffLineHeight = 10;
-    int oneEm = 4 * staffLineHeight;
-    SMuFLLoader *smuflLoader = new SMuFLLoader();
-
-    smuflLoader->setFontFromPath(QStringLiteral(":/SMuFL/fonts/Bravura/Bravura.otf"));
-    smuflLoader->setFontPixelSize(oneEm);
-    smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
-    smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
-    smuflLoader->setFontColor(FontColor::Normal, Qt::black);
-    smuflLoader->setFontColor(FontColor::Focus, QColor(0x004adc));
-    smuflLoader->setFontColor(FontColor::Selected, QColor(0x4a008c));
-    m_musicFont = MusicFontPtr(smuflLoader);
+    m_smuflLoader = new SMuFLLoader();
+    m_smuflLoader->setFontFromPath(QStringLiteral(":/SMuFL/fonts/Bravura/Bravura.otf"));
+    setMusicFontSizeFromSettings();
+    m_smuflLoader->loadGlyphnamesFromFile(QStringLiteral(":/SMuFL/glyphnames.json"));
+    m_smuflLoader->loadFontMetadataFromFile(QStringLiteral(":/SMuFL/fonts/Bravura/metadata.json"));
+    m_smuflLoader->setFontColor(FontColor::Normal, Qt::black);
+    m_smuflLoader->setFontColor(FontColor::Focus, QColor(0x004adc));
+    m_smuflLoader->setFontColor(FontColor::Selected, QColor(0x4a008c));
+    m_musicFont = MusicFontPtr(m_smuflLoader);
 }
 
 void MainWindow::createModelAndView()
@@ -517,4 +534,12 @@ void MainWindow::setWindowModifiedForUndoStackCleanState(bool clean)
 {
     setWindowModified(!clean);
     updateUi();
+}
+
+void MainWindow::notify(Settings::Id id)
+{
+    if (id != Settings::Id::StaffSpace)
+        return;
+
+    setMusicFontSizeFromSettings();
 }

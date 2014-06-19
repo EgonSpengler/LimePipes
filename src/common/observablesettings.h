@@ -30,7 +30,7 @@ public:
     static bool isObserverRegistered(SettingsObserver *settingsObserver);
 
 protected:
-    static void notify(Settings::Category category);
+    static void notify(Settings::Category category, Settings::Id id);
 
 private:
     static QList<SettingsObserver*> m_settingsObserver;

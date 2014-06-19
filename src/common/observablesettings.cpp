@@ -33,11 +33,11 @@ void ObservableSettings::unregisterObserver(SettingsObserver *settingsObserver)
     m_settingsObserver.removeAll(settingsObserver);
 }
 
-void ObservableSettings::notify(Settings::Category category)
+void ObservableSettings::notify(Settings::Category category, Settings::Id id)
 {
     foreach (SettingsObserver *settingsObserver, m_settingsObserver) {
         if (settingsObserver->settingCategory() == category) {
-            settingsObserver->notify();
+            settingsObserver->notify(id);
         }
     }
 }

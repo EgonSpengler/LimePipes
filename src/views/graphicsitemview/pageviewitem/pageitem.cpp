@@ -149,8 +149,11 @@ bool PageItem::isValidRowIndex(int rowIndex)
     return true;
 }
 
-void PageItem::notify()
+void PageItem::notify(Settings::Id id)
 {
+    if (id != Settings::Id::PageLayout)
+        return;
+
     LayoutSettings settings;
     QPageLayout layout = settings.pageLayout();
     setPageLayout(layout);
