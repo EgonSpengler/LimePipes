@@ -253,5 +253,6 @@ void SymbolGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
         setMaximumWidth(musicFont->staffSpace() / 4);
     } else {
         setGlyphItemYPosForPitch(m_pitch);
+        setMaximumWidthForGlyphItem(m_graphicBuilder->glyphItem());
     }
 }

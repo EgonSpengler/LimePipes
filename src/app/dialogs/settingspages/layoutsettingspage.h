@@ -33,7 +33,7 @@ private slots:
     void currentPageSizeChanged(int index);
     void marginsChanged();
     void restoreDefaultPageSize();
-    void staffSpaceChanged(double spaceInMM);
+    void staffSpaceChanged();
 
 private:
     void initPageFormatComboBox();

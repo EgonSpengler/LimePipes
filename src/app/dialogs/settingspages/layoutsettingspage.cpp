@@ -65,8 +65,8 @@ void LayoutSettingsPage::createConnections()
         m_pageLayout.setOrientation(QPageLayout::Landscape);
         writePageLayoutSettings();
     });
-    connect(ui->staffSpaceSpinBox, SIGNAL(valueChanged(double)),
-            this, SLOT(staffSpaceChanged(double)));
+    connect(ui->staffSpaceSpinBox, SIGNAL(editingFinished()),
+            this, SLOT(staffSpaceChanged()));
 }
 
 LayoutSettingsPage::~LayoutSettingsPage()
@@ -115,9 +115,9 @@ void LayoutSettingsPage::restoreDefaultPageSize()
     writePageLayoutSettings();
 }
 
-void LayoutSettingsPage::staffSpaceChanged(double spaceInMM)
+void LayoutSettingsPage::staffSpaceChanged()
 {
-    m_layoutSettings->setStaffSpaceMM(spaceInMM);
+    m_layoutSettings->setStaffSpaceMM(ui->staffSpaceSpinBox->value());
 }
 
 void LayoutSettingsPage::initPageFormatComboBox()

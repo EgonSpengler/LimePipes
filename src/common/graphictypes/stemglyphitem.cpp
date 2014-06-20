@@ -114,6 +114,7 @@ void StemGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     stemPen.setWidthF(musicFont->engravings().stemThickness *
                       musicFont->staffSpace());
     m_stemItem->setPen(stemPen);
+    layoutFlagGlyphAndStem();
 }
 
 void StemGlyphItem::colorRoleHasChanged(const FontColor &colorRole)

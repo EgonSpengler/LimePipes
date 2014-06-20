@@ -99,6 +99,7 @@ MusicFontPtr TieGraphicsItem::musicFont() const
 void TieGraphicsItem::setMusicFont(const MusicFontPtr &musicFont)
 {
     m_musicFont = musicFont;
+    updatePath();
 }
 
 void TieGraphicsItem::checkIfHasGlyphAndUpdate(GlyphItem *item)
