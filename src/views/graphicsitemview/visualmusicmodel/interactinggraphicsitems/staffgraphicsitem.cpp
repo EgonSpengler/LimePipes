@@ -33,10 +33,12 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     m_measureLayout->setSpacing(0);
     m_measureLayout->setContentsMargins(0, 0, 0, 0);
 
-    changeMusicFont(LayoutSettings::musicFont());
-    connect(LayoutSettings::musicFont().data(), &MusicFont::fontChanged,
+    musicFontHasChanged(LayoutSettings::musicFont());
+
+    updateToMusicLayout();
+    connect(LayoutSettings::musicLayout().data(), &MusicLayout::layoutChanged,
             [this] {
-        changeMusicFont(LayoutSettings::musicFont());
+        updateToMusicLayout();
     });
 }
 
@@ -72,9 +74,6 @@ qreal StaffGraphicsItem::penWidth() const
 
 void StaffGraphicsItem::setPenWidth(qreal width)
 {
-    if (width < 1)
-        return;
-
     m_pen.setWidthF(width);
     setWindowFrameRectForLineWidth(width);
 }
@@ -106,9 +105,21 @@ void StaffGraphicsItem::setSizeHintsForStaffType(StaffType type)
 
 void StaffGraphicsItem::setWindowFrameRectForLineWidth(qreal width)
 {
-    // Half of the line will be painted outside of rect
     width /= 2;
+
+    // Half of the line will be painted outside of rect
     setWindowFrameMargins(width, width, width, width);
+    qDebug() << "StaffGraphicsItem: Window frame rect: " << windowFrameRect();
+}
+
+void StaffGraphicsItem::updateToMusicLayout()
+{
+    qreal staffSpace = LayoutSettings::musicFont()->staffSpace();
+    qreal topMargin = LayoutSettings::musicLayout()->staffSpacing();
+    topMargin *= staffSpace;
+    setWindowFrameMargins(0, topMargin, 0, 0);
+
+    qDebug() << "StaffGraphicsItem: Window frame rect: " << windowFrameRect();
 }
 
 void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
@@ -140,7 +151,7 @@ int StaffGraphicsItem::measureCount() const
     return m_measureLayout->count();
 }
 
-void StaffGraphicsItem::changeMusicFont(const MusicFontPtr &musicFont)
+void StaffGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 {
     qreal staffSpace = musicFont->staffSpace();
     setStaffLineHeight(staffSpace);

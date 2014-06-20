@@ -12,19 +12,14 @@
 #include <QPageLayout>
 #include <QPageSize>
 #include <QMarginsF>
+#include <QSharedPointer>
 
 #include <common/graphictypes/MusicFont/musicfont.h>
 
+#include "musiclayout.h"
 #include "observablesettings.h"
 
 class QSettings;
-
-//class MusicSheetLayout {
-
-//public:
-//    MusicSheetLayout()
-//    {}
-//};
 
 class LayoutSettings : public ObservableSettings
 {
@@ -35,8 +30,6 @@ public:
     QPageLayout pageLayout() const;
     QPageLayout defaultPageLayout() const;
     void setPageLayout(const QPageLayout &pageLayout);
-
-//    MusicSheetLayout musicSheetLayout() const;
 
     static QString pageLayoutUnitToString(const QPageLayout::Unit &unit);
 
@@ -51,6 +44,8 @@ public:
 
     static MusicFontPtr musicFont();
     static void setMusicFont(const MusicFontPtr &value);
+
+    static MusicLayoutPtr musicLayout();
 
 private:
     QString key(const QString &valueName) const;
@@ -67,9 +62,11 @@ private:
     QPageLayout::Unit unitFromSettings() const;
     void setUnit(QPageLayout::Unit unit);
 
+    void initMusicLayout();
     QPageLayout m_defaultPageLayout;
     QSettings *m_settings;
     static MusicFontPtr s_musicFont;
+    static MusicLayoutPtr s_musicLayout;
 };
 
 #endif // LAYOUTSETTINGS_H

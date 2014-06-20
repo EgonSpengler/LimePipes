@@ -26,7 +26,12 @@ static const QString RightMarginKey("rightmargin");
 static const QString StaffSpaceKey("staff space");
 static const double StaffSpaceDefault(1.75);
 
+// Music layout
+static const QString StaffSpacingKey("staff spacing");
+static const double StaffSpacingDefault(6);
+
 MusicFontPtr LayoutSettings::s_musicFont;
+MusicLayoutPtr LayoutSettings::s_musicLayout;
 
 LayoutSettings::LayoutSettings(QObject *parent)
     : ObservableSettings(parent)
@@ -34,6 +39,9 @@ LayoutSettings::LayoutSettings(QObject *parent)
     m_settings = new QSettings(this);
 
     m_defaultPageLayout = QPrinter().pageLayout();
+
+    s_musicLayout = MusicLayoutPtr(new MusicLayout);
+    initMusicLayout();
 }
 
 QPageLayout LayoutSettings::pageLayout() const
@@ -60,11 +68,6 @@ void LayoutSettings::setPageLayout(const QPageLayout &pageLayout)
 
     notify(Settings::Category::Layout, Settings::Id::PageLayout);
 }
-
-//MusicSheetLayout LayoutSettings::musicSheetLayout() const
-//{
-//    return MusicSheetLayout();
-//}
 
 QString LayoutSettings::pageLayoutUnitToString(const QPageLayout::Unit &unit)
 {
@@ -150,6 +153,12 @@ void LayoutSettings::setUnit(QPageLayout::Unit unit)
     m_settings->setValue(key(UnitKey), static_cast<int>(unit));
 }
 
+void LayoutSettings::initMusicLayout()
+{
+    double staffSpacing = m_settings->value(StaffSpacingKey, StaffSpacingDefault).toDouble();
+    s_musicLayout->setStaffSpacing(staffSpacing);
+}
+
 MusicFontPtr LayoutSettings::musicFont()
 {
     return s_musicFont;
@@ -158,6 +167,11 @@ MusicFontPtr LayoutSettings::musicFont()
 void LayoutSettings::setMusicFont(const MusicFontPtr &value)
 {
     s_musicFont = value;
+}
+
+MusicLayoutPtr LayoutSettings::musicLayout()
+{
+    return s_musicLayout;
 }
 
 double LayoutSettings::staffSpaceMM() const

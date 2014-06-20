@@ -35,7 +35,7 @@ public:
     int measureCount() const;
 
 private:
-    void changeMusicFont(const MusicFontPtr &musicFont);
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
     int staffLineHeight() const;
     void setStaffLineHeight(qreal staffLineHeight);
     qreal penWidth() const;
@@ -43,6 +43,7 @@ private:
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
     void setFixedWidthsOnChildren();
+    void updateToMusicLayout();
     StaffType m_staffType;
     qreal m_staffLineHeight;
     QPen m_pen;

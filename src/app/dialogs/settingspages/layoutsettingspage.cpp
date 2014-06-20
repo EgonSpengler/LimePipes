@@ -65,8 +65,13 @@ void LayoutSettingsPage::createConnections()
         m_pageLayout.setOrientation(QPageLayout::Landscape);
         writePageLayoutSettings();
     });
-    connect(ui->staffSpaceSpinBox, SIGNAL(editingFinished()),
-            this, SLOT(staffSpaceChanged()));
+    connect(ui->staffSpaceSpinBox, &QDoubleSpinBox::editingFinished,
+            this, &LayoutSettingsPage::staffSpaceChanged);
+    connect(ui->staffSpacingSpinBox, &QDoubleSpinBox::editingFinished,
+            [this] {
+        double value = ui->staffSpacingSpinBox->value();
+        m_layoutSettings->musicLayout()->setStaffSpacing(value);
+    });
 }
 
 LayoutSettingsPage::~LayoutSettingsPage()
@@ -181,4 +186,5 @@ void LayoutSettingsPage::initUi()
 {
     setUiFromPageLayout();
     ui->staffSpaceSpinBox->setValue(m_layoutSettings->staffSpaceMM());
+    ui->staffSpacingSpinBox->setValue(m_layoutSettings->musicLayout()->staffSpacing());
 }
