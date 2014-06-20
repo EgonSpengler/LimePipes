@@ -104,9 +104,3 @@ void VisualPart::insertChildItem(int index, VisualItem *childItem)
 
     lastStaffItem->insertChildItem(index, graphicsItem);
 }
-
-void VisualPart::setMusicFont(const MusicFontPtr &musicFont)
-{
-    m_musicFont = musicFont;
-    VisualItem::setMusicFont(musicFont);
-}

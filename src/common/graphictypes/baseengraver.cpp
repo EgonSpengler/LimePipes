@@ -6,10 +6,17 @@
  *
  */
 
+#include <common/layoutsettings.h>
+
 #include "baseengraver.h"
 
 BaseEngraver::BaseEngraver()
 {
+    setMusicFont(LayoutSettings::musicFont());
+    QObject::connect(LayoutSettings::musicFont().data(), &MusicFont::fontChanged,
+                     [this] {
+        setMusicFont(LayoutSettings::musicFont());
+    });
 }
 
 MusicFontPtr BaseEngraver::musicFont() const
@@ -19,9 +26,6 @@ MusicFontPtr BaseEngraver::musicFont() const
 
 void BaseEngraver::setMusicFont(const MusicFontPtr &musicFont)
 {
-    if (m_musicFont == musicFont)
-        return;
-
     m_musicFont = musicFont;
     musicFontHasChanged(m_musicFont);
 }

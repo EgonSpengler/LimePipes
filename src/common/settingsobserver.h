@@ -21,7 +21,7 @@ public:
 
     Settings::Category settingCategory() const;
 
-    virtual void notify(Settings::Id) {}
+    virtual void notify(Settings::Id id) { Q_UNUSED(id); }
 
 protected:
     void setSettingsCategory(Settings::Category category);

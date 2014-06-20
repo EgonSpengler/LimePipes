@@ -9,8 +9,10 @@
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSceneContextMenuEvent>
+
 #include <common/graphictypes/iteminteraction.h>
-#include <common/observablesettings.h>
+#include <common/layoutsettings.h>
+
 #include "interactinggraphicsitem.h"
 
 InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)
@@ -18,6 +20,11 @@ InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)
       m_itemInteraction(0),
       m_interactionMode(Direct)
 {
+    setMusicFont(LayoutSettings::musicFont());
+    connect(LayoutSettings::musicFont().data(), &MusicFont::fontChanged,
+            [this] {
+        setMusicFont(LayoutSettings::musicFont());
+    });
 }
 
 ItemInteraction *InteractingGraphicsItem::itemInteraction() const

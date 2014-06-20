@@ -66,6 +66,7 @@ private:
     QPropertyAnimation *m_fadeAnimation;
     QPropertyAnimation *m_geometryAnimation;
     QRectF m_geometryAfterAnimation;
+    PitchPtr m_pitch;
 };
 
 #endif // SYMBOLGRAPHICSITEM_H

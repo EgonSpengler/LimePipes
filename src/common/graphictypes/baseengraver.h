@@ -22,13 +22,12 @@ public:
     virtual void insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder) {}
     virtual void removeGraphicsBuilder(SymbolGraphicBuilder *builder) {}
 
-    MusicFontPtr musicFont() const;
-    void setMusicFont(const MusicFontPtr &musicFont);
-
 protected:
-    virtual void musicFontHasChanged(const MusicFontPtr &musicFont) {}
+    MusicFontPtr musicFont() const;
+    virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
 
 private:
+    void setMusicFont(const MusicFontPtr &musicFont);
     MusicFontPtr m_musicFont;
 };
 

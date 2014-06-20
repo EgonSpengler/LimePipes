@@ -34,13 +34,6 @@ public:
     void setData(const QVariant &value, int key);
     QVariant data(int key) const;
 
-    MusicFontPtr musicFont() const { return m_musicFont; }
-    void setMusicFont(const MusicFontPtr &musicFont)
-    {
-        m_musicFont = musicFont;
-        musicFontChanged(m_musicFont);
-    }
-
     /*! \brief graphicDataRoles Returns the data roles which affect the appearance of the graphic. */
     virtual QVector<int> graphicDataRoles() const
     {
@@ -60,11 +53,8 @@ protected:
         Q_UNUSED(key);
     }
 
-    virtual void musicFontChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
-
 private:
     QHash<int, QVariant> m_graphicData;
-    MusicFontPtr m_musicFont;
     int m_symbolType;
 };
 

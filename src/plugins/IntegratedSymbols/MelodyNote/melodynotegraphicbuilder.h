@@ -24,9 +24,6 @@ public:
     QVector<int> graphicDataRoles() const;
     GlyphItem *glyphItem() const;
 
-protected:
-    void musicFontChanged(const MusicFontPtr &musicFont);
-
 private:
     bool isPitchOnLine(const PitchPtr &pitch) const;
     void setLedgerLinesForPitch(const PitchPtr &pitch);

@@ -34,10 +34,8 @@ public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
     int measureCount() const;
 
-protected:
-    void musicFontHasChanged(const MusicFontPtr &musicFont);
-
 private:
+    void changeMusicFont(const MusicFontPtr &musicFont);
     int staffLineHeight() const;
     void setStaffLineHeight(qreal staffLineHeight);
     qreal penWidth() const;

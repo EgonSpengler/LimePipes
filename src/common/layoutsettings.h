@@ -49,7 +49,8 @@ public:
 
     int staffSpacePixel() const;
 
-    void notifyAboutMusicFontChange();
+    static MusicFontPtr musicFont();
+    static void setMusicFont(const MusicFontPtr &value);
 
 private:
     QString key(const QString &valueName) const;
@@ -68,6 +69,7 @@ private:
 
     QPageLayout m_defaultPageLayout;
     QSettings *m_settings;
+    static MusicFontPtr s_musicFont;
 };
 
 #endif // LAYOUTSETTINGS_H

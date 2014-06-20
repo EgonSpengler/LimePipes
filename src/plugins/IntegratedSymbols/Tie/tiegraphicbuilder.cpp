@@ -34,7 +34,3 @@ void TieGraphicBuilder::updateSymbolGraphic(const QVariant &value, int key)
     }
 
 }
-
-void TieGraphicBuilder::musicFontChanged(const MusicFontPtr &musicFont)
-{
-}

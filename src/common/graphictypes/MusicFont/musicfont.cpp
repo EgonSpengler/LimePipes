@@ -9,7 +9,8 @@
 #include "musicfont.h"
 #include <QPalette>
 
-MusicFont::MusicFont()
+MusicFont::MusicFont(QObject *parent)
+    : QObject(parent)
 {
 }
 

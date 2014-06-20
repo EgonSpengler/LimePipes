@@ -9,6 +9,9 @@
 #include <QPainter>
 #include <QFontMetricsF>
 #include <QDebug>
+
+#include <common/layoutsettings.h>
+
 #include "MusicFont/musicfont.h"
 #include "glyphitem.h"
 
@@ -17,6 +20,7 @@ GlyphItem::GlyphItem(QGraphicsItem *parent)
       m_colorRole(FontColor::Normal)
 {
     setFlag(QGraphicsItem::ItemIsSelectable);
+    initMusicFont();
 }
 
 GlyphItem::GlyphItem(const QString &glyphName, QGraphicsItem *parent)
@@ -24,12 +28,22 @@ GlyphItem::GlyphItem(const QString &glyphName, QGraphicsItem *parent)
       m_colorRole(FontColor::Normal)
 {
     setFlag(QGraphicsItem::ItemIsSelectable);
+    initMusicFont();
     setGlyphName(glyphName);
+}
+
+void GlyphItem::initMusicFont()
+{
+    setMusicFont(LayoutSettings::musicFont());
+    connect(LayoutSettings::musicFont().data(), &MusicFont::fontChanged,
+            [this] {
+        setMusicFont(LayoutSettings::musicFont());
+    });
 }
 
 void GlyphItem::initFromGlyphName(const QString &glyphName)
 {
-    if (m_musicFont.isNull() || glyphName.isEmpty())
+    if (glyphName.isEmpty())
         return;
 
     quint32 codepoint = m_musicFont->codepointForGlyph(glyphName);
@@ -73,11 +87,7 @@ MusicFontPtr GlyphItem::musicFont() const
 
 void GlyphItem::setMusicFont(const MusicFontPtr &musicFont)
 {
-    if (m_musicFont == musicFont)
-        return;
-
     m_musicFont = musicFont;
-    initFromGlyphName(m_glyphName);
     musicFontHasChanged(m_musicFont);
 }
 

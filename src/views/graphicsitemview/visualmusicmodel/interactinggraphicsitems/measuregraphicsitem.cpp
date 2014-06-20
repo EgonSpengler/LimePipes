@@ -13,6 +13,7 @@
 #include <QGraphicsLinearLayout>
 
 #include <common/defines.h>
+#include <common/layoutsettings.h>
 #include <common/graphictypes/stemengraver.h>
 #include <common/graphictypes/tieengraver.h>
 
@@ -215,10 +216,6 @@ void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     Engravings engravings(musicFont->engravings());
     qreal width = engravings.thinBarlineThickness * staffSpace;
     setPenWidth(width);
-
-    foreach (BaseEngraver *engraver, m_engravers) {
-        engraver->setMusicFont(musicFont);
-    }
 }
 
 void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)

@@ -11,6 +11,8 @@
 #include <QGraphicsLinearLayout>
 #include <QGraphicsLayoutItem>
 #include <QGraphicsItem>
+
+#include <common/layoutsettings.h>
 #include "staffgraphicsitem.h"
 #include <QDebug>
 
@@ -31,8 +33,11 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     m_measureLayout->setSpacing(0);
     m_measureLayout->setContentsMargins(0, 0, 0, 0);
 
-    setStaffLineHeight(InitialLineHeight);
-    setPenWidth(InitialLineWidth);
+    changeMusicFont(LayoutSettings::musicFont());
+    connect(LayoutSettings::musicFont().data(), &MusicFont::fontChanged,
+            [this] {
+        changeMusicFont(LayoutSettings::musicFont());
+    });
 }
 
 StaffType StaffGraphicsItem::staffType() const
@@ -135,7 +140,7 @@ int StaffGraphicsItem::measureCount() const
     return m_measureLayout->count();
 }
 
-void StaffGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
+void StaffGraphicsItem::changeMusicFont(const MusicFontPtr &musicFont)
 {
     qreal staffSpace = musicFont->staffSpace();
     setStaffLineHeight(staffSpace);

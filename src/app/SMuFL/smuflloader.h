@@ -15,8 +15,7 @@
 #include <QColor>
 #include <common/graphictypes/MusicFont/musicfont.h>
 
-class SMuFLLoader : public QObject,
-                    public MusicFont
+class SMuFLLoader : public MusicFont
 {
     Q_OBJECT
 public:

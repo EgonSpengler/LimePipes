@@ -20,7 +20,6 @@ public:
     VisualItem *createVisualSymbol(int symbolType);
 
 private:
-    void setMusicFontForGraphicsItem(InteractingGraphicsItem *graphicsItem);
     VisualItem *newVisualScore();
     VisualItem *newVisualTune();
     VisualItem *newVisualPart();

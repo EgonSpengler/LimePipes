@@ -23,7 +23,7 @@ set( limepipes_SOURCES
         common/defines.h
         common/itemdataroles.h
         common/settingdefines.h
-        common/graphictypes/MusicFont/musicfont.h
+        common/graphictypes/MusicFont/musicfont.cpp
 
         common/interfaces/instrumentinterface.h
         common/interfaces/symbolinterface.h

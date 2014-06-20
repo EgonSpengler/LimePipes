@@ -78,7 +78,6 @@ void MelodyNoteGlyphItem::setDotGlyphCount(int dotCount)
         while (m_augmentationDots.count() < dotCount) {
             GlyphItem *newDot = new GlyphItem(AugmentationDot, this);
             newDot->connectColorRoleToGlyph(this);
-            newDot->setMusicFont(musicFont());
             newDot->setVisible(false);
             newDot->setColorRole(colorRole());
             m_augmentationDots.append(newDot);
@@ -245,11 +244,6 @@ QString MelodyNoteGlyphItem::noteheadForLength(Length::Value length)
 
 void MelodyNoteGlyphItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 {
-    m_notehead->setMusicFont(musicFont);
-    for (int i = 0; i < m_augmentationDots.count(); ++i) {
-        m_augmentationDots.at(i)->setMusicFont(musicFont);
-    }
-
     QPen ledgerPen = ledgerLinePen();
     for (int i = 0; i < m_ledgerLines.count(); ++i) {
         m_ledgerLines.at(i)->setPen(ledgerPen);

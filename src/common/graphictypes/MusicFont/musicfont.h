@@ -22,10 +22,11 @@ enum class FontColor
 
 Q_DECLARE_METATYPE( FontColor )
 
-class MusicFont
+class MusicFont : public QObject
 {
+    Q_OBJECT
 public:
-    explicit MusicFont();
+    explicit MusicFont(QObject *parent = 0);
     virtual ~MusicFont();
 
     virtual QFont font() const;
@@ -37,8 +38,10 @@ public:
 
     qreal staffSpace() const;
     qreal halfStaffSpace() const;
-};
 
+signals:
+    void fontChanged();
+};
 typedef QSharedPointer<MusicFont> MusicFontPtr;
 
 #endif // MUSICFONT_H

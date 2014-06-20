@@ -45,9 +45,6 @@ public:
 
     void setGlyphName(const QString &glyphName);
 
-    MusicFontPtr musicFont() const;
-    void setMusicFont(const MusicFontPtr &musicFont);
-
     FontColor colorRole() const;
 
     void connectColorRoleToGlyph(GlyphItem *glyph);
@@ -63,12 +60,15 @@ signals:
     void scenePosChanged(const QPointF &pos);
 
 protected:
+    MusicFontPtr musicFont() const;
     virtual void musicFontHasChanged(const MusicFontPtr &musicFont) { Q_UNUSED(musicFont); }
     virtual void colorRoleHasChanged(const FontColor &colorRole) { Q_UNUSED(colorRole); }
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     GlyphData glyphDataToItemCoordinates(const GlyphData &itemGlyphData) const;
 
 private:
+    void initMusicFont();
+    void setMusicFont(const MusicFontPtr &musicFont);
     void initFromGlyphName(const QString& glyphName);
     QString m_glyphName;
     QChar m_char;

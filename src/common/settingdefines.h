@@ -35,8 +35,7 @@ enum class Id
 
     // Layout
     PageLayout,
-    StaffSpace,
-    MusicFont
+    StaffSpace
 };
 
 enum class TextAlignment

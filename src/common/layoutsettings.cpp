@@ -26,6 +26,8 @@ static const QString RightMarginKey("rightmargin");
 static const QString StaffSpaceKey("staff space");
 static const double StaffSpaceDefault(1.75);
 
+MusicFontPtr LayoutSettings::s_musicFont;
+
 LayoutSettings::LayoutSettings(QObject *parent)
     : ObservableSettings(parent)
 {
@@ -148,9 +150,14 @@ void LayoutSettings::setUnit(QPageLayout::Unit unit)
     m_settings->setValue(key(UnitKey), static_cast<int>(unit));
 }
 
-void LayoutSettings::notifyAboutMusicFontChange()
+MusicFontPtr LayoutSettings::musicFont()
 {
-    notify(Settings::Category::Layout, Settings::Id::MusicFont);
+    return s_musicFont;
+}
+
+void LayoutSettings::setMusicFont(const MusicFontPtr &value)
+{
+    s_musicFont = value;
 }
 
 double LayoutSettings::staffSpaceMM() const

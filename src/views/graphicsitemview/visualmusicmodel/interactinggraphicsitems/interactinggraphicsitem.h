@@ -82,9 +82,6 @@ public:
      */
     virtual void setData(const QVariant& value, int key);
 
-    MusicFontPtr musicFont() const;
-    void setMusicFont(const MusicFontPtr &musicFont);
-
     InteractionMode interactionMode() const;
     void setInteractionMode(const InteractionMode &interactionMode);
 
@@ -92,6 +89,7 @@ signals:
     void itemInteractionChanged();
 
 protected:
+    MusicFontPtr musicFont() const;
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
@@ -107,6 +105,8 @@ protected:
     virtual void musicFontHasChanged(const MusicFontPtr& musicFont) { Q_UNUSED(musicFont); }
 
 private:
+    void setMusicFont(const MusicFontPtr &musicFont);
+
     ItemInteraction *m_itemInteraction;
     MusicFontPtr m_musicFont;
     InteractionMode m_interactionMode;

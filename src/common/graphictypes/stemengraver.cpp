@@ -44,7 +44,6 @@ void StemEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builde
     m_stemDatas.insert(index, data);
     GlyphItem *builderItem = builder->glyphItem();
     if (builderItem) {
-        data.glyphItem->setMusicFont(musicFont());
         data.glyphItem->setParentItem(builderItem);
     }
     QObject::connect(builder, &SymbolGraphicBuilder::dataChanged,

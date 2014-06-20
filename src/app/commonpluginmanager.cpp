@@ -149,9 +149,6 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
         return 0;
 
     SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
-    if (builder) {
-        builder->setMusicFont(m_musicFont);
-    }
     return builder;
 }
 

@@ -69,8 +69,6 @@ public:
 
     bool hasGraphicsItem(QGraphicsItem *item) const;
 
-    virtual void setMusicFont(const MusicFontPtr &musicFont);
-
 signals:
     void dataChanged(const QVariant& value, int dataRole);
     void rowSequenceChanged();

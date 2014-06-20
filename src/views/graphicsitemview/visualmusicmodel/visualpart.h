@@ -37,8 +37,6 @@ public:
     void setData(const QVariant &value, int key);
     void insertChildItem(int index, VisualItem *childItem);
 
-    void setMusicFont(const MusicFontPtr &musicFont);
-
 private:
     StaffGraphicsItem *newStaffItem();
     QVector<StaffGraphicsItem*> m_staffItems;

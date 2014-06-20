@@ -13,15 +13,13 @@
 #include <QPersistentModelIndex>
 
 #include <common/pluginmanagerinterface.h>
-#include <common/settingsobserver.h>
 
 #include "rowiterator.h"
 #include "abstractvisualitemfactory.h"
 
 class QGraphicsItem;
 
-class VisualMusicModel : public QObject,
-                         public SettingsObserver
+class VisualMusicModel : public QObject
 {
     Q_OBJECT
 
@@ -48,7 +46,6 @@ public:
     QModelIndex indexForItem(QGraphicsItem *item) const;
     QGraphicsItem *itemForIndex(const QModelIndex &index) const;
     void setCurrent(const QModelIndex& current);
-    void notify(Settings::Id id);
 
 signals:
     void scoreRowSequenceChanged(int scoreIndex);

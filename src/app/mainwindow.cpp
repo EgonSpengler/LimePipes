@@ -79,11 +79,11 @@ MainWindow::MainWindow(QWidget *parent) :
     }
     pluginsDir.cd(pluginsDirName);
 
+    initMusicFont();
+
     m_addSymbolsDialog = new AddSymbolsDialog(this);
     m_aboutDialog = new AboutDialog(this);
     m_settingsDialog = new SettingsDialog(this);
-
-    initMusicFont();
 
     CommonPluginManager *pluginManager = new CommonPluginManager(pluginsDir);
     m_pluginManager = PluginManager(pluginManager);
@@ -120,8 +120,6 @@ void MainWindow::setMusicFontSizeFromSettings()
     int staffSpace = settings.staffSpacePixel();
     int oneEm = 4 * staffSpace;
     m_smuflLoader->setFontPixelSize(oneEm);
-
-    settings.notifyAboutMusicFontChange();
 }
 
 void MainWindow::initMusicFont()
@@ -134,7 +132,9 @@ void MainWindow::initMusicFont()
     m_smuflLoader->setFontColor(FontColor::Normal, Qt::black);
     m_smuflLoader->setFontColor(FontColor::Focus, QColor(0x004adc));
     m_smuflLoader->setFontColor(FontColor::Selected, QColor(0x4a008c));
+
     m_musicFont = MusicFontPtr(m_smuflLoader);
+    LayoutSettings::setMusicFont(m_musicFont);
 }
 
 void MainWindow::createModelAndView()

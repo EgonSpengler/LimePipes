@@ -35,12 +35,6 @@ VisualItem *VisualItemFactory::createVisualItem(VisualItem::ItemType type)
     return 0;
 }
 
-void VisualItemFactory::setMusicFontForGraphicsItem(InteractingGraphicsItem *graphicsItem)
-{
-    if (!pluginManger().isNull())
-        graphicsItem->setMusicFont(pluginManger()->musicFont());
-}
-
 VisualItem *VisualItemFactory::newVisualScore()
 {
     VisualItem *newItem = new VisualItem(VisualItem::VisualScoreItem,
@@ -48,11 +42,9 @@ VisualItem *VisualItemFactory::newVisualScore()
 
     ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem(Settings::Score::Header);
     scoreHeaderItem->setItemInteraction(new ScoreInteraction);
-    setMusicFontForGraphicsItem(scoreHeaderItem);
 
     ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem(Settings::Score::Footer);
     scoreFooterItem->setItemInteraction(new ScoreInteraction);
-    setMusicFontForGraphicsItem(scoreFooterItem);
 
     newItem->appendRow(scoreHeaderItem);
     newItem->appendRow(scoreFooterItem);
@@ -70,8 +62,6 @@ VisualItem *VisualItemFactory::newVisualTune()
 VisualItem *VisualItemFactory::newVisualPart()
 {
     VisualPart *newItem = new VisualPart();
-    if (!pluginManger().isNull())
-        newItem->setMusicFont(pluginManger()->musicFont());
 
     return newItem;
 }
@@ -83,7 +73,6 @@ VisualItem *VisualItemFactory::newVisualMeasure()
 
     MeasureGraphicsItem *measureGraphicsItem = new MeasureGraphicsItem;
     newItem->setInlineGraphic(measureGraphicsItem);
-    setMusicFontForGraphicsItem(measureGraphicsItem);
 
     return newItem;
 }
@@ -104,7 +93,6 @@ VisualItem *VisualItemFactory::newVisualSymbol(int symbolType)
     if (!pluginManger().isNull())
         symbolGraphicsItem->setPluginManager(pluginManger());
     newItem->setInlineGraphic(symbolGraphicsItem);
-    setMusicFontForGraphicsItem(symbolGraphicsItem);
 
     return newItem;
 }

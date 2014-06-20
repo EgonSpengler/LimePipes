@@ -69,13 +69,6 @@ void VisualItem::disconnectItemInteraction(ItemInteraction *itemInteraction)
                this, &VisualItem::dataChanged);
 }
 
-void VisualItem::setMusicFont(const MusicFontPtr &musicFont)
-{
-    foreach (InteractingGraphicsItem *item, m_graphicsItems) {
-        item->setMusicFont(musicFont);
-    }
-}
-
 InteractingGraphicsItem *VisualItem::inlineGraphic() const
 {
     if (!m_graphicsItems.count() == 1)

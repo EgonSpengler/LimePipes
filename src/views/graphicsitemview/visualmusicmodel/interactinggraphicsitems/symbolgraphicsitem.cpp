@@ -16,7 +16,8 @@
 #include "symbolgraphicsitem.h"
 
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
-    : InteractingGraphicsItem(parent)
+    : InteractingGraphicsItem(parent),
+      m_pitch(PitchPtr(new Pitch()))
 {
     setFocusPolicy(Qt::StrongFocus);
     setInteractionMode(InteractingGraphicsItem::Filter);
@@ -83,6 +84,7 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
     }
     if (key == LP::SymbolPitch) {
         PitchPtr pitch = value.value<PitchPtr>();
+        m_pitch = pitch;
         setGlyphItemYPosForPitch(pitch);
     }
     if (!m_graphicBuilder.isNull()) {
@@ -249,5 +251,7 @@ void SymbolGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     // staff size
     if (m_graphicBuilder.isNull()) {
         setMaximumWidth(musicFont->staffSpace() / 4);
+    } else {
+        setGlyphItemYPosForPitch(m_pitch);
     }
 }

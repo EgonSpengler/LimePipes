@@ -26,7 +26,6 @@ public:
 
 protected:
     void updateSymbolGraphic(const QVariant &value, int key);
-    void musicFontChanged(const MusicFontPtr &musicFont);
 
 private:
     SymbolSpanType m_spanType;

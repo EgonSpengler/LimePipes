@@ -20,7 +20,7 @@ uint qHash(const FontColor& fontColor)
 }
 
 SMuFLLoader::SMuFLLoader(QObject *parent)
-    : QObject(parent),
+    : MusicFont(parent),
       m_engravings({0})
 {
 }
@@ -52,6 +52,7 @@ void SMuFLLoader::setFontFromPath(const QString &path)
 void SMuFLLoader::setFontPixelSize(int pixelSize)
 {
     m_font.setPixelSize(pixelSize);
+    emit fontChanged();
 }
 
 void SMuFLLoader::setFontColor(const FontColor &colorType, const QColor &color)

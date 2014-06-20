@@ -43,11 +43,11 @@ public:
     void appendEngraver(BaseEngraver *engraver);
 
 protected:
-    void musicFontHasChanged(const MusicFontPtr &musicFont);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
     void dropEvent(QGraphicsSceneDragDropEvent *event);
+    void musicFontHasChanged(const MusicFontPtr &musicFont);
 
 private:
     void layoutSymbolItems();
