@@ -71,6 +71,17 @@ void PitchContext::insertPitch(int staffPos, const QString &name)
 {
     m_pitches.insert(staffPos, PitchPtr(new Pitch(staffPos, name)));
 }
+
+ClefType PitchContext::defaultClef() const
+{
+    return m_defaultClef;
+}
+
+void PitchContext::setDefaultClef(const ClefType &defaultClef)
+{
+    m_defaultClef = defaultClef;
+}
+
 StaffType PitchContext::staffType() const
 {
     return m_staffType;

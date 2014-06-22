@@ -22,6 +22,7 @@ set( lp_graphicsitemview_SOURCES
         ${GRAPHICTYPES_DIR}/tieengraver.cpp
         ${GRAPHICTYPES_DIR}/tiegraphicsitem.cpp
         ${GRAPHICTYPES_DIR}/stemglyphitem.cpp
+        ${GRAPHICTYPES_DIR}/clefglyphitem.cpp
 
         ${TYPES_DIR}/pitchcontext.cpp
         ${TYPES_DIR}/pitch.cpp

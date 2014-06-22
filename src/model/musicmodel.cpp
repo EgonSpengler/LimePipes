@@ -446,6 +446,7 @@ QModelIndex MusicModel::insertPartIntoTune(int row, const QModelIndex &tune, int
 
     Part *newPart = new Part();
     newPart->setStaffType(instrument->staffType());
+    newPart->setClefType(instrument->defaultClef());
     QModelIndex part = insertItem(tr("Insert part into tune"), tune, row, newPart);
     setData(part, QVariant::fromValue<bool>(withRepeat), LP::PartRepeat);
     for (int i=0; i<measures; i++) {

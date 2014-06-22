@@ -27,7 +27,8 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
       m_staffType(StaffType::None),
       m_staffSpace(0),
       m_topMargin(0),
-      m_measureLayout(0)
+      m_measureLayout(0),
+      m_clefGlyph(0)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
 
@@ -42,6 +43,9 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
             [this] {
         updateMarginsToMusicLayout();
     });
+
+    m_clefGlyph = new ClefGlyphItem(ClefType::G, this);
+    m_clefGlyph->setVisible(false);
 }
 
 StaffType StaffGraphicsItem::staffType() const
@@ -147,6 +151,22 @@ void StaffGraphicsItem::updateMarginsToMusicLayout()
     setSizeHintsForStaffType(m_staffType);
 
     qDebug() << "StaffGraphicsItem: Window frame rect: " << windowFrameRect();
+}
+
+void StaffGraphicsItem::layoutClef()
+{
+    m_clefGlyph->setY(contentsRect().top());
+}
+
+ClefType StaffGraphicsItem::clefType() const
+{
+    return m_clefGlyph->clef();
+}
+
+void StaffGraphicsItem::setClefType(const ClefType &clefType)
+{
+    m_clefGlyph->setClef(clefType);
+    layoutClef();
 }
 
 void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)

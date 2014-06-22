@@ -33,6 +33,7 @@ public:
     virtual bool supportsSymbolType(int type) const = 0;
 
     StaffType staffType() const;
+    ClefType defaultClef() const;
 
 private:
     LP::InstrumentType m_type;

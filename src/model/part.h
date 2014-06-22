@@ -18,6 +18,7 @@ public:
     explicit Part(MusicItem *parent=0);
 
     void setStaffType(StaffType staffType);
+    void setClefType(ClefType clef);
 
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);

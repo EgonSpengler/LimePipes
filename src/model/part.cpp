@@ -7,6 +7,7 @@
  */
 
 #include <common/itemdataroles.h>
+
 #include "part.h"
 
 Part::Part(MusicItem *parent)
@@ -20,10 +21,14 @@ void Part::setStaffType(StaffType staffType)
     initData(QVariant::fromValue<StaffType>(staffType), LP::PartStaffType);
 }
 
+void Part::setClefType(ClefType clef)
+{
+    initData(QVariant::fromValue<ClefType>(clef), LP::PartClefType);
+}
+
 bool Part::itemSupportsWritingOfData(int role) const
 {
-    if (role == LP::PartRepeat ||
-            role == LP::PartStaffType)
+    if (LP::allPartDataRoles.contains(static_cast<LP::PartDataRole>(role)))
         return true;
     return false;
 }

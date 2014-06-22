@@ -20,6 +20,15 @@ enum class StaffType
     Standard,   //!< The standard 5 line staff
     Unpitched   //!< A one-line-staff for unpitched instruments
 };
+Q_DECLARE_METATYPE(StaffType)
+
+enum class ClefType
+{
+    G,
+    C,
+    F
+};
+Q_DECLARE_METATYPE(ClefType)
 
 enum class SymbolCategory
 {
@@ -28,15 +37,13 @@ enum class SymbolCategory
     Spanning,   //!< Visible symbols which consist of an start and end symbol
     Text        //!< Visible symbols presentable as text
 };
+Q_DECLARE_METATYPE(SymbolCategory)
 
 enum class SymbolSpanType
 {
     Start = 1,
     End
 };
-
-Q_DECLARE_METATYPE(StaffType)
-Q_DECLARE_METATYPE(SymbolCategory)
 Q_DECLARE_METATYPE(SymbolSpanType)
 
 enum GraphicsItemType {

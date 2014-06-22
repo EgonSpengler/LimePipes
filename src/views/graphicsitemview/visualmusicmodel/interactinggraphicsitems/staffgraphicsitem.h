@@ -11,6 +11,7 @@
 
 #include <QPen>
 #include <common/defines.h>
+#include <common/graphictypes/clefglyphitem.h>
 #include "interactinggraphicsitem.h"
 
 class QGraphicsLinearLayout;
@@ -34,6 +35,9 @@ public:
     void insertChildItem(int index, InteractingGraphicsItem *childItem);
     int measureCount() const;
 
+    ClefType clefType() const;
+    void setClefType(const ClefType &clefType);
+
 private:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
     int staffLineHeight() const;
@@ -44,11 +48,13 @@ private:
     void setWindowFrameRectForLineWidth(qreal width);
     void setFixedWidthsOnChildren();
     void updateMarginsToMusicLayout();
+    void layoutClef();
     StaffType m_staffType;
     qreal m_staffSpace;
     qreal m_topMargin;
     QPen m_pen;
     QGraphicsLinearLayout *m_measureLayout;
+    ClefGlyphItem *m_clefGlyph;
 };
 
 #endif // STAFFGRAPHICSITEM_H

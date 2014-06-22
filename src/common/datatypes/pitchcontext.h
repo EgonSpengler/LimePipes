@@ -32,12 +32,16 @@ public:
     StaffType staffType() const;
     void setStaffType(const StaffType &staffType);
 
+    ClefType defaultClef() const;
+    void setDefaultClef(const ClefType &defaultClef);
+
 protected:
     void insertPitch(int staffPos, const QString &name);
 
 private:
     QMap<int, PitchPtr> m_pitches;
     StaffType m_staffType;
+    ClefType m_defaultClef;
 };
 
 typedef QSharedPointer<PitchContext> PitchContextPtr;

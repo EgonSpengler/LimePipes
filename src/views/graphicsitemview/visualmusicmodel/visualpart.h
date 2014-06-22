@@ -37,11 +37,15 @@ public:
     void setData(const QVariant &value, int key);
     void insertChildItem(int index, VisualItem *childItem);
 
+    ClefType cleffType() const;
+    void setCleffType(const ClefType &cleffType);
+
 private:
     StaffGraphicsItem *newStaffItem();
     QVector<StaffGraphicsItem*> m_staffItems;
     bool m_repeat;
     StaffType m_staffType;
+    ClefType m_cleffType;
 };
 
 #endif // VISUALPART_H

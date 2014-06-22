@@ -59,8 +59,22 @@ StaffGraphicsItem *VisualPart::newStaffItem()
 {
     StaffGraphicsItem *staffItem = new StaffGraphicsItem;
     staffItem->setStaffType(staffType());
+    staffItem->setClefType(cleffType());
 
     return staffItem;
+}
+
+ClefType VisualPart::cleffType() const
+{
+    return m_cleffType;
+}
+
+void VisualPart::setCleffType(const ClefType &cleffType)
+{
+    m_cleffType = cleffType;
+    foreach (StaffGraphicsItem *staffItem, m_staffItems) {
+        staffItem->setClefType(cleffType);
+    }
 }
 
 void VisualPart::removeLastStaff()
@@ -82,6 +96,10 @@ void VisualPart::setData(const QVariant &value, int key)
     }
     case LP::PartStaffType: {
         setStaffType(value.value<StaffType>());
+        break;
+    }
+    case LP::PartClefType: {
+        setCleffType(value.value<ClefType>());
         break;
     }
     }

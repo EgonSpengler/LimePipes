@@ -37,3 +37,8 @@ StaffType Instrument::staffType() const
 {
     return m_pitchContext->staffType();
 }
+
+ClefType Instrument::defaultClef() const
+{
+    return m_pitchContext->defaultClef();
+}

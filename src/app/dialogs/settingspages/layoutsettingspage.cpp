@@ -12,17 +12,9 @@
 #include "ui_layoutsettingspage.h"
 
 QVector<QPageSize::PageSizeId>
-LayoutSettingsPage::s_pageSizes({QPageSize::A6,
-                                 QPageSize::A5,
-                                 QPageSize::A4,
-                                 QPageSize::A3,
-                                 QPageSize::B6,
-                                 QPageSize::B5,
-                                 QPageSize::B4,
-                                 QPageSize::Letter,
-                                 QPageSize::Legal,
-                                 QPageSize::Tabloid
-                                                               });
+LayoutSettingsPage::s_pageSizes({QPageSize::A6, QPageSize::A5, QPageSize::A4, QPageSize::A3,
+                                 QPageSize::B6, QPageSize::B5, QPageSize::B4,
+                                 QPageSize::Letter, QPageSize::Legal, QPageSize::Tabloid });
 
 LayoutSettingsPage::LayoutSettingsPage(QWidget *parent)
     : QFrame(parent),
