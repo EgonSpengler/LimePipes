@@ -127,7 +127,7 @@
            </spacer>
           </item>
           <item row="1" column="1">
-           <widget class="QDoubleSpinBox" name="staffSpacingSpinBox">
+           <widget class="QDoubleSpinBox" name="spaceAboveStaffSpinBox">
             <property name="suffix">
              <string>space</string>
             </property>
@@ -142,7 +142,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="label_11">
             <property name="text">
-             <string>Staff spacing</string>
+             <string>Space above staff:</string>
             </property>
            </widget>
           </item>

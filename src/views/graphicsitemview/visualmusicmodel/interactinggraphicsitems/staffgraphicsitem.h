@@ -37,15 +37,16 @@ public:
 private:
     void musicFontHasChanged(const MusicFontPtr &musicFont);
     int staffLineHeight() const;
-    void setStaffLineHeight(qreal staffLineHeight);
+    void setStaffSpace(qreal staffLineHeight);
     qreal penWidth() const;
     void setPenWidth(qreal width);
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
     void setFixedWidthsOnChildren();
-    void updateToMusicLayout();
+    void updateMarginsToMusicLayout();
     StaffType m_staffType;
-    qreal m_staffLineHeight;
+    qreal m_staffSpace;
+    qreal m_topMargin;
     QPen m_pen;
     QGraphicsLinearLayout *m_measureLayout;
 };

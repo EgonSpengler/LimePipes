@@ -67,10 +67,10 @@ void LayoutSettingsPage::createConnections()
     });
     connect(ui->staffSpaceSpinBox, &QDoubleSpinBox::editingFinished,
             this, &LayoutSettingsPage::staffSpaceChanged);
-    connect(ui->staffSpacingSpinBox, &QDoubleSpinBox::editingFinished,
+    connect(ui->spaceAboveStaffSpinBox, &QDoubleSpinBox::editingFinished,
             [this] {
-        double value = ui->staffSpacingSpinBox->value();
-        m_layoutSettings->musicLayout()->setStaffSpacing(value);
+        double value = ui->spaceAboveStaffSpinBox->value();
+        m_layoutSettings->musicLayout()->setSpaceAboveStaff(value);
     });
 }
 
@@ -186,5 +186,5 @@ void LayoutSettingsPage::initUi()
 {
     setUiFromPageLayout();
     ui->staffSpaceSpinBox->setValue(m_layoutSettings->staffSpaceMM());
-    ui->staffSpacingSpinBox->setValue(m_layoutSettings->musicLayout()->staffSpacing());
+    ui->spaceAboveStaffSpinBox->setValue(m_layoutSettings->musicLayout()->spaceAboveStaff());
 }

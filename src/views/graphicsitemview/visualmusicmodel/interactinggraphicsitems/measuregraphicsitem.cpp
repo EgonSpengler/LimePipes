@@ -175,6 +175,10 @@ void MeasureGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsIte
     qreal rightEdge = rect.width();
 
     painter->drawLine(rightEdge, 0, rightEdge, rect.height());
+
+//    QPen pen = QPen(Qt::gray);
+//    pen.setWidthF(1.0);
+//    painter->setPen(pen);
 }
 
 /*!

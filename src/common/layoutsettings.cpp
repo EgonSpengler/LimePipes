@@ -156,7 +156,7 @@ void LayoutSettings::setUnit(QPageLayout::Unit unit)
 void LayoutSettings::initMusicLayout()
 {
     double staffSpacing = m_settings->value(StaffSpacingKey, StaffSpacingDefault).toDouble();
-    s_musicLayout->setStaffSpacing(staffSpacing);
+    s_musicLayout->setSpaceAboveStaff(staffSpacing);
 }
 
 MusicFontPtr LayoutSettings::musicFont()

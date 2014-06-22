@@ -18,14 +18,14 @@ class MusicLayout : public QObject
 public:
     explicit MusicLayout(QObject *parent = 0);
 
-    double staffSpacing() const;
-    void setStaffSpacing(double staffSpacing);
+    double spaceAboveStaff() const;
+    void setSpaceAboveStaff(double spaceAboveStaff);
 
 signals:
     void layoutChanged();
 
 private:
-    double m_staffSpacing;
+    double m_spaceAboveStaff;
 };
 typedef QSharedPointer<MusicLayout> MusicLayoutPtr;
 

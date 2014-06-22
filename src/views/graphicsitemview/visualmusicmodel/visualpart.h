@@ -42,7 +42,6 @@ private:
     QVector<StaffGraphicsItem*> m_staffItems;
     bool m_repeat;
     StaffType m_staffType;
-    MusicFontPtr m_musicFont;
 };
 
 #endif // VISUALPART_H

@@ -10,20 +10,20 @@
 
 MusicLayout::MusicLayout(QObject *parent)
     : QObject(parent),
-      m_staffSpacing(0)
+      m_spaceAboveStaff(0)
 {
 }
 
-double MusicLayout::staffSpacing() const
+double MusicLayout::spaceAboveStaff() const
 {
-    return m_staffSpacing;
+    return m_spaceAboveStaff;
 }
 
-void MusicLayout::setStaffSpacing(double staffSpacing)
+void MusicLayout::setSpaceAboveStaff(double staffSpacing)
 {
-    if (m_staffSpacing == staffSpacing)
+    if (m_spaceAboveStaff == staffSpacing)
         return;
 
-    m_staffSpacing = staffSpacing;
+    m_spaceAboveStaff = staffSpacing;
     emit layoutChanged();
 }

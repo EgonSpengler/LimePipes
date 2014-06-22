@@ -7,6 +7,7 @@
  */
 
 #include <QSizePolicy>
+#include <QPen>
 #include <QPainter>
 #include <QGraphicsLinearLayout>
 #include <QGraphicsLayoutItem>
@@ -24,7 +25,8 @@ const int InitialLineWidth  = 1;
 StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_staffType(StaffType::None),
-      m_staffLineHeight(0),
+      m_staffSpace(0),
+      m_topMargin(0),
       m_measureLayout(0)
 {
     setSizePolicy(QSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed));
@@ -35,10 +37,10 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
 
     musicFontHasChanged(LayoutSettings::musicFont());
 
-    updateToMusicLayout();
+    updateMarginsToMusicLayout();
     connect(LayoutSettings::musicLayout().data(), &MusicLayout::layoutChanged,
             [this] {
-        updateToMusicLayout();
+        updateMarginsToMusicLayout();
     });
 }
 
@@ -55,15 +57,15 @@ void StaffGraphicsItem::setStaffType(StaffType type)
 
 int StaffGraphicsItem::staffLineHeight() const
 {
-    return m_staffLineHeight;
+    return m_staffSpace;
 }
 
-void StaffGraphicsItem::setStaffLineHeight(qreal lineHeight)
+void StaffGraphicsItem::setStaffSpace(qreal lineHeight)
 {
     if (lineHeight < 1)
         return;
 
-    m_staffLineHeight = lineHeight;
+    m_staffSpace = lineHeight;
     setSizeHintsForStaffType(m_staffType);
 }
 
@@ -76,6 +78,7 @@ void StaffGraphicsItem::setPenWidth(qreal width)
 {
     m_pen.setWidthF(width);
     setWindowFrameRectForLineWidth(width);
+    setSizeHintsForStaffType(m_staffType);
 }
 
 void StaffGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -84,18 +87,41 @@ void StaffGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
     Q_UNUSED(widget);
 
     if (m_staffType == StaffType::Standard) {
-        qreal width = geometry().width();
+        if (contentsRect().height() != m_staffSpace * 4) {
+            qWarning() << "StaffGraphicsItem: Contents rect has wrong height";
+        }
+
+        qreal width = contentsRect().width();
         painter->setPen(m_pen);
+        qreal contentTop = contentsRect().top();
         for (int i = 0; i < 5; ++i) {
-            painter->drawLine(0, i*m_staffLineHeight, width, i*m_staffLineHeight);
+            painter->drawLine(0, i*m_staffSpace + contentTop,
+                              width, i*m_staffSpace + contentTop);
         }
     }
+//    QPen pen(Qt::darkGreen);
+//    pen.setWidthF(1.0);
+//    painter->setPen(pen);
+//    painter->drawRect(boundingRect());
+
+//    pen = QPen(Qt::red);
+//    pen.setWidthF(1.0);
+//    painter->setPen(pen);
+//    painter->drawRect(contentsRect());
+
+//    pen = QPen(Qt::green);
+//    pen.setWidthF(1.0);
+//    painter->setPen(pen);
+//    painter->drawRect(m_measureLayout->geometry());
 }
 
 void StaffGraphicsItem::setSizeHintsForStaffType(StaffType type)
 {
+    qreal top, right, bottom, left;
     if (type == StaffType::Standard) {
-        qreal height = m_staffLineHeight * 4;
+        qreal height = m_staffSpace * 4;
+        getContentsMargins(&left, &top, &right, &bottom);
+        height += top;
         QSizeF maximum(maximumSize());
         QSizeF minimum(minimumSize());
         setMaximumSize(maximum.width(), height);
@@ -109,15 +135,16 @@ void StaffGraphicsItem::setWindowFrameRectForLineWidth(qreal width)
 
     // Half of the line will be painted outside of rect
     setWindowFrameMargins(width, width, width, width);
-    qDebug() << "StaffGraphicsItem: Window frame rect: " << windowFrameRect();
 }
 
-void StaffGraphicsItem::updateToMusicLayout()
+void StaffGraphicsItem::updateMarginsToMusicLayout()
 {
     qreal staffSpace = LayoutSettings::musicFont()->staffSpace();
-    qreal topMargin = LayoutSettings::musicLayout()->staffSpacing();
-    topMargin *= staffSpace;
-    setWindowFrameMargins(0, topMargin, 0, 0);
+    m_topMargin = LayoutSettings::musicLayout()->spaceAboveStaff();
+    m_topMargin *= staffSpace;
+    // TODO Fix size
+    setContentsMargins(0, m_topMargin, 0, 0);
+    setSizeHintsForStaffType(m_staffType);
 
     qDebug() << "StaffGraphicsItem: Window frame rect: " << windowFrameRect();
 }
@@ -154,7 +181,7 @@ int StaffGraphicsItem::measureCount() const
 void StaffGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
 {
     qreal staffSpace = musicFont->staffSpace();
-    setStaffLineHeight(staffSpace);
+    setStaffSpace(staffSpace);
     Engravings engravings(musicFont->engravings());
     qreal width = engravings.staffLineThickness * staffSpace;
     setPenWidth(width);
