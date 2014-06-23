@@ -58,6 +58,7 @@ public slots:
 signals:
     void colorRoleChanged(const FontColor &colorRole);
     void scenePosChanged(const QPointF &pos);
+    void widthHasChanged(qreal width);
 
 protected:
     MusicFontPtr musicFont() const;

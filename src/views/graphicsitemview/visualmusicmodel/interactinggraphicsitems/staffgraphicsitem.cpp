@@ -20,6 +20,7 @@
 namespace {
 const int InitialLineHeight = 8;
 const int InitialLineWidth  = 1;
+const qreal ClefLeftMargin = 1.0; // in staff spaces
 }
 
 StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
@@ -38,13 +39,18 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
 
     musicFontHasChanged(LayoutSettings::musicFont());
 
-    updateMarginsToMusicLayout();
+    updateTopMarginToMusicLayout();
     connect(LayoutSettings::musicLayout().data(), &MusicLayout::layoutChanged,
             [this] {
-        updateMarginsToMusicLayout();
+        updateTopMarginToMusicLayout();
     });
 
     m_clefGlyph = new ClefGlyphItem(ClefType::Treble, this);
+    setMarginsForClefGlyph(m_clefGlyph->boundingRect().width());
+    connect(m_clefGlyph, &ClefGlyphItem::widthHasChanged,
+            [this] (qreal clefWidth){
+        setMarginsForClefGlyph(clefWidth);
+    });
 }
 
 StaffType StaffGraphicsItem::staffType() const
@@ -140,7 +146,7 @@ void StaffGraphicsItem::setWindowFrameRectForLineWidth(qreal width)
     setWindowFrameMargins(width, width, width, width);
 }
 
-void StaffGraphicsItem::updateMarginsToMusicLayout()
+void StaffGraphicsItem::updateTopMarginToMusicLayout()
 {
     qreal staffSpace = LayoutSettings::musicFont()->staffSpace();
     m_topMargin = LayoutSettings::musicLayout()->spaceAboveStaff();
@@ -155,6 +161,20 @@ void StaffGraphicsItem::updateMarginsToMusicLayout()
 void StaffGraphicsItem::layoutClef()
 {
     m_clefGlyph->setY(contentsRect().top() + m_clefGlyph->yOffset());
+    qreal leftMargin = clefLeftMargin();
+    m_clefGlyph->setX(leftMargin);
+}
+
+qreal StaffGraphicsItem::clefLeftMargin()
+{
+    qreal leftMargin = musicFont()->staffSpace() * ClefLeftMargin;
+
+    return leftMargin;
+}
+
+void StaffGraphicsItem::setMarginsForClefGlyph(qreal glyphWidth)
+{
+    m_measureLayout->setContentsMargins(glyphWidth + clefLeftMargin(), 0, 0, 0);
 }
 
 ClefType StaffGraphicsItem::clefType() const
@@ -166,6 +186,7 @@ void StaffGraphicsItem::setClefType(const ClefType &clefType)
 {
     m_clefGlyph->setClef(clefType);
     layoutClef();
+    setFixedWidthsOnChildren();
 }
 
 void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *childItem)
@@ -177,7 +198,8 @@ void StaffGraphicsItem::insertChildItem(int index, InteractingGraphicsItem *chil
 void StaffGraphicsItem::setFixedWidthsOnChildren()
 {
     int childCount = m_measureLayout->count();
-    qreal childWidth = geometry().width() / childCount;
+    qreal completeChildWidth = m_measureLayout->contentsRect().width();
+    qreal childWidth = completeChildWidth / childCount;
 
     for (int i = 0; i < childCount; ++i) {
         QGraphicsLayoutItem *childItem = m_measureLayout->itemAt(i);

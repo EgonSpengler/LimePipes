@@ -47,8 +47,10 @@ private:
     void setSizeHintsForStaffType(StaffType type);
     void setWindowFrameRectForLineWidth(qreal width);
     void setFixedWidthsOnChildren();
-    void updateMarginsToMusicLayout();
+    void updateTopMarginToMusicLayout();
     void layoutClef();
+    void setMarginsForClefGlyph(qreal glyphWidth);
+    qreal clefLeftMargin();
     StaffType m_staffType;
     qreal m_staffSpace;
     qreal m_topMargin;

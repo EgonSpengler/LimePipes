@@ -51,8 +51,12 @@ void GlyphItem::initFromGlyphName(const QString &glyphName)
 
     QFontMetricsF metrics(m_musicFont->font());
     QRectF newBoundingRect(metrics.boundingRect(m_char));
+    qreal widthBefore = m_boundingRect.width();
     if (m_boundingRect != newBoundingRect) {
         m_boundingRect = newBoundingRect;
+        if (widthBefore != m_boundingRect.width()) {
+            emit widthHasChanged(m_boundingRect.width());
+        }
         QGraphicsItem::prepareGeometryChange();
     } else {
         update();

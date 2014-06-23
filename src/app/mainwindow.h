@@ -43,7 +43,6 @@ public:
 
     void notify(Settings::Id id);
 
-    void setMusicFontSizeFromSettings();
 private slots:
     void on_fileNewAction_triggered();
     void on_fileOpenAction_triggered();
@@ -73,6 +72,7 @@ private:
     void updateUi();
     QString instrumentFromParentOfCurrentIndex();
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
+    void setMusicFontSizeFromSettings();
 
     Ui::MainWindow *ui;
     PluginManager m_pluginManager;

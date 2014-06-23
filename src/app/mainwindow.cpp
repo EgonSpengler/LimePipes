@@ -485,18 +485,21 @@ void MainWindow::on_editCreateTestScore_triggered()
 
     QModelIndex partIndex = musicModel->insertPartIntoTune(0, tune, 4, true);
 
-    QModelIndex measureIndex = m_proxyModel->index(1, 0, partIndex);
-    QModelIndex measureIndex2 = m_proxyModel->index(2, 0, partIndex);
+    QModelIndex measureIndex1 = m_proxyModel->index(0, 0, partIndex);
+    QModelIndex measureIndex2 = m_proxyModel->index(1, 0, partIndex);
+    QModelIndex measureIndex3 = m_proxyModel->index(2, 0, partIndex);
 
-    musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
-    musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
-    musicModel->insertSymbolIntoMeasure(0, measureIndex, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex1, LP::MelodyNote);
 
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
-    QModelIndex startTieIndex = musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::Tie);
-    musicModel->insertSymbolIntoMeasure(startTieIndex.row() + 1, measureIndex2, LP::MelodyNote);
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
     musicModel->insertSymbolIntoMeasure(0, measureIndex2, LP::MelodyNote);
+
+    musicModel->insertSymbolIntoMeasure(0, measureIndex3, LP::MelodyNote);
+    QModelIndex startTieIndex = musicModel->insertSymbolIntoMeasure(0, measureIndex3, LP::Tie);
+    musicModel->insertSymbolIntoMeasure(startTieIndex.row() + 1, measureIndex3, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex3, LP::MelodyNote);
+    musicModel->insertSymbolIntoMeasure(0, measureIndex3, LP::MelodyNote);
 
     m_treeView->expandAll();
 
