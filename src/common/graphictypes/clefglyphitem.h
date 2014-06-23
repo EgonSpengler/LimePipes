@@ -16,11 +16,12 @@
 class ClefGlyphItem : public GlyphItem
 {
 public:
-    ClefGlyphItem(ClefType type = ClefType::G, QGraphicsItem *parent = 0);
+    ClefGlyphItem(ClefType type = ClefType::Treble, QGraphicsItem *parent = 0);
 
     ClefType clef() const;
     void setClef(const ClefType &clef);
 
+    qreal yOffset() const;
 private:
     QString glyphNameForClef(ClefType type);
     ClefType m_clefType;

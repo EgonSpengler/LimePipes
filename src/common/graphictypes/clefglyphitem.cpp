@@ -12,16 +12,24 @@ ClefGlyphItem::ClefGlyphItem(ClefType type, QGraphicsItem *parent)
     : GlyphItem(glyphNameForClef(type), parent)
 {
     m_clefType = type;
+    setScenePosChangeEnabled(true);
 }
 
 QString ClefGlyphItem::glyphNameForClef(ClefType type)
 {
     switch (type) {
-    case ClefType::C:
+    case ClefType::Soprano:
+    case ClefType::MezzoSoprano:
+    case ClefType::Alto:
+    case ClefType::Tenor:
+    case ClefType::BaritoneC:
         return QStringLiteral("cClef");
-    case ClefType::G:
+    case ClefType::Treble:
+    case ClefType::FrenchViolin:
         return QStringLiteral("gClef");
-    case ClefType::F:
+    case ClefType::Bass:
+    case ClefType::BaritoneF:
+    case ClefType::Subbass:
         return QStringLiteral("fClef");
     default:
         return QStringLiteral("gClef");
@@ -39,3 +47,32 @@ void ClefGlyphItem::setClef(const ClefType &clefType)
     setGlyphName(glyphNameForClef(clefType));
 }
 
+qreal ClefGlyphItem::yOffset() const
+{
+    qreal offset = 0;
+    qreal staffSpace = musicFont()->staffSpace();
+
+    switch (m_clefType) {
+    case ClefType::Treble:
+    case ClefType::MezzoSoprano:
+        offset = 3 * staffSpace;
+        break;
+    case ClefType::FrenchViolin:
+    case ClefType::Soprano:
+        offset = 4 * staffSpace;
+        break;
+    case ClefType::Alto:
+    case ClefType::BaritoneF:
+        offset = 2 * staffSpace;
+        break;
+    case ClefType::Bass:
+    case ClefType::Tenor:
+        offset = 1 * staffSpace;
+        break;
+    case ClefType::BaritoneC:
+    case ClefType::Subbass:
+        break;
+    }
+
+    return offset;
+}

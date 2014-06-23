@@ -24,9 +24,25 @@ Q_DECLARE_METATYPE(StaffType)
 
 enum class ClefType
 {
-    G,
-    C,
-    F
+    // G-Clefs
+    FrenchViolin = 1,
+    Treble = 2,
+    G = ClefType::Treble,  // The most common G-Clef
+
+    // C-Clefs
+    Soprano = 3,
+    MezzoSoprano = 4,
+    Alto = 5,
+    Tenor = 6,
+    BaritoneC = 7,
+    C = ClefType::Alto,  // The most common C-Clef
+
+    // F-Clefs
+    BaritoneF = 8,
+    Bass = 9,
+    Subbass = 10,
+    F = ClefType::Bass
+
 };
 Q_DECLARE_METATYPE(ClefType)
 

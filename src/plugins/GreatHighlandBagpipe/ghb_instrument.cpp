@@ -12,7 +12,7 @@ GHB_PitchContext::GHB_PitchContext()
     : PitchContext()
 {
     setStaffType(StaffType::Standard);
-    setDefaultClef(ClefType::G);
+    setDefaultClef(ClefType::Treble);
 
     insertPitch(0, "F");
     insertPitch(1, "E");

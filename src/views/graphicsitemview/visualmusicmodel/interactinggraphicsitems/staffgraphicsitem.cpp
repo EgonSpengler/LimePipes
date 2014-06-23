@@ -44,8 +44,7 @@ StaffGraphicsItem::StaffGraphicsItem(QGraphicsItem *parent)
         updateMarginsToMusicLayout();
     });
 
-    m_clefGlyph = new ClefGlyphItem(ClefType::G, this);
-    m_clefGlyph->setVisible(false);
+    m_clefGlyph = new ClefGlyphItem(ClefType::Treble, this);
 }
 
 StaffType StaffGraphicsItem::staffType() const
@@ -155,7 +154,7 @@ void StaffGraphicsItem::updateMarginsToMusicLayout()
 
 void StaffGraphicsItem::layoutClef()
 {
-    m_clefGlyph->setY(contentsRect().top());
+    m_clefGlyph->setY(contentsRect().top() + m_clefGlyph->yOffset());
 }
 
 ClefType StaffGraphicsItem::clefType() const
