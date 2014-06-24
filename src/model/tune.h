@@ -18,7 +18,7 @@ class Tune : public MusicItem
 {
 public:
     explicit Tune(MusicItem *parent=0);
-    explicit Tune(InstrumentPtr instrument);
+    explicit Tune(InstrumentPtr instrument, MusicItem *parent = 0);
 
     InstrumentPtr instrument() const { return data(LP::TuneInstrument).value<InstrumentPtr>(); }
     void setInstrument(InstrumentPtr instrument);

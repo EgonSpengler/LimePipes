@@ -18,6 +18,9 @@ Measure::Measure(MusicItem *parent)
 
 bool Measure::itemSupportsWritingOfData(int role) const
 {
+    if (LP::allMeasureDataRoles.contains(static_cast<LP::MeasureDataRole>(role)))
+        return true;
+
     return false;
 }
 

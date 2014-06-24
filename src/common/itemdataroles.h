@@ -52,15 +52,17 @@ static QVector<ScoreDataRole> allScoreDataRoles({ScoreTitle,
                                                    ScoreType});
 // Tune
 enum TuneDataRole {
-    TuneInstrument      = Qt::UserRole + 6      // Instrument (262)
+    TuneInstrument      = Qt::UserRole + 10,    // Instrument (266)
+    TuneTimeSignature   = Qt::UserRole + 11     // TimeSignature (267)
 };
-static QVector<TuneDataRole> allTuneDataRoles({TuneInstrument});
+static QVector<TuneDataRole> allTuneDataRoles({TuneInstrument,
+                                               TuneTimeSignature});
 
 // Part
 enum PartDataRole {
-    PartRepeat          = Qt::UserRole + 7,     // bool (263)
-    PartStaffType       = Qt::UserRole + 8,     // StaffType in defines.h (264)
-    PartClefType        = Qt::UserRole + 9      // ClefType in defines.h (265)
+    PartRepeat          = Qt::UserRole + 20,     // bool (276)
+    PartStaffType       = Qt::UserRole + 21,     // StaffType in defines.h (277)
+    PartClefType        = Qt::UserRole + 22      // ClefType in defines.h (278)
 };
 static QVector<PartDataRole> allPartDataRoles({PartRepeat,
                                                PartStaffType,
@@ -68,20 +70,22 @@ static QVector<PartDataRole> allPartDataRoles({PartRepeat,
 
 // Measure
 enum MeasureDataRole {
-    MeasureIsUpbeat     = Qt::UserRole + 10      // bool (266)
+    MeasureIsUpbeat     = Qt::UserRole + 30,      // bool (286)
+    MeasureTimeSignature = Qt::UserRole + 31      // TimeSignature (287)
 };
-static QVector<MeasureDataRole> allMeasureDataRoles({MeasureIsUpbeat});
+static QVector<MeasureDataRole> allMeasureDataRoles({MeasureIsUpbeat,
+                                                     MeasureTimeSignature});
 
 // Symbol
 enum SymbolDataRole {
-    SymbolCategory      = Qt::UserRole + 11,    // SymbolCategory in defines.h (267)
-    SymbolType          = Qt::UserRole + 12,    // int (268)
-    SymbolName          = Qt::UserRole + 13,    // QString (269)
-    SymbolLength        = Qt::UserRole + 14,    // Length (270)
-    SymbolPitch         = Qt::UserRole + 15,    // PitchPtr (271)
-    SymbolPitchContext  = Qt::UserRole + 16,    // PitchContextPtr (272)
-    SymbolSpanType      = Qt::UserRole + 17,    // SymbolSpanType in defines.h. (273)
-    SymbolSpanBuddy     = Qt::UserRole + 18     // QPersistentModelIndex (274)
+    SymbolCategory      = Qt::UserRole + 40,    // SymbolCategory in defines.h (296)
+    SymbolType          = Qt::UserRole + 41,    // int (297)
+    SymbolName          = Qt::UserRole + 42,    // QString (298)
+    SymbolLength        = Qt::UserRole + 43,    // Length (299)
+    SymbolPitch         = Qt::UserRole + 44,    // PitchPtr (300)
+    SymbolPitchContext  = Qt::UserRole + 45,    // PitchContextPtr (301)
+    SymbolSpanType      = Qt::UserRole + 46,    // SymbolSpanType in defines.h. (302)
+    SymbolSpanBuddy     = Qt::UserRole + 47     // QPersistentModelIndex (303)
 };
 static QVector<SymbolDataRole> allSymbolDataRoles({SymbolType,
                                                    SymbolCategory,
@@ -94,7 +98,7 @@ static QVector<SymbolDataRole> allSymbolDataRoles({SymbolType,
 
 // MelodyNote
 enum MelodyNoteDataRole {
-    MelodyNoteDots      = Qt::UserRole + 19     // int (273)
+    MelodyNoteDots      = Qt::UserRole + 60     // int (316)
 };
 
 }

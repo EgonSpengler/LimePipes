@@ -11,8 +11,10 @@
   * A Tune represents a Score played by a specific instrument.
   */
 
-#include "tune.h"
 #include <QXmlStreamWriter>
+#include <common/datatypes/timesignature.h>
+
+#include "tune.h"
 
 void Tune::setInstrument(InstrumentPtr instrument)
 {
@@ -23,17 +25,24 @@ Tune::Tune(MusicItem *parent)
     : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
     setInstrument(InstrumentPtr(new NullInstrument()));
+    initData(QVariant::fromValue<TimeSignature>(TimeSignature(TimeSignature::_4_4)),
+                                                LP::TuneTimeSignature);
 }
 
-Tune::Tune(InstrumentPtr instrument)
-    : MusicItem(MusicItem::TuneType, MusicItem::PartType)
+Tune::Tune(InstrumentPtr instrument, MusicItem *parent)
+    : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
     setInstrument(instrument);
 }
 
 bool Tune::itemSupportsWritingOfData(int role) const
 {
-    Q_UNUSED(role)
+    if (role == LP::TuneInstrument)
+        return false;
+
+    if (LP::allTuneDataRoles.contains(static_cast<LP::TuneDataRole>(role)))
+        return true;
+
     return false;
 }
 

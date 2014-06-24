@@ -33,6 +33,7 @@
 #include <part.h>
 #include <measure.h>
 #include <common/defines.h>
+#include <common/datatypes/timesignature.h>
 #include <utilities/error.h>
 
 namespace {
@@ -450,7 +451,9 @@ QModelIndex MusicModel::insertPartIntoTune(int row, const QModelIndex &tune, int
     QModelIndex part = insertItem(tr("Insert part into tune"), tune, row, newPart);
     setData(part, QVariant::fromValue<bool>(withRepeat), LP::PartRepeat);
     for (int i=0; i<measures; i++) {
-        insertItem(tr("Insert measure"), part, 0, new Measure());
+        Measure *measure = new Measure();
+        measure->setData(tune.data(LP::TuneTimeSignature), LP::MeasureTimeSignature);
+        insertItem(tr("Insert measure"), part, 0, measure);
     }
     m_undoStack->endMacro();
     return part;
@@ -463,7 +466,28 @@ QModelIndex MusicModel::appendPartToTune(const QModelIndex &tune, int measures, 
 
 QModelIndex MusicModel::insertMeasureIntoPart(int row, const QModelIndex &part)
 {
-    return insertItem(tr("Insert measure"), part, row, new Measure());
+    if (m_pluginManager.isNull()) {
+        qWarning("No plugin manager installed. Can't insert measure into part.");
+        return QModelIndex();
+    }
+
+    MusicItem *partItem = itemForIndex(part);
+    if (!partItem && partItem->type() == MusicItem::PartType)
+        return QModelIndex();
+
+    QModelIndex tuneIndex = part.parent();
+    Q_ASSERT(isIndexTune(tuneIndex));
+    MusicItem *tuneItem = itemForIndex(tuneIndex);
+
+    QVariant timeSigData = tuneItem->data(LP::TuneTimeSignature);
+    if (!timeSigData.isValid() &&
+            !timeSigData.canConvert<TimeSignature>())
+        return QModelIndex();
+
+    TimeSignature timeSig = timeSigData.value<TimeSignature>();
+    Measure *measure = new Measure();
+    measure->setData(QVariant::fromValue<TimeSignature>(timeSig), LP::MeasureTimeSignature);
+    return insertItem(tr("Insert measure"), part, row, measure);
 }
 
 QModelIndex MusicModel::appendMeasureToPart(const QModelIndex &part)
