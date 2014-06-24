@@ -9,6 +9,7 @@
 #ifndef TIMESIGNATURE_H
 #define TIMESIGNATURE_H
 
+#include <QDebug>
 #include <QString>
 #include <QMetaType>
 
@@ -49,7 +50,7 @@ public:
     void readFromXmlStream(QXmlStreamReader *reader);
     static QString xmlTagName() { return s_xmlTagName; }
 
-    QString toString();
+    QString toString() const;
     static TimeSignature fromString(const QString& string);
 
     bool operator ==(const TimeSignature& other);
@@ -58,6 +59,8 @@ private:
     static QString s_xmlTagName;
     Type m_type;
 };
+
+QDebug operator <<(QDebug dbg, const TimeSignature &timeSig);
 
 Q_DECLARE_METATYPE(TimeSignature)
 

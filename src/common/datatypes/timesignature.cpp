@@ -11,10 +11,11 @@
   * Time signature data for @ref MusicItem "MusicItems".
   */
 
-#include "timesignature.h"
 #include <QStringList>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+
+#include "timesignature.h"
 
 QString TimeSignature::s_xmlTagName = QString("TIMESIG");
 
@@ -149,7 +150,7 @@ void TimeSignature::readFromXmlStream(QXmlStreamReader *reader)
     }
 }
 
-QString TimeSignature::toString()
+QString TimeSignature::toString() const
 {
     return QString::number(beatCount()) + "/" + QString::number(beatUnit());
 }
@@ -170,4 +171,11 @@ TimeSignature TimeSignature::fromString(const QString &string)
 bool TimeSignature::operator ==(const TimeSignature &other)
 {
     return m_type == other.m_type;
+}
+
+QDebug operator <<(QDebug dbg, const TimeSignature &timeSig)
+{
+    dbg.nospace() << QString("TimeSignature (%1)")
+                     .arg(timeSig.toString());
+    return dbg.space();
 }
