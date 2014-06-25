@@ -33,7 +33,7 @@ public:
     explicit TimeSignature();
     explicit TimeSignature(Type type);
     ~TimeSignature() {}
-    TimeSignature(const TimeSignature& timeSig) { m_type = timeSig.signature(); }
+    TimeSignature(const TimeSignature& timeSig) { m_type = timeSig.type(); }
 
     static int beatCount(Type type);
     static int beatUnit(Type type);
@@ -44,7 +44,7 @@ public:
     void setSignature(Type type) { m_type = type; }
 
     void setSignature(int beatCount, int beatUnit);
-    Type signature() const { return m_type; }
+    Type type() const { return m_type; }
 
     void writeToXmlStream(QXmlStreamWriter *writer);
     void readFromXmlStream(QXmlStreamReader *reader);

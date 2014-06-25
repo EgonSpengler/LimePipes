@@ -17,6 +17,8 @@
 class SymbolGraphicsItem;
 class QGraphicsLinearLayout;
 class BaseEngraver;
+class TimeSignature;
+class TimeSignatureGlyphItem;
 
 class MeasureGraphicsItem : public InteractingGraphicsItem
 {
@@ -42,6 +44,9 @@ public:
 
     void appendEngraver(BaseEngraver *engraver);
 
+    bool timeSignatureVisible() const;
+    void setTimeSignatureVisible(bool timeSignatureVisible);
+
 protected:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
@@ -57,11 +62,17 @@ private:
     qreal penWidth() const;
     void setSymbolGeometry(SymbolGraphicsItem *symbolItem, const QRectF& rect);
     void setSymbolGeometry(SymbolGraphicsItem *item, int i);
+    void setTimeSignature(const TimeSignature &timeSig);
+    void setMarginsForTimeSigGlyph(qreal width);
+    qreal timeSigLeftMargin() const;
+    void layoutTimeSig();
     QList<SymbolGraphicsItem*> m_symbolItems;
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;
     QGraphicsLinearLayout *m_layout;
     QList<BaseEngraver*> m_engravers;
+    TimeSignatureGlyphItem *m_timeSigGlyph;
+    bool m_timeSignatureVisible;
 };
 
 #endif // MEASUREGRAPHICSITEM_H

@@ -16,11 +16,6 @@
 
 #include "tune.h"
 
-void Tune::setInstrument(InstrumentPtr instrument)
-{
-    m_data.insert(LP::TuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
-}
-
 Tune::Tune(MusicItem *parent)
     : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
@@ -33,6 +28,13 @@ Tune::Tune(InstrumentPtr instrument, MusicItem *parent)
     : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
     setInstrument(instrument);
+    initData(QVariant::fromValue<TimeSignature>(TimeSignature(TimeSignature::_4_4)),
+                                                LP::TuneTimeSignature);
+}
+
+void Tune::setInstrument(InstrumentPtr instrument)
+{
+    m_data.insert(LP::TuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
 }
 
 bool Tune::itemSupportsWritingOfData(int role) const

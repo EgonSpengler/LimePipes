@@ -8,6 +8,7 @@
 
 #include <common/itemdataroles.h>
 #include "interactinggraphicsitems/staffgraphicsitem.h"
+#include "interactinggraphicsitems/measuregraphicsitem.h"
 #include "visualpart.h"
 
 VisualPart::VisualPart(QObject *parent)
@@ -114,6 +115,19 @@ void VisualPart::insertChildItem(int index, VisualItem *childItem)
     if (!graphicsItem)
         return;
 
+    MeasureGraphicsItem *measureItem = qgraphicsitem_cast<MeasureGraphicsItem*>(graphicsItem);
+    if (!measureItem) {
+        qWarning() << "VisualPart: No measure item inserted";
+    } else {
+        if (index == 0) {
+            measureItem->setTimeSignatureVisible(true);
+            if (m_measureItems.count()) {
+                m_measureItems.at(0)->setTimeSignatureVisible(false);
+            }
+        }
+
+        m_measureItems.insert(index, measureItem);
+    }
     StaffGraphicsItem *lastStaffItem = m_staffItems.last();
     if (lastStaffItem->measureCount() >= 4) {
         appendStaff();

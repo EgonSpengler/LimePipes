@@ -14,18 +14,20 @@
 
 #include <common/defines.h>
 #include <common/layoutsettings.h>
+#include <common/datatypes/timesignature.h>
 #include <common/graphictypes/stemengraver.h>
 #include <common/graphictypes/tieengraver.h>
+#include <common/graphictypes/timesignatureglyphitem.h>
 
 #include "symbolgraphicsitem.h"
 #include "measuregraphicsitem.h"
 
-const int InitialLineWidth  = 1;
+static const qreal TimeSigLeftMargin(0.8);
 
 MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
-    : InteractingGraphicsItem(parent)
+    : InteractingGraphicsItem(parent),
+      m_timeSignatureVisible(false)
 {
-    setPenWidth(InitialLineWidth);
     setAcceptDrops(true);
 
     StemEngraver *stemEngraver = new StemEngraver();
@@ -36,6 +38,14 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     m_layout = new QGraphicsLinearLayout(Qt::Horizontal, this);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
+
+    m_timeSigGlyph = new TimeSignatureGlyphItem(this);
+    setMarginsForTimeSigGlyph(m_timeSigGlyph->boundingRect().width());
+    connect(m_timeSigGlyph, &TimeSignatureGlyphItem::widthHasChanged,
+            [this] (qreal width) {
+        setMarginsForTimeSigGlyph(width);
+    });
+    setTimeSignatureVisible(m_timeSignatureVisible);
 }
 
 MeasureGraphicsItem::~MeasureGraphicsItem()
@@ -59,6 +69,44 @@ qreal MeasureGraphicsItem::penWidth() const
 void MeasureGraphicsItem::setSymbolGeometry(SymbolGraphicsItem *symbolItem, const QRectF &rect)
 {
     symbolItem->setGeometryAnimated(rect);
+}
+
+void MeasureGraphicsItem::setTimeSignature(const TimeSignature &timeSig)
+{
+    m_timeSigGlyph->setSignatureType(timeSig.type());
+    layoutTimeSig();
+}
+
+void MeasureGraphicsItem::layoutTimeSig()
+{
+    m_timeSigGlyph->setPos(timeSigLeftMargin(), 0);
+}
+
+bool MeasureGraphicsItem::timeSignatureVisible() const
+{
+    return m_timeSignatureVisible;
+}
+
+void MeasureGraphicsItem::setTimeSignatureVisible(bool timeSignatureVisible)
+{
+    m_timeSignatureVisible = timeSignatureVisible;
+    m_timeSigGlyph->setVisible(timeSignatureVisible);
+    setMarginsForTimeSigGlyph(m_timeSigGlyph->boundingRect().width());
+}
+
+void MeasureGraphicsItem::setMarginsForTimeSigGlyph(qreal width)
+{
+    qreal margin = width + timeSigLeftMargin();
+    if (!m_timeSignatureVisible) {
+        margin = 0;
+    }
+
+    m_layout->setContentsMargins(margin, 0, 0, 0);
+}
+
+qreal MeasureGraphicsItem::timeSigLeftMargin() const
+{
+    return musicFont()->staffSpace() * TimeSigLeftMargin;
 }
 
 void MeasureGraphicsItem::appendEngraver(BaseEngraver *engraver)
@@ -113,7 +161,6 @@ void MeasureGraphicsItem::removeChildItem(InteractingGraphicsItem *childItem)
                     "SymbolGraphicsItem which should be removed";
         InteractingGraphicsItem::removeChildItem(childItem);
         return;
-
     }
 
     foreach (BaseEngraver *engraver, m_engravers) {
@@ -125,6 +172,11 @@ void MeasureGraphicsItem::removeChildItem(InteractingGraphicsItem *childItem)
 
 void MeasureGraphicsItem::setData(const QVariant &value, int key)
 {
+    if (key == LP::MeasureTimeSignature) {
+        TimeSignature timeSig = value.value<TimeSignature>();
+        setTimeSignature(timeSig);
+    }
+
     InteractingGraphicsItem::setData(value, key);
 }
 

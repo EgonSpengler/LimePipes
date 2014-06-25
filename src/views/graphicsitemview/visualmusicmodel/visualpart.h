@@ -15,6 +15,7 @@
 #include "visualitem.h"
 
 class StaffGraphicsItem;
+class MeasureGraphicsItem;
 
 class VisualPart : public VisualItem
 {
@@ -43,6 +44,7 @@ public:
 private:
     StaffGraphicsItem *newStaffItem();
     QVector<StaffGraphicsItem*> m_staffItems;
+    QList<MeasureGraphicsItem*> m_measureItems;
     bool m_repeat;
     StaffType m_staffType;
     ClefType m_cleffType;
