@@ -37,6 +37,7 @@
 
 #include "commonpluginmanager.h"
 #include "SMuFL/smuflloader.h"
+#include "widgets/zoomwidget.h"
 #include "dialogs/newtunedialog.h"
 #include "dialogs/addsymbolsdialog.h"
 #include "dialogs/aboutdialog.h"
@@ -169,6 +170,9 @@ void MainWindow::createMenusAndToolBars()
     MusicModelInterface *musicModel = musicModelFromItemModel(m_proxyModel);
     ui->editUndoAction->setEnabled(musicModel->undoStack()->canUndo());
     ui->editRedoAction->setEnabled(musicModel->undoStack()->canRedo());
+
+    m_zoomWidget = new ZoomWidget;
+    ui->zoomToolBar->addWidget(m_zoomWidget);
 }
 
 void MainWindow::createConnections()

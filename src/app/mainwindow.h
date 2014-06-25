@@ -27,6 +27,7 @@ class GraphicsItemView;
 class GraphicsScene;
 class SettingsDialog;
 class SMuFLLoader;
+class ZoomWidget;
 
 namespace Ui {
 class MainWindow;
@@ -86,6 +87,7 @@ private:
     SettingsDialog *m_settingsDialog;
     MusicFontPtr m_musicFont;
     SMuFLLoader *m_smuflLoader;
+    ZoomWidget *m_zoomWidget;
 };
 
 #endif // MAINWINDOW_H
