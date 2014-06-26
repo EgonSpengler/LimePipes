@@ -9,6 +9,7 @@
 #ifndef GRAPHICSITEMVIEW_H
 #define GRAPHICSITEMVIEW_H
 
+#include <QTransform>
 #include <QAbstractItemView>
 #include <common/pluginmanagerinterface.h>
 
@@ -31,6 +32,9 @@ public:
     void setModel(QAbstractItemModel *model);
 
     void setPluginManager(PluginManager pluginManager);
+
+public slots:
+    void scale(qreal level);
 
 private:
     GraphicsScene *m_graphicsScene;

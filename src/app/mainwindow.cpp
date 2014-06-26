@@ -188,6 +188,8 @@ void MainWindow::createConnections()
 
     connect(musicModel->undoStack(), &QUndoStack::cleanChanged,
             this, &MainWindow::setWindowModifiedForUndoStackCleanState);
+    connect(m_zoomWidget, &ZoomWidget::zoomLevelChanged,
+            m_graphicsItemView, &GraphicsItemView::scale);
 }
 
 void MainWindow::createObjectNames()

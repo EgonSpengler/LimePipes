@@ -15,13 +15,10 @@
 #include <QPixmap>
 #include "visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h"
 #include "graphicsview.h"
-#include "graphicsviewzoom.h"
 
 GraphicsView::GraphicsView(QWidget *parent) :
     QGraphicsView(parent)
 {
-    new GraphicsViewZoom(this);
-
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 
     m_itemTypes << static_cast<int>(InteractingGraphicsItemType);

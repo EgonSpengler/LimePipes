@@ -6,7 +6,6 @@ set( TYPES_DIR ${CMAKE_SOURCE_DIR}/src/common/datatypes )
 
 set( lp_graphicsitemview_SOURCES
         graphicsview.cpp
-        graphicsviewzoom.cpp
         graphicsscene.cpp
         graphicsitemview.cpp
         visualmusicpresenter.cpp

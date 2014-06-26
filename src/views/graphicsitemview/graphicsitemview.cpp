@@ -74,3 +74,13 @@ void GraphicsItemView::setPluginManager(PluginManager pluginManager)
     m_visualItemFactory->setPluginManager(pluginManager);
     m_visualMusicModel->setPluginManager(pluginManager);
 }
+
+void GraphicsItemView::scale(qreal level)
+{
+    if (level == 0)
+        return;
+
+    // Asuming, that the graphics view has no other
+    // transformations applied
+    m_graphicsView->setTransform(QTransform::fromScale(level, level));
+}

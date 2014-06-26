@@ -20,6 +20,11 @@ ZoomWidget::ZoomWidget(QWidget *parent)
             [this] (int value){
         setDisplayedZoomLevel(value);
     });
+
+    connect(ui->zoomSlider, &QSlider::valueChanged,
+            [this] (int value) {
+        emit zoomLevelChanged((qreal)value / 100);
+    });
 }
 
 ZoomWidget::~ZoomWidget()

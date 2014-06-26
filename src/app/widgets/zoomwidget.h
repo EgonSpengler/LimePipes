@@ -23,6 +23,9 @@ public:
     explicit ZoomWidget(QWidget *parent = 0);
     ~ZoomWidget();
 
+signals:
+    void zoomLevelChanged(qreal level);
+
 private:
     void setDisplayedZoomLevel(int level);
     Ui::ZoomWidget *ui;
