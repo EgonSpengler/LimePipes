@@ -21,6 +21,7 @@ class SymbolDockWidget : public QDockWidget
 
 public:
     explicit SymbolDockWidget(QWidget *parent = 0);
+    explicit SymbolDockWidget(const QString &title, QWidget *parent = 0);
     ~SymbolDockWidget();
 
 private:

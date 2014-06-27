@@ -10,6 +10,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QHash>
 #include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/pluginmanagerinterface.h>
 #include <common/settingsobserver.h>
@@ -28,6 +29,7 @@ class GraphicsScene;
 class SettingsDialog;
 class SMuFLLoader;
 class ZoomWidget;
+class SymbolDockWidget;
 
 namespace Ui {
 class MainWindow;
@@ -64,6 +66,7 @@ private:
     void initMusicFont();
     void createModelAndView();
     void createMenusAndToolBars();
+    void createSymbolPalettes();
     void createConnections();
     void createObjectNames();
     void loadFile(const QString &fileName);
@@ -74,6 +77,7 @@ private:
     QString instrumentFromParentOfCurrentIndex();
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
     void setMusicFontSizeFromSettings();
+    void setDockWidgetOfInstrumentVisible(const QString& instrument, bool visible);
 
     Ui::MainWindow *ui;
     PluginManager m_pluginManager;
@@ -88,6 +92,7 @@ private:
     MusicFontPtr m_musicFont;
     SMuFLLoader *m_smuflLoader;
     ZoomWidget *m_zoomWidget;
+    QHash<QString, SymbolDockWidget*> m_symbolDockWidgets;
 };
 
 #endif // MAINWINDOW_H

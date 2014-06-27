@@ -26,6 +26,8 @@
 #include <QSplitter>
 #include <QUndoStack>
 #include <QtPlugin>
+#include <QMenu>
+#include <QAction>
 
 #include <utilities/error.h>
 #include <model/musicmodel.h>
@@ -38,6 +40,7 @@
 #include "commonpluginmanager.h"
 #include "SMuFL/smuflloader.h"
 #include "widgets/zoomwidget.h"
+#include "widgets/symboldockwidget.h"
 #include "dialogs/newtunedialog.h"
 #include "dialogs/addsymbolsdialog.h"
 #include "dialogs/aboutdialog.h"
@@ -92,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createModelAndView();
     createMenusAndToolBars();
+    createSymbolPalettes();
     createConnections();
     createObjectNames();
 
@@ -121,6 +125,14 @@ void MainWindow::setMusicFontSizeFromSettings()
     int staffSpace = settings.staffSpacePixel();
     int oneEm = 4 * staffSpace;
     m_smuflLoader->setFontPixelSize(oneEm);
+}
+
+void MainWindow::setDockWidgetOfInstrumentVisible(const QString &instrument, bool visible)
+{
+    SymbolDockWidget *dockWidget = m_symbolDockWidgets.value(instrument);
+    if (!dockWidget)
+        return;
+    dockWidget->setVisible(visible);
 }
 
 void MainWindow::initMusicFont()
@@ -173,6 +185,31 @@ void MainWindow::createMenusAndToolBars()
 
     m_zoomWidget = new ZoomWidget;
     ui->zoomToolBar->addWidget(m_zoomWidget);
+}
+
+void MainWindow::createSymbolPalettes()
+{
+    QStringList instrumentNames = m_pluginManager->instrumentNames();
+    QMenu *paletteMenu = new QMenu(this);
+    ui->viewSymbolPalettes->setMenu(paletteMenu);
+
+    foreach (const QString &instrumentName, instrumentNames) {
+        QAction *paletteAction = paletteMenu->addAction(instrumentName);
+        SymbolDockWidget *dockWidget = new SymbolDockWidget(instrumentName, this);
+        dockWidget->setVisible(false);
+        addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+        m_symbolDockWidgets.insert(instrumentName, dockWidget);
+        paletteAction->setCheckable(true);
+        paletteAction->setChecked(false);
+        connect(paletteAction, &QAction::toggled,
+                [this, instrumentName] (bool checked) {
+            setDockWidgetOfInstrumentVisible(instrumentName, checked);
+        });
+        connect(dockWidget, &QDockWidget::visibilityChanged,
+                [this, paletteAction] (bool visible) {
+            paletteAction->setChecked(visible);
+        });
+    }
 }
 
 void MainWindow::createConnections()
