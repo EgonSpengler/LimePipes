@@ -106,6 +106,12 @@ void CommonPluginManager::addSymbolPlugin(QObject *plugin)
     SymbolInterface *iSymbols = qobject_cast<SymbolInterface *> (plugin);
     if (iSymbols) {
         m_symbolPlugins.append(iSymbols);
+        foreach (const int type, iSymbols->symbolTypes()) {
+            SymbolMetaData metaData = iSymbols->symbolMetaDataForType(type);
+            if (metaData.isValid()) {
+                m_symbolMetaDatas.insert(type, metaData);
+            }
+        }
     }
 }
 
@@ -197,4 +203,14 @@ SymbolInterface *CommonPluginManager::symbolPluginWithSymbol(int symbolType)
     }
 
     return 0;
+}
+
+QList<SymbolMetaData> CommonPluginManager::symbolMetaDatas() const
+{
+    return m_symbolMetaDatas.values();
+}
+
+SymbolMetaData CommonPluginManager::metaDataForSymbol(int type)
+{
+    return m_symbolMetaDatas.value(type);
 }

@@ -3,6 +3,7 @@ set( limepipes_SOURCES
         app/mainwindow.cpp
         app/commonpluginmanager.cpp
         app/widgets/zoomwidget.cpp
+        app/widgets/symboldockwidget.cpp
         app/dialogs/newtunedialog.cpp
         app/dialogs/addsymbolsdialog.cpp
         app/dialogs/aboutdialog.cpp
@@ -36,6 +37,7 @@ set( limepipes_SOURCES
 set( limepipes_UIs
         app/mainwindow.ui
         app/widgets/zoomwidget.ui
+        app/widgets/symboldockwidget.ui
         app/dialogs/newtunedialog.ui
         app/dialogs/addsymbolsdialog.ui
         app/dialogs/aboutdialog.ui

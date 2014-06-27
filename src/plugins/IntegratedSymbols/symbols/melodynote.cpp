@@ -52,7 +52,6 @@ void MelodyNote::beforeWritingData(QVariant &value, int role)
 void MelodyNote::initSymbol()
 {
     initData(0, LP::MelodyNoteDots);
-    initData(QVariant::fromValue<SymbolCategory>(SymbolCategory::Graphical), LP::SymbolCategory);
     setSymbolOptions(Symbol::HasPitch |
                      Symbol::HasLength);
 }

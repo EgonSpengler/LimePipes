@@ -28,6 +28,8 @@ public:
     ~CommonPluginManager();
 
     // PluginManagerInterface
+    QList<SymbolMetaData> symbolMetaDatas() const;
+    SymbolMetaData metaDataForSymbol(int type);
     QVector<int> symbolTypesForInstrument(const QString &instrumentName) const;
     Symbol *symbolForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);
@@ -57,6 +59,7 @@ private:
     SymbolInterface *symbolPluginWithSymbol(int symbolType);
     QMap<QString, InstrumentInterface*> m_instrumentPlugins;
     QMap<QString, SymbolInterface*> m_instrumentSymbols;
+    QMap<int, SymbolMetaData> m_symbolMetaDatas;
     QList<SymbolInterface*> m_symbolPlugins;
     int m_staticPlugins;
     int m_dynamicPlugins;

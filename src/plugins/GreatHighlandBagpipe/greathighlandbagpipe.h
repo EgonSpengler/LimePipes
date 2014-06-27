@@ -31,6 +31,7 @@ public:
     Instrument *instrument() const;
 
     // Symbols interface
+    SymbolMetaData symbolMetaDataForType(int type);
     Symbol *symbolForType(int type);
     QVector<int> symbolTypes();
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);

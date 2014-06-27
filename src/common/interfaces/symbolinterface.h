@@ -17,15 +17,37 @@
 #include <QtPlugin>
 #include <QVector>
 #include <symbol.h>
+#include <common/defines.h>
 
 class QString;
 class QStringList;
 class SymbolGraphicBuilder;
 class ItemInteraction;
 
+class SymbolMetaData {
+public:
+    SymbolMetaData()
+        : m_category(SymbolCategory::None) {}
+    virtual ~SymbolMetaData() {}
+
+    bool isValid() const { return m_category != SymbolCategory::None; }
+
+    SymbolCategory category() const { return m_category; }
+    void setCategory(const SymbolCategory &category) { m_category = category; }
+
+private:
+    SymbolCategory m_category;
+};
+
 class SymbolInterface {
 public:
     virtual ~SymbolInterface() {}
+
+    virtual SymbolMetaData symbolMetaDataForType(int type)
+    {
+        Q_UNUSED(type);
+        return SymbolMetaData();
+    }
 
     virtual Symbol *symbolForType(int type) = 0;
     virtual QVector<int> symbolTypes() = 0;
@@ -45,6 +67,7 @@ public:
 };
 
 #define SymbolInterfaceIID "org.limepipes.LimePipes.SymbolInterface/0.2"
+
 Q_DECLARE_INTERFACE(SymbolInterface, SymbolInterfaceIID)
 
 #endif // SYMBOLINTERFACE_H

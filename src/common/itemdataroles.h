@@ -78,17 +78,15 @@ static QVector<MeasureDataRole> allMeasureDataRoles({MeasureIsUpbeat,
 
 // Symbol
 enum SymbolDataRole {
-    SymbolCategory      = Qt::UserRole + 40,    // SymbolCategory in defines.h (296)
-    SymbolType          = Qt::UserRole + 41,    // int (297)
-    SymbolName          = Qt::UserRole + 42,    // QString (298)
-    SymbolLength        = Qt::UserRole + 43,    // Length (299)
-    SymbolPitch         = Qt::UserRole + 44,    // PitchPtr (300)
-    SymbolPitchContext  = Qt::UserRole + 45,    // PitchContextPtr (301)
-    SymbolSpanType      = Qt::UserRole + 46,    // SymbolSpanType in defines.h. (302)
-    SymbolSpanBuddy     = Qt::UserRole + 47     // QPersistentModelIndex (303)
+    SymbolType          = Qt::UserRole + 40,    // int (296)
+    SymbolName          = Qt::UserRole + 41,    // QString (297)
+    SymbolLength        = Qt::UserRole + 42,    // Length (298)
+    SymbolPitch         = Qt::UserRole + 43,    // PitchPtr (299)
+    SymbolPitchContext  = Qt::UserRole + 44,    // PitchContextPtr (300)
+    SymbolSpanType      = Qt::UserRole + 45,    // SymbolSpanType in defines.h. (301)
+    SymbolSpanBuddy     = Qt::UserRole + 46     // QPersistentModelIndex (302)
 };
 static QVector<SymbolDataRole> allSymbolDataRoles({SymbolType,
-                                                   SymbolCategory,
                                                    SymbolPitchContext,
                                                    SymbolLength,
                                                    SymbolPitch,

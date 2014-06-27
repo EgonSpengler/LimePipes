@@ -17,7 +17,6 @@ Tie::Tie()
 
 void Tie::initSymbol()
 {
-    initData(QVariant::fromValue<SymbolCategory>(SymbolCategory::Spanning), LP::SymbolCategory);
 }
 
 bool Tie::itemSupportsWritingOfData(int role) const

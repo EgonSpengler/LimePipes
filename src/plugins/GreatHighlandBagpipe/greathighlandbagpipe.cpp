@@ -49,3 +49,10 @@ QVector<int> GreatHighlandBagpipe::additionalDataForSymbolType(int symbolType)
 {
     return QVector<int>();
 }
+
+SymbolMetaData GreatHighlandBagpipe::symbolMetaDataForType(int type)
+{
+    SymbolMetaData metaData;
+
+    return metaData;
+}

@@ -68,3 +68,17 @@ QVector<int> IntegratedSymbols::additionalDataForSymbolType(int symbolType)
 
     return QVector<int>();
 }
+
+SymbolMetaData IntegratedSymbols::symbolMetaDataForType(int type)
+{
+    SymbolMetaData metaData;
+    if (type == LP::MelodyNote) {
+        metaData.setCategory(SymbolCategory::Graphical);
+    }
+
+    if (type == LP::Tie) {
+        metaData.setCategory(SymbolCategory::Spanning);
+    }
+
+    return metaData;
+}

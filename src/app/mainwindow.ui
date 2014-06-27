@@ -48,8 +48,15 @@
     </property>
     <addaction name="helpAboutAction"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="symbolPalettesAction"/>
+   </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
+   <addaction name="menuView"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -72,7 +79,7 @@
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
-    <bool>true</bool>
+    <bool>false</bool>
    </attribute>
    <addaction name="fileNewAction"/>
    <addaction name="fileOpenAction"/>
@@ -253,6 +260,11 @@
    </property>
    <property name="toolTip">
     <string>Add a score with tune and symbols</string>
+   </property>
+  </action>
+  <action name="symbolPalettesAction">
+   <property name="text">
+    <string>Symbol Palettes</string>
    </property>
   </action>
  </widget>
