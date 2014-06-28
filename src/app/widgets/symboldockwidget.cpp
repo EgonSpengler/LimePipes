@@ -6,6 +6,8 @@
  *
  */
 
+#include <QListWidgetItem>
+
 #include "symboldockwidget.h"
 #include "ui_symboldockwidget.h"
 
@@ -26,4 +28,20 @@ SymbolDockWidget::SymbolDockWidget(const QString &title, QWidget *parent)
 SymbolDockWidget::~SymbolDockWidget()
 {
     delete ui;
+}
+
+void SymbolDockWidget::addListItemToCategory(QListWidgetItem *listItem, SymbolCategory category)
+{
+    switch (category) {
+    case SymbolCategory::Graphical: {
+        ui->normalListWidget->addItem(listItem);
+        break;
+    }
+    case SymbolCategory::Spanning: {
+        ui->spanningListWidget->addItem(listItem);
+        break;
+    }
+    default:
+        break;
+    }
 }

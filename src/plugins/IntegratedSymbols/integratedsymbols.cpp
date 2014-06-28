@@ -41,11 +41,12 @@ QVector<int> IntegratedSymbols::symbolTypes()
 
 Symbol *IntegratedSymbols::symbolForType(int type)
 {
+    QString name = symbolMetaDataForType(type).name();
     switch (type) {
     case LP::MelodyNote:
-        return new MelodyNote();
+        return new MelodyNote(name);
     case LP::Tie:
-        return new Tie();
+        return new Tie(name);
     }
 
     return 0;
@@ -74,10 +75,12 @@ SymbolMetaData IntegratedSymbols::symbolMetaDataForType(int type)
     SymbolMetaData metaData;
     if (type == LP::MelodyNote) {
         metaData.setCategory(SymbolCategory::Graphical);
+        metaData.setName(tr("Melody Note"));
     }
 
     if (type == LP::Tie) {
         metaData.setCategory(SymbolCategory::Spanning);
+        metaData.setName(tr("Tie"));
     }
 
     return metaData;

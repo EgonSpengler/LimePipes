@@ -8,7 +8,7 @@
 
 #include "ghb_doubling.h"
 
-GHB_Doubling::GHB_Doubling()
-    : Symbol(GHB::Doubling, "Doubling")
+GHB_Doubling::GHB_Doubling(const QString &name)
+    : Symbol(GHB::Doubling, name)
 {
 }

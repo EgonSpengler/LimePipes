@@ -27,7 +27,7 @@ public:
     virtual ~PluginManagerInterface() {}
 
     virtual QList<SymbolMetaData> symbolMetaDatas() const = 0;
-    virtual SymbolMetaData metaDataForSymbol(int type) = 0;
+    virtual SymbolMetaData symbolMetaData(int type) = 0;
     virtual QVector<int> symbolTypesForInstrument(const QString &instrumentName) const = 0;
     virtual Symbol *symbolForType(int type) = 0;
     virtual QVector<int> additionalDataForSymbolType(int symbolType) = 0;

@@ -23,11 +23,11 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QScopedPointer>
-#include <QSplitter>
 #include <QUndoStack>
 #include <QtPlugin>
 #include <QMenu>
 #include <QAction>
+#include <QListWidgetItem>
 
 #include <utilities/error.h>
 #include <model/musicmodel.h>
@@ -95,8 +95,16 @@ MainWindow::MainWindow(QWidget *parent) :
 
     createModelAndView();
     createMenusAndToolBars();
-    createSymbolPalettes();
+    createAndPopulateSymbolPalettes();
     createConnections();
+    // Show at least first instrument palette
+    if (m_pluginManager->instrumentNames().count()) {
+        QString instrumentName = m_pluginManager->instrumentNames().at(0);
+        QDockWidget *instrumentDock = m_symbolDockWidgets.value(instrumentName);
+        if (instrumentDock) {
+            instrumentDock->setVisible(true);
+        }
+    }
     createObjectNames();
 
     setWindowTitle(tr("%1 [*]")
@@ -153,14 +161,21 @@ void MainWindow::initMusicFont()
 void MainWindow::createModelAndView()
 {
     m_treeView = new TreeView(this);
+    QDockWidget *treeViewDock = new QDockWidget("Tree View", this);
+    treeViewDock->setWidget(m_treeView);
+    treeViewDock->setWindowTitle("Tree View");
+    addDockWidget(Qt::RightDockWidgetArea, treeViewDock);
+    treeViewDock->setVisible(false);
+    connect(ui->viewTreeViewAction, &QAction::triggered,
+            [this, treeViewDock] (bool checked) {
+        treeViewDock->setVisible(checked);
+    });
+    connect(treeViewDock, &QDockWidget::visibilityChanged,
+            [this] (bool visible) {
+        ui->viewTreeViewAction->setChecked(visible);
+    });
     m_graphicsItemView = new GraphicsItemView(this);
     m_graphicsItemView->setPluginManager(m_pluginManager);
-
-    QSplitter *splitter = new QSplitter(this);
-    splitter->addWidget(m_treeView);
-    splitter->addWidget(m_graphicsItemView);
-    splitter->setStretchFactor(0, 2);
-    splitter->setStretchFactor(1, 5);
 
     MusicModel *musicModel = new MusicModel(this);
     musicModel->setPluginManager(m_pluginManager);
@@ -174,7 +189,7 @@ void MainWindow::createModelAndView()
     m_treeView->setModel(m_proxyModel);
 
     m_graphicsItemView->setModel(m_model);
-    setCentralWidget(splitter);
+    setCentralWidget(m_graphicsItemView);
 }
 
 void MainWindow::createMenusAndToolBars()
@@ -187,15 +202,15 @@ void MainWindow::createMenusAndToolBars()
     ui->zoomToolBar->addWidget(m_zoomWidget);
 }
 
-void MainWindow::createSymbolPalettes()
+void MainWindow::createMenusAndSymbolDockWidgets(QStringList instrumentNames)
 {
-    QStringList instrumentNames = m_pluginManager->instrumentNames();
     QMenu *paletteMenu = new QMenu(this);
-    ui->viewSymbolPalettes->setMenu(paletteMenu);
+    ui->viewSymbolPalettesAction->setMenu(paletteMenu);
 
     foreach (const QString &instrumentName, instrumentNames) {
         QAction *paletteAction = paletteMenu->addAction(instrumentName);
         SymbolDockWidget *dockWidget = new SymbolDockWidget(instrumentName, this);
+        dockWidget->setWindowTitle(instrumentName);
         dockWidget->setVisible(false);
         addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
         m_symbolDockWidgets.insert(instrumentName, dockWidget);
@@ -209,6 +224,25 @@ void MainWindow::createSymbolPalettes()
                 [this, paletteAction] (bool visible) {
             paletteAction->setChecked(visible);
         });
+    }
+}
+
+void MainWindow::createAndPopulateSymbolPalettes()
+{
+    QStringList instrumentNames = m_pluginManager->instrumentNames();
+    createMenusAndSymbolDockWidgets(instrumentNames);
+
+    foreach (const QString instrumentName, instrumentNames) {
+        SymbolDockWidget *symbolDock = m_symbolDockWidgets.value(instrumentName);
+        if (!symbolDock)
+            continue;
+
+        QVector<int> symbolTypes = m_pluginManager->symbolTypesForInstrument(instrumentName);
+        foreach (int type, symbolTypes) {
+            SymbolMetaData metaData = m_pluginManager->symbolMetaData(type);
+            QListWidgetItem *widgetItem = new QListWidgetItem(metaData.name());
+            symbolDock->addListItemToCategory(widgetItem, metaData.category());
+        }
     }
 }
 
@@ -509,7 +543,7 @@ void MainWindow::on_editSettingsAction_triggered()
     m_settingsDialog->show();
 }
 
-void MainWindow::on_editCreateTestScore_triggered()
+void MainWindow::on_editCreateTestScoreAction_triggered()
 {
     MusicModelInterface *musicModel;
     musicModel = musicModelFromItemModel(m_proxyModel);

@@ -35,7 +35,11 @@ public:
     SymbolCategory category() const { return m_category; }
     void setCategory(const SymbolCategory &category) { m_category = category; }
 
+    QString name() const { return m_name; }
+    void setName(const QString &name) { m_name = name; }
+
 private:
+    QString m_name;
     SymbolCategory m_category;
 };
 

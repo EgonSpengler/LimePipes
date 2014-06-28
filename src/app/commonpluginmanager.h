@@ -29,7 +29,7 @@ public:
 
     // PluginManagerInterface
     QList<SymbolMetaData> symbolMetaDatas() const;
-    SymbolMetaData metaDataForSymbol(int type);
+    SymbolMetaData symbolMetaData(int type);
     QVector<int> symbolTypesForInstrument(const QString &instrumentName) const;
     Symbol *symbolForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);

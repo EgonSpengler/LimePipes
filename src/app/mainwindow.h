@@ -46,6 +46,7 @@ public:
 
     void notify(Settings::Id id);
 
+    void createMenusAndSymbolDockWidgets(QStringList instrumentNames);
 private slots:
     void on_fileNewAction_triggered();
     void on_fileOpenAction_triggered();
@@ -58,7 +59,7 @@ private slots:
     void on_editRedoAction_triggered();
     void on_helpAboutAction_triggered();
     void on_editSettingsAction_triggered();
-    void on_editCreateTestScore_triggered();
+    void on_editCreateTestScoreAction_triggered();
     void insertSymbol(int symbolType);
     void setWindowModifiedForUndoStackCleanState(bool clean);
 
@@ -66,7 +67,7 @@ private:
     void initMusicFont();
     void createModelAndView();
     void createMenusAndToolBars();
-    void createSymbolPalettes();
+    void createAndPopulateSymbolPalettes();
     void createConnections();
     void createObjectNames();
     void loadFile(const QString &fileName);

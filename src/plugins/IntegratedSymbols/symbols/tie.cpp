@@ -9,8 +9,8 @@
 #include <common/defines.h>
 #include "tie.h"
 
-Tie::Tie()
-    : Symbol(LP::Tie, tr("Tie"))
+Tie::Tie(const QString &name)
+    : Symbol(LP::Tie, name)
 {
     initSymbol();
 }

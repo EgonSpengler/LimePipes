@@ -16,7 +16,7 @@ class MelodyNote : public Symbol
 {
     Q_DECLARE_TR_FUNCTIONS(MelodyNote)
 public:
-    explicit MelodyNote();
+    explicit MelodyNote(const QString &name);
     explicit MelodyNote(int type, const QString &name);
 
     bool itemSupportsWritingOfData(int role) const;

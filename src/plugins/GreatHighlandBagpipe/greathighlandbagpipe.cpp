@@ -39,8 +39,9 @@ QVector<int> GreatHighlandBagpipe::symbolTypes()
 
 Symbol *GreatHighlandBagpipe::symbolForType(int type)
 {
+    QString name = symbolMetaDataForType(type).name();
     if (type == GHB::Doubling)
-        return new GHB_Doubling();
+        return new GHB_Doubling(name);
 
     return 0;
 }
@@ -53,6 +54,10 @@ QVector<int> GreatHighlandBagpipe::additionalDataForSymbolType(int symbolType)
 SymbolMetaData GreatHighlandBagpipe::symbolMetaDataForType(int type)
 {
     SymbolMetaData metaData;
+    if (type == GHB::Doubling) {
+        metaData.setCategory(SymbolCategory::Graphical);
+        metaData.setName(tr("Doubling"));
+    }
 
     return metaData;
 }

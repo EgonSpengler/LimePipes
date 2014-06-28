@@ -523,7 +523,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         return QModelIndex();
     }
 
-    SymbolCategory category = m_pluginManager->metaDataForSymbol(type).category();
+    SymbolCategory category = m_pluginManager->symbolMetaData(type).category();
     if (category == SymbolCategory::Spanning) {
         delete symbol;
         return insertSpanningSymbolIntoMeasure(row, measure, type);

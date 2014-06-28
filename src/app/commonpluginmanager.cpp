@@ -210,7 +210,7 @@ QList<SymbolMetaData> CommonPluginManager::symbolMetaDatas() const
     return m_symbolMetaDatas.values();
 }
 
-SymbolMetaData CommonPluginManager::metaDataForSymbol(int type)
+SymbolMetaData CommonPluginManager::symbolMetaData(int type)
 {
     return m_symbolMetaDatas.value(type);
 }

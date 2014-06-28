@@ -21,7 +21,7 @@
      <x>0</x>
      <y>0</y>
      <width>1503</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -52,7 +52,8 @@
     <property name="title">
      <string>View</string>
     </property>
-    <addaction name="viewSymbolPalettes"/>
+    <addaction name="viewSymbolPalettesAction"/>
+    <addaction name="viewTreeViewAction"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -92,7 +93,7 @@
    <addaction name="editAddTunePartAction"/>
    <addaction name="editAddSymbolsAction"/>
    <addaction name="separator"/>
-   <addaction name="editCreateTestScore"/>
+   <addaction name="editCreateTestScoreAction"/>
   </widget>
   <widget class="QToolBar" name="zoomToolBar">
    <property name="windowTitle">
@@ -250,7 +251,7 @@
     <string>Ctrl+P</string>
    </property>
   </action>
-  <action name="editCreateTestScore">
+  <action name="editCreateTestScoreAction">
    <property name="icon">
     <iconset resource="app_resources.qrc">
      <normaloff>:/application/score_settings</normaloff>:/application/score_settings</iconset>
@@ -264,17 +265,18 @@
   </action>
   <action name="viewSymbolPalettesAction">
    <property name="text">
-    <string>Symbol Palettes</string>
+    <string>Symobol Palettes</string>
    </property>
   </action>
-  <action name="actionSubmenu">
-   <property name="text">
-    <string>submenu</string>
+  <action name="viewTreeViewAction">
+   <property name="checkable">
+    <bool>true</bool>
    </property>
-  </action>
-  <action name="viewSymbolPalettes">
    <property name="text">
-    <string>Submenu</string>
+    <string>Tree View</string>
+   </property>
+   <property name="shortcut">
+    <string>F8</string>
    </property>
   </action>
  </widget>

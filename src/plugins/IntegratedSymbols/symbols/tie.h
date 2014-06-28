@@ -15,7 +15,7 @@ class Tie : public Symbol
 {
     Q_DECLARE_TR_FUNCTIONS(MelodyNote)
 public:
-    explicit Tie();
+    explicit Tie(const QString &name);
 private:
     void initSymbol();
 

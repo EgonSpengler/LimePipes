@@ -16,8 +16,8 @@
 #include <QXmlStreamWriter>
 #include "../integratedsymbolsdefines.h"
 
-MelodyNote::MelodyNote()
-    : Symbol(LP::MelodyNote, tr("Melody Note"))
+MelodyNote::MelodyNote(const QString &name)
+    : Symbol(LP::MelodyNote, name)
 {
     initSymbol();
 }

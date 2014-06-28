@@ -15,7 +15,7 @@
 class GHB_Doubling : public Symbol
 {
 public:
-    GHB_Doubling();
+    GHB_Doubling(const QString &name);
 };
 
 #endif // GHB_DOUBLING_H
