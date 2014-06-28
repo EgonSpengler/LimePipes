@@ -183,6 +183,7 @@ void MainWindow::createModelAndView()
     m_model = musicModel;
 
     MusicProxyModel *proxyModel = new MusicProxyModel(this);
+    proxyModel->setPluginManager(m_pluginManager);
     proxyModel->setSourceModel(m_model);
     m_proxyModel = proxyModel;
 
@@ -285,9 +286,10 @@ QString MainWindow::instrumentFromParentOfCurrentIndex()
     }
 
     if (currentIndex.isValid()) {
-        QVariant currentInstrument = m_proxyModel->data(currentIndex, LP::TuneInstrument);
-        if (currentInstrument.isValid()) {
-            return currentInstrument.value<InstrumentPtr>()->name();
+        int currentInstrumentType = m_proxyModel->data(currentIndex, LP::TuneInstrument).toInt();
+        if (currentInstrumentType != LP::NoInstrument) {
+            InstrumentMetaData metaData = m_pluginManager->instrumentMetaData(currentInstrumentType);
+            return metaData.name();
         }
     }
     return QString();

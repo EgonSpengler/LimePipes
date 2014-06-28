@@ -135,7 +135,7 @@ inline QDebug operator <<(QDebug dbg, const GraphicsItemType & type)
 namespace LP {
 
 enum InstrumentType {
-    NoInstrument  = 1,
+    NoInstrument  = 0,
     GreatHighlandBagpipe,
     ScottishSideDrum,
     BassDrum,

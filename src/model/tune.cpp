@@ -19,22 +19,22 @@
 Tune::Tune(MusicItem *parent)
     : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
-    setInstrument(InstrumentPtr(new NullInstrument()));
+    setInstrument(LP::NoInstrument);
     initData(QVariant::fromValue<TimeSignature>(TimeSignature(TimeSignature::_4_4)),
                                                 LP::TuneTimeSignature);
 }
 
-Tune::Tune(InstrumentPtr instrument, MusicItem *parent)
+Tune::Tune(int instrumentType, MusicItem *parent)
     : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
-    setInstrument(instrument);
+    setInstrument(instrumentType);
     initData(QVariant::fromValue<TimeSignature>(TimeSignature(TimeSignature::_4_4)),
                                                 LP::TuneTimeSignature);
 }
 
-void Tune::setInstrument(InstrumentPtr instrument)
+void Tune::setInstrument(int instrumentType)
 {
-    m_data.insert(LP::TuneInstrument, QVariant::fromValue<InstrumentPtr>(instrument));
+    m_data.insert(LP::TuneInstrument, instrumentType);
 }
 
 bool Tune::itemSupportsWritingOfData(int role) const

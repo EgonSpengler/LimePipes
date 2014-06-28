@@ -417,8 +417,19 @@ QModelIndex MusicModel::insertTuneIntoScore(int row, const QModelIndex &score, c
         return QModelIndex();
     }
 
-    InstrumentPtr instrument(m_pluginManager->instrumentForName(instrumentName));
-    return insertItem("Insert tune into score", score, row, new Tune(instrument));
+    QList<int> instrumentTypes = m_pluginManager->instrumentTypes();
+    int tuneInstrument = LP::NoInstrument;
+    foreach (const int instrumentType, instrumentTypes) {
+        if (m_pluginManager->instrumentMetaData(instrumentType).name() ==
+                instrumentName) {
+            tuneInstrument = instrumentType;
+        }
+    }
+
+    if (tuneInstrument == LP::NoInstrument)
+        return QModelIndex();
+
+    return insertItem("Insert tune into score", score, row, new Tune(tuneInstrument));
 }
 
 QModelIndex MusicModel::appendTuneToScore(const QModelIndex &score, const QString &instrumentName)
@@ -441,17 +452,18 @@ QModelIndex MusicModel::insertTuneWithScore(int rowOfScore, const QString &score
 QModelIndex MusicModel::insertPartIntoTune(int row, const QModelIndex &tune, int measures, bool withRepeat)
 {
     m_undoStack->beginMacro(tr("Insert part into tune"));
-    InstrumentPtr instrument = data(tune, LP::TuneInstrument).value<InstrumentPtr>();
-    if (instrument->type() == LP::NoInstrument)
+    int instrumentType = data(tune, LP::TuneInstrument).toInt();
+    if (instrumentType == LP::NoInstrument)
         return QModelIndex();
 
     Part *newPart = new Part();
-    newPart->setStaffType(instrument->staffType());
-    newPart->setClefType(instrument->defaultClef());
+    InstrumentMetaData metaData = m_pluginManager->instrumentMetaData(instrumentType);
+    newPart->setStaffType(metaData.staffType());
+    newPart->setClefType(metaData.defaultClef());
     QModelIndex part = insertItem(tr("Insert part into tune"), tune, row, newPart);
     setData(part, QVariant::fromValue<bool>(withRepeat), LP::PartRepeat);
     for (int i=0; i<measures; i++) {
-        Measure *measure = new Measure();
+        Measure *measure = new Measure(m_pluginManager);
         measure->setData(tune.data(LP::TuneTimeSignature), LP::MeasureTimeSignature);
         insertItem(tr("Insert measure"), part, 0, measure);
     }
@@ -485,7 +497,7 @@ QModelIndex MusicModel::insertMeasureIntoPart(int row, const QModelIndex &part)
         return QModelIndex();
 
     TimeSignature timeSig = timeSigData.value<TimeSignature>();
-    Measure *measure = new Measure();
+    Measure *measure = new Measure(m_pluginManager);
     measure->setData(QVariant::fromValue<TimeSignature>(timeSig), LP::MeasureTimeSignature);
     return insertItem(tr("Insert measure"), part, row, measure);
 }
@@ -510,12 +522,11 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     Q_ASSERT(isIndexTune(tuneIndex));
     MusicItem *tuneItem = itemForIndex(tuneIndex);
 
-    QVariant instrumentVar = tuneItem->data(LP::TuneInstrument);
-    if (!instrumentVar.isValid() &&
-            !instrumentVar.canConvert<InstrumentPtr>())
+    int instrumentType = tuneItem->data(LP::TuneInstrument).toInt();
+    if (instrumentType == LP::NoInstrument)
         return QModelIndex();
 
-    InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
+    InstrumentMetaData instrumentMeta = m_pluginManager->instrumentMetaData(instrumentType);
     Symbol *symbol = m_pluginManager->symbolForType(type);
     if (symbol == 0) {
         qWarning() << "MusicModel: Can't insert symbol. PluginManager returned 0 for symbol type "
@@ -531,7 +542,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
 
     // Init pitch and pitch context if symbol has it
     if (symbol->hasPitch()) {
-        PitchContextPtr pitchContext = instrument->pitchContext();
+        PitchContextPtr pitchContext = instrumentMeta.pitchContext();
         int initialStaffPos = 0;
         if (pitchContext->lowestStaffPos() > initialStaffPos) {
             initialStaffPos = pitchContext->lowestStaffPos();
@@ -667,11 +678,10 @@ void MusicModel::writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *
 
 void MusicModel::writeTuneAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const
 {
-    QVariant instrumentVar = musicItem->data(LP::TuneInstrument);
-    if (instrumentVar.isValid() &&
-            instrumentVar.canConvert<InstrumentPtr>()) {
-        InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-        writer->writeAttribute("INSTRUMENT", instrument->name());
+    int instrumentType = musicItem->data(LP::TuneInstrument).toInt();
+    if (instrumentType != LP::NoInstrument) {
+        InstrumentMetaData instrumentMeta = m_pluginManager->instrumentMetaData(instrumentType);
+        writer->writeAttribute("INSTRUMENT", instrumentMeta.name());
     }
 }
 
@@ -685,7 +695,7 @@ void MusicModel::writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musi
 
     // Get instrument
     MusicItem *tuneItem = musicItem;
-    InstrumentPtr instrument;
+    InstrumentMetaData instrumentMeta;
     while (1) {
         if (tuneItem->type() == MusicItem::ScoreType ||
                 tuneItem->parent() == 0) {
@@ -693,18 +703,18 @@ void MusicModel::writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musi
         }
 
         if (tuneItem->type() == MusicItem::TuneType) {
-            instrument = instrumentFromItem(tuneItem);
+            instrumentMeta = instrumentFromItem(tuneItem);
             break;
         }
 
         tuneItem = tuneItem->parent();
     }
 
-    if (instrument.isNull()) {
+    if (!instrumentMeta.isValid()) {
         qWarning() << "Can't save instrument into symbol xml stream";
         return;
     }
-    writer->writeAttribute("INSTRUMENT", instrument->name());
+    writer->writeAttribute("INSTRUMENT", instrumentMeta.name());
 }
 
 const QString MusicModel::tagNameOfMusicItemType(MusicItem::Type type) const
@@ -894,7 +904,20 @@ MusicItem *MusicModel::newTuneWithInstrument(QXmlStreamReader *reader, MusicItem
 
     Tune *tune = itemPointerToNewChildItem<Tune>(&item);
     QString instrumentName = attributeValue(reader, "INSTRUMENT");
-    tune->setInstrument(InstrumentPtr(m_pluginManager->instrumentForName(instrumentName)));
+
+    QList<int> instrumentTypes = m_pluginManager->instrumentTypes();
+    int tuneInstrument = LP::NoInstrument;
+    foreach (const int instrumentType, instrumentTypes) {
+        if (m_pluginManager->instrumentMetaData(instrumentType).name() ==
+                instrumentName) {
+            tuneInstrument = instrumentType;
+        }
+    }
+
+    if (tuneInstrument == LP::NoInstrument)
+        return 0;
+
+    tune->setInstrument(tuneInstrument);
     return tune;
 }
 
@@ -916,15 +939,15 @@ void MusicModel::readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem *
 
     if (reader->name() == "PITCH" &&
             symbol->hasPitch()) {
-        InstrumentPtr instrument = instrumentFromItem(tuneItem);
-        if (instrument->type() == LP::NoInstrument)
+        InstrumentMetaData instrumentMeta = instrumentFromItem(tuneItem);
+        if (!instrumentMeta.isValid())
             return;
 
-        QStringList pitchNames(instrument->pitchContext()->pitchNames());
+        QStringList pitchNames(instrumentMeta.pitchContext()->pitchNames());
         QString readPitchName = reader->readElementText();
         if (pitchNames.contains(readPitchName)) {
-            Pitch pitch = instrument->pitchContext()->pitchForName(readPitchName);
-            (*item)->setData(QVariant::fromValue<PitchContextPtr>(instrument->pitchContext()),
+            Pitch pitch = instrumentMeta.pitchContext()->pitchForName(readPitchName);
+            (*item)->setData(QVariant::fromValue<PitchContextPtr>(instrumentMeta.pitchContext()),
                              LP::SymbolPitchContext);
             (*item)->setData(QVariant::fromValue<Pitch>(pitch), LP::SymbolPitch);
         }
@@ -953,11 +976,11 @@ bool MusicModel::symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, Music
     QString symbolTypeFromAttribute = attributeValue(reader, "TYPE");
     int symbolTypeAttribute = symbolTypeFromAttribute.toInt();
 
-    InstrumentPtr instrument = instrumentFromItem(tuneItem);
-    if (instrument->type() == LP::NoInstrument)
+    InstrumentMetaData instrumentMeta = instrumentFromItem(tuneItem);
+    if (!instrumentMeta.isValid())
         return false;
 
-    QList<int> symbolTypes = m_pluginManager->instrumentMetaData(instrument->name()).supportedSymbols();
+    QList<int> symbolTypes = instrumentMeta.supportedSymbols();
 
     if (symbolTypes.contains(symbolTypeAttribute)) {
             return true;
@@ -965,16 +988,16 @@ bool MusicModel::symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, Music
     return false;
 }
 
-InstrumentPtr MusicModel::instrumentFromItem(MusicItem *item) const
+InstrumentMetaData MusicModel::instrumentFromItem(MusicItem *item) const
 {
     Q_ASSERT(item->type() == MusicItem::TuneType);
 
-    QVariant instrumentVar = item->data(LP::TuneInstrument);
-    if (instrumentVar.isValid() &&
-            instrumentVar.canConvert<InstrumentPtr>()) {
-        return instrumentVar.value<InstrumentPtr>();
+    int instrumentType = item->data(LP::TuneInstrument).toInt();
+    if (instrumentType != LP::NoInstrument) {
+        return m_pluginManager->instrumentMetaData(instrumentType);
     }
-    return InstrumentPtr(new NullInstrument());
+
+    return InstrumentMetaData();
 }
 
 MusicItem *MusicModel::newSymbolForMeasureItem(QXmlStreamReader *reader, MusicItem *item)
@@ -989,8 +1012,8 @@ MusicItem *MusicModel::newSymbolForMeasureItem(QXmlStreamReader *reader, MusicIt
     QString symbolTypeFromAttribute = attributeValue(reader, "TYPE");
     int symbolType = symbolTypeFromAttribute.toInt();
 
-    InstrumentPtr instrument = instrumentFromItem(tuneItem);
-    if (instrument->type() == LP::NoInstrument)
+    InstrumentMetaData instrumentMeta = instrumentFromItem(tuneItem);
+    if (!instrumentMeta.isValid())
         return item;
 
     MusicItem *parent = item;

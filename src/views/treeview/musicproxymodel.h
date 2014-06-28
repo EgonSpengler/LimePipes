@@ -10,6 +10,7 @@
 #define MUSICPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
+#include <common/pluginmanagerinterface.h>
 #include <musicmodelinterface.h>
 
 class MusicModel;
@@ -60,11 +61,15 @@ public:
 
     QUndoStack *undoStack() const;
 
+    PluginManager pluginManager() const;
+    void setPluginManager(const PluginManager &pluginManager);
+
 private:
     MusicModel *musicModel() const;
     QVariant itemColumnData(const QModelIndex &index, int role) const;
     QVariant pitchColumnData(const QModelIndex &index, int role) const;
     QVariant lengthColumnData(const QModelIndex &index, int role) const;
+    PluginManager m_pluginManager;
 };
 
 #endif // MUSICPROXYMODEL_H

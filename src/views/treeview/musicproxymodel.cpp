@@ -54,11 +54,9 @@ QVariant MusicProxyModel::itemColumnData(const QModelIndex &index, int role) con
             return index.data(LP::ScoreTitle);
 
         if (model->isIndexTune(srcIndex)) {
-            QVariant instrumentVar = srcIndex.data(LP::TuneInstrument);
-            if (instrumentVar.canConvert<InstrumentPtr>()) {
-                InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-                return instrument->name() + " tune";
-            }
+            int instrumentType = srcIndex.data(LP::TuneInstrument).toInt();
+            InstrumentMetaData instrument = m_pluginManager->instrumentMetaData(instrumentType);
+                return instrument.name() + " tune";
         }
 
         if (model->isIndexSymbol(srcIndex))
@@ -111,6 +109,16 @@ QVariant MusicProxyModel::lengthColumnData(const QModelIndex &index, int role) c
     }
     return QSortFilterProxyModel::data(index, role);
 }
+PluginManager MusicProxyModel::pluginManager() const
+{
+    return m_pluginManager;
+}
+
+void MusicProxyModel::setPluginManager(const PluginManager &pluginManager)
+{
+    m_pluginManager = pluginManager;
+}
+
 
 QVariant MusicProxyModel::headerData(int section, Qt::Orientation orientation, int role) const
 {

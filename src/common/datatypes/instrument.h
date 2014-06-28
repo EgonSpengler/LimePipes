@@ -21,6 +21,7 @@ public:
     InstrumentMetaData() {}
     virtual ~InstrumentMetaData() {}
 
+    bool isValid() const { return !m_name.isEmpty(); }
     QString name() const;
     void setName(const QString &name);
 
@@ -72,9 +73,5 @@ public:
     NullInstrument() : Instrument() {}
     bool supportsSymbolType(int type) const { Q_UNUSED(type) return false; }
 };
-
-typedef QSharedPointer<Instrument> InstrumentPtr;
-
-Q_DECLARE_METATYPE(InstrumentPtr)
 
 #endif // INSTRUMENT_H

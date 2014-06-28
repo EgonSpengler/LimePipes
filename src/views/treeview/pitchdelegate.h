@@ -20,7 +20,8 @@ public:
     QStringList comboBoxItems(const QModelIndex &symbolIndex) const;
     QString currentSelectedData(const QModelIndex &symbolIndex) const;
     bool hasSymbolDelegateData(const QModelIndex &symbolIndex) const;
-    void setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const;
+    void setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex,
+                                       const QString &text) const;
 };
 
 #endif // PITCHDELEGATE_H

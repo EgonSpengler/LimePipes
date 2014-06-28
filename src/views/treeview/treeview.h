@@ -11,6 +11,8 @@
 
 #include <QTreeView>
 
+#include <common/pluginmanagerinterface.h>
+
 class PitchDelegate;
 class LengthDelegate;
 
@@ -22,12 +24,16 @@ public:
     ~TreeView();
 
     void keyPressEvent(QKeyEvent *event);
-    
+
+    PluginManager pluginManager() const;
+    void setPluginManager(const PluginManager &pluginManager);
+
 private:
     void handleAddDots();
     void handleDeleteCurrentItem();
     PitchDelegate *m_pitchDelegate;
     LengthDelegate *m_lengthDelegate;
+    PluginManager m_pluginManager;
 };
 
 #endif // TREEVIEW_H

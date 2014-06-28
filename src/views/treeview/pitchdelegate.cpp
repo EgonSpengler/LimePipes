@@ -18,11 +18,11 @@ QStringList PitchDelegate::comboBoxItems(const QModelIndex &symbolIndex) const
     QModelIndex tune = symbolIndex.parent().parent().parent();
     if (!tune.isValid()) return QStringList();
 
-    QVariant instrumentVar = tune.data(LP::TuneInstrument);
+    int instrumentType = tune.data(LP::TuneInstrument).toInt();
 
-    if (instrumentVar.canConvert<InstrumentPtr>()) {
-        InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-        return instrument->pitchNames();
+    if (instrumentType != LP::NoInstrument) {
+        InstrumentMetaData metaData = pluginManager()->instrumentMetaData(instrumentType);
+        return metaData.pitchContext()->pitchNames();
     }
     return QStringList();
 }
@@ -51,12 +51,11 @@ void PitchDelegate::setSymbolDataFromSelectedText(QAbstractItemModel *model, con
     QModelIndex tune = symbolIndex.parent().parent().parent();
     if (!tune.isValid()) return;
 
-    QVariant instrumentVar = tune.data(LP::TuneInstrument);
+    int instrumentType = tune.data(LP::TuneInstrument).toInt();
 
-    if (instrumentVar.canConvert<InstrumentPtr>()) {
-        InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-        PitchContextPtr pitchContext = instrument->pitchContext();
-        Pitch pitch = pitchContext->pitchForName(text);
+    if (instrumentType != LP::NoInstrument) {
+        InstrumentMetaData metaData = pluginManager()->instrumentMetaData(instrumentType);
+        Pitch pitch = metaData.pitchContext()->pitchForName(text);
         model->setData(symbolIndex, QVariant::fromValue<Pitch>(pitch), LP::SymbolPitch);
     }
 }

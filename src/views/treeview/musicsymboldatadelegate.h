@@ -10,6 +10,7 @@
 #define MUSICSYMBOLDATADELEGATE_H
 
 #include <QItemDelegate>
+#include <common/pluginmanagerinterface.h>
 
 class MusicModelInterface;
 
@@ -30,9 +31,13 @@ public:
     virtual bool hasSymbolDelegateData(const QModelIndex &symbolIndex) const = 0;
     virtual void setSymbolDataFromSelectedText(QAbstractItemModel *model, const QModelIndex &symbolIndex, const QString &text) const = 0;
 
+    PluginManager pluginManager() const;
+    void setPluginManager(const PluginManager &pluginManager);
+
 private:
     const MusicModelInterface *musicModelFromIndex(const QModelIndex &index) const;
     bool isSymbolIndexOk(const QModelIndex &index) const;
+    PluginManager m_pluginManager;
 };
 
 #endif // MUSICSYMBOLDATADELEGATE_H

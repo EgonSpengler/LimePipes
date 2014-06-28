@@ -12,7 +12,12 @@
 #include "measure.h"
 
 Measure::Measure(MusicItem *parent)
-    : MusicItem(MusicItem::MeasureType, MusicItem::SymbolType, parent)
+{
+}
+
+Measure::Measure(const PluginManager &pluginManager, MusicItem *parent)
+    : MusicItem(MusicItem::MeasureType, MusicItem::SymbolType, parent),
+      m_pluginManager(pluginManager)
 {
 }
 
@@ -42,13 +47,28 @@ bool Measure::okToInsertChild(const MusicItem *item, int row)
     MusicItem *tune = part->parent();
     if (!tune) return false;
 
-    QVariant instrumentVar = tune->data(LP::TuneInstrument);
-    if (!instrumentVar.isValid() || !instrumentVar.canConvert<InstrumentPtr>())
+    int instrumentType = tune->data(LP::TuneInstrument).toInt();
+    if (instrumentType == LP::NoInstrument)
         return false;
 
     const Symbol *symbol = static_cast<const Symbol*>(item);
     if (!symbol) return false;
 
-    InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
-    return instrument->supportsSymbolType(symbol->symbolType());
+    if (m_pluginManager.isNull()) {
+        qWarning() << "Measure: Plugin manager is null";
+        return false;
+    }
+
+    InstrumentMetaData instrumentMeta = m_pluginManager->instrumentMetaData(instrumentType);
+    return instrumentMeta.supportsSymbol(symbol->data(LP::SymbolType).toInt());
 }
+PluginManager Measure::pluginManager() const
+{
+    return m_pluginManager;
+}
+
+void Measure::setPluginManager(const PluginManager &pluginManager)
+{
+    m_pluginManager = pluginManager;
+}
+

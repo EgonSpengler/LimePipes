@@ -119,7 +119,7 @@ private:
     MusicItem *newSymbolForMeasureItem(QXmlStreamReader *reader, MusicItem *item);
     MusicItem *getTuneItemParent(MusicItem *item);
 
-    InstrumentPtr instrumentFromItem(MusicItem *item) const;
+    InstrumentMetaData instrumentFromItem(MusicItem *item) const;
     template<typename T>
     T *itemPointerToNewChildItem(MusicItem **parent);
 
