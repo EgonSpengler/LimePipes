@@ -24,13 +24,13 @@ public:
     QString name() const { return m_name; }
     int staffPos() const { return m_staffPos; }
 
+    bool operator ==(const Pitch &other) { return m_staffPos == other.m_staffPos; }
+
 private:
     int m_staffPos;
     QString m_name;
 };
 
-typedef QSharedPointer<Pitch> PitchPtr;
-
-Q_DECLARE_METATYPE(PitchPtr)
+Q_DECLARE_METATYPE(Pitch)
 
 #endif // PITCH_H

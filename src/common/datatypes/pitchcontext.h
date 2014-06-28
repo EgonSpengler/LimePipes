@@ -26,8 +26,8 @@ public:
 
     QStringList pitchNames() const;
 
-    PitchPtr pitchForName(const QString &name) const;
-    PitchPtr pitchForStaffPos(int staffPos) const;
+    Pitch pitchForName(const QString &name) const;
+    Pitch pitchForStaffPos(int staffPos) const;
 
     StaffType staffType() const;
     void setStaffType(const StaffType &staffType);
@@ -39,7 +39,7 @@ protected:
     void insertPitch(int staffPos, const QString &name);
 
 private:
-    QMap<int, PitchPtr> m_pitches;
+    QMap<int, Pitch> m_pitches;
     StaffType m_staffType;
     ClefType m_defaultClef;
 };

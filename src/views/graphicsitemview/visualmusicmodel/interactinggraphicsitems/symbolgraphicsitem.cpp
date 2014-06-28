@@ -16,8 +16,7 @@
 #include "symbolgraphicsitem.h"
 
 SymbolGraphicsItem::SymbolGraphicsItem(QGraphicsItem *parent)
-    : InteractingGraphicsItem(parent),
-      m_pitch(PitchPtr(new Pitch()))
+    : InteractingGraphicsItem(parent)
 {
     setFocusPolicy(Qt::StrongFocus);
     setInteractionMode(InteractingGraphicsItem::Filter);
@@ -83,7 +82,7 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
         }
     }
     if (key == LP::SymbolPitch) {
-        PitchPtr pitch = value.value<PitchPtr>();
+        Pitch pitch = value.value<Pitch>();
         m_pitch = pitch;
         setGlyphItemYPosForPitch(pitch);
     }
@@ -97,7 +96,7 @@ void SymbolGraphicsItem::setData(const QVariant &value, int key)
     InteractingGraphicsItem::setData(value, key);
 }
 
-void SymbolGraphicsItem::setGlyphItemYPosForPitch(const PitchPtr &pitch)
+void SymbolGraphicsItem::setGlyphItemYPosForPitch(const Pitch &pitch)
 {
     if (m_graphicBuilder.isNull())
         return;
@@ -107,7 +106,7 @@ void SymbolGraphicsItem::setGlyphItemYPosForPitch(const PitchPtr &pitch)
         return;
 
     qreal halfStaffSpace = musicFont()->halfStaffSpace();
-    glyph->setY(halfStaffSpace * pitch->staffPos());
+    glyph->setY(halfStaffSpace * pitch.staffPos());
 }
 
 void SymbolGraphicsItem::setMaximumWidthForGlyphItem(GlyphItem *glyphItem)

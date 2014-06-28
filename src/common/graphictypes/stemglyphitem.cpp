@@ -38,7 +38,7 @@ void StemGlyphItem::setLength(Length::Value length)
     layoutFlagGlyphAndStem();
 }
 
-void StemGlyphItem::setPitch(const PitchPtr &pitch)
+void StemGlyphItem::setPitch(const Pitch &pitch)
 {
     layoutFlagGlyphAndStem();
 }

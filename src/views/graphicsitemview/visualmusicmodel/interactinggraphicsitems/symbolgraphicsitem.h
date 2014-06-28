@@ -57,7 +57,7 @@ protected:
 
 private:
     void setGraphicBuilder(SymbolGraphicBuilder *symbolGraphicBuilder);
-    void setGlyphItemYPosForPitch(const PitchPtr &pitch);
+    void setGlyphItemYPosForPitch(const Pitch &pitch);
     void setMaximumWidthForGlyphItem(GlyphItem *glyphItem);
     void fadeSymbolItem(bool in);
 
@@ -66,7 +66,7 @@ private:
     QPropertyAnimation *m_fadeAnimation;
     QPropertyAnimation *m_geometryAnimation;
     QRectF m_geometryAfterAnimation;
-    PitchPtr m_pitch;
+    Pitch m_pitch;
 };
 
 #endif // SYMBOLGRAPHICSITEM_H

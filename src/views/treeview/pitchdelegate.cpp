@@ -39,9 +39,9 @@ bool PitchDelegate::hasSymbolDelegateData(const QModelIndex &symbolIndex) const
 QString PitchDelegate::currentSelectedData(const QModelIndex &symbolIndex) const
 {
     QVariant pitchVar = symbolIndex.data(LP::SymbolPitch);
-    if (pitchVar.canConvert<PitchPtr>()) {
-        PitchPtr pitch = pitchVar.value<PitchPtr>();
-        return pitch->name();
+    if (pitchVar.canConvert<Pitch>()) {
+        Pitch pitch = pitchVar.value<Pitch>();
+        return pitch.name();
     }
     return "";
 }
@@ -56,7 +56,7 @@ void PitchDelegate::setSymbolDataFromSelectedText(QAbstractItemModel *model, con
     if (instrumentVar.canConvert<InstrumentPtr>()) {
         InstrumentPtr instrument = instrumentVar.value<InstrumentPtr>();
         PitchContextPtr pitchContext = instrument->pitchContext();
-        PitchPtr pitch = pitchContext->pitchForName(text);
-        model->setData(symbolIndex, QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
+        Pitch pitch = pitchContext->pitchForName(text);
+        model->setData(symbolIndex, QVariant::fromValue<Pitch>(pitch), LP::SymbolPitch);
     }
 }

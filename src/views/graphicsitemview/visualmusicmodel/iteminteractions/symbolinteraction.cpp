@@ -99,8 +99,8 @@ void SymbolInteraction::mouseMoveEvent(const QGraphicsItem *item, QGraphicsScene
         pitchStaffPos = pitchPosForStaffYPos(staffEventPos.y());
     }
 
-    PitchPtr pitch = m_pitchContext->pitchForStaffPos(pitchStaffPos);
-    emit dataChanged(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
+    Pitch pitch = m_pitchContext->pitchForStaffPos(pitchStaffPos);
+    emit dataChanged(QVariant::fromValue<Pitch>(pitch), LP::SymbolPitch);
 
     if (m_interaction) {
         m_interaction->mouseMoveEvent(item, event);
@@ -134,7 +134,7 @@ void SymbolInteraction::contextMenuEvent(const QGraphicsItem *item, QGraphicsSce
 void SymbolInteraction::setData(const QVariant &value, int role)
 {
     if (role == LP::SymbolPitch) {
-        PitchPtr pitch = value.value<PitchPtr>();
+        Pitch pitch = value.value<Pitch>();
         if (m_currentPitch == pitch)
             return;
 

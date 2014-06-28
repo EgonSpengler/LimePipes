@@ -11,7 +11,7 @@
 PitchContext::PitchContext()
     : m_staffType(StaffType::Standard)
 {
-    m_pitches.insert(0, PitchPtr(new Pitch(0, "No pitch")));
+    m_pitches.insert(0, Pitch(0, "No pitch"));
 }
 
 /*!
@@ -41,16 +41,16 @@ int PitchContext::highestStaffPos() const
 QStringList PitchContext::pitchNames() const
 {
     QStringList pitchNames;
-    foreach (PitchPtr pitch, m_pitches) {
-        pitchNames << pitch->name();
+    foreach (Pitch pitch, m_pitches) {
+        pitchNames << pitch.name();
     }
     return pitchNames;
 }
 
-PitchPtr PitchContext::pitchForName(const QString &name) const
+Pitch PitchContext::pitchForName(const QString &name) const
 {
-    foreach (PitchPtr pitch, m_pitches) {
-        if (pitch->name() == name) {
+    foreach (Pitch pitch, m_pitches) {
+        if (pitch.name() == name) {
             return pitch;
         }
     }
@@ -59,17 +59,17 @@ PitchPtr PitchContext::pitchForName(const QString &name) const
         qWarning("pitchname not in context");
     }
 
-    return PitchPtr(new Pitch(0, "no pitch"));
+    return Pitch();
 }
 
-PitchPtr PitchContext::pitchForStaffPos(int staffPos) const
+Pitch PitchContext::pitchForStaffPos(int staffPos) const
 {
-    return m_pitches.value(staffPos, PitchPtr(new Pitch(0, "no pitch")));
+    return m_pitches.value(staffPos, Pitch(0, "no pitch"));
 }
 
 void PitchContext::insertPitch(int staffPos, const QString &name)
 {
-    m_pitches.insert(staffPos, PitchPtr(new Pitch(staffPos, name)));
+    m_pitches.insert(staffPos, Pitch(staffPos, name));
 }
 
 ClefType PitchContext::defaultClef() const

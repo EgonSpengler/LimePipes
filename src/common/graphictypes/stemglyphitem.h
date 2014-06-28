@@ -28,7 +28,7 @@ public:
 
     void setLength(Length::Value length);
 
-    void setPitch(const PitchPtr &pitch);
+    void setPitch(const Pitch &pitch);
 
     void setStemLengthFactor(qreal staffSpaceFactor);
 

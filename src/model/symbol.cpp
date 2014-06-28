@@ -47,12 +47,12 @@ bool Symbol::hasPitch() const
     return m_symbolOptions.testFlag(Symbol::HasPitch);
 }
 
-PitchPtr Symbol::pitch() const
+Pitch Symbol::pitch() const
 {
-    if (data(LP::SymbolPitch).canConvert<PitchPtr>()) {
-        return data(LP::SymbolPitch).value<PitchPtr>();
+    if (data(LP::SymbolPitch).canConvert<Pitch>()) {
+        return data(LP::SymbolPitch).value<Pitch>();
     }
-    return PitchPtr(new Pitch());
+    return Pitch();
 }
 
 bool Symbol::hasLength() const
@@ -107,9 +107,9 @@ void Symbol::writePitch(QXmlStreamWriter *writer)
 {
     QVariant pitchVar = data(LP::SymbolPitch);
     if (pitchVar.isValid() &&
-            pitchVar.canConvert<PitchPtr>()) {
-        PitchPtr pitch = pitchVar.value<PitchPtr>();
-        writer->writeTextElement("PITCH", pitch->name());
+            pitchVar.canConvert<Pitch>()) {
+        Pitch pitch = pitchVar.value<Pitch>();
+        writer->writeTextElement("PITCH", pitch.name());
     }
 }
 
@@ -131,8 +131,6 @@ void Symbol::setSymbolOptions(Symbol::Options options)
         initData(QVariant::fromValue<Length::Value>(Length::_8), LP::SymbolLength);
     }
     if (options & HasPitch) {
-        Pitch *pitch = new Pitch(0, QStringLiteral("Default pitch"));
-        m_defaultPitch.reset(pitch);
-        initData(QVariant::fromValue<PitchPtr>(m_defaultPitch), LP::SymbolPitch);
+        initData(QVariant::fromValue<Pitch>(m_defaultPitch), LP::SymbolPitch);
     }
 }

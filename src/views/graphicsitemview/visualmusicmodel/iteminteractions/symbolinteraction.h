@@ -41,7 +41,7 @@ private:
     qreal m_currentYDragStart;
     MusicFontPtr m_musicFont;
     PitchContextPtr m_pitchContext;
-    PitchPtr m_currentPitch;
+    Pitch m_currentPitch;
     QHash<int, QPair<qreal, qreal>> m_pitchDragAreas;
     ItemInteraction *m_interaction;
 };

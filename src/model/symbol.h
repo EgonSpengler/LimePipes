@@ -33,7 +33,7 @@ public:
     int symbolType() const { return data(LP::SymbolType).toInt(); }
 
     bool hasPitch() const;
-    PitchPtr pitch() const;
+    Pitch pitch() const;
 
     bool hasLength() const;
     Length::Value length() const;
@@ -50,7 +50,7 @@ private:
     void writePitch(QXmlStreamWriter *writer);
     void writeLength(QXmlStreamWriter *writer);
     Symbol::Options m_symbolOptions;
-    PitchPtr m_defaultPitch;  // Workaround until pitch data is not a PitchPtr
+    Pitch m_defaultPitch;  // TODO Workaround until pitch data is not a Pitch
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Symbol::Options)

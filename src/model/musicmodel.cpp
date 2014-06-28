@@ -536,8 +536,8 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         if (pitchContext->lowestStaffPos() > initialStaffPos) {
             initialStaffPos = pitchContext->lowestStaffPos();
         }
-        PitchPtr pitch = pitchContext->pitchForStaffPos(initialStaffPos);
-        QVariant pitchValue(QVariant::fromValue<PitchPtr>(pitch));
+        Pitch pitch = pitchContext->pitchForStaffPos(initialStaffPos);
+        QVariant pitchValue(QVariant::fromValue<Pitch>(pitch));
         symbol->setData(pitchValue, LP::SymbolPitch);
         QVariant pitchContextValue(QVariant::fromValue<PitchContextPtr>(pitchContext));
         symbol->setData(pitchContextValue, LP::SymbolPitchContext);
@@ -923,10 +923,10 @@ void MusicModel::readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem *
         QStringList pitchNames(instrument->pitchContext()->pitchNames());
         QString readPitchName = reader->readElementText();
         if (pitchNames.contains(readPitchName)) {
-            PitchPtr pitch = instrument->pitchContext()->pitchForName(readPitchName);
+            Pitch pitch = instrument->pitchContext()->pitchForName(readPitchName);
             (*item)->setData(QVariant::fromValue<PitchContextPtr>(instrument->pitchContext()),
                              LP::SymbolPitchContext);
-            (*item)->setData(QVariant::fromValue<PitchPtr>(pitch), LP::SymbolPitch);
+            (*item)->setData(QVariant::fromValue<Pitch>(pitch), LP::SymbolPitch);
         }
     }
 }

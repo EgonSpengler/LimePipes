@@ -80,7 +80,7 @@ void StemEngraver::builderDataChanged(SymbolGraphicBuilder *builder, const QVari
         stemData.glyphItem->setLength(length);
     }
     if (role == LP::SymbolPitch) {
-        PitchPtr pitch = data.value<PitchPtr>();
+        Pitch pitch = data.value<Pitch>();
         StemData stemData = stemDataWithGraphicBuilder(builder);
         if (!stemData.glyphItem)
             return;

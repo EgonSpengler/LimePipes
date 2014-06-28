@@ -27,7 +27,7 @@ void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int ke
         m_glyph->setLength(length);
     }
     if (key == LP::SymbolPitch) {
-        PitchPtr pitch = value.value<PitchPtr>();
+        Pitch pitch = value.value<Pitch>();
         m_glyph->setNoteIsOnLine(isPitchOnLine(pitch));
         setLedgerLinesForPitch(pitch);
     }
@@ -40,20 +40,20 @@ void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int ke
     }
 }
 
-bool MelodyNoteGraphicBuilder::isPitchOnLine(const PitchPtr &pitch) const
+bool MelodyNoteGraphicBuilder::isPitchOnLine(const Pitch &pitch) const
 {
-    if (pitch->staffPos() % 2) {
+    if (pitch.staffPos() % 2) {
         return false;
     }
     return true;
 }
 
-void MelodyNoteGraphicBuilder::setLedgerLinesForPitch(const PitchPtr &pitch)
+void MelodyNoteGraphicBuilder::setLedgerLinesForPitch(const Pitch &pitch)
 {
     if (m_pitchContext.isNull())
         return;
 
-    int staffPos = pitch->staffPos();
+    int staffPos = pitch.staffPos();
     int ledgerLineCount = ledgerLineCountForStaffPos(staffPos);
     m_glyph->setLedgerLines(ledgerLineCount, staffPos < 0);
 }

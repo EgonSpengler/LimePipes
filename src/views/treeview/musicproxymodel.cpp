@@ -83,9 +83,9 @@ QVariant MusicProxyModel::pitchColumnData(const QModelIndex &index, int role) co
     if (role == Qt::DisplayRole) {
         if (model->isIndexSymbol(srcIndex)) {
             QVariant pitchVar = srcIndex.data(LP::SymbolPitch);
-            if (pitchVar.canConvert<PitchPtr>()) {
-                PitchPtr pitch = pitchVar.value<PitchPtr>();
-                return pitch->name();
+            if (pitchVar.canConvert<Pitch>()) {
+                Pitch pitch = pitchVar.value<Pitch>();
+                return pitch.name();
             }
         }
     }
