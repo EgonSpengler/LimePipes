@@ -27,18 +27,20 @@ public:
     GreatHighlandBagpipe();
 
     // Instrument interface
+    int type() const;
+    InstrumentMetaData instrumentMetaData() const;
     QString name() const { return QString("Great Highland Bagpipe"); }
     Instrument *instrument() const;
 
     // Symbols interface
     SymbolMetaData symbolMetaDataForType(int type);
     Symbol *symbolForType(int type);
-    QVector<int> symbolTypes();
+    QList<int> symbolTypes() const;
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);
 
 private:
-    QVector<int> m_symbolTypes;
+    InstrumentMetaData m_metaData;
 };
 
 #endif // GREATHIGHLANDBAGPIPE_H

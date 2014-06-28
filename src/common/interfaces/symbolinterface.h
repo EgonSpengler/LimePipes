@@ -54,7 +54,7 @@ public:
     }
 
     virtual Symbol *symbolForType(int type) = 0;
-    virtual QVector<int> symbolTypes() = 0;
+    virtual QList<int> symbolTypes() const = 0;
 
     /*!
      * \brief additionalDataForSymbolType A symbol can have additional data to the symbol data

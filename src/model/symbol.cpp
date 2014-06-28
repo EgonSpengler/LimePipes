@@ -131,6 +131,6 @@ void Symbol::setSymbolOptions(Symbol::Options options)
         initData(QVariant::fromValue<Length::Value>(Length::_8), LP::SymbolLength);
     }
     if (options & HasPitch) {
-        initData(QVariant::fromValue<Pitch>(m_defaultPitch), LP::SymbolPitch);
+        initData(QVariant::fromValue<Pitch>(Pitch()), LP::SymbolPitch);
     }
 }

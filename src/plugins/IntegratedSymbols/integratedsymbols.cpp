@@ -34,7 +34,7 @@ SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForType(int type)
     return 0;
 }
 
-QVector<int> IntegratedSymbols::symbolTypes()
+QList<int> IntegratedSymbols::symbolTypes() const
 {
     return m_symbolTypes;
 }

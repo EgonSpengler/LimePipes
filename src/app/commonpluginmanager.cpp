@@ -35,14 +35,6 @@ CommonPluginManager::~CommonPluginManager()
 {
 }
 
-QVector<int> CommonPluginManager::symbolTypesForInstrument(const QString &instrumentName) const
-{
-    if (m_instrumentSymbols.contains(instrumentName)) {
-        return m_instrumentSymbols.value(instrumentName)->symbolTypes();
-    }
-    return QVector<int>();
-}
-
 Instrument *CommonPluginManager::instrumentForName(const QString &name) const
 {
     InstrumentInterface *instrumentPlugin = m_instrumentPlugins.value(name);
@@ -117,7 +109,15 @@ void CommonPluginManager::addSymbolPlugin(QObject *plugin)
 
 bool CommonPluginManager::insertInstrumentPlugin(InstrumentInterface *instrument)
 {
-    QString instrumentName = instrument->name();
+    InstrumentMetaData instrumentMeta = instrument->instrumentMetaData();
+    int instrumentType = instrument->type();
+    if (m_instrumentMetaDatas.contains(instrumentType))
+        return false;
+
+    m_instrumentMetaDatas.insert(instrumentType, instrumentMeta);
+
+    // TODO Still necessary to keep InstrumentInterface pointers?
+    QString instrumentName = instrumentMeta.name();
     if (this->hasInstrumentWithName(instrumentName)) {
         return false;
     }
@@ -167,6 +167,16 @@ ItemInteraction *CommonPluginManager::itemInteractionForType(int type)
     return symbolPlugin->itemInteractionForType(type);
 }
 
+QStringList CommonPluginManager::instrumentNames() const
+{
+    QStringList names;
+    foreach (const InstrumentMetaData metaData, m_instrumentMetaDatas) {
+        names << metaData.name();
+    }
+
+    return names;
+}
+
 Symbol *CommonPluginManager::symbolForType(int type)
 {
     SymbolInterface *symbolPlugin = symbolPluginWithSymbol(type);
@@ -191,7 +201,7 @@ SymbolInterface *CommonPluginManager::symbolPluginWithSymbol(int symbolType)
         if (!symbolPlugin)
             continue;
 
-        QVector<int> symbolTypes(symbolPlugin->symbolTypes());
+        QList<int> symbolTypes(symbolPlugin->symbolTypes());
 
         if (symbolTypes.contains(symbolType)) {
             Symbol *symbol = symbolPlugin->symbolForType(symbolType);
@@ -210,7 +220,29 @@ QList<SymbolMetaData> CommonPluginManager::symbolMetaDatas() const
     return m_symbolMetaDatas.values();
 }
 
-SymbolMetaData CommonPluginManager::symbolMetaData(int type)
+SymbolMetaData CommonPluginManager::symbolMetaData(int type) const
 {
     return m_symbolMetaDatas.value(type);
+}
+
+QList<InstrumentMetaData> CommonPluginManager::instrumentMetaDatas() const
+{
+    return m_instrumentMetaDatas.values();
+}
+
+InstrumentMetaData CommonPluginManager::instrumentMetaData(int type) const
+{
+    return m_instrumentMetaDatas.value(type);
+}
+
+InstrumentMetaData CommonPluginManager::instrumentMetaData(const QString &instrumentName) const
+{
+    foreach (const int type, m_instrumentMetaDatas.keys()) {
+        InstrumentMetaData metaData = instrumentMetaData(type);
+        if (metaData.name() == instrumentName) {
+            return metaData;
+        }
+    }
+
+    return InstrumentMetaData();
 }

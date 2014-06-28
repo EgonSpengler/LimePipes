@@ -11,14 +11,45 @@
   * The Instrument plugin for the Great Highland Bagpipe.
   */
 
+#include <QList>
+
+#include <common/datatypes/pitchcontext.h>
+
 #include "greathighlandbagpipe.h"
 #include "ghb_doubling.h"
 
 GreatHighlandBagpipe::GreatHighlandBagpipe()
 {
-    m_symbolTypes << LP::MelodyNote;
-    m_symbolTypes << LP::Tie;
-    m_symbolTypes << GHB::Doubling;
+    m_metaData.setName(tr("Great Highland Bagpipe"));
+    QList<int> supportedSymbols({LP::MelodyNote,
+                              LP::Tie,
+                              GHB::Doubling});
+    m_metaData.setSupportedSymbols(supportedSymbols);
+    PitchContext *pitchContext = new PitchContext();
+
+    pitchContext->setStaffType(StaffType::Standard);
+    pitchContext->setDefaultClef(ClefType::Treble);
+
+    pitchContext->insertPitch(0, "F");
+    pitchContext->insertPitch(1, "E");
+    pitchContext->insertPitch(2, "D");
+    pitchContext->insertPitch(3, "C");
+    pitchContext->insertPitch(4, "B");
+    pitchContext->insertPitch(5, "Low A");
+    pitchContext->insertPitch(-1, "High G");
+    pitchContext->insertPitch(-2, "High A");
+    pitchContext->insertPitch(6, "Low G");
+    m_metaData.setPitchContext(PitchContextPtr(pitchContext));
+}
+
+int GreatHighlandBagpipe::type() const
+{
+    return LP::GreatHighlandBagpipe;
+}
+
+InstrumentMetaData GreatHighlandBagpipe::instrumentMetaData() const
+{
+    return m_metaData;
 }
 
 Instrument *GreatHighlandBagpipe::instrument() const
@@ -32,9 +63,9 @@ SymbolGraphicBuilder *GreatHighlandBagpipe::symbolGraphicBuilderForType(int type
     return 0;
 }
 
-QVector<int> GreatHighlandBagpipe::symbolTypes()
+QList<int> GreatHighlandBagpipe::symbolTypes() const
 {
-    return m_symbolTypes;
+    return m_metaData.supportedSymbols();
 }
 
 Symbol *GreatHighlandBagpipe::symbolForType(int type)

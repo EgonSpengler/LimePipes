@@ -42,3 +42,57 @@ ClefType Instrument::defaultClef() const
 {
     return m_pitchContext->defaultClef();
 }
+
+QString InstrumentMetaData::name() const
+{
+    return m_name;
+}
+
+void InstrumentMetaData::setName(const QString &name)
+{
+    m_name = name;
+}
+
+bool InstrumentMetaData::supportsSymbol(int type) const
+{
+    return m_supportedSymbols.contains(type);
+}
+
+QList<int> InstrumentMetaData::supportedSymbols() const
+{
+    return m_supportedSymbols;
+}
+
+void InstrumentMetaData::setSupportedSymbols(const QList<int> &supportedSymbols)
+{
+    m_supportedSymbols = supportedSymbols;
+}
+
+StaffType InstrumentMetaData::staffType() const
+{
+    if (!m_pitchContext.isNull())
+        return m_pitchContext->staffType();
+
+    return StaffType::None;
+}
+
+ClefType InstrumentMetaData::defaultClef() const
+{
+    if (!m_pitchContext.isNull())
+        return m_pitchContext->defaultClef();
+
+    return ClefType::G;
+}
+
+PitchContextPtr InstrumentMetaData::pitchContext() const
+{
+    return m_pitchContext;
+}
+
+void InstrumentMetaData::setPitchContext(const PitchContextPtr &pitchContext)
+{
+    m_pitchContext = pitchContext;
+}
+
+
+

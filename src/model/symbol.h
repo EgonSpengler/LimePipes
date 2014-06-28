@@ -50,7 +50,6 @@ private:
     void writePitch(QXmlStreamWriter *writer);
     void writeLength(QXmlStreamWriter *writer);
     Symbol::Options m_symbolOptions;
-    Pitch m_defaultPitch;  // TODO Workaround until pitch data is not a Pitch
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Symbol::Options)

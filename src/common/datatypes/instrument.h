@@ -15,6 +15,31 @@
 #include "pitchcontext.h"
 #include <common/defines.h>
 
+class InstrumentMetaData
+{
+public:
+    InstrumentMetaData() {}
+    virtual ~InstrumentMetaData() {}
+
+    QString name() const;
+    void setName(const QString &name);
+
+    bool supportsSymbol(int type) const;
+    QList<int> supportedSymbols() const;
+    void setSupportedSymbols(const QList<int> &supportedSymbols);
+
+    StaffType staffType() const;
+    ClefType defaultClef() const;
+
+    PitchContextPtr pitchContext() const;
+    void setPitchContext(const PitchContextPtr &pitchContext);
+
+private:
+    QString m_name;
+    PitchContextPtr m_pitchContext;
+    QList<int> m_supportedSymbols;
+};
+
 class Instrument
 {
 public:

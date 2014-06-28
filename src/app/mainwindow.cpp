@@ -229,15 +229,17 @@ void MainWindow::createMenusAndSymbolDockWidgets(QStringList instrumentNames)
 
 void MainWindow::createAndPopulateSymbolPalettes()
 {
+    QList<int> instruments = m_pluginManager->instrumentTypes();
     QStringList instrumentNames = m_pluginManager->instrumentNames();
     createMenusAndSymbolDockWidgets(instrumentNames);
 
-    foreach (const QString instrumentName, instrumentNames) {
-        SymbolDockWidget *symbolDock = m_symbolDockWidgets.value(instrumentName);
+    foreach (const int instrumentType, instruments) {
+        InstrumentMetaData metaData = m_pluginManager->instrumentMetaData(instrumentType);
+        SymbolDockWidget *symbolDock = m_symbolDockWidgets.value(metaData.name());
         if (!symbolDock)
             continue;
 
-        QVector<int> symbolTypes = m_pluginManager->symbolTypesForInstrument(instrumentName);
+        QList<int> symbolTypes = metaData.supportedSymbols();
         foreach (int type, symbolTypes) {
             SymbolMetaData metaData = m_pluginManager->symbolMetaData(type);
             QListWidgetItem *widgetItem = new QListWidgetItem(metaData.name());
@@ -490,7 +492,7 @@ void MainWindow::on_editAddSymbolsAction_triggered()
 
     m_addSymbolsDialog->clearSymbolList();
     if (!instrumentName.isEmpty()) {
-        QVector<int> symbolTypes(m_pluginManager->symbolTypesForInstrument(instrumentName));
+        QList<int> symbolTypes(m_pluginManager->instrumentMetaData(instrumentName).supportedSymbols());
         foreach (int type, symbolTypes) {
             Symbol *symbol = m_pluginManager->symbolForType(type);
             if (!symbol)

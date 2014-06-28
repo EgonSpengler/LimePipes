@@ -35,7 +35,6 @@ public:
     ClefType defaultClef() const;
     void setDefaultClef(const ClefType &defaultClef);
 
-protected:
     void insertPitch(int staffPos, const QString &name);
 
 private:

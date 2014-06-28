@@ -151,7 +151,6 @@ void StaffGraphicsItem::updateTopMarginToMusicLayout()
     qreal staffSpace = LayoutSettings::musicFont()->staffSpace();
     m_topMargin = LayoutSettings::musicLayout()->spaceAboveStaff();
     m_topMargin *= staffSpace;
-    // TODO Fix size
     setContentsMargins(0, m_topMargin, 0, 0);
     setSizeHintsForStaffType(m_staffType);
 

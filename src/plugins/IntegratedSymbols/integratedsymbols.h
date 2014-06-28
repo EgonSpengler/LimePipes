@@ -27,13 +27,13 @@ public:
 public:
     SymbolMetaData symbolMetaDataForType(int type);
     Symbol *symbolForType(int type);
-    QVector<int> symbolTypes();
+    QList<int> symbolTypes() const;
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     ItemInteraction *itemInteractionForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);
 
 private:
-    QVector<int> m_symbolTypes;
+    QList<int> m_symbolTypes;
 };
 
 #endif // INTEGRATEDSYMBOLS_H

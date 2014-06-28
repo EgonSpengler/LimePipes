@@ -957,7 +957,7 @@ bool MusicModel::symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, Music
     if (instrument->type() == LP::NoInstrument)
         return false;
 
-    QVector<int> symbolTypes = m_pluginManager->symbolTypesForInstrument(instrument->name());
+    QList<int> symbolTypes = m_pluginManager->instrumentMetaData(instrument->name()).supportedSymbols();
 
     if (symbolTypes.contains(symbolTypeAttribute)) {
             return true;

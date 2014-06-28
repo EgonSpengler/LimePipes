@@ -16,12 +16,17 @@
 
 #include <QtPlugin>
 
+#include <common/datatypes/instrument.h>
+
 class QString;
 class Instrument;
 
 class InstrumentInterface {
 public:
     virtual ~InstrumentInterface() {}
+
+    virtual int type() const = 0;
+    virtual InstrumentMetaData instrumentMetaData() const = 0;
     virtual Instrument *instrument() const = 0;
     virtual QString name() const = 0;
 };
