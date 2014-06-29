@@ -19,14 +19,14 @@ public:
     explicit Score(MusicItem *parent=0);
     explicit Score(const QString &title);
 
-    void setTitle(const QString &title);
-    QString title() const { return data(LP::ScoreTitle).toString(); }
-
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
+    void setTitle(const QString &title);
+    QString title() const { return data(LP::ScoreTitle).toString(); }
+
     QString textForScoreDataRole(LP::ScoreDataRole role);
 };
 

@@ -1,3 +1,6 @@
+
+set( DataHandlingDir ${CMAKE_SOURCE_DIR}/src/common/datahandling )
+
 set( lp_model_SOURCES
         musicitem.cpp
         musicmodel.cpp
@@ -7,6 +10,9 @@ set( lp_model_SOURCES
         tune.cpp
         part.cpp
         measure.cpp
+
+        ${DataHandlingDir}/itembehavior.cpp
+        ${DataHandlingDir}/symbolbehavior.cpp
 
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/instrument.cpp
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/length.cpp

@@ -15,6 +15,8 @@
 #include <common/datatypes/pitch.h>
 #include <common/datatypes/length.h>
 
+class SymbolBehavior;
+
 class Symbol : public MusicItem
 {
     Q_DECLARE_TR_FUNCTIONS(MusicItem)
@@ -42,6 +44,9 @@ public:
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
+    SymbolBehavior *behavior() const;
+    void setBehavior(SymbolBehavior *behavior);
+
 protected:
     void setSymbolOptions(Symbol::Options options);
 
@@ -50,6 +55,7 @@ private:
     void writePitch(QXmlStreamWriter *writer);
     void writeLength(QXmlStreamWriter *writer);
     Symbol::Options m_symbolOptions;
+    SymbolBehavior *m_behavior;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(Symbol::Options)

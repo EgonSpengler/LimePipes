@@ -23,8 +23,6 @@ public:
     int instrument() const { return data(LP::TuneInstrument).toInt(); }
     void setInstrument(int instrumentType);
 
-    int startRowOfPart(int partNumber);
-
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);

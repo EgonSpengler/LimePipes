@@ -12,6 +12,7 @@
   */
 
 #include "symbol.h"
+#include <common/datahandling/symbolbehavior.h>
 #include <common/datatypes/pitch.h>
 #include <common/defines.h>
 #include <QXmlStreamWriter>
@@ -122,6 +123,16 @@ void Symbol::writeLength(QXmlStreamWriter *writer)
         writer->writeTextElement("LENGTH", QString::number(length, 10));
     }
 }
+SymbolBehavior *Symbol::behavior() const
+{
+    return m_behavior;
+}
+
+void Symbol::setBehavior(SymbolBehavior *behavior)
+{
+    m_behavior = behavior;
+}
+
 
 void Symbol::setSymbolOptions(Symbol::Options options)
 {
