@@ -12,13 +12,17 @@
   */
 
 #include <QXmlStreamWriter>
+
 #include <common/datatypes/timesignature.h>
+#include <common/datahandling/itembehavior.h>
 
 #include "tune.h"
 
 Tune::Tune(MusicItem *parent)
     : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
+    initItem();
+
     setInstrument(LP::NoInstrument);
     initData(QVariant::fromValue<TimeSignature>(TimeSignature(TimeSignature::_4_4)),
                                                 LP::TuneTimeSignature);
@@ -27,9 +31,17 @@ Tune::Tune(MusicItem *parent)
 Tune::Tune(int instrumentType, MusicItem *parent)
     : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
 {
+    initItem();
+
     setInstrument(instrumentType);
     initData(QVariant::fromValue<TimeSignature>(TimeSignature(TimeSignature::_4_4)),
                                                 LP::TuneTimeSignature);
+}
+
+void Tune::initItem()
+{
+    ItemBehavior *behavior = new ItemBehavior();
+    setItemBehavior(behavior);
 }
 
 void Tune::setInstrument(int instrumentType)

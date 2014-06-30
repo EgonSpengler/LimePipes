@@ -7,23 +7,36 @@
  */
 
 #include <common/itemdataroles.h>
+#include <common/datahandling/itembehavior.h>
 
 #include "part.h"
 
 Part::Part(MusicItem *parent)
     : MusicItem(MusicItem::PartType, MusicItem::MeasureType, parent)
 {
+    initItem();
+
     initData(QVariant::fromValue<bool>(false), LP::PartRepeat);
 }
 
 void Part::setStaffType(StaffType staffType)
 {
+    initItem();
+
     initData(QVariant::fromValue<StaffType>(staffType), LP::PartStaffType);
 }
 
 void Part::setClefType(ClefType clef)
 {
+    initItem();
+
     initData(QVariant::fromValue<ClefType>(clef), LP::PartClefType);
+}
+
+void Part::initItem()
+{
+    ItemBehavior *behavior = new ItemBehavior();
+    setItemBehavior(behavior);
 }
 
 bool Part::itemSupportsWritingOfData(int role) const

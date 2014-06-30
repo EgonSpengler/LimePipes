@@ -515,7 +515,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     }
 
     MusicItem *measureItem = itemForIndex(measure);
-    if (!measureItem && measureItem->type() == MusicItem::MeasureType)
+    if (!measureItem && measureItem->type() != MusicItem::MeasureType)
         return QModelIndex();
 
     QModelIndex tuneIndex = measure.parent().parent();
@@ -527,17 +527,19 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         return QModelIndex();
 
     InstrumentMetaData instrumentMeta = m_pluginManager->instrumentMetaData(instrumentType);
-    Symbol *symbol = m_pluginManager->symbolForType(type);
+    SymbolCategory category = m_pluginManager->symbolMetaData(type).category();
+    if (category == SymbolCategory::Spanning) {
+        return insertSpanningSymbolIntoMeasure(row, measure, type);
+    }
+
+    Symbol *symbol = new Symbol();
+    SymbolBehavior *symbolBehavior = m_pluginManager->symbolBehaviorForType(type);
+    symbol->setSymbolBehavior(symbolBehavior);
+
     if (symbol == 0) {
         qWarning() << "MusicModel: Can't insert symbol. PluginManager returned 0 for symbol type "
                       << type;
         return QModelIndex();
-    }
-
-    SymbolCategory category = m_pluginManager->symbolMetaData(type).category();
-    if (category == SymbolCategory::Spanning) {
-        delete symbol;
-        return insertSpanningSymbolIntoMeasure(row, measure, type);
     }
 
     // Init pitch and pitch context if symbol has it
@@ -569,8 +571,13 @@ QModelIndex MusicModel::insertSpanningSymbolIntoMeasure(int row, const QModelInd
         return QModelIndex();
     }
 
-    Symbol *startSymbol = m_pluginManager->symbolForType(type);
-    Symbol *endSymbol = m_pluginManager->symbolForType(type);
+    Symbol *startSymbol = new Symbol();
+    SymbolBehavior *startBehavior = m_pluginManager->symbolBehaviorForType(type);
+    startSymbol->setSymbolBehavior(startBehavior);
+
+    Symbol *endSymbol = new Symbol();
+    SymbolBehavior *endBehavior = m_pluginManager->symbolBehaviorForType(type);
+    endSymbol->setSymbolBehavior(endBehavior);
     if (startSymbol == 0 ||
             endSymbol == 0) {
         qWarning() << "MusicModel: Can't insert symbol. PluginManager returned 0 for symbol type "
@@ -1017,14 +1024,18 @@ MusicItem *MusicModel::newSymbolForMeasureItem(QXmlStreamReader *reader, MusicIt
         return item;
 
     MusicItem *parent = item;
-    MusicItem *child = m_pluginManager->symbolForType(symbolType);
+    Symbol *child = new Symbol();
+    SymbolBehavior *childBehavior = m_pluginManager->symbolBehaviorForType(symbolType);
+    child->setSymbolBehavior(childBehavior);
 
-    if (parent->okToInsertChild(child, parent->childCount()) &&
-            parent->addChild(child)) {
-        item = child;
+    MusicItem *childItem = static_cast<MusicItem*>(child);
+    if (parent->okToInsertChild(childItem, parent->childCount()) &&
+            parent->addChild(childItem)) {
+        item = childItem;
     }
-    else
-        delete child;
+    else {
+        delete childItem;
+    }
 
     return item;
 }

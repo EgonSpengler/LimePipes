@@ -26,6 +26,9 @@ public:
     bool itemSupportsWritingOfData(int role) const;
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
+
+private:
+    void initItem();
 };
 
 #endif // TUNE_H

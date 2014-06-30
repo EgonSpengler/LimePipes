@@ -177,14 +177,23 @@ QStringList CommonPluginManager::instrumentNames() const
     return names;
 }
 
-Symbol *CommonPluginManager::symbolForType(int type)
+SymbolBehavior *CommonPluginManager::symbolBehaviorForType(int type)
 {
     SymbolInterface *symbolPlugin = symbolPluginWithSymbol(type);
     if (!symbolPlugin)
         return 0;
 
-    return symbolPlugin->symbolForType(type);
+    return symbolPlugin->symbolBehaviorForType(type);
 }
+
+//Symbol *CommonPluginManager::symbolForType(int type)
+//{
+//    SymbolInterface *symbolPlugin = symbolPluginWithSymbol(type);
+//    if (!symbolPlugin)
+//        return 0;
+
+//    return symbolPlugin->symbolForType(type);
+//}
 
 QVector<int> CommonPluginManager::additionalDataForSymbolType(int symbolType)
 {

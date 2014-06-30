@@ -11,19 +11,29 @@
   * A Score represents a container for one or more @ref Tune "Tunes" and has at least a title.
   */
 
-#include "score.h"
 #include <QXmlStreamWriter>
-#include <common/datatypes/timesignature.h>
+
+#include <common/datahandling/itembehavior.h>
+
+#include "score.h"
 
 Score::Score(MusicItem *parent)
     : MusicItem(MusicItem::ScoreType, MusicItem::TuneType, parent)
 {
+    initItem();
 }
 
 Score::Score(const QString &title)
     : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
 {
+    initItem();
     setTitle(title);
+}
+
+void Score::initItem()
+{
+    ItemBehavior *behavior = new ItemBehavior();
+    setItemBehavior(behavior);
 }
 
 void Score::setTitle(const QString &title)
@@ -33,17 +43,10 @@ void Score::setTitle(const QString &title)
 
 bool Score::itemSupportsWritingOfData(int role) const
 {
-    switch (role) {
-    case LP::ScoreArranger:
-    case LP::ScoreComposer:
-    case LP::ScoreCopyright:
-    case LP::ScoreTitle:
-    case LP::ScoreType:
-    case LP::ScoreYear:
+    if (LP::allScoreDataRoles.contains(static_cast<LP::ScoreDataRole>(role)))
         return true;
-    default:
-        return false;
-    }
+
+    return false;
 }
 
 void Score::writeItemDataToXmlStream(QXmlStreamWriter *writer)

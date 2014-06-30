@@ -26,6 +26,9 @@ public:
     SymbolBehavior();
     virtual ~SymbolBehavior() {}
 
+    int symbolType() const;
+    void setSymbolType(int type);
+
     SymbolOptions options() const;
     void setOptions(const SymbolOptions &options);
     bool hasOption(SymbolOption option);

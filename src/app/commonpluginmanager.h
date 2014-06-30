@@ -35,7 +35,8 @@ public:
     InstrumentMetaData instrumentMetaData(int type) const;
     InstrumentMetaData instrumentMetaData(const QString &instrumentName) const;
 
-    Symbol *symbolForType(int type);
+//    Symbol *symbolForType(int type);
+    SymbolBehavior *symbolBehaviorForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     ItemInteraction *itemInteractionForType(int type);

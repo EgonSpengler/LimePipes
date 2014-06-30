@@ -32,7 +32,7 @@ public:
     explicit Symbol(int type, const QString &name, MusicItem *parent=0);
     virtual ~Symbol();
 
-    int symbolType() const { return data(LP::SymbolType).toInt(); }
+    int symbolType() const;
 
     bool hasPitch() const;
     Pitch pitch() const;
@@ -44,8 +44,8 @@ public:
     void writeItemDataToXmlStream(QXmlStreamWriter *writer);
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
-    SymbolBehavior *behavior() const;
-    void setBehavior(SymbolBehavior *behavior);
+    SymbolBehavior *symbolBehavior() const;
+    void setSymbolBehavior(SymbolBehavior *symbolBehavior);
 
 protected:
     void setSymbolOptions(Symbol::Options options);

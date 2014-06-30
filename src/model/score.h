@@ -24,6 +24,7 @@ public:
     void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
+    void initItem();
     void setTitle(const QString &title);
     QString title() const { return data(LP::ScoreTitle).toString(); }
 

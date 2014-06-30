@@ -27,6 +27,7 @@ public:
     void setPluginManager(const PluginManager &pluginManager);
 
 private:
+    void initItem();
     PluginManager m_pluginManager;
 };
 

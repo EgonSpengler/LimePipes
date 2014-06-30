@@ -18,7 +18,8 @@
 #include <QXmlStreamWriter>
 
 Symbol::Symbol(MusicItem *parent)
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent),
+      m_behavior(0)
 {
     setDefaultSymbolOptions();
     initData(LP::NoSymbolType, LP::SymbolType);
@@ -26,7 +27,8 @@ Symbol::Symbol(MusicItem *parent)
 }
 
 Symbol::Symbol(int type, const QString &name, MusicItem *parent)
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType)
+    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
+      m_behavior(0)
 {
     Q_UNUSED(parent)
     setDefaultSymbolOptions();
@@ -38,6 +40,14 @@ Symbol::~Symbol()
 {
 }
 
+int Symbol::symbolType() const
+{
+    if (!m_behavior)
+        return LP::NoSymbolType;
+
+    return m_behavior->symbolType();
+}
+
 void Symbol::setDefaultSymbolOptions()
 {
     m_symbolOptions = Symbol::Options(Symbol::NoOption);
@@ -45,28 +55,34 @@ void Symbol::setDefaultSymbolOptions()
 
 bool Symbol::hasPitch() const
 {
-    return m_symbolOptions.testFlag(Symbol::HasPitch);
+    if (!m_behavior)
+        return false;
+
+    return m_behavior->hasOption(SymbolBehavior::Pitch);
 }
 
 Pitch Symbol::pitch() const
 {
-    if (data(LP::SymbolPitch).canConvert<Pitch>()) {
-        return data(LP::SymbolPitch).value<Pitch>();
-    }
-    return Pitch();
+    if (!m_behavior)
+        return Pitch();
+
+    return m_behavior->data(LP::SymbolPitch).value<Pitch>();
 }
 
 bool Symbol::hasLength() const
 {
-    return m_symbolOptions.testFlag(Symbol::HasPitch);
+    if (!m_behavior)
+        return false;
+
+    return m_behavior->hasOption(SymbolBehavior::Length);
 }
 
 Length::Value Symbol::length() const
 {
-    if (data(LP::SymbolLength).canConvert<Length::Value>()) {
-        return data(LP::SymbolLength).value<Length::Value>();
-    }
-    return Length::_4;
+    if (!m_behavior)
+        return Length::_4;
+
+    return m_behavior->data(LP::SymbolLength).value<Length::Value>();
 }
 
 bool Symbol::itemSupportsWritingOfData(int role) const
@@ -123,16 +139,17 @@ void Symbol::writeLength(QXmlStreamWriter *writer)
         writer->writeTextElement("LENGTH", QString::number(length, 10));
     }
 }
-SymbolBehavior *Symbol::behavior() const
+
+SymbolBehavior *Symbol::symbolBehavior() const
 {
     return m_behavior;
 }
 
-void Symbol::setBehavior(SymbolBehavior *behavior)
+void Symbol::setSymbolBehavior(SymbolBehavior *behavior)
 {
     m_behavior = behavior;
+    MusicItem::setItemBehavior(static_cast<ItemBehavior *>(behavior));
 }
-
 
 void Symbol::setSymbolOptions(Symbol::Options options)
 {

@@ -26,6 +26,7 @@ public:
     // SymbolInterface interface
 public:
     SymbolMetaData symbolMetaDataForType(int type);
+    SymbolBehavior *symbolBehaviorForType(int type);
     Symbol *symbolForType(int type);
     QList<int> symbolTypes() const;
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);

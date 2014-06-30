@@ -6,6 +6,8 @@
  *
  */
 
+#include <common/itemdataroles.h>
+
 #include "itembehavior.h"
 
 ItemBehavior::ItemBehavior()

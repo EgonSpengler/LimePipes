@@ -8,17 +8,27 @@
 
 #include <common/itemdataroles.h>
 #include <common/datatypes/instrument.h>
+#include <common/datahandling/itembehavior.h>
+
 #include <symbol.h>
 #include "measure.h"
 
 Measure::Measure(MusicItem *parent)
 {
+    initItem();
 }
 
 Measure::Measure(const PluginManager &pluginManager, MusicItem *parent)
     : MusicItem(MusicItem::MeasureType, MusicItem::SymbolType, parent),
       m_pluginManager(pluginManager)
 {
+    initItem();
+}
+
+void Measure::initItem()
+{
+    ItemBehavior *behavior = new ItemBehavior;
+    setItemBehavior(behavior);
 }
 
 bool Measure::itemSupportsWritingOfData(int role) const
@@ -71,4 +81,3 @@ void Measure::setPluginManager(const PluginManager &pluginManager)
 {
     m_pluginManager = pluginManager;
 }
-

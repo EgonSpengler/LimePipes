@@ -7,6 +7,7 @@
  */
 
 #include <common/defines.h>
+#include <common/datahandling/symbolbehavior.h>
 
 #include "symbols/melodynote.h"
 #include "symbols/tie.h"
@@ -37,6 +38,18 @@ SymbolGraphicBuilder *IntegratedSymbols::symbolGraphicBuilderForType(int type)
 QList<int> IntegratedSymbols::symbolTypes() const
 {
     return m_symbolTypes;
+}
+
+SymbolBehavior *IntegratedSymbols::symbolBehaviorForType(int type)
+{
+    SymbolBehavior *behavior = new SymbolBehavior;
+    behavior->setSymbolType(type);
+
+    if (type == LP::MelodyNote) {
+        behavior->setOptions(SymbolBehavior::Length | SymbolBehavior::Pitch);
+    }
+
+    return behavior;
 }
 
 Symbol *IntegratedSymbols::symbolForType(int type)
@@ -85,3 +98,4 @@ SymbolMetaData IntegratedSymbols::symbolMetaDataForType(int type)
 
     return metaData;
 }
+

@@ -496,16 +496,12 @@ void MainWindow::on_editAddSymbolsAction_triggered()
     if (!instrumentName.isEmpty()) {
         QList<int> symbolTypes(m_pluginManager->instrumentMetaData(instrumentName).supportedSymbols());
         foreach (int type, symbolTypes) {
-            Symbol *symbol = m_pluginManager->symbolForType(type);
-            if (!symbol)
-                continue;
+            SymbolMetaData symbolMeta = m_pluginManager->symbolMetaData(type);
 
-            QString symbolName = symbol->data(LP::SymbolName).toString();
+            QString symbolName = symbolMeta.name();
             if (!symbolName.isEmpty()) {
                 m_addSymbolsDialog->addSymbol(symbolName, type);
             }
-
-            delete symbol;
         }
 
         m_addSymbolsDialog->show();

@@ -36,7 +36,8 @@ public:
     // TODO Overloaded method with instrument name parameter maybe useless (translation)
     virtual InstrumentMetaData instrumentMetaData(const QString &instrumentName) const = 0;
 
-    virtual Symbol *symbolForType(int type) = 0;
+    virtual SymbolBehavior *symbolBehaviorForType(int type) = 0;
+//    virtual Symbol *symbolForType(int type) = 0;
     virtual QVector<int> additionalDataForSymbolType(int symbolType) = 0;
     virtual SymbolGraphicBuilder *symbolGraphicBuilderForType(int type) = 0;
     virtual ItemInteraction *itemInteractionForType(int type) = 0;

@@ -6,6 +6,8 @@
  *
  */
 
+#include <common/itemdataroles.h>
+
 #include "symbolbehavior.h"
 
 SymbolBehavior::SymbolBehavior()
@@ -27,3 +29,12 @@ bool SymbolBehavior::hasOption(SymbolBehavior::SymbolOption option)
     return m_options.testFlag(option);
 }
 
+int SymbolBehavior::symbolType() const
+{
+    return data(LP::SymbolType).toInt();
+}
+
+void SymbolBehavior::setSymbolType(int type)
+{
+    setData(LP::SymbolType, type);
+}

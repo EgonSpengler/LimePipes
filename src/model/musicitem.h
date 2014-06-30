@@ -14,6 +14,8 @@
 #include <QMap>
 #include <QVariant>
 
+#include <common/datahandling/itembehavior.h>
+
 class QXmlStreamWriter;
 class QXmlStreamReader;
 
@@ -31,7 +33,7 @@ public:
     };
 
     explicit MusicItem(Type type=NoItemType, Type childType=NoItemType, MusicItem *parent=0);
-    virtual ~MusicItem() { qDeleteAll(m_children); }
+    virtual ~MusicItem();
 
     Type type() const { return m_type; }
     Type childType() const { return m_childType; }
@@ -52,11 +54,13 @@ public:
 
     QVariant data(int role = Qt::UserRole) const;
     bool setData(const QVariant &value, int role);
-    const QMap<int, QVariant> itemData() const { return m_data; }
 
     virtual bool itemSupportsWritingOfData(int role) const = 0;
     virtual void writeItemDataToXmlStream(QXmlStreamWriter *writer) = 0;
     virtual void readCurrentElementFromXmlStream(QXmlStreamReader *reader) = 0;
+
+    ItemBehavior *itemBehavior() const;
+    void setItemBehavior(ItemBehavior *itemBehavior);
 
 protected:
     void initData(const QVariant &value, int role) { writeData(value, role); }
@@ -70,6 +74,7 @@ protected:
 private:
     void writeData(const QVariant &value, int role);
     QList<MusicItem*> m_children;
+    ItemBehavior *m_itemBehavior;
 };
 
 class NullMusicItem : public MusicItem
@@ -82,7 +87,6 @@ public:
         m_parent = other.parent();
         m_type = other.type();
         m_childType = other.childType();
-        m_data = other.itemData();
     }
     bool itemSupportsWritingOfData(int role) const { Q_UNUSED(role) return true; }
     void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }

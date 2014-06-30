@@ -55,6 +55,7 @@ void InstrumentMetaData::setName(const QString &name)
 
 bool InstrumentMetaData::supportsSymbol(int type) const
 {
+    qDebug() << "InstrumentMetaData supportsSymbol: " << name();
     return m_supportedSymbols.contains(type);
 }
 

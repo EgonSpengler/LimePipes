@@ -25,12 +25,19 @@
 #include "musicitem.h"
 
 MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
-    : m_type(type), m_childType(childType), m_parent(parent)
+    : m_type(type), m_childType(childType), m_parent(parent),
+      m_itemBehavior(0)
 {
     if (m_parent)
         m_parent->addChild(this);
     else
         m_parent = 0;
+}
+
+MusicItem::~MusicItem()
+{
+    qDeleteAll(m_children);
+    delete m_itemBehavior;
 }
 
 void MusicItem::setParent(MusicItem *parent)
@@ -90,7 +97,10 @@ MusicItem *MusicItem::takeChild(int row)
 
 QVariant MusicItem::data(int role) const
 {
-    return m_data.value(role, QVariant());
+    if (!m_itemBehavior)
+        return QVariant();
+
+    return m_itemBehavior->data(role);
 }
 
 bool MusicItem::setData(const QVariant &value, int role)
@@ -115,8 +125,22 @@ void MusicItem::afterWritingData(int role)
 
 void MusicItem::writeData(const QVariant &value, int role)
 {
+    if (!m_itemBehavior)
+        return;
+
     QVariant insertValue(value);
     beforeWritingData(insertValue, role);
-    m_data.insert(role, insertValue);
+    m_itemBehavior->setData(value, role);
     afterWritingData(role);
 }
+
+ItemBehavior *MusicItem::itemBehavior() const
+{
+    return m_itemBehavior;
+}
+
+void MusicItem::setItemBehavior(ItemBehavior *itemBehavior)
+{
+    m_itemBehavior = itemBehavior;
+}
+

@@ -14,6 +14,7 @@
 #include <QList>
 
 #include <common/datatypes/pitchcontext.h>
+#include <common/datahandling/symbolbehavior.h>
 
 #include "greathighlandbagpipe.h"
 #include "ghb_doubling.h"
@@ -68,6 +69,11 @@ QList<int> GreatHighlandBagpipe::symbolTypes() const
     return m_metaData.supportedSymbols();
 }
 
+SymbolBehavior *GreatHighlandBagpipe::symbolBehaviorForType(int type)
+{
+    return 0;
+}
+
 Symbol *GreatHighlandBagpipe::symbolForType(int type)
 {
     QString name = symbolMetaDataForType(type).name();
@@ -92,3 +98,4 @@ SymbolMetaData GreatHighlandBagpipe::symbolMetaDataForType(int type)
 
     return metaData;
 }
+
