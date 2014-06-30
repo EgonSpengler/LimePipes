@@ -70,8 +70,15 @@ bool Measure::okToInsertChild(const MusicItem *item, int row)
     }
 
     InstrumentMetaData instrumentMeta = m_pluginManager->instrumentMetaData(instrumentType);
-    return instrumentMeta.supportsSymbol(symbol->data(LP::SymbolType).toInt());
+    int symbolType = symbol->symbolType();
+    if (symbolType == LP::NoSymbolType) {
+        qWarning() << "Measure: Can't insert symbol with no type";
+        return false;
+    }
+
+    return instrumentMeta.supportsSymbol(symbolType);
 }
+
 PluginManager Measure::pluginManager() const
 {
     return m_pluginManager;

@@ -594,8 +594,6 @@ QModelIndex MusicModel::insertSpanningSymbolIntoMeasure(int row, const QModelInd
                             .arg(startSymbol->data(LP::SymbolName).toString()));
     QPersistentModelIndex endSymbolIndex = insertItem(QStringLiteral(""), measure, row, endSymbol);
     QPersistentModelIndex startSymbolIndex = insertItem(QStringLiteral(""), measure, row, startSymbol);
-    setData(startSymbolIndex, QVariant(endSymbolIndex), LP::SymbolSpanBuddy);
-    setData(endSymbolIndex, QVariant(startSymbolIndex), LP::SymbolSpanBuddy);
     m_undoStack->endMacro();
 
     return startSymbolIndex;

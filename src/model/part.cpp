@@ -21,15 +21,11 @@ Part::Part(MusicItem *parent)
 
 void Part::setStaffType(StaffType staffType)
 {
-    initItem();
-
     initData(QVariant::fromValue<StaffType>(staffType), LP::PartStaffType);
 }
 
 void Part::setClefType(ClefType clef)
 {
-    initItem();
-
     initData(QVariant::fromValue<ClefType>(clef), LP::PartClefType);
 }
 

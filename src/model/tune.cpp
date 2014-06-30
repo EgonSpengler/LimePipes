@@ -46,7 +46,7 @@ void Tune::initItem()
 
 void Tune::setInstrument(int instrumentType)
 {
-    m_data.insert(LP::TuneInstrument, instrumentType);
+    initData(instrumentType, LP::TuneInstrument);
 }
 
 bool Tune::itemSupportsWritingOfData(int role) const
