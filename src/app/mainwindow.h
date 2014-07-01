@@ -30,6 +30,7 @@ class SettingsDialog;
 class SMuFLLoader;
 class ZoomWidget;
 class SymbolDockWidget;
+class TreeView;
 
 namespace Ui {
 class MainWindow;
@@ -82,7 +83,7 @@ private:
 
     Ui::MainWindow *ui;
     PluginManager m_pluginManager;
-    QTreeView *m_treeView;
+    TreeView *m_treeView;
     GraphicsItemView *m_graphicsItemView;
     GraphicsScene *m_graphicsScene;
     QAbstractItemModel *m_proxyModel;

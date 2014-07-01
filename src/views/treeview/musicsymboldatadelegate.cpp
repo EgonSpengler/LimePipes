@@ -74,6 +74,7 @@ bool MusicSymbolDataDelegate::isSymbolIndexOk(const QModelIndex &index) const
         return true;
     return false;
 }
+
 PluginManager MusicSymbolDataDelegate::pluginManager() const
 {
     return m_pluginManager;
@@ -83,7 +84,6 @@ void MusicSymbolDataDelegate::setPluginManager(const PluginManager &pluginManage
 {
     m_pluginManager = pluginManager;
 }
-
 
 const MusicModelInterface *MusicSymbolDataDelegate::musicModelFromIndex(const QModelIndex &index) const
 {

@@ -161,6 +161,7 @@ void MainWindow::initMusicFont()
 void MainWindow::createModelAndView()
 {
     m_treeView = new TreeView(this);
+    m_treeView->setPluginManager(m_pluginManager);
     QDockWidget *treeViewDock = new QDockWidget("Tree View", this);
     treeViewDock->setWidget(m_treeView);
     treeViewDock->setWindowTitle("Tree View");

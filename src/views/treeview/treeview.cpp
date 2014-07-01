@@ -74,6 +74,7 @@ void TreeView::handleDeleteCurrentItem()
     QModelIndex index = currentIndex();
     model()->removeRow(index.row(), index.parent());
 }
+
 PluginManager TreeView::pluginManager() const
 {
     return m_pluginManager;
