@@ -68,7 +68,6 @@ protected:
     virtual void afterWritingData(int role);
     Type m_type;
     Type m_childType;
-    QMap<int, QVariant> m_data;
     MusicItem *m_parent;
 
 private:

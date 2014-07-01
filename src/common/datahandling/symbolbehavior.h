@@ -18,8 +18,8 @@ class SymbolBehavior : public ItemBehavior
 public:
     enum SymbolOption {
         NoOption = 0x00,
-        Pitch  = 0x01,
-        Length = 0x02
+        HasPitch  = 0x01,
+        HasLength = 0x02
     };
     Q_DECLARE_FLAGS(SymbolOptions, SymbolOption)
 

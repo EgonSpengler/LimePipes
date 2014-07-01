@@ -58,7 +58,7 @@ bool Symbol::hasPitch() const
     if (!m_behavior)
         return false;
 
-    return m_behavior->hasOption(SymbolBehavior::Pitch);
+    return m_behavior->hasOption(SymbolBehavior::HasPitch);
 }
 
 Pitch Symbol::pitch() const
@@ -74,7 +74,7 @@ bool Symbol::hasLength() const
     if (!m_behavior)
         return false;
 
-    return m_behavior->hasOption(SymbolBehavior::Length);
+    return m_behavior->hasOption(SymbolBehavior::HasLength);
 }
 
 Length::Value Symbol::length() const

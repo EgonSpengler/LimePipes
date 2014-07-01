@@ -45,8 +45,13 @@ SymbolBehavior *IntegratedSymbols::symbolBehaviorForType(int type)
     SymbolBehavior *behavior = new SymbolBehavior;
     behavior->setSymbolType(type);
 
+    if (type == LP::Tie) {
+        behavior->setSupportedData(QList<int>({LP::SymbolSpanType,
+                                               LP::SymbolSpanBuddy}));
+    }
     if (type == LP::MelodyNote) {
-        behavior->setOptions(SymbolBehavior::Length | SymbolBehavior::Pitch);
+        behavior->setSupportedData(QList<int>({LP::MelodyNoteDots}));
+        behavior->setOptions(SymbolBehavior::HasLength | SymbolBehavior::HasPitch);
     }
 
     return behavior;

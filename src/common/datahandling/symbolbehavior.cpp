@@ -7,6 +7,8 @@
  */
 
 #include <common/itemdataroles.h>
+#include <common/datatypes/pitch.h>
+#include <common/datatypes/length.h>
 
 #include "symbolbehavior.h"
 
@@ -21,7 +23,19 @@ SymbolBehavior::SymbolOptions SymbolBehavior::options() const
 
 void SymbolBehavior::setOptions(const SymbolOptions &options)
 {
+    // Unset all data
+    setData(QVariant(), LP::SymbolPitch);
+    setData(QVariant(), LP::SymbolPitchContext);
+    setData(QVariant(), LP::SymbolLength);
+
     m_options = options;
+
+    if (options.testFlag(HasPitch)) {
+        setData(QVariant::fromValue<Pitch>(Pitch()), LP::SymbolPitch);
+    }
+    if (options.testFlag(HasLength)) {
+        setData(QVariant::fromValue<Length::Value>(Length::_8), LP::SymbolLength);
+    }
 }
 
 bool SymbolBehavior::hasOption(SymbolBehavior::SymbolOption option)

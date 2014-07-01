@@ -105,7 +105,11 @@ QVariant MusicItem::data(int role) const
 
 bool MusicItem::setData(const QVariant &value, int role)
 {
-    if (itemSupportsWritingOfData(role)) {
+    if (!m_itemBehavior)
+        return false;
+
+    if (itemSupportsWritingOfData(role) ||
+            m_itemBehavior->supportsData(role)) {
         writeData(value, role);
         return true;
     }

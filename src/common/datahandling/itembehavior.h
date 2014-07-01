@@ -10,6 +10,7 @@
 #define ITEMBEHAVIOR_H
 
 #include <QHash>
+#include <QList>
 #include <QVariant>
 #include <QJsonObject>
 
@@ -25,8 +26,13 @@ public:
     virtual QJsonObject toJson() const;
     virtual void fromJson(const QJsonObject &json);
 
+    QList<int> supportedData() const;
+    void setSupportedData(const QList<int> &supportedData);
+    bool supportsData(int data) const;
+
 private:
     QHash<int, QVariant> m_data;
+    QList<int> m_supportedData;
 };
 
 #endif // ITEMBEHAVIOR_H
