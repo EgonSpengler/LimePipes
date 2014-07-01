@@ -213,9 +213,8 @@ SymbolInterface *CommonPluginManager::symbolPluginWithSymbol(int symbolType)
         QList<int> symbolTypes(symbolPlugin->symbolTypes());
 
         if (symbolTypes.contains(symbolType)) {
-            Symbol *symbol = symbolPlugin->symbolForType(symbolType);
-            if (symbol != 0) {
-                delete symbol;
+            SymbolMetaData symbolMeta = symbolPlugin->symbolMetaDataForType(symbolType);
+            if (symbolMeta.isValid()) {
                 return symbolPlugin;
             }
         }

@@ -36,5 +36,5 @@ int SymbolBehavior::symbolType() const
 
 void SymbolBehavior::setSymbolType(int type)
 {
-    setData(LP::SymbolType, type);
+    setData(QVariant(type), LP::SymbolType);
 }

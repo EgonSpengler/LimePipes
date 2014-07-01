@@ -23,9 +23,6 @@ QVariant ItemBehavior::data(int role) const
 void ItemBehavior::setData(const QVariant &value, int role)
 {
     m_data.insert(role, value);
-    if (role == LP::SymbolType) {
-        qDebug() << "Now data has " << m_data.count();
-    }
 }
 
 QJsonObject ItemBehavior::toJson() const
