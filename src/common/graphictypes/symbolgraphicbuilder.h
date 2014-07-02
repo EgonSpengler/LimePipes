@@ -13,7 +13,7 @@
 #include <QVector>
 #include <QVariant>
 #include <QObject>
-#include <common/graphictypes/MusicFont/musicfont.h>
+#include <common/pluginmanagerinterface.h>
 
 class GlyphItem;
 
@@ -42,6 +42,11 @@ public:
 
     int symbolType() const;
     void setSymbolType(int symbolType);
+
+    virtual void setPluginManager(const PluginManager &pluginManager)
+    {
+        Q_UNUSED(pluginManager);
+    }
 
 signals:
     void dataChanged(const QVariant& data, int role);

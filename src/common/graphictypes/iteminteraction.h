@@ -11,6 +11,7 @@
 
 #include <QObject>
 #include <common/itemdataroles.h>
+#include <common/pluginmanagerinterface.h>
 
 class QVariant;
 class QGraphicsItem;
@@ -55,6 +56,11 @@ public:
 
     virtual void setData(const QVariant& value, int role)
     { Q_UNUSED(value); Q_UNUSED(role); }
+
+    virtual void setPluginManager(const PluginManager &pluginManager)
+    {
+        Q_UNUSED(pluginManager);
+    }
 
 signals:
     void dataChanged(const QVariant& value, int role);

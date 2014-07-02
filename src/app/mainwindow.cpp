@@ -91,6 +91,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     CommonPluginManager *pluginManager = new CommonPluginManager(pluginsDir);
     m_pluginManager = PluginManager(pluginManager);
+    pluginManager->setSharedPluginManager(m_pluginManager);
     pluginManager->setMusicFont(m_musicFont);
 
     createModelAndView();

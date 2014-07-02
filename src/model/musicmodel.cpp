@@ -553,8 +553,6 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         Pitch pitch = pitchContext->pitchForStaffPos(initialStaffPos);
         QVariant pitchValue(QVariant::fromValue<Pitch>(pitch));
         symbol->setData(pitchValue, LP::SymbolPitch);
-        QVariant pitchContextValue(QVariant::fromValue<PitchContextPtr>(pitchContext));
-        symbol->setData(pitchContextValue, LP::SymbolPitchContext);
     }
 
     if (symbol &&
@@ -953,8 +951,6 @@ void MusicModel::readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem *
         QString readPitchName = reader->readElementText();
         if (pitchNames.contains(readPitchName)) {
             Pitch pitch = instrumentMeta.pitchContext()->pitchForName(readPitchName);
-            (*item)->setData(QVariant::fromValue<PitchContextPtr>(instrumentMeta.pitchContext()),
-                             LP::SymbolPitchContext);
             (*item)->setData(QVariant::fromValue<Pitch>(pitch), LP::SymbolPitch);
         }
     }

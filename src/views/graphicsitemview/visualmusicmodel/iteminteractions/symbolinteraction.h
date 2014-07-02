@@ -33,6 +33,7 @@ public:
     void focusInEvent(const QGraphicsItem *item, QFocusEvent *event);
     void focusOutEvent(const QGraphicsItem *item, QFocusEvent *event);
     void setData(const QVariant &value, int role);
+    void setPluginManager(const PluginManager &pluginManager);
 
 private:
     void setPitchDragAreas();
@@ -44,6 +45,7 @@ private:
     Pitch m_currentPitch;
     QHash<int, QPair<qreal, qreal>> m_pitchDragAreas;
     ItemInteraction *m_interaction;
+    PluginManager m_pluginManager;
 };
 
 #endif // SYMBOLINTERACTION_H

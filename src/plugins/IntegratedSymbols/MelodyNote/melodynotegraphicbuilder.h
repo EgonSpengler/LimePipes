@@ -23,6 +23,7 @@ public:
     void updateSymbolGraphic(const QVariant &value, int key);
     QVector<int> graphicDataRoles() const;
     GlyphItem *glyphItem() const;
+    void setPluginManager(const PluginManager &pluginManager);
 
 private:
     bool isPitchOnLine(const Pitch &pitch) const;
@@ -31,6 +32,7 @@ private:
 
     MelodyNoteGlyphItem *m_glyph;
     PitchContextPtr m_pitchContext;
+    PluginManager m_pluginManager;
 };
 
 #endif // MELODYNOTEGRAPHICBUILDER_H

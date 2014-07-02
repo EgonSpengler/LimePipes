@@ -81,9 +81,6 @@ bool Symbol::itemSupportsWritingOfData(int role) const
     case LP::SymbolPitch:
         if (this->hasPitch())
             return true;
-    case LP::SymbolPitchContext:
-        if (this->hasPitch())
-            return true;
     case LP::SymbolLength:
         if (this->hasLength())
             return true;

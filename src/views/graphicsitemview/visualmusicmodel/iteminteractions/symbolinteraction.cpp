@@ -140,9 +140,9 @@ void SymbolInteraction::setData(const QVariant &value, int role)
 
         m_currentPitch = pitch;
     }
-    if (role == LP::SymbolPitchContext) {
-        PitchContextPtr pitchContext = value.value<PitchContextPtr>();
-        m_pitchContext = pitchContext;
+    if (role == LP::SymbolInstrument) {
+        int instrument = value.toInt();
+        m_pitchContext = m_pluginManager->instrumentMetaData(instrument).pitchContext();
     }
 
     if (m_interaction) {
@@ -179,4 +179,9 @@ void SymbolInteraction::focusOutEvent(const QGraphicsItem *item, QFocusEvent *ev
     if (m_interaction) {
         m_interaction->focusOutEvent(item, event);
     }
+}
+
+void SymbolInteraction::setPluginManager(const PluginManager &pluginManager)
+{
+    m_pluginManager = pluginManager;
 }

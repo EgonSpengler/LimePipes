@@ -155,6 +155,7 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
         return 0;
 
     SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
+    builder->setPluginManager(m_sharedPluginManager);
     return builder;
 }
 
@@ -213,6 +214,16 @@ SymbolInterface *CommonPluginManager::symbolPluginWithSymbol(int symbolType)
 
     return 0;
 }
+PluginManager CommonPluginManager::sharedPluginManager() const
+{
+    return m_sharedPluginManager;
+}
+
+void CommonPluginManager::setSharedPluginManager(const PluginManager &pluginManager)
+{
+    m_sharedPluginManager = pluginManager;
+}
+
 
 QList<SymbolMetaData> CommonPluginManager::symbolMetaDatas() const
 {

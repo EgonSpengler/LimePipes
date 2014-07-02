@@ -31,7 +31,7 @@ public:
 
     SymbolOptions options() const;
     void setOptions(const SymbolOptions &options);
-    bool hasOption(SymbolOption option);
+    bool hasOption(SymbolOption option) const;
 
     // ItemBehavior interface
     QJsonObject toJson() const;

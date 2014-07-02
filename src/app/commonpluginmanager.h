@@ -53,6 +53,9 @@ public:
     MusicFontPtr musicFont() const;
     void setMusicFont(const MusicFontPtr &musicFont);
 
+    PluginManager sharedPluginManager() const;
+    void setSharedPluginManager(const PluginManager &sharedPluginManager);
+
 private:
     void loadStaticPlugins();
     void loadDynamicPlugins();
@@ -71,6 +74,7 @@ private:
     int m_dynamicPlugins;
     QDir m_pluginsPath;
     MusicFontPtr m_musicFont;
+    PluginManager m_sharedPluginManager;  // The shared pointer, that is used over all the application
 };
 
 #endif // COMMONPLUGINMANAGER_H

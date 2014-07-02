@@ -39,6 +39,8 @@ QJsonObject SymbolBehavior::toJson() const
     if (spanType != 0) {
         json.insert(DataKey::SymbolSpanType, spanType);
     }
+
+    return json;
 }
 
 void SymbolBehavior::fromJson(const QJsonObject &json)
@@ -54,7 +56,6 @@ void SymbolBehavior::setOptions(const SymbolOptions &options)
 {
     // Unset all data
     setData(QVariant(), LP::SymbolPitch);
-    setData(QVariant(), LP::SymbolPitchContext);
     setData(QVariant(), LP::SymbolLength);
 
     m_options = options;
@@ -67,7 +68,7 @@ void SymbolBehavior::setOptions(const SymbolOptions &options)
     }
 }
 
-bool SymbolBehavior::hasOption(SymbolBehavior::SymbolOption option)
+bool SymbolBehavior::hasOption(SymbolBehavior::SymbolOption option) const
 {
     return m_options.testFlag(option);
 }

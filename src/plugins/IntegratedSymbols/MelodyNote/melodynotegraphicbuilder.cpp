@@ -31,12 +31,13 @@ void MelodyNoteGraphicBuilder::updateSymbolGraphic(const QVariant &value, int ke
         m_glyph->setNoteIsOnLine(isPitchOnLine(pitch));
         setLedgerLinesForPitch(pitch);
     }
+    if (key == LP::SymbolInstrument) {
+        int instrument = value.toInt();
+        m_pitchContext = m_pluginManager->instrumentMetaData(instrument).pitchContext();
+    }
     if (key == LP::MelodyNoteDots) {
         int dots = value.toInt();
         m_glyph->setDots(dots);
-    }
-    if (key == LP::SymbolPitchContext) {
-        m_pitchContext = value.value<PitchContextPtr>();
     }
 }
 
@@ -84,11 +85,10 @@ int MelodyNoteGraphicBuilder::ledgerLineCountForStaffPos(int staffPos)
 
 QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const
 {
-    QVector<int> dataRoles;
-    dataRoles.append(LP::SymbolPitch);
-    dataRoles.append(LP::SymbolLength);
-    dataRoles.append(LP::MelodyNoteDots);
-    dataRoles.append(LP::SymbolPitchContext);
+    QVector<int> dataRoles({LP::SymbolPitch,
+                            LP::SymbolLength,
+                            LP::MelodyNoteDots,
+                            LP::SymbolInstrument});
 
     return dataRoles;
 }
@@ -96,4 +96,9 @@ QVector<int> MelodyNoteGraphicBuilder::graphicDataRoles() const
 GlyphItem *MelodyNoteGraphicBuilder::glyphItem() const
 {
     return m_glyph;
+}
+
+void MelodyNoteGraphicBuilder::setPluginManager(const PluginManager &pluginManager)
+{
+    m_pluginManager = pluginManager;
 }

@@ -54,6 +54,7 @@ QVariant SymbolGraphicBuilder::data(int key) const
 {
     return m_graphicData.value(key);
 }
+
 int SymbolGraphicBuilder::symbolType() const
 {
     return m_symbolType;
@@ -63,4 +64,3 @@ void SymbolGraphicBuilder::setSymbolType(int symbolType)
 {
     m_symbolType = symbolType;
 }
-
