@@ -134,6 +134,14 @@ inline QDebug operator <<(QDebug dbg, const GraphicsItemType & type)
 
 namespace LP {
 
+enum class ItemType {
+    Score,
+    Tune,
+    Part,
+    Measure,
+    Symbol
+};
+
 enum InstrumentType {
     NoInstrument  = 0,
     GreatHighlandBagpipe,

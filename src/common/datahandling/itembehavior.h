@@ -14,10 +14,12 @@
 #include <QVariant>
 #include <QJsonObject>
 
+#include "common/defines.h"
+
 class ItemBehavior
 {
 public:
-    ItemBehavior();
+    ItemBehavior(LP::ItemType type);
     virtual ~ItemBehavior() {}
 
     QVariant data(int role = Qt::UserRole) const;
@@ -30,7 +32,11 @@ public:
     void setSupportedData(const QList<int> &supportedData);
     bool supportsData(int data) const;
 
+    LP::ItemType type() const;
+    void setType(const LP::ItemType &type);
+
 private:
+    LP::ItemType m_type;
     QHash<int, QVariant> m_data;
     QList<int> m_supportedData;
 };

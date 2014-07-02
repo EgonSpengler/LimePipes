@@ -14,7 +14,7 @@
 #include <QXmlStreamWriter>
 
 #include <common/datatypes/timesignature.h>
-#include <common/datahandling/itembehavior.h>
+#include <common/datahandling/tunebehavior.h>
 
 #include "tune.h"
 
@@ -40,7 +40,7 @@ Tune::Tune(int instrumentType, MusicItem *parent)
 
 void Tune::initItem()
 {
-    ItemBehavior *behavior = new ItemBehavior();
+    ItemBehavior *behavior = new TuneBehavior();
     setItemBehavior(behavior);
 }
 

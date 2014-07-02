@@ -12,6 +12,10 @@ set( lp_model_SOURCES
         measure.cpp
 
         ${DataHandlingDir}/itembehavior.cpp
+        ${DataHandlingDir}/scorebehavior.cpp
+        ${DataHandlingDir}/tunebehavior.cpp
+        ${DataHandlingDir}/partbehavior.cpp
+        ${DataHandlingDir}/measurebehavior.cpp
         ${DataHandlingDir}/symbolbehavior.cpp
 
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/instrument.cpp

@@ -13,7 +13,7 @@
 
 #include <QXmlStreamWriter>
 
-#include <common/datahandling/itembehavior.h>
+#include <common/datahandling/scorebehavior.h>
 
 #include "score.h"
 
@@ -32,7 +32,7 @@ Score::Score(const QString &title)
 
 void Score::initItem()
 {
-    ItemBehavior *behavior = new ItemBehavior();
+    ItemBehavior *behavior = new ScoreBehavior();
     setItemBehavior(behavior);
 }
 

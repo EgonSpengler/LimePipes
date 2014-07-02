@@ -13,6 +13,7 @@
 #include "symbolbehavior.h"
 
 SymbolBehavior::SymbolBehavior()
+    : ItemBehavior(LP::ItemType::Symbol)
 {
 }
 

@@ -11,7 +11,8 @@
 
 #include "itembehavior.h"
 
-ItemBehavior::ItemBehavior()
+ItemBehavior::ItemBehavior(LP::ItemType type)
+    : m_type(type)
 {
 }
 
@@ -54,3 +55,12 @@ bool ItemBehavior::supportsData(int data) const
     return m_supportedData.contains(data);
 }
 
+LP::ItemType ItemBehavior::type() const
+{
+    return m_type;
+}
+
+void ItemBehavior::setType(const LP::ItemType &type)
+{
+    m_type = type;
+}

@@ -7,7 +7,7 @@
  */
 
 #include <common/itemdataroles.h>
-#include <common/datahandling/itembehavior.h>
+#include <common/datahandling/partbehavior.h>
 
 #include "part.h"
 
@@ -31,7 +31,7 @@ void Part::setClefType(ClefType clef)
 
 void Part::initItem()
 {
-    ItemBehavior *behavior = new ItemBehavior();
+    ItemBehavior *behavior = new PartBehavior();
     setItemBehavior(behavior);
 }
 

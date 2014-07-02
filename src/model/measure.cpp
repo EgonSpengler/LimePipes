@@ -8,7 +8,7 @@
 
 #include <common/itemdataroles.h>
 #include <common/datatypes/instrument.h>
-#include <common/datahandling/itembehavior.h>
+#include <common/datahandling/measurebehavior.h>
 
 #include <symbol.h>
 #include "measure.h"
@@ -27,7 +27,7 @@ Measure::Measure(const PluginManager &pluginManager, MusicItem *parent)
 
 void Measure::initItem()
 {
-    ItemBehavior *behavior = new ItemBehavior;
+    ItemBehavior *behavior = new MeasureBehavior;
     setItemBehavior(behavior);
 }
 
