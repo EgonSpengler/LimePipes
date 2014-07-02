@@ -3,9 +3,6 @@ add_definitions( -DQT_STATICPLUGIN )
 set( lp_plugin_SOURCES
         ${CMAKE_SOURCE_DIR}/src/common/graphictypes/symbolgraphicbuilder.cpp
 
-        symbols/melodynote.cpp
-        symbols/tie.cpp
-
         integratedsymbols.cpp
         integratedsymbolsdefines.h
 

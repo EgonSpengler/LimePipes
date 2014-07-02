@@ -17,7 +17,6 @@
 #include <common/datahandling/symbolbehavior.h>
 
 #include "greathighlandbagpipe.h"
-#include "ghb_doubling.h"
 
 GreatHighlandBagpipe::GreatHighlandBagpipe()
 {
@@ -71,15 +70,6 @@ QList<int> GreatHighlandBagpipe::symbolTypes() const
 
 SymbolBehavior *GreatHighlandBagpipe::symbolBehaviorForType(int type)
 {
-    return 0;
-}
-
-Symbol *GreatHighlandBagpipe::symbolForType(int type)
-{
-    QString name = symbolMetaDataForType(type).name();
-    if (type == GHB::Doubling)
-        return new GHB_Doubling(name);
-
     return 0;
 }
 

@@ -186,15 +186,6 @@ SymbolBehavior *CommonPluginManager::symbolBehaviorForType(int type)
     return symbolPlugin->symbolBehaviorForType(type);
 }
 
-//Symbol *CommonPluginManager::symbolForType(int type)
-//{
-//    SymbolInterface *symbolPlugin = symbolPluginWithSymbol(type);
-//    if (!symbolPlugin)
-//        return 0;
-
-//    return symbolPlugin->symbolForType(type);
-//}
-
 QVector<int> CommonPluginManager::additionalDataForSymbolType(int symbolType)
 {
     SymbolInterface *symbolPlugin = symbolPluginWithSymbol(symbolType);

@@ -35,7 +35,6 @@ public:
     // Symbols interface
     SymbolMetaData symbolMetaDataForType(int type);
     SymbolBehavior *symbolBehaviorForType(int type);
-    Symbol *symbolForType(int type);
     QList<int> symbolTypes() const;
     SymbolGraphicBuilder *symbolGraphicBuilderForType(int type);
     QVector<int> additionalDataForSymbolType(int symbolType);

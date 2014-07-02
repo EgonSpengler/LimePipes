@@ -9,9 +9,6 @@
 #include <common/defines.h>
 #include <common/datahandling/symbolbehavior.h>
 
-#include "symbols/melodynote.h"
-#include "symbols/tie.h"
-
 #include "MelodyNote/melodynoteinteraction.h"
 #include "MelodyNote/melodynotegraphicbuilder.h"
 
@@ -55,19 +52,6 @@ SymbolBehavior *IntegratedSymbols::symbolBehaviorForType(int type)
     }
 
     return behavior;
-}
-
-Symbol *IntegratedSymbols::symbolForType(int type)
-{
-    QString name = symbolMetaDataForType(type).name();
-    switch (type) {
-    case LP::MelodyNote:
-        return new MelodyNote(name);
-    case LP::Tie:
-        return new Tie(name);
-    }
-
-    return 0;
 }
 
 ItemInteraction *IntegratedSymbols::itemInteractionForType(int type)

@@ -54,7 +54,6 @@ public:
     }
 
     virtual SymbolBehavior *symbolBehaviorForType(int type) = 0;
-    virtual Symbol *symbolForType(int type) = 0;
     virtual QList<int> symbolTypes() const = 0;
 
     /*!

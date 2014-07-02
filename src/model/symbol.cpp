@@ -21,9 +21,7 @@ Symbol::Symbol(MusicItem *parent)
     : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent),
       m_behavior(0)
 {
-    setDefaultSymbolOptions();
-    initData(LP::NoSymbolType, LP::SymbolType);
-    initData( tr("No name symbol"), LP::SymbolName);
+    Q_UNUSED(parent)
 }
 
 Symbol::Symbol(int type, const QString &name, MusicItem *parent)
@@ -31,9 +29,6 @@ Symbol::Symbol(int type, const QString &name, MusicItem *parent)
       m_behavior(0)
 {
     Q_UNUSED(parent)
-    setDefaultSymbolOptions();
-    initData(type, LP::SymbolType);
-    initData(name, LP::SymbolName);
 }
 
 Symbol::~Symbol()
@@ -46,11 +41,6 @@ int Symbol::symbolType() const
         return LP::NoSymbolType;
 
     return m_behavior->symbolType();
-}
-
-void Symbol::setDefaultSymbolOptions()
-{
-    m_symbolOptions = Symbol::Options(Symbol::NoOption);
 }
 
 bool Symbol::hasPitch() const
@@ -149,16 +139,4 @@ void Symbol::setSymbolBehavior(SymbolBehavior *behavior)
 {
     m_behavior = behavior;
     MusicItem::setItemBehavior(static_cast<ItemBehavior *>(behavior));
-}
-
-void Symbol::setSymbolOptions(Symbol::Options options)
-{
-    m_symbolOptions = options;
-
-    if (options & HasLength) {
-        initData(QVariant::fromValue<Length::Value>(Length::_8), LP::SymbolLength);
-    }
-    if (options & HasPitch) {
-        initData(QVariant::fromValue<Pitch>(Pitch()), LP::SymbolPitch);
-    }
 }

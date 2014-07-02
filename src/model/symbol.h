@@ -21,13 +21,6 @@ class Symbol : public MusicItem
 {
     Q_DECLARE_TR_FUNCTIONS(MusicItem)
 public:
-    enum Option {
-        NoOption =     0x00,
-        HasPitch =     0x01,
-        HasLength =    0x02
-    };
-    Q_DECLARE_FLAGS(Options, Option)
-
     explicit Symbol(MusicItem *parent=0);
     explicit Symbol(int type, const QString &name, MusicItem *parent=0);
     virtual ~Symbol();
@@ -47,17 +40,10 @@ public:
     SymbolBehavior *symbolBehavior() const;
     void setSymbolBehavior(SymbolBehavior *symbolBehavior);
 
-protected:
-    void setSymbolOptions(Symbol::Options options);
-
 private:
-    void setDefaultSymbolOptions();
     void writePitch(QXmlStreamWriter *writer);
     void writeLength(QXmlStreamWriter *writer);
-    Symbol::Options m_symbolOptions;
     SymbolBehavior *m_behavior;
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(Symbol::Options)
 
 #endif // SYMBOL_H
