@@ -33,6 +33,10 @@ public:
     void setOptions(const SymbolOptions &options);
     bool hasOption(SymbolOption option);
 
+    // ItemBehavior interface
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject &json);
+
 private:
     SymbolOptions m_options;
 };

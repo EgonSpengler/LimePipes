@@ -10,7 +10,7 @@
 #define PITCH_H
 
 #include <QMetaType>
-#include <QSharedPointer>
+#include <QJsonObject>
 
 class QString;
 
@@ -25,6 +25,9 @@ public:
     int staffPos() const { return m_staffPos; }
 
     bool operator ==(const Pitch &other) { return m_staffPos == other.m_staffPos; }
+
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject &json);
 
 private:
     int m_staffPos;

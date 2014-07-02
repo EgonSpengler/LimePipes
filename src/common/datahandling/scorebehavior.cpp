@@ -6,9 +6,38 @@
  *
  */
 
+#include <QJsonObject>
+
+#include <common/itemdataroles.h>
+
+#include "datakeys.h"
 #include "scorebehavior.h"
 
 ScoreBehavior::ScoreBehavior()
     : ItemBehavior(LP::ItemType::Score)
 {
+}
+
+QJsonObject ScoreBehavior::toJson() const
+{
+    QJsonObject json;
+    insertScoreData(json, LP::ScoreTitle, DataKey::ScoreTitle);
+    insertScoreData(json, LP::ScoreComposer, DataKey::ScoreComposer);
+    insertScoreData(json, LP::ScoreArranger, DataKey::ScoreArranger);
+    insertScoreData(json, LP::ScoreYear, DataKey::ScoreYear);
+    insertScoreData(json, LP::ScoreCopyright, DataKey::ScoreCopyright);
+    insertScoreData(json, LP::ScoreType, DataKey::ScoreType);
+
+    return json;
+}
+
+void ScoreBehavior::fromJson(const QJsonObject &json)
+{
+}
+
+void ScoreBehavior::insertScoreData(QJsonObject &json, int dataRole, const QString &key) const
+{
+    QString scoreData = data(dataRole).toString();
+    if (!scoreData.isEmpty())
+        json.insert(key, scoreData);
 }

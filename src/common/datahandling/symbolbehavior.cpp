@@ -10,10 +10,38 @@
 #include <common/datatypes/pitch.h>
 #include <common/datatypes/length.h>
 
+#include "datakeys.h"
 #include "symbolbehavior.h"
 
 SymbolBehavior::SymbolBehavior()
     : ItemBehavior(LP::ItemType::Symbol)
+{
+}
+
+QJsonObject SymbolBehavior::toJson() const
+{
+    QJsonObject json;
+    int symbolType = data(LP::SymbolType).toInt();
+    if (symbolType != LP::NoSymbolType) {
+        json.insert(DataKey::SymbolType, symbolType);
+    }
+    json.insert(DataKey::InstrumentKey, data(LP::SymbolInstrument).toInt());
+    json.insert(DataKey::SymbolName, data(LP::SymbolName).toString());
+    if (hasOption(HasLength)) {
+        Length::Value length = data(LP::SymbolLength).value<Length::Value>();
+        json.insert(DataKey::Lenght, static_cast<int>(length));
+    }
+    if (hasOption(HasPitch)) {
+        Pitch pitch = data(LP::SymbolPitch).value<Pitch>();
+        json.insert(DataKey::Pitch, pitch.toJson());
+    }
+    int spanType = data(LP::SymbolSpanType).toInt();
+    if (spanType != 0) {
+        json.insert(DataKey::SymbolSpanType, spanType);
+    }
+}
+
+void SymbolBehavior::fromJson(const QJsonObject &json)
 {
 }
 

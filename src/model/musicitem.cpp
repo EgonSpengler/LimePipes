@@ -22,7 +22,10 @@
   */
 
 #include <QDebug>
+#include <QJsonArray>
 #include "musicitem.h"
+
+static const QString childItemsKey("child items");
 
 MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
     : m_type(type), m_childType(childType), m_parent(parent),
@@ -114,6 +117,27 @@ bool MusicItem::setData(const QVariant &value, int role)
         return true;
     }
     return false;
+}
+
+QJsonObject MusicItem::toJson() const
+{
+    if (!m_itemBehavior)
+        return QJsonObject();
+
+    QJsonObject json(m_itemBehavior->toJson());
+    QJsonArray childArray;
+    foreach (const MusicItem *childItem, m_children) {
+        QJsonObject childObject(childItem->toJson());
+        if (childObject.isEmpty())
+            continue;
+        childArray.append(childObject);
+    }
+
+    if (childArray.count()) {
+        json.insert(childItemsKey, childArray);
+    }
+
+    return json;
 }
 
 void MusicItem::beforeWritingData(QVariant &value, int role)

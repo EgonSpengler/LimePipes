@@ -15,6 +15,11 @@ class TuneBehavior : public ItemBehavior
 {
 public:
     TuneBehavior();
+
+    // ItemBehavior interface
+public:
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject &json);
 };
 
 #endif // TUNEBEHAVIOR_H

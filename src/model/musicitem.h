@@ -13,6 +13,7 @@
 #include <QList>
 #include <QMap>
 #include <QVariant>
+#include <QJsonObject>
 
 #include <common/datahandling/itembehavior.h>
 
@@ -58,6 +59,8 @@ public:
     virtual bool itemSupportsWritingOfData(int role) const = 0;
     virtual void writeItemDataToXmlStream(QXmlStreamWriter *writer) = 0;
     virtual void readCurrentElementFromXmlStream(QXmlStreamReader *reader) = 0;
+
+    virtual QJsonObject toJson() const;
 
     ItemBehavior *itemBehavior() const;
     void setItemBehavior(ItemBehavior *itemBehavior);

@@ -20,7 +20,7 @@
 QString TimeSignature::s_xmlTagName = QString("TIMESIG");
 
 TimeSignature::TimeSignature()
-    : m_type(_2_2)
+    : m_type(None)
 {
 }
 
@@ -171,6 +171,11 @@ TimeSignature TimeSignature::fromString(const QString &string)
 bool TimeSignature::operator ==(const TimeSignature &other)
 {
     return m_type == other.m_type;
+}
+
+bool TimeSignature::isValid() const
+{
+    return m_type != None;
 }
 
 QDebug operator <<(QDebug dbg, const TimeSignature &timeSig)

@@ -9,12 +9,22 @@
 #ifndef SCOREBEHAVIOR_H
 #define SCOREBEHAVIOR_H
 
+#include <QJsonObject>
+
 #include "itembehavior.h"
 
 class ScoreBehavior : public ItemBehavior
 {
 public:
     ScoreBehavior();
+
+    // ItemBehavior interface
+public:
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject &json);
+
+private:
+    void insertScoreData(QJsonObject &json, int dataRole, const QString &key) const;
 };
 
 #endif // SCOREBEHAVIOR_H

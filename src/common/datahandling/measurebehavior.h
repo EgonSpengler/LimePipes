@@ -15,6 +15,11 @@ class MeasureBehavior : public ItemBehavior
 {
 public:
     MeasureBehavior();
+
+    // ItemBehavior interface
+public:
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject &json);
 };
 
 #endif // MEASUREBEHAVIOR_H

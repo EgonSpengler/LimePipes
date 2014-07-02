@@ -20,6 +20,7 @@ class TimeSignature
 {
 public:
     enum Type {
+        None,
         _2_2,
         _2_4,
         _3_4,
@@ -54,6 +55,8 @@ public:
     static TimeSignature fromString(const QString& string);
 
     bool operator ==(const TimeSignature& other);
+
+    bool isValid() const;
 
 private:
     static QString s_xmlTagName;

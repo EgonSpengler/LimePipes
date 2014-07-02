@@ -15,6 +15,11 @@ class PartBehavior : public ItemBehavior
 {
 public:
     PartBehavior();
+
+    // ItemBehavior interface
+public:
+    QJsonObject toJson() const;
+    void fromJson(const QJsonObject &json);
 };
 
 #endif // PARTBEHAVIOR_H

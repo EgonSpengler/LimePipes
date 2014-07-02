@@ -542,6 +542,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
         return QModelIndex();
     }
 
+    symbol->setData(LP::SymbolInstrument, instrumentType);
     // Init pitch and pitch context if symbol has it
     if (symbol->hasPitch()) {
         PitchContextPtr pitchContext = instrumentMeta.pitchContext();

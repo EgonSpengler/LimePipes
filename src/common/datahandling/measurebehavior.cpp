@@ -6,9 +6,32 @@
  *
  */
 
+#include <common/itemdataroles.h>
+#include <common/datatypes/timesignature.h>
+
+#include "datakeys.h"
 #include "measurebehavior.h"
 
 MeasureBehavior::MeasureBehavior()
     : ItemBehavior(LP::ItemType::Measure)
+{
+}
+
+QJsonObject MeasureBehavior::toJson() const
+{
+    QJsonObject json;
+    TimeSignature timeSig = data(LP::TuneTimeSignature).value<TimeSignature>();
+    if (timeSig.isValid()) {
+        json.insert(DataKey::TimeSignatureKey, static_cast<int>(timeSig.type()));
+    }
+    QVariant isUpbeatData = data(LP::MeasureIsUpbeat);
+    if (isUpbeatData.isValid()) {
+        json.insert(DataKey::MeasureIsUpbeat, isUpbeatData.toBool());
+    }
+
+    return json;
+}
+
+void MeasureBehavior::fromJson(const QJsonObject &json)
 {
 }
