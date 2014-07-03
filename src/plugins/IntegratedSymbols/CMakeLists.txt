@@ -6,6 +6,7 @@ set( lp_plugin_SOURCES
         integratedsymbols.cpp
         integratedsymbolsdefines.h
 
+        MelodyNote/melodynotebehavior.cpp
         MelodyNote/melodynoteglyphitem.cpp
         MelodyNote/melodynoteinteraction.cpp
         MelodyNote/melodynotegraphicbuilder.cpp

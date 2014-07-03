@@ -18,7 +18,7 @@ PartBehavior::PartBehavior()
 
 QJsonObject PartBehavior::toJson() const
 {
-    QJsonObject json;
+    QJsonObject json(ItemBehavior::toJson());
     StaffType staffType = data(LP::PartStaffType).value<StaffType>();
     json.insert(DataKey::StaffType, static_cast<int>(staffType));
     json.insert(DataKey::PartRepeat, data(LP::PartRepeat).toBool());

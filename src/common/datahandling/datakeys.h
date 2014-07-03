@@ -13,6 +13,9 @@
 
 namespace DataKey {
 
+// Item
+const QString ItemType("item type");
+
 // Score
 const QString ScoreTitle("title");
 const QString ScoreComposer("composer");
@@ -31,6 +34,9 @@ const QString MeasureIsUpbeat("upbeat");
 const QString SymbolType("type");
 const QString SymbolName("name");
 const QString SymbolSpanType("span type");
+
+// MelodyNote
+const QString MelodyNoteDots("dots");
 
 // General
 const QString InstrumentKey("instrument");

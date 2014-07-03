@@ -9,6 +9,7 @@
 
 #include <common/itemdataroles.h>
 
+#include "datakeys.h"
 #include "itembehavior.h"
 
 ItemBehavior::ItemBehavior(LP::ItemType type)
@@ -33,7 +34,10 @@ void ItemBehavior::setData(const QVariant &value, int role)
 
 QJsonObject ItemBehavior::toJson() const
 {
-    return QJsonObject();
+    QJsonObject json;
+    json.insert(DataKey::ItemType, static_cast<int>(type()));
+
+    return json;
 }
 
 void ItemBehavior::fromJson(const QJsonObject &json)

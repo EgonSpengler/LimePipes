@@ -21,7 +21,7 @@ TuneBehavior::TuneBehavior()
 
 QJsonObject TuneBehavior::toJson() const
 {
-    QJsonObject json;
+    QJsonObject json(ItemBehavior::toJson());
     int instrumentType = data(LP::TuneInstrument).toInt();
     if (instrumentType != LP::NoInstrument)
         json.insert(DataKey::InstrumentKey, instrumentType);

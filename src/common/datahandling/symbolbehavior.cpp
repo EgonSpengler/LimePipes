@@ -20,7 +20,7 @@ SymbolBehavior::SymbolBehavior()
 
 QJsonObject SymbolBehavior::toJson() const
 {
-    QJsonObject json;
+    QJsonObject json(ItemBehavior::toJson());
     int symbolType = data(LP::SymbolType).toInt();
     if (symbolType != LP::NoSymbolType) {
         json.insert(DataKey::SymbolType, symbolType);

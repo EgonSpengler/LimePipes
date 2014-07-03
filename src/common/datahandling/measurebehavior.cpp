@@ -19,7 +19,7 @@ MeasureBehavior::MeasureBehavior()
 
 QJsonObject MeasureBehavior::toJson() const
 {
-    QJsonObject json;
+    QJsonObject json(ItemBehavior::toJson());
     TimeSignature timeSig = data(LP::TuneTimeSignature).value<TimeSignature>();
     if (timeSig.isValid()) {
         json.insert(DataKey::TimeSignatureKey, static_cast<int>(timeSig.type()));

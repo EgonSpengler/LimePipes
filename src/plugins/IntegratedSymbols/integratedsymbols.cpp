@@ -9,6 +9,7 @@
 #include <common/defines.h>
 #include <common/datahandling/symbolbehavior.h>
 
+#include "MelodyNote/melodynotebehavior.h"
 #include "MelodyNote/melodynoteinteraction.h"
 #include "MelodyNote/melodynotegraphicbuilder.h"
 
@@ -47,8 +48,7 @@ SymbolBehavior *IntegratedSymbols::symbolBehaviorForType(int type)
                                                LP::SymbolSpanBuddy}));
     }
     if (type == LP::MelodyNote) {
-        behavior->setSupportedData(QList<int>({LP::MelodyNoteDots}));
-        behavior->setOptions(SymbolBehavior::HasLength | SymbolBehavior::HasPitch);
+        return new MelodyNoteBehavior;
     }
 
     return behavior;
