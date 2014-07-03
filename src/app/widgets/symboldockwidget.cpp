@@ -7,8 +7,11 @@
  */
 
 #include <QListWidgetItem>
+#include <QListWidget>
+#include <QDebug>
 
 #include <common/interfaces/symbolinterface.h>
+#include <common/datahandling/symbolbehavior.h>
 
 #include "symboldockwidget.h"
 #include "ui_symboldockwidget.h"
@@ -18,6 +21,8 @@ SymbolDockWidget::SymbolDockWidget(QWidget *parent)
       ui(new Ui::SymbolDockWidget)
 {
     ui->setupUi(this);
+
+    createConnections();
 }
 
 SymbolDockWidget::SymbolDockWidget(const QString &title, QWidget *parent)
@@ -25,6 +30,22 @@ SymbolDockWidget::SymbolDockWidget(const QString &title, QWidget *parent)
       ui(new Ui::SymbolDockWidget)
 {
     ui->setupUi(this);
+
+    createConnections();
+}
+
+void SymbolDockWidget::createConnections()
+{
+    connect(ui->normalListWidget, &QListWidget::itemClicked,
+            [this] (QListWidgetItem *item) {
+        ui->spanningListWidget->selectionModel()->clear();
+        itemClicked(item);
+    });
+    connect(ui->spanningListWidget, &QListWidget::itemClicked,
+            [this] (QListWidgetItem *item) {
+        ui->normalListWidget->selectionModel()->clear();
+        itemClicked(item);
+    });
 }
 
 SymbolDockWidget::~SymbolDockWidget()
@@ -50,4 +71,8 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
     default:
         break;
     }
+}
+
+void SymbolDockWidget::itemClicked(QListWidgetItem *item)
+{
 }

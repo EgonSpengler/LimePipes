@@ -30,7 +30,11 @@ public:
 
     void addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta);
 
+private slots:
+    void itemClicked(QListWidgetItem *item);
+
 private:
+    void createConnections();
     Ui::SymbolDockWidget *ui;
 };
 
