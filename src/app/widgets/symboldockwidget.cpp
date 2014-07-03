@@ -8,6 +8,8 @@
 
 #include <QListWidgetItem>
 
+#include <common/interfaces/symbolinterface.h>
+
 #include "symboldockwidget.h"
 #include "ui_symboldockwidget.h"
 
@@ -30,15 +32,19 @@ SymbolDockWidget::~SymbolDockWidget()
     delete ui;
 }
 
-void SymbolDockWidget::addListItemToCategory(QListWidgetItem *listItem, SymbolCategory category)
+void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta)
 {
-    switch (category) {
+    switch (symbolMeta.category()) {
     case SymbolCategory::Graphical: {
-        ui->normalListWidget->addItem(listItem);
+        new QListWidgetItem(symbolMeta.name(),
+                            ui->normalListWidget,
+                            symbolType + QListWidgetItem::UserType);
         break;
     }
     case SymbolCategory::Spanning: {
-        ui->spanningListWidget->addItem(listItem);
+        new QListWidgetItem(symbolMeta.name(),
+                            ui->spanningListWidget,
+                            symbolType + QListWidgetItem::UserType);
         break;
     }
     default:

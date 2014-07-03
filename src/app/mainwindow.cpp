@@ -27,7 +27,6 @@
 #include <QtPlugin>
 #include <QMenu>
 #include <QAction>
-#include <QListWidgetItem>
 
 #include <utilities/error.h>
 #include <model/musicmodel.h>
@@ -245,8 +244,7 @@ void MainWindow::createAndPopulateSymbolPalettes()
         QList<int> symbolTypes = metaData.supportedSymbols();
         foreach (int type, symbolTypes) {
             SymbolMetaData metaData = m_pluginManager->symbolMetaData(type);
-            QListWidgetItem *widgetItem = new QListWidgetItem(metaData.name());
-            symbolDock->addListItemToCategory(widgetItem, metaData.category());
+            symbolDock->addListItemToCategory(type, metaData);
         }
     }
 }

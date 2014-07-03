@@ -16,25 +16,30 @@
  * and always appends the read items.
  */
 
-#include "musicmodel.h"
 #include <QFile>
 #include <QDebug>
 #include <QMimeData>
 #include <QPair>
 #include <QString>
-#include <QtWidgets/QUndoStack>
+#include <QUndoStack>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonDocument>
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+
 #include <commands/insertitemscommand.h>
 #include <commands/removeitemscommand.h>
-#include <rootitem.h>
-#include <score.h>
-#include <tune.h>
-#include <part.h>
-#include <measure.h>
 #include <common/defines.h>
 #include <common/datatypes/timesignature.h>
 #include <utilities/error.h>
+
+#include "rootitem.h"
+#include "score.h"
+#include "tune.h"
+#include "part.h"
+#include "measure.h"
+#include "musicmodel.h"
 
 namespace {
 
@@ -204,14 +209,21 @@ QMimeData *MusicModel::mimeData(const QModelIndexList &indexes) const
     QXmlStreamWriter writer(&xmlData);
 
     writer.writeStartElement(s_itemTypeTags.value(MusicItem::RootItemType));
+    QJsonArray jsonArray;
     foreach (QModelIndex index, indexes) {
         if (MusicItem *item = itemForIndex(index)) {
             if (mimeDataType.isEmpty())
                 mimeDataType = mimeTypeForItem(item);
 
             writeMusicItemAndChildren(&writer, item);
+
+            // Json test
+            jsonArray.append(item->toJson());
         }
     }
+    QJsonDocument jsonDoc;
+    jsonDoc.setArray(jsonArray);
+    qDebug() << jsonDoc.toJson();
     writer.writeEndElement();
 
     if (!mimeDataType.isEmpty()) {

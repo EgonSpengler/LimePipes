@@ -17,6 +17,7 @@ class SymbolDockWidget;
 }
 
 class QListWidgetItem;
+class SymbolMetaData;
 
 class SymbolDockWidget : public QDockWidget
 {
@@ -27,7 +28,7 @@ public:
     explicit SymbolDockWidget(const QString &title, QWidget *parent = 0);
     ~SymbolDockWidget();
 
-    void addListItemToCategory(QListWidgetItem *listItem, SymbolCategory category);
+    void addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta);
 
 private:
     Ui::SymbolDockWidget *ui;
