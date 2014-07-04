@@ -6,6 +6,8 @@
  *
  */
 
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <QDebug>
@@ -67,17 +69,29 @@ SymbolDockWidget::~SymbolDockWidget()
 
 void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta)
 {
+    SymbolBehavior *behavior = pluginManager()->symbolBehaviorForType(symbolType);
+    SymbolBehavior behaviorValue;
+    if (behavior) {
+        behaviorValue = *behavior;
+    }
+    delete behavior;
+    QList<SymbolBehavior> behaviorData({behaviorValue});
+    QVariant behaviorVariant = QVariant::fromValue<QList<SymbolBehavior>>(behaviorData);
+
+    QListWidgetItem * widgetItem = 0;
     switch (symbolMeta.category()) {
     case SymbolCategory::Graphical: {
-        new QListWidgetItem(symbolMeta.name(),
-                            ui->normalListWidget,
-                            symbolType + QListWidgetItem::UserType);
+        widgetItem = new QListWidgetItem(symbolMeta.name(),
+                                         ui->normalListWidget,
+                                         symbolType + QListWidgetItem::UserType);
+        widgetItem->setData(Qt::UserRole, behaviorVariant);
         break;
     }
     case SymbolCategory::Spanning: {
-        new QListWidgetItem(symbolMeta.name(),
-                            ui->spanningListWidget,
-                            symbolType + QListWidgetItem::UserType);
+        widgetItem = new QListWidgetItem(symbolMeta.name(),
+                                         ui->spanningListWidget,
+                                         symbolType + QListWidgetItem::UserType);
+        widgetItem->setData(Qt::UserRole, behaviorVariant);
         break;
     }
     default:
@@ -89,5 +103,12 @@ void SymbolDockWidget::itemClicked(QListWidgetItem *item)
 {
     int symbolType = item->type();
     symbolType -= QListWidgetItem::UserType;
-    qDebug() << "SymbolDockWidget: Clicked symbol type " << symbolType;
+    QList<SymbolBehavior> symbolBehaviors = item->data(Qt::UserRole).value<QList<SymbolBehavior>>();
+    emit selectedSymbolsChanged(symbolBehaviors);
+
+    // Debug output ...
+    foreach (const SymbolBehavior &behavior, symbolBehaviors) {
+        qDebug() << QString("Symbol selected: \n %1")
+                 .arg(QString(QJsonDocument(behavior.toJson()).toJson()));
+    }
 }

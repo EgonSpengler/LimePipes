@@ -10,6 +10,7 @@
 #define SYMBOLDOCKWIDGET_H
 
 #include <QList>
+#include <QMetaType>
 #include <QDockWidget>
 
 #include <common/pluginmanagerinterface.h>
@@ -47,5 +48,7 @@ private:
     Ui::SymbolDockWidget *ui;
     PluginManager m_pluginManager;
 };
+
+Q_DECLARE_METATYPE(QList<SymbolBehavior>)
 
 #endif // SYMBOLDOCKWIDGET_H
