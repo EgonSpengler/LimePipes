@@ -241,6 +241,16 @@ QGraphicsItem *GraphicsScene::symbolGraphicsItemForGlyphItem(QGraphicsItem *glyp
         tempItem = tempItem->parentItem();
     }
 }
+Application GraphicsScene::application() const
+{
+    return m_application;
+}
+
+void GraphicsScene::setApplication(const Application &application)
+{
+    m_application = application;
+}
+
 
 VisualMusicModel *GraphicsScene::visualMusicModel() const
 {

@@ -12,7 +12,9 @@
 #include <QList>
 #include <QModelIndexList>
 #include <QGraphicsScene>
+
 #include <common/defines.h>
+#include <app/applicationinterface.h>
 
 class QGraphicsSceneMouseEvent;
 class VisualMusicModel;
@@ -25,6 +27,9 @@ public:
 
     VisualMusicModel *visualMusicModel() const;
     void setVisualMusicModel(VisualMusicModel *visualMusicModel);
+
+    Application application() const;
+    void setApplication(const Application &application);
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
@@ -42,6 +47,7 @@ private:
     QPointF m_symbolDragStart;
     QModelIndexList m_dragSymbolIndexes;
     VisualMusicModel *m_visualMusicModel;
+    Application m_application;
 };
 
 #endif // GRAPHICSSCENE_H

@@ -84,3 +84,9 @@ void GraphicsItemView::scale(qreal level)
     // transformations applied
     m_graphicsView->setTransform(QTransform::fromScale(level, level));
 }
+
+void GraphicsItemView::setApplication(const Application &application)
+{
+    m_graphicsScene->setApplication(application);
+}
+

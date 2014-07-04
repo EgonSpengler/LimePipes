@@ -75,4 +75,7 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
 
 void SymbolDockWidget::itemClicked(QListWidgetItem *item)
 {
+    int symbolType = item->type();
+    symbolType -= QListWidgetItem::UserType;
+    qDebug() << "SymbolDockWidget: Clicked symbol type " << symbolType;
 }

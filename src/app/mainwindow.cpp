@@ -70,9 +70,13 @@ MainWindow::MainWindow(QWidget *parent) :
     m_addSymbolsDialog(0),
     m_aboutDialog(0),
     m_settingsDialog(0),
-    m_smuflLoader(0)
+    m_smuflLoader(0),
+    m_commonApplication(0)
 {
     ui->setupUi(this);
+
+    m_commonApplication = new CommonApplication();
+    m_sharedApplication = Application(m_commonApplication);
 
     LayoutSettings::registerObserver(this);
 
@@ -246,6 +250,11 @@ void MainWindow::createAndPopulateSymbolPalettes()
             SymbolMetaData metaData = m_pluginManager->symbolMetaData(type);
             symbolDock->addListItemToCategory(type, metaData);
         }
+
+        connect(symbolDock, &SymbolDockWidget::selectedSymbolsChanged,
+                [this] (const QList<SymbolBehavior> &symbols) {
+            m_commonApplication->setPaletteSymbols(symbols);
+        });
     }
 }
 

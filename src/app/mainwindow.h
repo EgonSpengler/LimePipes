@@ -11,9 +11,12 @@
 
 #include <QMainWindow>
 #include <QHash>
+
 #include <common/graphictypes/MusicFont/musicfont.h>
 #include <common/pluginmanagerinterface.h>
 #include <common/settingsobserver.h>
+
+#include "commonapplication.h"
 
 class QTreeView;
 class QDir;
@@ -95,6 +98,8 @@ private:
     SMuFLLoader *m_smuflLoader;
     ZoomWidget *m_zoomWidget;
     QHash<QString, SymbolDockWidget*> m_symbolDockWidgets;
+    CommonApplication *m_commonApplication;
+    Application m_sharedApplication;
 };
 
 #endif // MAINWINDOW_H

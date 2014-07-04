@@ -11,7 +11,9 @@
 
 #include <QTransform>
 #include <QAbstractItemView>
+
 #include <common/pluginmanagerinterface.h>
+#include <app/applicationinterface.h>
 
 class GraphicsView;
 class GraphicsScene;
@@ -32,6 +34,8 @@ public:
     void setModel(QAbstractItemModel *model);
 
     void setPluginManager(PluginManager pluginManager);
+
+    void setApplication(const Application &application);
 
 public slots:
     void scale(qreal level);

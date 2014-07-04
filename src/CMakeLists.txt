@@ -1,6 +1,7 @@
 set( limepipes_SOURCES
         app/main.cpp
         app/mainwindow.cpp
+        app/commonapplication.cpp
         app/commonpluginmanager.cpp
         app/widgets/zoomwidget.cpp
         app/widgets/symboldockwidget.cpp

@@ -9,7 +9,10 @@
 #ifndef SYMBOLDOCKWIDGET_H
 #define SYMBOLDOCKWIDGET_H
 
+#include <QList>
 #include <QDockWidget>
+
+#include <common/interfaces/symbolinterface.h>
 #include <common/defines.h>
 
 namespace Ui {
@@ -29,6 +32,9 @@ public:
     ~SymbolDockWidget();
 
     void addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta);
+
+signals:
+    void selectedSymbolsChanged(const QList<SymbolBehavior> &symbolBehaviors);
 
 private slots:
     void itemClicked(QListWidgetItem *item);
