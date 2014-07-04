@@ -12,6 +12,7 @@
 #include <QList>
 #include <QDockWidget>
 
+#include <common/pluginmanagerinterface.h>
 #include <common/interfaces/symbolinterface.h>
 #include <common/defines.h>
 
@@ -27,11 +28,12 @@ class SymbolDockWidget : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit SymbolDockWidget(QWidget *parent = 0);
-    explicit SymbolDockWidget(const QString &title, QWidget *parent = 0);
+    explicit SymbolDockWidget(int instruemntType, const PluginManager &pluginManager,
+                              QWidget *parent = 0);
     ~SymbolDockWidget();
 
-    void addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta);
+    PluginManager pluginManager() const;
+    void setPluginManager(const PluginManager &pluginManager);
 
 signals:
     void selectedSymbolsChanged(const QList<SymbolBehavior> &symbolBehaviors);
@@ -40,8 +42,10 @@ private slots:
     void itemClicked(QListWidgetItem *item);
 
 private:
+    void addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta);
     void createConnections();
     Ui::SymbolDockWidget *ui;
+    PluginManager m_pluginManager;
 };
 
 #endif // SYMBOLDOCKWIDGET_H

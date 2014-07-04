@@ -16,22 +16,24 @@
 #include "symboldockwidget.h"
 #include "ui_symboldockwidget.h"
 
-SymbolDockWidget::SymbolDockWidget(QWidget *parent)
+SymbolDockWidget::SymbolDockWidget(int instrumentType, const PluginManager &pluginManager,
+                                   QWidget *parent)
     : QDockWidget(parent),
       ui(new Ui::SymbolDockWidget)
 {
     ui->setupUi(this);
 
-    createConnections();
-}
+    setPluginManager(pluginManager);
 
-SymbolDockWidget::SymbolDockWidget(const QString &title, QWidget *parent)
-    : QDockWidget(title, parent),
-      ui(new Ui::SymbolDockWidget)
-{
-    ui->setupUi(this);
-
+    InstrumentMetaData instrumentMeta = pluginManager->instrumentMetaData(instrumentType);
+    setWindowTitle(instrumentMeta.name());
     createConnections();
+
+    QList<int> symbolTypes = instrumentMeta.supportedSymbols();
+    foreach (int type, symbolTypes) {
+        SymbolMetaData metaData = pluginManager->symbolMetaData(type);
+        addListItemToCategory(type, metaData);
+    }
 }
 
 void SymbolDockWidget::createConnections()
@@ -47,6 +49,16 @@ void SymbolDockWidget::createConnections()
         itemClicked(item);
     });
 }
+PluginManager SymbolDockWidget::pluginManager() const
+{
+    return m_pluginManager;
+}
+
+void SymbolDockWidget::setPluginManager(const PluginManager &pluginManager)
+{
+    m_pluginManager = pluginManager;
+}
+
 
 SymbolDockWidget::~SymbolDockWidget()
 {

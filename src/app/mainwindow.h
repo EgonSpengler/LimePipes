@@ -50,7 +50,6 @@ public:
 
     void notify(Settings::Id id);
 
-    void createMenusAndSymbolDockWidgets(QStringList instrumentNames);
 private slots:
     void on_fileNewAction_triggered();
     void on_fileOpenAction_triggered();
@@ -83,6 +82,7 @@ private:
     MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
     void setMusicFontSizeFromSettings();
     void setDockWidgetOfInstrumentVisible(const QString& instrument, bool visible);
+    void createMenusAndSymbolDockWidgets(const QList<int> &instrumentTypes);
 
     Ui::MainWindow *ui;
     PluginManager m_pluginManager;

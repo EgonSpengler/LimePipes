@@ -208,17 +208,25 @@ void MainWindow::createMenusAndToolBars()
     ui->zoomToolBar->addWidget(m_zoomWidget);
 }
 
-void MainWindow::createMenusAndSymbolDockWidgets(QStringList instrumentNames)
+void MainWindow::createMenusAndSymbolDockWidgets(const QList<int> &instrumentTypes)
 {
     QMenu *paletteMenu = new QMenu(this);
     ui->viewSymbolPalettesAction->setMenu(paletteMenu);
 
-    foreach (const QString &instrumentName, instrumentNames) {
-        QAction *paletteAction = paletteMenu->addAction(instrumentName);
-        SymbolDockWidget *dockWidget = new SymbolDockWidget(instrumentName, this);
-        dockWidget->setWindowTitle(instrumentName);
+    foreach (int instrumentType, instrumentTypes) {
+        InstrumentMetaData instrumentMeta = m_pluginManager->instrumentMetaData(instrumentType);
+        if (!instrumentMeta.isValid())
+            continue;
+        QString instrumentName = instrumentMeta.name();
+
+        QAction *paletteAction = paletteMenu->addAction(instrumentMeta.name());
+        SymbolDockWidget *dockWidget = new SymbolDockWidget(instrumentType, m_pluginManager, this);
         dockWidget->setVisible(false);
         addDockWidget(Qt::LeftDockWidgetArea, dockWidget);
+        connect(dockWidget, &SymbolDockWidget::selectedSymbolsChanged,
+                [this] (const QList<SymbolBehavior> &symbols) {
+            m_commonApplication->setPaletteSymbols(symbols);
+        });
         m_symbolDockWidgets.insert(instrumentName, dockWidget);
         paletteAction->setCheckable(true);
         paletteAction->setChecked(false);
@@ -236,8 +244,7 @@ void MainWindow::createMenusAndSymbolDockWidgets(QStringList instrumentNames)
 void MainWindow::createAndPopulateSymbolPalettes()
 {
     QList<int> instruments = m_pluginManager->instrumentTypes();
-    QStringList instrumentNames = m_pluginManager->instrumentNames();
-    createMenusAndSymbolDockWidgets(instrumentNames);
+    createMenusAndSymbolDockWidgets(instruments);
 
     foreach (const int instrumentType, instruments) {
         InstrumentMetaData metaData = m_pluginManager->instrumentMetaData(instrumentType);
@@ -245,16 +252,7 @@ void MainWindow::createAndPopulateSymbolPalettes()
         if (!symbolDock)
             continue;
 
-        QList<int> symbolTypes = metaData.supportedSymbols();
-        foreach (int type, symbolTypes) {
-            SymbolMetaData metaData = m_pluginManager->symbolMetaData(type);
-            symbolDock->addListItemToCategory(type, metaData);
-        }
 
-        connect(symbolDock, &SymbolDockWidget::selectedSymbolsChanged,
-                [this] (const QList<SymbolBehavior> &symbols) {
-            m_commonApplication->setPaletteSymbols(symbols);
-        });
     }
 }
 
