@@ -15,6 +15,7 @@
 
 MelodyNoteBehavior::MelodyNoteBehavior()
 {
+    setSymbolType(LP::MelodyNote);
     setSupportedData(QList<int>({LP::MelodyNoteDots}));
     setOptions(SymbolBehavior::HasLength | SymbolBehavior::HasPitch);
 }
