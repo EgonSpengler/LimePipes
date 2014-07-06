@@ -40,15 +40,16 @@ QList<int> IntegratedSymbols::symbolTypes() const
 
 SymbolBehavior *IntegratedSymbols::symbolBehaviorForType(int type)
 {
+    if (type == LP::MelodyNote) {
+        return new MelodyNoteBehavior;
+    }
+
     SymbolBehavior *behavior = new SymbolBehavior;
     behavior->setSymbolType(type);
 
     if (type == LP::Tie) {
         behavior->setSupportedData(QList<int>({LP::SymbolSpanType,
                                                LP::SymbolSpanBuddy}));
-    }
-    if (type == LP::MelodyNote) {
-        return new MelodyNoteBehavior;
     }
 
     return behavior;
