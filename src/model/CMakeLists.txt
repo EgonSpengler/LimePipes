@@ -17,6 +17,7 @@ set( lp_model_SOURCES
         ${DataHandlingDir}/partbehavior.cpp
         ${DataHandlingDir}/measurebehavior.cpp
         ${DataHandlingDir}/symbolbehavior.cpp
+        ${DataHandlingDir}/mimedata.cpp
 
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/instrument.cpp
         ${CMAKE_SOURCE_DIR}/src/common/datatypes/length.cpp

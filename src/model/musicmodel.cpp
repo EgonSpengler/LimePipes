@@ -32,6 +32,7 @@
 #include <commands/removeitemscommand.h>
 #include <common/defines.h>
 #include <common/datatypes/timesignature.h>
+#include <common/datahandling/mimedata.h>
 #include <utilities/error.h>
 
 #include "rootitem.h"

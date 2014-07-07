@@ -10,7 +10,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsItem>
 #include <QGraphicsItemGroup>
-#include <QDebug>
 #include <common/datahandling/datakeys.h>
 #include <common/itemdataroles.h>
 #include <common/observablesettings.h>
