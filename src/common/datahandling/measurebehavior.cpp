@@ -13,7 +13,7 @@
 #include "measurebehavior.h"
 
 MeasureBehavior::MeasureBehavior()
-    : ItemBehavior(LP::ItemType::Measure)
+    : ItemBehavior(LP::ItemType::MeasureType)
 {
 }
 

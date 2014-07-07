@@ -11,7 +11,7 @@
 #include <QGraphicsItem>
 #include <QGraphicsItemGroup>
 #include <QDebug>
-#include <musicitem.h>
+#include <common/datahandling/datakeys.h>
 #include <common/itemdataroles.h>
 #include <common/observablesettings.h>
 #include "interactinggraphicsitems/interactinggraphicsitem.h"
@@ -105,20 +105,18 @@ void VisualMusicModel::rowsInserted(const QModelIndex &parent, int start, int en
     if (!parent.isValid()) {
         insertNewVisualItems(parent, start, end, VisualItem::VisualScoreItem);
     }
-    MusicItem *item = static_cast<MusicItem*>(parent.internalPointer());
-    if (!item)
-        return;
 
-    if (item->type() == MusicItem::ScoreType) {
+    LP::ItemType parentItemType = static_cast<LP::ItemType>(parent.data(LP::MusicItemType).toInt());
+    if (parentItemType == LP::ItemType::ScoreType) {
         insertNewVisualItems(parent, start, end, VisualItem::VisualTuneItem);
     }
-    if (item->type() == MusicItem::TuneType) {
+    if (parentItemType == LP::ItemType::TuneType) {
         insertNewVisualItems(parent, start, end, VisualItem::VisualPartItem);
     }
-    if (item->type() == MusicItem::PartType) {
+    if (parentItemType == LP::ItemType::PartType) {
         insertNewVisualItems(parent, start, end, VisualItem::VisualMeasureItem);
     }
-    if (item->type() == MusicItem::MeasureType) {
+    if (parentItemType == LP::ItemType::MeasureType) {
         insertNewVisualItems(parent, start, end, VisualItem::VisualSymbolItem);
     }
 }

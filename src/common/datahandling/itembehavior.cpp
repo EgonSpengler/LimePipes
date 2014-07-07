@@ -13,8 +13,8 @@
 #include "itembehavior.h"
 
 ItemBehavior::ItemBehavior(LP::ItemType type)
-    : m_type(type)
 {
+    setType(type);
 }
 
 QVariant ItemBehavior::data(int role) const
@@ -61,10 +61,10 @@ bool ItemBehavior::supportsData(int data) const
 
 LP::ItemType ItemBehavior::type() const
 {
-    return m_type;
+    return static_cast<LP::ItemType>(data(LP::MusicItemType).toInt());
 }
 
 void ItemBehavior::setType(const LP::ItemType &type)
 {
-    m_type = type;
+    setData(static_cast<int>(type), LP::MusicItemType);
 }

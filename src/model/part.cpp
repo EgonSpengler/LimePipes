@@ -11,8 +11,10 @@
 
 #include "part.h"
 
+using namespace LP;
+
 Part::Part(MusicItem *parent)
-    : MusicItem(MusicItem::PartType, MusicItem::MeasureType, parent)
+    : MusicItem(ItemType::PartType, ItemType::MeasureType, parent)
 {
     initItem();
 

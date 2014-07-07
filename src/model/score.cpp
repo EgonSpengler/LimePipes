@@ -17,14 +17,16 @@
 
 #include "score.h"
 
+using namespace LP;
+
 Score::Score(MusicItem *parent)
-    : MusicItem(MusicItem::ScoreType, MusicItem::TuneType, parent)
+    : MusicItem(ItemType::ScoreType, ItemType::TuneType, parent)
 {
     initItem();
 }
 
 Score::Score(const QString &title)
-    : MusicItem(MusicItem::ScoreType, MusicItem::TuneType)
+    : MusicItem(ItemType::ScoreType, ItemType::TuneType)
 {
     initItem();
     setTitle(title);

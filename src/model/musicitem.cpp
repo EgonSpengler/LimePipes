@@ -27,7 +27,9 @@
 
 static const QString childItemsKey("child items");
 
-MusicItem::MusicItem(Type type, Type childType, MusicItem *parent)
+using namespace LP;
+
+MusicItem::MusicItem(LP::ItemType type, LP::ItemType childType, MusicItem *parent)
     : m_type(type), m_childType(childType), m_parent(parent),
       m_itemBehavior(0)
 {
@@ -61,7 +63,7 @@ void MusicItem::setParent(MusicItem *parent)
 
 bool MusicItem::insertChild(int row, MusicItem *item)
 {
-    if (m_childType == NoItemType)
+    if (m_childType == ItemType::NoItemType)
         return false;
 
     if (m_childType == item->type()) {
@@ -79,7 +81,7 @@ bool MusicItem::addChild(MusicItem *item)
         return false;
     }
 
-    if (m_childType == NoItemType)
+    if (m_childType == ItemType::NoItemType)
         return false;
 
     if (m_childType == item->type()) {

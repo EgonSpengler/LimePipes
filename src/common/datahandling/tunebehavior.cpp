@@ -15,7 +15,7 @@
 #include "tunebehavior.h"
 
 TuneBehavior::TuneBehavior()
-    : ItemBehavior(LP::ItemType::Tune)
+    : ItemBehavior(LP::ItemType::TuneType)
 {
 }
 

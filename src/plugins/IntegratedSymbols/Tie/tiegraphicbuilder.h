@@ -28,7 +28,7 @@ protected:
     void updateSymbolGraphic(const QVariant &value, int key);
 
 private:
-    SymbolSpanType m_spanType;
+    SpanType m_spanType;
     QPersistentModelIndex m_buddyIndex;
     QVector<int> m_dataRoles;
 };

@@ -110,7 +110,7 @@ private:
     bool isValidScoreTag(QXmlStreamReader *reader);
 
     bool tagHasNonEmptyAttribute(QXmlStreamReader *reader, const QString &attributeName);
-    bool tagHasNameOfItemType(QStringRef tagname, MusicItem::Type type);
+    bool tagHasNameOfItemType(QStringRef tagname, LP::ItemType type);
 
     bool instrumentNameIsSupported(const QString &instrumentName);
     bool symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem);
@@ -125,13 +125,13 @@ private:
 
     QString attributeValue(QXmlStreamReader *reader, const QString &attributeName);
 
-    const QString tagNameOfMusicItemType(MusicItem::Type type) const;
+    const QString tagNameOfMusicItemType(LP::ItemType type) const;
 
-    bool indexHasItemType(const QModelIndex &index, MusicItem::Type type) const;
+    bool indexHasItemType(const QModelIndex &index, LP::ItemType type) const;
     void createRootItemIfNotPresent();
     bool isRowValid(MusicItem *item, int row) const;
 
-    static QHash<int, QString> initItemTypeTags();
+    static QHash<LP::ItemType, QString> initItemTypeTags();
     bool isMusicItemTag(const QString &tagName);
     bool isMusicItemTag(const QStringRef &tagName);
 
@@ -144,7 +144,7 @@ private:
     MusicItem *m_rootItem;
     int m_columnCount;
     PluginManager m_pluginManager;
-    static QHash<int, QString> s_itemTypeTags;
+    static QHash<LP::ItemType, QString> s_itemTypeTags;
     QUndoStack *m_undoStack;
     bool m_dropMimeDataOccured;
 
@@ -154,5 +154,11 @@ private:
     // an entry for the required minimum Qt Version ( find_package( Qt4 4.8.x REQUIRED ))
     bool m_noDropOccured;
 };
+
+namespace LP {
+
+uint qHash(const LP::ItemType &itemType);
+
+}
 
 #endif // MUSICMODEL_H

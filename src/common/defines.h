@@ -55,12 +55,12 @@ enum class SymbolCategory
 };
 Q_DECLARE_METATYPE(SymbolCategory)
 
-enum class SymbolSpanType
+enum class SpanType
 {
     Start = 1,
     End
 };
-Q_DECLARE_METATYPE(SymbolSpanType)
+Q_DECLARE_METATYPE(SpanType)
 
 enum GraphicsItemType {
     NoGraphicsItemType = QGraphicsItem::UserType,
@@ -135,11 +135,13 @@ inline QDebug operator <<(QDebug dbg, const GraphicsItemType & type)
 namespace LP {
 
 enum class ItemType {
-    Score,
-    Tune,
-    Part,
-    Measure,
-    Symbol
+    NoItemType,
+    RootItemType,
+    ScoreType,
+    TuneType,
+    PartType,
+    MeasureType,
+    SymbolType
 };
 
 enum InstrumentType {

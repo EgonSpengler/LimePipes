@@ -14,7 +14,7 @@
 #include "scorebehavior.h"
 
 ScoreBehavior::ScoreBehavior()
-    : ItemBehavior(LP::ItemType::Score)
+    : ItemBehavior(LP::ItemType::ScoreType)
 {
 }
 

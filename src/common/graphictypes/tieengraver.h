@@ -29,7 +29,7 @@ public:
     void insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder);
     void removeGraphicsBuilder(SymbolGraphicBuilder *builder);
 
-    SymbolSpanType spanTypeOfBuilder(SymbolGraphicBuilder *builder);
+    SpanType spanTypeOfBuilder(SymbolGraphicBuilder *builder);
 
 protected:
     void musicFontHasChanged(const MusicFontPtr &musicFont);

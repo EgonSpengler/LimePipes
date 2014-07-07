@@ -36,7 +36,6 @@ public:
     void setType(const LP::ItemType &type);
 
 private:
-    LP::ItemType m_type;
     QHash<int, QVariant> m_data;
     QList<int> m_supportedData;
 };

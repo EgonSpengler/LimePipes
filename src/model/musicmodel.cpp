@@ -48,17 +48,26 @@ const int MaxCompression = 9;
 
 }
 
-QHash<int, QString> MusicModel::s_itemTypeTags = MusicModel::initItemTypeTags();
-
-QHash<int, QString> MusicModel::initItemTypeTags()
+namespace LP {
+uint qHash(const LP::ItemType &itemType)
 {
-    QHash<int, QString> typeTags;
-    typeTags.insert(MusicItem::RootItemType, QString("LIMEPIPES"));
-    typeTags.insert(MusicItem::ScoreType,    QString("SCORE"));
-    typeTags.insert(MusicItem::TuneType,     QString("TUNE"));
-    typeTags.insert(MusicItem::PartType,     QString("PART"));
-    typeTags.insert(MusicItem::MeasureType,  QString("MEASURE"));
-    typeTags.insert(MusicItem::SymbolType,   QString("SYMBOL"));
+    return static_cast<uint>(itemType);
+}
+}
+
+using namespace LP;
+
+QHash<LP::ItemType, QString> MusicModel::s_itemTypeTags = MusicModel::initItemTypeTags();
+
+QHash<LP::ItemType, QString> MusicModel::initItemTypeTags()
+{
+    QHash<LP::ItemType, QString> typeTags;
+    typeTags.insert(ItemType::RootItemType, QString("LIMEPIPES"));
+    typeTags.insert(ItemType::ScoreType,    QString("SCORE"));
+    typeTags.insert(ItemType::TuneType,     QString("TUNE"));
+    typeTags.insert(ItemType::PartType,     QString("PART"));
+    typeTags.insert(ItemType::MeasureType,  QString("MEASURE"));
+    typeTags.insert(ItemType::SymbolType,   QString("SYMBOL"));
     return typeTags;
 }
 
@@ -208,7 +217,7 @@ QMimeData *MusicModel::mimeData(const QModelIndexList &indexes) const
     QByteArray xmlData;
     QXmlStreamWriter writer(&xmlData);
 
-    writer.writeStartElement(s_itemTypeTags.value(MusicItem::RootItemType));
+    writer.writeStartElement(s_itemTypeTags.value(ItemType::RootItemType));
     QJsonArray jsonArray;
     foreach (QModelIndex index, indexes) {
         if (MusicItem *item = itemForIndex(index)) {
@@ -236,14 +245,14 @@ QMimeData *MusicModel::mimeData(const QModelIndexList &indexes) const
 
 bool MusicModel::allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &indexes) const
 {
-    int itemType = -1;
+    ItemType itemType = ItemType::NoItemType;
     MusicItem *item = 0;
     foreach (QModelIndex index, indexes) {
         item = itemForIndex(index);
         if (!item)
             return false;
 
-        if (itemType == -1)
+        if (itemType == ItemType::NoItemType)
             itemType = item->type();
         else {
             if (item->type() != itemType) {
@@ -258,15 +267,15 @@ bool MusicModel::allModelIndexesHaveTheSameMusicItemType(const QModelIndexList &
 const QString MusicModel::mimeTypeForItem(const MusicItem *item) const
 {
     switch (item->type()) {
-    case MusicItem::ScoreType:
+    case ItemType::ScoreType:
         return LP::MimeTypes::Score;
-    case MusicItem::TuneType:
+    case ItemType::TuneType:
         return LP::MimeTypes::Tune;
-    case MusicItem::PartType:
+    case ItemType::PartType:
         return LP::MimeTypes::Part;
-    case MusicItem::MeasureType:
+    case ItemType::MeasureType:
         return LP::MimeTypes::Measure;
-    case MusicItem::SymbolType:
+    case ItemType::SymbolType:
         return LP::MimeTypes::Symbol;
     default:
         qWarning() << "Mime type for MusicItem not supported.";
@@ -381,23 +390,23 @@ QString MusicModel::supportedMimeTypeFromData(const QMimeData *data)
 bool MusicModel::itemSupportsDropOfMimeType(const MusicItem *item, const QString &mimeType)
 {
     switch(item->type()) {
-    case MusicItem::RootItemType:
+    case ItemType::RootItemType:
         if (mimeType == LP::MimeTypes::Score)
             return true;
         return false;
-    case MusicItem::ScoreType:
+    case ItemType::ScoreType:
         if (mimeType == LP::MimeTypes::Tune)
             return true;
         return false;
-    case MusicItem::TuneType:
+    case ItemType::TuneType:
         if (mimeType == LP::MimeTypes::Part)
             return true;
         return false;
-    case MusicItem::PartType:
+    case ItemType::PartType:
         if (mimeType == LP::MimeTypes::Measure)
             return true;
         return false;
-    case MusicItem::MeasureType:
+    case ItemType::MeasureType:
         if (mimeType == LP::MimeTypes::Symbol)
             return true;
         return false;
@@ -409,7 +418,7 @@ bool MusicModel::itemSupportsDropOfMimeType(const MusicItem *item, const QString
 QModelIndex MusicModel::insertScore(int row, const QString &title)
 {
     createRootItemIfNotPresent();
-    Q_ASSERT(m_rootItem->childType() == MusicItem::ScoreType);
+    Q_ASSERT(m_rootItem->childType() == ItemType::ScoreType);
 
     QModelIndex scoreIndex = insertItem("Insert score", QModelIndex(), row, new Score(title));
 
@@ -496,7 +505,7 @@ QModelIndex MusicModel::insertMeasureIntoPart(int row, const QModelIndex &part)
     }
 
     MusicItem *partItem = itemForIndex(part);
-    if (!partItem && partItem->type() == MusicItem::PartType)
+    if (!partItem && partItem->type() == ItemType::PartType)
         return QModelIndex();
 
     QModelIndex tuneIndex = part.parent();
@@ -527,7 +536,7 @@ QModelIndex MusicModel::insertSymbolIntoMeasure(int row, const QModelIndex &meas
     }
 
     MusicItem *measureItem = itemForIndex(measure);
-    if (!measureItem && measureItem->type() != MusicItem::MeasureType)
+    if (!measureItem && measureItem->type() != ItemType::MeasureType)
         return QModelIndex();
 
     QModelIndex tuneIndex = measure.parent().parent();
@@ -596,9 +605,9 @@ QModelIndex MusicModel::insertSpanningSymbolIntoMeasure(int row, const QModelInd
         return QModelIndex();
     }
 
-    startSymbol->setData(QVariant::fromValue<SymbolSpanType>(SymbolSpanType::Start),
+    startSymbol->setData(QVariant::fromValue<SpanType>(SpanType::Start),
                          LP::SymbolSpanType);
-    endSymbol->setData(QVariant::fromValue<SymbolSpanType>(SymbolSpanType::End),
+    endSymbol->setData(QVariant::fromValue<SpanType>(SpanType::End),
                          LP::SymbolSpanType);
 
     m_undoStack->beginMacro(tr("Insert %1 Items")
@@ -672,16 +681,16 @@ void MusicModel::save(const QString &filename)
 void MusicModel::writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const
 {
     if (!musicItem ||
-            musicItem->type() == MusicItem::NoItemType)
+            musicItem->type() == LP::ItemType::NoItemType)
         return;
 
     writer->writeStartElement(tagNameOfMusicItemType(musicItem->type()));
 
-    if (musicItem->type() == MusicItem::RootItemType)
+    if (musicItem->type() == ItemType::RootItemType)
         writer->writeAttribute("VERSION", "0.1");
-    if (musicItem->type() == MusicItem::TuneType)
+    if (musicItem->type() == ItemType::TuneType)
         writeTuneAttributes(writer, musicItem);
-    if (musicItem->type() == MusicItem::SymbolType)
+    if (musicItem->type() == ItemType::SymbolType)
         writeSymbolAttributes(writer, musicItem);
 
     musicItem->writeItemDataToXmlStream(writer);
@@ -713,12 +722,12 @@ void MusicModel::writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musi
     MusicItem *tuneItem = musicItem;
     InstrumentMetaData instrumentMeta;
     while (1) {
-        if (tuneItem->type() == MusicItem::ScoreType ||
+        if (tuneItem->type() == ItemType::ScoreType ||
                 tuneItem->parent() == 0) {
             break;
         }
 
-        if (tuneItem->type() == MusicItem::TuneType) {
+        if (tuneItem->type() == ItemType::TuneType) {
             instrumentMeta = instrumentFromItem(tuneItem);
             break;
         }
@@ -733,7 +742,7 @@ void MusicModel::writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musi
     writer->writeAttribute("INSTRUMENT", instrumentMeta.name());
 }
 
-const QString MusicModel::tagNameOfMusicItemType(MusicItem::Type type) const
+const QString MusicModel::tagNameOfMusicItemType(LP::ItemType type) const
 {
     return s_itemTypeTags.value(type);
 }
@@ -770,29 +779,29 @@ void MusicModel::readMusicItems(QXmlStreamReader *reader, MusicItem *item)
         reader->readNext();
         if (reader->isStartElement()) {
             switch (item->type()) {
-            case MusicItem::RootItemType:
+            case ItemType::RootItemType:
                 if (!isMusicItemTag(reader->name()))
                     throw LP::Error(tr("No valid LimePipes file"));
 
                 processScoreTag(reader, &item);
                 break;
-            case MusicItem::ScoreType:
+            case ItemType::ScoreType:
                 processTuneTag(reader, &item);
                 break;
-            case MusicItem::TuneType:
+            case ItemType::TuneType:
                 processPartTag(reader, &item);
                 break;
-            case MusicItem::PartType:
+            case ItemType::PartType:
                 processMeasureTag(reader, &item);
                 break;
-            case MusicItem::MeasureType:
+            case ItemType::MeasureType:
                 processSymbolTag(reader, &item);
                 break;
-            case MusicItem::SymbolType:
+            case ItemType::SymbolType:
                 readPitchIfSymbolHasPitch(reader, &item);
                 item->readCurrentElementFromXmlStream(reader);
                 break;
-            case MusicItem::NoItemType:
+            case ItemType::NoItemType:
                 qWarning() << "An invalid music item can't be parent of anything.";
                 break;
             }
@@ -823,10 +832,10 @@ void MusicModel::processScoreTag(QXmlStreamReader *reader, MusicItem **item)
 
 bool MusicModel::isValidScoreTag(QXmlStreamReader *reader)
 {
-    return tagHasNameOfItemType(reader->name(), MusicItem::ScoreType);
+    return tagHasNameOfItemType(reader->name(), ItemType::ScoreType);
 }
 
-bool MusicModel::tagHasNameOfItemType(QStringRef tagname, MusicItem::Type type)
+bool MusicModel::tagHasNameOfItemType(QStringRef tagname, LP::ItemType type)
 {
     if (tagNameOfMusicItemType(type).compare(tagname, Qt::CaseInsensitive) == 0)
         return true;
@@ -866,7 +875,7 @@ void MusicModel::processMeasureTag(QXmlStreamReader *reader, MusicItem **item)
 
 bool MusicModel::isValidTuneTag(QXmlStreamReader *reader)
 {
-    if (tagHasNameOfItemType(reader->name(), MusicItem::TuneType) &&
+    if (tagHasNameOfItemType(reader->name(), ItemType::TuneType) &&
             tagHasNonEmptyAttribute(reader, "INSTRUMENT") &&
             instrumentNameIsSupported(attributeValue(reader, "INSTRUMENT"))) {
         return true;
@@ -876,12 +885,12 @@ bool MusicModel::isValidTuneTag(QXmlStreamReader *reader)
 
 bool MusicModel::isValidPartTag(QXmlStreamReader *reader)
 {
-    return tagHasNameOfItemType(reader->name(), MusicItem::PartType);
+    return tagHasNameOfItemType(reader->name(), ItemType::PartType);
 }
 
 bool MusicModel::isValidMeasureTag(QXmlStreamReader *reader)
 {
-    return tagHasNameOfItemType(reader->name(), MusicItem::MeasureType);
+    return tagHasNameOfItemType(reader->name(), ItemType::MeasureType);
 }
 
 bool MusicModel::tagHasNonEmptyAttribute(QXmlStreamReader *reader, const QString &attributeName)
@@ -972,7 +981,7 @@ bool MusicModel::isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item)
 {
     MusicItem *tuneItem = getTuneItemParent(item);
 
-    if (tagHasNameOfItemType(reader->name(), MusicItem::SymbolType) &&
+    if (tagHasNameOfItemType(reader->name(), ItemType::SymbolType) &&
             tagHasNonEmptyAttribute(reader, "TYPE") &&
             symbolTypeIsSupportedByTuneItem(reader, tuneItem)) {
         return true;
@@ -1004,7 +1013,7 @@ bool MusicModel::symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, Music
 
 InstrumentMetaData MusicModel::instrumentFromItem(MusicItem *item) const
 {
-    Q_ASSERT(item->type() == MusicItem::TuneType);
+    Q_ASSERT(item->type() == ItemType::TuneType);
 
     int instrumentType = item->data(LP::TuneInstrument).toInt();
     if (instrumentType != LP::NoInstrument) {
@@ -1051,13 +1060,13 @@ MusicItem *MusicModel::getTuneItemParent(MusicItem *item)
 {
     Q_ASSERT(item);
     Q_ASSERT(item->parent());
-    Q_ASSERT(item->type() != MusicItem::NoItemType);
+    Q_ASSERT(item->type() != ItemType::NoItemType);
 
-    while (item->type() != MusicItem::TuneType) {
+    while (item->type() != ItemType::TuneType) {
         item = item->parent();
 
-        if (item->type() == MusicItem::RootItemType ||
-                item->type() == MusicItem::ScoreType)
+        if (item->type() == ItemType::RootItemType ||
+                item->type() == ItemType::ScoreType)
             break;
     }
     return item;
@@ -1074,27 +1083,27 @@ bool MusicModel::isEndTagOfCurrentItem(QXmlStreamReader *reader, MusicItem *item
 
 bool MusicModel::isIndexScore(const QModelIndex &index) const
 {
-    return indexHasItemType(index, MusicItem::ScoreType);
+    return indexHasItemType(index, ItemType::ScoreType);
 }
 
 bool MusicModel::isIndexTune(const QModelIndex &index) const
 {
-    return indexHasItemType(index, MusicItem::TuneType);
+    return indexHasItemType(index, ItemType::TuneType);
 }
 
 bool MusicModel::isIndexPart(const QModelIndex &index) const
 {
-    return indexHasItemType(index, MusicItem::PartType);
+    return indexHasItemType(index, ItemType::PartType);
 }
 
 bool MusicModel::isIndexMeasure(const QModelIndex &index) const
 {
-    return indexHasItemType(index, MusicItem::MeasureType);
+    return indexHasItemType(index, ItemType::MeasureType);
 }
 
 bool MusicModel::isIndexSymbol(const QModelIndex &index) const
 {
-    return indexHasItemType(index, MusicItem::SymbolType);
+    return indexHasItemType(index, ItemType::SymbolType);
 }
 
 bool MusicModel::indexSupportsWritingOfData(const QModelIndex &index, int role) const
@@ -1105,7 +1114,7 @@ bool MusicModel::indexSupportsWritingOfData(const QModelIndex &index, int role) 
     return false;
 }
 
-bool MusicModel::indexHasItemType(const QModelIndex &index, MusicItem::Type type) const
+bool MusicModel::indexHasItemType(const QModelIndex &index, LP::ItemType type) const
 {
     if (MusicItem *item = itemForIndex(index)) {
         if (item->type() == type) {

@@ -13,8 +13,10 @@
 
 #include "rootitem.h"
 
+using namespace LP;
+
 RootItem::RootItem()
-    : MusicItem(MusicItem::RootItemType, MusicItem::ScoreType)
+    : MusicItem(ItemType::RootItemType, ItemType::ScoreType)
 {
 }
 

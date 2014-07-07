@@ -18,8 +18,10 @@
 
 #include "tune.h"
 
+using namespace LP;
+
 Tune::Tune(MusicItem *parent)
-    : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
+    : MusicItem(ItemType::TuneType, ItemType::PartType, parent)
 {
     initItem();
 
@@ -29,7 +31,7 @@ Tune::Tune(MusicItem *parent)
 }
 
 Tune::Tune(int instrumentType, MusicItem *parent)
-    : MusicItem(MusicItem::TuneType, MusicItem::PartType, parent)
+    : MusicItem(ItemType::TuneType, ItemType::PartType, parent)
 {
     initItem();
 

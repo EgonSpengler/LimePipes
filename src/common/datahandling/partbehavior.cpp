@@ -12,7 +12,7 @@
 #include "partbehavior.h"
 
 PartBehavior::PartBehavior()
-    : ItemBehavior(LP::ItemType::Part)
+    : ItemBehavior(LP::ItemType::PartType)
 {
 }
 

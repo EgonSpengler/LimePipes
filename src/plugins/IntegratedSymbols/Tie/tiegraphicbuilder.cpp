@@ -26,7 +26,7 @@ QVector<int> TieGraphicBuilder::graphicDataRoles() const
 void TieGraphicBuilder::updateSymbolGraphic(const QVariant &value, int key)
 {
     if (key == LP::SymbolSpanType) {
-        m_spanType = value.value<SymbolSpanType>();
+        m_spanType = value.value<SpanType>();
     }
 
     if (key == LP::SymbolSpanBuddy) {

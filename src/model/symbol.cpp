@@ -17,15 +17,17 @@
 #include <common/defines.h>
 #include <QXmlStreamWriter>
 
+using namespace LP;
+
 Symbol::Symbol(MusicItem *parent)
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType, parent),
+    : MusicItem(ItemType::SymbolType, ItemType::NoItemType, parent),
       m_behavior(0)
 {
     Q_UNUSED(parent)
 }
 
 Symbol::Symbol(int type, const QString &name, MusicItem *parent)
-    : MusicItem(MusicItem::SymbolType, MusicItem::NoItemType),
+    : MusicItem(ItemType::SymbolType, ItemType::NoItemType),
       m_behavior(0)
 {
     Q_UNUSED(parent)

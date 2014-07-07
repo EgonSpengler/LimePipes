@@ -13,13 +13,15 @@
 #include <symbol.h>
 #include "measure.h"
 
+using namespace LP;
+
 Measure::Measure(MusicItem *parent)
 {
     initItem();
 }
 
 Measure::Measure(const PluginManager &pluginManager, MusicItem *parent)
-    : MusicItem(MusicItem::MeasureType, MusicItem::SymbolType, parent),
+    : MusicItem(ItemType::MeasureType, ItemType::SymbolType, parent),
       m_pluginManager(pluginManager)
 {
     initItem();

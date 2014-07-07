@@ -17,9 +17,9 @@ TieEngraver::TieEngraver()
 {
 }
 
-SymbolSpanType TieEngraver::spanTypeOfBuilder(SymbolGraphicBuilder *builder)
+SpanType TieEngraver::spanTypeOfBuilder(SymbolGraphicBuilder *builder)
 {
-    SymbolSpanType spanType = builder->data(LP::SymbolSpanType).value<SymbolSpanType>();
+    SpanType spanType = builder->data(LP::SymbolSpanType).value<SpanType>();
 
     return spanType;
 }
@@ -32,8 +32,8 @@ SymbolGraphicBuilder *TieEngraver::startItemBuilderBefore(int index)
     SymbolGraphicBuilder *startItemBuilder;
     for (int i = index; i >= 0; --i) {
         startItemBuilder = m_graphicBuilder.at(i);
-        if (spanTypeOfBuilder(startItemBuilder) == SymbolSpanType::Start ||
-                spanTypeOfBuilder(startItemBuilder) == SymbolSpanType::End) {
+        if (spanTypeOfBuilder(startItemBuilder) == SpanType::Start ||
+                spanTypeOfBuilder(startItemBuilder) == SpanType::End) {
             break;
         }
     }
@@ -48,8 +48,8 @@ SymbolGraphicBuilder *TieEngraver::endItemBuilderAfter(int index)
     SymbolGraphicBuilder *endItemBuilder;
     for (int i = 0; i <= index; ++i) {
         endItemBuilder = m_graphicBuilder.at(i);
-        if (spanTypeOfBuilder(endItemBuilder) == SymbolSpanType::Start ||
-                spanTypeOfBuilder(endItemBuilder) == SymbolSpanType::End) {
+        if (spanTypeOfBuilder(endItemBuilder) == SpanType::Start ||
+                spanTypeOfBuilder(endItemBuilder) == SpanType::End) {
             break;
         }
     }
@@ -59,8 +59,8 @@ SymbolGraphicBuilder *TieEngraver::endItemBuilderAfter(int index)
 void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder)
 {
     if (builder->symbolType() == LP::Tie) {
-        SymbolSpanType spanType = spanTypeOfBuilder(builder);
-        if (spanType == SymbolSpanType::Start) {
+        SpanType spanType = spanTypeOfBuilder(builder);
+        if (spanType == SpanType::Start) {
             // TieGraphicsItem will have no parent item per default.
             // It will add itself to the graphics scene, when items are added
             TieGraphicsItem *tieItem = new TieGraphicsItem;
@@ -71,7 +71,7 @@ void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder
             if (!endItemBuilder)
                 return;
 
-            if (spanTypeOfBuilder(endItemBuilder) == SymbolSpanType::End) {
+            if (spanTypeOfBuilder(endItemBuilder) == SpanType::End) {
                 m_tieItems.insert(endItemBuilder, tieItem);
             }
         } else {
@@ -79,7 +79,7 @@ void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder
             if (!startItemBuilder)
                 return;
 
-            if (spanTypeOfBuilder(startItemBuilder) == SymbolSpanType::Start) {
+            if (spanTypeOfBuilder(startItemBuilder) == SpanType::Start) {
                 TieGraphicsItem *tieItem = m_tieItems.value(startItemBuilder);
                 if (!tieItem) {
                     qWarning() << "TieEngraver: Tie Start graphics builder has no tie item";
@@ -89,7 +89,7 @@ void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder
             }
         }
         QString spanTypeName = QStringLiteral("start");
-        if (spanType == SymbolSpanType::End)
+        if (spanType == SpanType::End)
             spanTypeName = "end";
 
         qDebug() << "TieEngraver: Inserted Tie " << spanTypeName << " symbol at "
@@ -108,12 +108,12 @@ void TieEngraver::insertGraphicsBuilder(int index, SymbolGraphicBuilder *builder
         // Search for tie start directly before newly inserted symbol
         for (int i = index; i >= 0; --i) {
             tieStart = m_graphicBuilder.at(i);
-            SymbolSpanType spanType = spanTypeOfBuilder(tieStart);
+            SpanType spanType = spanTypeOfBuilder(tieStart);
 
-            if (spanType == SymbolSpanType::Start) {
+            if (spanType == SpanType::Start) {
                 break;
             }
-            if (spanType == SymbolSpanType::End ||
+            if (spanType == SpanType::End ||
                     i == 0) {
                 tieStart = 0;
                 break;

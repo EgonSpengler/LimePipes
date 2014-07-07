@@ -15,6 +15,7 @@
 #include <QVariant>
 #include <QJsonObject>
 
+#include <common/defines.h>
 #include <common/datahandling/itembehavior.h>
 
 class QXmlStreamWriter;
@@ -23,21 +24,13 @@ class QXmlStreamReader;
 class MusicItem
 {
 public:
-    enum Type {
-        RootItemType = 1,
-        ScoreType,
-        TuneType,
-        PartType,
-        MeasureType,
-        SymbolType,
-        NoItemType
-    };
-
-    explicit MusicItem(Type type=NoItemType, Type childType=NoItemType, MusicItem *parent=0);
+    explicit MusicItem(LP::ItemType type=LP::ItemType::NoItemType,
+                       LP::ItemType childType=LP::ItemType::NoItemType,
+                       MusicItem *parent=0);
     virtual ~MusicItem();
 
-    Type type() const { return m_type; }
-    Type childType() const { return m_childType; }
+    LP::ItemType type() const { return m_type; }
+    LP::ItemType childType() const { return m_childType; }
 
     MusicItem *parent() const { return m_parent; }
     void setParent(MusicItem *parent);
@@ -69,8 +62,8 @@ protected:
     void initData(const QVariant &value, int role) { writeData(value, role); }
     virtual void beforeWritingData(QVariant &value, int role);
     virtual void afterWritingData(int role);
-    Type m_type;
-    Type m_childType;
+    LP::ItemType m_type;
+    LP::ItemType m_childType;
     MusicItem *m_parent;
 
 private:
@@ -83,7 +76,7 @@ class NullMusicItem : public MusicItem
 {
 public:
     NullMusicItem()
-        : MusicItem(MusicItem::NoItemType, MusicItem::NoItemType) {}
+        : MusicItem(LP::ItemType::NoItemType, LP::ItemType::NoItemType) {}
     NullMusicItem(const MusicItem &other)
     {
         m_parent = other.parent();
