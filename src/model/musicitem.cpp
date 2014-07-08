@@ -23,9 +23,9 @@
 
 #include <QDebug>
 #include <QJsonArray>
-#include "musicitem.h"
+#include <common/datahandling/datakeys.h>
 
-static const QString childItemsKey("child items");
+#include "musicitem.h"
 
 using namespace LP;
 
@@ -136,10 +136,20 @@ QJsonObject MusicItem::toJson() const
     }
 
     if (childArray.count()) {
-        json.insert(childItemsKey, childArray);
+        json.insert(DataKey::ItemChildren, childArray);
     }
 
     return json;
+}
+
+void MusicItem::fromJson(const QJsonObject &json)
+{
+    if (!m_itemBehavior) {
+        qWarning() << "MusicItem: Can't read music item data from json with no item behavior";
+        return;
+    }
+
+    m_itemBehavior->fromJson(json);
 }
 
 void MusicItem::beforeWritingData(QVariant &value, int role)

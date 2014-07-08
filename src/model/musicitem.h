@@ -18,9 +18,6 @@
 #include <common/defines.h>
 #include <common/datahandling/itembehavior.h>
 
-class QXmlStreamWriter;
-class QXmlStreamReader;
-
 class MusicItem
 {
 public:
@@ -50,10 +47,9 @@ public:
     bool setData(const QVariant &value, int role);
 
     virtual bool itemSupportsWritingOfData(int role) const = 0;
-    virtual void writeItemDataToXmlStream(QXmlStreamWriter *writer) = 0;
-    virtual void readCurrentElementFromXmlStream(QXmlStreamReader *reader) = 0;
 
     virtual QJsonObject toJson() const;
+    virtual void fromJson(const QJsonObject &json);
 
     ItemBehavior *itemBehavior() const;
     void setItemBehavior(ItemBehavior *itemBehavior);
@@ -84,8 +80,6 @@ public:
         m_childType = other.childType();
     }
     bool itemSupportsWritingOfData(int role) const { Q_UNUSED(role) return true; }
-    void writeItemDataToXmlStream(QXmlStreamWriter *writer) { Q_UNUSED(writer) }
-    void readCurrentElementFromXmlStream(QXmlStreamReader *reader) { Q_UNUSED(reader) }
 };
 
 #endif // MUSICITEM_H

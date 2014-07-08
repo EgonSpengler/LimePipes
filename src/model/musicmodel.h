@@ -15,9 +15,11 @@
 #include <musicitem.h>
 #include <common/pluginmanagerinterface.h>
 
-class QXmlStreamWriter;
-class QXmlStreamReader;
 class QUndoStack;
+
+namespace LP {
+uint qHash(const LP::ItemType &itemType);
+} // namespace LP
 
 class MusicModel : public QAbstractItemModel,
                    public MusicModelInterface
@@ -88,55 +90,15 @@ private:
     QString supportedMimeTypeFromData(const QMimeData *data);
     bool itemSupportsDropOfMimeType(const MusicItem *item, const QString &mimeType);
 
-    void writeMusicItemAndChildren(QXmlStreamWriter *writer, MusicItem *musicItem) const;
-
-    void writeTuneAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const;
-    void writeSymbolAttributes(QXmlStreamWriter *writer, MusicItem *musicItem) const;
-
-    void readMusicItems(QXmlStreamReader *reader, MusicItem *item);
-
-    void processScoreTag(QXmlStreamReader *reader, MusicItem **item);
-    void processTuneTag(QXmlStreamReader *reader, MusicItem **item);
-    void processPartTag(QXmlStreamReader *reader, MusicItem **item);
-    void processMeasureTag(QXmlStreamReader *reader, MusicItem **item);
-    void processSymbolTag(QXmlStreamReader *reader, MusicItem **item);
-    void readPitchIfSymbolHasPitch(QXmlStreamReader *reader, MusicItem **item);
-
-    bool isEndTagOfCurrentItem(QXmlStreamReader *reader, MusicItem *item);
-    bool isValidSymbolTag(QXmlStreamReader *reader, MusicItem *item);
-    bool isValidTuneTag(QXmlStreamReader *reader);
-    bool isValidPartTag(QXmlStreamReader *reader);
-    bool isValidMeasureTag(QXmlStreamReader *reader);
-    bool isValidScoreTag(QXmlStreamReader *reader);
-
-    bool tagHasNonEmptyAttribute(QXmlStreamReader *reader, const QString &attributeName);
-    bool tagHasNameOfItemType(QStringRef tagname, LP::ItemType type);
-
-    bool instrumentNameIsSupported(const QString &instrumentName);
-    bool symbolTypeIsSupportedByTuneItem(QXmlStreamReader *reader, MusicItem *tuneItem);
-
-    MusicItem *newTuneWithInstrument(QXmlStreamReader *reader, MusicItem *item);
-    MusicItem *newSymbolForMeasureItem(QXmlStreamReader *reader, MusicItem *item);
-    MusicItem *getTuneItemParent(MusicItem *item);
-
-    InstrumentMetaData instrumentFromItem(MusicItem *item) const;
-    template<typename T>
-    T *itemPointerToNewChildItem(MusicItem **parent);
-
-    QString attributeValue(QXmlStreamReader *reader, const QString &attributeName);
-
-    const QString tagNameOfMusicItemType(LP::ItemType type) const;
-
     bool indexHasItemType(const QModelIndex &index, LP::ItemType type) const;
     void createRootItemIfNotPresent();
     bool isRowValid(MusicItem *item, int row) const;
 
     static QHash<LP::ItemType, QString> initItemTypeTags();
-    bool isMusicItemTag(const QString &tagName);
-    bool isMusicItemTag(const QStringRef &tagName);
-
     QModelIndex insertItem(const QString &text, const QModelIndex &parent, int row, MusicItem *item);
     QModelIndex insertItems(const QString &text, const QModelIndex &parent, int row, const QList<MusicItem *> &items);
+
+    MusicItem *itemFromJsonObject(const QJsonObject &json);
 
     // Candidate for public api
     QModelIndex insertSpanningSymbolIntoMeasure(int row, const QModelIndex &measure, int type);
@@ -144,7 +106,6 @@ private:
     MusicItem *m_rootItem;
     int m_columnCount;
     PluginManager m_pluginManager;
-    static QHash<LP::ItemType, QString> s_itemTypeTags;
     QUndoStack *m_undoStack;
     bool m_dropMimeDataOccured;
 
@@ -154,11 +115,5 @@ private:
     // an entry for the required minimum Qt Version ( find_package( Qt4 4.8.x REQUIRED ))
     bool m_noDropOccured;
 };
-
-namespace LP {
-
-uint qHash(const LP::ItemType &itemType);
-
-}
 
 #endif // MUSICMODEL_H

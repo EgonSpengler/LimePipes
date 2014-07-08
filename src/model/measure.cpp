@@ -41,14 +41,6 @@ bool Measure::itemSupportsWritingOfData(int role) const
     return false;
 }
 
-void Measure::writeItemDataToXmlStream(QXmlStreamWriter *writer)
-{
-}
-
-void Measure::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
-{
-}
-
 bool Measure::okToInsertChild(const MusicItem *item, int row)
 {
     Q_UNUSED(row);

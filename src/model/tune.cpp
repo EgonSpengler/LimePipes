@@ -61,13 +61,3 @@ bool Tune::itemSupportsWritingOfData(int role) const
 
     return false;
 }
-
-void Tune::writeItemDataToXmlStream(QXmlStreamWriter *writer)
-{
-    Q_UNUSED(writer)
-}
-
-void Tune::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
-{
-    Q_UNUSED(reader)
-}

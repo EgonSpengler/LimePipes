@@ -41,9 +41,17 @@ QMimeData *MimeData::fromJsonArray(const QJsonArray &array)
     return mimeData;
 }
 
-QJsonArray MimeData::toJsonArray(QMimeData *mimeData)
+QJsonArray MimeData::toJsonArray(const QMimeData *mimeData)
 {
+    QString mimeType = supportedMimeTypeFromData(mimeData);
+    if (mimeType.isEmpty())
+        return QJsonArray();
 
+    QByteArray data = qUncompress(mimeData->data(mimeType));
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(data);
+    QJsonArray jsonArray = jsonDoc.array();
+
+    return jsonArray;
 }
 
 QString MimeData::mimeTypeForItemType(LP::ItemType type)
@@ -63,4 +71,24 @@ QString MimeData::mimeTypeForItemType(LP::ItemType type)
         qWarning() << "Mime type for MusicItem not supported.";
         return QString();
     }
+}
+
+/*!
+ * \brief MimeData::supportedMimeTypeFromData Returns the first mime type from QMimeData,
+ *        which is supported by LimePipes
+ * \param data The mime data to check for supported mime type
+ * \return The supported mime type or an empty string, if no supported mime type can be found.
+ */
+QString MimeData::supportedMimeTypeFromData(const QMimeData *data)
+{
+    QStringList supportedMimeTypes({LP::MimeTypes::Symbol, LP::MimeTypes::Measure,
+                                   LP::MimeTypes::Part, LP::MimeTypes::Tune,
+                                   LP::MimeTypes::Score});
+    foreach (const QString mimeType, data->formats()) {
+        if (supportedMimeTypes.contains(mimeType)) {
+            return mimeType;
+        }
+    }
+
+    return QStringLiteral("");
 }

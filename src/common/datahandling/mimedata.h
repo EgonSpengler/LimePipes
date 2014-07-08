@@ -20,9 +20,10 @@ public:
     MimeData() {}
 
     static QMimeData *fromJsonArray(const QJsonArray &array);
-    static QJsonArray toJsonArray(QMimeData *mimeData);
+    static QJsonArray toJsonArray(const QMimeData *mimeData);
 
     static QString mimeTypeForItemType(LP::ItemType type);
+    static QString supportedMimeTypeFromData(const QMimeData *data);
 };
 
 #endif // MIMEDATA_H

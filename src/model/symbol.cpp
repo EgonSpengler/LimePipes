@@ -91,44 +91,6 @@ bool Symbol::itemSupportsWritingOfData(int role) const
     }
 }
 
-void Symbol::writeItemDataToXmlStream(QXmlStreamWriter *writer)
-{
-    if (this->hasPitch())
-        writePitch(writer);
-    if (this->hasLength())
-        writeLength(writer);
-}
-
-void Symbol::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
-{
-    if (QString("LENGTH").compare(reader->name(), Qt::CaseInsensitive) == 0) {
-        int length = reader->readElementText().toInt();
-        if (Length::lengthValues().contains(length)) {
-            setData(QVariant::fromValue<Length::Value>((Length::Value)length), LP::SymbolLength);
-        }
-    }
-}
-
-void Symbol::writePitch(QXmlStreamWriter *writer)
-{
-    QVariant pitchVar = data(LP::SymbolPitch);
-    if (pitchVar.isValid() &&
-            pitchVar.canConvert<Pitch>()) {
-        Pitch pitch = pitchVar.value<Pitch>();
-        writer->writeTextElement("PITCH", pitch.name());
-    }
-}
-
-void Symbol::writeLength(QXmlStreamWriter *writer)
-{
-    QVariant lengthVar = data(LP::SymbolLength);
-    if (lengthVar.isValid() &&
-            lengthVar.canConvert<Length::Value>()) {
-        Length::Value length = lengthVar.value<Length::Value>();
-        writer->writeTextElement("LENGTH", QString::number(length, 10));
-    }
-}
-
 SymbolBehavior *Symbol::symbolBehavior() const
 {
     return m_behavior;

@@ -34,15 +34,11 @@ public:
     Length::Value length() const;
 
     bool itemSupportsWritingOfData(int role) const;
-    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
-    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
     SymbolBehavior *symbolBehavior() const;
     void setSymbolBehavior(SymbolBehavior *symbolBehavior);
 
 private:
-    void writePitch(QXmlStreamWriter *writer);
-    void writeLength(QXmlStreamWriter *writer);
     SymbolBehavior *m_behavior;
 };
 

@@ -19,8 +19,6 @@ public:
     explicit Measure(const PluginManager &pluginManager, MusicItem *parent=0);
 
     bool itemSupportsWritingOfData(int role) const;
-    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
-    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
     bool okToInsertChild(const MusicItem *item, int row);
 
     PluginManager pluginManager() const;

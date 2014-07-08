@@ -15,6 +15,7 @@ namespace DataKey {
 
 // Item
 const QString ItemType("item type");
+const QString ItemChildren("child items");
 
 // Score
 const QString ScoreTitle("title");

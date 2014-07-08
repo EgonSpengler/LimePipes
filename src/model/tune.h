@@ -24,8 +24,6 @@ public:
     void setInstrument(int instrumentType);
 
     bool itemSupportsWritingOfData(int role) const;
-    void writeItemDataToXmlStream(QXmlStreamWriter *writer);
-    void readCurrentElementFromXmlStream(QXmlStreamReader *reader);
 
 private:
     void initItem();

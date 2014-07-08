@@ -43,11 +43,3 @@ bool Part::itemSupportsWritingOfData(int role) const
         return true;
     return false;
 }
-
-void Part::writeItemDataToXmlStream(QXmlStreamWriter *writer)
-{
-}
-
-void Part::readCurrentElementFromXmlStream(QXmlStreamReader *reader)
-{
-}
