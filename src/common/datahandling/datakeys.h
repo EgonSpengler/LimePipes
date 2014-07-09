@@ -40,8 +40,8 @@ const QString SymbolSpanType("span type");
 const QString MelodyNoteDots("dots");
 
 // General
-const QString InstrumentKey("instrument");
-const QString TimeSignatureKey("time sig");
+const QString Instrument("instrument");
+const QString TimeSignature("time sig");
 const QString StaffType("staff type");
 const QString ClefType("clef");
 const QString Lenght("length");

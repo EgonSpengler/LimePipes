@@ -41,10 +41,14 @@ VisualItem *VisualItemFactory::newVisualScore()
                                          VisualItem::GraphicalRowType);
 
     ScoreGraphicsItem *scoreHeaderItem = new ScoreGraphicsItem(Settings::Score::Header);
-    scoreHeaderItem->setItemInteraction(new ScoreInteraction);
+    ScoreInteraction *interaction = new ScoreInteraction;
+    interaction->setPluginManager(pluginManger());
+    scoreHeaderItem->setItemInteraction(interaction);
 
     ScoreGraphicsItem *scoreFooterItem = new ScoreGraphicsItem(Settings::Score::Footer);
-    scoreFooterItem->setItemInteraction(new ScoreInteraction);
+    interaction = new ScoreInteraction;
+    interaction->setPluginManager(pluginManger());
+    scoreFooterItem->setItemInteraction(interaction);
 
     newItem->appendRow(scoreHeaderItem);
     newItem->appendRow(scoreFooterItem);
@@ -84,6 +88,7 @@ VisualItem *VisualItemFactory::newVisualSymbol(int symbolType)
 
     SymbolGraphicsItem *symbolGraphicsItem = new SymbolGraphicsItem;
     SymbolInteraction *symbolInteraction = new SymbolInteraction(pluginManger()->musicFont());
+    symbolInteraction->setPluginManager(pluginManger());
     ItemInteraction *additionalInteraction = pluginManger()->itemInteractionForType(symbolType);
     if (additionalInteraction) {
         symbolInteraction->setAdditionalInteraction(additionalInteraction);

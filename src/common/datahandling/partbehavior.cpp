@@ -30,4 +30,5 @@ QJsonObject PartBehavior::toJson() const
 
 void PartBehavior::fromJson(const QJsonObject &json)
 {
+    ItemBehavior::fromJson(json);
 }

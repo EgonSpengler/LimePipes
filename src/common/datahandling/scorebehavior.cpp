@@ -20,7 +20,7 @@ ScoreBehavior::ScoreBehavior()
 
 QJsonObject ScoreBehavior::toJson() const
 {
-    QJsonObject json;
+    QJsonObject json(ItemBehavior::toJson());
     insertScoreData(json, LP::ScoreTitle, DataKey::ScoreTitle);
     insertScoreData(json, LP::ScoreComposer, DataKey::ScoreComposer);
     insertScoreData(json, LP::ScoreArranger, DataKey::ScoreArranger);
@@ -33,6 +33,7 @@ QJsonObject ScoreBehavior::toJson() const
 
 void ScoreBehavior::fromJson(const QJsonObject &json)
 {
+    ItemBehavior::fromJson(json);
 }
 
 void ScoreBehavior::insertScoreData(QJsonObject &json, int dataRole, const QString &key) const

@@ -57,6 +57,7 @@ Q_DECLARE_METATYPE(SymbolCategory)
 
 enum class SpanType
 {
+    None,
     Start = 1,
     End
 };

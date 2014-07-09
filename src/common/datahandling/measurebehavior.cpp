@@ -22,7 +22,7 @@ QJsonObject MeasureBehavior::toJson() const
     QJsonObject json(ItemBehavior::toJson());
     TimeSignature timeSig = data(LP::TuneTimeSignature).value<TimeSignature>();
     if (timeSig.isValid()) {
-        json.insert(DataKey::TimeSignatureKey, static_cast<int>(timeSig.type()));
+        json.insert(DataKey::TimeSignature, static_cast<int>(timeSig.type()));
     }
     QVariant isUpbeatData = data(LP::MeasureIsUpbeat);
     if (isUpbeatData.isValid()) {
@@ -34,4 +34,5 @@ QJsonObject MeasureBehavior::toJson() const
 
 void MeasureBehavior::fromJson(const QJsonObject &json)
 {
+    ItemBehavior::fromJson(json);
 }

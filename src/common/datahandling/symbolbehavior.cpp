@@ -21,11 +21,12 @@ SymbolBehavior::SymbolBehavior()
 QJsonObject SymbolBehavior::toJson() const
 {
     QJsonObject json(ItemBehavior::toJson());
+
     int symbolType = data(LP::SymbolType).toInt();
     if (symbolType != LP::NoSymbolType) {
         json.insert(DataKey::SymbolType, symbolType);
     }
-    json.insert(DataKey::InstrumentKey, data(LP::SymbolInstrument).toInt());
+    json.insert(DataKey::Instrument, data(LP::SymbolInstrument).toInt());
     json.insert(DataKey::SymbolName, data(LP::SymbolName).toString());
     if (hasOption(HasLength)) {
         Length::Value length = data(LP::SymbolLength).value<Length::Value>();
@@ -35,9 +36,10 @@ QJsonObject SymbolBehavior::toJson() const
         Pitch pitch = data(LP::SymbolPitch).value<Pitch>();
         json.insert(DataKey::Pitch, pitch.toJson());
     }
-    int spanType = data(LP::SymbolSpanType).toInt();
-    if (spanType != 0) {
-        json.insert(DataKey::SymbolSpanType, spanType);
+    SpanType spanType = data(LP::SymbolSpanType).value<SpanType>();
+
+    if (spanType != SpanType::None) {
+        json.insert(DataKey::SymbolSpanType, static_cast<int>(spanType));
     }
 
     return json;
@@ -45,6 +47,35 @@ QJsonObject SymbolBehavior::toJson() const
 
 void SymbolBehavior::fromJson(const QJsonObject &json)
 {
+    ItemBehavior::fromJson(json);
+
+    int type = json.value(DataKey::SymbolType).toInt();
+    setData(type, LP::SymbolType);
+
+    int instrument = json.value(DataKey::Instrument).toInt();
+    setData(instrument, LP::SymbolInstrument);
+
+    QString name = json.value(DataKey::SymbolName).toString();
+    setData(name, LP::SymbolName);
+
+    if (hasOption(HasLength)) {
+        int length = json.value(DataKey::Lenght).toInt();
+        Length::Value lengthValue = static_cast<Length::Value>(length);
+        setData(QVariant::fromValue<Length::Value>(lengthValue), LP::SymbolLength);
+    }
+
+    if (hasOption(HasPitch)) {
+        QJsonObject pitchObject = json.value(DataKey::Pitch).toObject();
+        Pitch pitch;
+        pitch.fromJson(pitchObject);
+        setData(QVariant::fromValue<Pitch>(pitch), LP::SymbolPitch);
+    }
+
+    int spanType = json.value(DataKey::SymbolSpanType).toInt();
+    if (spanType != 0) {
+        SpanType type = static_cast<SpanType>(spanType);
+        setData(QVariant::fromValue<SpanType>(type), LP::SymbolSpanType);
+    }
 }
 
 SymbolBehavior::SymbolOptions SymbolBehavior::options() const

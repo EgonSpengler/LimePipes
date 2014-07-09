@@ -24,11 +24,11 @@ QJsonObject TuneBehavior::toJson() const
     QJsonObject json(ItemBehavior::toJson());
     int instrumentType = data(LP::TuneInstrument).toInt();
     if (instrumentType != LP::NoInstrument)
-        json.insert(DataKey::InstrumentKey, instrumentType);
+        json.insert(DataKey::Instrument, instrumentType);
 
     TimeSignature timeSig = data(LP::TuneTimeSignature).value<TimeSignature>();
     if (timeSig.isValid()) {
-        json.insert(DataKey::TimeSignatureKey, static_cast<int>(timeSig.type()));
+        json.insert(DataKey::TimeSignature, static_cast<int>(timeSig.type()));
     }
 
     return json;
@@ -36,4 +36,5 @@ QJsonObject TuneBehavior::toJson() const
 
 void TuneBehavior::fromJson(const QJsonObject &json)
 {
+    ItemBehavior::fromJson(json);
 }

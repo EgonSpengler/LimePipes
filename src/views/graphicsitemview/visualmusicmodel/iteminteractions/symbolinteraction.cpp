@@ -143,6 +143,9 @@ void SymbolInteraction::setData(const QVariant &value, int role)
     if (role == LP::SymbolInstrument) {
         int instrument = value.toInt();
         m_pitchContext = m_pluginManager->instrumentMetaData(instrument).pitchContext();
+        if (m_pitchContext.isNull()) {
+            qWarning() << "SymbolInteraction: Failed setting pitch context from instrument";
+        }
     }
 
     if (m_interaction) {

@@ -34,4 +34,10 @@ QJsonObject MelodyNoteBehavior::toJson() const
 
 void MelodyNoteBehavior::fromJson(const QJsonObject &json)
 {
+    SymbolBehavior::fromJson(json);
+
+    int dots = json.value(DataKey::MelodyNoteDots).toInt();
+    if (dots) {
+        setData(dots, LP::MelodyNoteDots);
+    }
 }

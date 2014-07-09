@@ -18,13 +18,13 @@ static const QString StaffPosKey("staff pos");
 static const QString NameKey("name");
 
 Pitch::Pitch()
-    : m_staffPos(0),
-      m_name("no name")
+    : m_staffPos(0)
 {
 }
 
 Pitch::Pitch(int staffPos, const QString &name)
-    : m_staffPos(staffPos), m_name(name)
+    : m_staffPos(staffPos),
+      m_name(name)
 {
 }
 
