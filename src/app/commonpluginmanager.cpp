@@ -155,7 +155,11 @@ SymbolGraphicBuilder *CommonPluginManager::symbolGraphicBuilderForType(int type)
         return 0;
 
     SymbolGraphicBuilder *builder = symbolPlugin->symbolGraphicBuilderForType(type);
-    builder->setPluginManager(m_sharedPluginManager);
+    if (builder) {
+        builder->setPluginManager(m_sharedPluginManager);
+        builder->setSymbolType(type);
+    }
+
     return builder;
 }
 

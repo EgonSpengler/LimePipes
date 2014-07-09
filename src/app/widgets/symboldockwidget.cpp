@@ -11,12 +11,21 @@
 #include <QListWidgetItem>
 #include <QListWidget>
 #include <QDebug>
+#include <QGraphicsScene>
+#include <QPixmap>
+#include <QPainter>
+#include <QIcon>
 
+#include <common/graphictypes/glyphitem.h>
+#include <common/graphictypes/stemengraver.h>
 #include <common/interfaces/symbolinterface.h>
 #include <common/datahandling/symbolbehavior.h>
+#include <common/graphictypes/symbolgraphicbuilder.h>
 
 #include "symboldockwidget.h"
 #include "ui_symboldockwidget.h"
+
+static int IconWidthAndHeight(30);
 
 SymbolDockWidget::SymbolDockWidget(int instrumentType, const PluginManager &pluginManager,
                                    QWidget *parent)
@@ -24,6 +33,7 @@ SymbolDockWidget::SymbolDockWidget(int instrumentType, const PluginManager &plug
       ui(new Ui::SymbolDockWidget)
 {
     ui->setupUi(this);
+    ui->normalListWidget->setIconSize(QSize(IconWidthAndHeight, IconWidthAndHeight));
 
     setPluginManager(pluginManager);
 
@@ -85,6 +95,36 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
                                          ui->normalListWidget,
                                          symbolType + QListWidgetItem::UserType);
         widgetItem->setData(Qt::UserRole, behaviorVariant);
+
+        QPixmap glyphPixmap(ui->normalListWidget->iconSize());
+        glyphPixmap.fill(Qt::white);
+        QPainter painter(&glyphPixmap);
+        QGraphicsScene scene;
+
+        GlyphItem *glyphItem = 0;
+        StemEngraver *stemEngraver = 0;
+
+        SymbolGraphicBuilder *graphicBuilder = m_pluginManager->symbolGraphicBuilderForType(symbolType);
+        if (graphicBuilder) {
+            stemEngraver = new StemEngraver;
+            stemEngraver->insertGraphicsBuilder(0, graphicBuilder);
+
+            foreach (int dataType, graphicBuilder->graphicDataRoles()) {
+                graphicBuilder->setData(behaviorValue.data(dataType), dataType);
+            }
+
+            glyphItem = graphicBuilder->glyphItem();
+            if (glyphItem) {
+                scene.addItem(glyphItem);
+            }
+        }
+
+        scene.render(&painter, QRectF(QPoint(0,0), ui->normalListWidget->iconSize()));
+        widgetItem->setIcon(QIcon(glyphPixmap));
+
+        graphicBuilder->deleteLater();
+        delete stemEngraver;
+
         break;
     }
     case SymbolCategory::Spanning: {
