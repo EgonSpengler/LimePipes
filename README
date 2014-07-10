@@ -13,7 +13,7 @@ It runs on Linux, Windows, MacOSX.
 Build dependencies
 ********************
 - CMake >= 2.8.9 (http://www.cmake.org)
-- Qt5 SDK >= 5.2.0 (http://qt-project.org/downloads)
+- Qt5 SDK >= 5.3.0 (http://qt-project.org/downloads)
 
 
 Runtime dependencies
