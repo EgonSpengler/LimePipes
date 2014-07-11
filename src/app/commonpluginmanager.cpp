@@ -35,16 +35,6 @@ CommonPluginManager::~CommonPluginManager()
 {
 }
 
-Instrument *CommonPluginManager::instrumentForName(const QString &name) const
-{
-    InstrumentInterface *instrumentPlugin = m_instrumentPlugins.value(name);
-    if (instrumentPlugin) {
-        return instrumentPlugin->instrument();
-    } else {
-        return new NullInstrument();
-    }
-}
-
 void CommonPluginManager::setPluginsPathAndLoadDynamicPlugins(const QDir &pluginsPath)
 {
     m_pluginsPath = pluginsPath;

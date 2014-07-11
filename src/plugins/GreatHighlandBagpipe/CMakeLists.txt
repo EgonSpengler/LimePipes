@@ -2,7 +2,8 @@ add_definitions( -DQT_STATICPLUGIN )
 
 set( lp_greathighlandbagpipe_SOURCES
         greathighlandbagpipe.cpp
-        ghb_instrument.cpp
+
+        Doubling/doublingbehavior.cpp
     )
 
 add_library( lp_greathighlandbagpipe STATIC ${lp_greathighlandbagpipe_SOURCES} )

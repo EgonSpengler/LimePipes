@@ -44,7 +44,6 @@ public:
 
     virtual QStringList instrumentNames() const = 0;
     virtual QList<int> instrumentTypes() const = 0;
-    virtual Instrument *instrumentForName(const QString &name) const = 0;
 
     virtual MusicFontPtr musicFont() const = 0;
 };

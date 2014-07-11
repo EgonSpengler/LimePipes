@@ -11,7 +11,6 @@
 
 #include <QObject>
 #include <QStringList>
-#include "ghb_instrument.h"
 #include <common/interfaces/instrumentinterface.h>
 #include <common/interfaces/symbolinterface.h>
 
@@ -30,7 +29,6 @@ public:
     int type() const;
     InstrumentMetaData instrumentMetaData() const;
     QString name() const { return QString("Great Highland Bagpipe"); }
-    Instrument *instrument() const;
 
     // Symbols interface
     SymbolMetaData symbolMetaDataForType(int type);

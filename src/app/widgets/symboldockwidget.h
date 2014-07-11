@@ -12,6 +12,7 @@
 #include <QList>
 #include <QMetaType>
 #include <QDockWidget>
+#include <QHash>
 
 #include <common/pluginmanagerinterface.h>
 #include <common/interfaces/symbolinterface.h>
@@ -23,6 +24,7 @@ class SymbolDockWidget;
 
 class QListWidgetItem;
 class SymbolMetaData;
+class QActionGroup;
 
 class SymbolDockWidget : public QDockWidget
 {
@@ -40,13 +42,14 @@ signals:
     void selectedSymbolsChanged(const QList<SymbolBehavior> &symbolBehaviors);
 
 private slots:
-    void itemClicked(QListWidgetItem *item);
+    void symbolActionTriggered(const QAction *action);
 
 private:
     void addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta);
     void createConnections();
     Ui::SymbolDockWidget *ui;
     PluginManager m_pluginManager;
+    QActionGroup *m_symbolActionGroup;
 };
 
 Q_DECLARE_METATYPE(QList<SymbolBehavior>)

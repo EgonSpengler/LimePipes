@@ -27,7 +27,6 @@ public:
 
     virtual int type() const = 0;
     virtual InstrumentMetaData instrumentMetaData() const = 0;
-    virtual Instrument *instrument() const = 0;
     virtual QString name() const = 0;
 };
 

@@ -15,6 +15,9 @@
 #include <QPixmap>
 #include <QPainter>
 #include <QIcon>
+#include <QToolButton>
+#include <QAction>
+#include <QActionGroup>
 
 #include <common/graphictypes/glyphitem.h>
 #include <common/graphictypes/stemengraver.h>
@@ -35,6 +38,12 @@ SymbolDockWidget::SymbolDockWidget(int instrumentType, const PluginManager &plug
     ui->setupUi(this);
     ui->normalListWidget->setIconSize(QSize(IconWidthAndHeight, IconWidthAndHeight));
 
+    m_symbolActionGroup = new QActionGroup(this);
+    // An exclusive action group, a checkable action can't be unchecked
+    m_symbolActionGroup->setExclusive(false);
+    connect(m_symbolActionGroup, &QActionGroup::triggered,
+            this, &SymbolDockWidget::symbolActionTriggered);
+
     setPluginManager(pluginManager);
 
     InstrumentMetaData instrumentMeta = pluginManager->instrumentMetaData(instrumentType);
@@ -50,17 +59,8 @@ SymbolDockWidget::SymbolDockWidget(int instrumentType, const PluginManager &plug
 
 void SymbolDockWidget::createConnections()
 {
-    connect(ui->normalListWidget, &QListWidget::itemClicked,
-            [this] (QListWidgetItem *item) {
-        ui->spanningListWidget->selectionModel()->clear();
-        itemClicked(item);
-    });
-    connect(ui->spanningListWidget, &QListWidget::itemClicked,
-            [this] (QListWidgetItem *item) {
-        ui->normalListWidget->selectionModel()->clear();
-        itemClicked(item);
-    });
 }
+
 PluginManager SymbolDockWidget::pluginManager() const
 {
     return m_pluginManager;
@@ -88,16 +88,22 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
     QList<SymbolBehavior> behaviorData({behaviorValue});
     QVariant behaviorVariant = QVariant::fromValue<QList<SymbolBehavior>>(behaviorData);
 
-    QListWidgetItem * widgetItem = 0;
+    QListWidgetItem *widgetItem = 0;
     switch (symbolMeta.category()) {
     case SymbolCategory::Graphical: {
         widgetItem = new QListWidgetItem(symbolMeta.name(),
                                          ui->normalListWidget,
                                          symbolType + QListWidgetItem::UserType);
-        widgetItem->setData(Qt::UserRole, behaviorVariant);
+        QToolButton *itemButton = new QToolButton();
+        itemButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+        itemButton->setMinimumSize(60, 60);
+        QAction *symbolAction = new QAction(symbolMeta.name(), m_symbolActionGroup);
+        symbolAction->setCheckable(true);
+        symbolAction->setData(behaviorVariant);
+        itemButton->setDefaultAction(symbolAction);
 
         QPixmap glyphPixmap(ui->normalListWidget->iconSize());
-        glyphPixmap.fill(Qt::white);
+        glyphPixmap.fill(Qt::transparent);
         QPainter painter(&glyphPixmap);
         QGraphicsScene scene;
 
@@ -120,7 +126,8 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
         }
 
         scene.render(&painter, QRectF(QPoint(0,0), ui->normalListWidget->iconSize()));
-        widgetItem->setIcon(QIcon(glyphPixmap));
+        symbolAction->setIcon(QIcon(glyphPixmap));
+        ui->normalListWidget->setItemWidget(widgetItem, itemButton);
 
         graphicBuilder->deleteLater();
         delete stemEngraver;
@@ -139,16 +146,28 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
     }
 }
 
-void SymbolDockWidget::itemClicked(QListWidgetItem *item)
+void SymbolDockWidget::symbolActionTriggered(const QAction *action)
 {
-    int symbolType = item->type();
-    symbolType -= QListWidgetItem::UserType;
-    QList<SymbolBehavior> symbolBehaviors = item->data(Qt::UserRole).value<QList<SymbolBehavior>>();
-    emit selectedSymbolsChanged(symbolBehaviors);
-
-    // Debug output ...
-    foreach (const SymbolBehavior &behavior, symbolBehaviors) {
-        qDebug() << QString("Symbol selected: \n %1")
-                 .arg(QString(QJsonDocument(behavior.toJson()).toJson()));
+    // An exclusive action group, a checkable action can't be unchecked
+    // So uncheck all other actions here
+    foreach (QAction* groupAction, m_symbolActionGroup->actions()) {
+        if (groupAction != action) {
+            groupAction->setChecked(false);
+        }
     }
+
+    QList<SymbolBehavior> behaviorList = action->data().value<QList<SymbolBehavior>>();
+    if (behaviorList.isEmpty())
+        return;
+
+    if (action->isChecked()) {
+        emit selectedSymbolsChanged(behaviorList);
+        int symbolType = behaviorList.at(0).symbolType();
+        qDebug() << "SymbolDockWidget: symbol type is checked: " << symbolType;
+    } else {
+        // If action is not checked, emit empty list
+        qDebug() << "SymbolDockWidget: No item checked";
+        emit selectedSymbolsChanged(QList<SymbolBehavior>());
+    }
+
 }

@@ -42,7 +42,6 @@ public:
 
     QList<int> instrumentTypes() const { return m_instrumentMetaDatas.keys(); }
     QStringList instrumentNames() const;
-    Instrument *instrumentForName(const QString &name) const;
 
     int staticPluginsCount() const { return m_staticPlugins; }
     int dynamicPluginsCount() const { return m_dynamicPlugins; }

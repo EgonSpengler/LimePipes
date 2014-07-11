@@ -16,6 +16,8 @@
 #include <common/datatypes/pitchcontext.h>
 #include <common/datahandling/symbolbehavior.h>
 
+#include "ghb_symboltypes.h"
+#include "Doubling/doublingbehavior.h"
 #include "greathighlandbagpipe.h"
 
 GreatHighlandBagpipe::GreatHighlandBagpipe()
@@ -52,11 +54,6 @@ InstrumentMetaData GreatHighlandBagpipe::instrumentMetaData() const
     return m_metaData;
 }
 
-Instrument *GreatHighlandBagpipe::instrument() const
-{
-    return new GHB_Instrument();
-}
-
 SymbolGraphicBuilder *GreatHighlandBagpipe::symbolGraphicBuilderForType(int type)
 {
     Q_UNUSED(type);
@@ -70,6 +67,10 @@ QList<int> GreatHighlandBagpipe::symbolTypes() const
 
 SymbolBehavior *GreatHighlandBagpipe::symbolBehaviorForType(int type)
 {
+    if (type == GHB::Doubling) {
+        return new DoublingBehavior;
+    }
+
     return 0;
 }
 
