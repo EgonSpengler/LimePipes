@@ -181,6 +181,7 @@ void MainWindow::createModelAndView()
     });
     m_graphicsItemView = new GraphicsItemView(this);
     m_graphicsItemView->setPluginManager(m_pluginManager);
+    m_graphicsItemView->setApplication(m_sharedApplication);
 
     MusicModel *musicModel = new MusicModel(this);
     musicModel->setPluginManager(m_pluginManager);

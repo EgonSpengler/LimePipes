@@ -40,14 +40,23 @@ protected:
     void dropEvent(QGraphicsSceneDragDropEvent *event);
 
 private:
+    enum class InsertionMode {
+        DragAndDrop,
+        SymbolPalette
+    };
+
     GraphicsItemType itemTypeOfGraphicsItem(const QGraphicsItem *item) const;
     QList<QGraphicsItem*> selectedSymbolGraphicsItems();
     QGraphicsItem *symbolGraphicsItemForGlyphItem(QGraphicsItem *glyphItem);
+    InsertionMode insertionMode() const;
+    void setInsertionMode(const InsertionMode &insertionMode);
+
     QList<int> m_itemTypes;
     QPointF m_symbolDragStart;
     QModelIndexList m_dragSymbolIndexes;
     VisualMusicModel *m_visualMusicModel;
     Application m_application;
+    InsertionMode m_insertionMode;
 };
 
 #endif // GRAPHICSSCENE_H

@@ -28,6 +28,7 @@ GraphicsView::GraphicsView(QWidget *parent) :
     m_itemTypes << static_cast<int>(SymbolGlyphItemType);
 
     setAcceptDrops(true);
+    setMouseTracking(true);
 }
 
 void GraphicsView::mousePressEvent(QMouseEvent *event)

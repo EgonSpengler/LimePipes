@@ -12,6 +12,11 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QApplication>
 #include <QAbstractItemModel>
+#include <QJsonArray>
+#include <QJsonObject>
+
+#include <common/datahandling/mimedata.h>
+
 #include "graphicsscene.h"
 #include "visualmusicmodel/visualmusicmodel.h"
 #include "visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h"
@@ -19,7 +24,8 @@
 
 GraphicsScene::GraphicsScene(QObject *parent)
     : QGraphicsScene(parent),
-      m_visualMusicModel(0)
+      m_visualMusicModel(0),
+      m_insertionMode(InsertionMode::DragAndDrop)
 {
     setBackgroundBrush(QBrush(QColor(0xD0, 0xD0, 0xD0)));
 
@@ -54,6 +60,10 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (m_application->paletteSymbols().count()) {
+        return;
+    }
+
     if (m_symbolDragStart.isNull() ||
             !(event->buttons() & Qt::LeftButton)) {
         QGraphicsScene::mouseMoveEvent(event);
@@ -241,6 +251,17 @@ QGraphicsItem *GraphicsScene::symbolGraphicsItemForGlyphItem(QGraphicsItem *glyp
         tempItem = tempItem->parentItem();
     }
 }
+
+GraphicsScene::InsertionMode GraphicsScene::insertionMode() const
+{
+    return m_insertionMode;
+}
+
+void GraphicsScene::setInsertionMode(const InsertionMode &insertionMode)
+{
+    m_insertionMode = insertionMode;
+}
+
 Application GraphicsScene::application() const
 {
     return m_application;
