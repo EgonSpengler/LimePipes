@@ -88,20 +88,20 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
     QList<SymbolBehavior> behaviorData({behaviorValue});
     QVariant behaviorVariant = QVariant::fromValue<QList<SymbolBehavior>>(behaviorData);
 
+    QToolButton *itemButton = new QToolButton();
+    itemButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    itemButton->setMinimumSize(60, 60);
+    QAction *symbolAction = new QAction(symbolMeta.name(), m_symbolActionGroup);
+    symbolAction->setCheckable(true);
+    symbolAction->setData(behaviorVariant);
+    itemButton->setDefaultAction(symbolAction);
+
     QListWidgetItem *widgetItem = 0;
     switch (symbolMeta.category()) {
     case SymbolCategory::Graphical: {
         widgetItem = new QListWidgetItem(symbolMeta.name(),
                                          ui->normalListWidget,
                                          symbolType + QListWidgetItem::UserType);
-        QToolButton *itemButton = new QToolButton();
-        itemButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-        itemButton->setMinimumSize(60, 60);
-        QAction *symbolAction = new QAction(symbolMeta.name(), m_symbolActionGroup);
-        symbolAction->setCheckable(true);
-        symbolAction->setData(behaviorVariant);
-        itemButton->setDefaultAction(symbolAction);
-
         QPixmap glyphPixmap(ui->normalListWidget->iconSize());
         glyphPixmap.fill(Qt::transparent);
         QPainter painter(&glyphPixmap);
@@ -139,6 +139,7 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
                                          ui->spanningListWidget,
                                          symbolType + QListWidgetItem::UserType);
         widgetItem->setData(Qt::UserRole, behaviorVariant);
+        ui->spanningListWidget->setItemWidget(widgetItem, itemButton);
         break;
     }
     default:
