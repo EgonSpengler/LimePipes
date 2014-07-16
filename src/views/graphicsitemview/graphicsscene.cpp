@@ -40,7 +40,14 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_insertionMode == InsertionMode::SymbolPalette) {
 
-        QGraphicsScene::mousePressEvent(event);
+        QJsonArray jsonArray;
+        foreach (const SymbolBehavior behavior, m_application->paletteSymbols()) {
+            jsonArray.append(behavior.toJson());
+        }
+        QMimeData *mimeData = MimeData::fromJsonArray(jsonArray);
+        dropMimeData(mimeData, Qt::CopyAction, event->scenePos());
+        delete mimeData;
+
         return;
     }
 
@@ -151,8 +158,9 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
 void GraphicsScene::dropMimeData(const QMimeData *mimeData, Qt::DropAction dropAction, const QPointF &scenePos)
 {
     if (mimeData->formats().contains(LP::MimeTypes::Symbol)) {
-        if (dropAction != Qt::MoveAction) {
-            qDebug() << "GraphicsScene: Another drop action as moving is currently not supported";
+        if (dropAction != Qt::MoveAction &&
+                dropAction != Qt::CopyAction) {
+            qDebug() << "GraphicsScene: Another drop action as moving  and copy is currently not supported";
             return;
         }
 
@@ -187,7 +195,7 @@ void GraphicsScene::dropMimeData(const QMimeData *mimeData, Qt::DropAction dropA
             if (dropItem == measureItem) {
                 qDebug() << "Drop on measure";
                 dropRow = -1;
-                dropColumn = -1;
+                dropColumn = 0;
             } else {
                 qDebug() << "Drop on " << itemTypeOfGraphicsItem(dropItem);
             }

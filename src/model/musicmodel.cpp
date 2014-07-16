@@ -267,8 +267,10 @@ bool MusicModel::dropMimeData(const QMimeData *mimeData, Qt::DropAction action, 
     if (action == Qt::IgnoreAction)
         return true;
 
-    if (action != Qt::MoveAction || column > 0 ||
-            !mimeData || !dataContainsOnlyOneSupportedMimeType(mimeData))
+    if (!(action == Qt::MoveAction || action == Qt::CopyAction) ||
+            column > 0 ||
+            !mimeData ||
+            !dataContainsOnlyOneSupportedMimeType(mimeData))
         return false;
 
     if (isIndexTune(parent) &&
