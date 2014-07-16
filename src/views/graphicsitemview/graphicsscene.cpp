@@ -18,15 +18,16 @@
 #include <common/datahandling/mimedata.h>
 
 #include "graphicsscene.h"
+#include "visualmusicmodel/interactinggraphicsitems/interactinggraphicsitem.h"
 #include "visualmusicmodel/visualmusicmodel.h"
 #include "visualmusicmodel/interactinggraphicsitems/symbolgraphicsitem.h"
 #include "visualmusicmodel/interactinggraphicsitems/measuregraphicsitem.h"
 
 GraphicsScene::GraphicsScene(QObject *parent)
     : QGraphicsScene(parent),
-      m_visualMusicModel(0),
-      m_insertionMode(InsertionMode::DragAndDrop)
+      m_visualMusicModel(0)
 {
+    setInsertionMode(InsertionMode::DragAndDrop);
     setBackgroundBrush(QBrush(QColor(0xD0, 0xD0, 0xD0)));
 
     m_itemTypes << static_cast<int>(InteractingGraphicsItemType);
@@ -73,7 +74,6 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "Mouse move";
     if (m_application->paletteSymbols().count()) {
         if (m_insertionMode != InsertionMode::SymbolPalette) {
             setInsertionMode(InsertionMode::SymbolPalette);
@@ -285,6 +285,12 @@ GraphicsScene::InsertionMode GraphicsScene::insertionMode() const
 void GraphicsScene::setInsertionMode(const InsertionMode &insertionMode)
 {
     m_insertionMode = insertionMode;
+    if (insertionMode == InsertionMode::DragAndDrop) {
+        InteractingGraphicsItem::s_hoverMode = InteractingGraphicsItem::NoHoverMode;
+    }
+    if (insertionMode == InsertionMode::SymbolPalette) {
+        InteractingGraphicsItem::s_hoverMode = InteractingGraphicsItem::SymbolPaletteHoverMode;
+    }
 }
 
 Application GraphicsScene::application() const

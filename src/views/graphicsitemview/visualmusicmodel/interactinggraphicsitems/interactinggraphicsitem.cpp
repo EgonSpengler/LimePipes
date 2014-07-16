@@ -15,11 +15,15 @@
 
 #include "interactinggraphicsitem.h"
 
+InteractingGraphicsItem::HoverMode InteractingGraphicsItem::s_hoverMode =
+        InteractingGraphicsItem::NoHoverMode;
+
 InteractingGraphicsItem::InteractingGraphicsItem(QGraphicsItem *parent)
     : QGraphicsWidget(parent),
       m_itemInteraction(0),
       m_interactionMode(Direct)
 {
+    setAcceptHoverEvents(true);
     setMusicFont(LayoutSettings::musicFont());
     connect(LayoutSettings::musicFont().data(), &MusicFont::fontChanged,
             [this] {
@@ -97,6 +101,22 @@ void InteractingGraphicsItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *ev
             m_interactionMode == Both) {
         m_itemInteraction->mouseDoubleClickEvent(this, event);
     }
+}
+
+void InteractingGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    qDebug() << "InteractionGraphicsItem: Hover enter mode: " << static_cast<int>(s_hoverMode);
+    QGraphicsWidget::hoverEnterEvent(event);
+}
+
+void InteractingGraphicsItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    QGraphicsWidget::hoverMoveEvent(event);
+}
+
+void InteractingGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    QGraphicsWidget::hoverLeaveEvent(event);
 }
 
 /*!

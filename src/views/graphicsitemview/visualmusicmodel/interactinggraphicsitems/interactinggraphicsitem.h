@@ -23,6 +23,7 @@ class InteractingGraphicsItem : public QGraphicsWidget
     Q_OBJECT
 
     friend class InteractingGraphicsItemTest;
+    friend class GraphicsScene;
 
 public:
     /*!
@@ -94,6 +95,9 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event);
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void focusInEvent(QFocusEvent *event);
     void focusOutEvent(QFocusEvent *event);
     void keyPressEvent(QKeyEvent *event);
@@ -105,8 +109,14 @@ protected:
     virtual void musicFontHasChanged(const MusicFontPtr& musicFont) { Q_UNUSED(musicFont); }
 
 private:
+    enum HoverMode {
+        NoHoverMode,
+        SymbolPaletteHoverMode   //!< A symbol is selected in palette
+    };
+
     void setMusicFont(const MusicFontPtr &musicFont);
 
+    static HoverMode s_hoverMode;
     ItemInteraction *m_itemInteraction;
     MusicFontPtr m_musicFont;
     InteractionMode m_interactionMode;
