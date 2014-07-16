@@ -50,6 +50,7 @@ private:
     QGraphicsItem *symbolGraphicsItemForGlyphItem(QGraphicsItem *glyphItem);
     InsertionMode insertionMode() const;
     void setInsertionMode(const InsertionMode &insertionMode);
+    void dropMimeData(const QMimeData *mimeData, Qt::DropAction dropAction, const QPointF &scenePos);
 
     QList<int> m_itemTypes;
     QPointF m_symbolDragStart;

@@ -38,6 +38,12 @@ GraphicsScene::GraphicsScene(QObject *parent)
 
 void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    if (m_insertionMode == InsertionMode::SymbolPalette) {
+
+        QGraphicsScene::mousePressEvent(event);
+        return;
+    }
+
     if (QGraphicsItem *item = itemAt(event->scenePos(), QTransform())) {
         GraphicsItemType itemType = itemTypeOfGraphicsItem(item);
         qDebug() << "Clicked item type: " << itemType <<
@@ -60,8 +66,20 @@ void GraphicsScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void GraphicsScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    qDebug() << "Mouse move";
     if (m_application->paletteSymbols().count()) {
+        if (m_insertionMode != InsertionMode::SymbolPalette) {
+            setInsertionMode(InsertionMode::SymbolPalette);
+        }
+
+        QGraphicsScene::mouseMoveEvent(event);
         return;
+    } else {
+        if (m_insertionMode != InsertionMode::DragAndDrop) {
+            setInsertionMode(InsertionMode::DragAndDrop);
+        }
+
+        QGraphicsScene::mouseMoveEvent(event);
     }
 
     if (m_symbolDragStart.isNull() ||
@@ -126,17 +144,22 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
     const QMimeData *mimeData = event->mimeData();
 
     qDebug() << "GraphicsScene drop event mime formats: " << mimeData->formats();
+    dropMimeData(event->mimeData(), event->dropAction(), event->scenePos());
+    QGraphicsScene::dropEvent(event);
+}
+
+void GraphicsScene::dropMimeData(const QMimeData *mimeData, Qt::DropAction dropAction, const QPointF &scenePos)
+{
     if (mimeData->formats().contains(LP::MimeTypes::Symbol)) {
-        Qt::DropAction dropAction = event->dropAction();
         if (dropAction != Qt::MoveAction) {
             qDebug() << "GraphicsScene: Another drop action as moving is currently not supported";
             return;
         }
 
         qDebug() << "Symbols dropped";
-        QGraphicsItem *dropItem = itemAt(event->scenePos(), QTransform());
+        QGraphicsItem *dropItem = itemAt(scenePos, QTransform());
         if (!dropItem)
-            goto baseImpl;
+            return;
 
         GraphicsItemType dropItemType = itemTypeOfGraphicsItem(dropItem);
         qDebug() << "Drop target: " << dropItemType;
@@ -144,10 +167,10 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
             MeasureGraphicsItem *measureItem = qgraphicsitem_cast<MeasureGraphicsItem*>(dropItem);
             if (!measureItem) {
                 qWarning() << "Can't cast drop item to measure graphics item";
-                goto baseImpl;
+                return;
             }
 
-            QPointF dropPos = measureItem->mapFromScene(event->scenePos());
+            QPointF dropPos = measureItem->mapFromScene(scenePos);
             QGraphicsItem *dropItem = measureItem->dropItemAt(dropPos);
             QModelIndex measureItemIndex = m_visualMusicModel->indexForItem(measureItem);
             QModelIndex dropItemIndex = m_visualMusicModel->indexForItem(dropItem);
@@ -156,7 +179,7 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
             QAbstractItemModel *itemModel = m_visualMusicModel->model();
             if (!itemModel) {
                 qWarning() << "Can't dropMimeData. VisualMusicModel has no abstract item model set.";
-                goto baseImpl;
+                return;
             }
 
             int dropRow = dropItemIndex.row();
@@ -169,8 +192,7 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
                 qDebug() << "Drop on " << itemTypeOfGraphicsItem(dropItem);
             }
 
-            QGraphicsScene::dropEvent(event);
-            bool dropSuccess = itemModel->dropMimeData(event->mimeData(), dropAction,
+            bool dropSuccess = itemModel->dropMimeData(mimeData, dropAction,
                                                        dropRow, dropColumn, measureItemIndex);
             if (!dropSuccess)
                 return;
@@ -180,13 +202,8 @@ void GraphicsScene::dropEvent(QGraphicsSceneDragDropEvent *event)
                     itemModel->removeRow(index.row(), index.parent());
                 }
             }
-
-            return; // No base implementation call
         }
     }
-
-baseImpl:
-    QGraphicsScene::dropEvent(event);
 }
 
 void GraphicsScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
