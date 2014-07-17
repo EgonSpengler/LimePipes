@@ -48,6 +48,9 @@ public:
     void setTimeSignatureVisible(bool timeSignatureVisible);
 
 protected:
+    void hoverEnterEvent(QGraphicsSceneHoverEvent *event);
+    void hoverMoveEvent(QGraphicsSceneHoverEvent *event);
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent *event);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
     void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
@@ -66,6 +69,7 @@ private:
     void setMarginsForTimeSigGlyph(qreal width);
     qreal timeSigLeftMargin() const;
     void layoutTimeSig();
+    void showGapAtScenePos(const QPointF &scenePos);
     QList<SymbolGraphicsItem*> m_symbolItems;
     QPen m_linePen;
     QList<QRectF> m_dragMoveRects;

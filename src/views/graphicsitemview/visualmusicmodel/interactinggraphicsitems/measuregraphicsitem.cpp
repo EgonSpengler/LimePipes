@@ -28,6 +28,7 @@ MeasureGraphicsItem::MeasureGraphicsItem(QGraphicsItem *parent)
     : InteractingGraphicsItem(parent),
       m_timeSignatureVisible(false)
 {
+    setAcceptHoverEvents(true);
     setAcceptDrops(true);
 
     StemEngraver *stemEngraver = new StemEngraver();
@@ -274,6 +275,37 @@ void MeasureGraphicsItem::musicFontHasChanged(const MusicFontPtr &musicFont)
     setPenWidth(width);
 }
 
+void MeasureGraphicsItem::hoverEnterEvent(QGraphicsSceneHoverEvent *event)
+{
+    qDebug() << "MeasureGraphicsItem: Hover enter mode: " << static_cast<int>(hoverMode());
+    if (hoverMode() != HoverMode::SymbolPaletteHoverMode) {
+        InteractingGraphicsItem::hoverEnterEvent(event);
+        return;
+    }
+
+    m_dragMoveRects = symbolGeometries();
+}
+
+void MeasureGraphicsItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event)
+{
+    if (hoverMode() != HoverMode::SymbolPaletteHoverMode) {
+        InteractingGraphicsItem::hoverMoveEvent(event);
+        return;
+    }
+
+    showGapAtScenePos(event->scenePos());
+}
+
+void MeasureGraphicsItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event)
+{
+    if (hoverMode() != HoverMode::SymbolPaletteHoverMode) {
+        InteractingGraphicsItem::hoverLeaveEvent(event);
+        return;
+    }
+
+    clearEndOfDrag();
+}
+
 void MeasureGraphicsItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (event->mimeData()->hasFormat(LP::MimeTypes::Symbol)) {
@@ -294,7 +326,12 @@ void MeasureGraphicsItem::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     }
     event->acceptProposedAction();
 
-    qreal eventXPos = mapFromScene(event->scenePos()).x();
+    showGapAtScenePos(event->scenePos());
+}
+
+void MeasureGraphicsItem::showGapAtScenePos(const QPointF &scenePos)
+{
+    qreal eventXPos = mapFromScene(scenePos).x();
     qreal shiftWidth = 0;
     for (int i = 0; i < m_dragMoveRects.count(); ++i) {
         QRectF itemGeometry(m_dragMoveRects.at(i));
