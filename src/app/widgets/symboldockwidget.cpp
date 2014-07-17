@@ -24,6 +24,7 @@
 #include <common/interfaces/symbolinterface.h>
 #include <common/datahandling/symbolbehavior.h>
 #include <common/graphictypes/symbolgraphicbuilder.h>
+#include <common/graphictypes/tieengraver.h>
 
 #include "symboldockwidget.h"
 #include "ui_symboldockwidget.h"
@@ -59,6 +60,15 @@ SymbolDockWidget::SymbolDockWidget(int instrumentType, const PluginManager &plug
 
 void SymbolDockWidget::createConnections()
 {
+}
+
+BaseEngraver *SymbolDockWidget::engraverForSymbolType(int symbolType)
+{
+    if (symbolType == LP::Tie) {
+        return new TieEngraver();
+    }
+
+    return 0;
 }
 
 PluginManager SymbolDockWidget::pluginManager() const
@@ -139,6 +149,43 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
                                          ui->spanningListWidget,
                                          symbolType + QListWidgetItem::UserType);
         widgetItem->setData(Qt::UserRole, behaviorVariant);
+
+        SymbolGraphicBuilder *startBuilder = m_pluginManager->symbolGraphicBuilderForType(symbolType);
+        startBuilder->setData(QVariant::fromValue<SpanType>(SpanType::Start), LP::SymbolSpanType);
+
+        SymbolGraphicBuilder *symbolBuilder = m_pluginManager->symbolGraphicBuilderForType(LP::MelodyNote);
+
+        SymbolGraphicBuilder *endBuilder = m_pluginManager->symbolGraphicBuilderForType(symbolType);
+        endBuilder->setData(QVariant::fromValue<SpanType>(SpanType::End), LP::SymbolSpanType);
+
+        BaseEngraver *engraver = engraverForSymbolType(symbolType);
+        if (engraver) {
+            QPixmap glyphPixmap(ui->normalListWidget->iconSize());
+            glyphPixmap.fill(Qt::transparent);
+            QPainter painter(&glyphPixmap);
+            QGraphicsScene scene;
+            if (startBuilder->glyphItem() && endBuilder->glyphItem()) {
+                scene.addItem(startBuilder->glyphItem());
+
+                scene.addItem(symbolBuilder->glyphItem());
+                qreal nextItemX = startBuilder->glyphItem()->boundingRect().width();
+                symbolBuilder->glyphItem()->setX(nextItemX);
+
+                scene.addItem(endBuilder->glyphItem());
+                nextItemX += startBuilder->glyphItem()->boundingRect().width();
+                endBuilder->glyphItem()->setX(nextItemX);
+            }
+//            engraver->insertGraphicsBuilder(0, startBuilder);
+//            engraver->insertGraphicsBuilder(0, endBuilder);
+//            engraver->insertGraphicsBuilder(1, symbolBuilder);
+
+            scene.render(&painter, QRectF(QPoint(0,0), ui->normalListWidget->iconSize()));
+            symbolAction->setIcon(QIcon(glyphPixmap));
+        }
+        delete engraver;
+        startBuilder->deleteLater();
+        symbolBuilder->deleteLater();
+        endBuilder->deleteLater();
         ui->spanningListWidget->setItemWidget(widgetItem, itemButton);
         break;
     }

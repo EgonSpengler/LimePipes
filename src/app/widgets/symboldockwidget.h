@@ -25,6 +25,7 @@ class SymbolDockWidget;
 class QListWidgetItem;
 class SymbolMetaData;
 class QActionGroup;
+class BaseEngraver;
 
 class SymbolDockWidget : public QDockWidget
 {
@@ -47,6 +48,7 @@ private slots:
 private:
     void addListItemToCategory(int symbolType, const SymbolMetaData &symbolMeta);
     void createConnections();
+    BaseEngraver *engraverForSymbolType(int symbolType);
     Ui::SymbolDockWidget *ui;
     PluginManager m_pluginManager;
     QActionGroup *m_symbolActionGroup;
