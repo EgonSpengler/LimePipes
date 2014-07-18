@@ -18,6 +18,8 @@
 #include <QToolButton>
 #include <QAction>
 #include <QActionGroup>
+#include <QApplication>
+#include <QCursor>
 
 #include <common/graphictypes/glyphitem.h>
 #include <common/graphictypes/stemengraver.h>
@@ -101,6 +103,7 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
     QToolButton *itemButton = new QToolButton();
     itemButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     itemButton->setMinimumSize(60, 60);
+    itemButton->setIconSize(QSize(40, 40));
     QAction *symbolAction = new QAction(symbolMeta.name(), m_symbolActionGroup);
     symbolAction->setCheckable(true);
     symbolAction->setData(behaviorVariant);
@@ -149,10 +152,24 @@ void SymbolDockWidget::symbolActionTriggered(const QAction *action)
         emit selectedSymbolsChanged(behaviorList);
         int symbolType = behaviorList.at(0).symbolType();
         qDebug() << "SymbolDockWidget: symbol type is checked: " << symbolType;
+
+        int cursorPixmapSize = m_pluginManager->musicFont()->staffSpace();
+        cursorPixmapSize *= 6;
+        SymbolMetaData symbolMeta = m_pluginManager->symbolMetaData(symbolType);
+        QPixmap cursorPixmap(symbolMeta.iconPixmap());
+        cursorPixmap = cursorPixmap.scaled(cursorPixmapSize, cursorPixmapSize,
+                                           Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPoint hotspot = QPoint(cursorPixmap.width() / 2,
+                                cursorPixmap.height() / 2);
+
+        QCursor cursor(cursorPixmap, hotspot.x(), hotspot.y());
+        QApplication::restoreOverrideCursor();
+        QApplication::setOverrideCursor(cursor);
     } else {
         // If action is not checked, emit empty list
         qDebug() << "SymbolDockWidget: No item checked";
         emit selectedSymbolsChanged(QList<SymbolBehavior>());
+        QApplication::restoreOverrideCursor();
     }
 
 }
