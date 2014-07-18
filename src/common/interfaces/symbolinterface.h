@@ -16,6 +16,8 @@
 
 #include <QtPlugin>
 #include <QVector>
+#include <QPixmap>
+
 #include <symbol.h>
 #include <common/defines.h>
 
@@ -38,9 +40,13 @@ public:
     QString name() const { return m_name; }
     void setName(const QString &name) { m_name = name; }
 
+    QPixmap iconPixmap() const { return m_iconPixmap; }
+    void setIconPixmap(const QPixmap &iconPixmap) { m_iconPixmap = iconPixmap; }
+
 private:
     QString m_name;
     SymbolCategory m_category;
+    QPixmap m_iconPixmap;
 };
 
 class SymbolInterface {
@@ -71,6 +77,7 @@ public:
 };
 
 #define SymbolInterfaceIID "org.limepipes.LimePipes.SymbolInterface/0.2"
+
 
 Q_DECLARE_INTERFACE(SymbolInterface, SymbolInterfaceIID)
 

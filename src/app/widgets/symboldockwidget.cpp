@@ -112,36 +112,8 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
         widgetItem = new QListWidgetItem(symbolMeta.name(),
                                          ui->normalListWidget,
                                          symbolType + QListWidgetItem::UserType);
-        QPixmap glyphPixmap(ui->normalListWidget->iconSize());
-        glyphPixmap.fill(Qt::transparent);
-        QPainter painter(&glyphPixmap);
-        QGraphicsScene scene;
-
-        GlyphItem *glyphItem = 0;
-        StemEngraver *stemEngraver = 0;
-
-        SymbolGraphicBuilder *graphicBuilder = m_pluginManager->symbolGraphicBuilderForType(symbolType);
-        if (graphicBuilder) {
-            stemEngraver = new StemEngraver;
-            stemEngraver->insertGraphicsBuilder(0, graphicBuilder);
-
-            foreach (int dataType, graphicBuilder->graphicDataRoles()) {
-                graphicBuilder->setData(behaviorValue.data(dataType), dataType);
-            }
-
-            glyphItem = graphicBuilder->glyphItem();
-            if (glyphItem) {
-                scene.addItem(glyphItem);
-            }
-        }
-
-        scene.render(&painter, QRectF(QPoint(0,0), ui->normalListWidget->iconSize()));
-        symbolAction->setIcon(QIcon(glyphPixmap));
+        symbolAction->setIcon(QIcon(symbolMeta.iconPixmap()));
         ui->normalListWidget->setItemWidget(widgetItem, itemButton);
-
-        graphicBuilder->deleteLater();
-        delete stemEngraver;
-
         break;
     }
     case SymbolCategory::Spanning: {
@@ -150,42 +122,7 @@ void SymbolDockWidget::addListItemToCategory(int symbolType, const SymbolMetaDat
                                          symbolType + QListWidgetItem::UserType);
         widgetItem->setData(Qt::UserRole, behaviorVariant);
 
-        SymbolGraphicBuilder *startBuilder = m_pluginManager->symbolGraphicBuilderForType(symbolType);
-        startBuilder->setData(QVariant::fromValue<SpanType>(SpanType::Start), LP::SymbolSpanType);
-
-        SymbolGraphicBuilder *symbolBuilder = m_pluginManager->symbolGraphicBuilderForType(LP::MelodyNote);
-
-        SymbolGraphicBuilder *endBuilder = m_pluginManager->symbolGraphicBuilderForType(symbolType);
-        endBuilder->setData(QVariant::fromValue<SpanType>(SpanType::End), LP::SymbolSpanType);
-
-        BaseEngraver *engraver = engraverForSymbolType(symbolType);
-        if (engraver) {
-            QPixmap glyphPixmap(ui->normalListWidget->iconSize());
-            glyphPixmap.fill(Qt::transparent);
-            QPainter painter(&glyphPixmap);
-            QGraphicsScene scene;
-            if (startBuilder->glyphItem() && endBuilder->glyphItem()) {
-                scene.addItem(startBuilder->glyphItem());
-
-                scene.addItem(symbolBuilder->glyphItem());
-                qreal nextItemX = startBuilder->glyphItem()->boundingRect().width();
-                symbolBuilder->glyphItem()->setX(nextItemX);
-
-                scene.addItem(endBuilder->glyphItem());
-                nextItemX += startBuilder->glyphItem()->boundingRect().width();
-                endBuilder->glyphItem()->setX(nextItemX);
-            }
-//            engraver->insertGraphicsBuilder(0, startBuilder);
-//            engraver->insertGraphicsBuilder(0, endBuilder);
-//            engraver->insertGraphicsBuilder(1, symbolBuilder);
-
-            scene.render(&painter, QRectF(QPoint(0,0), ui->normalListWidget->iconSize()));
-            symbolAction->setIcon(QIcon(glyphPixmap));
-        }
-        delete engraver;
-        startBuilder->deleteLater();
-        symbolBuilder->deleteLater();
-        endBuilder->deleteLater();
+        symbolAction->setIcon(QIcon(symbolMeta.iconPixmap()));
         ui->spanningListWidget->setItemWidget(widgetItem, itemButton);
         break;
     }

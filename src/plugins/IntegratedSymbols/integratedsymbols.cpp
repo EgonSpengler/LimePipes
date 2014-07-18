@@ -8,6 +8,7 @@
 
 #include <common/defines.h>
 #include <common/datahandling/symbolbehavior.h>
+#include <QFile>
 
 #include "MelodyNote/melodynotebehavior.h"
 #include "MelodyNote/melodynoteinteraction.h"
@@ -79,11 +80,14 @@ SymbolMetaData IntegratedSymbols::symbolMetaDataForType(int type)
     if (type == LP::MelodyNote) {
         metaData.setCategory(SymbolCategory::Graphical);
         metaData.setName(tr("Melody Note"));
+        qDebug() << "Icon file exists: " << QFile::exists(":/IntegratedSymbols/melodynote.png");
+        metaData.setIconPixmap(QPixmap(":/IntegratedSymbols/melodynote.png"));
     }
 
     if (type == LP::Tie) {
         metaData.setCategory(SymbolCategory::Spanning);
         metaData.setName(tr("Tie"));
+        metaData.setIconPixmap(QPixmap(":/IntegratedSymbols/tie.png"));
     }
 
     return metaData;

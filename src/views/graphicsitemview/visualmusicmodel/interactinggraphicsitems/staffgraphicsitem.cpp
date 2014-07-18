@@ -100,13 +100,13 @@ void StaffGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem 
             qWarning() << "StaffGraphicsItem: Contents rect has wrong height";
         }
 
-        qreal width = contentsRect().width();
-        painter->setPen(m_pen);
-        qreal contentTop = contentsRect().top();
-        for (int i = 0; i < 5; ++i) {
-            painter->drawLine(0, i*m_staffSpace + contentTop,
-                              width, i*m_staffSpace + contentTop);
-        }
+//        qreal width = contentsRect().width();
+//        painter->setPen(m_pen);
+//        qreal contentTop = contentsRect().top();
+//        for (int i = 0; i < 5; ++i) {
+//            painter->drawLine(0, i*m_staffSpace + contentTop,
+//                              width, i*m_staffSpace + contentTop);
+//        }
     }
 //    QPen pen(Qt::darkGreen);
 //    pen.setWidthF(1.0);

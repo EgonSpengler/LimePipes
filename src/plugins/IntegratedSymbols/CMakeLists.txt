@@ -14,6 +14,12 @@ set( lp_plugin_SOURCES
         Tie/tiegraphicbuilder.cpp
     )
 
+set( symbol_resources
+        integratedsymbols.qrc
+        )
+
+qt5_add_resources( lp_plugin_SOURCES ${symbol_resources} )
+
 add_library( lp_integratedsymbols STATIC ${lp_plugin_SOURCES} )
 qt5_use_modules( lp_integratedsymbols Widgets )
 target_link_libraries( lp_integratedsymbols lp_model )

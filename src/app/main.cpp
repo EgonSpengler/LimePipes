@@ -10,8 +10,11 @@
 #include <QIcon>
 #include "mainwindow.h"
 
+
 int main(int argc, char *argv[])
 {
+    Q_INIT_RESOURCE(integratedsymbols);
+
     QApplication app(argc, argv);
     QApplication::setApplicationName("LimePipes");
     QApplication::setOrganizationName("limepipes.org");
