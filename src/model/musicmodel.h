@@ -11,7 +11,7 @@
 
 #include <QAbstractItemModel>
 #include <QHash>
-#include <musicmodelinterface.h>
+#include "musicmodelinterface.h"
 #include <musicitem.h>
 #include <common/pluginmanagerinterface.h>
 

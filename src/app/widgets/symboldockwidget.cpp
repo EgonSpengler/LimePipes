@@ -150,12 +150,16 @@ void SymbolDockWidget::symbolActionTriggered(const QAction *action)
 
     if (action->isChecked()) {
         emit selectedSymbolsChanged(behaviorList);
-        int symbolType = behaviorList.at(0).symbolType();
+        SymbolBehavior behavior = behaviorList.at(0);
+        int symbolType = behavior.symbolType();
+        SymbolMetaData symbolMeta = m_pluginManager->symbolMetaData(symbolType);
+        if (symbolMeta.category() == SymbolCategory::Spanning)
+            return;
+
         qDebug() << "SymbolDockWidget: symbol type is checked: " << symbolType;
 
         int cursorPixmapSize = m_pluginManager->musicFont()->staffSpace();
         cursorPixmapSize *= 6;
-        SymbolMetaData symbolMeta = m_pluginManager->symbolMetaData(symbolType);
         QPixmap cursorPixmap(symbolMeta.iconPixmap());
         cursorPixmap = cursorPixmap.scaled(cursorPixmapSize, cursorPixmapSize,
                                            Qt::KeepAspectRatio, Qt::SmoothTransformation);
