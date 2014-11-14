@@ -12,7 +12,8 @@
 using namespace LP;
 
 Part::Part(MusicItem *parent)
-    : MusicItem(parent)
+    : MusicItem(parent),
+      m_repeat(false)
 {
 }
 
@@ -24,3 +25,13 @@ void Part::accept(AstVisitorInterface *visitor)
 
     visitor->finishVisit(this);
 }
+bool Part::repeat() const
+{
+    return m_repeat;
+}
+
+void Part::setRepeat(bool repeat)
+{
+    m_repeat = repeat;
+}
+

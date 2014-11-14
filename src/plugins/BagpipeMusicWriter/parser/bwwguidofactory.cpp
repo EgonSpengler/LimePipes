@@ -66,6 +66,12 @@ void BwwGuidoFactory::addBarline()
     m_currentSymbol = bar;
 }
 
+void BwwGuidoFactory::endPart(bool repeat)
+{
+    m_currentPart->setRepeat(repeat);
+    m_currentPart = new Part(m_currentTune);
+}
+
 void BwwGuidoFactory::addMelodyNoteDots(int dots)
 {
     if (dots <= 0 ||

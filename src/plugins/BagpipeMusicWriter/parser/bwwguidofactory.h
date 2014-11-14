@@ -30,6 +30,7 @@ public:
     void addMelodyNote(const QString &bwwCode);
     void addMelodyNoteDots(int dots);
     void addBarline();
+    void endPart(bool repeat);
 
     QString getGuidoCode();
 private:

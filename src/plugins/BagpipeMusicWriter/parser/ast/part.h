@@ -17,6 +17,12 @@ public:
     explicit Part(MusicItem *parent=0);
 
     void accept(AstVisitorInterface *visitor);
+
+    bool repeat() const;
+    void setRepeat(bool repeat);
+
+private:
+    bool m_repeat;
 };
 
 #endif // PART_H

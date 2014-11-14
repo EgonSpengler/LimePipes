@@ -38,7 +38,7 @@ GuidoCodeVisitor::GuidoCodeVisitor()
 
 void GuidoCodeVisitor::visit(Score *score)
 {
-    qDebug() << "Visit Score";
+//    qDebug() << "Visit Score";
     m_guidoCode.append(QStringLiteral("{[\n"));
     QStringList headerParts;
     headerParts.append(QStringLiteral("\\staff<1>"));
@@ -52,13 +52,13 @@ void GuidoCodeVisitor::visit(Score *score)
 
 void GuidoCodeVisitor::finishVisit(Score *score)
 {
-    qDebug() << "Finish visit Score";
+//    qDebug() << "Finish visit Score";
     m_guidoCode.append(QStringLiteral("\n]}"));
 }
 
 void GuidoCodeVisitor::visit(Tune *tune)
 {
-    qDebug() << "Visit Tune";
+//    qDebug() << "Visit Tune";
     MusicItem *tuneParent = tune->parent();
     int tuneIndex = tuneParent->children().indexOf(tune);
     if (tuneIndex == 0) {
@@ -68,22 +68,22 @@ void GuidoCodeVisitor::visit(Tune *tune)
 
 void GuidoCodeVisitor::finishVisit(Tune *tune)
 {
-    qDebug() << "Finish visit Tune";
+//    qDebug() << "Finish visit Tune";
 }
 
 void GuidoCodeVisitor::visit(Part *part)
 {
-    qDebug() << "Visit Part";
+//    qDebug() << "Visit Part";
 }
 
 void GuidoCodeVisitor::finishVisit(Part *part)
 {
-    qDebug() << "Finish visit Part";
+//    qDebug() << "Finish visit Part";
 }
 
 void GuidoCodeVisitor::visit(Symbol *symbol)
 {
-    qDebug() << "Visit Symbol";
+//    qDebug() << "Visit Symbol";
     switch (symbol->type()) {
     case T_Melody: {
         MelodyNote *note = static_cast<MelodyNote*>(symbol);
@@ -117,7 +117,7 @@ void GuidoCodeVisitor::addMelodyNote(MelodyNote *note)
 
 void GuidoCodeVisitor::finishVisit(Symbol *symbol)
 {
-    qDebug() << "Finish visit Symbol";
+//    qDebug() << "Finish visit Symbol";
 }
 
 QString GuidoCodeVisitor::guidoCode() const

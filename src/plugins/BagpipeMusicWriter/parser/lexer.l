@@ -58,9 +58,19 @@ WS	[ \t\f\r\n]
     }
 
     /* End Symbol Start-Condition */
-<SYMBOL>!I|''!I|!t	{
+<SYMBOL>!t	{
         BEGIN(INITIAL);
         return(LINE_END);
+    }
+
+<SYMBOL>!I	{
+        BEGIN(INITIAL);
+        return(END_PART);
+    }
+
+<SYMBOL>''!I	{
+        BEGIN(INITIAL);
+        return(END_PART_REPEAT);
     }
 
     /******************************************************************
