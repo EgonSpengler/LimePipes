@@ -15,7 +15,7 @@
 QHash<QString, SymbolPitch> MelodyNote::s_melodyNoteMap(MelodyNote::initMelodyNoteMap());
 
 MelodyNote::MelodyNote(const QString &bwwCode, MusicItem *parent)
-    : Symbol(parent),
+    : Symbol(T_Melody, parent),
       m_length(_4),
       m_pitch(LowA)
 {

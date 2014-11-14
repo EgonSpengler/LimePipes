@@ -29,6 +29,7 @@ public:
     void setTitle(const QString &title);
     void addMelodyNote(const QString &bwwCode);
     void addMelodyNoteDots(int dots);
+    void addBarline();
 
     QString getGuidoCode();
 private:

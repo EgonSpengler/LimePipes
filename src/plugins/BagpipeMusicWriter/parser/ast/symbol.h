@@ -9,12 +9,13 @@
 #ifndef SYMBOL_H
 #define SYMBOL_H
 
+#include "AstDefines.h"
 #include "musicitem.h"
 
 class Symbol : public MusicItem
 {
 public:
-    explicit Symbol(MusicItem *parent=0);
+    explicit Symbol(SymbolType type, MusicItem *parent=0);
     virtual ~Symbol();
 
     void accept(AstVisitorInterface *visitor);
@@ -25,9 +26,13 @@ public:
     quint8 dots() const;
     void setDots(const quint8 &dots);
 
+    SymbolType type() const;
+    void setType(const SymbolType &type);
+
 private:
     bool m_isGroup;
     quint8 m_dots;
+    SymbolType m_type;
 };
 
 #endif // SYMBOL_H

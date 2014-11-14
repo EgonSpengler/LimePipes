@@ -80,7 +80,7 @@ m_symbols: 	/* empty */
         | m_symbols GCLEF             { qDebug() << QString("p-gclef: %1\n").arg($2);}
         | m_symbols START_PART
         | m_symbols START_PART_REPEAT
-        | m_symbols BARLINE
+        | m_symbols BARLINE           { BwwParser::guidoFactory.addBarline();}
         | m_symbols MELODY_NOTE       { BwwParser::guidoFactory.addMelodyNote($2);}
         | m_symbols TIME_SIG          { qDebug() << QString("p-timesig: %1\n").arg($2); }
         | m_symbols SHARP             { qDebug() << QString("p-sharp: %1\n").arg($2); }

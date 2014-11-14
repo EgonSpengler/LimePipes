@@ -16,12 +16,12 @@
 
 using namespace LP;
 
-Symbol::Symbol(MusicItem *parent)
+Symbol::Symbol(SymbolType type, MusicItem *parent)
     : MusicItem(parent),
       m_isGroup(false),
-      m_dots(0)
+      m_dots(0),
+      m_type(type)
 {
-    Q_UNUSED(parent)
 }
 
 Symbol::~Symbol()
@@ -55,5 +55,15 @@ void Symbol::setDots(const quint8 &dots)
 {
     m_dots = dots;
 }
+SymbolType Symbol::type() const
+{
+    return m_type;
+}
+
+void Symbol::setType(const SymbolType &type)
+{
+    m_type = type;
+}
+
 
 

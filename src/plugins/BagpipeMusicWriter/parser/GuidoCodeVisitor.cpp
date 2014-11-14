@@ -84,9 +84,21 @@ void GuidoCodeVisitor::finishVisit(Part *part)
 void GuidoCodeVisitor::visit(Symbol *symbol)
 {
     qDebug() << "Visit Symbol";
-    MelodyNote *note = static_cast<MelodyNote*>(symbol);
-    if (note) {
-        addMelodyNote(note);
+    switch (symbol->type()) {
+    case T_Melody: {
+        MelodyNote *note = static_cast<MelodyNote*>(symbol);
+        if (note) {
+            addMelodyNote(note);
+        }
+        break;
+    }
+    case T_Bar: {
+        m_guidoCode.append(QStringLiteral("\\bar"));
+        break;
+    }
+    default:
+        qWarning() << "Symbol type not handled: " << symbol->type();
+        break;
     }
 }
 

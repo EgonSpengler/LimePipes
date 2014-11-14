@@ -59,6 +59,13 @@ void BwwGuidoFactory::addMelodyNote(const QString &bwwCode)
     m_currentSymbol = melodyNote;
 }
 
+void BwwGuidoFactory::addBarline()
+{
+    Symbol *bar = new Symbol(T_Bar);
+    m_currentPart->addChild(bar);
+    m_currentSymbol = bar;
+}
+
 void BwwGuidoFactory::addMelodyNoteDots(int dots)
 {
     if (dots <= 0 ||
@@ -74,6 +81,7 @@ void BwwGuidoFactory::addMelodyNoteDots(int dots)
 
     m_currentSymbol->setDots(dots);
 }
+
 
 QString BwwGuidoFactory::getGuidoCode()
 {

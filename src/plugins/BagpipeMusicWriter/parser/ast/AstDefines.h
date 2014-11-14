@@ -32,4 +32,9 @@ enum SymbolPitch {
     HighA
 };
 
+enum SymbolType {
+    T_Melody,
+    T_Bar
+};
+
 #endif // ASTDEFINES_H
