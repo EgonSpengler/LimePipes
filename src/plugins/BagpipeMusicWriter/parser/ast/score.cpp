@@ -17,7 +17,7 @@
 using namespace LP;
 
 Score::Score(MusicItem *parent)
-    : MusicItem(ItemType::ScoreType, ItemType::TuneType, parent)
+    : MusicItem(parent)
 {
 }
 

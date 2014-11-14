@@ -13,7 +13,7 @@
 using namespace LP;
 
 Tune::Tune(MusicItem *parent)
-    : MusicItem(ItemType::TuneType, ItemType::PartType, parent)
+    : MusicItem(parent)
 {
 }
 

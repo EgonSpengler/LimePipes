@@ -17,7 +17,7 @@
 using namespace LP;
 
 Symbol::Symbol(MusicItem *parent)
-    : MusicItem(ItemType::SymbolType, ItemType::NoItemType, parent),
+    : MusicItem(parent),
       m_isGroup(false),
       m_dots(0)
 {

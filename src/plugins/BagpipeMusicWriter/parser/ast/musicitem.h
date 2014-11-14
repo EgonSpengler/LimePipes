@@ -29,13 +29,8 @@ class AstVisitorInterface;
 class MusicItem
 {
 public:
-    explicit MusicItem(LP::ItemType type=LP::ItemType::NoItemType,
-                       LP::ItemType childType=LP::ItemType::NoItemType,
-                       MusicItem *parent=0);
+    explicit MusicItem(MusicItem *parent=0);
     virtual ~MusicItem();
-
-    LP::ItemType type() const { return m_type; }
-    LP::ItemType childType() const { return m_childType; }
 
     MusicItem *parent() const { return m_parent; }
     void setParent(MusicItem *parent);
@@ -54,8 +49,6 @@ public:
 
 protected:
     void visitChildren(AstVisitorInterface *visitor);
-    LP::ItemType m_type;
-    LP::ItemType m_childType;
     MusicItem *m_parent;
 
 private:

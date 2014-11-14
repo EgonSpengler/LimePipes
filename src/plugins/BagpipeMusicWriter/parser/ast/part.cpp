@@ -12,7 +12,7 @@
 using namespace LP;
 
 Part::Part(MusicItem *parent)
-    : MusicItem(ItemType::PartType, ItemType::MeasureType, parent)
+    : MusicItem(parent)
 {
 }
 
