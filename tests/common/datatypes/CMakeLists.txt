@@ -1,5 +1,0 @@
-add_subdirectory( Instrument )
-add_subdirectory( Length )
-add_subdirectory( Pitch )
-add_subdirectory( PitchContext )
-add_subdirectory( TimeSignature )

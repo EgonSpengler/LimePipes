@@ -11,36 +11,19 @@
 
 #include <QMainWindow>
 #include <QHash>
-
-#include <common/graphictypes/MusicFont/musicfont.h>
-#include <common/pluginmanagerinterface.h>
-#include <common/settingsobserver.h>
-
-#include "commonapplication.h"
-
-class QTreeView;
-class QDir;
-class Instrument;
-class MusicModel;
-class AddSymbolsDialog;
-class NewTuneDialog;
-class AboutDialog;
-class QAbstractItemModel;
-class MusicModelInterface;
-class GraphicsItemView;
-class GraphicsScene;
-class SettingsDialog;
-class SMuFLLoader;
-class ZoomWidget;
-class SymbolDockWidget;
-class TreeView;
+#include <QMap>
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow,
-                   public SettingsObserver
+class GuidoWidget;
+class TextEditHeaderWidget;
+class IApplication;
+class ITextFormatPlugin;
+class Settings;
+
+class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
@@ -48,58 +31,20 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void notify(Settings::Id id);
-
 private slots:
-    void on_fileNewAction_triggered();
-    void on_fileOpenAction_triggered();
-    void on_fileSaveAction_triggered();
-    void on_fileSaveAsAction_triggered();
-    void on_editAddTuneAction_triggered();
-    void on_editAddTunePartAction_triggered();
-    void on_editAddSymbolsAction_triggered();
-    void on_editUndoAction_triggered();
-    void on_editRedoAction_triggered();
-    void on_helpAboutAction_triggered();
-    void on_editSettingsAction_triggered();
-    void on_editCreateTestScoreAction_triggered();
-    void insertSymbol(int symbolType);
-    void setWindowModifiedForUndoStackCleanState(bool clean);
+    void refreshGuidoWidget();
+    void on_actionOpen_triggered();
 
 private:
-    void initMusicFont();
-    void createModelAndView();
-    void createMenusAndToolBars();
-    void createAndPopulateSymbolPalettes();
     void createConnections();
-    void createObjectNames();
-    void loadFile(const QString &fileName);
-    bool saveFile();
-    bool saveFileAs();
-    bool okToClearData();
-    void updateUi();
-    QString instrumentFromParentOfCurrentIndex();
-    MusicModelInterface *musicModelFromItemModel(QAbstractItemModel *model);
-    void setMusicFontSizeFromSettings();
-    void setDockWidgetOfInstrumentVisible(const QString& instrument, bool visible);
-    void createMenusAndSymbolDockWidgets(const QList<int> &instrumentTypes);
-
+    void loadPlugins();
     Ui::MainWindow *ui;
-    PluginManager m_pluginManager;
-    TreeView *m_treeView;
-    GraphicsItemView *m_graphicsItemView;
-    GraphicsScene *m_graphicsScene;
-    QAbstractItemModel *m_proxyModel;
-    QAbstractItemModel *m_model;
-    AddSymbolsDialog *m_addSymbolsDialog;
-    AboutDialog *m_aboutDialog;
-    SettingsDialog *m_settingsDialog;
-    MusicFontPtr m_musicFont;
-    SMuFLLoader *m_smuflLoader;
-    ZoomWidget *m_zoomWidget;
-    QHash<QString, SymbolDockWidget*> m_symbolDockWidgets;
-    CommonApplication *m_commonApplication;
-    Application m_sharedApplication;
+    GuidoWidget *m_guidoWidget;
+    IApplication *m_application;
+    TextEditHeaderWidget *m_textEditHeaderWidget;
+    QHash<QString, ITextFormatPlugin*> m_plugins;
+    QMap<int, QString> m_pluginOrders;
+    Settings *m_settings;
 };
 
 #endif // MAINWINDOW_H

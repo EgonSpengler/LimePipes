@@ -6,22 +6,17 @@
  *
  */
 
-#include <QApplication>
-#include <QIcon>
 #include "mainwindow.h"
-
+#include <QApplication>
 
 int main(int argc, char *argv[])
 {
-    Q_INIT_RESOURCE(integratedsymbols);
+    QApplication::setOrganizationName(QStringLiteral("limepipes.org"));
+    QApplication::setApplicationName(QStringLiteral("LimePipes"));
 
-    QApplication app(argc, argv);
-    QApplication::setApplicationName("LimePipes");
-    QApplication::setOrganizationName("limepipes.org");
-    app.setWindowIcon(QIcon(":/application/application_icon"));
-
+    QApplication a(argc, argv);
     MainWindow w;
     w.show();
 
-    return app.exec();
+    return a.exec();
 }

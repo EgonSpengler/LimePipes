@@ -1,2 +1,0 @@
-add_subdirectory( ScorePropertiesSettingsPage )
-add_subdirectory( ScorePropertiesWidget )

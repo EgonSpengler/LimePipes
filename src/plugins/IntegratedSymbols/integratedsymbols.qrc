@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/IntegratedSymbols">
-        <file alias="melodynote.png">images/melodynote.png</file>
-        <file alias="tie.png">images/tie.png</file>
-    </qresource>
-</RCC>

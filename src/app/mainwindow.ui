@@ -6,297 +6,153 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1503</width>
-    <height>926</height>
+    <width>961</width>
+    <height>861</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QScrollArea" name="scrollArea">
+   <property name="widgetResizable">
+    <bool>false</bool>
+   </property>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1503</width>
-     <height>20</height>
+     <width>961</width>
+     <height>27</height>
     </rect>
    </property>
-   <widget class="QMenu" name="fileMenu">
+   <widget class="QMenu" name="menu_File">
     <property name="title">
      <string>&amp;File</string>
     </property>
-    <addaction name="fileNewAction"/>
-    <addaction name="fileOpenAction"/>
-    <addaction name="fileSaveAction"/>
-    <addaction name="fileSaveAsAction"/>
-    <addaction name="fileQuitAction"/>
+    <addaction name="actionOpen"/>
    </widget>
-   <widget class="QMenu" name="editMenu">
+   <widget class="QMenu" name="menu_View">
     <property name="title">
-     <string>&amp;Edit</string>
+     <string>&amp;View</string>
     </property>
-    <addaction name="editAddTuneAction"/>
-    <addaction name="editAddSymbolsAction"/>
-    <addaction name="editSettingsAction"/>
+    <addaction name="actionViewText_Edit"/>
+    <addaction name="actionViewDebugText_Edit"/>
+    <addaction name="actionViewRefresh"/>
    </widget>
-   <widget class="QMenu" name="menu_Help">
-    <property name="title">
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="helpAboutAction"/>
-   </widget>
-   <widget class="QMenu" name="viewMenu">
-    <property name="title">
-     <string>View</string>
-    </property>
-    <addaction name="viewSymbolPalettesAction"/>
-    <addaction name="viewTreeViewAction"/>
-   </widget>
-   <addaction name="fileMenu"/>
-   <addaction name="editMenu"/>
-   <addaction name="viewMenu"/>
-   <addaction name="menu_Help"/>
+   <addaction name="menu_File"/>
+   <addaction name="menu_View"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <property name="iconSize">
-    <size>
-     <width>26</width>
-     <height>26</height>
-    </size>
-   </property>
-   <property name="toolButtonStyle">
-    <enum>Qt::ToolButtonTextUnderIcon</enum>
-   </property>
-   <property name="floatable">
-    <bool>false</bool>
-   </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="fileNewAction"/>
-   <addaction name="fileOpenAction"/>
-   <addaction name="fileSaveAction"/>
-   <addaction name="fileSaveAsAction"/>
-   <addaction name="editUndoAction"/>
-   <addaction name="editRedoAction"/>
-   <addaction name="separator"/>
-   <addaction name="editAddTuneAction"/>
-   <addaction name="editAddTunePartAction"/>
-   <addaction name="editAddSymbolsAction"/>
-   <addaction name="separator"/>
-   <addaction name="editCreateTestScoreAction"/>
+   <addaction name="actionOpen"/>
   </widget>
-  <widget class="QToolBar" name="zoomToolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
-   </property>
-   <attribute name="toolBarArea">
-    <enum>TopToolBarArea</enum>
+  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QDockWidget" name="textDockWidget">
+   <attribute name="dockWidgetArea">
+    <number>8</number>
    </attribute>
-   <attribute name="toolBarBreak">
-    <bool>false</bool>
-   </attribute>
+   <widget class="QPlainTextEdit" name="textEdit"/>
   </widget>
-  <action name="fileNewAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/document-new</normaloff>:/application/document-new</iconset>
+  <widget class="QDockWidget" name="guidoDebugDockWidget">
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="QPlainTextEdit" name="debugTextEdit"/>
+  </widget>
+  <action name="actionViewText_Edit">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
    </property>
    <property name="text">
-    <string>&amp;New</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
+    <string>Text Edit</string>
    </property>
   </action>
-  <action name="fileQuitAction">
+  <action name="actionViewRefresh">
    <property name="text">
-    <string>&amp;Quit</string>
+    <string>Refresh</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Q</string>
+    <string>F5</string>
    </property>
   </action>
-  <action name="editAddTuneAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/tune-new</normaloff>:/application/tune-new</iconset>
-   </property>
+  <action name="actionOpen">
    <property name="text">
-    <string>Add &amp;Tune</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+T</string>
-   </property>
-  </action>
-  <action name="editAddSymbolsAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/tune-add-symbols</normaloff>:/application/tune-add-symbols</iconset>
-   </property>
-   <property name="text">
-    <string>Add &amp;Symbol</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+I</string>
-   </property>
-  </action>
-  <action name="fileOpenAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/document-open</normaloff>:/application/document-open</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Open</string>
+    <string>Open</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="fileSaveAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/document-save</normaloff>:/application/document-save</iconset>
-   </property>
-   <property name="text">
-    <string>&amp;Save</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+S</string>
-   </property>
-  </action>
-  <action name="fileSaveAsAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/document-save-as</normaloff>:/application/document-save-as</iconset>
-   </property>
-   <property name="text">
-    <string>Save As</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+S</string>
-   </property>
-  </action>
-  <action name="editUndoAction">
-   <property name="enabled">
-    <bool>true</bool>
-   </property>
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/edit-undo</normaloff>:/application/edit-undo</iconset>
-   </property>
-   <property name="text">
-    <string>Undo</string>
-   </property>
-   <property name="toolTip">
-    <string>Undo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Z</string>
-   </property>
-   <property name="visible">
-    <bool>true</bool>
-   </property>
-  </action>
-  <action name="editRedoAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/edit-redo</normaloff>:/application/edit-redo</iconset>
-   </property>
-   <property name="text">
-    <string>Redo</string>
-   </property>
-   <property name="toolTip">
-    <string>Redo</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+Z</string>
-   </property>
-  </action>
-  <action name="editAddTunePartAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/tune-add-part</normaloff>:/application/tune-add-part</iconset>
-   </property>
-   <property name="text">
-    <string>Add &amp;Part</string>
-   </property>
-   <property name="toolTip">
-    <string>Add Part</string>
-   </property>
-  </action>
-  <action name="helpAboutAction">
-   <property name="text">
-    <string>&amp;About</string>
-   </property>
-  </action>
-  <action name="editSettingsAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/document-properties</normaloff>:/application/document-properties</iconset>
-   </property>
-   <property name="text">
-    <string>Settings</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+P</string>
-   </property>
-  </action>
-  <action name="editCreateTestScoreAction">
-   <property name="icon">
-    <iconset resource="app_resources.qrc">
-     <normaloff>:/application/score_settings</normaloff>:/application/score_settings</iconset>
-   </property>
-   <property name="text">
-    <string>Create Test Score</string>
-   </property>
-   <property name="toolTip">
-    <string>Add a score with tune and symbols</string>
-   </property>
-  </action>
-  <action name="viewSymbolPalettesAction">
-   <property name="text">
-    <string>Symobol Palettes</string>
-   </property>
-  </action>
-  <action name="viewTreeViewAction">
+  <action name="actionViewDebugText_Edit">
    <property name="checkable">
     <bool>true</bool>
    </property>
-   <property name="text">
-    <string>Tree View</string>
+   <property name="checked">
+    <bool>true</bool>
    </property>
-   <property name="shortcut">
-    <string>F8</string>
+   <property name="text">
+    <string>Debug Text Edit</string>
    </property>
   </action>
  </widget>
- <resources>
-  <include location="app_resources.qrc"/>
- </resources>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
  <connections>
   <connection>
-   <sender>fileQuitAction</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
+   <sender>textDockWidget</sender>
+   <signal>visibilityChanged(bool)</signal>
+   <receiver>actionViewText_Edit</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>480</x>
+     <y>713</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewText_Edit</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>textDockWidget</receiver>
+   <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>399</x>
-     <y>340</y>
+     <x>480</x>
+     <y>713</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionViewDebugText_Edit</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>guidoDebugDockWidget</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>832</x>
+     <y>335</y>
     </hint>
    </hints>
   </connection>

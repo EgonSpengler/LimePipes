@@ -1,8 +1,0 @@
-add_subdirectory( RootItem )
-add_subdirectory( Score )
-add_subdirectory( Tune )
-add_subdirectory( Part )
-add_subdirectory( Measure )
-add_subdirectory( Symbol )
-add_subdirectory( MusicItem )
-add_subdirectory( MusicModel )

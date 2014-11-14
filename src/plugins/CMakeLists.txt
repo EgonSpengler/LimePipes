@@ -1,2 +1,2 @@
-add_subdirectory( GreatHighlandBagpipe )
-add_subdirectory( IntegratedSymbols )
+add_subdirectory( BagpipeMusicWriter )
+add_subdirectory( Guido )
