@@ -34,7 +34,8 @@ enum SymbolPitch {
 
 enum SymbolType {
     T_Melody,
-    T_Bar
+    T_Bar,
+    T_TimeSignature
 };
 
 #endif // ASTDEFINES_H

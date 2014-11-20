@@ -13,6 +13,7 @@
 #include "ast/part.h"
 #include "ast/symbol.h"
 #include "ast/melodynote.h"
+#include "ast/timesignature.h"
 
 #include "GuidoCodeVisitor.h"
 #include "bwwguidofactory.h"
@@ -70,6 +71,13 @@ void BwwGuidoFactory::endPart(bool repeat)
 {
     m_currentPart->setRepeat(repeat);
     m_currentPart = new Part(m_currentTune);
+}
+
+void BwwGuidoFactory::addTimeSignature(const QString &bwwCode)
+{
+    TimeSignature *timeSig = new TimeSignature(bwwCode);
+    m_currentPart->addChild(timeSig);
+    m_currentSymbol = timeSig;
 }
 
 void BwwGuidoFactory::addMelodyNoteDots(int dots)

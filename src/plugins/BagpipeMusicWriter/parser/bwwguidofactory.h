@@ -31,6 +31,7 @@ public:
     void addMelodyNoteDots(int dots);
     void addBarline();
     void endPart(bool repeat);
+    void addTimeSignature(const QString &bwwCode);
 
     QString getGuidoCode();
 private:

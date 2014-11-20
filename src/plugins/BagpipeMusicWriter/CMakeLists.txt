@@ -25,6 +25,7 @@ set( sources
   parser/ast/part.cpp
   parser/ast/symbol.cpp
   parser/ast/melodynote.cpp
+  parser/ast/timesignature.cpp
   parser/ast/AstVisitorInterface.h
 )
 
