@@ -10,6 +10,7 @@
 #include <QDebug>
 
 #include "ast/melodynote.h"
+#include "ast/timesignature.h"
 #include "GuidoCodeVisitor.h"
 
 static const QString TitleTemplate(QStringLiteral("\\title<\"%1\">"));
@@ -85,6 +86,13 @@ void GuidoCodeVisitor::visit(Symbol *symbol)
 {
 //    qDebug() << "Visit Symbol";
     switch (symbol->type()) {
+    case T_TimeSignature: {
+        TimeSignature * timeSig = static_cast<TimeSignature*>(symbol);
+        if (timeSig) {
+            addTimeSignature(timeSig);
+        }
+        break;
+    }
     case T_Melody: {
         MelodyNote *note = static_cast<MelodyNote*>(symbol);
         if (note) {
@@ -113,6 +121,26 @@ void GuidoCodeVisitor::addMelodyNote(MelodyNote *note)
         }
     }
     m_guidoCode.append(noteTemplate);
+}
+
+void GuidoCodeVisitor::addTimeSignature(TimeSignature *time)
+{
+    QString meterTemplate(QStringLiteral("\\meter<\"%1/%2\">"));
+    if (time->showAsSymbol()) {
+        if (time->beatCount() == 2 &&
+                time->beatUnit() == 2) {
+            m_guidoCode.append(QStringLiteral("\\meter<\"C/\">"));
+            return;
+        }
+        if (time->beatCount() == 4 &&
+                time->beatUnit() == 4) {
+            m_guidoCode.append(QStringLiteral("\\meter<\"C\">"));
+            return;
+        }
+    }
+
+    m_guidoCode.append(meterTemplate.arg(time->beatCount())
+                       .arg(time->beatUnit()));
 }
 
 void GuidoCodeVisitor::finishVisit(Symbol *symbol)

@@ -26,7 +26,7 @@ TimeSignature::TimeSignature(const QString &bwwCode, MusicItem *parent)
 
     if (bwwCode == QStringLiteral("C_")) {
         m_beatCount = 2;
-        m_beatUnit = 4;
+        m_beatUnit = 2;
         m_showAsSymbol = true;
         return;
     }

@@ -16,6 +16,7 @@
 #include "parser/ast/AstVisitorInterface.h"
 
 class MelodyNote;
+class TimeSignature;
 
 class GuidoCodeVisitor : public AstVisitorInterface
 {
@@ -39,6 +40,7 @@ private:
     static QHash<SymbolPitch, QString> initMelodyNotePitchMap();
 
     void addMelodyNote(MelodyNote *note);
+    void addTimeSignature(TimeSignature *time);
 
     QStringList m_guidoCode;
 };
