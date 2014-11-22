@@ -93,9 +93,16 @@ void BwwGuidoFactory::addMelodyNoteDots(int dots)
         return;
     }
 
-    m_currentSymbol->setDots(dots);
-}
+    if (m_currentSymbol->type() != T_Melody) {
+        qWarning() << "Current symbol is no melody note. Can't add dots.";
+        return;
+    }
 
+    MelodyNote *melodyNote = static_cast<MelodyNote*>(m_currentSymbol);
+    if (melodyNote) {
+        melodyNote->setDots(dots);
+    }
+}
 
 QString BwwGuidoFactory::getGuidoCode()
 {

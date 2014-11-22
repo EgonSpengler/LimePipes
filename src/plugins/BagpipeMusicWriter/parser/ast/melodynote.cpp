@@ -17,7 +17,8 @@ QHash<QString, SymbolPitch> MelodyNote::s_melodyNoteMap(MelodyNote::initMelodyNo
 MelodyNote::MelodyNote(const QString &bwwCode, MusicItem *parent)
     : Symbol(T_Melody, parent),
       m_length(_4),
-      m_pitch(LowA)
+      m_pitch(LowA),
+      m_dots(0)
 {
     setNoteFromBww(bwwCode);
 }
@@ -59,6 +60,16 @@ QHash<QString, SymbolPitch> MelodyNote::initMelodyNoteMap()
     noteMap.insert(QStringLiteral("HA"), HighA);
     return noteMap;
 }
+quint8 MelodyNote::dots() const
+{
+    return m_dots;
+}
+
+void MelodyNote::setDots(const quint8 &dots)
+{
+    m_dots = dots;
+}
+
 SymbolPitch MelodyNote::pitch() const
 {
     return m_pitch;

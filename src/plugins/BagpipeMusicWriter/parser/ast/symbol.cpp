@@ -19,7 +19,6 @@ using namespace LP;
 Symbol::Symbol(SymbolType type, MusicItem *parent)
     : MusicItem(parent),
       m_isGroup(false),
-      m_dots(0),
       m_type(type)
 {
 }
@@ -46,15 +45,7 @@ void Symbol::setIsGroup(bool isGroup)
 {
     m_isGroup = isGroup;
 }
-quint8 Symbol::dots() const
-{
-    return m_dots;
-}
 
-void Symbol::setDots(const quint8 &dots)
-{
-    m_dots = dots;
-}
 SymbolType Symbol::type() const
 {
     return m_type;

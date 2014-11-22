@@ -26,6 +26,9 @@ public:
     SymbolPitch pitch() const;
     void setPitch(const SymbolPitch &pitch);
 
+    quint8 dots() const;
+    void setDots(const quint8 &dots);
+
 private:
     void setNoteFromBww(const QString &bwwCode);
     static QHash<QString, SymbolPitch> s_melodyNoteMap;
@@ -33,6 +36,7 @@ private:
 
     SymbolLength m_length;
     SymbolPitch m_pitch;
+    quint8 m_dots;
 };
 
 #endif // MELODYNOTE_H

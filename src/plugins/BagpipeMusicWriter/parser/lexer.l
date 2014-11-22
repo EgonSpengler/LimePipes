@@ -236,9 +236,8 @@ LGr_32|LAr_32|Br_32|Cr_32|Dr_32|Er_32|Fr_32|HGr_32|HAr_32
         return( DOUBLING_THUMB );
     }
 
-    /* Singlegrace-Strikes */
-<SYMBOL>((?x:strlg|strla|strb|strc|strd|stre|strf|strhg /* Like single gracenotes */
-)) 	 {
+    /* Singlegrace-Strikes ( Like single gracenotes) */
+<SYMBOL>((?x:strlg|strla|strb|strc|strd|stre|strf|strhg)) 	 {
         yylval->text = strdup(yytext);
         return( STRIKE );
     }

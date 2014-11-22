@@ -31,7 +31,6 @@ public:
 
 private:
     bool m_isGroup;
-    quint8 m_dots;
     SymbolType m_type;
 };
 
