@@ -127,6 +127,11 @@ void BwwGuidoFactory::addSingleGrace(const QString &bwwCode)
     m_currentSymbol = embellishment;
 }
 
+void BwwGuidoFactory::addDoubling(const QString &bwwCode, Embellishment::Type type)
+{
+
+}
+
 QString BwwGuidoFactory::getGuidoCode()
 {
     GuidoCodeVisitor codeVisitor;

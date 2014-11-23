@@ -91,9 +91,9 @@ m_symbols: 	/* empty */
          | m_symbols DOT_DBL           { BwwParser::guidoFactory.addMelodyNoteDots(2); }
          | m_symbols FERMAT
          | m_symbols SINGLE_GRACE      { BwwParser::guidoFactory.addSingleGrace($2); }
-         | m_symbols DOUBLING_REG
-         | m_symbols DOUBLING_HALF
-         | m_symbols DOUBLING_THUMB
+         | m_symbols DOUBLING_REG      { BwwParser::guidoFactory.addDoubling($2, Embellishment::DOUBLING_REG); }
+         | m_symbols DOUBLING_HALF     { BwwParser::guidoFactory.addDoubling($2, Embellishment::DOUBLING_HALF); }
+         | m_symbols DOUBLING_THUMB    { BwwParser::guidoFactory.addDoubling($2, Embellishment::DOUBLING_THUMB); }
          | m_symbols STRIKE
          | m_symbols STRIKE_G
          | m_symbols STRIKE_THUMB
