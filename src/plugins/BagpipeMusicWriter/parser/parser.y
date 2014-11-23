@@ -5,12 +5,12 @@
 #include <QDebug>
 
 void yyerror (char const *s);
-#include <parser/bwwguidofactory.h>
+#include <parser/BwwAstFactory.h>
 
 
 namespace BwwParser {
 
-BwwGuidoFactory guidoFactory;
+BwwAstFactory astFactory;
 
 }
 %}
@@ -65,7 +65,7 @@ tune: 	/* empty */
 header_line:	/* empty */
         | header_line T_COMMENT			{ qDebug() << QString("p-Comment: %1").arg($2); }
         | header_line T_TEMPO			{ qDebug() << QString("p-TuneTempo: %1").arg($2); }
-        | header_line T_COMMENT T_TITLE		{ BwwParser::guidoFactory.setTitle($2); }
+        | header_line T_COMMENT T_TITLE		{ BwwParser::astFactory.setTitle($2); }
         | header_line T_COMMENT T_TYPE		{ qDebug() << QString("p-Type: %1").arg($2); }
         | header_line T_COMMENT T_COMPOSER	{ qDebug() << QString("p-Composer: %1").arg($2); }
         | header_line T_COMMENT T_FOOTER	{ qDebug() << QString("p-Footer: %1").arg($2); }
@@ -80,20 +80,20 @@ m_symbols: 	/* empty */
          | m_symbols GCLEF             { qDebug() << QString("p-gclef: %1\n").arg($2);}
          | m_symbols START_PART        { qDebug() << QString("p-start part: %1\n").arg($2);}
          | m_symbols START_PART_REPEAT { qDebug() << QString("p-end part: %1\n").arg($2);}
-         | m_symbols BARLINE           { BwwParser::guidoFactory.addBarline();}
-         | m_symbols MELODY_NOTE       { BwwParser::guidoFactory.addMelodyNote($2);}
-         | m_symbols TIME_SIG          { BwwParser::guidoFactory.addTimeSignature($2); }
+         | m_symbols BARLINE           { BwwParser::astFactory.addBarline();}
+         | m_symbols MELODY_NOTE       { BwwParser::astFactory.addMelodyNote($2);}
+         | m_symbols TIME_SIG          { BwwParser::astFactory.addTimeSignature($2); }
          | m_symbols SHARP             { qDebug() << QString("p-sharp: %1\n").arg($2); }
          | m_symbols FLAT
          | m_symbols NATURAL
          | m_symbols REST
-         | m_symbols DOT               { BwwParser::guidoFactory.addMelodyNoteDots(1); }
-         | m_symbols DOT_DBL           { BwwParser::guidoFactory.addMelodyNoteDots(2); }
+         | m_symbols DOT               { BwwParser::astFactory.addMelodyNoteDots(1); }
+         | m_symbols DOT_DBL           { BwwParser::astFactory.addMelodyNoteDots(2); }
          | m_symbols FERMAT
-         | m_symbols SINGLE_GRACE      { BwwParser::guidoFactory.addSingleGrace($2); }
-         | m_symbols DOUBLING_REG      { BwwParser::guidoFactory.addDoubling($2, Embellishment::DOUBLING_REG); }
-         | m_symbols DOUBLING_HALF     { BwwParser::guidoFactory.addDoubling($2, Embellishment::DOUBLING_HALF); }
-         | m_symbols DOUBLING_THUMB    { BwwParser::guidoFactory.addDoubling($2, Embellishment::DOUBLING_THUMB); }
+         | m_symbols SINGLE_GRACE      { BwwParser::astFactory.addSingleGrace($2); }
+         | m_symbols DOUBLING_REG      { BwwParser::astFactory.addDoubling($2, Embellishment::DOUBLING_REG); }
+         | m_symbols DOUBLING_HALF     { BwwParser::astFactory.addDoubling($2, Embellishment::DOUBLING_HALF); }
+         | m_symbols DOUBLING_THUMB    { BwwParser::astFactory.addDoubling($2, Embellishment::DOUBLING_THUMB); }
          | m_symbols STRIKE
          | m_symbols STRIKE_G
          | m_symbols STRIKE_THUMB
@@ -158,8 +158,8 @@ m_symbols: 	/* empty */
 
 
 music_line: LINE_START m_symbols LINE_END           { qDebug() << QString("p-Music-line"); }
-          | LINE_START m_symbols END_PART           { BwwParser::guidoFactory.endPart(false); }
-          | LINE_START m_symbols END_PART_REPEAT    { BwwParser::guidoFactory.endPart(true);  }
+          | LINE_START m_symbols END_PART           { BwwParser::astFactory.endPart(false); }
+          | LINE_START m_symbols END_PART_REPEAT    { BwwParser::astFactory.endPart(true);  }
           ;
 %%
 
@@ -168,9 +168,9 @@ void yyerror (char const *s) {
 }
 
 void clearBwwFactory() {
-  BwwParser::guidoFactory.clear();
+  BwwParser::astFactory.clear();
 }
 
 QString getGuidoCode() {
-  return BwwParser::guidoFactory.getGuidoCode();
+  return BwwParser::astFactory.getGuidoCode();
 }

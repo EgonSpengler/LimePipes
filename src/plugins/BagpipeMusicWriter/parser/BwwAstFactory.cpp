@@ -17,10 +17,10 @@
 #include "ast/embellishment.h"
 
 #include "GuidoCodeVisitor.h"
-#include "bwwguidofactory.h"
+#include "BwwAstFactory.h"
 
 
-BwwGuidoFactory::BwwGuidoFactory()
+BwwAstFactory::BwwAstFactory()
     : m_score(0),
       m_currentTune(0),
       m_currentPart(0),
@@ -29,19 +29,19 @@ BwwGuidoFactory::BwwGuidoFactory()
     initAst();
 }
 
-BwwGuidoFactory::~BwwGuidoFactory()
+BwwAstFactory::~BwwAstFactory()
 {
     delete m_score;
 }
 
-void BwwGuidoFactory::initAst()
+void BwwAstFactory::initAst()
 {
     m_score = new Score;
     m_currentTune = new Tune(m_score);
     m_currentPart = new Part(m_currentTune);
 }
 
-void BwwGuidoFactory::clear()
+void BwwAstFactory::clear()
 {
     qDebug() << "Clear bww guido factory";
 
@@ -49,39 +49,39 @@ void BwwGuidoFactory::clear()
     initAst();
 }
 
-void BwwGuidoFactory::setTitle(const QString &title)
+void BwwAstFactory::setTitle(const QString &title)
 {
     m_currentTune->title = title;
 }
 
-void BwwGuidoFactory::addMelodyNote(const QString &bwwCode)
+void BwwAstFactory::addMelodyNote(const QString &bwwCode)
 {
     MelodyNote *melodyNote = new MelodyNote(bwwCode);
     m_currentPart->addChild(melodyNote);
     m_currentSymbol = melodyNote;
 }
 
-void BwwGuidoFactory::addBarline()
+void BwwAstFactory::addBarline()
 {
     Symbol *bar = new Symbol(T_Bar);
     m_currentPart->addChild(bar);
     m_currentSymbol = bar;
 }
 
-void BwwGuidoFactory::endPart(bool repeat)
+void BwwAstFactory::endPart(bool repeat)
 {
     m_currentPart->setRepeat(repeat);
     m_currentPart = new Part(m_currentTune);
 }
 
-void BwwGuidoFactory::addTimeSignature(const QString &bwwCode)
+void BwwAstFactory::addTimeSignature(const QString &bwwCode)
 {
     TimeSignature *timeSig = new TimeSignature(bwwCode);
     m_currentPart->addChild(timeSig);
     m_currentSymbol = timeSig;
 }
 
-void BwwGuidoFactory::addMelodyNoteDots(int dots)
+void BwwAstFactory::addMelodyNoteDots(int dots)
 {
     if (dots <= 0 ||
             dots >3) {
@@ -105,7 +105,7 @@ void BwwGuidoFactory::addMelodyNoteDots(int dots)
     }
 }
 
-void BwwGuidoFactory::addSingleGrace(const QString &bwwCode)
+void BwwAstFactory::addSingleGrace(const QString &bwwCode)
 {
     if (!bwwCode.count()) {
         return;
@@ -127,12 +127,12 @@ void BwwGuidoFactory::addSingleGrace(const QString &bwwCode)
     m_currentSymbol = embellishment;
 }
 
-void BwwGuidoFactory::addDoubling(const QString &bwwCode, Embellishment::Type type)
+void BwwAstFactory::addDoubling(const QString &bwwCode, Embellishment::Type type)
 {
 
 }
 
-QString BwwGuidoFactory::getGuidoCode()
+QString BwwAstFactory::getGuidoCode()
 {
     GuidoCodeVisitor codeVisitor;
     m_score->accept(&codeVisitor);

@@ -16,7 +16,7 @@ set( sources
   bagpipemusicwriterformatplugin.cpp
   parser/parser.y
   parser/lexer.l
-  parser/bwwguidofactory.cpp
+  parser/BwwAstFactory.cpp
   parser/GuidoCodeVisitor.cpp
 
   parser/ast/AstDefines.h

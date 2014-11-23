@@ -6,8 +6,8 @@
  *
  */
 
-#ifndef BWWGUIDOFACTORY_H
-#define BWWGUIDOFACTORY_H
+#ifndef BWWASTFACTORY_H
+#define BWWASTFACTORY_H
 
 #include <QString>
 #include <QStringList>
@@ -20,11 +20,11 @@ class Tune;
 class Part;
 class Symbol;
 
-class BwwGuidoFactory
+class BwwAstFactory
 {
 public:
-    explicit BwwGuidoFactory();
-    ~BwwGuidoFactory();
+    explicit BwwAstFactory();
+    ~BwwAstFactory();
 
     void clear();
 
@@ -48,4 +48,4 @@ private:
     Symbol *m_currentSymbol;
 };
 
-#endif // BWWGUIDOFACTORY_H
+#endif // BWWASTFACTORY_H
