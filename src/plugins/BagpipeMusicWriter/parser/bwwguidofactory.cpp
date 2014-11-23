@@ -14,6 +14,7 @@
 #include "ast/symbol.h"
 #include "ast/melodynote.h"
 #include "ast/timesignature.h"
+#include "ast/embellishment.h"
 
 #include "GuidoCodeVisitor.h"
 #include "bwwguidofactory.h"
@@ -102,6 +103,28 @@ void BwwGuidoFactory::addMelodyNoteDots(int dots)
     if (melodyNote) {
         melodyNote->setDots(dots);
     }
+}
+
+void BwwGuidoFactory::addSingleGrace(const QString &bwwCode)
+{
+    if (!bwwCode.count()) {
+        return;
+    }
+
+    const QChar gracePitch(bwwCode.at(0));
+    SymbolPitch pitch = NoPitch;
+    if (gracePitch == QLatin1Char('a')) { pitch = LowA; }
+    if (gracePitch == QLatin1Char('b')) { pitch = B; }
+    if (gracePitch == QLatin1Char('c')) { pitch = C; }
+    if (gracePitch == QLatin1Char('d')) { pitch = D; }
+    if (gracePitch == QLatin1Char('e')) { pitch = E; }
+    if (gracePitch == QLatin1Char('f')) { pitch = F; }
+    if (gracePitch == QLatin1Char('g')) { pitch = HighG; }
+    if (gracePitch == QLatin1Char('t')) { pitch = HighA; }
+
+    Embellishment *embellishment = new Embellishment(Embellishment::SINGLE_GRACE, pitch);
+    m_currentPart->addChild(embellishment);
+    m_currentSymbol = embellishment;
 }
 
 QString BwwGuidoFactory::getGuidoCode()

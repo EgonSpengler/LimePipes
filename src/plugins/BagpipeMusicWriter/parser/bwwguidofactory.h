@@ -29,6 +29,8 @@ public:
     void setTitle(const QString &title);
     void addMelodyNote(const QString &bwwCode);
     void addMelodyNoteDots(int dots);
+    void addSingleGrace(const QString &bwwCode);
+
     void addBarline();
     void endPart(bool repeat);
     void addTimeSignature(const QString &bwwCode);

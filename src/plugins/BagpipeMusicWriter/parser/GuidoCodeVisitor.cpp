@@ -11,6 +11,7 @@
 
 #include "ast/melodynote.h"
 #include "ast/timesignature.h"
+#include "ast/embellishment.h"
 #include "GuidoCodeVisitor.h"
 
 static const QString TitleTemplate(QStringLiteral("\\title<\"%1\">"));
@@ -104,6 +105,12 @@ void GuidoCodeVisitor::visit(Symbol *symbol)
         m_guidoCode.append(QStringLiteral("\\bar"));
         break;
     }
+    case T_Embellishment: {
+        Embellishment *embellishment = static_cast<Embellishment*>(symbol);
+        if (embellishment) {
+            addEmbellishment(embellishment);
+        }
+    }
     default:
         qWarning() << "Symbol type not handled: " << symbol->type();
         break;
@@ -141,6 +148,48 @@ void GuidoCodeVisitor::addTimeSignature(TimeSignature *time)
 
     m_guidoCode.append(meterTemplate.arg(time->beatCount())
                        .arg(time->beatUnit()));
+}
+
+void GuidoCodeVisitor::addEmbellishment(Embellishment *embellishment)
+{
+    switch (embellishment->embellishmentType()) {
+    case Embellishment::SINGLE_GRACE:
+        addGraceSequence(QList<SymbolPitch>() << embellishment->pitchHint());
+        break;
+    case Embellishment::DOUBLING_REG:
+        break;
+    case Embellishment::DOUBLING_HALF:
+        break;
+    case Embellishment::DOUBLING_THUMB:
+        break;
+    }
+}
+
+void GuidoCodeVisitor::addGraceSequence(const QList<SymbolPitch> &pitches)
+{
+    if (!pitches.count()) {
+        return;
+    }
+
+    QString codeTemplate;
+    if (pitches.count() == 1) {
+        // No need for beam
+        codeTemplate = QStringLiteral("\\stemsUp \\grace( %1 ) \\stemsDown");
+    } else {
+        codeTemplate = QStringLiteral("\\stemsUp \\beam( \\grace( %1 )) \\stemsDown");
+    }
+
+    QStringList embellishmentItems;
+    foreach (const SymbolPitch &pitch, pitches) {
+        if (embellishmentItems.isEmpty()) {
+            // first element
+            embellishmentItems.append(s_melodyNotePitchMap.value(pitch) + QStringLiteral("/32"));
+        } else {
+            embellishmentItems.append(s_melodyNotePitchMap.value(pitch));
+        }
+    }
+
+    m_guidoCode.append(codeTemplate.arg(embellishmentItems.join(QLatin1Char(' '))));
 }
 
 void GuidoCodeVisitor::finishVisit(Symbol *symbol)

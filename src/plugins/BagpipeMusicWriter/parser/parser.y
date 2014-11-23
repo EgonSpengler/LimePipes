@@ -90,7 +90,7 @@ m_symbols: 	/* empty */
          | m_symbols DOT               { BwwParser::guidoFactory.addMelodyNoteDots(1); }
          | m_symbols DOT_DBL           { BwwParser::guidoFactory.addMelodyNoteDots(2); }
          | m_symbols FERMAT
-         | m_symbols SINGLE_GRACE
+         | m_symbols SINGLE_GRACE      { BwwParser::guidoFactory.addSingleGrace($2); }
          | m_symbols DOUBLING_REG
          | m_symbols DOUBLING_HALF
          | m_symbols DOUBLING_THUMB

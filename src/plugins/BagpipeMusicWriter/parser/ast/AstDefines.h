@@ -21,6 +21,7 @@ enum SymbolLength {
 };
 
 enum SymbolPitch {
+    NoPitch,
     LowG = 1,
     LowA,
     B,
@@ -34,6 +35,7 @@ enum SymbolPitch {
 
 enum SymbolType {
     T_Melody,
+    T_Embellishment,
     T_Bar,
     T_TimeSignature
 };

@@ -19,6 +19,7 @@ set( sources
   parser/bwwguidofactory.cpp
   parser/GuidoCodeVisitor.cpp
 
+  parser/ast/AstDefines.h
   parser/ast/musicitem.cpp
   parser/ast/score.cpp
   parser/ast/tune.cpp
@@ -26,6 +27,7 @@ set( sources
   parser/ast/symbol.cpp
   parser/ast/melodynote.cpp
   parser/ast/timesignature.cpp
+  parser/ast/embellishment.cpp
   parser/ast/AstVisitorInterface.h
 )
 

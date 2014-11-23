@@ -10,6 +10,7 @@
 #define GUIDOCODEVISITOR_H
 
 #include <QHash>
+#include <QList>
 #include <QString>
 
 #include "parser/ast/AstDefines.h"
@@ -17,6 +18,7 @@
 
 class MelodyNote;
 class TimeSignature;
+class Embellishment;
 
 class GuidoCodeVisitor : public AstVisitorInterface
 {
@@ -41,6 +43,8 @@ private:
 
     void addMelodyNote(MelodyNote *note);
     void addTimeSignature(TimeSignature *time);
+    void addEmbellishment(Embellishment *embellishment);
+    void addGraceSequence(const QList<SymbolPitch> &pitches);
 
     QStringList m_guidoCode;
 };
