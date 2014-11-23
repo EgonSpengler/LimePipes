@@ -170,6 +170,10 @@ void GuidoCodeVisitor::addGraceSequence(const QList<SymbolPitch> &pitches)
     if (!pitches.count()) {
         return;
     }
+    if (pitches.contains(NoPitch)) {
+        qWarning() << "Embellishment contains invalid pitch (NoPitch).";
+        return;
+    }
 
     QString codeTemplate;
     if (pitches.count() == 1) {
