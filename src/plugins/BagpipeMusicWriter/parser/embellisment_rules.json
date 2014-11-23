@@ -1,0 +1,260 @@
+{
+   "doubling": { "comment": "embellishment type",
+      "regular": { "comment": "variant of embellishment",
+         "low G": { "comment": "arbitrary name of concrete embellishment",
+            "appearance": ["HighG", "LowG", "D"],
+            "following": {
+               "LowG": { "valid_preceding": "LowG-F" }
+            }
+         },
+         "low A": {
+            "appearance": ["HighG", "LowA", "D"],
+            "following": {
+               "LowA": { "valid_preceding": "LowG-F" }
+         },
+         "B": {
+            "appearance": ["HighG", "B", "D"],
+            "following": {
+               "B": { "valid_preceding": "LowG-F" }
+         },
+         "C": {
+            "appearance": ["HighG", "C", "D"],
+            "following": {
+               "C": { "valid_preceding": "LowG-F" }
+         },
+         "D": {
+            "appearance": ["HighG", "D", "E"],
+            "following": {
+               "D": { "valid_preceding": "LowG-F" }
+         },
+         "E": {
+            "appearance": ["HighG", "E", "F"],
+            "following": {
+               "E": { "valid_preceding": "LowG-F" }
+         },
+         "F": {
+            "appearance": ["HighG", "F", "HighG"],
+            "following": {
+               "F": { "valid_preceding": "LowG-F" }
+         },
+         "High G": {
+            "appearance": ["HighG", "F"],
+            "following": {
+               "HighG": { "valid_preceding": "LowG-HighG" }
+         },
+         "High A": {
+            "appearance": ["HighA", "HighG"],
+            "following": {
+               "HighA": { "valid_preceding": "LowG-HighG" }
+         }
+      },
+      "half": {
+         "low G": {
+            "appearance": ["LowG", "D"],
+            "following": {
+               "LowG": { "valid_preceding": "LowA-HighA" }
+            }
+         },
+         "low A": {
+            "appearance": ["LowA", "D"],
+            "following": {
+               "LowA": { "valid_preceding": "B-HighA" }
+         },
+         "B": {
+            "appearance": ["B", "D"],
+            "following": {
+               "B": { "valid_preceding": "C-HighA" }
+         },
+         "C": {
+            "appearance": ["C", "D"],
+            "following": {
+               "C": { "valid_preceding": "D-HighA" }
+         },
+         "D": {
+            "appearance": ["D", "E"],
+            "following": {
+               "D": { "valid_preceding": "E-HighA" }
+         },
+         "E": {
+            "appearance": ["E", "F"],
+            "following": {
+               "E": { "valid_preceding": "F-HighA" }
+         },
+         "F": {
+            "appearance": ["F", "HighG"],
+            "following": {
+               "F": { "valid_preceding": "HighG-HighA" }
+         },
+         "High G": {
+            "appearance": ["HighG", "F"],
+            "following": {
+               "HighG": { "valid_preceding": "LowG-HighG" }
+         },
+         "High A": {
+            "appearance": ["HighA", "HighG"],
+            "following": {
+               "HighA": { "valid_preceding": "LowG-HighG" }
+         }
+      },
+      "thumb": {
+      }
+   },
+   "grip": {
+      "regular": {
+         "regular": {
+            "appearance": ["LowG", "D", "LowG"],
+            "following": {
+               "LowA-HighA": { "valid_preceding": "LowA-HighA" }
+            }
+         }
+      },
+      "half": {
+         "half": {
+            "appearance": ["D", "LowG"],
+            "following": {
+               "LowA-HighA": { "valid_preceding": "LowG" }
+            }
+         }
+      },
+      "thumb": {
+         "Low A": {
+            "appearance": ["HighA", "LowA", "LowG", "D", "LowG"],
+            "following": {
+               "LowA": { "valid_preceding": "HighG" }
+            }
+         },
+         "B": {
+            "appearance": ["HighA", "B", "LowG", "D", "LowG"],
+            "following": {
+               "B": { "valid_preceding": "HighG" }
+            }
+         },
+         "C": {
+            "appearance": ["HighA", "C", "LowG", "D", "LowG"],
+            "following": {
+               "C": { "valid_preceding": "HighG" }
+            }
+         },
+         "D": {
+            "appearance": ["HighA", "D", "LowG", "D", "LowG"],
+            "following": {
+               "D": { "valid_preceding": "HighG" }
+            }
+         },
+         "E": {
+            "appearance": ["HighA", "E", "LowG", "D", "LowG"],
+            "following": {
+               "E": { "valid_preceding": "HighG" }
+            }
+         },
+         "F": {
+            "appearance": ["HighA", "F", "LowG", "F", "LowG"],
+            "following": {
+               "F": { "valid_preceding": "HighG" }
+            }
+         },
+         "High G": {
+            "appearance": ["HighA", "HighG", "LowG", "F", "LowG"],
+            "following": {
+               "HighG": { "valid_preceding": "HighG" }
+            }
+         }
+      },
+      "b": {
+         "b": {
+            "appearance": ["LowG", "B", "LowG"],
+            "following": {
+               "LowA-HighA": { "valid_preceding": "LowA-HighA" }
+            }
+         }
+      },
+      "g": {
+         "Low A": {
+            "appearance": ["HighG", "LowA", "LowG", "D", "LowG"],
+            "following": {
+               "LowA": { "valid_preceding": "LowG-F" }
+            }
+         },
+         "B": {
+            "appearance": ["HighG", "B", "LowG", "D", "LowG"],
+            "following": {
+               "B": { "valid_preceding": "LowG-F" }
+            }
+         },
+         "C": {
+            "appearance": ["HighG", "C", "LowG", "D", "LowG"],
+            "following": {
+               "C": { "valid_preceding": "LowG-F" }
+            }
+         },
+         "D": {
+            "appearance": ["HighG", "D", "LowG", "D", "LowG"],
+            "following": {
+               "D": { "valid_preceding": "LowG-F" }
+            }
+         },
+         "E": {
+            "appearance": ["HighG", "E", "LowG", "D", "LowG"],
+            "following": {
+               "E": { "valid_preceding": "LowG-F" }
+            }
+         },
+         "F": {
+            "appearance": ["HighG", "F", "LowG", "F", "LowG"],
+            "following": {
+               "F": { "valid_preceding": "LowG-F" }
+            }
+         }
+      },
+      "long": {
+         "Low A": {
+            "appearance": ["LowA", "LowG", "D", "LowG"],
+            "following": {
+               "LowA": { "valid_preceding": ["LowG", "LowA-HighA"] }
+            }
+         },
+         "B": {
+            "appearance": ["B", "LowG", "D", "LowG"],
+            "following": {
+               "B": { "valid_preceding": ["LowG-LowA", "C-HighA"] }
+            }
+         },
+         "C": {
+            "appearance": ["C", "LowG", "D", "LowG"],
+            "following": {
+               "C": { "valid_preceding": ["LowG-B", "D-HighA"] }
+            }
+         },
+         "D": {
+            "appearance": ["D", "LowG", "D", "LowG"],
+            "following": {
+               "D": { "valid_preceding": ["LowG-C", "E-HighA"] }
+            }
+         },
+         "E": {
+            "appearance": ["E", "LowG", "D", "LowG"],
+            "following": {
+               "E": { "valid_preceding": ["LowG-D", "F-HighA"] }
+            }
+         },
+         "F": {
+            "appearance": ["F", "LowG", "F", "LowG"],
+            "following": {
+               "F": { "valid_preceding": ["LowG-E", "HighG-HighA"] }
+            }
+         },
+         "High G": {
+            "appearance": ["HighG", "LowG", "D", "LowG"],
+            "following": {
+               "HighG": { "valid_preceding": ["LowG-F", "HighA"] }
+            }
+         },
+         "High A": {
+            "appearance": ["HighA", "LowG", "D", "LowG"],
+            "following": {
+               "HighA": { "valid_preceding": ["LowG-HighG"] }
+            }
+         }
+      }
+   }
+}
