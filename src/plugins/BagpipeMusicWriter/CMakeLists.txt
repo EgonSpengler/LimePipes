@@ -6,11 +6,11 @@ find_package( Qt5Gui REQUIRED )
 find_package(BISON)
 find_package(FLEX)
 
-BISON_TARGET(BwwParser ${CMAKE_CURRENT_LIST_DIR}/parser/parser.y
+bison_target(BwwParser ${CMAKE_CURRENT_LIST_DIR}/parser/parser.y
                        ${CMAKE_CURRENT_BINARY_DIR}/parser.cpp)
-FLEX_TARGET(BwwScanner ${CMAKE_CURRENT_LIST_DIR}/parser/lexer.l
+flex_target(BwwScanner ${CMAKE_CURRENT_LIST_DIR}/parser/lexer.l
                        ${CMAKE_CURRENT_BINARY_DIR}/lexer.cpp)
-ADD_FLEX_BISON_DEPENDENCY(BwwScanner BwwParser)
+add_flex_bison_dependency(BwwScanner BwwParser)
 
 set( sources
   bagpipemusicwriterformatplugin.cpp
@@ -18,6 +18,8 @@ set( sources
   parser/lexer.l
   parser/BwwAstFactory.cpp
   parser/GuidoCodeVisitor.cpp
+  parser/EmbellishmentRules.cpp
+  parser/EmbellishmentRule.cpp
 
   parser/ast/AstDefines.h
   parser/ast/musicitem.cpp
@@ -29,6 +31,10 @@ set( sources
   parser/ast/timesignature.cpp
   parser/ast/embellishment.cpp
   parser/ast/AstVisitorInterface.h
+)
+
+qt5_add_resources( sources
+  parser/embellishment_rules/embellishment_rules_resources.qrc
 )
 
 add_library( ${PROJECT_NAME} STATIC

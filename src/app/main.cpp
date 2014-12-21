@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+    Q_INIT_RESOURCE(embellishment_rules_resources);
+
     QApplication::setOrganizationName(QStringLiteral("limepipes.org"));
     QApplication::setApplicationName(QStringLiteral("LimePipes"));
 

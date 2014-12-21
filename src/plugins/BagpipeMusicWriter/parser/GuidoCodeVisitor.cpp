@@ -6,12 +6,14 @@
  *
  */
 
+#include <QDir>
 #include <QStringList>
 #include <QDebug>
 
 #include "ast/melodynote.h"
 #include "ast/timesignature.h"
 #include "ast/embellishment.h"
+#include "EmbellishmentRules.h"
 #include "GuidoCodeVisitor.h"
 
 static const QString TitleTemplate(QStringLiteral("\\title<\"%1\">"));
@@ -35,6 +37,11 @@ QHash<SymbolPitch, QString> GuidoCodeVisitor::initMelodyNotePitchMap()
 }
 
 GuidoCodeVisitor::GuidoCodeVisitor()
+    : m_embellishmentRules(Q_NULLPTR)
+{
+}
+
+GuidoCodeVisitor::~GuidoCodeVisitor()
 {
 }
 
@@ -108,7 +115,7 @@ void GuidoCodeVisitor::visit(Symbol *symbol)
     case T_Embellishment: {
         Embellishment *embellishment = static_cast<Embellishment*>(symbol);
         if (embellishment) {
-            addEmbellishment(embellishment);
+            addEmbellishment(*embellishment);
         }
     }
     default:
@@ -150,13 +157,19 @@ void GuidoCodeVisitor::addTimeSignature(TimeSignature *time)
                        .arg(time->beatUnit()));
 }
 
-void GuidoCodeVisitor::addEmbellishment(Embellishment *embellishment)
+void GuidoCodeVisitor::addEmbellishment(const Embellishment &embellishment)
 {
-    switch (embellishment->embellishmentType()) {
+    if (!m_embellishmentRules) {
+        qWarning() << "Can't add embellishment with no embellishment rules set!";
+        return;
+    }
+
+    switch (embellishment.embellishmentType()) {
     case Embellishment::SINGLE_GRACE:
-        addGraceSequence(QList<SymbolPitch>() << embellishment->pitchHint());
+        addGraceSequence(QList<SymbolPitch>() << embellishment.pitchHint());
         break;
     case Embellishment::DOUBLING_REG:
+        addGraceSequence(m_embellishmentRules->getAppearanceForEmbellishment(embellishment));
         break;
     case Embellishment::DOUBLING_HALF:
         break;
@@ -196,9 +209,14 @@ void GuidoCodeVisitor::addGraceSequence(const QList<SymbolPitch> &pitches)
     m_guidoCode.append(codeTemplate.arg(embellishmentItems.join(QLatin1Char(' '))));
 }
 
+void GuidoCodeVisitor::setEmbellishmentRules(EmbellishmentRules *embellishmentRules)
+{
+    m_embellishmentRules = embellishmentRules;
+}
+
 void GuidoCodeVisitor::finishVisit(Symbol *symbol)
 {
-//    qDebug() << "Finish visit Symbol";
+    //    qDebug() << "Finish visit Symbol";
 }
 
 QString GuidoCodeVisitor::guidoCode() const

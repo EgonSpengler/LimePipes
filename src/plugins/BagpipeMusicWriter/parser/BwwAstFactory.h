@@ -19,6 +19,7 @@ class Score;
 class Tune;
 class Part;
 class Symbol;
+class EmbellishmentRules;
 
 class BwwAstFactory
 {
@@ -41,11 +42,13 @@ public:
     QString getGuidoCode();
 private:
     void initAst();
+    SymbolPitch pitchFromString(const QString &pitchString);
 
     Score *m_score;
     Tune *m_currentTune;
     Part *m_currentPart;
     Symbol *m_currentSymbol;
+    EmbellishmentRules *m_embellishmentRules;
 };
 
 #endif // BWWASTFACTORY_H

@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/embellishment_resources">
+        <file>single_grace.json</file>
+        <file>grips.json</file>
+        <file>doublings.json</file>
+    </qresource>
+</RCC>

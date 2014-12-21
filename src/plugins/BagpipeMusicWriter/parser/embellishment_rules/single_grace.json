@@ -1,0 +1,18 @@
+{
+   "single grace": {
+      "single grace": {
+         "low A": {
+            "appearance": ["LowA"],
+            "following": {
+               "LowG": { "valid_preceding": "LowG" }
+            }
+         },
+         "B": {
+            "appearance": ["B"],
+            "following": {
+               "LowG-LowA": { "valid_preceding": "LowG-LowA" }
+            }
+         }
+      }
+   }
+}

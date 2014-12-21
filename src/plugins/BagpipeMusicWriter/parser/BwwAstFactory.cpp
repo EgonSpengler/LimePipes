@@ -6,6 +6,7 @@
  *
  */
 
+#include <QDir>
 #include <QDebug>
 
 #include "ast/score.h"
@@ -17,8 +18,8 @@
 #include "ast/embellishment.h"
 
 #include "GuidoCodeVisitor.h"
+#include "EmbellishmentRules.h"
 #include "BwwAstFactory.h"
-
 
 BwwAstFactory::BwwAstFactory()
     : m_score(0),
@@ -27,11 +28,15 @@ BwwAstFactory::BwwAstFactory()
       m_currentSymbol(0)
 {
     initAst();
+
+    m_embellishmentRules = new EmbellishmentRules;
+    m_embellishmentRules->addRulesFromDirectory(QDir(":/embellishment_resources"));
 }
 
 BwwAstFactory::~BwwAstFactory()
 {
     delete m_score;
+    m_embellishmentRules->deleteLater();
 }
 
 void BwwAstFactory::initAst()
@@ -129,12 +134,48 @@ void BwwAstFactory::addSingleGrace(const QString &bwwCode)
 
 void BwwAstFactory::addDoubling(const QString &bwwCode, Embellishment::Type type)
 {
+    QString code(bwwCode);
+    switch (type) {
+    case Embellishment::DOUBLING_REG:
+        code.remove(0, 2);
+    case Embellishment::DOUBLING_HALF:
+    case Embellishment::DOUBLING_THUMB:
+        code.remove(0, 3);
+    default:
+        qWarning() << "No doubling to add" << bwwCode;
+        return;
+    }
 
+    SymbolPitch pitch = pitchFromString(code);
+    if (pitch == NoPitch) {
+        qWarning() << code << " is no pitch for embellishment";
+        return;
+    }
+
+    Embellishment *embellishment = new Embellishment(type, pitch);
+    m_currentPart->addChild(embellishment);
+    m_currentSymbol = embellishment;
+}
+
+SymbolPitch BwwAstFactory::pitchFromString(const QString &pitchString)
+{
+    SymbolPitch pitch = NoPitch;
+    if (pitchString == QStringLiteral("lg")) { pitch = LowG; }
+    if (pitchString == QStringLiteral("la")) { pitch = LowA; }
+    if (pitchString == QStringLiteral("b")) { pitch = B; }
+    if (pitchString == QStringLiteral("c")) { pitch = C; }
+    if (pitchString == QStringLiteral("d")) { pitch = D; }
+    if (pitchString == QStringLiteral("e")) { pitch = E; }
+    if (pitchString == QStringLiteral("f")) { pitch = F; }
+    if (pitchString == QStringLiteral("hg")) { pitch = HighG; }
+    if (pitchString == QStringLiteral("ha")) { pitch = HighA; }
+    return pitch;
 }
 
 QString BwwAstFactory::getGuidoCode()
 {
     GuidoCodeVisitor codeVisitor;
+    codeVisitor.setEmbellishmentRules(m_embellishmentRules);
     m_score->accept(&codeVisitor);
 
     return codeVisitor.guidoCode();

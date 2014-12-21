@@ -19,11 +19,13 @@
 class MelodyNote;
 class TimeSignature;
 class Embellishment;
+class EmbellishmentRules;
 
 class GuidoCodeVisitor : public AstVisitorInterface
 {
 public:
     explicit GuidoCodeVisitor();
+    ~GuidoCodeVisitor();
 
     void visit(Score *score);
     void visit(Tune *tune);
@@ -37,16 +39,19 @@ public:
 
     QString guidoCode() const;
 
+    void setEmbellishmentRules(EmbellishmentRules *embellishmentRules);
+
 private:
     static QHash<SymbolPitch, QString> s_melodyNotePitchMap;
     static QHash<SymbolPitch, QString> initMelodyNotePitchMap();
 
     void addMelodyNote(MelodyNote *note);
     void addTimeSignature(TimeSignature *time);
-    void addEmbellishment(Embellishment *embellishment);
+    void addEmbellishment(const Embellishment &embellishment);
     void addGraceSequence(const QList<SymbolPitch> &pitches);
 
     QStringList m_guidoCode;
+    EmbellishmentRules *m_embellishmentRules;
 };
 
 #endif // GUIDOCODEVISITOR_H
