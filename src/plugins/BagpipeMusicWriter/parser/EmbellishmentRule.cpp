@@ -12,6 +12,19 @@ EmbellishmentRule::EmbellishmentRule()
 {
 }
 
+bool EmbellishmentRule::isEmpty() const
+{
+    if (m_name.isEmpty()) {
+        return true;
+    }
+
+    if (m_appearance.isEmpty()) {
+        return true;
+    }
+
+    return false;
+}
+
 QString EmbellishmentRule::name() const
 {
     return m_name;

@@ -65,8 +65,11 @@ void EmbellishmentRules::addRulesFromFile(const QString &fileName)
         return;
     }
 
+    // Embellishment types
     foreach (const QString &embellishmentType, fileObject.keys()) {
         QJsonObject embellishmentObject = fileObject.value(embellishmentType).toObject();
+
+        // Embellish variant
         foreach (const QString &embellishmentVariant, embellishmentObject.keys()) {
             QJsonObject variantObject = embellishmentObject.value(embellishmentVariant).toObject();
             if (variantObject.isEmpty()) {
@@ -82,14 +85,59 @@ void EmbellishmentRules::addRulesFromFile(const QString &fileName)
 
             Embellishment::Type type = m_typeMapping.value(embellishmentKey);
 
+            qDebug() << "Embellishment " << embellishmentType << QString(" (%1)").arg(embellishmentVariant);
+            // Embellishment rules
             foreach (const QString &ruleName, variantObject.keys()) {
                 QJsonObject ruleObject = variantObject.value(ruleName).toObject();
-                qDebug() << "Rule: " << ruleName;
-            }
+                if (ruleObject.isEmpty()) {
+                    continue;
+                }
 
-            qDebug() << "Found " << embellishmentType << QString("(%1)").arg(embellishmentVariant);
+                EmbellishmentRule rule = ruleFromJsonObject(ruleName, ruleObject);
+
+                if (!rule.isEmpty()) {
+                    m_rules.insert(type, rule);
+                }
+            }
         }
     }
+}
+
+SymbolPitch EmbellishmentRules::pitchFromString(const QString &pitch)
+{
+    if (pitch == "LowG") return LowG;
+    if (pitch == "LowA") return LowA;
+    if (pitch == "B") return B;
+    if (pitch == "C") return C;
+    if (pitch == "D") return D;
+    if (pitch == "E") return E;
+    if (pitch == "F") return F;
+    if (pitch == "HighG") return HighG;
+    if (pitch == "HighA") return HighA;
+
+    return NoPitch;
+}
+
+EmbellishmentRule EmbellishmentRules::ruleFromJsonObject(const QString &name, const QJsonObject &json)
+{
+    EmbellishmentRule rule;
+    rule.setName(name);
+    QJsonArray appearanceArray = json.value(QStringLiteral("appearance")).toArray();
+    rule.setAppearance(appearanceFromJsonArray(appearanceArray));
+    return rule;
+}
+
+QList<SymbolPitch> EmbellishmentRules::appearanceFromJsonArray(const QJsonArray &array)
+{
+    QList<SymbolPitch> appearance;
+    auto it = array.constBegin();
+    while (it != array.constEnd()) {
+        SymbolPitch pitch = pitchFromString((*it).toString());
+        appearance << pitch;
+        ++it;
+    }
+
+    return appearance;
 }
 
 QHash<QPair<QString, QString>, Embellishment::Type> EmbellishmentRules::initTypeMapping()

@@ -19,6 +19,8 @@ class EmbellishmentRule
 public:
     EmbellishmentRule();
 
+    bool isEmpty() const;
+
     QString name() const;
     void setName(const QString &name);
 

@@ -33,6 +33,9 @@ public:
 
 private:
     void addRulesFromFile(const QString &fileName);
+    SymbolPitch pitchFromString(const QString &pitch);
+    QList<SymbolPitch> appearanceFromJsonArray(const QJsonArray &array);
+    EmbellishmentRule ruleFromJsonObject(const QString &name, const QJsonObject &json);
     QHash<QPair<QString, QString>, Embellishment::Type> m_typeMapping;
     QHash<QPair<QString, QString>, Embellishment::Type> initTypeMapping();
     QHash<Embellishment::Type, EmbellishmentRule> m_rules;
