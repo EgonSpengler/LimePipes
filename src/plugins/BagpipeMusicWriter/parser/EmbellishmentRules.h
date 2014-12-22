@@ -33,8 +33,8 @@ public:
 
 private:
     void addRulesFromFile(const QString &fileName);
-    static QHash<QPair<QString, QString>, Embellishment::Type> s_typeMapping;
-    static QHash<QPair<QString, QString>, Embellishment::Type> initTypeMapping();
+    QHash<QPair<QString, QString>, Embellishment::Type> m_typeMapping;
+    QHash<QPair<QString, QString>, Embellishment::Type> initTypeMapping();
     QHash<Embellishment::Type, EmbellishmentRule> m_rules;
 };
 

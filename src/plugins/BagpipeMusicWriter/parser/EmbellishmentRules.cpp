@@ -17,11 +17,10 @@
 
 #include "EmbellishmentRules.h"
 
-QHash<QPair<QString, QString>, Embellishment::Type> EmbellishmentRules::s_typeMapping(EmbellishmentRules::initTypeMapping());
-
 EmbellishmentRules::EmbellishmentRules(QObject *parent) :
     QObject(parent)
 {
+    m_typeMapping = initTypeMapping();
 }
 
 void EmbellishmentRules::addRulesFromDirectory(const QDir &directory)
@@ -75,13 +74,13 @@ void EmbellishmentRules::addRulesFromFile(const QString &fileName)
             }
 
             QPair<QString, QString> embellishmentKey = qMakePair(embellishmentType, embellishmentVariant);
-            if (!s_typeMapping.contains(embellishmentKey)) {
+            if (!m_typeMapping.contains(embellishmentKey)) {
                 qWarning() << QString("No mapping for %1 (%2)").arg(embellishmentType)
                               .arg(embellishmentVariant);
                 return;
             }
 
-            Embellishment::Type type = s_typeMapping.value(embellishmentKey);
+            Embellishment::Type type = m_typeMapping.value(embellishmentKey);
 
             foreach (const QString &ruleName, variantObject.keys()) {
                 QJsonObject ruleObject = variantObject.value(ruleName).toObject();
