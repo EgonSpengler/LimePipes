@@ -19,7 +19,13 @@ public:
         SINGLE_GRACE,
         DOUBLING_REG,
         DOUBLING_HALF,
-        DOUBLING_THUMB
+        DOUBLING_THUMB,
+        GRIP_B,
+        GRIP_G,
+        GRIP_HALF,
+        GRIP_LONG,
+        GRIP_REG,
+        GRIP_THUMB
     };
 
     explicit Embellishment(Embellishment::Type type, MusicItem *parent=0);

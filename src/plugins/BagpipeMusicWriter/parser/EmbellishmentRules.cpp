@@ -17,6 +17,8 @@
 
 #include "EmbellishmentRules.h"
 
+QHash<QPair<QString, QString>, Embellishment::Type> EmbellishmentRules::s_typeMapping(EmbellishmentRules::initTypeMapping());
+
 EmbellishmentRules::EmbellishmentRules(QObject *parent) :
     QObject(parent)
 {
@@ -35,6 +37,11 @@ void EmbellishmentRules::addRulesFromDirectory(const QDir &directory)
 QList<SymbolPitch> EmbellishmentRules::getAppearanceForEmbellishment(const Embellishment &embellishment)
 {
     QList<SymbolPitch> pitches;
+
+    if (embellishment.embellishmentType() == Embellishment::SINGLE_GRACE) {
+        pitches << embellishment.pitchHint();
+        return pitches;
+    }
 
     return pitches;
 }
@@ -63,9 +70,40 @@ void EmbellishmentRules::addRulesFromFile(const QString &fileName)
         QJsonObject embellishmentObject = fileObject.value(embellishmentType).toObject();
         foreach (const QString &embellishmentVariant, embellishmentObject.keys()) {
             QJsonObject variantObject = embellishmentObject.value(embellishmentVariant).toObject();
-            if (!variantObject.isEmpty()) {
-                qDebug() << "Found " << embellishmentType << QString("(%1)").arg(embellishmentVariant);
+            if (variantObject.isEmpty()) {
+                continue;
             }
+
+            QPair<QString, QString> embellishmentKey = qMakePair(embellishmentType, embellishmentVariant);
+            if (!s_typeMapping.contains(embellishmentKey)) {
+                qWarning() << QString("No mapping for %1 (%2)").arg(embellishmentType)
+                              .arg(embellishmentVariant);
+                return;
+            }
+
+            Embellishment::Type type = s_typeMapping.value(embellishmentKey);
+
+            foreach (const QString &ruleName, variantObject.keys()) {
+                QJsonObject ruleObject = variantObject.value(ruleName).toObject();
+                qDebug() << "Rule: " << ruleName;
+            }
+
+            qDebug() << "Found " << embellishmentType << QString("(%1)").arg(embellishmentVariant);
         }
     }
+}
+
+QHash<QPair<QString, QString>, Embellishment::Type> EmbellishmentRules::initTypeMapping()
+{
+    QHash<QPair<QString, QString>, Embellishment::Type> mapping;
+    mapping.insert(qMakePair(QStringLiteral("single grace"), QStringLiteral("single grace")), Embellishment::SINGLE_GRACE);
+    mapping.insert(qMakePair(QStringLiteral("doubling"), QStringLiteral("half")), Embellishment::DOUBLING_HALF);
+    mapping.insert(qMakePair(QStringLiteral("doubling"), QStringLiteral("regular")), Embellishment::DOUBLING_REG);
+    mapping.insert(qMakePair(QStringLiteral("grip"), QStringLiteral("b")), Embellishment::GRIP_B);
+    mapping.insert(qMakePair(QStringLiteral("grip"), QStringLiteral("g")), Embellishment::GRIP_G);
+    mapping.insert(qMakePair(QStringLiteral("grip"), QStringLiteral("half")), Embellishment::GRIP_HALF);
+    mapping.insert(qMakePair(QStringLiteral("grip"), QStringLiteral("long")), Embellishment::GRIP_LONG);
+    mapping.insert(qMakePair(QStringLiteral("grip"), QStringLiteral("regular")), Embellishment::GRIP_REG);
+    mapping.insert(qMakePair(QStringLiteral("grip"), QStringLiteral("thumb")), Embellishment::GRIP_THUMB);
+    return mapping;
 }

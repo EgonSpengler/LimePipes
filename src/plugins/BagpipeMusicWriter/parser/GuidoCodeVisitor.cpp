@@ -164,18 +164,7 @@ void GuidoCodeVisitor::addEmbellishment(const Embellishment &embellishment)
         return;
     }
 
-    switch (embellishment.embellishmentType()) {
-    case Embellishment::SINGLE_GRACE:
-        addGraceSequence(QList<SymbolPitch>() << embellishment.pitchHint());
-        break;
-    case Embellishment::DOUBLING_REG:
-        addGraceSequence(m_embellishmentRules->getAppearanceForEmbellishment(embellishment));
-        break;
-    case Embellishment::DOUBLING_HALF:
-        break;
-    case Embellishment::DOUBLING_THUMB:
-        break;
-    }
+    addGraceSequence(m_embellishmentRules->getAppearanceForEmbellishment(embellishment));
 }
 
 void GuidoCodeVisitor::addGraceSequence(const QList<SymbolPitch> &pitches)
