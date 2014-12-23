@@ -21,6 +21,10 @@ class TimeSignature;
 class Embellishment;
 class EmbellishmentRules;
 
+/*!
+ * \brief The GuidoCodeVisitor class
+ * Generates Guido code from an abstract syntax tree.
+ */
 class GuidoCodeVisitor : public AstVisitorInterface
 {
 public:

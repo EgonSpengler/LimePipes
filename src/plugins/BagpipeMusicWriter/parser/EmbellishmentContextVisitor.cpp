@@ -8,52 +8,63 @@
 
 #include <QDebug>
 
+#include "ast/melodynote.h"
+#include "ast/embellishment.h"
 #include "EmbellishmentContextVisitor.h"
 
 EmbellishmentContextVisitor::EmbellishmentContextVisitor()
+    : m_previousSymbol(Q_NULLPTR)
 {
+    m_skippingSymbolTypes << T_Bar;
 }
 
 EmbellishmentContextVisitor::~EmbellishmentContextVisitor()
 {
 }
 
-void EmbellishmentContextVisitor::visit(Score *score)
-{
-
-}
-
-void EmbellishmentContextVisitor::visit(Tune *tune)
-{
-
-}
-
-void EmbellishmentContextVisitor::visit(Part *part)
-{
-
-}
-
 void EmbellishmentContextVisitor::visit(Symbol *symbol)
 {
-    qDebug() << "EmbellishmentContextVisitor: Visit symbol";
-}
+    SymbolType symbolType = symbol->type();
 
-void EmbellishmentContextVisitor::finishVisit(Score *score)
-{
+    if (m_skippingSymbolTypes.contains(symbolType)) {
+        return;
+    }
 
-}
+    if (!m_previousSymbol) {
+        m_previousSymbol = symbol;
+        return;
+    }
 
-void EmbellishmentContextVisitor::finishVisit(Tune *tune)
-{
+    if (m_previousSymbol->type() == T_Melody &&
+            symbolType == T_Embellishment) {
+        MelodyNote *melodyNote = static_cast<MelodyNote*>(m_previousSymbol);
+        Embellishment *embellishment = static_cast<Embellishment*>(symbol);
 
+        if (embellishment == 0 ||
+                melodyNote == 0) {
+            return;
+        }
+
+        embellishment->setPrecedingPitch(melodyNote->pitch());
+    }
+
+    if (m_previousSymbol->type() == T_Embellishment &&
+            symbolType == T_Melody) {
+        Embellishment *embellishment = static_cast<Embellishment*>(m_previousSymbol);
+        MelodyNote *melodyNote = static_cast<MelodyNote*>(symbol);
+
+        if (embellishment == 0 ||
+                melodyNote == 0) {
+            return;
+        }
+
+        embellishment->setFollowingPitch(melodyNote->pitch());
+    }
+
+    m_previousSymbol = symbol;
 }
 
 void EmbellishmentContextVisitor::finishVisit(Part *part)
 {
-
-}
-
-void EmbellishmentContextVisitor::finishVisit(Symbol *symbol)
-{
-
+    m_previousSymbol = Q_NULLPTR;
 }

@@ -9,23 +9,35 @@
 #ifndef EMBELLISHMENTCONTEXTVISITOR_H
 #define EMBELLISHMENTCONTEXTVISITOR_H
 
+#include <QList>
+
+#include "ast/AstDefines.h"
 #include "ast/AstVisitorInterface.h"
 
+/*!
+ * \brief The EmbellishmentContextVisitor class
+ * Adds preceeding pitch and following pitch to embellishment symbols.
+ */
 class EmbellishmentContextVisitor : public AstVisitorInterface
 {
 public:
     explicit EmbellishmentContextVisitor();
     ~EmbellishmentContextVisitor();
 
-    void visit(Score *score);
-    void visit(Tune *tune);
-    void visit(Part *part);
+    void visit(Score *) {}
+    void visit(Tune *) {}
+    void visit(Part *) {}
     void visit(Symbol *symbol);
 
-    void finishVisit(Score *score);
-    void finishVisit(Tune *tune);
+    void finishVisit(Score *) {}
+    void finishVisit(Tune *) {}
     void finishVisit(Part *part);
-    void finishVisit(Symbol *symbol);
+    void finishVisit(Symbol *) {}
+
+private:
+    Symbol *m_previousSymbol;
+    QList<SymbolType> m_skippingSymbolTypes; //!< Skipping types of symbols, which are valid
+                                             ///  between embellishments and melody notes
 };
 
 #endif // EMBELLISHMENTCONTEXTVISITOR_H
