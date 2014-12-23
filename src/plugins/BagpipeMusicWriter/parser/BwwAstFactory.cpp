@@ -19,6 +19,7 @@
 
 #include "GuidoCodeVisitor.h"
 #include "EmbellishmentRules.h"
+#include "EmbellishmentContextVisitor.h"
 #include "BwwAstFactory.h"
 
 BwwAstFactory::BwwAstFactory()
@@ -174,6 +175,9 @@ SymbolPitch BwwAstFactory::pitchFromString(const QString &pitchString)
 
 QString BwwAstFactory::getGuidoCode()
 {
+    EmbellishmentContextVisitor contextVisitor;
+    m_score->accept(&contextVisitor);
+
     GuidoCodeVisitor codeVisitor;
     codeVisitor.setEmbellishmentRules(m_embellishmentRules);
     m_score->accept(&codeVisitor);

@@ -21,6 +21,7 @@ set( sources
   parser/EmbellishmentRules.cpp
   parser/EmbellishmentRule.cpp
   parser/PitchRange.cpp
+  parser/EmbellishmentContextVisitor.cpp
 
   parser/ast/AstDefines.cpp
   parser/ast/musicitem.cpp

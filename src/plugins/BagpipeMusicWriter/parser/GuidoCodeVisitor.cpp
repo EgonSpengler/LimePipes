@@ -117,6 +117,7 @@ void GuidoCodeVisitor::visit(Symbol *symbol)
         if (embellishment) {
             addEmbellishment(*embellishment);
         }
+        break;
     }
     default:
         qWarning() << "Symbol type not handled: " << symbol->type();
