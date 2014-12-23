@@ -9,6 +9,8 @@
 #ifndef ASTDEFINES_H
 #define ASTDEFINES_H
 
+#include <QString>
+
 enum SymbolLength {
     _1 = 1,
     _2 = 2,
@@ -32,6 +34,9 @@ enum SymbolPitch {
     HighG,
     HighA
 };
+
+SymbolPitch pitchFromString(const QString &pitch);
+QString pitchToString(SymbolPitch pitch);
 
 enum SymbolType {
     T_Melody,

@@ -17,6 +17,7 @@
 #include "ast/AstDefines.h"
 #include "ast/embellishment.h"
 #include "EmbellishmentRule.h"
+#include "PitchRange.h"
 
 class QDir;
 class Embellishment;
@@ -29,11 +30,12 @@ public:
 
     void addRulesFromDirectory(const QDir &directory);
 
-    QList<SymbolPitch> getAppearanceForEmbellishment(const Embellishment &embellishment);
+    QList<SymbolPitch> appearanceForEmbellishment(const Embellishment &embellishment);
 
 private:
+    EmbellishmentRule embellishmentRuleForEmbellishment(const Embellishment &embellishment);
     void addRulesFromFile(const QString &fileName);
-    SymbolPitch pitchFromString(const QString &pitch);
+    PitchRange pitchRangeFromString(const QString &rangeString);
     QList<SymbolPitch> appearanceFromJsonArray(const QJsonArray &array);
     EmbellishmentRule ruleFromJsonObject(const QString &name, const QJsonObject &json);
     QHash<QPair<QString, QString>, Embellishment::Type> m_typeMapping;

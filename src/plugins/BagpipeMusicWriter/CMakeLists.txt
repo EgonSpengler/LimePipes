@@ -20,8 +20,9 @@ set( sources
   parser/GuidoCodeVisitor.cpp
   parser/EmbellishmentRules.cpp
   parser/EmbellishmentRule.cpp
+  parser/PitchRange.cpp
 
-  parser/ast/AstDefines.h
+  parser/ast/AstDefines.cpp
   parser/ast/musicitem.cpp
   parser/ast/score.cpp
   parser/ast/tune.cpp

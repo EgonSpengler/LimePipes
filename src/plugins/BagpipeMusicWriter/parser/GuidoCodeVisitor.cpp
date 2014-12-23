@@ -164,7 +164,7 @@ void GuidoCodeVisitor::addEmbellishment(const Embellishment &embellishment)
         return;
     }
 
-    addGraceSequence(m_embellishmentRules->getAppearanceForEmbellishment(embellishment));
+    addGraceSequence(m_embellishmentRules->appearanceForEmbellishment(embellishment));
 }
 
 void GuidoCodeVisitor::addGraceSequence(const QList<SymbolPitch> &pitches)

@@ -66,6 +66,14 @@ void Embellishment::setPitchHint(const SymbolPitch &pitchHint)
     m_pitchHint = pitchHint;
 }
 
+QDebug operator<<(QDebug dbg, const Embellishment &embellishment)
+{
+    dbg.nospace() << "Embellishment (Type[" << static_cast<quint32>(embellishment.embellishmentType()) << "], "
+                  << "Pitch Hint [" << pitchToString(embellishment.pitchHint()) << "], "
+                  << "Preceeding Pitch [" << pitchToString(embellishment.precedingPitch()) << "] ,"
+                  << "Following Pitch ["<< pitchToString(embellishment.followingPitch()) << "])";
 
+    dbg.nospace() <<  "])";;
 
-
+    return dbg.space();
+}

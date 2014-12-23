@@ -9,6 +9,8 @@
 #ifndef EMBELLISHMENT_H
 #define EMBELLISHMENT_H
 
+#include <QDebug>
+
 #include "AstDefines.h"
 #include "symbol.h"
 
@@ -16,6 +18,7 @@ class Embellishment : public Symbol
 {
 public:
     enum Type {
+        NO_TYPE,
         SINGLE_GRACE,
         DOUBLING_REG,
         DOUBLING_HALF,
@@ -54,5 +57,7 @@ private:
                                 //!< Also, if this embellishment doesn't depend on the preceding or following pitch
                                 //!< like single grace notes for example, the pitch hint must be set.
 };
+
+QDebug operator<<(QDebug dbg, const Embellishment &embellishment);
 
 #endif // EMBELLISHMENT_H

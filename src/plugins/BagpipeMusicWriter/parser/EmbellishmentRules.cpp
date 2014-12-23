@@ -10,6 +10,7 @@
 #include <QDebug>
 #include <QFileInfo>
 #include <QFile>
+#include <QStringList>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QJsonObject>
@@ -33,16 +34,53 @@ void EmbellishmentRules::addRulesFromDirectory(const QDir &directory)
     }
 }
 
-QList<SymbolPitch> EmbellishmentRules::getAppearanceForEmbellishment(const Embellishment &embellishment)
+QList<SymbolPitch> EmbellishmentRules::appearanceForEmbellishment(const Embellishment &embellishment)
 {
-    QList<SymbolPitch> pitches;
-
-    if (embellishment.embellishmentType() == Embellishment::SINGLE_GRACE) {
-        pitches << embellishment.pitchHint();
-        return pitches;
+    if (embellishment.precedingPitch() == NoPitch ||
+            embellishment.followingPitch() == NoPitch) {
+        qWarning() << "EmbellishmentRules::appearanceForEmbellishment: "
+                      "Embellishment has no preceeding and/or following pitch: "
+                   << embellishment;
+        return QList<SymbolPitch>();
     }
 
-    return pitches;
+    EmbellishmentRule rule = embellishmentRuleForEmbellishment(embellishment);
+    if (rule.isEmpty()) {
+        qWarning() << "No rule for embellishment " << embellishment;
+        return QList<SymbolPitch>();
+    } else {
+        return rule.appearance();
+    }
+}
+
+EmbellishmentRule EmbellishmentRules::embellishmentRuleForEmbellishment(const Embellishment &embellishment)
+{
+    Embellishment::Type type = embellishment.embellishmentType();
+    if (type == Embellishment::NO_TYPE) {
+        return EmbellishmentRule();
+    }
+
+    const QList<EmbellishmentRule> rules = m_rules.values(type);
+    QList<EmbellishmentRule> validRules;
+    foreach (const EmbellishmentRule &rule, rules) {
+        if (rule.isValidFor(embellishment.precedingPitch(), embellishment.followingPitch())) {
+            validRules << rule;
+        }
+    }
+
+    EmbellishmentRule selectedRule;
+    if (validRules.count() > 1) {
+        selectedRule = validRules.first();
+        qWarning() << "More than one rule for embellishment " << embellishment
+                   << ". Selecting first rule " << selectedRule;
+        return selectedRule;
+    }
+
+    if (validRules.count() == 1) {
+        selectedRule = validRules.first();
+    }
+
+    return selectedRule;
 }
 
 void EmbellishmentRules::addRulesFromFile(const QString &fileName)
@@ -96,26 +134,11 @@ void EmbellishmentRules::addRulesFromFile(const QString &fileName)
                 EmbellishmentRule rule = ruleFromJsonObject(ruleName, ruleObject);
 
                 if (!rule.isEmpty()) {
-                    m_rules.insert(type, rule);
+                    m_rules.insertMulti(type, rule);
                 }
             }
         }
     }
-}
-
-SymbolPitch EmbellishmentRules::pitchFromString(const QString &pitch)
-{
-    if (pitch == "LowG") return LowG;
-    if (pitch == "LowA") return LowA;
-    if (pitch == "B") return B;
-    if (pitch == "C") return C;
-    if (pitch == "D") return D;
-    if (pitch == "E") return E;
-    if (pitch == "F") return F;
-    if (pitch == "HighG") return HighG;
-    if (pitch == "HighA") return HighA;
-
-    return NoPitch;
 }
 
 EmbellishmentRule EmbellishmentRules::ruleFromJsonObject(const QString &name, const QJsonObject &json)
@@ -124,6 +147,27 @@ EmbellishmentRule EmbellishmentRules::ruleFromJsonObject(const QString &name, co
     rule.setName(name);
     QJsonArray appearanceArray = json.value(QStringLiteral("appearance")).toArray();
     rule.setAppearance(appearanceFromJsonArray(appearanceArray));
+    QJsonObject rulesObject = json.value(QStringLiteral("following")).toObject();
+    foreach (const QString &ruleKey, rulesObject.keys()) {
+        PitchRange followingRange = pitchRangeFromString(ruleKey);
+        if (!followingRange.isValid()) {
+            continue;
+        }
+
+        QJsonObject followingRule = rulesObject.value(ruleKey).toObject();
+        QString validPreceedingString = followingRule.value(QStringLiteral("valid_preceding")).toString();
+        if (validPreceedingString.isEmpty()) {
+            continue;
+        }
+
+        PitchRange validPreceedingRange = pitchRangeFromString(validPreceedingString);
+        if (!validPreceedingRange.isValid()) {
+            continue;
+        }
+
+        rule.addValidCombination(validPreceedingRange, followingRange);
+    }
+
     return rule;
 }
 
@@ -138,6 +182,39 @@ QList<SymbolPitch> EmbellishmentRules::appearanceFromJsonArray(const QJsonArray 
     }
 
     return appearance;
+}
+
+PitchRange EmbellishmentRules::pitchRangeFromString(const QString &rangeString)
+{
+    PitchRange range;
+
+    // A real range with start and end ...
+    if (rangeString.contains(QStringLiteral("-"))) {
+        QStringList rangeParts = rangeString.split(QStringLiteral("-"));
+        if (!rangeParts.count() == 2) {
+            qWarning() << "Pitch range " << rangeString << " contains more than one -";
+            return range;
+        }
+
+        SymbolPitch firstPitch = pitchFromString(rangeParts.first());
+        SymbolPitch secondPitch = pitchFromString(rangeParts.last());
+        if (!PitchRange::checkPitchRange(firstPitch, secondPitch)) {
+            qWarning() << "No valid pitch range: " << rangeString;
+            return range;
+        }
+
+        range.setStartPitch(firstPitch);
+        range.setEndPitch(secondPitch);
+    } else {
+        // No range, only a single pitch
+        SymbolPitch pitch = pitchFromString(rangeString);
+        if (pitch != NoPitch) {
+            range.setStartPitch(pitch);
+            range.setEndPitch(pitch);
+        }
+    }
+
+    return range;
 }
 
 QHash<QPair<QString, QString>, Embellishment::Type> EmbellishmentRules::initTypeMapping()
