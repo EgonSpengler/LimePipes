@@ -34,6 +34,7 @@ public:
 
 private:
     EmbellishmentRule embellishmentRuleForEmbellishment(const Embellishment &embellishment);
+    EmbellishmentRule selectRuleForEmbellishment(const Embellishment &embellishment, const QList<EmbellishmentRule> &rules);
     void addRulesFromFile(const QString &fileName);
     PitchRange pitchRangeFromString(const QString &rangeString);
     QList<SymbolPitch> appearanceFromJsonArray(const QJsonArray &array);

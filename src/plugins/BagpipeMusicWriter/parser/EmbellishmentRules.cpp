@@ -70,9 +70,9 @@ EmbellishmentRule EmbellishmentRules::embellishmentRuleForEmbellishment(const Em
 
     EmbellishmentRule selectedRule;
     if (validRules.count() > 1) {
-        selectedRule = validRules.first();
+        selectedRule = selectRuleForEmbellishment(embellishment, validRules);
         qWarning() << "More than one rule for embellishment " << embellishment
-                   << ". Selecting first rule " << selectedRule;
+                   << ". Selecting rule " << selectedRule;
         return selectedRule;
     }
 
@@ -81,6 +81,22 @@ EmbellishmentRule EmbellishmentRules::embellishmentRuleForEmbellishment(const Em
     }
 
     return selectedRule;
+}
+
+EmbellishmentRule EmbellishmentRules::selectRuleForEmbellishment(const Embellishment &embellishment, const QList<EmbellishmentRule> &rules)
+{
+    if (embellishment.embellishmentType() == Embellishment::SINGLE_GRACE) {
+        // Pitch hint == embellishment rule appearanct (one note)
+        foreach (const EmbellishmentRule &rule, rules) {
+            if (rule.appearance().contains(embellishment.pitchHint())) {
+                return rule;
+            }
+        }
+    }
+
+    Q_ASSERT(true); // Implement for other embellishments ...
+
+    return EmbellishmentRule();
 }
 
 void EmbellishmentRules::addRulesFromFile(const QString &fileName)

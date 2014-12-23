@@ -12,6 +12,42 @@
             "following": {
                "LowG-LowA": { "valid_preceding": "LowG-LowA" }
             }
+         },
+         "C": {
+            "appearance": ["C"],
+            "following": {
+               "LowG-B": { "valid_preceding": "LowG-B" }
+            }
+         },
+         "D": {
+            "appearance": ["D"],
+            "following": {
+               "LowG-C": { "valid_preceding": "LowG-C" }
+            }
+         },
+         "E": {
+            "appearance": ["E"],
+            "following": {
+               "LowG-D": { "valid_preceding": "LowG-D" }
+            }
+         },
+         "F": {
+            "appearance": ["F"],
+            "following": {
+               "LowG-E": { "valid_preceding": "LowG-E" }
+            }
+         },
+         "High G": {
+            "appearance": ["HighG"],
+            "following": {
+               "LowG-F": { "valid_preceding": "LowG-F" }
+            }
+         },
+         "High A": {
+            "appearance": ["HighA"],
+            "following": {
+               "LowG-HighG": { "valid_preceding": "LowG-HighG" }
+            }
          }
       }
    }
