@@ -1,0 +1,12 @@
+(*
+  gmn code converted from 'Highland Cathedral.xml'
+  using libmusicxml v.2.1.0
+  and the embedded xml2guido converter v.2.0.0
+*)
+{ [ \staff<1> \composer<"Uli Roever / Michael Korb", dy=4hs> \systemFormat<"", dx=14hs> 
+   (* meas. 1 *)  \key<2> \meter<"4/4", autoBarlines="on"> \clef<"g2"> \tempo<tempo="[1/4] = 65"> \stemsDown
+
+  e2/8 \bar a1/4 a1/8. b1/16 e2/8 a1/8 c#/8 e2/8 a2/4 a2/4 a2/8 e2/8 c#/8 a1/8 d2/4 f#/8. d2/16 c#/4 e2/8. c#/16 b1/4 e2/4 e2/8. f#/16 e2/16. d2/32 c#/16. b1/32 a1/4 a1/8. b1/16 c#/8 a1/8 c#/8 e2/8 a2/4 a2/4 a2/8 e2/8 c#/8 a1/8 d2/4 f#/8. d2/16 c#/8 e2/8 c#/8 a1/8 b1/4 a1/8. b1/16 a1/4 c#/8 e2/8 a2/4 a2/4 a2/8 e2/8 c#/8 a1/8 a2/4 a2/4 a2/8 e2/8 c#/8 e2/8 d2/4 f#/8. d2/16 c#/4 e2/8. c#/16 b1/4 e2/4 e2/8. f#/16 e2/16. d2/32 c#/16. b1/32 a1/4 a1/8. b1/16 c#/8 a1/8 c#/8 e2/8 a2/4 a2/4 a2/8 e2/8 c#/8 a1/8 d2/4 f#/8. d2/16 c#/8 e2/8 c#/8 a1/8 b1/4 a1/8. b1/16 a1/4. e2/8 a1/4 a1/8. b1/16 c#/4 c#/8 e2/8 f#/4 f#/8 a2/8 e2/4 c#/8 e2/8 f#/8. g2/16 a2/8 f#/8 e2/16 c#/8. b1/8 a1/8 b1/8. c#/16 d2/8. c#/16 b1/8 e2/8 d2/8 b1/8 a1/4 a1/8. b1/16 c#/4 c#/8 e2/8 f#/4 f#/8 a2/8 e2/4 c#/8 e2/8 f#/8. g2/16 a2/8 f#/8 e2/16 c#/8. b1/8. c#/16 a1/2 a1/4 c#/8 e2/8 a2/4 a2/4 a2/8. g2/16 f#/8 e2/8 f#/4 f#/8 a2/8 f#/8 e2/8 c#/8 e2/8 f#/8. g2/16 a2/8 f#/8 e2/16 c#/8. b1/8 a1/8 b1/8. c#/16 d2/8 c#/8 b1/8 e2/8 d2/8 b1/8 a1/4 a1/8. b1/16 c#/4 c#/8 e2/8 f#/4 f#/8 a2/8 e2/4 c#/8 e2/8 f#/8. g2/16 a2/8 f#/8 e2/16 c#/8. b1/8. c#/16 a1/2 a1/4 a1/8. b1/16 c#/4 c#/8 e2/8 d2/4 d2/8 f#/8 e2/8. f#/16 e2/8 d2/8 c#/2 e2/8. f#/16 e2/8 d2/8 c#/4 c#/8 e2/8 d2/4 d2/8 c#/8 b1/4 e2/4 c#/2 c#/4 a1/8. b1/16 c#/4 c#/8 e2/8 d2/4 d2/8 f#/8 e2/8. f#/16 e2/8 d2/8 c#/2 e2/8. f#/16 e2/8 d2/8 c#/4 c#/8 e2/8 d2/4 d2/8 c#/8 b1/4 e2/4 a1/2 a1/4 a1/8 c#/8 b1/4. c#/8 d2/4 b1/4 c#/4 c#/8 d2/8 e2/4 e2/4 f#/4 f#/4 a2/4 g2/8 f#/8 e2/2 e2/4 a1/8 c#/8 e2/4 e2/8 f#/8 e2/4 e2/8 a2/8 e2/8 f#/8 e2/8 d2/8 c#/2 e2/4 e2/8 d2/8 c#/4 c#/8 e2/8 d2/4 d2/8 c#/8 b1/4 e2/4 a1/2 a1/4 
+
+ ]
+ }

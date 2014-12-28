@@ -1,0 +1,64 @@
+(*
+  gmn code converted from 'Scotland the brave _ Wings _ Wooden Heart.xml'
+  using libmusicxml v.2.1.0
+  and the embedded xml2guido converter v.2.0.0
+*)
+{ [ \staff<1> \clef<"g2">  \key<2> \title<"Scottland the brave Wings - Wooden Heart"> \composer<"Trad.", dy=4hs>  
+   (* meas. 1 *)   \meter<"4/4", autoBarlines="off">  \tempo<tempo="[1/4] = 105"> \stemsDown e2/8 \bar 
+   (* meas. 2 *)  \stemsUp \grace( g/32 \stemsDown) a1/4 \stemsUp \beam( \grace( g1/32 d2 g1 e2)) \stemsDown \beam( a1/8. b/16) \stemsUp \grace( \beam( g2/32 e f#) \stemsDown) \beam( e/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \stemsUp \grace( \beam( g2/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( g/32 \stemsDown) e/8) \bar 
+   (* meas. 3 *)  \stemsUp \grace( \beam( a/32 g) \stemsDown) a/4 \stemsUp \grace( g/32 \stemsDown) a/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( a2/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \bar 
+   (* meas. 4 *)   \stemsUp \grace( \beam( g/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. d/16) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) c#/4 \stemsUp \grace( g/32 \stemsDown) \beam( e/8. c#/16) \bar 
+   (* meas. 5 *) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) b1/4 \stemsUp \grace( \beam( g2/32 e f#) \stemsDown) e/4 \stemsUp \grace( a1/32 \stemsDown) \beam( e2/8. f#/16) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/16. d/32) \beam( c#/16. b1/32) \bar 
+   (* meas. 6 *) \stemsUp \grace( g2 \stemsDown) a1/4 \stemsUp \grace( \beam( g/32 d2 g1 e2) \stemsDown) \beam( a1/8. b/16) \stemsUp \grace( \beam( g2/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \stemsUp \grace( \beam( g2/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( g/32 \stemsDown) e/8) \bar 
+   (* meas. 7 *)  \stemsUp \grace( \beam( a/32 g) \stemsDown) a/4 \stemsUp \grace( g/32 \stemsDown) a/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( a2/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \bar 
+   (* meas. 8 *)  \stemsUp \grace( \beam( g/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. d/16) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \bar 
+   (* meas. 9 *)  \stemsUp \grace( \beam( g2/32 b1 d2) \stemsDown) b1/4 \stemsUp \grace( g/32 \stemsDown) \beam( a/8. \stemsUp \grace( g2/32 \stemsDown) b1/16) \stemsUp \grace( g/32 \stemsDown) a/4 \stemsUp \grace( \beam( g2/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( g/32 \stemsDown) e/8) \bar 
+   (* meas. 10 *)  \stemsUp \grace( \beam( a/32 g) \stemsDown) a/4 \stemsUp \grace( g/32 \stemsDown) a/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( a2/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \bar 
+   (* meas. 11 *)  \stemsUp \grace( \beam( a2/32 g) \stemsDown) a/4 \stemsUp \grace( g/32 \stemsDown) a/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( a2/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 12 *)  \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. d/16) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) c#/4 \stemsUp \grace( g/32 \stemsDown) \beam( e/8. c#/16) \bar 
+   (* meas. 13 *)  \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) b1/4 \stemsUp \grace( \beam( g2/32 e f#) \stemsDown) e/4 \stemsUp \grace( a1/32 \stemsDown) \beam( e2/8. f#/16) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/16. d/32) \beam( c#/16. b1/32) \bar 
+   (* meas. 14 *)  \stemsUp \grace( g2 \stemsDown) a1/4 \stemsUp \grace( \beam( g/32 d2 g1 e2) \stemsDown) \beam( a1/8. b/16) \stemsUp \grace( \beam( g2/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \stemsUp \grace( \beam( g2/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( g/32 \stemsDown) e/8) \bar 
+   (* meas. 15 *)  \stemsUp \grace( \beam( a/32 g) \stemsDown) a/4 \stemsUp \grace( g/32 \stemsDown) a/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( a2/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \bar 
+   (* meas. 16 *)  \stemsUp \grace( \beam( g/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. d/16) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 \stemsUp \grace( e/32 \stemsDown) a1/8) \bar 
+   (* meas. 17 *)  \stemsUp \grace( \beam( g2/32 b1 d2) \stemsDown) b1/4 \stemsUp \grace( g/32 \stemsDown) \beam( a/8. \stemsUp \grace( g2/32 \stemsDown) b1/16) \stemsUp \grace( g/32 \stemsDown) a/4. 
+   (* meas. 18 *)  e2/8 \bar 
+   (* meas. 19 *)  \stemsUp \grace( g/32 \stemsDown) a1/4 \stemsUp \grace( \beam( g/32 d2 g1 e2) \stemsDown) \beam( a1/8. b/16) \stemsUp \grace( \beam( g/32 d2 g1) \stemsDown) c#2/4 \beam( c#/8 e) \bar 
+   (* meas. 20 *)  \stemsUp \grace( g/32 \stemsDown) f#/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( f#2/8 a) \stemsUp \grace( \beam( e/32 f#) \stemsDown) e/4 \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 21 *)  \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. g/16) \beam( a/8 f#) \stemsUp \grace( g/32 \stemsDown) \beam( e/16 c#/8.) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) \beam( b1/8 \stemsUp \grace( g/32 \stemsDown) a/8) \bar 
+   (* meas. 22 *)  \stemsUp \grace( e2/32 \stemsDown) \beam( b1/8. c#2/16) \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) \beam( d/8. c#/16) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) \beam( b1/8 e2) \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) \beam( d/8 b1) \bar 
+   (* meas. 23 *)  \stemsUp \grace( g2/32 \stemsDown) a1/4 \stemsUp \grace( \beam( g/32 d2 g1 e2) \stemsDown) \beam( a1/8. b/16) \stemsUp \grace( \beam( g/32 d2 g1) \stemsDown) c#2/4 \beam( c#/8 e) \bar 
+   (* meas. 24 *)  \stemsUp \grace( g/32 \stemsDown) f#/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( f#2/8 a) \stemsUp \grace( \beam( e/32 f#) \stemsDown) e/4 \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 25 *)  \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. g/16) \beam( a/8 f#) \stemsUp \grace( g/32 \stemsDown) \beam( e/16 c#/8.) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) \beam( b1/8. c#2/16) \bar 
+   (* meas. 26 *)  \stemsUp \grace( e/32 \stemsDown) a1/2 \stemsUp \grace( \beam( g/32 a g) \stemsDown) a/4 
+   (* meas. 27 *)  \stemsUp \grace( \beam( g2/32 c# d) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 28 *)  \stemsUp \grace( \beam( a/32 g) \stemsDown) a/4 \stemsUp \grace( g/32 \stemsDown) a/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( a2/8. g/16) \stemsUp \grace( a/32 \stemsDown) \beam( f#/8 e) \bar 
+   (* meas. 29 *)  \stemsUp \grace( g/32 \stemsDown) f#/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( f#2/8 a) \stemsUp \grace( \beam( f#/32 g) \stemsDown) \beam( f#/8 e) \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 30 *)  \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. g/16) \beam( a/8 f#) \stemsUp \grace( g/32 \stemsDown) \beam( e/16 c#/8.) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) \beam( b1/8 \stemsUp \grace( g/32 \stemsDown) a/8) \bar 
+   (* meas. 31 *)  \stemsUp \grace( e2/32 \stemsDown) \beam( b1/8. c#2/16) \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) \beam( d/8 c#) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) \beam( b1/8 e2) \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) \beam( d/8 b1) \bar 
+   (* meas. 32 *)  \stemsUp \grace( g2/32 \stemsDown) a1/4 \stemsUp \grace( \beam( g/32 d2 g1 e2) \stemsDown) \beam( a1/8. b/16) \stemsUp \grace( \beam( g/32 d2 g1) \stemsDown) c#2/4 \beam( c#/8 e) \bar 
+   (* meas. 33 *)  \stemsUp \grace( g/32 \stemsDown) f#/4 \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) \beam( f#2/8 a) \stemsUp \grace( \beam( e/32 f#) \stemsDown) e/4 \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 34 *)  \stemsUp \grace( g/32 \stemsDown) \beam( f#/8. g/16) \beam( a/8 f#) \stemsUp \grace( g/32 \stemsDown) \beam( e/16 c#/8.) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) \beam( b1/8. c#2/16) \bar 
+   (* meas. 35 *)  \stemsUp \grace( e/32 \stemsDown) a1/2 \stemsUp \grace( \beam( g/32 a g) \stemsDown) a/4 
+   (* meas. 36 *)  \stemsUp \grace( g2/32 \stemsDown) \beam( a1/8. b/16) \bar 
+   (* meas. 37 *)  \stemsUp \grace( \beam( g/32 d2 g1) \stemsDown) c#2/4 \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( \beam( g/32 d g1) \stemsDown) \beam( d2/8 f#) \bar 
+   (* meas. 38 *)  \stemsUp \grace( g/32 \stemsDown) \beam( e/8. f#/16) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/8 d) \stemsUp \grace( g/32 \stemsDown) c#/2 \bar 
+   (* meas. 39 *)  \stemsUp \grace( g/32 \stemsDown) \beam( e/8. f#/16) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/8 d) \stemsUp \grace( g/32 \stemsDown) c#/4 \stemsUp \grace( \beam( g1/32 d2 g1 e2) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 40 *)  \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( \beam( g/32 d g1) \stemsDown) \beam( d2/8 c#) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) b1/4 e2 \bar 
+   (* meas. 41 *)  \stemsUp \grace( \beam( g1/32 d2 g1) \stemsDown) c#2/2 \stemsUp \grace( \beam( g/32 c# d) \stemsDown) c#/4 
+   (* meas. 42 *)  \stemsUp \grace( g/32 \stemsDown) \beam( a1/8. b/16) \bar 
+   (* meas. 43 *)  \stemsUp \grace( \beam( g/32 d2 g1) \stemsDown) c#2/4 \stemsUp \grace( \beam( g/32 c# d) \stemsDown) \beam( c#/8 e) \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( \beam( g/32 d g1) \stemsDown) \beam( d2/8 f#) \bar 
+   (* meas. 44 *)  \stemsUp \grace( g/32 \stemsDown) \beam( e/8. f#/16) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/8 d) \stemsUp \grace( g/32 \stemsDown) c#/2 \bar 
+   (* meas. 45 *)  \stemsUp \grace( g/32 \stemsDown) \beam( e/8. f#/16) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/8 d) \stemsUp \grace( g/32 \stemsDown) c#/4 \stemsUp \grace( \beam( g1/32 d2 g1 e2) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 46 *)  \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( \beam( g/32 d g1) \stemsDown) \beam( d2/8 c#) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) b1/4 e2 \bar 
+   (* meas. 47 *)  \stemsUp \grace( \beam( a1/32 g a g) \stemsDown) a/2 \stemsUp \grace( g2/32 \stemsDown) a1/4 
+   (* meas. 48 *)  \stemsUp \grace( g2/32 \stemsDown) \beam( a1/8 c#2) \bar 
+   (* meas. 49 *)  \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) b1/4. c#2/8 \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) d/4 b1 \bar 
+   (* meas. 50 *)  \stemsUp \grace( g2/32 \stemsDown) c#/4 \stemsUp \grace( \beam( g1/32 d2 g1 e2) \stemsDown) \beam( c#/8 d) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) e/4 \stemsUp \grace( a1/32 \stemsDown) e2/4 \bar 
+   (* meas. 51 *)  \stemsUp \grace( g/32 \stemsDown) f#/4 \stemsUp \grace( e/32 \stemsDown) f#/4 \stemsUp \grace( \beam( a/32 g) \stemsDown) a/4 \beam( g/8 f#) \bar 
+   (* meas. 52 *)  \stemsUp \grace( \beam( g/32 e f#) \stemsDown) e/2 \stemsUp \grace( g1/32 \stemsDown) e2/4 \stemsUp \grace( g/32 \stemsDown) \beam( a1/8 \stemsUp \grace( d2/32 \stemsDown) c#/8) \bar 
+   (* meas. 53 *)  \stemsUp \grace( \beam( g/32 e f#) \stemsDown) e/4 \stemsUp \grace( a1/32 \stemsDown) \beam( e2/8 f#) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) e/4 \stemsUp \grace( a1/32 \stemsDown) \beam( e2/8 a) \bar 
+   (* meas. 54 *)  \beam( e f#) \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/8 d) \stemsUp \grace( g/32 \stemsDown) c#/2 \bar 
+   (* meas. 55 *)  \stemsUp \grace( g/32 \stemsDown) e/4 \stemsUp \grace( \beam( g/32 e f#) \stemsDown) \beam( e/8 d) \stemsUp \grace( g/32 \stemsDown) c#/4 \stemsUp \grace( \beam( g1/32 d2 g1 e2) \stemsDown) \beam( c#/8 e) \bar 
+   (* meas. 56 *)  \stemsUp \grace( \beam( g1/32 d2 c#) \stemsDown) d/4 \stemsUp \grace( \beam( g/32 d g1) \stemsDown) \beam( d2/8 c#) \stemsUp \grace( \beam( g/32 b1 d2) \stemsDown) b1/4 e2 \bar 
+   (* meas. 57 *)  \stemsUp \grace( \beam( a1/32 g a g) \stemsDown) a/2 \stemsUp \grace( g2/32 \stemsDown) a1/4 ]
+ }
