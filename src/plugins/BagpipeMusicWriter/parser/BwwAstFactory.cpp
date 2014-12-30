@@ -139,9 +139,11 @@ void BwwAstFactory::addDoubling(const QString &bwwCode, Embellishment::Type type
     switch (type) {
     case Embellishment::DOUBLING_REG:
         code.remove(0, 2);
+        break;
     case Embellishment::DOUBLING_HALF:
     case Embellishment::DOUBLING_THUMB:
         code.remove(0, 3);
+        break;
     default:
         qWarning() << "No doubling to add" << bwwCode;
         return;
@@ -154,6 +156,46 @@ void BwwAstFactory::addDoubling(const QString &bwwCode, Embellishment::Type type
     }
 
     Embellishment *embellishment = new Embellishment(type, pitch);
+    m_currentPart->addChild(embellishment);
+    m_currentSymbol = embellishment;
+}
+
+void BwwAstFactory::addGrip(const QString &bwwCode, Embellishment::Type type)
+{
+    QString code(bwwCode);
+    Embellishment *embellishment = Q_NULLPTR;
+
+    switch (type) {
+    case Embellishment::GRIP_REG:
+    case Embellishment::GRIP_HALF:
+    case Embellishment::GRIP_B:
+        // These grips have no context
+        embellishment = new Embellishment(type);
+        break;
+    case Embellishment::GRIP_THUMB:
+    case Embellishment::GRIP_G:
+    case Embellishment::GRIP_LONG:
+    {
+        code.remove(0, 4);
+        SymbolPitch pitch = pitchFromString(code);
+        if (pitch == NoPitch) {
+            qWarning() << code << " is no pitch for grip embellishment";
+            return;
+        }
+
+        embellishment = new Embellishment(type, pitch);
+        break;
+    }
+    default:
+        qWarning() << "No grip to add: " << bwwCode;
+        return;
+    }
+
+    if (!embellishment) {
+        qWarning() << "No embellishment added for grip code: " << bwwCode;
+        return;
+    }
+
     m_currentPart->addChild(embellishment);
     m_currentSymbol = embellishment;
 }

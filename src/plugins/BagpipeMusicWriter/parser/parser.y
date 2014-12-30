@@ -40,12 +40,12 @@ int  yylex (YYSTYPE*, YYLTYPE*);
 %token <text> STRIKE STRIKE_G STRIKE_THUMB STRIKE_HALF
 %token <text> STRIKE_DBL STRIKE_DBL_G STRIKE_DBL_THUMB STRIKE_DBL_HALF
 %token <text> STRIKE_TRPL STRIKE_TRPL_G STRIKE_TRPL_THUMB STRIKE_TRPL_HALF
-%token GRIP GRIP_HALF GRIP_B
-%token <text>  GRIP_G GRIP_THUMB GRIP_LONG
-%token TAOR TAOR_B TAOR_HALF
-%token BUBBLY BUBBLY_HALF
-%token BIRL BIRL_LONG BIRL_G BIRL_THUMB
-%token THROWD THROWD_HALF THROWD_HVY THROWD_HVY_HALF
+%token <text> GRIP GRIP_HALF GRIP_B
+%token <text> GRIP_G GRIP_THUMB GRIP_LONG
+%token <text> TAOR TAOR_B TAOR_HALF
+%token <text> BUBBLY BUBBLY_HALF
+%token <text> BIRL BIRL_LONG BIRL_G BIRL_THUMB
+%token <text> THROWD THROWD_HALF THROWD_HVY THROWD_HVY_HALF
 %token <text> SHAKE SHAKE_THUMB SHAKE_HALF
 %token <text> SLURD SLURE SLURF SLURHG SLURHA
 %token TIE_START TIE_END
@@ -106,12 +106,12 @@ m_symbols: 	/* empty */
          | m_symbols STRIKE_TRPL_G
          | m_symbols STRIKE_TRPL_THUMB
          | m_symbols STRIKE_TRPL_HALF
-         | m_symbols GRIP
-         | m_symbols GRIP_HALF
-         | m_symbols GRIP_B
-         | m_symbols GRIP_G
-         | m_symbols GRIP_THUMB
-         | m_symbols GRIP_LONG
+         | m_symbols GRIP               { BwwParser::astFactory.addGrip($2, Embellishment::GRIP_REG); }
+         | m_symbols GRIP_HALF          { BwwParser::astFactory.addGrip($2, Embellishment::GRIP_HALF); }
+         | m_symbols GRIP_B             { BwwParser::astFactory.addGrip($2, Embellishment::GRIP_B); }
+         | m_symbols GRIP_G             { BwwParser::astFactory.addGrip($2, Embellishment::GRIP_G); }
+         | m_symbols GRIP_THUMB         { BwwParser::astFactory.addGrip($2, Embellishment::GRIP_THUMB); }
+         | m_symbols GRIP_LONG          { BwwParser::astFactory.addGrip($2, Embellishment::GRIP_LONG); }
          | m_symbols TAOR
          | m_symbols TAOR_B
          | m_symbols TAOR_HALF

@@ -34,6 +34,7 @@ public:
     void addMelodyNoteDots(int dots);
     void addSingleGrace(const QString &bwwCode);
     void addDoubling(const QString &bwwCode, Embellishment::Type type);
+    void addGrip(const QString &bwwCode, Embellishment::Type type);
 
     void addBarline();
     void endPart(bool repeat);

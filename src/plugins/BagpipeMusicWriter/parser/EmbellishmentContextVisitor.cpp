@@ -66,5 +66,5 @@ void EmbellishmentContextVisitor::visit(Symbol *symbol)
 
 void EmbellishmentContextVisitor::finishVisit(Part *part)
 {
-    m_previousSymbol = Q_NULLPTR;
+//    m_previousSymbol = Q_NULLPTR;
 }

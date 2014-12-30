@@ -71,8 +71,6 @@ EmbellishmentRule EmbellishmentRules::embellishmentRuleForEmbellishment(const Em
     EmbellishmentRule selectedRule;
     if (validRules.count() > 1) {
         selectedRule = selectRuleForEmbellishment(embellishment, validRules);
-        qWarning() << "More than one rule for embellishment " << embellishment
-                   << ". Selecting rule " << selectedRule;
         return selectedRule;
     }
 
@@ -83,7 +81,8 @@ EmbellishmentRule EmbellishmentRules::embellishmentRuleForEmbellishment(const Em
     return selectedRule;
 }
 
-EmbellishmentRule EmbellishmentRules::selectRuleForEmbellishment(const Embellishment &embellishment, const QList<EmbellishmentRule> &rules)
+EmbellishmentRule EmbellishmentRules::selectRuleForEmbellishment(const Embellishment &embellishment,
+                                                                 const QList<EmbellishmentRule> &rules)
 {
     if (embellishment.embellishmentType() == Embellishment::SINGLE_GRACE) {
         // Pitch hint == embellishment rule appearanct (one note)
@@ -92,9 +91,12 @@ EmbellishmentRule EmbellishmentRules::selectRuleForEmbellishment(const Embellish
                 return rule;
             }
         }
+        qDebug() << "No rule found for single grace: " << embellishment;
     }
 
-    Q_ASSERT(true); // Implement for other embellishments ...
+    if (rules.count() > 0) {
+        return rules.at(0);
+    }
 
     return EmbellishmentRule();
 }
