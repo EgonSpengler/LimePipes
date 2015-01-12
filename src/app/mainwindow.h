@@ -34,6 +34,7 @@ public:
 private slots:
     void refreshGuidoWidget();
     void on_actionOpen_triggered();
+    void on_actionExportToSvg_triggered();
 
 private:
     void createConnections();

@@ -5,6 +5,7 @@
  * Licensed under the GNU GENERAL PUBLIC LICENSE. See LICENSE for details.
  *
  */
+#include <fstream>
 
 #include <QDebug>
 #include <QScrollArea>
@@ -151,6 +152,22 @@ void MainWindow::on_actionOpen_triggered()
     m_textEditHeaderWidget->selectTextPluginName(textPlugin->formatName());
 
     refreshGuidoWidget();
+}
+
+void MainWindow::on_actionExportToSvg_triggered()
+{
+    QString exportFileName = QFileDialog::getSaveFileName(this, tr("Export to svg"),
+                                                          QDir::homePath(),
+                                                          tr("Scalable Vector Graphics (*.svg)"));
+
+    if (exportFileName.isEmpty()) {
+        return;
+    }
+
+    std::ofstream outStream;
+    outStream.open(exportFileName.toUtf8().constData());
+    GuidoSVGExport(const_cast<GRHandler>(m_guidoWidget->getGRHandler()), 1, outStream, Q_NULLPTR);
+    outStream.close();
 }
 
 /*!
