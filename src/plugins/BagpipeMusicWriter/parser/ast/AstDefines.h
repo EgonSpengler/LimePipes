@@ -42,7 +42,10 @@ enum SymbolType {
     T_Melody,
     T_Embellishment,
     T_Bar,
-    T_TimeSignature
+    T_TimeSignature,
+
+    // Group types
+    T_Tie
 };
 
 #endif // ASTDEFINES_H

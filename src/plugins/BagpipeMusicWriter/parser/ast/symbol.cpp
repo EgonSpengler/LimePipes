@@ -31,7 +31,7 @@ void Symbol::accept(AstVisitorInterface *visitor)
 {
     visitor->visit(this);
 
-    visitChildren(visitor);
+    // A symbol is supposed to be a leafe. So don't visit children
 
     visitor->finishVisit(this);
 }

@@ -35,11 +35,13 @@ public:
     void visit(Tune *tune);
     void visit(Part *part);
     void visit(Symbol *symbol);
+    void visit(SymbolGroup *symbolGroup);
 
     void finishVisit(Score *score);
     void finishVisit(Tune *tune);
     void finishVisit(Part *part);
     void finishVisit(Symbol *symbol);
+    void finishVisit(SymbolGroup *symbolGroup);
 
     QString guidoCode() const;
 
@@ -53,6 +55,8 @@ private:
     void addTimeSignature(TimeSignature *time);
     void addEmbellishment(const Embellishment &embellishment);
     void addGraceSequence(const QList<SymbolPitch> &pitches);
+    void visitSingleSymbol(const Symbol *symbol);
+    void visitSymbolGroup(const SymbolGroup *symbolGroup);
 
     QStringList m_guidoCode;
     EmbellishmentRules *m_embellishmentRules;

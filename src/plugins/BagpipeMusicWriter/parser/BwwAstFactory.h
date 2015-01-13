@@ -40,10 +40,14 @@ public:
     void endPart(bool repeat);
     void addTimeSignature(const QString &bwwCode);
 
+    void startTie();
+    void endTie();
+
     QString getGuidoCode();
 private:
     void initAst();
     SymbolPitch pitchFromString(const QString &pitchString);
+    void addSymbol(Symbol *symbol);
 
     Score *m_score;
     Tune *m_currentTune;

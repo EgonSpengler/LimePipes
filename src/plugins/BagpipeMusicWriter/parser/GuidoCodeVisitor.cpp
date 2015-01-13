@@ -92,7 +92,8 @@ void GuidoCodeVisitor::finishVisit(Part *part)
 
 void GuidoCodeVisitor::visit(Symbol *symbol)
 {
-//    qDebug() << "Visit Symbol";
+    qDebug() << "Visit Symbol";
+
     switch (symbol->type()) {
     case T_TimeSignature: {
         TimeSignature * timeSig = static_cast<TimeSignature*>(symbol);
@@ -120,7 +121,20 @@ void GuidoCodeVisitor::visit(Symbol *symbol)
         break;
     }
     default:
-        qWarning() << "Symbol type not handled: " << symbol->type();
+        qWarning() << "GuidoCodeVisitor::" << __FUNCTION__ << ": Symbol type not handled: " << symbol->type();
+        break;
+    }
+}
+
+void GuidoCodeVisitor::visit(SymbolGroup *symbolGroup)
+{
+//    qDebug() << "Visit Symbol Group";
+    switch (symbolGroup->type()) {
+    case T_Tie:
+        m_guidoCode.append(QStringLiteral("\\tie("));
+        break;
+    default:
+        qWarning() << "GuidoCodeVisitor::" << __FUNCTION__ << ": SymbolGroup not handled: " << symbolGroup->type();
         break;
     }
 }
@@ -207,6 +221,13 @@ void GuidoCodeVisitor::setEmbellishmentRules(EmbellishmentRules *embellishmentRu
 void GuidoCodeVisitor::finishVisit(Symbol *symbol)
 {
     //    qDebug() << "Finish visit Symbol";
+}
+
+void GuidoCodeVisitor::finishVisit(SymbolGroup *symbolGroup)
+{
+//    qDebug() << "Finish visit SymbolGroup";
+
+    m_guidoCode.append(QStringLiteral(")"));
 }
 
 QString GuidoCodeVisitor::guidoCode() const

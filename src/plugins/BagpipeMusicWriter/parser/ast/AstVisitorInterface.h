@@ -13,6 +13,7 @@
 #include "tune.h"
 #include "part.h"
 #include "symbol.h"
+#include "symbolgroup.h"
 
 class AstVisitorInterface
 {
@@ -25,12 +26,14 @@ public:
     virtual void visit(Tune *tune) {}
     virtual void visit(Part *part) {}
     virtual void visit(Symbol *symbol) {}
+    virtual void visit(SymbolGroup *symbolGroup) {}
 
     virtual void finishVisit(MusicItem *item) {}
     virtual void finishVisit(Score *symbol) {}
     virtual void finishVisit(Tune *tune) {}
     virtual void finishVisit(Part *part) {}
     virtual void finishVisit(Symbol *symbol) {}
+    virtual void finishVisit(SymbolGroup *symbolGroup) {}
 };
 
 #endif // ASTVISITORINTERFACE_H

@@ -13,6 +13,7 @@
 #include "ast/tune.h"
 #include "ast/part.h"
 #include "ast/symbol.h"
+#include "ast/symbolgroup.h"
 #include "ast/melodynote.h"
 #include "ast/timesignature.h"
 #include "ast/embellishment.h"
@@ -63,15 +64,13 @@ void BwwAstFactory::setTitle(const QString &title)
 void BwwAstFactory::addMelodyNote(const QString &bwwCode)
 {
     MelodyNote *melodyNote = new MelodyNote(bwwCode);
-    m_currentPart->addChild(melodyNote);
-    m_currentSymbol = melodyNote;
+    addSymbol(melodyNote);
 }
 
 void BwwAstFactory::addBarline()
 {
     Symbol *bar = new Symbol(T_Bar);
-    m_currentPart->addChild(bar);
-    m_currentSymbol = bar;
+    addSymbol(bar);
 }
 
 void BwwAstFactory::endPart(bool repeat)
@@ -83,8 +82,30 @@ void BwwAstFactory::endPart(bool repeat)
 void BwwAstFactory::addTimeSignature(const QString &bwwCode)
 {
     TimeSignature *timeSig = new TimeSignature(bwwCode);
-    m_currentPart->addChild(timeSig);
-    m_currentSymbol = timeSig;
+    addSymbol(timeSig);
+}
+
+void BwwAstFactory::startTie()
+{
+    SymbolGroup *tie = new SymbolGroup(T_Tie);
+    addSymbol(tie);
+}
+
+void BwwAstFactory::endTie()
+{
+    if (m_currentSymbol->type() != T_Tie) {
+        qWarning() << "Can't end tie because current symbol is no tie.";
+        return;
+    }
+
+    SymbolGroup *group = static_cast<SymbolGroup*>(m_currentSymbol);
+    if (!m_currentSymbol->isGroup() ||
+            group == 0) {
+        qWarning() << "Can't end tie because current symbol is no symbol group.";
+        return;
+    }
+
+    group->setClosed(true);
 }
 
 void BwwAstFactory::addMelodyNoteDots(int dots)
@@ -129,8 +150,7 @@ void BwwAstFactory::addSingleGrace(const QString &bwwCode)
     if (gracePitch == QLatin1Char('t')) { pitch = HighA; }
 
     Embellishment *embellishment = new Embellishment(Embellishment::SINGLE_GRACE, pitch);
-    m_currentPart->addChild(embellishment);
-    m_currentSymbol = embellishment;
+    addSymbol(embellishment);
 }
 
 void BwwAstFactory::addDoubling(const QString &bwwCode, Embellishment::Type type)
@@ -156,8 +176,7 @@ void BwwAstFactory::addDoubling(const QString &bwwCode, Embellishment::Type type
     }
 
     Embellishment *embellishment = new Embellishment(type, pitch);
-    m_currentPart->addChild(embellishment);
-    m_currentSymbol = embellishment;
+    addSymbol(embellishment);
 }
 
 void BwwAstFactory::addGrip(const QString &bwwCode, Embellishment::Type type)
@@ -196,8 +215,7 @@ void BwwAstFactory::addGrip(const QString &bwwCode, Embellishment::Type type)
         return;
     }
 
-    m_currentPart->addChild(embellishment);
-    m_currentSymbol = embellishment;
+    addSymbol(embellishment);
 }
 
 SymbolPitch BwwAstFactory::pitchFromString(const QString &pitchString)
@@ -213,6 +231,37 @@ SymbolPitch BwwAstFactory::pitchFromString(const QString &pitchString)
     if (pitchString == QStringLiteral("hg")) { pitch = HighG; }
     if (pitchString == QStringLiteral("ha")) { pitch = HighA; }
     return pitch;
+}
+
+void BwwAstFactory::addSymbol(Symbol *symbol)
+{
+    if (!m_currentSymbol) {
+        goto add_directly;
+    }
+
+    if (m_currentSymbol->isGroup()) {
+        SymbolGroup *group = static_cast<SymbolGroup*>(m_currentSymbol);
+        if (!group) {
+            qWarning() << "Current symbol is group but can't be casted into one";
+            return;
+        }
+
+        if (symbol->isGroup()) {
+            qWarning() << "Can't add symbol group to existing group";
+            return;
+        }
+
+        if (!group->closed()) {
+            group->addChild(symbol);
+            return;
+        } else {
+            goto add_directly;
+        }
+    }
+
+add_directly:
+    m_currentPart->addChild(symbol);
+    m_currentSymbol = symbol;
 }
 
 QString BwwAstFactory::getGuidoCode()

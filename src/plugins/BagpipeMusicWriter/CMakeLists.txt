@@ -29,6 +29,7 @@ set( sources
   parser/ast/tune.cpp
   parser/ast/part.cpp
   parser/ast/symbol.cpp
+  parser/ast/symbolgroup.cpp
   parser/ast/melodynote.cpp
   parser/ast/timesignature.cpp
   parser/ast/embellishment.cpp

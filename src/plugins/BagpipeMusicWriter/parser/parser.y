@@ -133,8 +133,8 @@ m_symbols: 	/* empty */
          | m_symbols SLURF
          | m_symbols SLURHG
          | m_symbols SLURHA
-         | m_symbols TIE_START
-         | m_symbols TIE_END
+         | m_symbols TIE_START          { BwwParser::astFactory.startTie(); }
+         | m_symbols TIE_END            { BwwParser::astFactory.endTie(); }
          | m_symbols DUPLET_START
          | m_symbols DUPLET_END
          | m_symbols TRIPLET_START
